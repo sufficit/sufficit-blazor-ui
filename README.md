@@ -1,50 +1,69 @@
 # Sufficit.Blazor.UI
 
-Biblioteca de componentes Blazor da Sufficit, construída sobre
-[MudBlazor](https://mudblazor.com). Base compartilhada entre as aplicações da
-Sufficit, com suporte a temas por aplicação.
+Biblioteca de componentes Blazor da Sufficit User Interface (SUI). Autônoma:
+**não depende de MudBlazor** (nem pacote, nem código-fonte vendorizado). Traz o
+próprio stylesheet (`sufficit-ui.css`) com design tokens `--sui-*`.
 
-**Status: fase inicial.** O repositório existe para consolidar componentes que
-hoje vivem no `sufficit-blazor` e são reimplementados em cada aplicação. A
-superfície abaixo é o núcleo agnóstico de domínio; o restante entra
-gradualmente.
+**Status: primeiro consumidor migrado.** O repositório consolidou os
+componentes compartilhados que viviam no `sufficit-blazor`; a biblioteca já é
+consumida por referência de projeto e permanece agnóstica de domínio.
 
 ## Alvo
 
-`net10.0`. As aplicações de origem (`sufficit-blazor`, `sufficit-ai`) estão em
-`net9.0` e serão migradas — um RCL Razor não atravessa essa diferença, então a
-migração é pré-requisito para o consumo.
+`net10.0`. O `sufficit-blazor` já foi migrado para `net10.0`; o
+`sufficit-ai` continua em `net9.0` e será avaliado separadamente.
 
 ## Componentes
 
-Prefixo `Suff`, namespace único `Sufficit.Blazor.UI.Components`. São componentes
-nossos: usam MudBlazor por baixo, mas a API e o nome são da Sufficit.
+Prefixo `SUI`, namespace único `Sufficit.Blazor.UI.Components`. São componentes
+nossos, baseados em Blazor puro (HTML + CSS), sem herança de bibliotecas de
+terceiros.
 
-| Componente | Substitui | Uso hoje |
+| Componente | Substitui (no `sufficit-blazor`) | Uso hoje |
 | --- | --- | --- |
-| `SuffButton` | `MudButtonEnchanted` | 16 |
-| `SuffNavGroup` | `MudNavGroupEnhanted` | 16 |
-| `SuffTableEmpty` | `TableNoRecords` | 40 |
-| `SuffLoadingButton` | `LoadingButton` | 5 |
-| `SuffNavLink` | `MudNavLinkEnchanted` | 3 |
-| `SuffIconButton` | `MudIconButtonEnchanted` | 2 |
-| `SuffSkeletonLoader` | `SkeletonLoader` | 2 |
-| `SuffEmptyState` | `EmptyState` | 1 |
-| `SuffSwitchButton` | `MudSwitchButton` | 1 |
+| `SUIButton` | `MudButtonEnchanted` | 16 |
+| `SUINavGroup` | `MudNavGroupEnhanted` | 16 |
+| `SUITableEmpty` | `TableNoRecords` | 40 |
+| `SUILoadingButton` | `LoadingButton` | 5 |
+| `SUINavLink` | `MudNavLinkEnchanted` | 3 |
+| `SUIIconButton` | `MudIconButtonEnchanted` | 2 |
+| `SUISkeletonLoader` | `SkeletonLoader` | 2 |
+| `SUIEmptyState` | `EmptyState` | 1 |
+| `SUISwitchButton` | `MudSwitchButton` | 1 |
 
-`SuffSkeletonType` acompanha o `SuffSkeletonLoader`.
+`SUISkeletonType` acompanha o `SUISkeletonLoader`.
 
 `GenericTable` foi descartado: zero usos em qualquer projeto.
+
+## Estilo e tokens
+
+Os componentes não usam Material Design. Toda a estilização vem de
+`wwwroot/sufficit-ui.css`, com tokens próprios em `:root` (modo claro) e
+`[data-sui-theme="dark"]` (modo escuro). Para adotar o tema escuro, basta
+colocar o atributo no elemento raiz (ex.: `<body data-sui-theme="dark">`).
+
+Inclua a folha de estilo na aplicação consumidora. O caminho exato depende de
+como a biblioteca é consumida:
+
+- **Como referência de projeto** (uso atual no `sufficit-blazor`): adicione o
+  `ProjectReference` para `Sufficit.Blazor.UI.csproj` e referencie
+  `<link href="_content/Sufficit.Blazor.UI/sufficit-ui.css" rel="stylesheet" />`.
+- **Copiando os `.razor`**: ainda é possível para protótipos isolados; copie
+  também `wwwroot/sufficit-ui.css` e referencie-o diretamente. Não há pacote
+  NuGet publicado neste momento (`IsPackable=false`).
+
+## API
+
+Os parâmetros que controlam aparência usam enums próprios (não do MudBlazor):
+`SUIColor`, `SUIVariant`, `SUISize`, `SUIButtonType`, `SUIEdge`, `SUITypo`,
+`SUIAlign`, `SUIOrigin`. Quem está migrando de componentes MudBlazor precisa
+preferir esses enums no código novo. Os controles de ação mantêm uma ponte
+temporária para valores visuais legados, permitindo migrar telas sem uma troca
+big-bang.
 
 ## Namespaces
 
 Namespace único: `Sufficit.Blazor.UI.Components`.
-
-Cinco dos componentes originais declaravam `@namespace MudBlazor` — ou seja, se
-injetavam dentro do namespace da biblioteca de terceiros. Funcionava (dispensava
-`@using`), mas colide com qualquer tipo futuro de mesmo nome no MudBlazor e
-esconde a origem do componente na leitura do código. Agora ficam no namespace
-próprio.
 
 ## O que ainda não está aqui, e por quê
 
@@ -52,8 +71,6 @@ próprio.
   negócio (telefonia, financeiro, gateway de mensagens, logging). Não são
   genéricos como estão: precisam ser desacoplados antes de entrar numa
   biblioteca compartilhada — ainda mais numa pública.
-- **`MudThemeManagerButtonAdmin`** depende do pacote `MudBlazor.ThemeManager`.
-  Incluí-lo obrigaria a carregar essa dependência por causa de um componente.
 - **Contrato de temas.** O `sufficit-blazor` já tem `ThemeService` e
   `MudThemeContainer`; eles evoluem para um contrato explícito (paleta,
   tipografia, densidade) quando houver mais de um consumidor real. Desenhar
@@ -62,36 +79,29 @@ próprio.
 
 ## Como usar
 
-Copie o `.razor` (e o `.razor.cs`/`.cs` quando houver) para o seu projeto e
-ajuste o `@namespace`. Não há pacote a referenciar: são poucos componentes e a
-cópia evita acoplar as aplicações a um ciclo de release desta biblioteca.
-
-O projeto aqui existe para o CI provar que os componentes compilam.
+No consumidor principal, use uma referência de projeto e inclua o stylesheet
+estático `_content/Sufficit.Blazor.UI/sufficit-ui.css`. O projeto continua
+existindo como biblioteca Razor independente, sem pacote MudBlazor e sem
+componentes vendorizados.
 
 ## Roadmap
 
-1. Migrar `sufficit-blazor` e `sufficit-ai` para `net10.0`.
-2. Adotar os componentes no `sufficit-blazor`, trocando os nomes antigos pelos
-   `Suf*` — é onde estão todos os usos atuais.
+1. [x] Migrar `sufficit-blazor` para `net10.0`.
+2. [x] Adotar os componentes no `sufficit-blazor`, trocando os nomes antigos
+   pelos `SUI*` e removendo as duplicatas locais.
 3. Contrato de temas, quando houver mais de um consumidor real.
 
 Observação: o `sufficit-ai` hoje **não usa nenhum** destes componentes. A
 consolidação lá é adoção, não migração — vale confirmar se compensa.
 
-## Pendências conhecidas
+## SUINavGroup
 
-- A versão do MudBlazor segue como `9.*`. Agora que a build passou, vale fixar
-  a versão exata que passou.
-- O CI compila em `net10.0` com MudBlazor 9 e `-warnaserror`, sem warnings e
-  sem alertas do CodeQL. A compatibilidade MudBlazor 9 + .NET 10 está
-  confirmada — era a principal incógnita da migração.
+O `SUINavGroup` reimplementa o padrão de navegação em árvore (grupo expansível,
+modo rail com flyout flutuante, accordion exclusivo entre irmãos) usando apenas
+CSS — `grid-template-rows: 0fr↔1fr` para o collapse animado, posicionamento
+absoluto para o flyout. Não há interop JavaScript nem portal.
 
 ## Licença
 
 MIT-0 para o código da Sufficit — ver [LICENSE](LICENSE). Compartilhamento
 máximo, sem exigência de atribuição.
-
-**Exceção:** `SuffNavGroup.razor.cs` é derivado do MudBlazor e mantém o
-cabeçalho de copyright original. O MudBlazor é MIT, que **exige** preservar o
-aviso de licença — por isso o cabeçalho fica no arquivo e não pode ser
-removido. Isso não afeta o restante do repositório.

@@ -1,0 +1,28 @@
+@namespace Sufficit.Blazor.UI.Components
+
+<SUIButton Variant="@Variant" Color="SUIColor.Primary" FullWidth OnClick="OnClicked">
+    @ChildContent
+</SUIButton>
+@code{
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool Checked { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> CheckedChanged { get; set; }
+
+    protected SUIVariant Variant
+        => Checked ? SUIVariant.Filled : SUIVariant.Outlined;
+
+    /// <summary>
+    /// Toggle on clicked
+    /// </summary>
+    protected async void OnClicked(MouseEventArgs _)
+    {
+        Checked = !Checked;
+        if (CheckedChanged.HasDelegate)
+            await CheckedChanged.InvokeAsync(Checked);
+    }
+}

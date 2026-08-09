@@ -1,0 +1,175 @@
+@namespace Sufficit.Blazor.UI.Components
+@using Sufficit.Blazor.UI.Utilities
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+@implements IDisposable
+
+@{
+    bool isAnchor = !string.IsNullOrWhiteSpace(Href);
+    var cls = SuiClassBuilder.Default("sui-btn")
+        .AddClass($"sui-btn--{SuiClassBuilder.Slug(Variant)}")
+        .AddClass($"sui-btn--color-{SuiClassBuilder.Slug(_iconColor)}")
+        .AddClass($"sui-btn--{SuiClassBuilder.Slug(Size)}")
+        .AddClass("sui-btn--full-width", FullWidth)
+        .AddClass("sui-btn--loading", IsLoading)
+        .AddClass(Class)
+        .Build();
+    bool isDisabled = Disabled || IsLoading;
+}
+
+@if (isAnchor)
+{
+    <a @ref="_elementReference" class="@cls" style="@Style" href="@Href" target="@Target" rel="@GetRel()"
+       aria-disabled="@isDisabled" @onclick="OnClickHandler" @onclick:preventDefault
+       @attributes="UserAttributes">
+        @RenderBody()
+    </a>
+}
+else
+{
+    <button @ref="_elementReference" type="@SuiClassBuilder.Slug(ButtonType)" class="@cls" style="@Style"
+            disabled="@isDisabled" @onclick="OnClickHandler" @attributes="UserAttributes">
+        @RenderBody()
+    </button>
+}
+
+@code {
+    // The SUI button mirrors the MudBlazor-derived original: it manages its own
+    // loading state during click handling. ComponentBase is the only base class.
+
+    protected bool IsLoading;
+    private ElementReference _elementReference;
+    private object _iconColor = SUIColor.Inherit;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    [Parameter]
+    public object Color
+    {
+        get => _iconColor;
+        set => _iconColor = value;
+    }
+
+    [Parameter]
+    public object? IconColor { get; set; }
+
+    [Parameter]
+    public object Variant { get; set; } = SUIVariant.Filled;
+
+    [Parameter]
+    public object Size { get; set; } = SUISize.Medium;
+
+    [Parameter]
+    public object? IconSize { get; set; }
+
+    [Parameter]
+    public object ButtonType { get; set; } = SUIButtonType.Button;
+
+    [Parameter]
+    public string? StartIcon { get; set; }
+
+    [Parameter]
+    public string? EndIcon { get; set; }
+
+    [Parameter]
+    public string? IconClass { get; set; }
+
+    [Parameter]
+    public bool FullWidth { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public string? Href { get; set; }
+
+    [Parameter]
+    public string? Target { get; set; }
+
+    [Parameter]
+    public string? Rel { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> UserAttributes { get; set; } = new();
+
+    protected string GetRel()
+    {
+        if (!string.IsNullOrWhiteSpace(Rel))
+            return Rel;
+        // Mirror MudBlazor: external/new-tab anchors get noopener by default.
+        if (!string.IsNullOrWhiteSpace(Target) && Target != "_self")
+            return "noopener noreferrer";
+        return string.Empty;
+    }
+
+    protected string GetIconClass()
+        => SuiClassBuilder.Default("sui-icon sui-icon--sm sui-btn__icon")
+            .AddClass(IconClass)
+            .Build();
+
+    protected async Task OnClickHandler(MouseEventArgs ev)
+    {
+        if (Disabled)
+            return;
+
+        if (OnClick.HasDelegate)
+        {
+            IsLoading = true;
+            await InvokeAsync(StateHasChanged);
+            try
+            {
+                await OnClick.InvokeAsync(ev);
+            }
+            finally
+            {
+                IsLoading = false;
+                await InvokeAsync(StateHasChanged);
+            }
+        }
+    }
+
+    public ValueTask FocusAsync()
+        => _elementReference.FocusAsync();
+
+    private RenderFragment RenderBody() => __builder =>
+    {
+        var iconSizeClass = $"sui-icon--{SuiClassBuilder.Slug(IconSize ?? Size)}";
+        var iconColorSlug = SuiClassBuilder.Slug(IconColor ?? _iconColor);
+
+        if (IsLoading)
+        {
+            <span class="sui-overlay sui-overlay--light">
+                <span class="sui-progress-circular sui-progress-circular--sm sui-color-@iconColorSlug">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)SUIIcons.ProgressCircular)</svg>
+                </span>
+            </span>
+        }
+        <span class="sui-btn__label">
+            @if (!string.IsNullOrWhiteSpace(StartIcon))
+            {
+                <span class="sui-icon @iconSizeClass sui-btn__icon sui-color-@iconColorSlug">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)StartIcon)</svg>
+                </span>
+            }
+            @ChildContent
+            @if (!string.IsNullOrWhiteSpace(EndIcon))
+            {
+                <span class="sui-icon @iconSizeClass sui-btn__icon sui-color-@iconColorSlug">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)EndIcon)</svg>
+                </span>
+            }
+        </span>
+    };
+
+    public void Dispose() { }
+}

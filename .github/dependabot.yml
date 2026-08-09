@@ -1,8 +1,9 @@
 version: 2
 
-# Keeps MudBlazor and the pinned actions current. Since consumers copy these
-# components into their own projects, a stale MudBlazor here means the copied
-# code drifts from what the applications actually run against.
+# Keeps the ASP.NET Core / Blazor package references and the pinned GitHub
+# Actions current. The library no longer references MudBlazor (it was removed
+# alongside the vendored source tree); only Microsoft.AspNetCore.Components.*
+# remains for the Razor SDK.
 updates:
   - package-ecosystem: nuget
     directory: "/src/Sufficit.Blazor.UI"

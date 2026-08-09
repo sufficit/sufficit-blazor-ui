@@ -1,0 +1,30 @@
+@namespace Sufficit.Blazor.UI.Components
+
+<div id="@Id" class="sui-toast sui-toast--@Color.ToString().ToLowerInvariant() @Class"
+     role="alert" aria-live="assertive" @attributes="UserAttributes">
+    <span class="sui-toast__icon" aria-hidden="true">@Icon</span>
+    <div class="sui-toast__content">
+        @ChildContent
+    </div>
+    @if (Dismissible)
+    {
+        <button class="sui-toast__dismiss dismiss" type="button" aria-label="@DismissLabel"
+                @onclick="DismissAsync">×</button>
+    }
+</div>
+
+@code {
+    [Parameter] public string? Id { get; set; }
+    [Parameter] public SUIColor Color { get; set; } = SUIColor.Error;
+    [Parameter] public string Icon { get; set; } = "⚠";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool Dismissible { get; set; } = true;
+    [Parameter] public string DismissLabel { get; set; } = "Fechar";
+    [Parameter] public EventCallback OnDismiss { get; set; }
+    [Parameter] public string? Class { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> UserAttributes { get; set; } = new();
+
+    private Task DismissAsync() => OnDismiss.InvokeAsync();
+}

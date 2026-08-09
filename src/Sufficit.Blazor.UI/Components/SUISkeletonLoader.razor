@@ -1,0 +1,38 @@
+@* Skeleton Loader Component - Loading State Pattern *@
+@namespace Sufficit.Blazor.UI.Components
+
+<div class="skeleton-loader @Class">
+    @if (Type == SUISkeletonType.Card)
+    {
+        <div class="skeleton-card"></div>
+    }
+    else if (Type == SUISkeletonType.Text)
+    {
+        <div class="skeleton-text"></div>
+    }
+    else if (Type == SUISkeletonType.Circle)
+    {
+        <div class="skeleton-circle" style="width: @Size; height: @Size;"></div>
+    }
+    else if (Type == SUISkeletonType.Table)
+    {
+        @for (int i = 0; i < Rows; i++)
+        {
+            <div class="skeleton-text" style="margin-bottom: 0.75rem;"></div>
+        }
+    }
+</div>
+
+@code {
+    [Parameter]
+    public SUISkeletonType Type { get; set; } = SUISkeletonType.Text;
+
+    [Parameter]
+    public int Rows { get; set; } = 3;
+
+    [Parameter]
+    public string Size { get; set; } = "48px";
+
+    [Parameter]
+    public string? Class { get; set; }
+}

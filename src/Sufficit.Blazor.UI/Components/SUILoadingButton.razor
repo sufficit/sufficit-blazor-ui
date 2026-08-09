@@ -1,0 +1,129 @@
+@* Loading Button — async operation pattern. *@
+@namespace Sufficit.Blazor.UI.Components
+@using Sufficit.Blazor.UI.Utilities
+
+@{
+    bool isAnchor = !string.IsNullOrWhiteSpace(Href);
+    var cls = SuiClassBuilder.Default("sui-btn")
+        .AddClass($"sui-btn--{SuiClassBuilder.Slug(Variant)}")
+        .AddClass($"sui-btn--color-{SuiClassBuilder.Slug(Color)}")
+        .AddClass($"sui-btn--{SuiClassBuilder.Slug(Size)}")
+        .AddClass("sui-btn--full-width", FullWidth)
+        .AddClass("sui-btn--loading", IsLoading)
+        .AddClass(Class)
+        .Build();
+}
+
+@if (isAnchor)
+{
+    <a class="@cls" style="@Style" href="@Href" target="@Target"
+       aria-disabled="@IsAriaDisabled" @onclick="HandleClickAsync" @onclick:preventDefault
+       @attributes="UserAttributes">
+        @if (IsLoading)
+        {
+            <span class="sui-overlay sui-overlay--light">
+                <span class="sui-progress-circular"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)SUIIcons.ProgressCircular)</svg></span>
+            </span>
+            <span class="sui-btn__label" style="opacity:0">@ChildContent</span>
+        }
+        else
+        {
+            <span class="sui-btn__label">
+                @if (!string.IsNullOrEmpty(StartIcon))
+                {
+                    <span class="sui-icon sui-icon--sm sui-btn__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)StartIcon)</svg></span>
+                }
+                @ChildContent
+                @if (!string.IsNullOrEmpty(EndIcon))
+                {
+                    <span class="sui-icon sui-icon--sm sui-btn__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)EndIcon)</svg></span>
+                }
+            </span>
+        }
+    </a>
+}
+else
+{
+    <button type="@SuiClassBuilder.Slug(ButtonType)" class="@cls" style="@Style"
+            disabled="@(Disabled || IsLoading)" aria-disabled="@IsAriaDisabled"
+            @onclick="HandleClickAsync" @attributes="UserAttributes">
+        @if (IsLoading)
+        {
+            <span class="sui-overlay sui-overlay--light">
+                <span class="sui-progress-circular"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)SUIIcons.ProgressCircular)</svg></span>
+            </span>
+            <span class="sui-btn__label" style="opacity:0">@ChildContent</span>
+        }
+        else
+        {
+            <span class="sui-btn__label">
+                @if (!string.IsNullOrEmpty(StartIcon))
+                {
+                    <span class="sui-icon sui-icon--sm sui-btn__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)StartIcon)</svg></span>
+                }
+                @ChildContent
+                @if (!string.IsNullOrEmpty(EndIcon))
+                {
+                    <span class="sui-icon sui-icon--sm sui-btn__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)EndIcon)</svg></span>
+                }
+            </span>
+        }
+    </button>
+}
+
+@code {
+    private bool IsAriaDisabled => Disabled || IsLoading;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    [Parameter]
+    public bool IsLoading { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public object Variant { get; set; } = SUIVariant.Filled;
+
+    [Parameter]
+    public object Color { get; set; } = SUIColor.Primary;
+
+    [Parameter]
+    public object ButtonType { get; set; } = SUIButtonType.Button;
+
+    [Parameter]
+    public object Size { get; set; } = SUISize.Medium;
+
+    [Parameter]
+    public bool FullWidth { get; set; }
+
+    [Parameter]
+    public string? StartIcon { get; set; }
+
+    [Parameter]
+    public string? EndIcon { get; set; }
+
+    [Parameter]
+    public string? Href { get; set; }
+
+    [Parameter]
+    public string? Target { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> UserAttributes { get; set; } = new();
+
+    private Task HandleClickAsync(MouseEventArgs args)
+        => (IsLoading || Disabled || !OnClick.HasDelegate)
+            ? Task.CompletedTask
+            : OnClick.InvokeAsync(args);
+}

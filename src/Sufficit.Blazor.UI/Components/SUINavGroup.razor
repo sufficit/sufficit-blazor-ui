@@ -1,0 +1,121 @@
+﻿@namespace Sufficit.Blazor.UI.Components
+@using MudBlazor.Resources
+@inherits MudComponentBase
+
+@if (IsRootRail)
+{
+    @* Rail mode: top-level group = icon trigger + floating glass flyout (popover portal) *@
+    <div class="@Classname sufficit-rail-group"
+         @onmouseenter="OpenFlyout"
+         @onmouseleave="ScheduleCloseFlyout">
+        <button type="button"
+                class="mud-nav-link mud-nav-group-toggle sufficit-rail-trigger@(_flyoutOpen ? " sufficit-rail-trigger--open" : "")"
+                aria-haspopup="menu"
+                aria-expanded="@_flyoutOpen.ToString().ToLowerInvariant()"
+                aria-label="@Title"
+                disabled="@_navigationContext.Disabled"
+                @onclick="ToggleFlyout"
+                @onfocusin="OpenFlyout">
+            @if (IconContent is not null)
+            {
+                @IconContent
+            }
+            else if (!string.IsNullOrEmpty(Icon))
+            {
+                <MudIcon Disabled="@Disabled" Icon="@Icon" Color="@IconColor" Class="@IconClassname" />
+            }
+            else
+            {
+                <MudAvatar Size="Size.Small" Color="@IconColor" Class="@IconClassname" Variant="Variant.Outlined">@GetInitials()</MudAvatar>
+            }
+        </button>
+        <MudPopover Open="_flyoutOpen"
+                    AnchorOrigin="Origin.TopRight"
+                    TransformOrigin="Origin.TopLeft"
+                    Class="sufficit-rail-flyout">
+            <div class="sufficit-rail-flyout-inner"
+                 @onmouseenter="OpenFlyout"
+                 @onmouseleave="ScheduleCloseFlyout">
+                <div class="sufficit-rail-flyout-head">
+                    @if (TitleContent is not null)
+                    {
+                        @TitleContent
+                    }
+                    else
+                    {
+                        <span class="sufficit-rail-flyout-title">@Title</span>
+                        @if (!string.IsNullOrWhiteSpace(SubTitle))
+                        {
+                            <span class="sufficit-rail-flyout-subtitle">@SubTitle</span>
+                        }
+                    }
+                </div>
+                <CascadingValue Value="@RailFlyoutContext">
+                    <CascadingValue Value="_childAccordionScope" IsFixed="true">
+                        <MudNavMenu>
+                            @ChildContent
+                        </MudNavMenu>
+                    </CascadingValue>
+                </CascadingValue>
+            </div>
+        </MudPopover>
+    </div>
+}
+else
+{
+<nav @attributes="UserAttributes"
+     class="@Classname"
+     disabled="@_navigationContext.Disabled"
+     style="@Style"
+     aria-label="@Title">
+    <button @onclick="ExpandedToggleAsync"
+            tabindex="@ButtonTabIndex"
+            class="@ButtonClassname"
+            aria-controls="@_navigationContext.MenuId"
+            aria-expanded="@_navigationContext.Expanded.ToString().ToLowerInvariant()">
+        @if (IconContent is not null)
+        {
+            @IconContent
+        }
+        else
+        {
+            @if (!string.IsNullOrEmpty(Icon))
+            {
+                <MudIcon Disabled="@Disabled" Icon="@Icon" Color="@IconColor" Class="@IconClassname" />
+            } else {
+                <MudAvatar Size="Size.Small" Color="@IconColor" Class="@IconClassname" Variant="Variant.Outlined">@GetInitials()</MudAvatar>
+            }
+        }
+        <div Class="mud-nav-link-text">
+            @if (TitleContent is not null)
+            {
+                @TitleContent
+            }
+            else
+            {
+                <span class="mud-nav-link-title">@Title</span>
+                @if (!string.IsNullOrWhiteSpace(SubTitle))
+                {
+                    <span class="mud-nav-link-subtitle">@SubTitle</span>
+                }
+            }
+        </div>
+        @if (!HideExpandIcon)
+        {
+            <MudIcon Disabled="@Disabled" Icon="@ExpandIcon" Class="@ExpandIconClassname" />
+        }
+    </button>
+    <MudCollapse aria-hidden="@((_navigationContext.Expanded is false).ToString().ToLowerInvariant())"
+                 Expanded="@_navigationContext.Expanded"
+                 MaxHeight="@MaxHeight"
+                 Class="mud-navgroup-collapse">
+        <CascadingValue Value="@_navigationContext">
+            <CascadingValue Value="ChildAccordionScope" IsFixed="true">
+                <MudNavMenu>
+                    @ChildContent
+                </MudNavMenu>
+            </CascadingValue>
+        </CascadingValue>
+    </MudCollapse>
+</nav>
+}

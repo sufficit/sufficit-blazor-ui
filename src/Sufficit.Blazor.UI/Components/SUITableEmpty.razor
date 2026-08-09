@@ -1,0 +1,69 @@
+@namespace Sufficit.Blazor.UI.Components
+
+<div class="@GetClassName()">
+    <span class="sui-icon sui-icon--lg sui-table-empty__icon">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)Icon)</svg>
+    </span>
+
+    <div class="sui-text sui-text--@TitleTypo.ToString() sui-text--secondary sui-table-empty__title">@Title</div>
+
+    @if (!string.IsNullOrWhiteSpace(Description))
+    {
+        <div class="sui-text sui-text--body2 sui-table-empty__description">
+            @foreach (string line in GetDescriptionLines())
+            {
+                <div class="sui-table-empty__description-line">@line</div>
+            }
+        </div>
+    }
+
+    @if (ChildContent != null)
+    {
+        <div class="sui-table-empty__content">
+            @ChildContent
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string Icon { get; set; } = SUIIcons.SearchOff;
+
+    [Parameter]
+    public string Title { get; set; } = "Nenhum registro encontrado";
+
+    [Parameter]
+    public string? Description { get; set; } = "Nenhum resultado foi encontrado com os filtros aplicados.\nTente revisar ou remover os filtros para ver mais resultados.";
+
+    [Parameter]
+    public SUITypo TitleTypo { get; set; } = SUITypo.h6;
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string GetClassName()
+        => string.IsNullOrWhiteSpace(Class)
+            ? "sui-table-empty sui-width-full"
+            : $"sui-table-empty sui-width-full {Class}";
+
+    private IEnumerable<string> GetDescriptionLines()
+    {
+        if (string.IsNullOrWhiteSpace(Description))
+            return Array.Empty<string>();
+
+        string formatted = Description;
+
+        if (!formatted.Contains('\n'))
+        {
+            int sentenceBreak = formatted.IndexOf(". ", StringComparison.Ordinal);
+            if (sentenceBreak > -1)
+                formatted = formatted.Insert(sentenceBreak + 1, "\n");
+        }
+
+        return formatted
+            .Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+    }
+}

@@ -1,0 +1,110 @@
+@namespace Sufficit.Blazor.UI.Themes
+@using System
+@inject IServiceProvider Services
+
+<CascadingValue Value="@ActiveTheme" IsFixed="true">
+    <div class="@WrapperClass" data-sui-theme="@(ActiveTheme.IsDark ? "dark" : "light")">
+        @ChildContent
+    </div>
+    <style>@ToCssVars(ActiveTheme)</style>
+</CascadingValue>
+
+@code {
+    /// <summary>Theme supplied directly to the provider (overrides DI).</summary>
+    [Parameter]
+    public ISuiTheme? Theme { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    private ISuiTheme? _resolved;
+
+    protected override void OnInitialized()
+        => _resolved = Theme
+            ?? Services.GetService(typeof(ISuiTheme)) as ISuiTheme;
+
+    private ISuiTheme ActiveTheme => _resolved ?? DefaultSuiTheme.Instance;
+
+    private string WrapperClass
+        => string.IsNullOrWhiteSpace(Class) ? "sui-root" : $"sui-root {Class}";
+
+    /// <summary>
+    /// Emits the theme as CSS variables on :root, so every <c>.sui-*</c> class
+    /// picks up the consuming app's palette/typography/layout.
+    /// </summary>
+    private static string ToCssVars(ISuiTheme theme)
+    {
+        var p = theme.Palette;
+        var t = theme.Typography;
+        var l = theme.Layout;
+        var root = theme.IsDark ? "" : ":root";
+
+        var sb = new System.Text.StringBuilder(2048);
+        sb.Append(root).Append('{');
+        Append(sb, "--sui-color-primary", p.Primary);
+        Append(sb, "--sui-color-primary-contrast", p.PrimaryContrast);
+        Append(sb, "--sui-color-primary-soft", p.PrimarySoft);
+        Append(sb, "--sui-color-secondary", p.Secondary);
+        Append(sb, "--sui-color-secondary-contrast", p.SecondaryContrast);
+        Append(sb, "--sui-color-info", p.Info);
+        Append(sb, "--sui-color-success", p.Success);
+        Append(sb, "--sui-color-warning", p.Warning);
+        Append(sb, "--sui-color-error", p.Error);
+        Append(sb, "--sui-color-dark", p.Dark);
+        Append(sb, "--sui-color-light", p.Light);
+        Append(sb, "--sui-surface", p.Surface);
+        Append(sb, "--sui-surface-2", p.Surface2);
+        Append(sb, "--sui-surface-3", p.Surface3);
+        Append(sb, "--sui-text-primary", p.TextPrimary);
+        Append(sb, "--sui-text-secondary", p.TextSecondary);
+        Append(sb, "--sui-text-disabled", p.TextDisabled);
+        Append(sb, "--sui-border", p.Border);
+        Append(sb, "--sui-border-strong", p.BorderStrong);
+        Append(sb, "--sui-overlay", p.Overlay);
+        Append(sb, "--sui-font", t.FontFamily);
+        Append(sb, "--sui-font-mono", t.FontFamilyMono);
+        Append(sb, "--sui-fs-h1", t.FsH1);
+        Append(sb, "--sui-fs-h2", t.FsH2);
+        Append(sb, "--sui-fs-h3", t.FsH3);
+        Append(sb, "--sui-fs-h4", t.FsH4);
+        Append(sb, "--sui-fs-h5", t.FsH5);
+        Append(sb, "--sui-fs-h6", t.FsH6);
+        Append(sb, "--sui-fs-subtitle1", t.FsSubtitle1);
+        Append(sb, "--sui-fs-subtitle2", t.FsSubtitle2);
+        Append(sb, "--sui-fs-body1", t.FsBody1);
+        Append(sb, "--sui-fs-body2", t.FsBody2);
+        Append(sb, "--sui-fs-button", t.FsButton);
+        Append(sb, "--sui-fs-caption", t.FsCaption);
+        Append(sb, "--sui-fs-overline", t.FsOverline);
+        Append(sb, "--sui-radius-sm", l.RadiusSm);
+        Append(sb, "--sui-radius", l.Radius);
+        Append(sb, "--sui-radius-lg", l.RadiusLg);
+        Append(sb, "--sui-radius-full", l.RadiusFull);
+        Append(sb, "--sui-space-1", l.Space1);
+        Append(sb, "--sui-space-2", l.Space2);
+        Append(sb, "--sui-space-3", l.Space3);
+        Append(sb, "--sui-space-4", l.Space4);
+        Append(sb, "--sui-space-5", l.Space5);
+        Append(sb, "--sui-space-6", l.Space6);
+        Append(sb, "--sui-shadow-1", l.Shadow1);
+        Append(sb, "--sui-shadow-2", l.Shadow2);
+        Append(sb, "--sui-shadow-3", l.Shadow3);
+        Append(sb, "--sui-transition", l.Transition);
+        Append(sb, "--sui-transition-slow", l.TransitionSlow);
+        Append(sb, "--sui-control-h-sm", l.ControlHSm);
+        Append(sb, "--sui-control-h-md", l.ControlHMd);
+        Append(sb, "--sui-control-h-lg", l.ControlHLg);
+        Append(sb, "--sui-control-px-sm", l.ControlPxSm);
+        Append(sb, "--sui-control-px-md", l.ControlPxMd);
+        Append(sb, "--sui-control-px-lg", l.ControlPxLg);
+        sb.Append('}');
+        sb.Append("color-scheme:").Append(theme.IsDark ? "dark" : "light").Append(';');
+        return sb.ToString();
+    }
+
+    private static void Append(System.Text.StringBuilder sb, string name, string value)
+        => sb.Append(name).Append(':').Append(value).Append(';');
+}

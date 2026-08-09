@@ -1,0 +1,21 @@
+@namespace Sufficit.Blazor.UI.Components
+
+<span class="sui-status-badge sui-status-badge--@Tone.ToString().ToLowerInvariant()">
+    @if (!string.IsNullOrWhiteSpace(Icon))
+    {
+        <SUIIcon Name="@Icon" Size="14" />
+    }
+    @ChildContent
+</span>
+
+@code {
+    [Parameter]
+    public SUITone Tone { get; set; } = SUITone.Neutral;
+
+    /// <summary>Optional icon name (resolved by <see cref="SUIIcon"/>).</summary>
+    [Parameter]
+    public string? Icon { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

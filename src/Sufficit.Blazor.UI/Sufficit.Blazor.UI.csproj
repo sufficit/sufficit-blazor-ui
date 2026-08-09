@@ -4,17 +4,14 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <!-- RootNamespace is MudBlazor so the ResxSourceGenerator emits
-         MudBlazor.Resources.LanguageResource, which the vendored source expects
-         (it derives the namespace from RootNamespace plus the file's folder and
-         ignores CustomToolNamespace). This does not affect our own code: every
-         Suff* component declares its namespace explicitly, and AssemblyName
-         stays Sufficit.Blazor.UI. -->
-    <RootNamespace>MudBlazor</RootNamespace>
+    <!-- Namespace matches the assembly. The project is self-contained:
+         no MudBlazor source or package is referenced. -->
+    <RootNamespace>Sufficit.Blazor.UI</RootNamespace>
     <AssemblyName>Sufficit.Blazor.UI</AssemblyName>
     <!-- The namespace deliberately differs from the legacy Sufficit.Blazor
          package: during migration a project may reference both, and identical
          component namespaces would make every usage ambiguous. -->
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <PropertyGroup Label="Metadata">
@@ -24,43 +21,21 @@
     <!-- This project exists so CI can prove the components compile. Consumers
          copy the .razor files they need rather than taking a package
          reference, so packaging metadata is intentionally minimal. -->
-    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-  <ItemGroup Label="Vendored MudBlazor dependencies">
-    <!-- The MudBlazor package reference is gone: its source now lives under
-         Vendor/ and is maintained here. These are the dependencies that source
-         needs. The two generators are build-time only (PrivateAssets=all), so
-         they do not flow to anything consuming this project. -->
-    <!-- Blazor component tooling. These used to arrive transitively through the
-         MudBlazor package; removing it took them with it, and without them the
-         Razor SDK discovers no components at all — every usage reports RZ10012,
-         including components declared in this very project. -->
+  <ItemGroup Label="Blazor component tooling">
+    <!-- The SUI components are plain Blazor: they need only the Razor SDK
+         component base packages. -->
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.*" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.*" />
-    <PackageReference Include="Microsoft.Extensions.Localization" Version="10.*" />
-    <PackageReference Include="Microsoft.CodeAnalysis.ResxSourceGenerator" Version="3.11.0-beta1.26226.5">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="NetEscapades.EnumGenerators.Generators" Version="1.0.0-beta21" PrivateAssets="all" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <!-- Mirrors MudBlazor.csproj. The generated class must land in
-         MudBlazor.Resources, which the vendored source expects; without an
-         explicit namespace the generator would derive one from this project's
-         RootNamespace and every `using MudBlazor.Resources` would fail. -->
-    <EmbeddedResource Update="Resources/LanguageResource.resx">
-      <Public>false</Public>
-      <AsConstants>true</AsConstants>
-    </EmbeddedResource>
+    <!-- Navigation remains a compatibility adapter over the official MudBlazor
+         primitives while the host still uses MudNavMenu/MudPopover. This keeps
+         the rendered contract identical to production during the SUI migration. -->
+    <PackageReference Include="MudBlazor" Version="9.8.0" />
   </ItemGroup>
 
   <ItemGroup>
     <SupportedPlatform Include="browser" />
-    <!-- Global using the vendored source relies on (from MudBlazor.csproj). -->
-    <Using Include="MudBlazor.Utilities.StringHelpers" Static="True" />
   </ItemGroup>
 
 </Project>

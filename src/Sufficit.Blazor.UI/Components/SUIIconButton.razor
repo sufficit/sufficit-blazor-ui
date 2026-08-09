@@ -1,0 +1,143 @@
+@namespace Sufficit.Blazor.UI.Components
+@using Sufficit.Blazor.UI.Utilities
+@implements IDisposable
+
+@{
+    bool isAnchor = !string.IsNullOrWhiteSpace(Href);
+    var cls = SuiClassBuilder.Default("sui-btn sui-btn--icon")
+        .AddClass($"sui-btn--{SuiClassBuilder.Slug(Variant)}")
+        .AddClass($"sui-btn--color-{SuiClassBuilder.Slug(Color)}")
+        .AddClass($"sui-btn--{SuiClassBuilder.Slug(Size)}")
+        .AddClass($"sui-btn--edge-{SuiClassBuilder.Slug(Edge)}")
+        .AddClass("sui-btn--full-width", FullWidth)
+        .AddClass("sui-btn--loading", IsLoading)
+        .AddClass(Class)
+        .Build();
+    bool isDisabled = Disabled || IsLoading;
+}
+
+@if (isAnchor)
+{
+    <a class="@cls" style="@Style" href="@Href" target="@Target" rel="@GetRel()"
+       aria-label="@Title" aria-disabled="@isDisabled" @onclick="OnClickHandler" @onclick:preventDefault
+       @attributes="UserAttributes">
+        @RenderBody()
+    </a>
+}
+else
+{
+    <button type="@SuiClassBuilder.Slug(ButtonType)" class="@cls" style="@Style"
+            aria-label="@Title" disabled="@isDisabled" @onclick="OnClickHandler"
+            @attributes="UserAttributes">
+        @RenderBody()
+    </button>
+}
+
+@code {
+    protected bool IsLoading;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    [Parameter]
+    public string? Icon { get; set; }
+
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Parameter]
+    public object Color { get; set; } = SUIColor.Default;
+
+    [Parameter]
+    public object Size { get; set; } = SUISize.Medium;
+
+    [Parameter]
+    public object Variant { get; set; } = SUIVariant.Text;
+
+    [Parameter]
+    public object Edge { get; set; } = SUIEdge.False;
+
+    [Parameter]
+    public object ButtonType { get; set; } = SUIButtonType.Button;
+
+    [Parameter]
+    public bool FullWidth { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public string? Href { get; set; }
+
+    [Parameter]
+    public string? Target { get; set; }
+
+    [Parameter]
+    public string? Rel { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> UserAttributes { get; set; } = new();
+
+    protected string GetRel()
+    {
+        if (!string.IsNullOrWhiteSpace(Rel))
+            return Rel;
+        if (!string.IsNullOrWhiteSpace(Target) && Target != "_self")
+            return "noopener noreferrer";
+        return string.Empty;
+    }
+
+    protected async Task OnClickHandler(MouseEventArgs ev)
+    {
+        if (Disabled)
+            return;
+
+        if (OnClick.HasDelegate)
+        {
+            IsLoading = true;
+            await InvokeAsync(StateHasChanged);
+            try
+            {
+                await OnClick.InvokeAsync(ev);
+            }
+            finally
+            {
+                IsLoading = false;
+                await InvokeAsync(StateHasChanged);
+            }
+        }
+    }
+
+    private RenderFragment RenderBody() => __builder =>
+    {
+        if (IsLoading)
+        {
+            <span class="sui-overlay sui-overlay--light">
+                <span class="sui-progress-circular sui-progress-circular--sm sui-color-@SuiClassBuilder.Slug(Color)">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)SUIIcons.ProgressCircular)</svg>
+                </span>
+            </span>
+        }
+        if (!string.IsNullOrEmpty(Icon))
+        {
+            <span class="sui-icon sui-icon--@SuiClassBuilder.Slug(Size)">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)Icon)</svg>
+            </span>
+        }
+        else
+        {
+            <span class="sui-text sui-text--body2 sui-color-inherit">@ChildContent</span>
+        }
+    };
+
+    public void Dispose() { }
+}

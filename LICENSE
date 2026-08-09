@@ -17,7 +17,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ---
 
-NOTE: SuffNavGroup.razor.cs is derived from MudBlazor (https://mudblazor.com),
+NOTE: SUINavGroup.razor.cs is derived from MudBlazor (https://mudblazor.com),
 licensed under the MIT License, and retains its original copyright header. The
 MIT License requires that notice to be preserved; MIT-0 above applies to the
 Sufficit-authored code in this repository.
