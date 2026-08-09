@@ -43,7 +43,20 @@ jobs:
         run: |
           set -o pipefail
           dotnet build src/Sufficit.Blazor.UI/Sufficit.Blazor.UI.csproj \
-            --no-restore --configuration Release -warnaserror 2>&1 | tee build.log
+            --no-restore --configuration Release -warnaserror \
+            /p:ErrorEndLocation=true -maxcpucount:1 2>&1 | tee build.log
+
+      - name: Diagnose Razor item inclusion
+        # Decisive check: are the vendored .razor files even seen as
+        # RazorComponent items? "No errors from Vendor" is ambiguous — it looks
+        # the same whether the files compile cleanly or are never compiled.
+        if: always()
+        run: |
+          TOTAL=$(dotnet msbuild src/Sufficit.Blazor.UI/Sufficit.Blazor.UI.csproj \
+            -getItem:RazorComponent -v:q 2>/dev/null | grep -c '\.razor' || echo "0")
+          VENDOR=$(dotnet msbuild src/Sufficit.Blazor.UI/Sufficit.Blazor.UI.csproj \
+            -getItem:RazorComponent -v:q 2>/dev/null | grep -c 'Vendor' || echo "0")
+          echo "::error::RazorComponent items total=${TOTAL} vendor=${VENDOR}"
 
       - name: Surface build diagnostics
         # Re-emits compiler output as workflow errors so it shows up as
