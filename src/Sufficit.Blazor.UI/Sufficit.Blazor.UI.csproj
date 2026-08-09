@@ -42,6 +42,8 @@
 
   <ItemGroup>
     <SupportedPlatform Include="browser" />
+    <!-- Global using the vendored source relies on (from MudBlazor.csproj). -->
+    <Using Include="MudBlazor.Utilities.StringHelpers" Static="True" />
   </ItemGroup>
 
 </Project>
