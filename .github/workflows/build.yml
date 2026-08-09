@@ -46,6 +46,25 @@ jobs:
             --no-restore --configuration Release -warnaserror \
             /p:ErrorEndLocation=true -maxcpucount:1 2>&1 | tee build.log
 
+      - name: Diagnose Razor declaration pass
+        # Components defined purely in C# (MudElement) fail to resolve while
+        # every .razor-defined one works. That points at the declaration pass:
+        # Razor compiles the project's C# into a declaration assembly to
+        # discover components, and it suppresses its own diagnostics. If a
+        # vendored .cs file fails there, C#-only components silently vanish and
+        # the only symptom is RZ10012 at the usage site.
+        if: always()
+        continue-on-error: true
+        run: |
+          dotnet msbuild src/Sufficit.Blazor.UI/Sufficit.Blazor.UI.csproj \
+            -t:RazorGenerateDeclaration -v:n 2>&1 | tee decl.log || true
+          echo "--- CS diagnostics from the declaration pass ---"
+          grep -oE "error CS[0-9]+: [^\[]{0,120}" decl.log | sort -u | head -25 | while IFS= read -r l; do
+            echo "::error::DECL ${l}"
+          done
+          COUNT=$(grep -c "error CS" decl.log || echo 0)
+          echo "::error::DECL total CS errors=${COUNT}"
+
       - name: Diagnose Razor item inclusion
         # Decisive check: are the vendored .razor files even seen as
         # RazorComponent items? "No errors from Vendor" is ambiguous — it looks
