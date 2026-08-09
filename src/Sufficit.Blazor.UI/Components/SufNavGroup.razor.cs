@@ -9,7 +9,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MudBlazor
+namespace Sufficit.Blazor.UI.Components
 {
 #nullable enable
 
@@ -18,14 +18,14 @@ namespace MudBlazor
     /// </summary>
     /// <seealso cref="MudNavLink"/>
     /// <seealso cref="MudNavMenu"/>
-    public partial class MudNavGroupEnhanted : MudComponentBase, IDisposable
+    public partial class SufNavGroup : MudComponentBase, IDisposable
     {
         private readonly ParameterState<bool> _expandedState;
         private readonly ParameterState<bool> _disabledState;
         private readonly ParameterState<NavigationContext?> _parentNavigationContextState;
         private NavigationContext _navigationContext = new(false, true);
 
-        public MudNavGroupEnhanted()
+        public SufNavGroup()
         {
             using var registerScope = CreateRegisterScope();
             _disabledState = registerScope.RegisterParameter<bool>(nameof(Disabled))
@@ -300,7 +300,7 @@ namespace MudBlazor
         // Coordinator: only ONE rail flyout may be open at a time. Without this, moving
         // the pointer from one rail icon to another left the first flyout in its close
         // grace period while the second opened → two panels overlapping ("ghost").
-        private static event Action<MudNavGroupEnhanted>? RailFlyoutOpened;
+        private static event Action<SufNavGroup>? RailFlyoutOpened;
         private bool _railCoordinatorSubscribed;
 
         /// <summary>Context for flyout children: forced expanded so links stay focusable/tabbable.</summary>
@@ -314,7 +314,7 @@ namespace MudBlazor
             RailFlyoutOpened?.Invoke(this);
         }
 
-        private void OnAnotherRailFlyoutOpened(MudNavGroupEnhanted opener)
+        private void OnAnotherRailFlyoutOpened(SufNavGroup opener)
         {
             if (ReferenceEquals(opener, this) || !_flyoutOpen)
                 return;
@@ -379,24 +379,24 @@ namespace MudBlazor
     }
 
     /// <summary>
-    /// Coordinates exclusive accordion behaviour among sibling <see cref="MudNavGroupEnhanted"/>
+    /// Coordinates exclusive accordion behaviour among sibling <see cref="SufNavGroup"/>
     /// at one nesting level: expanding a group collapses the others. Cascaded by a parent
     /// group to its direct children (used inside the rail flyout).
     /// </summary>
     public sealed class NavAccordionScope
     {
-        private readonly System.Collections.Generic.List<MudNavGroupEnhanted> _members = new();
+        private readonly System.Collections.Generic.List<SufNavGroup> _members = new();
 
-        public void Register(MudNavGroupEnhanted group)
+        public void Register(SufNavGroup group)
         {
             if (!_members.Contains(group))
                 _members.Add(group);
         }
 
-        public void Unregister(MudNavGroupEnhanted group)
+        public void Unregister(SufNavGroup group)
             => _members.Remove(group);
 
-        public void NotifyExpanded(MudNavGroupEnhanted opener)
+        public void NotifyExpanded(SufNavGroup opener)
         {
             foreach (var member in _members)
                 if (!ReferenceEquals(member, opener))

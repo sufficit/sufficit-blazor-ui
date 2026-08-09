@@ -1,20 +1,20 @@
 @* Skeleton Loader Component - Loading State Pattern *@
-@namespace Sufficit.Blazor.UI.Components.UX
+@namespace Sufficit.Blazor.UI.Components
 
 <div class="skeleton-loader @Class">
-    @if (Type == SkeletonLoaderType.Card)
+    @if (Type == SufSkeletonType.Card)
     {
         <div class="skeleton-card"></div>
     }
-    else if (Type == SkeletonLoaderType.Text)
+    else if (Type == SufSkeletonType.Text)
     {
         <div class="skeleton-text"></div>
     }
-    else if (Type == SkeletonLoaderType.Circle)
+    else if (Type == SufSkeletonType.Circle)
     {
         <div class="skeleton-circle" style="width: @Size; height: @Size;"></div>
     }
-    else if (Type == SkeletonLoaderType.Table)
+    else if (Type == SufSkeletonType.Table)
     {
         @for (int i = 0; i < Rows; i++)
         {
@@ -25,7 +25,7 @@
 
 @code {
     [Parameter]
-    public SkeletonLoaderType Type { get; set; } = SkeletonLoaderType.Text;
+    public SufSkeletonType Type { get; set; } = SufSkeletonType.Text;
 
     [Parameter]
     public int Rows { get; set; } = 3;

@@ -1,9 +1,9 @@
-﻿@namespace MudBlazor
+﻿@namespace Sufficit.Blazor.UI.Components
 @using MudBlazor.Extensions
 
-<MudButtonEnchanted Variant="@Variant" Color="Color.Primary" FullWidth OnClick="OnClicked">
+<SufButton Variant="@Variant" Color="Color.Primary" FullWidth OnClick="OnClicked">
     @ChildContent
-</MudButtonEnchanted>
+</SufButton>
 @code{
     [Parameter]
     public RenderFragment? ChildContent { get; set; }

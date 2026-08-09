@@ -17,33 +17,34 @@ migração é pré-requisito para o consumo.
 
 ## Componentes
 
-### `Components/MudBlazorExtended`
+Prefixo `Suf`, namespace único `Sufficit.Blazor.UI.Components`. São componentes
+nossos: usam MudBlazor por baixo, mas a API e o nome são da Sufficit.
 
-Extensões sobre componentes do MudBlazor, preservando a API original e
-acrescentando comportamento:
+| Componente | Substitui | Uso hoje |
+| --- | --- | --- |
+| `SufButton` | `MudButtonEnchanted` | 16 |
+| `SufNavGroup` | `MudNavGroupEnhanted` | 16 |
+| `SufTableEmpty` | `TableNoRecords` | 40 |
+| `SufLoadingButton` | `LoadingButton` | 5 |
+| `SufNavLink` | `MudNavLinkEnchanted` | 3 |
+| `SufIconButton` | `MudIconButtonEnchanted` | 2 |
+| `SufSkeletonLoader` | `SkeletonLoader` | 2 |
+| `SufEmptyState` | `EmptyState` | 1 |
+| `SufSwitchButton` | `MudSwitchButton` | 1 |
 
-- `MudButtonEnchanted`
-- `MudIconButtonEnchanted`
-- `MudNavLinkEnchanted`
-- `MudNavGroupEnhanted`
-- `MudSwitchButton`
+`SufSkeletonType` acompanha o `SufSkeletonLoader`.
 
-### `Components/UX`
-
-- `EmptyState` — estado vazio com título, descrição e ação opcional
-- `SkeletonLoader` — carregamento por esqueleto (ver `SkeletonLoaderType`)
-- `LoadingButton` — botão com estado de operação em andamento
-
-### `Components/Tables`
-
-- `GenericTable`
-- `TableNoRecords`
+`GenericTable` foi descartado: zero usos em qualquer projeto.
 
 ## Namespaces
 
-O namespace raiz é `Sufficit.Blazor.UI`, deliberadamente diferente do pacote
-legado `Sufficit.Blazor`. Durante a migração, um projeto pode referenciar os
-dois; namespaces idênticos tornariam cada uso ambíguo.
+Namespace único: `Sufficit.Blazor.UI.Components`.
+
+Cinco dos componentes originais declaravam `@namespace MudBlazor` — ou seja, se
+injetavam dentro do namespace da biblioteca de terceiros. Funcionava (dispensava
+`@using`), mas colide com qualquer tipo futuro de mesmo nome no MudBlazor e
+esconde a origem do componente na leitura do código. Agora ficam no namespace
+próprio.
 
 ## O que ainda não está aqui, e por quê
 
@@ -52,22 +53,30 @@ dois; namespaces idênticos tornariam cada uso ambíguo.
   genéricos como estão: precisam ser desacoplados antes de entrar numa
   biblioteca compartilhada — ainda mais numa pública.
 - **`MudThemeManagerButtonAdmin`** depende do pacote `MudBlazor.ThemeManager`.
-  Incluí-lo obrigaria todo consumidor a carregar essa dependência por causa de
-  um componente. O contrato de tema próprio (abaixo) o substitui.
+  Incluí-lo obrigaria a carregar essa dependência por causa de um componente.
 - **Contrato de temas.** O `sufficit-blazor` já tem `ThemeService` e
   `MudThemeContainer`; eles evoluem para um contrato explícito (paleta,
   tipografia, densidade) quando houver mais de um consumidor real. Desenhar
   temas antes disso é adivinhação.
 - **Testes e CI.** A serem adicionados junto com o primeiro consumidor.
 
+## Como usar
+
+Copie o `.razor` (e o `.razor.cs`/`.cs` quando houver) para o seu projeto e
+ajuste o `@namespace`. Não há pacote a referenciar: são poucos componentes e a
+cópia evita acoplar as aplicações a um ciclo de release desta biblioteca.
+
+O projeto aqui existe para o CI provar que os componentes compilam.
+
 ## Roadmap
 
 1. Migrar `sufficit-blazor` e `sufficit-ai` para `net10.0`.
-2. Publicar este pacote num feed interno.
-3. Primeiro consumidor real (`sufficit-ai`), eliminando duplicatas.
-4. Contrato de temas, com dois consumidores para validá-lo.
-5. Decidir sobre o `sufficit-identity`, que hoje usa CSS próprio sem MudBlazor
-   — adotar a base ali é reescrever o front, não consolidar.
+2. Adotar os componentes no `sufficit-blazor`, trocando os nomes antigos pelos
+   `Suf*` — é onde estão todos os usos atuais.
+3. Contrato de temas, quando houver mais de um consumidor real.
+
+Observação: o `sufficit-ai` hoje **não usa nenhum** destes componentes. A
+consolidação lá é adoção, não migração — vale confirmar se compensa.
 
 ## Pendências conhecidas
 
