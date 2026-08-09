@@ -1,0 +1,28 @@
+# Vendored MudBlazor source.
+#
+# Our own code builds with -warnaserror and no suppressions. This file relaxes
+# that for the vendored tree only: upstream compiles with its own analyzer
+# configuration, and treating its warnings as errors here would mean editing
+# third-party source on every sync — the opposite of what vendoring should cost.
+#
+# Scope is deliberate: these severities apply under Vendor/ and nowhere else.
+root = false
+
+[*.{cs,razor}]
+# Blazor analyzer: parameters implemented with backing fields rather than auto
+# properties. Widespread and intentional upstream.
+dotnet_diagnostic.BL0007.severity = none
+
+# Fields assigned only through reflection/binding, unused events, and similar
+# patterns common in component frameworks.
+dotnet_diagnostic.CS0649.severity = none
+dotnet_diagnostic.CS0067.severity = none
+dotnet_diagnostic.CS0169.severity = none
+
+# Nullability annotations differ from our stricter settings.
+dotnet_diagnostic.CS8618.severity = none
+dotnet_diagnostic.CS8619.severity = none
+dotnet_diagnostic.CS8625.severity = none
+
+# Missing XML documentation on public members.
+dotnet_diagnostic.CS1591.severity = none
