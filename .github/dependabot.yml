@@ -1,0 +1,29 @@
+version: 2
+
+# Keeps MudBlazor and the pinned actions current. Since consumers copy these
+# components into their own projects, a stale MudBlazor here means the copied
+# code drifts from what the applications actually run against.
+updates:
+  - package-ecosystem: nuget
+    directory: "/src/Sufficit.Blazor.UI"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: America/Sao_Paulo
+    open-pull-requests-limit: 3
+    labels: [dependencies]
+    commit-message:
+      prefix: "chore(deps)"
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: America/Sao_Paulo
+    open-pull-requests-limit: 3
+    labels: [dependencies, ci]
+    commit-message:
+      prefix: "chore(ci)"
