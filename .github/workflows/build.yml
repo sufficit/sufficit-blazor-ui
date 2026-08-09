@@ -34,20 +34,10 @@ jobs:
       - name: Restore
         run: dotnet restore src/Sufficit.Blazor.UI/Sufficit.Blazor.UI.csproj
 
-      - name: Build
-        # No -warnaserror yet: the components were copied in from a net9.0
-        # codebase and are expected to surface nullability and analyzer
-        # warnings first. Tighten this once the warning backlog is cleared —
-        # turning it on before then would just block every PR.
+      - name: Build (warnings treated as errors)
+        # The first build came back with zero warnings, so there is no backlog
+        # to grandfather in. Enforcing from the start keeps it that way: it is
+        # far cheaper than clearing warnings after they accumulate.
         run: >
           dotnet build src/Sufficit.Blazor.UI/Sufficit.Blazor.UI.csproj
-          --no-restore --configuration Release
-
-      - name: Report warning count
-        # Visibility without enforcement: makes the backlog measurable so the
-        # move to -warnaserror is an informed decision rather than a guess.
-        if: always()
-        run: >
-          dotnet build src/Sufficit.Blazor.UI/Sufficit.Blazor.UI.csproj
-          --no-restore --configuration Release --no-incremental
-          -v normal 2>&1 | grep -c "warning " || echo "0 warnings"
+          --no-restore --configuration Release -warnaserror
