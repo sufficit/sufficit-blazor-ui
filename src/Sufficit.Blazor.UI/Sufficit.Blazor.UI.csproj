@@ -21,9 +21,23 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
+  <ItemGroup Label="Vendored MudBlazor dependencies">
+    <!-- The MudBlazor package reference is gone: its source now lives under
+         Vendor/ and is maintained here. These are the dependencies that source
+         needs. The two generators are build-time only (PrivateAssets=all), so
+         they do not flow to anything consuming this project. -->
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="10.*" />
+    <PackageReference Include="Microsoft.CodeAnalysis.ResxSourceGenerator" Version="3.11.0-beta1.26226.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NetEscapades.EnumGenerators.Generators" Version="1.0.0-beta21" PrivateAssets="all" />
+  </ItemGroup>
+
   <ItemGroup>
-    <!-- TODO: pin an exact version once net10.0 support is confirmed. -->
-    <PackageReference Include="MudBlazor" Version="9.*" />
+    <EmbeddedResource Update="Vendor/Resources/LanguageResource.resx">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
