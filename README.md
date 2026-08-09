@@ -17,22 +17,22 @@ migração é pré-requisito para o consumo.
 
 ## Componentes
 
-Prefixo `Suf`, namespace único `Sufficit.Blazor.UI.Components`. São componentes
+Prefixo `Suff`, namespace único `Sufficit.Blazor.UI.Components`. São componentes
 nossos: usam MudBlazor por baixo, mas a API e o nome são da Sufficit.
 
 | Componente | Substitui | Uso hoje |
 | --- | --- | --- |
-| `SufButton` | `MudButtonEnchanted` | 16 |
-| `SufNavGroup` | `MudNavGroupEnhanted` | 16 |
-| `SufTableEmpty` | `TableNoRecords` | 40 |
-| `SufLoadingButton` | `LoadingButton` | 5 |
-| `SufNavLink` | `MudNavLinkEnchanted` | 3 |
-| `SufIconButton` | `MudIconButtonEnchanted` | 2 |
-| `SufSkeletonLoader` | `SkeletonLoader` | 2 |
-| `SufEmptyState` | `EmptyState` | 1 |
-| `SufSwitchButton` | `MudSwitchButton` | 1 |
+| `SuffButton` | `MudButtonEnchanted` | 16 |
+| `SuffNavGroup` | `MudNavGroupEnhanted` | 16 |
+| `SuffTableEmpty` | `TableNoRecords` | 40 |
+| `SuffLoadingButton` | `LoadingButton` | 5 |
+| `SuffNavLink` | `MudNavLinkEnchanted` | 3 |
+| `SuffIconButton` | `MudIconButtonEnchanted` | 2 |
+| `SuffSkeletonLoader` | `SkeletonLoader` | 2 |
+| `SuffEmptyState` | `EmptyState` | 1 |
+| `SuffSwitchButton` | `MudSwitchButton` | 1 |
 
-`SufSkeletonType` acompanha o `SufSkeletonLoader`.
+`SuffSkeletonType` acompanha o `SuffSkeletonLoader`.
 
 `GenericTable` foi descartado: zero usos em qualquer projeto.
 
@@ -80,16 +80,18 @@ consolidação lá é adoção, não migração — vale confirmar se compensa.
 
 ## Pendências conhecidas
 
-- A versão do MudBlazor está como `9.*` no `csproj`. **Deve ser fixada** numa
-  versão exata assim que a compatibilidade com `net10.0` for confirmada: um
-  curinga numa biblioteca compartilhada propaga quebra para todos os
-  consumidores de uma vez.
-- O código foi copiado de um repositório privado sem arquivo de licença. Este
-  repositório adota MIT-0, alinhado ao `sufficit-identity`. **Confirmar se é a
-  licença pretendida** antes de divulgar o pacote.
-- Nada aqui foi compilado ainda — não havia SDK .NET no ambiente onde a
-  extração foi feita. O primeiro `dotnet build` é o gate real.
+- A versão do MudBlazor segue como `9.*`. Agora que a build passou, vale fixar
+  a versão exata que passou.
+- O CI compila em `net10.0` com MudBlazor 9 e `-warnaserror`, sem warnings e
+  sem alertas do CodeQL. A compatibilidade MudBlazor 9 + .NET 10 está
+  confirmada — era a principal incógnita da migração.
 
 ## Licença
 
-MIT-0. Ver [LICENSE](LICENSE).
+MIT-0 para o código da Sufficit — ver [LICENSE](LICENSE). Compartilhamento
+máximo, sem exigência de atribuição.
+
+**Exceção:** `SuffNavGroup.razor.cs` é derivado do MudBlazor e mantém o
+cabeçalho de copyright original. O MudBlazor é MIT, que **exige** preservar o
+aviso de licença — por isso o cabeçalho fica no arquivo e não pode ser
+removido. Isso não afeta o restante do repositório.

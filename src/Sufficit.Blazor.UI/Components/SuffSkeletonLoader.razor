@@ -2,19 +2,19 @@
 @namespace Sufficit.Blazor.UI.Components
 
 <div class="skeleton-loader @Class">
-    @if (Type == SufSkeletonType.Card)
+    @if (Type == SuffSkeletonType.Card)
     {
         <div class="skeleton-card"></div>
     }
-    else if (Type == SufSkeletonType.Text)
+    else if (Type == SuffSkeletonType.Text)
     {
         <div class="skeleton-text"></div>
     }
-    else if (Type == SufSkeletonType.Circle)
+    else if (Type == SuffSkeletonType.Circle)
     {
         <div class="skeleton-circle" style="width: @Size; height: @Size;"></div>
     }
-    else if (Type == SufSkeletonType.Table)
+    else if (Type == SuffSkeletonType.Table)
     {
         @for (int i = 0; i < Rows; i++)
         {
@@ -25,7 +25,7 @@
 
 @code {
     [Parameter]
-    public SufSkeletonType Type { get; set; } = SufSkeletonType.Text;
+    public SuffSkeletonType Type { get; set; } = SuffSkeletonType.Text;
 
     [Parameter]
     public int Rows { get; set; } = 3;

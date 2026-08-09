@@ -1,6 +1,6 @@
 namespace Sufficit.Blazor.UI.Components;
 
-public enum SufSkeletonType
+public enum SuffSkeletonType
 {
     Card,
     Text,
