@@ -4,7 +4,13 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>Sufficit.Blazor.UI</RootNamespace>
+    <!-- RootNamespace is MudBlazor so the ResxSourceGenerator emits
+         MudBlazor.Resources.LanguageResource, which the vendored source expects
+         (it derives the namespace from RootNamespace plus the file's folder and
+         ignores CustomToolNamespace). This does not affect our own code: every
+         Suff* component declares its namespace explicitly, and AssemblyName
+         stays Sufficit.Blazor.UI. -->
+    <RootNamespace>MudBlazor</RootNamespace>
     <AssemblyName>Sufficit.Blazor.UI</AssemblyName>
     <!-- The namespace deliberately differs from the legacy Sufficit.Blazor
          package: during migration a project may reference both, and identical
@@ -45,10 +51,9 @@
          MudBlazor.Resources, which the vendored source expects; without an
          explicit namespace the generator would derive one from this project's
          RootNamespace and every `using MudBlazor.Resources` would fail. -->
-    <EmbeddedResource Update="Vendor/Resources/LanguageResource.resx">
+    <EmbeddedResource Update="Resources/LanguageResource.resx">
       <Public>false</Public>
       <AsConstants>true</AsConstants>
-      <CustomToolNamespace>MudBlazor.Resources</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
 
