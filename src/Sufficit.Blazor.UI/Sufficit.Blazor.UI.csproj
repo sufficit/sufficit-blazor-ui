@@ -41,8 +41,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Mirrors MudBlazor.csproj. The generated class must land in
+         MudBlazor.Resources, which the vendored source expects; without an
+         explicit namespace the generator would derive one from this project's
+         RootNamespace and every `using MudBlazor.Resources` would fail. -->
     <EmbeddedResource Update="Vendor/Resources/LanguageResource.resx">
-      <Generator>MSBuild:Compile</Generator>
+      <Public>false</Public>
+      <AsConstants>true</AsConstants>
+      <CustomToolNamespace>MudBlazor.Resources</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
 
