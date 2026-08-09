@@ -1,0 +1,66 @@
+@* Loading Button Component - Async Operation Pattern *@
+@namespace Sufficit.Blazor.UI.Components.UX
+@inherits MudBlazor.MudComponentBase
+
+<MudButton
+    Variant="@Variant"
+    Color="@Color"
+    ButtonType="@ButtonType"
+    Disabled="@(Disabled || IsLoading)"
+    Class="@($"{Class} {(IsLoading ? "mud-button-loading" : "")}")"
+    OnClick="@HandleClick"
+    @attributes="UserAttributes">
+    @if (!IsLoading)
+    {
+        @if (StartIcon != null)
+        {
+            <MudIcon Icon="@StartIcon" Size="Size.Small" Class="mr-2" />
+        }
+        @ChildContent
+        @if (EndIcon != null)
+        {
+            <MudIcon Icon="@EndIcon" Size="Size.Small" Class="ml-2" />
+        }
+    }
+    else
+    {
+        <span style="opacity: 0;">@ChildContent</span>
+    }
+</MudButton>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    [Parameter]
+    public bool IsLoading { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public MudBlazor.Variant Variant { get; set; } = MudBlazor.Variant.Filled;
+
+    [Parameter]
+    public MudBlazor.Color Color { get; set; } = MudBlazor.Color.Primary;
+
+    [Parameter]
+    public MudBlazor.ButtonType ButtonType { get; set; } = MudBlazor.ButtonType.Button;
+
+    [Parameter]
+    public string? StartIcon { get; set; }
+
+    [Parameter]
+    public string? EndIcon { get; set; }
+
+    private async Task HandleClick(MouseEventArgs args)
+    {
+        if (!IsLoading && !Disabled && OnClick.HasDelegate)
+        {
+            await OnClick.InvokeAsync(args);
+        }
+    }
+}

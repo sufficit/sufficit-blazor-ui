@@ -1,0 +1,75 @@
+<div class="@GetClassName()">    
+    <MudIcon Icon="@Icon"
+        Size="Size.Large"
+        Color="Color.Default"
+        Style="color: var(--mud-palette-text-secondary); opacity: 0.9;" />
+
+
+    <div class="table-no-records__title">
+        <MudText Typo="@TitleTypo"
+                 Align="Align.Center"
+                 Color="Color.Secondary">
+            @Title
+        </MudText>
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(Description))
+    {
+        <div class="mud-typography mud-typography-body2 table-no-records__description">
+            @foreach (string line in GetDescriptionLines())
+            {
+                <div class="table-no-records__description-line">@line</div>
+            }
+        </div>
+    }
+
+    @if (ChildContent != null)
+    {
+        <div class="table-no-records__content">
+            @ChildContent
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string Icon { get; set; } = Icons.Material.Filled.SearchOff;
+
+    [Parameter]
+    public string Title { get; set; } = "Nenhum registro encontrado";
+
+    [Parameter]
+    public string? Description { get; set; } = "Nenhum resultado foi encontrado com os filtros aplicados.\nTente revisar ou remover os filtros para ver mais resultados.";
+
+    [Parameter]
+    public Typo TitleTypo { get; set; } = Typo.h6;
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string GetClassName()
+        => string.IsNullOrWhiteSpace(Class)
+            ? "table-no-records mud-width-full"
+            : $"table-no-records mud-width-full {Class}";
+
+    private IEnumerable<string> GetDescriptionLines()
+    {
+        if (string.IsNullOrWhiteSpace(Description))
+            return Array.Empty<string>();
+
+        string formatted = Description;
+
+        if (!formatted.Contains('\n'))
+        {
+            int sentenceBreak = formatted.IndexOf(". ", StringComparison.Ordinal);
+            if (sentenceBreak > -1)
+                formatted = formatted.Insert(sentenceBreak + 1, "\n");
+        }
+
+        return formatted
+            .Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+    }
+}

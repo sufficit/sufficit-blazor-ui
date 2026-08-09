@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Sufficit.Blazor.UI</RootNamespace>
+    <AssemblyName>Sufficit.Blazor.UI</AssemblyName>
+    <!-- The namespace deliberately differs from the legacy Sufficit.Blazor
+         package: during migration a project may reference both, and identical
+         component namespaces would make every usage ambiguous. -->
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package">
+    <IsPackable>true</IsPackable>
+    <PackageId>Sufficit.Blazor.UI</PackageId>
+    <Company>SUFFICIT SOLUÇÕES EM TECNOLOGIA DA INFORMAÇÃO</Company>
+    <Authors>Sufficit</Authors>
+    <Description>Biblioteca de componentes Blazor da Sufficit sobre MudBlazor.</Description>
+    <PackageLicenseExpression>MIT-0</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/sufficit/sufficit-blazor-ui</RepositoryUrl>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Pinned deliberately. A shared component library must not float its UI
+         dependency: with a wildcard, a MudBlazor release propagates a breaking
+         change to every consumer at once, with no chance to stage the upgrade.
+         Bump this explicitly, in its own reviewed commit.
+         TODO: confirm the exact latest 9.x with net10.0 support and replace the
+         minor wildcard with a full three-part version. -->
+    <PackageReference Include="MudBlazor" Version="9.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+</Project>

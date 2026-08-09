@@ -1,0 +1,54 @@
+@* Empty State Component - Progressive Disclosure Pattern *@
+@namespace Sufficit.Blazor.UI.Components.UX
+
+<div class="empty-state @Class">
+    @if (!string.IsNullOrEmpty(IconPath))
+    {
+        <svg class="empty-state__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            @((MarkupString)IconPath)
+        </svg>
+    }
+
+    @if (!string.IsNullOrEmpty(Title))
+    {
+        <div class="empty-state__title">@Title</div>
+    }
+
+    @if (!string.IsNullOrEmpty(Description))
+    {
+        <div class="empty-state__description">@Description</div>
+    }
+
+    @if (ActionContent != null)
+    {
+        <div class="empty-state__action">
+            @ActionContent
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Parameter]
+    public string? Description { get; set; }
+
+    [Parameter]
+    public string? IconPath { get; set; }
+
+    [Parameter]
+    public RenderFragment? ActionContent { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    // Common icon paths (Heroicons outline)
+    public static class Icons
+    {
+        public const string Inbox = "<path d=\"M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z\" />";
+        public const string Folder = "<path d=\"M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z\" />";
+        public const string Search = "<path d=\"M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z\" />";
+        public const string Database = "<path d=\"M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4\" />";
+    }
+}
