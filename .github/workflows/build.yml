@@ -35,9 +35,27 @@ jobs:
         run: dotnet restore src/Sufficit.Blazor.UI/Sufficit.Blazor.UI.csproj
 
       - name: Build (warnings treated as errors)
-        # The first build came back with zero warnings, so there is no backlog
-        # to grandfather in. Enforcing from the start keeps it that way: it is
-        # far cheaper than clearing warnings after they accumulate.
-        run: >
-          dotnet build src/Sufficit.Blazor.UI/Sufficit.Blazor.UI.csproj
-          --no-restore --configuration Release -warnaserror
+        # Captures the log so the diagnostic step below can surface failures as
+        # annotations. Raw job logs live in storage that is not always
+        # reachable, and annotations are, so this is what makes a red build
+        # actually diagnosable.
+        id: build
+        run: |
+          set -o pipefail
+          dotnet build src/Sufficit.Blazor.UI/Sufficit.Blazor.UI.csproj \
+            --no-restore --configuration Release -warnaserror 2>&1 | tee build.log
+
+      - name: Surface build diagnostics
+        # Re-emits compiler output as workflow errors so it shows up as
+        # annotations. Without this, a failure that the annotation parser does
+        # not recognise leaves nothing but an exit code.
+        if: failure()
+        run: |
+          echo "--- first 60 diagnostic lines ---"
+          grep -nE "error|warning [A-Z]+[0-9]+" build.log | head -60 | while IFS= read -r line; do
+            echo "::error::${line}"
+          done
+          echo "--- razor/component related ---"
+          grep -niE "razor|taghelper|component" build.log | head -20 | while IFS= read -r line; do
+            echo "::error::RAZOR ${line}"
+          done
