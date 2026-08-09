@@ -26,6 +26,12 @@
          Vendor/ and is maintained here. These are the dependencies that source
          needs. The two generators are build-time only (PrivateAssets=all), so
          they do not flow to anything consuming this project. -->
+    <!-- Blazor component tooling. These used to arrive transitively through the
+         MudBlazor package; removing it took them with it, and without them the
+         Razor SDK discovers no components at all — every usage reports RZ10012,
+         including components declared in this very project. -->
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.*" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="10.*" />
     <PackageReference Include="Microsoft.CodeAnalysis.ResxSourceGenerator" Version="3.11.0-beta1.26226.5">
       <PrivateAssets>all</PrivateAssets>
