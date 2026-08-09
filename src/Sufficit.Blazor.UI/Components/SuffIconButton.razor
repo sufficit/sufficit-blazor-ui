@@ -3,7 +3,7 @@
 @inherits MudIconButton
 @using MudBlazor.Extensions
 
-<MudElement @bind-Ref="@_elementReference"
+<MudBlazor.MudElement @bind-Ref="@_elementReference"
             HtmlTag="@HtmlTag"
             Class="@Classname"
             Style="@Style"
@@ -28,7 +28,7 @@
     {
         <MudText Typo="Typo.body2" Color="Color.Inherit">@ChildContent</MudText>
     }
-</MudElement>
+</MudBlazor.MudElement>
 
 @code{
     protected bool disabled => GetDisabledState() || IsLoading;

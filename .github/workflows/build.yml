@@ -87,6 +87,8 @@ jobs:
           grep -nE "error|warning [A-Z]+[0-9]+" build.log | head -60 | while IFS= read -r line; do
             echo "::error::${line}"
           done
+          echo "--- raw tail of build log ---"
+          tail -40 build.log | while IFS= read -r line; do echo "::error::LOG ${line}"; done
           echo "--- razor/component related ---"
           grep -niE "razor|taghelper|component" build.log | head -20 | while IFS= read -r line; do
             echo "::error::RAZOR ${line}"
