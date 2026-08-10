@@ -23,15 +23,15 @@ jobs:
 
     - name: Install dependencies
       working-directory: ${{ env.SRC_DIR }}
-      run: dotnet restore
+      run: dotnet restore ./Sufficit.Blazor.UI/Sufficit.Blazor.UI.csproj
 
     - name: Build
       working-directory: ${{ env.SRC_DIR }}
-      run: dotnet build --configuration Packing
+      run: dotnet build ./Sufficit.Blazor.UI/Sufficit.Blazor.UI.csproj --configuration Packing
 
     - name: Deploy Package
       working-directory: ${{ env.SRC_DIR }}
-      run: dotnet pack --configuration Packing --output ${{ env.NUPKGS_DIR }}
+      run: dotnet pack ./Sufficit.Blazor.UI/Sufficit.Blazor.UI.csproj --configuration Packing --output ${{ env.NUPKGS_DIR }}
 
     - name: Publish to Nuget.Org
       working-directory: ${{ env.SRC_DIR }}
