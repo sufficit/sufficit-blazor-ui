@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <PropertyGroup>
+  <PropertyGroup Label="Sufficit Targeting">
     <TargetFramework>net10.0</TargetFramework>
+    <Configurations>Debug;Release;Packing</Configurations>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <!-- Namespace matches the assembly. The project is self-contained:
@@ -11,27 +12,50 @@
     <!-- The namespace deliberately differs from the legacy Sufficit.Blazor
          package: during migration a project may reference both, and identical
          component namespaces would make every usage ambiguous. -->
-    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-  <PropertyGroup Label="Metadata">
-    <Company>SUFFICIT SOLUÇÕES EM TECNOLOGIA DA INFORMAÇÃO</Company>
-    <Authors>Sufficit</Authors>
-    <RepositoryUrl>https://github.com/sufficit/sufficit-blazor-ui</RepositoryUrl>
-    <!-- This project exists so CI can prove the components compile. Consumers
-         copy the .razor files they need rather than taking a package
-         reference, so packaging metadata is intentionally minimal. -->
+  <PropertyGroup Label="Sufficit Versioning">
+    <VersionSuffix Condition=" '$(Configuration)' != 'Debug' ">1.$([System.DateTime]::UtcNow.ToString(yy)).$([System.DateTime]::UtcNow.ToString(MMdd)).$([System.DateTime]::UtcNow.ToString(HHmm))</VersionSuffix>
+    <AssemblyVersion Condition=" '$(VersionSuffix)' == '' ">1.99.0.0</AssemblyVersion>
+    <AssemblyVersion Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</AssemblyVersion>
+    <Version Condition=" '$(VersionSuffix)' == '' ">1.99.0.0</Version>
+    <Version Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</Version>
   </PropertyGroup>
+
+  <PropertyGroup Label="Sufficit Product General">
+    <Company>SUFFICIT SOLUÇÕES EM TECNOLOGIA DA INFORMAÇÃO</Company>
+    <Authors>Hugo Castro de Deco</Authors>
+    <ProductName>Sufficit Blazor UI</ProductName>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Sufficit Pacote NUGET">
+    <Name>Sufficit.Blazor.UI</Name>
+    <PackageId>Sufficit.Blazor.UI</PackageId>
+    <PackageDescription>Sufficit Blazor UI component library (SUI) — autonomous components, theme contract, no MudBlazor dependency.</PackageDescription>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/sufficit/sufficit-blazor-ui</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/sufficit/sufficit-blazor-ui</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/sufficit/sufficit-blazor-ui/main/icon.png</PackageIconUrl>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup Label="Sufficit Pacote NUGET Itens">
+    <None Include="../../icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="../../README.md" Pack="True" PackagePath="readme.md" />
+  </ItemGroup>
 
   <ItemGroup Label="Blazor component tooling">
     <!-- The SUI components are plain Blazor: they need only the Razor SDK
-         component base packages. -->
+         component base packages. No MudBlazor dependency. -->
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.*" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.*" />
-    <!-- Navigation remains a compatibility adapter over the official MudBlazor
-         primitives while the host still uses MudNavMenu/MudPopover. This keeps
-         the rendered contract identical to production during the SUI migration. -->
-    <PackageReference Include="MudBlazor" Version="9.8.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,90 +1,120 @@
-﻿@namespace Sufficit.Blazor.UI.Components
-@inherits MudNavLink
+@namespace Sufficit.Blazor.UI.Components
 @using Microsoft.AspNetCore.Components.Routing
-@using MudBlazor.Utilities
+@using Sufficit.Blazor.UI.Utilities
 
-<div @attributes="UserAttributes" class="@Classname" disabled="@Disabled" style="@Style">
-    @{
-        if (!OnClick.HasDelegate)
-        {
-            <NavLink @onclick="HandleNavigation"
-                    class="@LinkClassname"
-                    @attributes="@Attributes"
-                    tabindex="@TabIndex"
-                    Match="@Match"
-                    ActiveClass="@ActiveClass">
-                @if (!string.IsNullOrEmpty(Icon))
-                {
-                    <MudIcon Disabled="@Disabled" Icon="@Icon" Color="@IconColor" Class="@IconClassname"/>
-                }
-                else if (IconAsAvatar)
-                {
-                    <MudAvatar Color="@IconColor" Class="@IconClassname" Size="Size.Small" Variant="Variant.Outlined">@GetInitials()</MudAvatar>
-                }
-                <div class="mud-nav-link-text">
-                    @Title
-                    @ChildContent
-                </div>
-            </NavLink>
-        }
-        else
-        {
-            <div @onclick="OnClickHandler"
+<div @attributes="UserAttributes"
+     class="@Classname"
+     style="@Style"
+     aria-disabled="@IsDisabled">
+    @if (OnClick.HasDelegate)
+    {
+        <button type="button"
+                class="@LinkClassname"
+                disabled="@IsDisabled"
+                @onclick="OnClickHandler">
+            @RenderContent()
+        </button>
+    }
+    else
+    {
+        <NavLink href="@Href"
                  class="@LinkClassname"
-                 tabindex="@TabIndex">
-                @if (!string.IsNullOrEmpty(Icon))
-                {
-                    <MudIcon Disabled="@Disabled" Icon="@Icon" Color="@IconColor" Class="@IconClassname" />
-                }
-                else if (IconAsAvatar)
-                {
-                    <MudAvatar Color="@IconColor" Class="@IconClassname" Size="Size.Small" Variant="Variant.Outlined">@GetInitials()</MudAvatar>
-                }
-                <div Class="mud-nav-link-text">
-                    @Title
-                    @ChildContent
-                </div>
-            </div>
-        }
+                 @attributes="Attributes"
+                 Match="@Match"
+                 ActiveClass="@ActiveClass"
+                 aria-disabled="@IsDisabled"
+                 @onclick="HandleNavigation">
+            @RenderContent()
+        </NavLink>
     }
 </div>
+
 @code {
+    [CascadingParameter]
+    private SUINavigationContext? ParentNavigationContext { get; set; }
 
-    protected new Task OnClickHandler(MouseEventArgs ev)
-        => this.AsNonRenderingEventHandler<MouseEventArgs>(base.OnClickHandler).Invoke(ev);
-        
-    protected new Task HandleNavigation()
-            => this.AsNonRenderingEventHandler(base.HandleNavigation).Invoke();
-    
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public string? Href { get; set; }
+    [Parameter] public NavLinkMatch Match { get; set; } = NavLinkMatch.Prefix;
+    [Parameter] public string ActiveClass { get; set; } = "active";
+    [Parameter] public string? Icon { get; set; }
+    [Parameter] public SUIColor IconColor { get; set; } = SUIColor.Default;
+    [Parameter] public bool IconAsAvatar { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public int TabIndex { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public string? Style { get; set; }
+    [Parameter] public Dictionary<string, object?> Attributes { get; set; } = new();
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> UserAttributes { get; set; } = new();
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
 
-    protected new string IconClassname
+    private bool IsDisabled
+        => Disabled || ParentNavigationContext is { Disabled: true };
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-nav-link")
+            .AddClass("sui-nav-link--disabled", IsDisabled)
+            .AddClass(Class)
+            .Build();
+
+    private string LinkClassname
+        => SUIClassBuilder.Default("sui-nav-link__row")
+            .AddClass("is-disabled", IsDisabled)
+            .AddClass($"sui-color-{IconColor.ToString().ToLowerInvariant()}", IconColor != SUIColor.Default)
+            .Build();
+
+    private string IconClassname
+        => SUIClassBuilder.Default("sui-icon sui-nav-link__icon")
+            .AddClass($"sui-color-{IconColor.ToString().ToLowerInvariant()}", IconColor != SUIColor.Default)
+            .Build();
+
+    private RenderFragment RenderContent() => __builder =>
     {
-        get
+        if (!string.IsNullOrEmpty(Icon))
         {
-            var basecss = new CssBuilder("mud-nav-link-icon")
-              .AddClass($"mud-nav-link-icon-default", IconColor == Color.Default)
-              .Build();
-
-            return basecss + (IconAsAvatar ? " mud-icon-root shadow" : string.Empty);
+            <span class="@IconClassname">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)Icon)</svg>
+            </span>
         }
+        else if (IconAsAvatar || !string.IsNullOrWhiteSpace(Title))
+        {
+            <span class="sui-avatar sui-avatar--sm sui-avatar--outlined">@GetInitials()</span>
+        }
+
+        <span class="sui-nav-link__text">
+            @Title
+            @ChildContent
+        </span>
+    };
+
+    private async Task OnClickHandler(MouseEventArgs args)
+    {
+        if (!IsDisabled && OnClick.HasDelegate)
+            await OnClick.InvokeAsync(args);
     }
 
-
-    public bool IconAsAvatar => string.IsNullOrEmpty(Icon) && !string.IsNullOrWhiteSpace(Title);
-
-
-    [Parameter]
-    public string? Title { get; set; }
-
-    protected string GetInitials()
+    private Task HandleNavigation(MouseEventArgs args)
     {
-        string result = string.Empty;
-        if (!string.IsNullOrWhiteSpace(Title))
+        if (IsDisabled)
+            return Task.CompletedTask;
+
+        return OnClick.HasDelegate ? OnClick.InvokeAsync(args) : Task.CompletedTask;
+    }
+
+    private string GetInitials()
+    {
+        if (string.IsNullOrWhiteSpace(Title))
+            return string.Empty;
+
+        var result = string.Empty;
+        foreach (var part in Title.Split(' ', StringSplitOptions.RemoveEmptyEntries))
         {
-            foreach (string s in Title.Split(" "))
-                if (s.Length > 3)
-                    result += s[0];
+            if (part.Length > 3)
+                result += part[0];
         }
+
         return result;
     }
 }
