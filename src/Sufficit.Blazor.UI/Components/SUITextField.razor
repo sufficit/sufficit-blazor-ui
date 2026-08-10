@@ -1,0 +1,83 @@
+@namespace Sufficit.Blazor.UI.Components
+@using System.Linq.Expressions
+@typeparam T
+
+<div class="@Classname">
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <label class="sui-field__label">@Label</label>
+    }
+    <input class="sui-field__input"
+           type="@InputType"
+           value="@Value"
+           @onchange="OnChanged"
+           @oninput="OnInput"
+           placeholder="@Placeholder"
+           maxlength="@MaxLength"
+           disabled="@Disabled"
+           @attributes="UserAttributes" />
+    @if (!string.IsNullOrWhiteSpace(HelperText))
+    {
+        <span class="sui-field__helper">@HelperText</span>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public T? Value { get; set; }
+
+    [Parameter]
+    public EventCallback<T?> ValueChanged { get; set; }
+
+    [Parameter]
+    public Expression<Func<T?>>? ValueExpression { get; set; }
+
+    [Parameter]
+    public string? Label { get; set; }
+
+    [Parameter]
+    public string? Placeholder { get; set; }
+
+    [Parameter]
+    public string? HelperText { get; set; }
+
+    /// <summary>HTML input type. Default "text".</summary>
+    [Parameter]
+    public string InputType { get; set; } = "text";
+
+    [Parameter]
+    public int? MaxLength { get; set; }
+
+    [Parameter]
+    public bool Immediate { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> UserAttributes { get; set; } = new();
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-field")
+            .AddClass(Class)
+            .Build();
+
+    private Task OnChanged(ChangeEventArgs e)
+        => Immediate ? Task.CompletedTask : SetValue(e.Value);
+
+    private Task OnInput(ChangeEventArgs e)
+        => Immediate ? SetValue(e.Value) : Task.CompletedTask;
+
+    private async Task SetValue(object? raw)
+    {
+        try
+        {
+            var converted = raw is null ? default : (T?)Convert.ChangeType(raw, typeof(T));
+            await ValueChanged.InvokeAsync(converted);
+        }
+        catch { /* leave value unchanged on invalid input */ }
+    }
+}

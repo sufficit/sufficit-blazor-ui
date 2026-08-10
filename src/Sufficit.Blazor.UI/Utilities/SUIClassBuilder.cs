@@ -7,13 +7,13 @@ namespace Sufficit.Blazor.UI.Utilities;
 /// Tiny fluent CSS class builder. Drop-in replacement for the subset of
 /// MudBlazor.Utilities.CssBuilder used by the SUI components.
 /// </summary>
-public sealed class SuiClassBuilder
+public sealed class SUIClassBuilder
 {
     private readonly List<string> _classes = new();
 
-    public static SuiClassBuilder Default(string? initial = null)
+    public static SUIClassBuilder Default(string? initial = null)
     {
-        var builder = new SuiClassBuilder();
+        var builder = new SUIClassBuilder();
         if (!string.IsNullOrWhiteSpace(initial))
         {
             builder._classes.Add(initial.Trim());
@@ -22,7 +22,7 @@ public sealed class SuiClassBuilder
     }
 
     /// <summary>Adds a class when <paramref name="when"/> is true.</summary>
-    public SuiClassBuilder AddClass(string? value, bool when)
+    public SUIClassBuilder AddClass(string? value, bool when)
     {
         if (when && !string.IsNullOrWhiteSpace(value))
         {
@@ -32,15 +32,15 @@ public sealed class SuiClassBuilder
     }
 
     /// <summary>Adds a class built from a callback, when <paramref name="when"/> is true.</summary>
-    public SuiClassBuilder AddClass(string? value, Func<bool>? when = null)
+    public SUIClassBuilder AddClass(string? value, Func<bool>? when = null)
         => AddClass(value, when is null || when());
 
     /// <summary>Merges another builder's result, when <paramref name="when"/> is true.</summary>
-    public SuiClassBuilder AddClass(SuiClassBuilder? builder, bool when = true)
+    public SUIClassBuilder AddClass(SUIClassBuilder? builder, bool when = true)
         => builder is null ? this : AddClass(builder.Build(), when);
 
     /// <summary>Adds a raw class only when the value is non-empty (no condition).</summary>
-    public SuiClassBuilder Add(string? value)
+    public SUIClassBuilder Add(string? value)
         => AddClass(value);
 
     public string Build()

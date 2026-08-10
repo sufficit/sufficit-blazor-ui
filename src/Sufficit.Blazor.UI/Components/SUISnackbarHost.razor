@@ -1,0 +1,50 @@
+@namespace Sufficit.Blazor.UI.Components
+@using Sufficit.Blazor.UI.Services
+@implements IDisposable
+@inject ISUISnackbar Snackbar
+
+<div class="sui-snackbar-host" aria-live="polite" aria-atomic="true">
+    @foreach (var entry in _entries)
+    {
+        <div class="sui-snackbar sui-snackbar--@entry.Severity" role="status">
+            <span class="sui-snackbar__message">@entry.Message</span>
+            <button type="button" class="sui-snackbar__close" aria-label="Fechar" @onclick="() => Dismiss(entry.Id)">
+                <SUIIcon Name="x" Size="16" />
+            </button>
+        </div>
+    }
+</div>
+
+@code {
+    private readonly List<SUISnackbarEntry> _entries = new();
+
+    protected override void OnInitialized()
+        => Snackbar.OnEnqueue += Enqueue;
+
+    private async void Enqueue(SUISnackbarEntry entry)
+    {
+        _entries.Add(entry);
+        await InvokeAsync(StateHasChanged);
+
+        _ = Task.Run(async () =>
+        {
+            var remaining = entry.ExpiresAt - DateTime.UtcNow;
+            if (remaining > TimeSpan.Zero)
+                await Task.Delay(remaining);
+            Dismiss(entry.Id);
+        });
+    }
+
+    private void Dismiss(Guid id)
+    {
+        var match = _entries.FirstOrDefault(e => e.Id == id);
+        if (match is not null)
+        {
+            _entries.Remove(match);
+            InvokeAsync(StateHasChanged);
+        }
+    }
+
+    public void Dispose()
+        => Snackbar.OnEnqueue -= Enqueue;
+}

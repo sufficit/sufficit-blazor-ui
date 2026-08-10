@@ -12,7 +12,7 @@
 @code {
     /// <summary>Theme supplied directly to the provider (overrides DI).</summary>
     [Parameter]
-    public ISuiTheme? Theme { get; set; }
+    public ISUITheme? Theme { get; set; }
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
@@ -20,13 +20,13 @@
     [Parameter]
     public string? Class { get; set; }
 
-    private ISuiTheme? _resolved;
+    private ISUITheme? _resolved;
 
     protected override void OnInitialized()
         => _resolved = Theme
-            ?? Services.GetService(typeof(ISuiTheme)) as ISuiTheme;
+            ?? Services.GetService(typeof(ISUITheme)) as ISUITheme;
 
-    private ISuiTheme ActiveTheme => _resolved ?? DefaultSuiTheme.Instance;
+    private ISUITheme ActiveTheme => _resolved ?? DefaultSUITheme.Instance;
 
     private string WrapperClass
         => string.IsNullOrWhiteSpace(Class) ? "sui-root" : $"sui-root {Class}";
@@ -35,7 +35,7 @@
     /// Emits the theme as CSS variables on :root, so every <c>.sui-*</c> class
     /// picks up the consuming app's palette/typography/layout.
     /// </summary>
-    private static string ToCssVars(ISuiTheme theme)
+    private static string ToCssVars(ISUITheme theme)
     {
         var p = theme.Palette;
         var t = theme.Typography;

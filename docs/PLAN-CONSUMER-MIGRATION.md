@@ -1,10 +1,11 @@
 # Plano — adoção dos componentes `SUI*`
 
-**Status:** Implementado em `sufficit-blazor` e `sufficit-ai-genius`; pendente
-nas UIs do `sufficit-identity` (`Sufficit.Identity.UI` e
-`Sufficit.Identity.UI.Management`)
+**Status:** Implementado em `sufficit-blazor`, `sufficit-ai-genius`,
+`Sufficit.Identity.UI.Management`, `sufficit-cloud-mobile` e
+`Sufficit.Identity.UI.Vault`; pendente apenas em `Sufficit.Identity.UI` (pública)
 **Criado:** 2026-08-09
-**Escopo:** `sufficit-blazor`, `sufficit-ai-genius`, `sufficit-identity`
+**Escopo:** `sufficit-blazor`, `sufficit-ai-genius`, `sufficit-identity`,
+`sufficit-cloud-mobile`
 
 ## Objetivo
 
@@ -16,16 +17,17 @@ dependência do MudBlazor), sem quebrar o que funciona hoje.
 
 | Projeto | Framework | UI | Status |
 | --- | --- | --- | --- |
-| `sufficit-blazor-ui` | `net10.0` | Componentes SUI autônomos (sem MudBlazor), CSS próprio (`sufficit-ui.css`) | Biblioteca |
+| `sufficit-blazor-ui` | `net10.0` | Componentes SUI autônomos (sem MudBlazor), CSS próprio (`sufficit-ui.css`), contrato `ISuiTheme` | Biblioteca |
 | `sufficit-blazor` | `net10.0` | MudBlazor para componentes restantes + SUI via `ProjectReference` | **Implementado** |
 | `sufficit-ai-genius` | `net10.0` | `Sufficit.AI.Genius.UI` já referencia SUI | **Implementado** |
-| `sufficit-identity` (`Sufficit.Identity.UI`) | — | UI pública, sem MudBlazor nem SUI ainda | **Pendente** |
-| `sufficit-identity` (`Sufficit.Identity.UI.Management`) | — | UI de gestão, sem MudBlazor nem SUI ainda | **Pendente** |
+| `sufficit-identity` (`Sufficit.Identity.UI.Management`) | `net10.0` | SUI adotado: `SuiThemeProvider` + `IdentitySuiTheme`, 30 páginas + 2 layouts migrados, 4 componentes promovidos | **Implementado** |
+| `sufficit-identity` (`Sufficit.Identity.UI`) | — | UI pública, sem SUI ainda | **Pendente** |
+| `sufficit-identity` (`Sufficit.Identity.UI.Vault`) | `net10.0` | SUI adotado; componentes antigos do projeto Components removidos | **Implementado** |
+| `sufficit-cloud-mobile` | `net10.0` | SUI completo (MudBlazor removido); biblioteca SUI expandida para 44 componentes + serviços Dialog/Snackbar | **Implementado** |
 
-> Observação: as duas UIs pendentes vivem **dentro** do repositório
-> `sufficit-identity` (em `src/ui/`), não são repositórios separados. Ambas
-> estão hoje sem `PackageReference` MudBlazor e sem referência a SUI — a
-> adoção é construção, não migração de MudBlazor.
+> Observação: as UIs pendentes vivem **dentro** do repositório
+> `sufficit-identity` (em `src/ui/`), não são repositórios separados. A adoção é
+> construção (nenhuma usa MudBlazor).
 
 Um RCL Razor não atravessa a diferença de framework, então a migração para
 `net10.0` é pré-requisito para qualquer consumo.
@@ -124,16 +126,30 @@ Cada fase termina com build verde e pode parar sem deixar trabalho pela metade.
 
 ### Fase 3 — adotar nas UIs do `sufficit-identity`
 
-As duas UIs vivem no repositório `sufficit-identity`, em `src/ui/`, e hoje não
-usam MudBlazor nem SUI — adoção é construção.
+As UIs vivem no repositório `sufficit-identity`, em `src/ui/`, e não usam
+MudBlazor — adoção é construção.
 
+- [x] `Sufficit.Identity.UI.Management` (UI de gestão) — **implementado**:
+      `SuiThemeProvider` + `IdentitySuiTheme` (paleta vermelha), `sufficit-ui.css`
+      linkado, 4 componentes promovidos (`SUIIcon`/`SUIEmptyState`/
+      `SUIPageHeader`/`SUIStatusBadge`), 30 páginas + 2 layouts migrados.
+      Detalhes em
+      [atividade 202608092045](activities/202608092045-completed-identity-management-adoption.md).
 - [ ] `Sufficit.Identity.UI` (UI pública) — referenciar `Sufficit.Blazor.UI`,
-      incluir `sufficit-ui.css`, adotar os `SUI*` onde houver sobreposição com
-      componentes locais.
-- [ ] `Sufficit.Identity.UI.Management` (UI de gestão) — idem.
+      incluir `sufficit-ui.css`, adotar os `SUI*` onde houver sobreposição.
+- [x] `Sufficit.Identity.UI.Vault` — **implementado**: 4 componentes migrados,
+      `AddSufficitUI` registado, `SUIThemeProvider` no `App.razor`. Os componentes
+      antigos (`AppIcon`/`EmptyState`/`PageHeader`/`StatusBadge`) foram **removidos**
+      do projeto `Sufficit.Identity.UI.Components`. Detalhes em
+      [atividade 202608092140](activities/202608092140-completed-vault-adoption.md).
+- [ ] Navegação SUI completa no Management (`SUINavLink`/`SUINavGroup`) — o
+      NavMenu continua com classes CSS próprias (`.nav-item`); só os ícones
+      foram trocados. Requer reconciliação com o `app.css` do Management.
 - [ ] Confirmar o framework (`net10.0`) e o `ProjectReference` em cada projeto;
       um RCL Razor não atravessa diferença de framework.
-- [ ] Conferir visualmente as telas afetadas.
+- [ ] Conferir visualmente as telas afetadas — a build não detecta regressão de
+      estilo. Reconciliação entre `.sui-*` e as classes existentes do Identity
+      (`.button`, `.panel`, `.data-table`, ...) só se confirma em runtime.
 
 ### Fase 3 (concluída) — `sufficit-ai-genius`
 
@@ -141,11 +157,15 @@ usam MudBlazor nem SUI — adoção é construção.
       `SUI*` em `_Imports.razor`. (O projeto `Mobile`, em `heads/`, ainda usa
       MudBlazor — fora do escopo desta adoção web.)
 
-### Fase 4 — contrato de temas
+### Fase 4 — contrato de temas (entregue)
 
-Só depois de dois consumidores reais. O `ThemeService` e o `MudThemeContainer`
-do `sufficit-blazor` viram um contrato explícito (paleta, tipografia, densidade)
-que cada aplicação fornece. Desenhar temas com um consumidor só é adivinhação.
+- [x] Contrato `ISuiTheme` (`SuiPalette`/`SuiTypography`/`SuiLayout`) criado no
+      `sufficit-blazor-ui`, com `SuiThemeProvider` que injeta as variáveis CSS.
+      Cada consumidor implementa o seu tema (ex.: `IdentitySuiTheme` com
+      `#cc0000`) e regista via `AddSufficitUI`. Substitui a ponte CSS frágil
+      anterior. Detalhes na mesma atividade da Fase 3 do Management.
+- [ ] `sufficit-blazor` migrar do `ThemeService`/`MudThemeContainer` para o
+      `ISuiTheme` (opcional — a ponte CSS de uma linha ainda funciona).
 
 ## Riscos
 

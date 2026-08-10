@@ -56,14 +56,40 @@ como a biblioteca é consumida:
 
 Os parâmetros que controlam aparência usam enums próprios (não do MudBlazor):
 `SUIColor`, `SUIVariant`, `SUISize`, `SUIButtonType`, `SUIEdge`, `SUITypo`,
-`SUIAlign`, `SUIOrigin`. Quem está migrando de componentes MudBlazor precisa
+`SUIAlign`, `SUIOrigin`, `SUITone`. Quem está migrando de componentes MudBlazor precisa
 preferir esses enums no código novo. Os controles de ação mantêm uma ponte
 temporária para valores visuais legados, permitindo migrar telas sem uma troca
 big-bang.
 
+## Temas
+
+Cada aplicação consumidora tem identidade visual própria (o Identity é
+vermelho `#cc0000`, o Blazor é laranja `#ee6321`). A biblioteca não impõe os
+seus valores: implementa o contrato `ISuiTheme` (`SuiPalette`, `SuiTypography`,
+`SuiLayout`) em `Sufficit.Blazor.UI.Themes` e regista no DI:
+
+```csharp
+// na app consumidora
+services.AddSufficitUI(opts => opts.Theme = new IdentitySuiTheme());
+```
+
+Depois envolve a raiz com `<SuiThemeProvider>`, que injeta as variáveis CSS
+(`--sui-color-primary`, `--sui-surface`, ...) a partir do tema ativo:
+
+```razor
+<SuiThemeProvider>
+    <Routes />
+</SuiThemeProvider>
+```
+
+Sem o provider, a biblioteca usa `DefaultSuiTheme` (azul, claro) como fallback.
+Ver [`docs/activities/202608092045-completed-identity-management-adoption.md`](docs/activities/202608092045-completed-identity-management-adoption.md)
+para um exemplo completo de implementação.
+
 ## Namespaces
 
-Namespace único: `Sufficit.Blazor.UI.Components`.
+Namespace único: `Sufficit.Blazor.UI.Components` (componentes) e
+`Sufficit.Blazor.UI.Themes` (contrato de tema).
 
 ## O que ainda não está aqui, e por quê
 

@@ -6,7 +6,7 @@ namespace Sufficit.Blazor.UI.Themes;
 /// <c>--sui-shadow-2</c>, etc.). A consumer can tighten the whole system by
 /// overriding radius/density here without touching component markup.
 /// </summary>
-public sealed record SuiLayout
+public sealed record SUILayout
 {
     // shape
     public string RadiusSm { get; init; } = "4px";
@@ -39,5 +39,5 @@ public sealed record SuiLayout
     public string ControlPxMd { get; init; } = "14px";
     public string ControlPxLg { get; init; } = "18px";
 
-    public static SuiLayout Default { get; } = new();
+    public static SUILayout Default { get; } = new();
 }

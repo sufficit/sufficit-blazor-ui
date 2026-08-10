@@ -1,6 +1,6 @@
 @namespace Sufficit.Blazor.UI.Components
 
-<span class="sui-status-badge sui-status-badge--@Tone.ToString().ToLowerInvariant()">
+<span class="@Classname">
     @if (!string.IsNullOrWhiteSpace(Icon))
     {
         <SUIIcon Name="@Icon" Size="14" />
@@ -9,8 +9,13 @@
 </span>
 
 @code {
+    /// <summary>
+    /// Badge tone as a lowercase string: <c>"neutral"</c>, <c>"success"</c>,
+    /// <c>"warning"</c>, <c>"danger"</c>, <c>"info"</c>. Kept as a string so
+    /// consumers can compute it at runtime without enum conversion.
+    /// </summary>
     [Parameter]
-    public SUITone Tone { get; set; } = SUITone.Neutral;
+    public string Tone { get; set; } = "neutral";
 
     /// <summary>Optional icon name (resolved by <see cref="SUIIcon"/>).</summary>
     [Parameter]
@@ -18,4 +23,7 @@
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    private string Classname
+        => $"sui-status-badge sui-status-badge--{Tone}";
 }

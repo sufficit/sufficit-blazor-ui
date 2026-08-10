@@ -8,16 +8,16 @@ namespace Sufficit.Blazor.UI.Themes;
 ///
 /// Register an implementation via
 /// <c>services.AddSufficitUI(opts =&gt; opts.Theme = new MyTheme())</c> and wrap
-/// the app root with <c>&lt;SuiThemeProvider&gt;</c>. The provider emits the
+/// the app root with <c>&lt;SUIThemeProvider&gt;</c>. The provider emits the
 /// theme as CSS variables (<c>--sui-color-*</c>, <c>--sui-font</c>, ...) on
-/// <c>:root</c> and cascades the <see cref="ISuiTheme"/> instance to child
+/// <c>:root</c> and cascades the <see cref="ISUITheme"/> instance to child
 /// components.
 /// </summary>
-public interface ISuiTheme
+public interface ISUITheme
 {
-    SuiPalette Palette { get; }
-    SuiTypography Typography { get; }
-    SuiLayout Layout { get; }
+    SUIPalette Palette { get; }
+    SUITypography Typography { get; }
+    SUILayout Layout { get; }
 
     /// <summary>Whether dark-mode tokens should apply.</summary>
     bool IsDark { get; }

@@ -5,7 +5,7 @@ namespace Sufficit.Blazor.UI.Themes;
 /// and the type scale; components reference these via the generated CSS
 /// variables (<c>--sui-font</c>, <c>--sui-fs-h1</c>, etc.).
 /// </summary>
-public sealed record SuiTypography
+public sealed record SUITypography
 {
     public string FontFamily { get; init; } =
         "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif";
@@ -27,5 +27,5 @@ public sealed record SuiTypography
     public string FsCaption { get; init; } = ".75rem";
     public string FsOverline { get; init; } = ".6875rem";
 
-    public static SuiTypography Default { get; } = new();
+    public static SUITypography Default { get; } = new();
 }

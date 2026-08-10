@@ -1,0 +1,79 @@
+@namespace Sufficit.Blazor.UI.Components
+@typeparam T
+
+<div class="@WrapperClass">
+    <table class="@Classname">
+        @if (HeaderContent is not null)
+        {
+            <thead>
+                <tr>@HeaderContent</tr>
+            </thead>
+        }
+        <tbody>
+            @if (Items is null || !Items.Any())
+            {
+                @if (NoRecordsContent is not null)
+                {
+                    <tr><td>@NoRecordsContent</td></tr>
+                }
+            }
+            else
+            {
+                @foreach (var item in Items)
+                {
+                    <tr class="sui-table__row" @onclick="() => OnRowItemClick(item)">
+                        @RowTemplate?.Invoke(item)
+                    </tr>
+                }
+            }
+        </tbody>
+        @if (FooterContent is not null)
+        {
+            <tfoot><tr>@FooterContent</tr></tfoot>
+        }
+    </table>
+</div>
+
+@code {
+    /// <summary>Items to render. When null/empty, <see cref="NoRecordsContent"/> shows.</summary>
+    [Parameter]
+    public IEnumerable<T>? Items { get; set; }
+
+    [Parameter]
+    public bool Hover { get; set; }
+
+    [Parameter]
+    public bool Dense { get; set; }
+
+    /// <summary>Called when a row is clicked (item passed).</summary>
+    [Parameter]
+    public EventCallback<T> OnRowClick { get; set; }
+
+    [Parameter]
+    public RenderFragment? HeaderContent { get; set; }
+
+    [Parameter]
+    public RenderFragment<T>? RowTemplate { get; set; }
+
+    [Parameter]
+    public RenderFragment? NoRecordsContent { get; set; }
+
+    [Parameter]
+    public RenderFragment? FooterContent { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    private string WrapperClass
+        => SUIClassBuilder.Default("sui-table-wrapper")
+            .Build();
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-table")
+            .AddClass("sui-table--hover", Hover)
+            .AddClass("sui-table--dense", Dense)
+            .AddClass(Class)
+            .Build();
+
+    private Task OnRowItemClick(T item) => OnRowClick.InvokeAsync(item);
+}

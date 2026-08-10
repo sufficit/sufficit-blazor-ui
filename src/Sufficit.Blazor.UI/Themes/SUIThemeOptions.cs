@@ -4,10 +4,10 @@ namespace Sufficit.Blazor.UI.Themes;
 /// Configuration for <c>AddSufficitUI</c>. Set <see cref="Theme"/> to supply
 /// the consuming application's palette/typography/layout.
 /// </summary>
-public sealed class SuiThemeOptions
+public sealed class SUIThemeOptions
 {
     /// <summary>
-    /// The theme to register. When null, <see cref="DefaultSuiTheme"/> is used.
+    /// The theme to register. When null, <see cref="DefaultSUITheme"/> is used.
     /// </summary>
-    public ISuiTheme? Theme { get; set; }
+    public ISUITheme? Theme { get; set; }
 }

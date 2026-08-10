@@ -33,4 +33,64 @@ public static class SUIIcons
     /// <summary>Folder icon.</summary>
     public const string Folder =
         "<path d=\"M10 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-8l-2-2z\"/>";
+
+    /// <summary>Hamburger menu (three lines).</summary>
+    public const string Menu =
+        "<path d=\"M3 6h18M3 12h18M3 18h18\"/>";
+
+    /// <summary>Logout / sign-out arrow.</summary>
+    public const string Logout =
+        "<path d=\"M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9\"/>";
+
+    /// <summary>Plus / add.</summary>
+    public const string Add =
+        "<path d=\"M12 5v14M5 12h14\"/>";
+
+    /// <summary>Play triangle.</summary>
+    public const string Play =
+        "<path d=\"M8 5v14l11-7z\"/>";
+
+    /// <summary>Stop square.</summary>
+    public const string Stop =
+        "<rect x=\"6\" y=\"6\" width=\"12\" height=\"12\" rx=\"1.5\"/>";
+
+    /// <summary>Restart / refresh.</summary>
+    public const string Restart =
+        "<path d=\"M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5\"/>";
+
+    /// <summary>Cast / screen-share.</summary>
+    public const string Cast =
+        "<path d=\"M2 16.1A5 5 0 0 1 5.9 20M2 12.05A9 9 0 0 1 9.95 20M2 8V6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6M2 20h.01\"/>";
+
+    /// <summary>Delete / trash.</summary>
+    public const string Delete =
+        "<path d=\"M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6\"/>";
+
+    /// <summary>Phone / device.</summary>
+    public const string Phone =
+        "<rect x=\"7\" y=\"2\" width=\"10\" height=\"20\" rx=\"2\"/><path d=\"M11 18h2\"/>";
+
+    /// <summary>Dashboard grid.</summary>
+    public const string Dashboard =
+        "<rect x=\"3\" y=\"3\" width=\"7\" height=\"7\" rx=\"1.5\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"7\" rx=\"1.5\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\" rx=\"1.5\"/><rect x=\"14\" y=\"14\" width=\"7\" height=\"7\" rx=\"1.5\"/>";
+
+    /// <summary>Pending / clock list.</summary>
+    public const string Pending =
+        "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/>";
+
+    /// <summary>Admin / shield-settings.</summary>
+    public const string Admin =
+        "<path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z\"/><path d=\"m9 12 2 2 4-4\"/>";
+
+    /// <summary>Category / layers.</summary>
+    public const string Category =
+        "<path d=\"m12 2 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 17l9 5 9-5\"/>";
+
+    /// <summary>Storage / database disk.</summary>
+    public const string Storage =
+        "<ellipse cx=\"12\" cy=\"5\" rx=\"8\" ry=\"3\"/><path d=\"M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6\"/>";
+
+    /// <summary>Data usage / pie chart.</summary>
+    public const string DataUsage =
+        "<path d=\"M12 2a10 10 0 1 0 10 10h-10V2Z\"/><circle cx=\"12\" cy=\"12\" r=\"10\"/>";
 }

@@ -1,0 +1,62 @@
+@namespace Sufficit.Blazor.UI.Components
+
+<div class="@Classname" role="alert">
+    @if (!string.IsNullOrWhiteSpace(Icon))
+    {
+        <span class="sui-alert__icon">
+            <SUIIcon Name="@Icon" Size="20" />
+        </span>
+    }
+    <div class="sui-alert__content">
+        @ChildContent
+    </div>
+    @if (ShowCloseIcon)
+    {
+        <button type="button" class="sui-alert__close" aria-label="Fechar" @onclick="OnClose">
+            <SUIIcon Name="x" Size="18" />
+        </button>
+    }
+</div>
+
+@code {
+    /// <summary>Alert tone. Accepts a lowercase string ("info", "success",
+    /// "warning", "danger", "error") for compatibility, defaulting to "info".
+    /// "error" is mapped to the danger style.</summary>
+    [Parameter]
+    public string Severity { get; set; } = "info";
+
+    [Parameter]
+    public bool ShowCloseIcon { get; set; }
+
+    [Parameter]
+    public EventCallback CloseIconClicked { get; set; }
+
+    /// <summary>Optional icon name (resolved by SUIIcon). When null, no icon
+    /// is shown unless the tone implies one.</summary>
+    [Parameter]
+    public string? Icon { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string Classname
+    {
+        get
+        {
+            // "error" (MudBlazor) and "danger" both map to the danger style.
+            var tone = Severity.Equals("error", StringComparison.OrdinalIgnoreCase)
+                ? "danger" : Severity.ToLowerInvariant();
+            return SUIClassBuilder.Default($"sui-alert sui-alert--{tone}")
+                .AddClass(Class)
+                .Build();
+        }
+    }
+
+    private Task OnClose() => CloseIconClicked.InvokeAsync();
+}

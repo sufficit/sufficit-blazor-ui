@@ -1,0 +1,26 @@
+@namespace Sufficit.Blazor.UI.Components
+
+<div class="@Classname" style="@Style">
+    @ChildContent
+</div>
+
+@code {
+    /// <summary>Elevation 0-3 (shadow depth). Default 1.</summary>
+    [Parameter]
+    public int Elevation { get; set; } = 1;
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-card")
+            .AddClass($"sui-card--e{(Elevation is > 0 and < 4 ? Elevation : 1)}")
+            .AddClass(Class)
+            .Build();
+}

@@ -6,10 +6,10 @@
 
 @{
     bool isAnchor = !string.IsNullOrWhiteSpace(Href);
-    var cls = SuiClassBuilder.Default("sui-btn")
-        .AddClass($"sui-btn--{SuiClassBuilder.Slug(Variant)}")
-        .AddClass($"sui-btn--color-{SuiClassBuilder.Slug(_iconColor)}")
-        .AddClass($"sui-btn--{SuiClassBuilder.Slug(Size)}")
+    var cls = SUIClassBuilder.Default("sui-btn")
+        .AddClass($"sui-btn--{SUIClassBuilder.Slug(Variant)}")
+        .AddClass($"sui-btn--color-{SUIClassBuilder.Slug(_iconColor)}")
+        .AddClass($"sui-btn--{SUIClassBuilder.Slug(Size)}")
         .AddClass("sui-btn--full-width", FullWidth)
         .AddClass("sui-btn--loading", IsLoading)
         .AddClass(Class)
@@ -27,7 +27,7 @@
 }
 else
 {
-    <button @ref="_elementReference" type="@SuiClassBuilder.Slug(ButtonType)" class="@cls" style="@Style"
+    <button @ref="_elementReference" type="@SUIClassBuilder.Slug(ButtonType)" class="@cls" style="@Style"
             disabled="@isDisabled" @onclick="OnClickHandler" @attributes="UserAttributes">
         @RenderBody()
     </button>
@@ -113,7 +113,7 @@ else
     }
 
     protected string GetIconClass()
-        => SuiClassBuilder.Default("sui-icon sui-icon--sm sui-btn__icon")
+        => SUIClassBuilder.Default("sui-icon sui-icon--sm sui-btn__icon")
             .AddClass(IconClass)
             .Build();
 
@@ -143,8 +143,8 @@ else
 
     private RenderFragment RenderBody() => __builder =>
     {
-        var iconSizeClass = $"sui-icon--{SuiClassBuilder.Slug(IconSize ?? Size)}";
-        var iconColorSlug = SuiClassBuilder.Slug(IconColor ?? _iconColor);
+        var iconSizeClass = $"sui-icon--{SUIClassBuilder.Slug(IconSize ?? Size)}";
+        var iconColorSlug = SUIClassBuilder.Slug(IconColor ?? _iconColor);
 
         if (IsLoading)
         {

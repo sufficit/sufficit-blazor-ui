@@ -1,0 +1,44 @@
+@namespace Sufficit.Blazor.UI.Components
+
+<div class="@Classname @AlignClass" style="@ColorStyle">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public SUITypo Typo { get; set; } = SUITypo.body1;
+
+    /// <summary>Text color. When set, overrides the theme default via inline style.</summary>
+    [Parameter]
+    public SUIColor? Color { get; set; }
+
+    [Parameter]
+    public SUIAlign? Align { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string Classname
+        => SUIClassBuilder.Default($"sui-text sui-text--{Typo.ToString()}")
+            .AddClass(Class)
+            .Build();
+
+    private string AlignClass
+        => Align is { } a ? $"sui-align-{a.ToString().ToLowerInvariant()}" : string.Empty;
+
+    private string ColorStyle => Color switch
+    {
+        SUIColor.Primary   => "color: var(--sui-color-primary);",
+        SUIColor.Secondary => "color: var(--sui-color-secondary);",
+        SUIColor.Success   => "color: var(--sui-color-success);",
+        SUIColor.Warning   => "color: var(--sui-color-warning);",
+        SUIColor.Error     => "color: var(--sui-color-error);",
+        SUIColor.Info      => "color: var(--sui-color-info);",
+        SUIColor.Inherit   => "color: inherit;",
+        SUIColor.Default   => "color: var(--sui-text-secondary);",
+        _ => string.Empty,
+    };
+}

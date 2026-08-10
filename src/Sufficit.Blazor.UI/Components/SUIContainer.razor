@@ -1,0 +1,23 @@
+@namespace Sufficit.Blazor.UI.Components
+
+<div class="@Classname">
+    @ChildContent
+</div>
+
+@code {
+    /// <summary>Max width bucket: "sm", "md", "lg", "xl", "xxl", "false" (full). Default "lg".</summary>
+    [Parameter]
+    public string MaxWidth { get; set; } = "lg";
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-container")
+            .AddClass($"sui-container--{MaxWidth?.ToLowerInvariant()}", !string.IsNullOrWhiteSpace(MaxWidth))
+            .AddClass(Class)
+            .Build();
+}

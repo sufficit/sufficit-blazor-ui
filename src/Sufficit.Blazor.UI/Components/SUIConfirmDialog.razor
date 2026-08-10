@@ -1,0 +1,23 @@
+@namespace Sufficit.Blazor.UI.Components
+@using Microsoft.AspNetCore.Components
+@using Sufficit.Blazor.UI.Services
+
+<div class="sui-dialog__body">
+    <p class="sui-dialog__message">@Message</p>
+</div>
+<div class="sui-dialog__actions">
+    <SUIButton Variant="SUIVariant.Outlined" OnClick="Cancel">Cancelar</SUIButton>
+    <SUIButton Variant="SUIVariant.Filled" Color="SUIColor.Error" OnClick="Confirm">Confirmar</SUIButton>
+</div>
+
+@code {
+    /// <summary>Set by the dialog service when showing via ConfirmAsync.</summary>
+    [Parameter]
+    public string Message { get; set; } = string.Empty;
+
+    [CascadingParameter]
+    internal SUIDialogReference? Dialog { get; set; }
+
+    private void Confirm() => Dialog?.Complete(true);
+    private void Cancel() => Dialog?.Complete(false);
+}

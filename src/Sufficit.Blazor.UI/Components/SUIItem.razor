@@ -1,0 +1,41 @@
+@namespace Sufficit.Blazor.UI.Components
+
+<div class="@Classname">
+    @ChildContent
+</div>
+
+@code {
+    /// <summary>Columns at the smallest breakpoint (xs). Default 12.</summary>
+    [Parameter]
+    public int xs { get; set; } = 12;
+
+    [Parameter]
+    public int? sm { get; set; }
+
+    [Parameter]
+    public int? md { get; set; }
+
+    [Parameter]
+    public int? lg { get; set; }
+
+    [Parameter]
+    public int? xl { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-item")
+            .AddClass($"sui-item--xs-{Clamp(xs)}")
+            .AddClass($"sui-item--sm-{Clamp(sm)}", sm.HasValue)
+            .AddClass($"sui-item--md-{Clamp(md)}", md.HasValue)
+            .AddClass($"sui-item--lg-{Clamp(lg)}", lg.HasValue)
+            .AddClass($"sui-item--xl-{Clamp(xl)}", xl.HasValue)
+            .AddClass(Class)
+            .Build();
+
+    private static int Clamp(int? v) => v is null ? 12 : v.Value is < 1 or > 12 ? 12 : v.Value;
+}

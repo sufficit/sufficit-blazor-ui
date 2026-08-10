@@ -5,7 +5,7 @@ namespace Sufficit.Blazor.UI.Themes;
 /// supplies its own palette so the components match the app's visual identity
 /// (brand color, surface tones, text colors) rather than the library default.
 /// </summary>
-public sealed record SuiPalette
+public sealed record SUIPalette
 {
     /// <summary>Brand / accent color. Drives primary buttons, active nav, focus rings.</summary>
     public string Primary { get; init; } = "#2563eb";
@@ -49,5 +49,5 @@ public sealed record SuiPalette
     public string Overlay { get; init; } = "rgba(15, 23, 42, .45)";
 
     /// <summary>Default palette matching the original hardcoded SUI tokens (light, blue).</summary>
-    public static SuiPalette Default { get; } = new();
+    public static SUIPalette Default { get; } = new();
 }

@@ -1,0 +1,26 @@
+@namespace Sufficit.Blazor.UI.Components
+
+<div class="@Classname">
+    @ChildContent
+</div>
+
+@code {
+    /// <summary>Drawer open state (two-way bindable).</summary>
+    [Parameter]
+    public bool DrawerOpen { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> DrawerOpenChanged { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-layout")
+            .AddClass("sui-layout--drawer-open", DrawerOpen)
+            .AddClass(Class)
+            .Build();
+}

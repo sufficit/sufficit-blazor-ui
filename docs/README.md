@@ -21,11 +21,18 @@ concluído é arquivado em `activities/` com prefixo de timestamp
 ## Planos ativos (trabalho pendente)
 
 - [Adoção dos componentes `SUI*`](PLAN-CONSUMER-MIGRATION.md) —
-  implementado em `sufficit-blazor` e `sufficit-ai-genius`; pendente nas UIs do
-  `sufficit-identity` (`Sufficit.Identity.UI` e `Sufficit.Identity.UI.Management`)
+  implementado em `sufficit-blazor`, `sufficit-ai-genius`,
+  `Sufficit.Identity.UI.Management`, `sufficit-cloud-mobile` e
+  `Sufficit.Identity.UI.Vault`; pendente apenas em `Sufficit.Identity.UI`
 
 ## Trabalho concluído (activities/)
 
+- [Adoção SUI no Vault + remoção dos componentes antigos](activities/202608092140-completed-vault-adoption.md) —
+  Vault migrado, `AppIcon`/`EmptyState`/`PageHeader`/`StatusBadge` extintos do identity
+- [Adoção SUI no cloud-mobile — completa](activities/202608092113-completed-cloud-mobile.md) —
+  biblioteca expandida para 44 componentes + serviços, MudBlazor removido, 9 páginas migradas
+- [Adoção SUI no Identity Management + contrato de temas](activities/202608092045-completed-identity-management-adoption.md) —
+  `ISUITheme`/`SUIThemeProvider`, 4 componentes promovidos, Management migrado
 - [Remoção completa do MudBlazor](activities/202608091921-completed-mudblazor-removal.md) —
   reescrita dos 7 componentes acoplados, remoção da árvore vendorizada, CSS
   próprio com tokens `--sui-*`

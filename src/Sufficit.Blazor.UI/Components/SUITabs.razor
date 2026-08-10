@@ -1,0 +1,63 @@
+@namespace Sufficit.Blazor.UI.Components
+
+<div class="@Classname">
+    <div class="sui-tabs__list" role="tablist">
+        @for (var i = 0; i < _panels.Count; i++)
+        {
+            var idx = i;
+            var panel = _panels[i];
+            <button type="button"
+                    class="sui-tab @(idx == _activeIndex ? "is-active" : null)"
+                    role="tab"
+                    aria-selected="@(idx == _activeIndex ? "true" : "false")"
+                    @onclick="() => Activate(idx)">
+                @panel.Text
+            </button>
+        }
+    </div>
+    <div class="sui-tabs__panels">
+        @if (_panels.Count > _activeIndex)
+        {
+            @_panels[_activeIndex].ChildContent
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private readonly List<SUITabPanel> _panels = new();
+    private int _activeIndex;
+
+    internal void Register(SUITabPanel panel)
+    {
+        if (!_panels.Contains(panel))
+        {
+            _panels.Add(panel);
+            StateHasChanged();
+        }
+    }
+
+    internal void Unregister(SUITabPanel panel)
+    {
+        _panels.Remove(panel);
+        if (_activeIndex >= _panels.Count && _panels.Count > 0)
+            _activeIndex = _panels.Count - 1;
+        StateHasChanged();
+    }
+
+    private void Activate(int index)
+    {
+        _activeIndex = index;
+        StateHasChanged();
+    }
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-tabs")
+            .AddClass(Class)
+            .Build();
+}

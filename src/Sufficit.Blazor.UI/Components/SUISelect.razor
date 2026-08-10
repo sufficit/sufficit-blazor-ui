@@ -1,0 +1,73 @@
+@namespace Sufficit.Blazor.UI.Components
+@typeparam T
+
+<div class="@Classname">
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <label class="sui-field__label">@Label</label>
+    }
+    <div class="sui-select__control">
+        <select class="sui-field__input"
+                value="@CurrentValue"
+                @onchange="OnChanged"
+                disabled="@Disabled"
+                @attributes="UserAttributes">
+            @if (ShowPlaceholder)
+            {
+                <option value="" disabled selected>@Placeholder</option>
+            }
+            @ChildContent
+        </select>
+    </div>
+    @if (!string.IsNullOrWhiteSpace(HelperText))
+    {
+        <span class="sui-field__helper">@HelperText</span>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public T? Value { get; set; }
+
+    [Parameter]
+    public EventCallback<T?> ValueChanged { get; set; }
+
+    [Parameter]
+    public string? Label { get; set; }
+
+    [Parameter]
+    public string? Placeholder { get; set; }
+
+    [Parameter]
+    public string? HelperText { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> UserAttributes { get; set; } = new();
+
+    private bool ShowPlaceholder => !string.IsNullOrWhiteSpace(Placeholder);
+    private string? CurrentValue => Value?.ToString();
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-field")
+            .AddClass(Class)
+            .Build();
+
+    private async Task OnChanged(ChangeEventArgs e)
+    {
+        try
+        {
+            var converted = e.Value is null ? default : (T?)Convert.ChangeType(e.Value, typeof(T));
+            await ValueChanged.InvokeAsync(converted);
+        }
+        catch { }
+    }
+}
