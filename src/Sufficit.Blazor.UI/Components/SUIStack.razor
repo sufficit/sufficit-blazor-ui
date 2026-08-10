@@ -1,0 +1,47 @@
+@namespace Sufficit.Blazor.UI.Components
+
+<div class="@Classname" style="@GapStyle">
+    @ChildContent
+</div>
+
+@code {
+    /// <summary>When true, children are laid out horizontally (row).</summary>
+    [Parameter]
+    public bool Row { get; set; }
+
+    /// <summary>Cross-axis alignment. Accepts "Center", "Start", "End" (default null = stretch).</summary>
+    [Parameter]
+    public string? AlignItems { get; set; }
+
+    /// <summary>Main-axis distribution. Accepts "Start", "Center", "End", "Between", "Around".</summary>
+    [Parameter]
+    public string? Justify { get; set; }
+
+    /// <summary>Spacing multiplier (0-6 → --sui-space-N). Default 3.</summary>
+    [Parameter]
+    public int Spacing { get; set; } = 3;
+
+    [Parameter]
+    public bool Wrap { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-stack")
+            .AddClass("sui-stack--row", Row)
+            .AddClass("sui-stack--wrap", Wrap)
+            .AddClass($"sui-stack--ai-{AlignItems?.ToLowerInvariant()}", !string.IsNullOrWhiteSpace(AlignItems))
+            .AddClass($"sui-stack--jc-{Justify?.ToLowerInvariant()}", !string.IsNullOrWhiteSpace(Justify))
+            .AddClass(Class)
+            .Build();
+
+    private string GapStyle
+        => Spacing is >= 0 and <= 6 ? $"gap: var(--sui-space-{Spacing});" : $"gap: var(--sui-space-3);";
+}

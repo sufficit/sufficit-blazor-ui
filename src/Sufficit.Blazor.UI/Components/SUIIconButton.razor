@@ -4,11 +4,11 @@
 
 @{
     bool isAnchor = !string.IsNullOrWhiteSpace(Href);
-    var cls = SuiClassBuilder.Default("sui-btn sui-btn--icon")
-        .AddClass($"sui-btn--{SuiClassBuilder.Slug(Variant)}")
-        .AddClass($"sui-btn--color-{SuiClassBuilder.Slug(Color)}")
-        .AddClass($"sui-btn--{SuiClassBuilder.Slug(Size)}")
-        .AddClass($"sui-btn--edge-{SuiClassBuilder.Slug(Edge)}")
+    var cls = SUIClassBuilder.Default("sui-btn sui-btn--icon")
+        .AddClass($"sui-btn--{SUIClassBuilder.Slug(Variant)}")
+        .AddClass($"sui-btn--color-{SUIClassBuilder.Slug(Color)}")
+        .AddClass($"sui-btn--{SUIClassBuilder.Slug(Size)}")
+        .AddClass($"sui-btn--edge-{SUIClassBuilder.Slug(Edge)}")
         .AddClass("sui-btn--full-width", FullWidth)
         .AddClass("sui-btn--loading", IsLoading)
         .AddClass(Class)
@@ -26,7 +26,7 @@
 }
 else
 {
-    <button type="@SuiClassBuilder.Slug(ButtonType)" class="@cls" style="@Style"
+    <button type="@SUIClassBuilder.Slug(ButtonType)" class="@cls" style="@Style"
             aria-label="@Title" disabled="@isDisabled" @onclick="OnClickHandler"
             @attributes="UserAttributes">
         @RenderBody()
@@ -122,14 +122,14 @@ else
         if (IsLoading)
         {
             <span class="sui-overlay sui-overlay--light">
-                <span class="sui-progress-circular sui-progress-circular--sm sui-color-@SuiClassBuilder.Slug(Color)">
+                <span class="sui-progress-circular sui-progress-circular--sm sui-color-@SUIClassBuilder.Slug(Color)">
                     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)SUIIcons.ProgressCircular)</svg>
                 </span>
             </span>
         }
         if (!string.IsNullOrEmpty(Icon))
         {
-            <span class="sui-icon sui-icon--@SuiClassBuilder.Slug(Size)">
+            <span class="sui-icon sui-icon--@SUIClassBuilder.Slug(Size)">
                 <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)Icon)</svg>
             </span>
         }

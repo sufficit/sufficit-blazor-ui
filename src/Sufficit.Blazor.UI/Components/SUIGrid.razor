@@ -1,0 +1,22 @@
+@namespace Sufficit.Blazor.UI.Components
+
+<div class="@Classname">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public bool Spacing { get; set; } = true;
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-grid")
+            .AddClass("sui-grid--gutter", Spacing)
+            .AddClass(Class)
+            .Build();
+}

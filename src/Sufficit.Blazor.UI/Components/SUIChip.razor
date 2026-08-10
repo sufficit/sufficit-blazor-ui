@@ -1,0 +1,41 @@
+@namespace Sufficit.Blazor.UI.Components
+
+<span class="@Classname">
+    @if (!string.IsNullOrWhiteSpace(Icon))
+    {
+        <SUIIcon Name="@Icon" Size="14" />
+    }
+    @ChildContent
+</span>
+
+@code {
+    /// <summary>Chip color. Lowercase string: "default", "primary", "secondary",
+    /// "success", "warning", "error", "info". Default "default".</summary>
+    [Parameter]
+    public object? Color { get; set; } = SUIColor.Default;
+
+    /// <summary>Size: "small" or "medium". Default "medium".</summary>
+    [Parameter]
+    public object? Size { get; set; }
+
+    /// <summary>Variant: "filled", "outlined", "text". Default "filled".</summary>
+    [Parameter]
+    public object? Variant { get; set; } = SUIVariant.Filled;
+
+    [Parameter]
+    public string? Icon { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-chip")
+            .AddClass($"sui-chip--{SUIClassBuilder.Slug(Color)}")
+            .AddClass($"sui-chip--{SUIClassBuilder.Slug(Size)}", Size is not null)
+            .AddClass($"sui-chip--{SUIClassBuilder.Slug(Variant)}")
+            .AddClass(Class)
+            .Build();
+}

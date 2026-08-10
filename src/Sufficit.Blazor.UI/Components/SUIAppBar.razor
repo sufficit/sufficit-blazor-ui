@@ -1,0 +1,34 @@
+@namespace Sufficit.Blazor.UI.Components
+
+<header class="@Classname">
+    @ChildContent
+</header>
+
+@code {
+    [Parameter]
+    public bool Dense { get; set; }
+
+    [Parameter]
+    public int Elevation { get; set; } = 1;
+
+    /// <summary>Background color: "primary", "dark", "surface" (default), "inherit".</summary>
+    [Parameter]
+    public string? Color { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-appbar")
+            .AddClass("sui-appbar--dense", Dense)
+            .AddClass($"sui-appbar--e{(Elevation is > 0 and < 4 ? Elevation : 1)}")
+            .AddClass($"sui-appbar--{Color?.ToLowerInvariant()}", !string.IsNullOrWhiteSpace(Color))
+            .AddClass(Class)
+            .Build();
+}

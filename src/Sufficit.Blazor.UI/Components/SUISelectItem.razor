@@ -1,0 +1,15 @@
+@namespace Sufficit.Blazor.UI.Components
+
+@* Used inside <SUISelect>. Value is the option value, ChildContent the label. *@
+<option value="@Value" selected="@Selected">@ChildContent</option>
+
+@code {
+    [Parameter]
+    public object? Value { get; set; }
+
+    [Parameter]
+    public bool Selected { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

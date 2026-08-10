@@ -1,0 +1,37 @@
+@namespace Sufficit.Blazor.UI.Components
+
+<li class="@Classname">
+    <span class="sui-timeline__marker sui-timeline__marker--@ToneSlug sui-timeline__marker--@VariantSlug" aria-hidden="true"></span>
+    <div class="sui-timeline__body">
+        @ChildContent
+    </div>
+</li>
+
+@code {
+    /// <summary>Marker color: "default", "primary", "success", "warning", "error", "info".</summary>
+    [Parameter]
+    public object? Color { get; set; } = SUIColor.Primary;
+
+    /// <summary>"small" or "medium". Default "small".</summary>
+    [Parameter]
+    public object? Size { get; set; } = SUISize.Small;
+
+    /// <summary>"filled" or "outlined". Default "filled".</summary>
+    [Parameter]
+    public object? Variant { get; set; } = SUIVariant.Filled;
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string ToneSlug => SUIClassBuilder.Slug(Color);
+    private string VariantSlug => SUIClassBuilder.Slug(Variant);
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-timeline__item")
+            .AddClass($"sui-timeline__item--{SUIClassBuilder.Slug(Size)}")
+            .AddClass(Class)
+            .Build();
+}

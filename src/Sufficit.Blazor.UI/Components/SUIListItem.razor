@@ -1,0 +1,32 @@
+@namespace Sufficit.Blazor.UI.Components
+
+<li class="@Classname" role="@(_hasClick ? "button" : null)" tabindex="@(_hasClick ? "0" : null)"
+    @onclick="OnClickHandler" @onkeypress="OnKeyHandler">
+    @ChildContent
+</li>
+
+@code {
+    [Parameter]
+    public EventCallback OnClick { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private bool _hasClick => OnClick.HasDelegate;
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-list__item")
+            .AddClass("sui-list__item--clickable", _hasClick)
+            .AddClass(Class)
+            .Build();
+
+    private Task OnClickHandler() => OnClick.InvokeAsync();
+    private async Task OnKeyHandler(KeyboardEventArgs e)
+    {
+        if (_hasClick && (e.Key == "Enter" || e.Key == " "))
+            await OnClick.InvokeAsync();
+    }
+}

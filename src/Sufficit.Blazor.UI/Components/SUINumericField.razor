@@ -1,0 +1,69 @@
+@namespace Sufficit.Blazor.UI.Components
+@typeparam T
+
+<div class="@Classname">
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <label class="sui-field__label">@Label</label>
+    }
+    <input class="sui-field__input"
+           type="number"
+           value="@Value"
+           @onchange="OnChanged"
+           min="@Min"
+           max="@Max"
+           step="@Step"
+           disabled="@Disabled"
+           @attributes="UserAttributes" />
+    @if (!string.IsNullOrWhiteSpace(HelperText))
+    {
+        <span class="sui-field__helper">@HelperText</span>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public T? Value { get; set; }
+
+    [Parameter]
+    public EventCallback<T?> ValueChanged { get; set; }
+
+    [Parameter]
+    public string? Label { get; set; }
+
+    [Parameter]
+    public string? HelperText { get; set; }
+
+    [Parameter]
+    public T? Min { get; set; }
+
+    [Parameter]
+    public T? Max { get; set; }
+
+    [Parameter]
+    public string? Step { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> UserAttributes { get; set; } = new();
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-field")
+            .AddClass(Class)
+            .Build();
+
+    private async Task OnChanged(ChangeEventArgs e)
+    {
+        try
+        {
+            var converted = e.Value is null ? default : (T?)Convert.ChangeType(e.Value, typeof(T));
+            await ValueChanged.InvokeAsync(converted);
+        }
+        catch { }
+    }
+}

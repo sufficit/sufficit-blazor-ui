@@ -1,0 +1,20 @@
+@namespace Sufficit.Blazor.UI.Components
+
+<ul class="@Classname">@ChildContent</ul>
+
+@code {
+    [Parameter]
+    public bool Dense { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-list")
+            .AddClass("sui-list--dense", Dense)
+            .AddClass(Class)
+            .Build();
+}

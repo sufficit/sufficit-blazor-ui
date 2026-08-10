@@ -1,0 +1,36 @@
+@namespace Sufficit.Blazor.UI.Components
+
+<div class="@Classname" role="progressbar"
+     aria-valuenow="@Value" aria-valuemin="0" aria-valuemax="100"
+     aria-label="@AriaLabel" style="@Style">
+    <div class="sui-progress-linear__bar" style="width:@(Value)%"></div>
+</div>
+
+@code {
+    /// <summary>Progress 0-100.</summary>
+    [Parameter]
+    public double Value { get; set; }
+
+    /// <summary>Color: "primary", "success", "warning", "error", "info". Default "primary".</summary>
+    [Parameter]
+    public object? Color { get; set; } = SUIColor.Primary;
+
+    [Parameter]
+    public bool Rounded { get; set; }
+
+    [Parameter]
+    public string? AriaLabel { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-progress-linear")
+            .AddClass($"sui-progress-linear--{SUIClassBuilder.Slug(Color)}")
+            .AddClass("sui-progress-linear--rounded", Rounded)
+            .AddClass(Class)
+            .Build();
+}

@@ -4,10 +4,10 @@
 
 @{
     bool isAnchor = !string.IsNullOrWhiteSpace(Href);
-    var cls = SuiClassBuilder.Default("sui-btn")
-        .AddClass($"sui-btn--{SuiClassBuilder.Slug(Variant)}")
-        .AddClass($"sui-btn--color-{SuiClassBuilder.Slug(Color)}")
-        .AddClass($"sui-btn--{SuiClassBuilder.Slug(Size)}")
+    var cls = SUIClassBuilder.Default("sui-btn")
+        .AddClass($"sui-btn--{SUIClassBuilder.Slug(Variant)}")
+        .AddClass($"sui-btn--color-{SUIClassBuilder.Slug(Color)}")
+        .AddClass($"sui-btn--{SUIClassBuilder.Slug(Size)}")
         .AddClass("sui-btn--full-width", FullWidth)
         .AddClass("sui-btn--loading", IsLoading)
         .AddClass(Class)
@@ -44,7 +44,7 @@
 }
 else
 {
-    <button type="@SuiClassBuilder.Slug(ButtonType)" class="@cls" style="@Style"
+    <button type="@SUIClassBuilder.Slug(ButtonType)" class="@cls" style="@Style"
             disabled="@(Disabled || IsLoading)" aria-disabled="@IsAriaDisabled"
             @onclick="HandleClickAsync" @attributes="UserAttributes">
         @if (IsLoading)

@@ -1,0 +1,38 @@
+@namespace Sufficit.Blazor.UI.Components
+
+<aside class="@Classname">
+    @ChildContent
+</aside>
+
+@code {
+    [Parameter]
+    public bool Open { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OpenChanged { get; set; }
+
+    /// <summary>"permanent" (default, desktop), "temporary" (mobile overlay).</summary>
+    [Parameter]
+    public string Variant { get; set; } = "permanent";
+
+    /// <summary>Drawer width (CSS length). Default 256px.</summary>
+    [Parameter]
+    public string Width { get; set; } = "256px";
+
+    [Parameter]
+    public int Elevation { get; set; } = 1;
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-drawer")
+            .AddClass($"sui-drawer--{Variant}")
+            .AddClass("sui-drawer--open", Open)
+            .AddClass($"sui-drawer--e{(Elevation is > 0 and < 4 ? Elevation : 1)}")
+            .AddClass(Class)
+            .Build();
+}
