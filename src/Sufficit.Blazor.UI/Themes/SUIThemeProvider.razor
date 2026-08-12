@@ -6,7 +6,7 @@
     <div class="@WrapperClass" data-sui-theme="@(ActiveTheme.IsDark ? "dark" : "light")">
         @ChildContent
     </div>
-    <style>@ToCssVars(ActiveTheme)</style>
+    <style>@((MarkupString)ToCssVars(ActiveTheme))</style>
 </CascadingValue>
 
 @code {
