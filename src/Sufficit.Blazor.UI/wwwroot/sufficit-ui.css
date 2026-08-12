@@ -1502,6 +1502,7 @@ button.sui-nav-link:disabled,
 .sui-select__placeholder { color: var(--sui-text-secondary); }
 .sui-select__indicator {
   flex: 0 0 auto;
+  margin-inline-start: var(--sui-space-1);
   width: 8px;
   height: 8px;
   border-right: 1.5px solid currentColor;
@@ -1509,7 +1510,8 @@ button.sui-nav-link:disabled,
   transform: translateY(-2px) rotate(45deg);
   transition: transform var(--sui-transition);
 }
-.sui-select:focus-within .sui-select__indicator { transform: translateY(2px) rotate(225deg); }
+/* Focus means keyboard ownership; only the actual open state rotates the indicator. */
+.sui-select--open .sui-select__indicator { transform: translateY(2px) rotate(225deg); }
 .sui-select__menu {
   /* The listbox is independent from the trigger so long options remain readable
      without creating a horizontal scrollbar inside the open menu. Only one

@@ -119,6 +119,7 @@
     private string Classname
         => SUIClassBuilder.Default("sui-field sui-select")
             .AddClass(Class)
+            .AddClass(_open ? "sui-select--open" : null)
             .Build();
 
     private string? MenuStyle
