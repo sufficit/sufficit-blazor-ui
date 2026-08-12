@@ -3,6 +3,8 @@
 @namespace Sufficit.Blazor.UI.Components
 @typeparam T
 @implements ISUISelectRegistry
+@implements IAsyncDisposable
+@inject IJSRuntime JS
 
 <CascadingValue Value="(ISUISelectRegistry)this" IsFixed="true">
     <div class="@Classname" @onfocusout="OnFocusOutAsync">
@@ -13,9 +15,11 @@
 
         <div class="sui-select__control">
             <button type="button"
+                    @ref="_triggerElement"
                     class="sui-select__trigger"
                     aria-haspopup="listbox"
                     aria-expanded="@_open"
+                    aria-controls="@_menuId"
                     disabled="@Disabled"
                     @onclick="Toggle"
                     @onkeydown="OnKeyDown"
@@ -34,9 +38,15 @@
                 <span class="sui-select__indicator" aria-hidden="true"></span>
             </button>
 
-            @if (_open && _items.Count > 0)
+            @if (_items.Count > 0)
             {
-                <div class="sui-select__menu" role="listbox" aria-label="@Label" style="@MenuStyle">
+                <div @ref="_menuElement"
+                     id="@_menuId"
+                     class="@MenuClass"
+                     role="listbox"
+                     aria-label="@Label"
+                     popover="manual"
+                     style="@MenuStyle">
                     @for (var index = 0; index < _items.Count; index++)
                     {
                         var item = _items[index];
@@ -107,7 +117,12 @@
 
     private readonly List<SUISelectItem> _items = new();
     private readonly Dictionary<SUISelectItem, int> _itemVersions = new();
+    private readonly string _menuId = $"sui-select-{Guid.NewGuid():N}-menu";
+    private ElementReference _triggerElement;
+    private ElementReference _menuElement;
+    private IJSObjectReference? _module;
     private bool _open;
+    private bool _interopOpen;
     private int _activeIndex = -1;
 
     private bool ShowPlaceholder => !string.IsNullOrWhiteSpace(Placeholder);
@@ -121,6 +136,10 @@
             .AddClass(Class)
             .AddClass(_open ? "sui-select--open" : null)
             .Build();
+
+    private string MenuClass => _open
+        ? "sui-select__menu sui-select__menu--open"
+        : "sui-select__menu";
 
     private string? MenuStyle
     {
@@ -174,6 +193,31 @@
         if (Disabled)
         {
             _open = false;
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_items.Count == 0)
+        {
+            return;
+        }
+
+        if (_open)
+        {
+            _module ??= await JS.InvokeAsync<IJSObjectReference>(
+                "import",
+                "/_content/Sufficit.Blazor.UI/sufficit-ui.js");
+            await _module.InvokeVoidAsync(
+                "openSelectMenu",
+                _triggerElement,
+                _menuElement);
+            _interopOpen = true;
+        }
+        else if (_interopOpen && _module is not null)
+        {
+            await _module.InvokeVoidAsync("closeSelectMenu", _menuElement);
+            _interopOpen = false;
         }
     }
 
@@ -310,6 +354,28 @@
         {
             value = default;
             return false;
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_module is null)
+        {
+            return;
+        }
+
+        try
+        {
+            if (_interopOpen)
+            {
+                await _module.InvokeVoidAsync("closeSelectMenu", _menuElement);
+            }
+            await _module.DisposeAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit is already gone; browser-owned listeners disappear
+            // with the document and there is no remote runtime left to notify.
         }
     }
 }

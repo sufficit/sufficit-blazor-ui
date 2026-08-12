@@ -110,7 +110,10 @@ proteção da viewport:
 
 Ele mantém a API existente com `<SUISelectItem>` e inclui teclado
 (`ArrowUp`/`ArrowDown`, `Home`, `End`, `Enter`, `Space`, `Escape`) e fechamento
-por seleção ou perda de foco. Use o `<select>` nativo quando a integração com
+por seleção ou perda de foco. O menu usa a top layer do navegador, portanto
+fica acima de cards, tabelas e drawers mesmo quando esses contêineres usam
+`overflow: hidden`; perto das bordas da viewport, ele reposiciona e limita a
+altura automaticamente. Use o `<select>` nativo quando a integração com
 postagem HTML ou o menu do sistema operacional for deliberada.
 
 ## Temas

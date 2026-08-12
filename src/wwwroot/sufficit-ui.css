@@ -1682,7 +1682,7 @@ button.sui-nav-link:disabled,
   left: 0;
   right: auto;
   z-index: 50;
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 2px;
   width: var(--sui-select-menu-width, max-content);
@@ -1700,6 +1700,29 @@ button.sui-nav-link:disabled,
   border-radius: var(--sui-radius);
   background: var(--sui-surface);
   box-shadow: var(--sui-shadow-2);
+}
+.sui-select__menu--open { display: flex; }
+
+/* Popover places the listbox in the browser top layer. Unlike z-index, the
+   top layer escapes overflow clipping from cards, tables and drawers. The
+   component script supplies viewport-safe fixed coordinates and flips the
+   menu above the trigger when there is not enough room below. Keep these
+   overrides behind feature detection so older browsers retain the absolute
+   inline fallback declared above. */
+@supports selector(:popover-open) {
+  .sui-select__menu[popover] {
+    position: fixed;
+    inset: auto;
+    width: var(--sui-select-menu-width, max-content);
+    min-width: var(--sui-select-trigger-width, 0px);
+    max-width: min(
+      var(--sui-select-menu-max-width, var(--sui-select-menu-width, 28rem)),
+      calc(100vw - 24px)
+    );
+    max-height: min(280px, var(--sui-select-menu-available-height, 280px));
+  }
+  .sui-select__menu[popover]:popover-open { display: flex; }
+  .sui-select__menu[popover]::backdrop { background: transparent; }
 }
 .sui-select__option {
   display: block;
