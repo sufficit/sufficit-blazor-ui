@@ -16,7 +16,10 @@
                 @onfocusin="OpenFlyout">
             @RenderTrigger()
         </button>
-        <div class="sui-popover sui-popover--rail sui-rail-flyout @(_flyoutOpen ? "is-open" : "")">
+        <div class="sui-popover sui-popover--rail sui-rail-flyout @(_flyoutOpen ? "is-open" : "")"
+             role="menu"
+             aria-label="@Title"
+             hidden="@(!_flyoutOpen)">
             <div class="sui-rail-flyout-inner"
                  @onmouseenter="OpenFlyout"
                  @onmouseleave="ScheduleCloseFlyout">

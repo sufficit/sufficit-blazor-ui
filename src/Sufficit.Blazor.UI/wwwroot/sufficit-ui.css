@@ -178,6 +178,404 @@
 .sui-avatar--sm { width: 28px; height: 28px; font-size: .75rem; }
 .sui-avatar--md { width: 40px; height: 40px; }
 .sui-avatar--lg { width: 56px; height: 56px; font-size: 1rem; }
+
+/* ------------------------------------------------------------------ *
+ * Navigation: links, groups, collapse and desktop rail flyouts
+ * ------------------------------------------------------------------ */
+
+.sui-nav,
+.sui-nav-group,
+.sui-nav-link {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+}
+
+.sui-nav-group {
+  display: block;
+  margin: 0;
+  color: var(--mud-palette-drawer-text, var(--sui-text-primary));
+  font-family: var(--mud-typography-default-family, var(--sui-font));
+}
+
+button.sui-nav-link,
+.sui-nav-link__row {
+  appearance: none;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) 20px;
+  align-items: center;
+  gap: var(--sui-space-3);
+  width: 100%;
+  min-width: 0;
+  min-height: 50px;
+  margin: 0;
+  padding: 11px 14px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: var(--sui-fs-body2);
+  line-height: 1.35;
+  text-align: start;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--sui-transition), color var(--sui-transition);
+}
+
+.sui-nav-link__row {
+  grid-template-columns: 24px minmax(0, 1fr);
+}
+
+button.sui-nav-link:hover:not(:disabled),
+.sui-nav-link__row:hover:not(.is-disabled) {
+  background: color-mix(in srgb, var(--mud-palette-primary, var(--sui-color-primary)) 7%, transparent);
+}
+
+button.sui-nav-link:focus-visible,
+.sui-nav-link__row:focus-visible,
+.sui-rail-trigger:focus-visible {
+  outline: 2px solid var(--mud-palette-primary, var(--sui-color-primary));
+  outline-offset: -2px;
+}
+
+.sui-nav-link__row.active,
+.sui-nav-link__row[aria-current="page"] {
+  background: color-mix(in srgb, var(--mud-palette-primary, var(--sui-color-primary)) 11%, transparent);
+  color: var(--mud-palette-primary, var(--sui-color-primary));
+  font-weight: 600;
+}
+
+.sui-nav-link--disabled,
+button.sui-nav-link:disabled,
+.sui-nav-link__row.is-disabled {
+  color: var(--mud-palette-text-disabled, var(--sui-text-disabled));
+  cursor: default;
+  opacity: .72;
+}
+
+.sui-nav-link__icon {
+  width: 20px;
+  height: 20px;
+  justify-self: center;
+  color: var(--mud-palette-drawer-icon, var(--sui-text-secondary));
+}
+
+.sui-nav-link__text {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: hidden;
+  line-height: 1.3;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.sui-nav-link__title {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sui-nav-link__subtitle {
+  display: block;
+  max-width: 100%;
+  margin-top: 1px;
+  overflow: hidden;
+  color: var(--mud-palette-text-secondary, var(--sui-text-secondary));
+  font-size: var(--sui-fs-caption);
+  font-weight: 400;
+  text-overflow: ellipsis;
+}
+
+.sui-nav-link__expand {
+  width: 20px;
+  height: 20px;
+  transition: transform var(--sui-transition);
+}
+
+.sui-nav-link__expand.is-expanded {
+  transform: rotate(180deg);
+}
+
+.sui-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  visibility: hidden;
+  transition: grid-template-rows var(--sui-transition-slow), visibility 0s linear var(--sui-transition-slow);
+}
+
+.sui-collapse.is-expanded {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.sui-collapse__inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sui-nav--nested {
+  margin-inline-start: 20px;
+  width: calc(100% - 20px);
+  border-inline-start: 1px solid color-mix(in srgb, var(--mud-palette-primary, var(--sui-color-primary)) 24%, transparent);
+}
+
+.sui-nav--nested button.sui-nav-link,
+.sui-nav--nested .sui-nav-link__row {
+  min-height: 40px;
+  padding-block: 8px;
+  padding-inline: 10px;
+}
+
+.sui-rail-group {
+  anchor-scope: --sui-rail-trigger;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0;
+}
+
+.sui-rail-trigger {
+  anchor-name: --sui-rail-trigger;
+  appearance: none;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  min-width: 48px;
+  height: 48px;
+  margin: 2px auto;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  color: var(--mud-palette-drawer-icon, var(--sui-text-secondary));
+  cursor: pointer;
+  transition: background-color var(--sui-transition), color var(--sui-transition);
+}
+
+.sui-rail-trigger:hover,
+.sui-rail-trigger.is-open {
+  background: color-mix(in srgb, var(--mud-palette-primary, var(--sui-color-primary)) 12%, transparent);
+  color: var(--mud-palette-primary, var(--sui-color-primary));
+}
+
+.sui-rail-trigger > .sui-icon,
+.sui-rail-trigger > .mud-icon-root {
+  width: 20px;
+  height: 20px;
+  margin: auto;
+  font-size: 20px;
+}
+
+.sui-rail-flyout[hidden] {
+  display: none !important;
+}
+
+.sui-rail-flyout {
+  box-sizing: border-box;
+  position: fixed;
+  position-anchor: --sui-rail-trigger;
+  inset-inline-start: calc(anchor(right) + 12px);
+  top: anchor(top);
+  z-index: 1400;
+  display: block;
+  width: min(340px, calc(100vw - 88px));
+  min-width: 248px;
+  max-width: calc(100vw - 88px);
+  isolation: isolate;
+}
+
+.sui-rail-flyout-inner {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  max-height: calc(100dvh - 24px);
+  padding: var(--sui-space-2);
+  overflow: auto;
+  border: 1px solid var(--mud-palette-lines-default, var(--sui-border));
+  border-radius: var(--sui-radius-lg);
+  background: var(--mud-palette-surface, var(--sui-surface));
+  color: var(--mud-palette-text-primary, var(--sui-text-primary));
+  box-shadow: 6px 10px 34px rgba(15, 23, 42, .16), 2px 3px 10px rgba(238, 99, 33, .05);
+}
+
+.sui-rail-flyout-head {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 6px 10px 8px;
+}
+
+.sui-rail-flyout-title {
+  overflow: hidden;
+  color: var(--mud-palette-text-secondary, var(--sui-text-secondary));
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.sui-rail-flyout-subtitle {
+  overflow: hidden;
+  color: var(--mud-palette-text-secondary, var(--sui-text-secondary));
+  font-size: var(--sui-fs-caption);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sui-rail-flyout .sui-nav--nested {
+  width: 100%;
+  margin-inline-start: 0;
+  border-inline-start: 0;
+}
+
+.sui-rail-flyout .sui-nav--nested .sui-nav--nested {
+  width: calc(100% - 20px);
+  margin-inline-start: 20px;
+  border-inline-start: 2px solid color-mix(in srgb, var(--mud-palette-primary, var(--sui-color-primary)) 30%, transparent);
+}
+
+.sui-rail-flyout .sui-nav-link__row,
+.sui-rail-flyout button.sui-nav-link {
+  min-height: 40px;
+  padding-block: 8px;
+  padding-inline: 10px;
+}
+
+.sui-rail-flyout .sui-nav-group--nested .sui-collapse .sui-nav--nested .sui-nav-link__row,
+.sui-rail-flyout .sui-nav-group--nested .sui-collapse .sui-nav--nested button.sui-nav-link {
+  padding-inline-start: 18px;
+}
+
+/*
+ * The host Blazor app still contains rail rules for legacy MudNavLink children.
+ * Those rules assume a portalled MudPopover and collapse every in-drawer link to
+ * a 48px icon. SUI flyouts remain in the component DOM, so restore full rows here.
+ */
+.mud-drawer.sufficit-rail .sui-rail-flyout .mud-navmenu,
+.mud-drawer.sufficit-rail .sui-rail-flyout .mud-nav-item,
+.mud-drawer.sufficit-rail .sui-rail-flyout .mud-nav-group,
+.mud-drawer.sufficit-rail .sui-rail-flyout .mud-navgroup-collapse {
+  box-sizing: border-box !important;
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+.mud-drawer.sufficit-rail .sui-rail-flyout .mud-nav-link {
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 0 !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  height: auto !important;
+  min-height: 40px !important;
+  margin: 0 !important;
+  padding: 8px 10px !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  font-size: var(--sui-fs-body2) !important;
+  text-indent: 0 !important;
+  overflow: hidden !important;
+}
+
+.mud-drawer.sufficit-rail .sui-rail-flyout .mud-nav-link:hover:not(.active) {
+  background: color-mix(in srgb, var(--mud-palette-primary, var(--sui-color-primary)) 6%, transparent) !important;
+}
+
+.mud-drawer.sufficit-rail .sui-rail-flyout .mud-nav-link.active,
+.mud-drawer.sufficit-rail .sui-rail-flyout .mud-nav-link.active:hover {
+  background: color-mix(in srgb, var(--mud-palette-primary, var(--sui-color-primary)) 11%, transparent) !important;
+  color: var(--mud-palette-primary, var(--sui-color-primary)) !important;
+  font-weight: 600 !important;
+}
+
+.mud-drawer.sufficit-rail .sui-rail-flyout .mud-nav-link-icon {
+  box-sizing: content-box !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 18px !important;
+  width: 18px !important;
+  min-width: 18px !important;
+  height: 18px !important;
+  margin: 0 12px 0 0 !important;
+  padding: 0 !important;
+}
+
+.mud-drawer.sufficit-rail .sui-rail-flyout .mud-nav-link-icon .mud-icon-root,
+.mud-drawer.sufficit-rail .sui-rail-flyout .mud-nav-link > .mud-icon-root {
+  display: block !important;
+  flex: 0 0 18px !important;
+  width: 18px !important;
+  height: 18px !important;
+  margin: 0 !important;
+  font-size: 18px !important;
+}
+
+.mud-drawer.sufficit-rail .sui-rail-flyout .mud-nav-link-text {
+  display: flex !important;
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  color: inherit !important;
+  font-size: var(--sui-fs-body2) !important;
+  line-height: 1.25 !important;
+  text-align: start !important;
+  white-space: normal !important;
+}
+
+.mud-drawer.sufficit-rail .sui-rail-flyout .mud-nav-link-expand-icon {
+  display: inline-flex !important;
+  width: 18px !important;
+  height: 18px !important;
+  margin-inline-start: auto !important;
+  font-size: 18px !important;
+}
+
+@supports not (top: anchor(top)) {
+  .sui-rail-flyout {
+    position: absolute;
+    inset-inline-start: calc(100% + 12px);
+    top: 0;
+  }
+}
+
+@media (max-width: 599.98px) {
+  button.sui-nav-link,
+  .sui-nav-link__row {
+    min-height: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sui-collapse,
+  .sui-nav-link__expand,
+  .sui-rail-trigger {
+    transition: none;
+  }
+}
 .sui-avatar--outlined {
   background: transparent;
   border: 1px solid var(--sui-border-strong);
@@ -1215,6 +1613,3 @@
 .sui-dialog__message { margin: 0 0 var(--sui-space-4); }
 .sui-dialog__actions { display: flex; justify-content: flex-end; gap: var(--sui-space-2); margin-top: var(--sui-space-3); }
 @keyframes sui-dialog-in { from { opacity: 0; } }
-
-
-

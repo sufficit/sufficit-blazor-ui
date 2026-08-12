@@ -17,6 +17,9 @@ namespace Sufficit.Blazor.UI.Components
     public partial class SUINavGroup : ComponentBase, IDisposable
     {
         private SUINavigationContext _navigationContext = new() { Disabled = false, Expanded = true };
+        private bool _expandedState;
+        private bool _expandedParameterInitialized;
+        private bool _lastExpandedParameter;
 
         protected override void OnInitialized()
         {
@@ -26,6 +29,22 @@ namespace Sufficit.Blazor.UI.Components
             _railCoordinatorSubscribed = true;
 
             ParentAccordionScope?.Register(this);
+        }
+
+        protected override void OnParametersSet()
+        {
+            // Expanded can be supplied as a one-way route expression (the common
+            // rail/flyout case) or through @bind-Expanded. Keep a local interaction
+            // state when the parent keeps supplying the same value; otherwise a
+            // parent rerender would immediately undo a user's click.
+            if (!_expandedParameterInitialized || _lastExpandedParameter != Expanded)
+            {
+                _expandedState = Expanded;
+                _expandedParameterInitialized = true;
+                _lastExpandedParameter = Expanded;
+            }
+
+            UpdateNavigationContext();
         }
 
         public void Dispose()
@@ -59,7 +78,7 @@ namespace Sufficit.Blazor.UI.Components
             SUIClassBuilder.Default("sui-nav-link")
                 .AddClass("sui-nav-group__toggle")
                 .AddClass("sui-nav-group__toggle--nested", ParentNavigationContext is not null)
-                .AddClass("is-expanded", _navigationContext.Expanded)
+                .AddClass("is-expanded", IsExpanded)
                 .AddClass(HeaderClass)
                 .Build();
 
@@ -70,8 +89,8 @@ namespace Sufficit.Blazor.UI.Components
 
         protected string ExpandIconClassname =>
             SUIClassBuilder.Default("sui-icon sui-nav-link__expand")
-                .AddClass("is-expanded", _navigationContext.Expanded && !_isDisabled)
-                .AddClass("is-disabled", _navigationContext.Expanded && _isDisabled)
+                .AddClass("is-expanded", IsExpanded && !_isDisabled)
+                .AddClass("is-disabled", IsExpanded && _isDisabled)
                 .Build();
 
         protected int ButtonTabIndex
@@ -111,22 +130,24 @@ namespace Sufficit.Blazor.UI.Components
         private bool _isDisabled;
         private bool _isExpanded;
 
+        protected bool IsExpanded => _expandedState;
+
         private async Task ExpandedToggleAsync()
         {
-            await SetExpandedAsync(!Expanded);
+            await SetExpandedAsync(!IsExpanded);
             UpdateNavigationContext();
 
             // Exclusive accordion (rail flyout only): expanding one group collapses
             // its siblings so a tall feature tree can't fill the whole flyout.
-            if (Expanded)
+            if (IsExpanded)
                 ParentAccordionScope?.NotifyExpanded(this);
         }
 
         private async Task SetExpandedAsync(bool value)
         {
-            if (Expanded == value)
+            if (IsExpanded == value)
                 return;
-            Expanded = value;
+            _expandedState = value;
             if (ExpandedChanged.HasDelegate)
                 await ExpandedChanged.InvokeAsync(value);
         }
@@ -145,7 +166,7 @@ namespace Sufficit.Blazor.UI.Components
 
         internal void CollapseFromScope()
         {
-            if (!Expanded)
+            if (!IsExpanded)
                 return;
 
             _ = SetExpandedAsync(false);
@@ -213,7 +234,7 @@ namespace Sufficit.Blazor.UI.Components
         private void UpdateNavigationContext()
         {
             _isDisabled = Disabled || ParentNavigationContext is { Disabled: true };
-            _isExpanded = Expanded && ParentNavigationContext is null or { Expanded: true };
+            _isExpanded = IsExpanded && ParentNavigationContext is null or { Expanded: true };
             _navigationContext = _navigationContext with
             {
                 Disabled = _isDisabled,
