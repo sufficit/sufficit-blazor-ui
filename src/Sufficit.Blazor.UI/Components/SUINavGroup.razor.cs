@@ -176,7 +176,8 @@ namespace Sufficit.Blazor.UI.Components
 
         // ---------------------------------------------------------------------
         // Rail mode (Sufficit) — top-level groups become a rail icon whose
-        // children open in a floating flyout. Pure CSS (no JS portal).
+        // children open in a floating flyout. CSS is the fallback; the shared
+        // browser helper clamps the panel to the viewport when it reaches an edge.
         // ---------------------------------------------------------------------
 
         [CascadingParameter(Name = "SufficitRailMode")]

@@ -2,7 +2,7 @@
 
 @if (IsRootRail)
 {
-    @* Rail mode: top-level group = icon trigger + floating glass flyout (absolute CSS, no JS portal). *@
+    @* Rail mode: top-level group = icon trigger + floating glass flyout. *@
     <div class="@Classname sui-rail-group"
          @onmouseenter="OpenFlyout"
          @onmouseleave="ScheduleCloseFlyout">
