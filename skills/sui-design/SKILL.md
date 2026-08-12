@@ -1,6 +1,6 @@
 ---
 name: sui-design
-description: Projete, construa, critique, refine e publique interfaces frontend em projetos Blazor da Sufficit que usam a biblioteca Sufficit.Blazor.UI (SUI) e/ou MudBlazor. Use quando o usuário quiser criar ou refinar uma página, componente, layout, tema ou token de design em Blazor; aplicar a marca Sufficit (âmbar #ee6321, modelo hex + color-mix, NÃO OKLCH); seguir as convenções SUI (prefixo SUI, tokens --sui-*, SUIThemeProvider, enums próprios); auditar acessibilidade, contraste, responsividade ou lifecycle do Blazor; ou publicar uma release (eveo-apps). Consolida o sistema de marca Sufficit, o catálogo de componentes SUI, as regras editoriais anti-"AI slop", o guia de do/don't de Blazor e os padrões de engenharia e deploy praticados no sufficit-cloud-mobile. Não serve para tarefas só de backend ou não-Blazor.
+description: Projete, construa, critique, refine e publique interfaces frontend em projetos Blazor da Sufficit que usam a biblioteca Sufficit.Blazor.UI (SUI) e/ou MudBlazor. Use quando o usuário quiser criar ou refinar uma página, componente, formulário, layout, tema ou token de design em Blazor; detectar campos desalinhados em linhas horizontais; aplicar a marca Sufficit (âmbar #ee6321, modelo hex + color-mix, NÃO OKLCH); seguir as convenções SUI (prefixo SUI, tokens --sui-*, SUIThemeProvider, enums próprios); auditar acessibilidade, contraste, responsividade ou lifecycle do Blazor; ou publicar uma release (eveo-apps). Consolida o sistema de marca Sufficit, o catálogo de componentes SUI, as regras editoriais anti-"AI slop", o guia de do/don't de Blazor e os padrões de engenharia e deploy praticados no sufficit-cloud-mobile. Não serve para tarefas só de backend ou não-Blazor.
 ---
 
 # SUI Design
@@ -30,6 +30,7 @@ Saída sempre em **código pronto para produção**, não protótipo. Até estar
 3. **Defina o registro:** `brand` (design É o produto: marketing, landing) ou `product` (design SERVE o produto: app, dashboard, painel). O registro muda as regras (cor, motion, densidade). Detalhe em `references/brand-and-theme.md`.
 4. **Leia pelo menos um arquivo real do projeto** (um `.razor`, o tema, o CSS). Não reinvente; use o que existe quando funciona.
 5. **Se o projeto é Blazor Server/interactive**, leia `references/blazor-patterns.md` (lifecycle, headings semânticos, contexto/auth).
+6. **Se houver formulário em duas ou mais colunas**, leia `references/alignment-audit.md`, marque as linhas equivalentes com `data-sui-align-row` e execute o gate geométrico antes do ship.
 
 ## Marca Sufficit (resumo — detalhes em `references/brand-and-theme.md`)
 
@@ -67,6 +68,7 @@ Saída sempre em **código pronto para produção**, não protótipo. Até estar
 **Layout**
 - Varie espaçamento pra ter ritmo. **Cards são a resposta preguiçosa** — use só quando são a melhor affordance. Cards aninhados são sempre errado.
 - Flexbox 1D, Grid 2D. Grid responsivo sem breakpoint: `repeat(auto-fit, minmax(280px, 1fr))`.
+- Campos lado a lado devem alinhar wrapper, label e controle no eixo vertical. Não deixe regras verticais como `.field + .field { margin-top: ... }` vazarem para filhos de Grid/Flex; zere a margem no contexto horizontal e valide a geometria renderizada, não só o CSS.
 - Escala semântica de z-index (dropdown → sticky → modal-backdrop → modal → toast → tooltip). Nunca `999`/`9999` arbitrário.
 
 **Motion**
