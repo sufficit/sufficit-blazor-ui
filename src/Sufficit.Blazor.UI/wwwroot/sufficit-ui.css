@@ -1511,15 +1511,23 @@ button.sui-nav-link:disabled,
 }
 .sui-select:focus-within .sui-select__indicator { transform: translateY(2px) rotate(225deg); }
 .sui-select__menu {
+  /* The listbox is independent from the trigger so long options remain readable
+     without creating a horizontal scrollbar inside the open menu. Only one
+     menu is open per interaction, so this extra width does not compete with
+     sibling controls. */
   position: absolute;
   top: calc(100% + 4px);
   left: 0;
-  right: 0;
+  right: auto;
   z-index: 50;
   display: flex;
   flex-direction: column;
   gap: 2px;
+  width: max-content;
+  min-width: 100%;
+  max-width: min(28rem, calc(100vw - 24px));
   max-height: 280px;
+  overflow-x: hidden;
   overflow-y: auto;
   margin: 0;
   padding: var(--sui-space-1);
@@ -1539,6 +1547,9 @@ button.sui-nav-link:disabled,
   font: inherit;
   font-size: var(--sui-fs-body2);
   text-align: start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   cursor: pointer;
 }
 .sui-select__option:hover,
