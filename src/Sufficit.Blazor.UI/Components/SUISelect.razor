@@ -36,7 +36,7 @@
 
             @if (_open && _items.Count > 0)
             {
-                <div class="sui-select__menu" role="listbox" aria-label="@Label">
+                <div class="sui-select__menu" role="listbox" aria-label="@Label" style="@MenuStyle">
                     @for (var index = 0; index < _items.Count; index++)
                     {
                         var item = _items[index];
@@ -82,6 +82,20 @@
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>
+    /// Optional CSS width for the open menu. When omitted, the menu sizes itself
+    /// to its content while preserving the trigger width as its minimum.
+    /// </summary>
+    [Parameter]
+    public string? MenuWidth { get; set; }
+
+    /// <summary>
+    /// Optional CSS max-width for the open menu. The viewport guard always wins,
+    /// so a menu cannot become wider than the available browser window.
+    /// </summary>
+    [Parameter]
+    public string? MenuMaxWidth { get; set; }
+
     [Parameter]
     public string? Class { get; set; }
 
@@ -106,6 +120,25 @@
         => SUIClassBuilder.Default("sui-field sui-select")
             .AddClass(Class)
             .Build();
+
+    private string? MenuStyle
+    {
+        get
+        {
+            var declarations = new List<string>(2);
+            if (!string.IsNullOrWhiteSpace(MenuWidth))
+            {
+                declarations.Add($"--sui-select-menu-width: {MenuWidth.Trim()}");
+            }
+
+            if (!string.IsNullOrWhiteSpace(MenuMaxWidth))
+            {
+                declarations.Add($"--sui-select-menu-max-width: {MenuMaxWidth.Trim()}");
+            }
+
+            return declarations.Count == 0 ? null : string.Join("; ", declarations);
+        }
+    }
 
     void ISUISelectRegistry.Register(SUISelectItem item)
     {

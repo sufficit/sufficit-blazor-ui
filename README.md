@@ -63,11 +63,27 @@ temporária para valores visuais legados, permitindo migrar telas sem uma troca
 big-bang.
 
 `SUISelect` renderiza um listbox customizado, portanto o menu aberto recebe o
-mesmo tema e espaçamento do campo fechado em todos os consumidores. Ele mantém
-a API existente com `<SUISelectItem>` e inclui teclado (`ArrowUp`/`ArrowDown`,
-`Home`, `End`, `Enter`, `Space`, `Escape`) e fechamento por seleção ou perda de
-foco. Use o `<select>` nativo quando a integração com postagem HTML ou o menu
-do sistema operacional for deliberada.
+mesmo tema e espaçamento do campo fechado em todos os consumidores. Por padrão,
+ele acompanha o conteúdo, nunca fica menor que o campo e respeita a largura
+disponível da viewport. Quando necessário, `MenuWidth` aceita um valor CSS para
+fixar ou ampliar a largura; `MenuMaxWidth` define um limite próprio, mantendo a
+proteção da viewport:
+
+```razor
+<!-- padrão: largura pelo conteúdo -->
+<SUISelect T="string">...</SUISelect>
+
+<!-- largura fixa de 22rem; em telas menores, reduz até caber -->
+<SUISelect T="string" MenuWidth="22rem">...</SUISelect>
+
+<!-- conteúdo fluido, permitindo opções mais longas até 36rem -->
+<SUISelect T="string" MenuMaxWidth="36rem">...</SUISelect>
+```
+
+Ele mantém a API existente com `<SUISelectItem>` e inclui teclado
+(`ArrowUp`/`ArrowDown`, `Home`, `End`, `Enter`, `Space`, `Escape`) e fechamento
+por seleção ou perda de foco. Use o `<select>` nativo quando a integração com
+postagem HTML ou o menu do sistema operacional for deliberada.
 
 ## Temas
 

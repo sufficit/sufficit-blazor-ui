@@ -1523,9 +1523,12 @@ button.sui-nav-link:disabled,
   display: flex;
   flex-direction: column;
   gap: 2px;
-  width: max-content;
+  width: var(--sui-select-menu-width, max-content);
   min-width: 100%;
-  max-width: min(28rem, calc(100vw - 24px));
+  max-width: min(
+    var(--sui-select-menu-max-width, var(--sui-select-menu-width, 28rem)),
+    calc(100vw - 24px)
+  );
   max-height: 280px;
   overflow-x: hidden;
   overflow-y: auto;
