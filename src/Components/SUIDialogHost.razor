@@ -30,9 +30,29 @@
 
     private void OnShow(SUIDialogRequest request)
     {
+        // Complete an older request before replacing it so its awaiter does not
+        // remain pending when a second dialog is shown.
+        _current?.Reference.Complete(null);
         _current = request;
         _dialogParameters = new Dictionary<string, object?>(request.Parameters);
+        _ = CloseWhenCompletedAsync(request);
         InvokeAsync(StateHasChanged);
+    }
+
+    private async Task CloseWhenCompletedAsync(SUIDialogRequest request)
+    {
+        await request.Reference.Result;
+        await InvokeAsync(() =>
+        {
+            // A newer dialog may already be open. Only the request that owns
+            // the current surface is allowed to clear it.
+            if (_current?.Reference != request.Reference)
+                return;
+
+            _current = null;
+            _dialogParameters = new Dictionary<string, object?>();
+            StateHasChanged();
+        });
     }
 
     private void Dismiss()
