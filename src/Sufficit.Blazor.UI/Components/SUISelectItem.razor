@@ -1,9 +1,12 @@
 @namespace Sufficit.Blazor.UI.Components
+@implements IDisposable
 
-@* Used inside <SUISelect>. Value is the option value, ChildContent the label. *@
-<option value="@Value" selected="@Selected">@ChildContent</option>
+@* Used inside <SUISelect>. The parent renders the item in its custom listbox. *@
 
 @code {
+    [CascadingParameter]
+    private ISUISelectRegistry? Select { get; set; }
+
     [Parameter]
     public object? Value { get; set; }
 
@@ -12,4 +15,27 @@
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    internal int Version { get; private set; }
+
+    private bool _hasSnapshot;
+    private object? _lastValue;
+    private bool _lastSelected;
+
+    protected override void OnParametersSet()
+    {
+        if (!_hasSnapshot
+            || !Equals(_lastValue, Value)
+            || _lastSelected != Selected)
+        {
+            _hasSnapshot = true;
+            _lastValue = Value;
+            _lastSelected = Selected;
+            Version++;
+        }
+
+        Select?.Register(this);
+    }
+
+    public void Dispose() => Select?.Unregister(this);
 }

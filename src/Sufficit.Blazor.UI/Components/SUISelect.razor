@@ -1,29 +1,67 @@
+@using System.Globalization
+@using Microsoft.AspNetCore.Components.Web
 @namespace Sufficit.Blazor.UI.Components
 @typeparam T
+@implements ISUISelectRegistry
 
-<div class="@Classname">
-    @if (!string.IsNullOrWhiteSpace(Label))
-    {
-        <label class="sui-field__label">@Label</label>
-    }
-    <div class="sui-select__control">
-        <select class="sui-field__input"
-                value="@CurrentValue"
-                @onchange="OnChanged"
-                disabled="@Disabled"
-                @attributes="UserAttributes">
-            @if (ShowPlaceholder)
+<CascadingValue Value="(ISUISelectRegistry)this" IsFixed="true">
+    <div class="@Classname" @onfocusout="OnFocusOutAsync">
+        @if (!string.IsNullOrWhiteSpace(Label))
+        {
+            <label class="sui-field__label">@Label</label>
+        }
+
+        <div class="sui-select__control">
+            <button type="button"
+                    class="sui-select__trigger"
+                    aria-haspopup="listbox"
+                    aria-expanded="@_open"
+                    disabled="@Disabled"
+                    @onclick="Toggle"
+                    @onkeydown="OnKeyDown"
+                    @onkeydown:preventDefault="true"
+                    @attributes="UserAttributes">
+                <span class="sui-select__value">
+                    @if (SelectedItem is { } selected)
+                    {
+                        @selected.ChildContent
+                    }
+                    else if (ShowPlaceholder)
+                    {
+                        <span class="sui-select__placeholder">@Placeholder</span>
+                    }
+                </span>
+                <span class="sui-select__indicator" aria-hidden="true"></span>
+            </button>
+
+            @if (_open && _items.Count > 0)
             {
-                <option value="" disabled selected>@Placeholder</option>
+                <div class="sui-select__menu" role="listbox" aria-label="@Label">
+                    @for (var index = 0; index < _items.Count; index++)
+                    {
+                        var item = _items[index];
+                        <button type="button"
+                                class="@OptionClass(index)"
+                                role="option"
+                                aria-selected="@(IsSelected(item))"
+                                @onclick="() => SelectAsync(item)"
+                                @onmousedown:preventDefault="true">
+                            @item.ChildContent
+                        </button>
+                    }
+                </div>
             }
-            @ChildContent
-        </select>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(HelperText))
+        {
+            <span class="sui-field__helper">@HelperText</span>
+        }
+
+        @* The items register through the cascade; this source remains inert in the DOM. *@
+        <div class="sui-select__items-source" hidden aria-hidden="true">@ChildContent</div>
     </div>
-    @if (!string.IsNullOrWhiteSpace(HelperText))
-    {
-        <span class="sui-field__helper">@HelperText</span>
-    }
-</div>
+</CascadingValue>
 
 @code {
     [Parameter]
@@ -53,21 +91,191 @@
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object?> UserAttributes { get; set; } = new();
 
+    private readonly List<SUISelectItem> _items = new();
+    private readonly Dictionary<SUISelectItem, int> _itemVersions = new();
+    private bool _open;
+    private int _activeIndex = -1;
+
     private bool ShowPlaceholder => !string.IsNullOrWhiteSpace(Placeholder);
-    private string? CurrentValue => Value?.ToString();
+
+    private SUISelectItem? SelectedItem
+        => _items.FirstOrDefault(item => Equals(item.Value, Value))
+            ?? (Value is null ? _items.FirstOrDefault(item => item.Selected) : null);
 
     private string Classname
-        => SUIClassBuilder.Default("sui-field")
+        => SUIClassBuilder.Default("sui-field sui-select")
             .AddClass(Class)
             .Build();
 
-    private async Task OnChanged(ChangeEventArgs e)
+    void ISUISelectRegistry.Register(SUISelectItem item)
     {
+        if (!_items.Contains(item))
+        {
+            _items.Add(item);
+            _itemVersions[item] = item.Version;
+            _ = InvokeAsync(StateHasChanged);
+            return;
+        }
+
+        if (_itemVersions.TryGetValue(item, out var version) && version == item.Version)
+        {
+            return;
+        }
+
+        _itemVersions[item] = item.Version;
+        _ = InvokeAsync(StateHasChanged);
+    }
+
+    void ISUISelectRegistry.Unregister(SUISelectItem item)
+    {
+        if (_items.Remove(item))
+        {
+            _itemVersions.Remove(item);
+            _ = InvokeAsync(StateHasChanged);
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (Disabled)
+        {
+            _open = false;
+        }
+    }
+
+    private void Toggle()
+    {
+        if (Disabled)
+        {
+            return;
+        }
+
+        _open = !_open;
+        if (_open)
+        {
+            _activeIndex = SelectedIndex();
+        }
+    }
+
+    private async Task OnKeyDown(KeyboardEventArgs args)
+    {
+        if (Disabled || _items.Count == 0)
+        {
+            return;
+        }
+
+        switch (args.Key)
+        {
+            case "Escape":
+                _open = false;
+                break;
+            case "ArrowDown":
+                OpenAndMove(1);
+                break;
+            case "ArrowUp":
+                OpenAndMove(-1);
+                break;
+            case "Home":
+                _open = true;
+                _activeIndex = 0;
+                break;
+            case "End":
+                _open = true;
+                _activeIndex = _items.Count - 1;
+                break;
+            case "Enter":
+            case " ":
+                if (!_open)
+                {
+                    _open = true;
+                    _activeIndex = SelectedIndex();
+                }
+                else if (_activeIndex >= 0)
+                {
+                    await SelectAsync(_items[_activeIndex]);
+                }
+                break;
+        }
+    }
+
+    private void OpenAndMove(int direction)
+    {
+        _open = true;
+        var current = _activeIndex >= 0 ? _activeIndex : SelectedIndex();
+        _activeIndex = Math.Clamp(current + direction, 0, _items.Count - 1);
+    }
+
+    private async Task OnFocusOutAsync(FocusEventArgs _)
+    {
+        // Keep multiple close paths: toggle, option selection, Escape, and focus loss
+        // cover pointer, keyboard, and browser-specific interaction scenarios.
+        await Task.Delay(120);
+        if (!_open)
+        {
+            return;
+        }
+
+        _open = false;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task SelectAsync(SUISelectItem item)
+    {
+        _open = false;
+        _activeIndex = _items.IndexOf(item);
+
+        if (TryConvertValue(item.Value, out var value))
+        {
+            await ValueChanged.InvokeAsync(value);
+        }
+    }
+
+    private int SelectedIndex()
+    {
+        var selected = SelectedItem;
+        return selected is null ? 0 : Math.Max(0, _items.IndexOf(selected));
+    }
+
+    private bool IsSelected(SUISelectItem item)
+        => ReferenceEquals(item, SelectedItem);
+
+    private string OptionClass(int index)
+        => index == _activeIndex
+            ? "sui-select__option sui-select__option--active"
+            : "sui-select__option";
+
+    private static bool TryConvertValue(object? raw, out T? value)
+    {
+        if (raw is null)
+        {
+            value = default;
+            return true;
+        }
+
+        if (raw is T typed)
+        {
+            value = typed;
+            return true;
+        }
+
         try
         {
-            var converted = e.Value is null ? default : (T?)Convert.ChangeType(e.Value, typeof(T));
-            await ValueChanged.InvokeAsync(converted);
+            var targetType = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
+            object converted = targetType == typeof(Guid)
+                ? Guid.Parse(raw.ToString()!)
+                : Convert.ChangeType(raw, targetType, CultureInfo.InvariantCulture)!;
+            value = (T)converted;
+            return true;
         }
-        catch { }
+        catch (FormatException)
+        {
+            value = default;
+            return false;
+        }
+        catch (InvalidCastException)
+        {
+            value = default;
+            return false;
+        }
     }
 }

@@ -29,6 +29,7 @@ terceiros.
 | `SUIIconButton` | `MudIconButtonEnchanted` | 2 |
 | `SUISkeletonLoader` | `SkeletonLoader` | 2 |
 | `SUIEmptyState` | `EmptyState` | 1 |
+| `SUISelect` / `SUISelectItem` | Native `<select>` when a styled listbox is needed | 4 |
 | `SUISwitchButton` | `MudSwitchButton` | 1 |
 
 `SUISkeletonType` acompanha o `SUISkeletonLoader`.
@@ -60,6 +61,13 @@ Os parâmetros que controlam aparência usam enums próprios (não do MudBlazor)
 preferir esses enums no código novo. Os controles de ação mantêm uma ponte
 temporária para valores visuais legados, permitindo migrar telas sem uma troca
 big-bang.
+
+`SUISelect` renderiza um listbox customizado, portanto o menu aberto recebe o
+mesmo tema e espaçamento do campo fechado em todos os consumidores. Ele mantém
+a API existente com `<SUISelectItem>` e inclui teclado (`ArrowUp`/`ArrowDown`,
+`Home`, `End`, `Enter`, `Space`, `Escape`) e fechamento por seleção ou perda de
+foco. Use o `<select>` nativo quando a integração com postagem HTML ou o menu
+do sistema operacional for deliberada.
 
 ## Temas
 
