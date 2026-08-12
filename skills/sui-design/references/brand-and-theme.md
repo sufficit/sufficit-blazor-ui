@@ -135,4 +135,4 @@ Três camadas **discordam** — sinalize, não faz de conta:
 
 - `sufficit-blazor`: `src/Components/Layout/MudThemeContainer.razor` (tema authoritative), `src/wwwroot/assets/css/mudblazor-customize.min.css` (tokens âmbar).
 - `sufficit-cloud-mobile`: `src/Sufficit.Cloud.Mobile.Web/CloudMobileSUITheme.cs`, `wwwroot/cloud-mobile.css`.
-- `sufficit-blazor-ui` (esta lib): `src/Sufficit.Blazor.UI/Themes/` (`SUIPalette.cs`, `SUITypography.cs`, `SUILayout.cs`, `ISuiTheme.cs`), `wwwroot/sufficit-ui.css`.
+- `sufficit-blazor-ui` (esta lib): `src/Themes/` (`ISUITheme.cs`, `SUIPalette.cs`, `SUITypography.cs`, `SUILayout.cs`, `SUIThemeProvider.razor`), `src/Components/` (componentes + `SUIEnums.cs`), `src/Utilities/SUIClassBuilder.cs`, `src/wwwroot/sufficit-ui.css`. (Layout achatado em 2026-08: sem o prefixo `Sufficit.Blazor.UI/`.)

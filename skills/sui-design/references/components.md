@@ -23,11 +23,11 @@ Carregue ao construir ou migrar UI. Namespace único `Sufficit.Blazor.UI.Compone
 
 Use **estes**, não os do MudBlazor:
 
-`SUIColor`, `SUIVariant` (Text/Outlined/Filled), `SUISize` (Small/Medium/Large), `SUIButtonType`, `SUIEdge`, `SUITypo` (h1–h6, subtitle1/2, body1/2, button, caption, overline), `SUIAlign`, `SUIOrigin`, `SUITone`. Definidos em `Components/SUIEnums.cs`.
+`SUIColor`, `SUIVariant` (Text/Outlined/Filled), `SUISize` (Small/Medium/Large), `SUIButtonType`, `SUIEdge`, `SUITypo` (h1–h6, subtitle1/2, body1/2, button, caption, overline), `SUIAlign`, `SUIOrigin`, `SUITone`. Definidos em `src/Components/SUIEnums.cs`.
 
 ## Class builder
 
-`Utilities/SUIClassBuilder.cs`. `.Slug(valor)` vira enum em kebab-class.
+`src/Utilities/SUIClassBuilder.cs`. `.Slug(valor)` vira enum em kebab-class.
 
 ```csharp
 SUIClassBuilder.Default("sui-btn")
