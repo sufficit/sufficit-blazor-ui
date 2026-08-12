@@ -1,0 +1,139 @@
+@typeparam TValue
+@namespace Sufficit.Blazor.UI.Components
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+@using Sufficit.Blazor.UI.Utilities
+
+<label class="@ClassName" style="@Style" @attributes="AdditionalAttributes">
+    <input class="sui-choice-card__input"
+           id="@InputId"
+           name="@Name"
+           type="radio"
+           checked="@IsSelected"
+           disabled="@Disabled"
+           aria-label="@AriaLabel"
+           @onchange="SelectAsync" />
+
+    @if (IconContent is not null)
+    {
+        <span class="@IconClassName" aria-hidden="true">
+            @IconContent
+        </span>
+    }
+
+    <span class="sui-choice-card__content">
+        <span class="sui-choice-card__title">@Title</span>
+        @if (!string.IsNullOrWhiteSpace(Description))
+        {
+            <span class="sui-choice-card__description">@Description</span>
+        }
+        @ChildContent
+    </span>
+
+    @if (TrailingContent is not null)
+    {
+        <span class="sui-choice-card__trailing" aria-hidden="true">
+            @TrailingContent
+        </span>
+    }
+    else if (ShowSelectionIndicator)
+    {
+        <span class="sui-choice-card__indicator" aria-hidden="true"></span>
+    }
+</label>
+
+@code {
+    private readonly string _generatedInputId = $"sui-choice-{Guid.NewGuid():N}";
+
+    /// <summary>Value represented by this option.</summary>
+    [Parameter, EditorRequired]
+    public TValue Value { get; set; } = default!;
+
+    /// <summary>Currently selected value for the group.</summary>
+    [Parameter]
+    public TValue SelectedValue { get; set; } = default!;
+
+    /// <summary>Raised when this option becomes selected.</summary>
+    [Parameter]
+    public EventCallback<TValue> SelectedValueChanged { get; set; }
+
+    /// <summary>Visible option title.</summary>
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    /// <summary>Optional supporting text displayed below the title.</summary>
+    [Parameter]
+    public string? Description { get; set; }
+
+    /// <summary>Radio group name. Options with the same name form one group.</summary>
+    [Parameter]
+    public string? Name { get; set; }
+
+    /// <summary>Optional stable id. A unique id is generated when omitted.</summary>
+    [Parameter]
+    public string? Id { get; set; }
+
+    /// <summary>Accessible name override for the native radio input.</summary>
+    [Parameter]
+    public string? AriaLabel { get; set; }
+
+    /// <summary>Contextual tone applied to the leading icon tile.</summary>
+    [Parameter]
+    public SUITone LeadingTone { get; set; } = SUITone.Neutral;
+
+    /// <summary>Additional class for the leading icon tile.</summary>
+    [Parameter]
+    public string? LeadingClass { get; set; }
+
+    /// <summary>Optional content rendered inside the leading icon tile.</summary>
+    [Parameter]
+    public RenderFragment? IconContent { get; set; }
+
+    /// <summary>Optional trailing content. Replaces the default radio indicator.</summary>
+    [Parameter]
+    public RenderFragment? TrailingContent { get; set; }
+
+    /// <summary>Optional content rendered after the description.</summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool ShowSelectionIndicator { get; set; } = true;
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
+
+    private bool IsSelected
+        => EqualityComparer<TValue>.Default.Equals(SelectedValue, Value);
+
+    private string InputId
+        => string.IsNullOrWhiteSpace(Id) ? _generatedInputId : Id!;
+
+    private string ClassName
+        => SUIClassBuilder.Default("sui-choice-card")
+            .AddClass("is-selected", IsSelected)
+            .AddClass("is-disabled", Disabled)
+            .AddClass(Class)
+            .Build();
+
+    private string IconClassName
+        => SUIClassBuilder.Default("sui-choice-card__leading")
+            .AddClass($"sui-choice-card__leading--{SUIClassBuilder.Slug(LeadingTone)}")
+            .AddClass(LeadingClass)
+            .Build();
+
+    private async Task SelectAsync(ChangeEventArgs _)
+    {
+        if (!Disabled)
+            await SelectedValueChanged.InvokeAsync(Value);
+    }
+}

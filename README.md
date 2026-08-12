@@ -31,6 +31,7 @@ terceiros.
 | `SUIEmptyState` | `EmptyState` | 1 |
 | `SUISelect` / `SUISelectItem` | Native `<select>` when a styled listbox is needed | 4 |
 | `SUISwitchButton` | `MudSwitchButton` | 1 |
+| `SUIChoiceCard<TValue>` | Opções selecionáveis de pagamento, configuração ou fluxo | Checkout |
 
 `SUISkeletonType` acompanha o `SUISkeletonLoader`.
 
@@ -61,6 +62,33 @@ Os parâmetros que controlam aparência usam enums próprios (não do MudBlazor)
 preferir esses enums no código novo. Os controles de ação mantêm uma ponte
 temporária para valores visuais legados, permitindo migrar telas sem uma troca
 big-bang.
+
+## SUIChoiceCard
+
+`SUIChoiceCard<TValue>` transforma uma opção inteira em um alvo de toque acessível.
+Ele combina rádio nativo, título, descrição, ícone contextual e estado selecionado,
+sem acoplar o componente a um domínio de negócio. O checkout usa o mesmo componente
+para PIX, cartão e boleto; outros projetos podem usá-lo para qualquer enum ou tipo de
+opção.
+
+```razor
+<SUIChoiceCard TValue="PaymentMethod"
+               Value="PaymentMethod.Pix"
+               SelectedValue="SelectedMethod"
+               SelectedValueChanged="SelectMethod"
+               Name="payment-method"
+               Title="PIX"
+               Description="Confirmação rápida, a qualquer hora"
+               LeadingTone="SUITone.Success">
+    <IconContent>
+        <SUIIcon Name="pix" Size="20" />
+    </IconContent>
+</SUIChoiceCard>
+```
+
+Inclua `_content/Sufficit.Blazor.UI/sufficit-ui.css` no app consumidor. O slot
+`IconContent` é opcional; `LeadingTone`, `LeadingClass`, `TrailingContent` e `Class`
+permitem ajustar a variação sem duplicar a estrutura de acessibilidade.
 
 `SUISelect` renderiza um listbox customizado, portanto o menu aberto recebe o
 mesmo tema e espaçamento do campo fechado em todos os consumidores. Por padrão,

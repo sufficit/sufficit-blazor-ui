@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup Label="Sufficit Targeting">
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
     <Configurations>Debug;Release;Packing</Configurations>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -51,11 +51,16 @@
     <None Include="../../README.md" Pack="True" PackagePath="readme.md" />
   </ItemGroup>
 
-  <ItemGroup Label="Blazor component tooling">
+  <ItemGroup Label="Blazor component tooling for .NET 9">
     <!-- The SUI components are plain Blazor: they need only the Razor SDK
          component base packages. No MudBlazor dependency. -->
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.*" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="9.*" Condition="'$(TargetFramework)' == 'net9.0'" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.*" Condition="'$(TargetFramework)' == 'net9.0'" />
+  </ItemGroup>
+
+  <ItemGroup Label="Blazor component tooling for .NET 10">
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.*" Condition="'$(TargetFramework)' == 'net10.0'" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.*" Condition="'$(TargetFramework)' == 'net10.0'" />
   </ItemGroup>
 
   <ItemGroup>

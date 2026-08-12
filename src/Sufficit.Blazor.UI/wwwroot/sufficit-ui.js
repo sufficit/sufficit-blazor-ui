@@ -18,6 +18,14 @@ function placeRailFlyout(flyout) {
     const gap = 8;
     const triggerRect = trigger.getBoundingClientRect();
 
+    // The panel can be taller than the space below a trigger near the bottom of
+    // the rail. Give the inner panel an explicit viewport-safe ceiling before the
+    // final measurement so the browser never paints part of the menu off-screen.
+    const availableAbove = Math.max(160, triggerRect.top - margin - gap);
+    const availableBelow = Math.max(160, window.innerHeight - triggerRect.bottom - margin - gap);
+    const preferredHeight = Math.max(availableAbove, availableBelow);
+    flyout.style.setProperty("--sui-rail-flyout-max-height", `${Math.floor(preferredHeight)}px`);
+
     // The flyout lives inside the drawer (whose blur creates a fixed containing
     // block), so CSS anchor positioning cannot reliably flip at the viewport
     // edge. Temporarily use explicit coordinates, measure the panel, then place
