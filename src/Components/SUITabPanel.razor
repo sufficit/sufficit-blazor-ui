@@ -1,15 +1,8 @@
 @namespace Sufficit.Blazor.UI.Components
 @implements IDisposable
 
-@* Tab panel: registers with the parent SUITabs on render. Content is only
-   shown when this panel is the active one (parent renders ChildContent). *@
-@{
-    if (!_registered)
-    {
-        _registered = true;
-        _parent?.Register(this);
-    }
-}
+@* Tab panel: registers with the parent SUITabs (cascaded) on init. Its own
+   template renders nothing; the parent shows the active panel's ChildContent. *@
 
 @code {
     [CascadingParameter]
@@ -24,13 +17,7 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    private bool _registered;
+    protected override void OnInitialized() => _parent?.Register(this);
 
-    protected override void OnParametersSet()
-    {
-        // Re-register text changes so the tab list stays in sync.
-    }
-
-    public void Dispose()
-        => _parent?.Unregister(this);
+    public void Dispose() => _parent?.Unregister(this);
 }
