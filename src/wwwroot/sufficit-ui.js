@@ -127,14 +127,19 @@ function placeRailFlyout(flyout) {
     }
 
     const margin = 12;
-    const gap = 8;
+    const configuredGap = Number.parseFloat(
+        getComputedStyle(flyout).getPropertyValue("--sui-rail-flyout-gap"));
+    const horizontalGap = Number.isFinite(configuredGap) ? configuredGap : 20;
+    // Keep the panel vertically close to the trigger while preserving the
+    // larger horizontal corridor needed to leave the fixed rail.
+    const verticalGap = 8;
     const triggerRect = trigger.getBoundingClientRect();
 
     // The panel can be taller than the space below a trigger near the bottom of
     // the rail. Give the inner panel an explicit viewport-safe ceiling before the
     // final measurement so the browser never paints part of the menu off-screen.
-    const availableAbove = Math.max(160, triggerRect.top - margin - gap);
-    const availableBelow = Math.max(160, window.innerHeight - triggerRect.bottom - margin - gap);
+    const availableAbove = Math.max(160, triggerRect.top - margin - verticalGap);
+    const availableBelow = Math.max(160, window.innerHeight - triggerRect.bottom - margin - verticalGap);
     const preferredHeight = Math.max(availableAbove, availableBelow);
     flyout.style.setProperty("--sui-rail-flyout-max-height", `${Math.floor(preferredHeight)}px`);
 
@@ -144,22 +149,22 @@ function placeRailFlyout(flyout) {
     // it beside the trigger or above it when there is no room below.
     flyout.style.positionAnchor = "none";
     flyout.style.insetInlineStart = "auto";
-    flyout.style.left = `${Math.round(triggerRect.right + gap)}px`;
+    flyout.style.left = `${Math.round(triggerRect.right + horizontalGap)}px`;
     flyout.style.top = `${margin}px`;
 
     const flyoutRect = flyout.getBoundingClientRect();
     const fitsBelow = triggerRect.top + flyoutRect.height <= window.innerHeight - margin;
     const preferredTop = fitsBelow
         ? triggerRect.top
-        : triggerRect.top - flyoutRect.height - gap;
+        : triggerRect.top - flyoutRect.height - verticalGap;
     const maxTop = Math.max(margin, window.innerHeight - flyoutRect.height - margin);
     const top = Math.min(Math.max(margin, preferredTop), maxTop);
 
-    const preferredLeft = triggerRect.right + gap;
+    const preferredLeft = triggerRect.right + horizontalGap;
     const maxLeft = Math.max(margin, window.innerWidth - flyoutRect.width - margin);
     const left = preferredLeft + flyoutRect.width <= window.innerWidth - margin
         ? preferredLeft
-        : Math.min(maxLeft, Math.max(margin, triggerRect.left - flyoutRect.width - gap));
+        : Math.min(maxLeft, Math.max(margin, triggerRect.left - flyoutRect.width - horizontalGap));
 
     flyout.style.left = `${Math.round(left)}px`;
     flyout.style.top = `${Math.round(top)}px`;

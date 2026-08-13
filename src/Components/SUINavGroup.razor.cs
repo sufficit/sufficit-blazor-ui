@@ -70,6 +70,7 @@ namespace Sufficit.Blazor.UI.Components
             SUIClassBuilder.Default("sui-nav-group")
                 .AddClass("sui-nav-group--nested", ParentNavigationContext is not null)
                 .AddClass("sui-nav-group--root", ParentNavigationContext is null)
+                .AddClass("is-expanded", IsExpanded)
                 .AddClass(Class)
                 .AddClass("sui-nav-group--disabled", _isDisabled)
                 .Build();
@@ -187,6 +188,9 @@ namespace Sufficit.Blazor.UI.Components
 
         private bool _flyoutOpen;
         private CancellationTokenSource? _flyoutCloseCts;
+        // The pointer needs time to cross the intentional gap between the
+        // fixed rail and the floating panel, including diagonal movement.
+        private const int FlyoutCloseDelayMilliseconds = 900;
 
         private static event Action<SUINavGroup>? RailFlyoutOpened;
         private bool _railCoordinatorSubscribed;
@@ -224,7 +228,7 @@ namespace Sufficit.Blazor.UI.Components
             var token = _flyoutCloseCts.Token;
             _ = InvokeAsync(async () =>
             {
-                try { await Task.Delay(170, token); }
+                try { await Task.Delay(FlyoutCloseDelayMilliseconds, token); }
                 catch (TaskCanceledException) { return; }
                 if (token.IsCancellationRequested) return;
                 _flyoutOpen = false;

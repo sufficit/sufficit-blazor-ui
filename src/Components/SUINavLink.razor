@@ -15,6 +15,17 @@
             @RenderContent()
         </button>
     }
+    else if (ForceLoad)
+    {
+        <a href="@Href"
+           class="@ForceLoadLinkClassname"
+           @attributes="Attributes"
+           aria-disabled="@IsDisabled"
+           @onclick:preventDefault="true"
+           @onclick="HandleNavigation">
+            @RenderContent()
+        </a>
+    }
     else
     {
         <NavLink href="@Href"
@@ -33,9 +44,16 @@
     [CascadingParameter]
     private SUINavigationContext? ParentNavigationContext { get; set; }
 
+    [CascadingParameter(Name = "SufficitRailMode")]
+    private bool RailMode { get; set; }
+
+    [CascadingParameter(Name = "SufficitRailFlyoutMode")]
+    private bool RailFlyoutMode { get; set; }
+
     [Parameter] public string? Title { get; set; }
     [Parameter] public string? Href { get; set; }
     [Parameter] public NavLinkMatch Match { get; set; } = NavLinkMatch.Prefix;
+    [Parameter] public bool ForceLoad { get; set; }
     [Parameter] public string ActiveClass { get; set; } = "active";
     [Parameter] public string? Icon { get; set; }
     [Parameter] public SUIColor IconColor { get; set; } = SUIColor.Default;
@@ -50,11 +68,14 @@
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
 
+    [Inject] private NavigationManager Navigation { get; set; } = default!;
+
     private bool IsDisabled
         => Disabled || ParentNavigationContext is { Disabled: true };
 
     private string Classname
         => SUIClassBuilder.Default("sui-nav-link")
+            .AddClass("sui-nav-link--rail", RailMode && !RailFlyoutMode)
             .AddClass("sui-nav-link--disabled", IsDisabled)
             .AddClass(Class)
             .Build();
@@ -64,6 +85,29 @@
             .AddClass("is-disabled", IsDisabled)
             .AddClass($"sui-color-{IconColor.ToString().ToLowerInvariant()}", IconColor != SUIColor.Default)
             .Build();
+
+    private string ForceLoadLinkClassname
+        => SUIClassBuilder.Default(LinkClassname)
+            .AddClass(ActiveClass, IsForceLoadLinkActive)
+            .Build();
+
+    private bool IsForceLoadLinkActive
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(Href))
+                return false;
+
+            var currentPath = new Uri(Navigation.Uri).AbsolutePath.TrimEnd('/');
+            var targetPath = Navigation.ToAbsoluteUri(Href).AbsolutePath.TrimEnd('/');
+
+            if (Match == NavLinkMatch.All)
+                return string.Equals(currentPath, targetPath, StringComparison.OrdinalIgnoreCase);
+
+            return string.Equals(currentPath, targetPath, StringComparison.OrdinalIgnoreCase)
+                || currentPath.StartsWith($"{targetPath}/", StringComparison.OrdinalIgnoreCase);
+        }
+    }
 
     private string IconClassname
         => SUIClassBuilder.Default("sui-icon sui-nav-link__icon")
@@ -99,6 +143,12 @@
     {
         if (IsDisabled)
             return Task.CompletedTask;
+
+        if (ForceLoad && !string.IsNullOrWhiteSpace(Href))
+        {
+            Navigation.NavigateTo(Href, forceLoad: true);
+            return Task.CompletedTask;
+        }
 
         return OnClick.HasDelegate ? OnClick.InvokeAsync(args) : Task.CompletedTask;
     }

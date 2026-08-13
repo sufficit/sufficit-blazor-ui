@@ -365,6 +365,9 @@
 }
 
 .sui-nav-group {
+  --sui-tree-axis: 26px;
+  --sui-tree-stem-start: 35px;
+  position: relative;
   display: block;
   margin: 0;
   color: var(--mud-palette-drawer-text, var(--sui-text-primary));
@@ -416,8 +419,14 @@ button.sui-nav-link:focus-visible,
 .sui-nav-link__row.active,
 .sui-nav-link__row[aria-current="page"] {
   background: color-mix(in srgb, var(--mud-palette-primary, var(--sui-color-primary)) 11%, transparent);
+  box-shadow: inset 2px 0 0 var(--mud-palette-primary, var(--sui-color-primary));
   color: var(--mud-palette-primary, var(--sui-color-primary));
   font-weight: 600;
+}
+
+.sui-nav--nested .sui-nav-link__row.active,
+.sui-nav--nested .sui-nav-link__row[aria-current="page"] {
+  box-shadow: none;
 }
 
 .sui-nav-link--disabled,
@@ -444,6 +453,40 @@ button.sui-nav-link:disabled,
   line-height: 1.3;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+/*
+ * A leaf in the collapsed rail must be a 48px hit area all the way through
+ * its inner row. Without this explicit state, the host drawer can size the
+ * outer wrapper as a rail item while the SUI row keeps the expanded-menu
+ * height, making entries such as Storage drift off the vertical rhythm.
+ */
+.sui-nav-link--rail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  min-width: 48px;
+  height: 48px;
+  min-height: 48px;
+  margin: 2px auto;
+  padding: 0;
+}
+
+.sui-nav-link--rail > .sui-nav-link__row {
+  display: grid;
+  grid-template-columns: 20px;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  min-width: 48px;
+  height: 48px;
+  min-height: 48px;
+  padding: 0;
+}
+
+.sui-nav-link--rail > .sui-nav-link__row .sui-nav-link__text {
+  display: none;
 }
 
 .sui-nav-link__title {
@@ -494,9 +537,31 @@ button.sui-nav-link:disabled,
 }
 
 .sui-nav--nested {
+  position: relative;
   margin-inline-start: 20px;
   width: calc(100% - 20px);
-  border-inline-start: 1px solid color-mix(in srgb, var(--mud-palette-primary, var(--sui-color-primary)) 24%, transparent);
+  border-inline-start: 0;
+}
+
+/* A single stem starts under the parent icon and ends at the final child row. */
+.sui-nav-group.is-expanded:not(.sui-nav-group--account):not(.sui-rail-group)::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: var(--sui-tree-axis);
+  top: var(--sui-tree-stem-start);
+  bottom: 20px;
+  width: 1px;
+  z-index: 1;
+  border-radius: 999px;
+  background: linear-gradient(180deg,
+    rgba(148, 163, 184, .34) 0%,
+    rgba(148, 163, 184, .12) 100%);
+  pointer-events: none;
+}
+
+.sui-nav-group--nested {
+  --sui-tree-axis: 22px;
+  --sui-tree-stem-start: 30px;
 }
 
 .sui-nav--nested button.sui-nav-link,
@@ -555,10 +620,11 @@ button.sui-nav-link:disabled,
 }
 
 .sui-rail-flyout {
+  --sui-rail-flyout-gap: 20px;
   box-sizing: border-box;
   position: fixed;
   position-anchor: --sui-rail-trigger;
-  inset-inline-start: calc(anchor(right) + 12px);
+  inset-inline-start: calc(anchor(right) + var(--sui-rail-flyout-gap));
   top: anchor(top);
   z-index: 1400;
   display: block;
@@ -569,6 +635,20 @@ button.sui-nav-link:disabled,
   min-width: 248px;
   max-width: calc(100vw - 88px);
   isolation: isolate;
+}
+
+/*
+ * Keep the pointer inside the rail group while it crosses the intentional gap
+ * between the drawer and the flyout. Without this corridor, mouseleave fires
+ * before the pointer can reach the panel and the delayed close feels broken.
+ */
+.sui-rail-flyout::before {
+  content: "";
+  position: absolute;
+  inset-block: -12px;
+  inset-inline-start: calc(-1 * var(--sui-rail-flyout-gap));
+  width: var(--sui-rail-flyout-gap);
+  pointer-events: auto;
 }
 
 .sui-rail-flyout-inner {
@@ -582,6 +662,9 @@ button.sui-nav-link:disabled,
   border: 1px solid var(--mud-palette-lines-default, var(--sui-border));
   border-radius: var(--sui-radius-lg);
   background: var(--mud-palette-surface, var(--sui-surface));
+  background: color-mix(in srgb, var(--mud-palette-surface, var(--sui-surface)) 90%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   color: var(--mud-palette-text-primary, var(--sui-text-primary));
   box-shadow: 6px 10px 34px rgba(15, 23, 42, .16), 2px 3px 10px rgba(238, 99, 33, .05);
 }
@@ -621,7 +704,7 @@ button.sui-nav-link:disabled,
 .sui-rail-flyout .sui-nav--nested .sui-nav--nested {
   width: calc(100% - 20px);
   margin-inline-start: 20px;
-  border-inline-start: 2px solid color-mix(in srgb, var(--mud-palette-primary, var(--sui-color-primary)) 30%, transparent);
+  border-inline-start: 0;
 }
 
 .sui-rail-flyout .sui-nav-link__row,
@@ -636,104 +719,10 @@ button.sui-nav-link:disabled,
   padding-inline-start: 18px;
 }
 
-/*
- * The host Blazor app still contains rail rules for legacy MudNavLink children.
- * Those rules assume a portalled MudPopover and collapse every in-drawer link to
- * a 48px icon. SUI flyouts remain in the component DOM, so restore full rows here.
- */
-.mud-drawer.sufficit-rail .sui-rail-flyout .mud-navmenu,
-.mud-drawer.sufficit-rail .sui-rail-flyout .mud-nav-item,
-.mud-drawer.sufficit-rail .sui-rail-flyout .mud-nav-group,
-.mud-drawer.sufficit-rail .sui-rail-flyout .mud-navgroup-collapse {
-  box-sizing: border-box !important;
-  display: block !important;
-  width: 100% !important;
-  min-width: 0 !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: visible !important;
-}
-
-.mud-drawer.sufficit-rail .sui-rail-flyout .mud-nav-link {
-  box-sizing: border-box !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-  gap: 0 !important;
-  width: 100% !important;
-  min-width: 0 !important;
-  max-width: 100% !important;
-  height: auto !important;
-  min-height: 40px !important;
-  margin: 0 !important;
-  padding: 8px 10px !important;
-  border: 0 !important;
-  border-radius: 10px !important;
-  font-size: var(--sui-fs-body2) !important;
-  text-indent: 0 !important;
-  overflow: hidden !important;
-}
-
-.mud-drawer.sufficit-rail .sui-rail-flyout .mud-nav-link:hover:not(.active) {
-  background: color-mix(in srgb, var(--mud-palette-primary, var(--sui-color-primary)) 6%, transparent) !important;
-}
-
-.mud-drawer.sufficit-rail .sui-rail-flyout .mud-nav-link.active,
-.mud-drawer.sufficit-rail .sui-rail-flyout .mud-nav-link.active:hover {
-  background: color-mix(in srgb, var(--mud-palette-primary, var(--sui-color-primary)) 11%, transparent) !important;
-  color: var(--mud-palette-primary, var(--sui-color-primary)) !important;
-  font-weight: 600 !important;
-}
-
-.mud-drawer.sufficit-rail .sui-rail-flyout .mud-nav-link-icon {
-  box-sizing: content-box !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  flex: 0 0 18px !important;
-  width: 18px !important;
-  min-width: 18px !important;
-  height: 18px !important;
-  margin: 0 12px 0 0 !important;
-  padding: 0 !important;
-}
-
-.mud-drawer.sufficit-rail .sui-rail-flyout .mud-nav-link-icon .mud-icon-root,
-.mud-drawer.sufficit-rail .sui-rail-flyout .mud-nav-link > .mud-icon-root {
-  display: block !important;
-  flex: 0 0 18px !important;
-  width: 18px !important;
-  height: 18px !important;
-  margin: 0 !important;
-  font-size: 18px !important;
-}
-
-.mud-drawer.sufficit-rail .sui-rail-flyout .mud-nav-link-text {
-  display: flex !important;
-  min-width: 0 !important;
-  flex: 1 1 auto !important;
-  flex-direction: column !important;
-  align-items: flex-start !important;
-  color: inherit !important;
-  font-size: var(--sui-fs-body2) !important;
-  line-height: 1.25 !important;
-  text-align: start !important;
-  white-space: normal !important;
-}
-
-.mud-drawer.sufficit-rail .sui-rail-flyout .mud-nav-link-expand-icon {
-  display: inline-flex !important;
-  width: 18px !important;
-  height: 18px !important;
-  margin-inline-start: auto !important;
-  font-size: 18px !important;
-}
-
 @supports not (top: anchor(top)) {
   .sui-rail-flyout {
     position: absolute;
-    inset-inline-start: calc(100% + 12px);
+    inset-inline-start: calc(100% + var(--sui-rail-flyout-gap));
     top: 0;
   }
 }
@@ -748,7 +737,8 @@ button.sui-nav-link:disabled,
 @media (prefers-reduced-motion: reduce) {
   .sui-collapse,
   .sui-nav-link__expand,
-  .sui-rail-trigger {
+  .sui-rail-trigger,
+  .sui-rail-flyout-inner {
     transition: none;
   }
 }
@@ -1809,6 +1799,8 @@ button.sui-nav-link:disabled,
   color: var(--sui-text-primary);
   font: inherit;
   font-size: var(--sui-fs-body2);
+  line-height: 1.35;
+  box-sizing: border-box;
   text-align: start;
   cursor: pointer;
   transition: border-color var(--sui-transition), box-shadow var(--sui-transition), background var(--sui-transition);
@@ -1900,6 +1892,8 @@ button.sui-nav-link:disabled,
   color: var(--sui-text-primary);
   font: inherit;
   font-size: var(--sui-fs-body2);
+  line-height: 1.35;
+  box-sizing: border-box;
   text-align: start;
   white-space: nowrap;
   overflow: hidden;
@@ -1908,6 +1902,14 @@ button.sui-nav-link:disabled,
 }
 .sui-select__option:hover,
 .sui-select__option--active { background: var(--sui-surface-2); }
+.sui-select__option:disabled,
+.sui-select__option--disabled {
+  color: var(--sui-text-disabled);
+  cursor: not-allowed;
+  opacity: .72;
+}
+.sui-select__option:disabled:hover,
+.sui-select__option--disabled:hover { background: transparent; }
 .sui-select__option[aria-selected="true"] {
   background: var(--sui-color-primary-soft);
   color: var(--sui-color-primary);

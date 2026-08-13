@@ -54,6 +54,8 @@
                                 class="@OptionClass(index)"
                                 role="option"
                                 aria-selected="@(IsSelected(item))"
+                                aria-disabled="@(item.Disabled)"
+                                disabled="@item.Disabled"
                                 @onclick="() => SelectAsync(item)"
                                 @onmousedown:preventDefault="true">
                             @item.ChildContent
@@ -255,11 +257,11 @@
                 break;
             case "Home":
                 _open = true;
-                _activeIndex = 0;
+                _activeIndex = FindEnabledIndex(0, 1);
                 break;
             case "End":
                 _open = true;
-                _activeIndex = _items.Count - 1;
+                _activeIndex = FindEnabledIndex(_items.Count - 1, -1);
                 break;
             case "Enter":
             case " ":
@@ -280,7 +282,13 @@
     {
         _open = true;
         var current = _activeIndex >= 0 ? _activeIndex : SelectedIndex();
-        _activeIndex = Math.Clamp(current + direction, 0, _items.Count - 1);
+        var next = current + direction;
+        if (current < 0)
+        {
+            next = direction > 0 ? 0 : _items.Count - 1;
+        }
+
+        _activeIndex = FindEnabledIndex(next, direction);
     }
 
     private async Task OnFocusOutAsync(FocusEventArgs _)
@@ -299,6 +307,11 @@
 
     private async Task SelectAsync(SUISelectItem item)
     {
+        if (item.Disabled)
+        {
+            return;
+        }
+
         _open = false;
         _activeIndex = _items.IndexOf(item);
 
@@ -311,16 +324,54 @@
     private int SelectedIndex()
     {
         var selected = SelectedItem;
-        return selected is null ? 0 : Math.Max(0, _items.IndexOf(selected));
+        if (selected is not null && !selected.Disabled)
+        {
+            return _items.IndexOf(selected);
+        }
+
+        return FindEnabledIndex(0, 1);
     }
 
     private bool IsSelected(SUISelectItem item)
         => ReferenceEquals(item, SelectedItem);
 
     private string OptionClass(int index)
-        => index == _activeIndex
-            ? "sui-select__option sui-select__option--active"
-            : "sui-select__option";
+    {
+        var item = _items[index];
+        var classes = new List<string> { "sui-select__option" };
+        if (index == _activeIndex)
+        {
+            classes.Add("sui-select__option--active");
+        }
+
+        if (item.Disabled)
+        {
+            classes.Add("sui-select__option--disabled");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private int FindEnabledIndex(int start, int direction)
+    {
+        if (_items.Count == 0)
+        {
+            return -1;
+        }
+
+        var index = Math.Clamp(start, 0, _items.Count - 1);
+        while (index >= 0 && index < _items.Count)
+        {
+            if (!_items[index].Disabled)
+            {
+                return index;
+            }
+
+            index += direction;
+        }
+
+        return -1;
+    }
 
     private static bool TryConvertValue(object? raw, out T? value)
     {

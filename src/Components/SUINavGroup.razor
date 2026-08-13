@@ -4,8 +4,8 @@
 {
     @* Rail mode: top-level group = icon trigger + floating glass flyout. *@
     <div class="@Classname sui-rail-group"
-         @onmouseenter="OpenFlyout"
-         @onmouseleave="ScheduleCloseFlyout">
+         @onpointerenter="OpenFlyout"
+         @onpointerleave="ScheduleCloseFlyout">
         <button type="button"
                 class="sui-rail-trigger @(_flyoutOpen ? "is-open" : "")"
                 aria-haspopup="menu"
@@ -19,10 +19,11 @@
         <div class="sui-popover sui-popover--rail sui-rail-flyout @(_flyoutOpen ? "is-open" : "")"
              role="menu"
              aria-label="@Title"
-             hidden="@(!_flyoutOpen)">
-            <div class="sui-rail-flyout-inner"
-                 @onmouseenter="OpenFlyout"
-                 @onmouseleave="ScheduleCloseFlyout">
+             hidden="@(!_flyoutOpen)"
+             @onpointerenter="OpenFlyout"
+             @onpointerleave="ScheduleCloseFlyout"
+             @onfocusin="OpenFlyout">
+            <div class="sui-rail-flyout-inner">
                 <div class="sui-rail-flyout-head">
                     @if (TitleContent is not null)
                     {
@@ -38,10 +39,12 @@
                     }
                 </div>
                 <CascadingValue Value="@RailFlyoutContext">
-                    <CascadingValue Value="_childAccordionScope" IsFixed="true">
-                        <div class="sui-nav sui-nav--nested">
-                            @ChildContent
-                        </div>
+                    <CascadingValue Value="true" Name="SufficitRailFlyoutMode" IsFixed="true">
+                        <CascadingValue Value="_childAccordionScope" IsFixed="true">
+                            <div class="sui-nav sui-nav--nested">
+                                @ChildContent
+                            </div>
+                        </CascadingValue>
                     </CascadingValue>
                 </CascadingValue>
             </div>
