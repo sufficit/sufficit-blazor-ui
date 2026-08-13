@@ -30,12 +30,63 @@ terceiros.
 | `SUISkeletonLoader` | `SkeletonLoader` | 2 |
 | `SUIEmptyState` | `EmptyState` | 1 |
 | `SUISelect` / `SUISelectItem` | Native `<select>` when a styled listbox is needed | 4 |
+| `SUIStatusBanner` | Faixas dominantes de saúde, incidente e prontidão operacional | Background |
 | `SUISwitchButton` | `MudSwitchButton` | 1 |
 | `SUIChoiceCard<TValue>` | Opções selecionáveis de pagamento, configuração ou fluxo | Checkout |
 
 `SUISkeletonType` acompanha o `SUISkeletonLoader`.
 
 `GenericTable` foi descartado: zero usos em qualquer projeto.
+
+## Tipografia operacional
+
+Além da escala legada `h1`–`h6`, a biblioteca oferece uma rampa semântica e
+compacta para consoles e superfícies operacionais. Ela é aditiva e não altera
+os tamanhos dos consumidores existentes:
+
+| Papel | `SUITypo` / classe | Uso |
+| --- | --- | --- |
+| Display | `display` / `.sui-type-display` | título principal da página |
+| Headline | `headline` / `.sui-type-headline` | diagnóstico ou estado dominante |
+| Title | `title` / `.sui-type-title` | título de seção ou superfície |
+| Body | `body` / `.sui-type-body` | explicação operacional compacta |
+| Label | `label` / `.sui-type-label` | controles, tabelas e metadados |
+| Mono | `mono` / `.sui-type-mono` | IDs, agendas e valores estruturados |
+
+Use `SUIText Typo="SUITypo.display"` quando o elemento genérico for suficiente,
+ou aplique a classe correspondente a um elemento semântico (`h1`, `p`, `code`).
+Os valores podem ser personalizados em `SUITypography`; o
+`SUIThemeProvider` os publica como variáveis `--sui-fs-*`, `--sui-lh-*` e
+`--sui-ls-display`.
+
+`SUIPageHeader Prominent="true"` combina os papéis Display e Body na mesma
+composição responsiva usada por consoles operacionais. O padrão anterior do
+componente permanece inalterado.
+
+## SUIStatusBanner
+
+`SUIStatusBanner` apresenta a condição mais importante de uma superfície antes
+dos detalhes. O tom sempre acompanha título e descrição; a cor nunca é o único
+indicador. A área `MetaContent` aceita carimbo de host, versão, contagens ou
+outro contexto curto:
+
+```razor
+<SUIStatusBanner Tone="SUITone.Success"
+                 Title="Runtime estável"
+                 Description="Todos os workers responderam e não há falhas recentes."
+                 ActionText="Gerenciar tarefas"
+                 ActionHref="/tasks">
+    <MetaContent>
+        <strong>eveo-apps</strong>
+        <span>v1.26</span>
+        <small>0 em execução</small>
+    </MetaContent>
+</SUIStatusBanner>
+```
+
+Use a faixa para saúde, prontidão ou incidente que realmente deve dominar a
+primeira dobra. Mensagens locais, validações e erros recuperáveis continuam em
+`SUIAlert`; estados curtos dentro de linhas continuam em `SUIStatusBadge`.
 
 ## Estilo e tokens
 

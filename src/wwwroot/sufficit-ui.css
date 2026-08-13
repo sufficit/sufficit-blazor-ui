@@ -63,6 +63,7 @@
   --sui-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
               Helvetica, Arial, sans-serif;
   --sui-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --sui-font-label: var(--sui-font);
   --sui-fs-h1: 2.5rem;
   --sui-fs-h2: 2rem;
   --sui-fs-h3: 1.6rem;
@@ -76,6 +77,21 @@
   --sui-fs-button: .875rem;
   --sui-fs-caption: .75rem;
   --sui-fs-overline: .6875rem;
+
+  /* compact semantic ramp for operational products */
+  --sui-fs-display: clamp(1.55rem, 2.2vw, 2.25rem);
+  --sui-fs-headline: 1.28rem;
+  --sui-fs-title: 1rem;
+  --sui-fs-body: .875rem;
+  --sui-fs-label: .75rem;
+  --sui-fs-mono: .76rem;
+  --sui-lh-display: 1.2;
+  --sui-lh-headline: 1.2;
+  --sui-lh-title: 1.2;
+  --sui-lh-body: 1.45;
+  --sui-lh-label: 1.2;
+  --sui-lh-mono: 1.4;
+  --sui-ls-display: -.025em;
 
   /* control sizing */
   --sui-control-h-sm: 28px;
@@ -769,6 +785,49 @@ button.sui-nav-link:disabled,
 .sui-text--button    { font-size: var(--sui-fs-button); font-weight: 600; letter-spacing: .02em; }
 .sui-text--caption   { font-size: var(--sui-fs-caption); }
 .sui-text--overline  { font-size: var(--sui-fs-overline); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.sui-text--display,
+.sui-type-display {
+  font-family: var(--sui-font);
+  font-size: var(--sui-fs-display);
+  font-weight: 700;
+  line-height: var(--sui-lh-display);
+  letter-spacing: var(--sui-ls-display);
+}
+.sui-text--headline,
+.sui-type-headline {
+  font-family: var(--sui-font);
+  font-size: var(--sui-fs-headline);
+  font-weight: 700;
+  line-height: var(--sui-lh-headline);
+}
+.sui-text--title,
+.sui-type-title {
+  font-family: var(--sui-font);
+  font-size: var(--sui-fs-title);
+  font-weight: 700;
+  line-height: var(--sui-lh-title);
+}
+.sui-text--body,
+.sui-type-body {
+  font-family: var(--sui-font);
+  font-size: var(--sui-fs-body);
+  font-weight: 400;
+  line-height: var(--sui-lh-body);
+}
+.sui-text--label,
+.sui-type-label {
+  font-family: var(--sui-font-label);
+  font-size: var(--sui-fs-label);
+  font-weight: 500;
+  line-height: var(--sui-lh-label);
+}
+.sui-text--mono,
+.sui-type-mono {
+  font-family: var(--sui-font-mono);
+  font-size: var(--sui-fs-mono);
+  font-weight: 400;
+  line-height: var(--sui-lh-mono);
+}
 .sui-text--secondary { color: var(--sui-text-secondary); }
 .sui-text--disabled  { color: var(--sui-text-disabled); }
 
@@ -1066,6 +1125,7 @@ button.sui-nav-link:disabled,
   margin-bottom: var(--sui-space-4);
 }
 .sui-page-header__copy { min-width: 0; flex: 1 1 320px; }
+.sui-page-header__leading { min-width: 0; }
 .sui-page-header__eyebrow {
   margin: 0 0 var(--sui-space-1);
   font-size: var(--sui-fs-overline);
@@ -1093,6 +1153,112 @@ button.sui-nav-link:disabled,
   flex-wrap: wrap;
   gap: var(--sui-space-2);
   align-items: center;
+}
+
+.sui-page-header--prominent {
+  gap: var(--sui-space-5);
+  margin-bottom: 1.6rem;
+}
+.sui-page-header--prominent .sui-page-header__title {
+  font-size: var(--sui-fs-display);
+  line-height: var(--sui-lh-display);
+  letter-spacing: var(--sui-ls-display);
+}
+.sui-page-header--prominent .sui-page-header__description {
+  max-width: 72ch;
+  margin-top: .35rem;
+  font-size: .9rem;
+  line-height: var(--sui-lh-body);
+}
+.sui-page-header--prominent .sui-page-header__actions { flex: 0 0 auto; }
+
+/* ------------------------------------------------------------------ *
+ * Status banner
+ * ------------------------------------------------------------------ */
+
+.sui-status-banner {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1.35rem;
+  min-height: 128px;
+  margin-bottom: var(--sui-space-4);
+  padding: 1.4rem 1.6rem;
+  border-radius: 10px;
+  background: var(--sui-status-banner-background, #202326);
+  color: var(--sui-status-banner-foreground, #fff);
+  box-shadow: 0 8px 22px rgba(32, 35, 38, .14);
+}
+.sui-status-banner--without-signal { grid-template-columns: minmax(0, 1fr) auto; }
+.sui-status-banner__copy { min-width: 0; }
+.sui-status-banner__title {
+  margin: 0 0 .3rem;
+  color: inherit;
+  font-family: var(--sui-font);
+  font-size: var(--sui-fs-headline);
+  font-weight: 700;
+  line-height: var(--sui-lh-headline);
+}
+.sui-status-banner__description {
+  max-width: 75ch;
+  margin: 0;
+  color: var(--sui-status-banner-secondary, #d8dde1);
+  font-size: .86rem;
+  line-height: var(--sui-lh-body);
+}
+.sui-status-banner__action {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  width: fit-content;
+  margin-top: .65rem;
+  color: var(--sui-status-banner-action, #ff8a4c);
+  font-size: .76rem;
+  font-weight: 700;
+  text-underline-offset: 3px;
+}
+.sui-status-banner__signal {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 52px;
+}
+.sui-status-banner__signal span {
+  width: 11px;
+  border-radius: 3px 3px 0 0;
+  background: var(--sui-color-primary);
+}
+.sui-status-banner__signal span:nth-child(1) { height: 18px; }
+.sui-status-banner__signal span:nth-child(2) { height: 34px; }
+.sui-status-banner__signal span:nth-child(3) { height: 50px; }
+.sui-status-banner--success .sui-status-banner__signal span { background: #22c55e; }
+.sui-status-banner--warning .sui-status-banner__signal span { background: #f59e0b; }
+.sui-status-banner--danger .sui-status-banner__signal span { background: #ef4444; }
+.sui-status-banner--info .sui-status-banner__signal span { background: var(--sui-color-info); }
+.sui-status-banner__meta {
+  display: grid;
+  min-width: 150px;
+  justify-items: end;
+}
+.sui-status-banner__meta > strong { font-size: .84rem; }
+.sui-status-banner__meta > span,
+.sui-status-banner__meta > small {
+  color: var(--sui-status-banner-meta, #bfc5ca);
+  font-size: .7rem;
+}
+
+@media (max-width: 620px) {
+  .sui-page-header--prominent {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .sui-page-header--prominent .sui-page-header__copy { flex-basis: auto; }
+  .sui-page-header--prominent .sui-page-header__actions,
+  .sui-page-header--prominent .sui-page-header__actions > .sui-btn { width: 100%; }
+  .sui-status-banner { grid-template-columns: 48px minmax(0, 1fr); padding: 1.1rem; }
+  .sui-status-banner--without-signal { grid-template-columns: minmax(0, 1fr); }
+  .sui-status-banner__meta { grid-column: 2; justify-items: start; }
+  .sui-status-banner--without-signal .sui-status-banner__meta { grid-column: 1; }
 }
 
 /* ------------------------------------------------------------------ *

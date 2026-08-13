@@ -2,6 +2,10 @@
 
 <header class="@Classname">
     <div class="sui-page-header__copy">
+        @if (LeadingContent is not null)
+        {
+            <div class="sui-page-header__leading">@LeadingContent</div>
+        }
         @if (!string.IsNullOrWhiteSpace(Eyebrow))
         {
             <p class="sui-page-header__eyebrow">@Eyebrow</p>
@@ -34,9 +38,26 @@
     [Parameter]
     public RenderFragment? Actions { get; set; }
 
+    /// <summary>
+    /// Optional content shown before the title, such as a back link. Prefer it
+    /// to <see cref="Eyebrow"/> when the element is interactive.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? LeadingContent { get; set; }
+
+    /// <summary>
+    /// Uses the compact operational display ramp without changing the default
+    /// page-header scale used by existing consumers.
+    /// </summary>
+    [Parameter]
+    public bool Prominent { get; set; }
+
     [Parameter]
     public string? Class { get; set; }
 
     private string Classname
-        => string.IsNullOrWhiteSpace(Class) ? "sui-page-header" : $"sui-page-header {Class}";
+        => SUIClassBuilder.Default("sui-page-header")
+            .AddClass("sui-page-header--prominent", Prominent)
+            .AddClass(Class)
+            .Build();
 }

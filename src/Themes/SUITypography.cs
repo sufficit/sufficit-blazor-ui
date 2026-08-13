@@ -13,6 +13,12 @@ public sealed record SUITypography
     public string FontFamilyMono { get; init; } =
         "ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace";
 
+    /// <summary>
+    /// Optional compact-label family. It falls back to the main UI family so
+    /// consumers do not need to load an additional web font.
+    /// </summary>
+    public string FontFamilyLabel { get; init; } = "var(--sui-font)";
+
     public string FsH1 { get; init; } = "2.5rem";
     public string FsH2 { get; init; } = "2rem";
     public string FsH3 { get; init; } = "1.6rem";
@@ -26,6 +32,23 @@ public sealed record SUITypography
     public string FsButton { get; init; } = ".875rem";
     public string FsCaption { get; init; } = ".75rem";
     public string FsOverline { get; init; } = ".6875rem";
+
+    // Semantic operational ramp. These roles are additive: the legacy h1-h6
+    // scale above remains unchanged for existing consumers.
+    public string FsDisplay { get; init; } = "clamp(1.55rem, 2.2vw, 2.25rem)";
+    public string FsHeadline { get; init; } = "1.28rem";
+    public string FsTitle { get; init; } = "1rem";
+    public string FsBody { get; init; } = ".875rem";
+    public string FsLabel { get; init; } = ".75rem";
+    public string FsMono { get; init; } = ".76rem";
+
+    public string LineHeightDisplay { get; init; } = "1.2";
+    public string LineHeightHeadline { get; init; } = "1.2";
+    public string LineHeightTitle { get; init; } = "1.2";
+    public string LineHeightBody { get; init; } = "1.45";
+    public string LineHeightLabel { get; init; } = "1.2";
+    public string LineHeightMono { get; init; } = "1.4";
+    public string LetterSpacingDisplay { get; init; } = "-.025em";
 
     public static SUITypography Default { get; } = new();
 }

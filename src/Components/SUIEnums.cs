@@ -83,6 +83,18 @@ public enum SUITypo
     button,
     caption,
     overline,
+    /// <summary>Primary page title in dense operational products.</summary>
+    display,
+    /// <summary>Dominant status or diagnostic title.</summary>
+    headline,
+    /// <summary>Surface and section title.</summary>
+    title,
+    /// <summary>Compact operational body copy.</summary>
+    body,
+    /// <summary>Control, table and metadata label.</summary>
+    label,
+    /// <summary>Structured identifiers, schedules and code-like values.</summary>
+    mono,
 }
 
 /// <summary>

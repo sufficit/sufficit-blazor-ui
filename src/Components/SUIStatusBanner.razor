@@ -1,0 +1,93 @@
+@namespace Sufficit.Blazor.UI.Components
+
+@* Dominant status surface for health, readiness and incidents. The semantic
+   tone is always paired with a title; the signal bars are supplemental. *@
+
+<section class="@Classname"
+         role="status"
+         aria-live="@AriaLive"
+         @attributes="UserAttributes">
+    @if (ShowSignal)
+    {
+        <div class="sui-status-banner__signal" aria-hidden="true">
+            <span></span><span></span><span></span>
+        </div>
+    }
+
+    <div class="sui-status-banner__copy">
+        <h2 class="sui-status-banner__title">@Title</h2>
+        @if (!string.IsNullOrWhiteSpace(Description))
+        {
+            <p class="sui-status-banner__description">@Description</p>
+        }
+
+        @if (ActionContent is not null)
+        {
+            <div class="sui-status-banner__action">@ActionContent</div>
+        }
+        else if (!string.IsNullOrWhiteSpace(ActionText) && !string.IsNullOrWhiteSpace(ActionHref))
+        {
+            <a class="sui-status-banner__action" href="@ActionHref">
+                @ActionText
+                @if (ShowActionArrow)
+                {
+                    <span aria-hidden="true">→</span>
+                }
+            </a>
+        }
+    </div>
+
+    @if (MetaContent is not null)
+    {
+        <div class="sui-status-banner__meta">@MetaContent</div>
+    }
+</section>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string? Description { get; set; }
+
+    /// <summary>Semantic state controlling the signal color.</summary>
+    [Parameter]
+    public SUITone Tone { get; set; } = SUITone.Neutral;
+
+    [Parameter]
+    public string? ActionText { get; set; }
+
+    [Parameter]
+    public string? ActionHref { get; set; }
+
+    /// <summary>Custom action content. Takes precedence over ActionText/ActionHref.</summary>
+    [Parameter]
+    public RenderFragment? ActionContent { get; set; }
+
+    /// <summary>Short contextual values such as host, version or active count.</summary>
+    [Parameter]
+    public RenderFragment? MetaContent { get; set; }
+
+    /// <summary>Hides the supplemental three-bar signal when the host supplies another cue.</summary>
+    [Parameter]
+    public bool ShowSignal { get; set; } = true;
+
+    [Parameter]
+    public bool ShowActionArrow { get; set; } = true;
+
+    [Parameter]
+    public string AriaLive { get; set; } = "polite";
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> UserAttributes { get; set; } = new();
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-status-banner")
+            .AddClass($"sui-status-banner--{Tone.ToString().ToLowerInvariant()}")
+            .AddClass("sui-status-banner--without-signal", !ShowSignal)
+            .AddClass(Class)
+            .Build();
+}
