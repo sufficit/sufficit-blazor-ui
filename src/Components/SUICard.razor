@@ -1,10 +1,15 @@
 @namespace Sufficit.Blazor.UI.Components
 
-<div class="@Classname" style="@Style">
+<div class="@Classname" style="@Style" @attributes="Attributes">
     @ChildContent
 </div>
 
 @code {
+    /// <summary>Elevation 0-3 (shadow depth). Default 1.</summary>
+    /// <summary>Forward unmatched attributes (onclick, role, data-*, etc.) to the root element.</summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?>? Attributes { get; set; }
+
     /// <summary>Elevation 0-3 (shadow depth). Default 1.</summary>
     [Parameter]
     public int Elevation { get; set; } = 1;
