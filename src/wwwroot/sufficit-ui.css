@@ -1201,6 +1201,10 @@ button.sui-nav-link:disabled,
 .sui-skeleton-text    { height: 12px; width: 100%; margin: 6px 0; }
 .sui-skeleton-circle  { border-radius: var(--sui-radius-full); }
 
+@media (prefers-reduced-motion: reduce) {
+  .sui-skeleton { animation: none; }
+}
+
 /* ------------------------------------------------------------------ *
  * Empty state
  * ------------------------------------------------------------------ */

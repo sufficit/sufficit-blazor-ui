@@ -4,6 +4,10 @@
 
 @{
     bool isAnchor = !string.IsNullOrWhiteSpace(Href);
+    // Only intercept the click when an OnClick handler is bound; otherwise let
+    // the browser follow the href normally (so Href-only anchors actually
+    // navigate instead of being silently swallowed by preventDefault).
+    bool preventDefault = OnClick.HasDelegate;
     var cls = SUIClassBuilder.Default("sui-btn sui-btn--icon")
         .AddClass($"sui-btn--{SUIClassBuilder.Slug(Variant)}")
         .AddClass($"sui-btn--color-{SUIClassBuilder.Slug(Color)}")
@@ -19,7 +23,7 @@
 @if (isAnchor)
 {
     <a class="@cls" style="@Style" href="@Href" target="@Target" rel="@GetRel()"
-       aria-label="@Title" aria-disabled="@isDisabled" @onclick="OnClickHandler" @onclick:preventDefault
+       aria-label="@Title" aria-disabled="@isDisabled" @onclick="OnClickHandler" @onclick:preventDefault="@preventDefault"
        @attributes="UserAttributes">
         @RenderBody()
     </a>
