@@ -20,7 +20,7 @@
 @if (isAnchor)
 {
     <a @ref="_elementReference" class="@cls" style="@Style" href="@Href" target="@Target" rel="@GetRel()"
-       aria-disabled="@isDisabled" @onclick="OnClickHandler" @onclick:preventDefault
+       aria-disabled="@isDisabled" @onclick="OnClickHandler" @onclick:preventDefault="@isDisabled"
        @attributes="UserAttributes">
         @RenderBody()
     </a>
@@ -119,7 +119,9 @@ else
 
     protected async Task OnClickHandler(MouseEventArgs ev)
     {
-        if (Disabled)
+        // Anchors keep their native navigation unless the component is disabled.
+        // The previous unconditional preventDefault made every Href-only button inert.
+        if (Disabled || IsLoading)
             return;
 
         if (OnClick.HasDelegate)
