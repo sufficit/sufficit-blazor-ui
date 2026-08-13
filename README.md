@@ -26,6 +26,7 @@ terceiros.
 | `SUITableEmpty` | `TableNoRecords` | 40 |
 | `SUILoadingButton` | `LoadingButton` | 5 |
 | `SUINavLink` | `MudNavLinkEnchanted` | 3 |
+| `SUITooltip` | Tooltip flutuante acessível e reutilizável | Navegação rail e uso geral |
 | `SUIIconButton` | `MudIconButtonEnchanted` | 2 |
 | `SUISkeletonLoader` | `SkeletonLoader` | 2 |
 | `SUIEmptyState` | `EmptyState` | 1 |
@@ -230,8 +231,36 @@ consolidação lá é adoção, não migração — vale confirmar se compensa.
 
 O `SUINavGroup` reimplementa o padrão de navegação em árvore (grupo expansível,
 modo rail com flyout flutuante, accordion exclusivo entre irmãos) usando apenas
-CSS — `grid-template-rows: 0fr↔1fr` para o collapse animado, posicionamento
-absoluto para o flyout. Não há interop JavaScript nem portal.
+componentes SUI. O collapse usa `grid-template-rows: 0fr↔1fr`; o módulo
+`sufficit-ui.js` posiciona o flyout em relação ao acionador e preserva sua área
+de interação fora dos limites da barra lateral.
+
+## SUITooltip
+
+`SUITooltip` mantém a superfície flutuante fora dos limites de overflow do
+componente consumidor, oferece nome acessível ao controle interno e reposiciona
+automaticamente o conteúdo quando não há espaço no lado preferido. Sua
+opacidade padrão é `0.95` (5% de transparência):
+
+```razor
+<SUITooltip Text="Armazenamento"
+            Placement="SUITooltipPlacement.Right"
+            BackgroundColor="#171b24"
+            TextColor="#ffffff"
+            BorderColor="transparent"
+            Opacity="0.95"
+            Offset="10"
+            MaxWidth="280"
+            ShowDelay="180"
+            HideDelay="100">
+    <SUIIconButton Icon="@Icons.Storage" AriaLabel="Armazenamento" />
+</SUITooltip>
+```
+
+Também podem ser personalizados `ShowArrow`, `BorderRadius`, `Padding`,
+`BoxShadow`, `FontSize`, `FontWeight` e `TooltipClass`. `Placement` aceita
+`Auto`, `Right`, `Left`, `Top` ou `Bottom`. `SUINavLink` expõe as mesmas opções
+com o prefixo `Tooltip*` para links exibidos no rail recolhido.
 
 ## Licença
 

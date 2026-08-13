@@ -1,0 +1,126 @@
+@namespace Sufficit.Blazor.UI.Components
+@using System.Globalization
+@using Sufficit.Blazor.UI.Utilities
+
+<span @attributes="UserAttributes"
+      class="@Classname"
+      style="@Style"
+      data-sui-tooltip="@EffectiveText"
+      data-sui-tooltip-placement="@PlacementValue"
+      data-sui-tooltip-background="@BackgroundColor"
+      data-sui-tooltip-color="@TextColor"
+      data-sui-tooltip-border="@BorderColor"
+      data-sui-tooltip-opacity="@OpacityValue"
+      data-sui-tooltip-offset="@SafeOffset"
+      data-sui-tooltip-max-width="@SafeMaxWidth"
+      data-sui-tooltip-show-delay="@SafeShowDelay"
+      data-sui-tooltip-hide-delay="@SafeHideDelay"
+      data-sui-tooltip-arrow="@ArrowValue"
+      data-sui-tooltip-radius="@BorderRadius"
+      data-sui-tooltip-padding="@Padding"
+      data-sui-tooltip-shadow="@BoxShadow"
+      data-sui-tooltip-font-size="@FontSize"
+      data-sui-tooltip-font-weight="@SafeFontWeight"
+      data-sui-tooltip-class="@TooltipClass">
+    @ChildContent
+</span>
+
+@code {
+    /// <summary>Text displayed inside the tooltip.</summary>
+    [Parameter, EditorRequired]
+    public string? Text { get; set; }
+
+    /// <summary>Preferred side. The runtime flips it when the viewport has no room.</summary>
+    [Parameter]
+    public SUITooltipPlacement Placement { get; set; } = SUITooltipPlacement.Top;
+
+    /// <summary>Tooltip surface color. Defaults to the SUI dark surface.</summary>
+    [Parameter]
+    public string? BackgroundColor { get; set; }
+
+    /// <summary>Tooltip foreground color.</summary>
+    [Parameter]
+    public string? TextColor { get; set; }
+
+    /// <summary>Optional one-pixel border color.</summary>
+    [Parameter]
+    public string? BorderColor { get; set; }
+
+    /// <summary>Surface opacity from 0 to 1. The default 0.95 means 5% transparency.</summary>
+    [Parameter]
+    public double Opacity { get; set; } = .95;
+
+    /// <summary>Distance in pixels between the anchor and tooltip.</summary>
+    [Parameter]
+    public int Offset { get; set; } = 10;
+
+    /// <summary>Maximum tooltip width in pixels.</summary>
+    [Parameter]
+    public int MaxWidth { get; set; } = 240;
+
+    /// <summary>Delay in milliseconds before a pointer-triggered tooltip appears.</summary>
+    [Parameter]
+    public int ShowDelay { get; set; } = 220;
+
+    /// <summary>Delay in milliseconds before the tooltip disappears.</summary>
+    [Parameter]
+    public int HideDelay { get; set; } = 70;
+
+    /// <summary>Whether the directional arrow is rendered.</summary>
+    [Parameter]
+    public bool ShowArrow { get; set; } = true;
+
+    /// <summary>Optional CSS border radius applied to the floating surface.</summary>
+    [Parameter]
+    public string? BorderRadius { get; set; }
+
+    /// <summary>Optional CSS padding applied to the floating surface.</summary>
+    [Parameter]
+    public string? Padding { get; set; }
+
+    /// <summary>Optional CSS box shadow applied to the floating surface.</summary>
+    [Parameter]
+    public string? BoxShadow { get; set; }
+
+    /// <summary>Optional CSS font size applied to the floating surface.</summary>
+    [Parameter]
+    public string? FontSize { get; set; }
+
+    /// <summary>Tooltip font weight, clamped between 100 and 900.</summary>
+    [Parameter]
+    public int FontWeight { get; set; } = 600;
+
+    /// <summary>Additional class copied to the floating tooltip element.</summary>
+    [Parameter]
+    public string? TooltipClass { get; set; }
+
+    /// <summary>Disables tooltip behavior without removing its child content.</summary>
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public string? Style { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> UserAttributes { get; set; } = new();
+
+    private string? EffectiveText
+        => Disabled || string.IsNullOrWhiteSpace(Text) ? null : Text.Trim();
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-tooltip-anchor")
+            .AddClass(Class)
+            .Build();
+
+    private string PlacementValue => Placement.ToString().ToLowerInvariant();
+    private string ArrowValue => ShowArrow ? "true" : "false";
+    private string OpacityValue => string.Create(
+        CultureInfo.InvariantCulture,
+        $"{Math.Clamp(Opacity, 0, 1) * 100:0.##}%");
+    private int SafeOffset => Math.Clamp(Offset, 0, 80);
+    private int SafeMaxWidth => Math.Clamp(MaxWidth, 80, 1_200);
+    private int SafeShowDelay => Math.Clamp(ShowDelay, 0, 5_000);
+    private int SafeHideDelay => Math.Clamp(HideDelay, 0, 5_000);
+    private int SafeFontWeight => Math.Clamp(FontWeight, 100, 900);
+}

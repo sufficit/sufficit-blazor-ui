@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using Sufficit.Blazor.UI.Utilities;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace Sufficit.Blazor.UI.Components
     /// plain Blazor + CSS. Preserves rail-mode flyout, exclusive accordion
     /// between siblings, and animated collapse.
     /// </summary>
-    public partial class SUINavGroup : ComponentBase, IDisposable
+    public partial class SUINavGroup : ComponentBase, IAsyncDisposable
     {
         private SUINavigationContext _navigationContext = new() { Disabled = false, Expanded = true };
         private bool _expandedState;
@@ -47,7 +48,7 @@ namespace Sufficit.Blazor.UI.Components
             UpdateNavigationContext();
         }
 
-        public void Dispose()
+        public async ValueTask DisposeAsync()
         {
             if (_railCoordinatorSubscribed)
             {
@@ -59,6 +60,20 @@ namespace Sufficit.Blazor.UI.Components
 
             _flyoutCloseCts?.Cancel();
             _flyoutCloseCts?.Dispose();
+
+            if (_jsModuleTask is { } moduleTask)
+            {
+                try
+                {
+                    var module = await moduleTask;
+                    await module.DisposeAsync();
+                }
+                catch (Exception)
+                {
+                    // The browser circuit may already be gone during disposal.
+                }
+            }
+
             GC.SuppressFinalize(this);
         }
 
@@ -184,9 +199,16 @@ namespace Sufficit.Blazor.UI.Components
         [CascadingParameter(Name = "SufficitRailMode")]
         public bool RailMode { get; set; }
 
+        [Inject]
+        private IJSRuntime JS { get; set; } = default!;
+
         protected bool IsRootRail => RailMode && ParentNavigationContext is null;
 
         private bool _flyoutOpen;
+        private bool _pointerWithinRail;
+        private bool _pointerWithinFlyout;
+        private ElementReference _flyoutElement;
+        private Task<IJSObjectReference>? _jsModuleTask;
         private CancellationTokenSource? _flyoutCloseCts;
         // The pointer needs time to cross the intentional gap between the
         // fixed rail and the floating panel, including diagonal movement.
@@ -205,19 +227,51 @@ namespace Sufficit.Blazor.UI.Components
             RailFlyoutOpened?.Invoke(this);
         }
 
+        protected void EnterRail()
+        {
+            _pointerWithinRail = true;
+            OpenFlyout();
+        }
+
+        protected void LeaveRail()
+        {
+            _pointerWithinRail = false;
+            ScheduleCloseFlyout();
+        }
+
+        protected void EnterFlyout()
+        {
+            _pointerWithinFlyout = true;
+            OpenFlyout();
+        }
+
+        protected void LeaveFlyout()
+        {
+            _pointerWithinFlyout = false;
+            ScheduleCloseFlyout();
+        }
+
         private void OnAnotherRailFlyoutOpened(SUINavGroup opener)
         {
             if (ReferenceEquals(opener, this) || !_flyoutOpen)
                 return;
 
             _flyoutCloseCts?.Cancel();
+            _pointerWithinRail = false;
+            _pointerWithinFlyout = false;
             _flyoutOpen = false;
             InvokeAsync(StateHasChanged);
         }
 
         protected void ToggleFlyout()
         {
-            if (_flyoutOpen) _flyoutOpen = false;
+            if (_flyoutOpen)
+            {
+                _flyoutCloseCts?.Cancel();
+                _pointerWithinRail = false;
+                _pointerWithinFlyout = false;
+                _flyoutOpen = false;
+            }
             else OpenFlyout();
         }
 
@@ -231,9 +285,29 @@ namespace Sufficit.Blazor.UI.Components
                 try { await Task.Delay(FlyoutCloseDelayMilliseconds, token); }
                 catch (TaskCanceledException) { return; }
                 if (token.IsCancellationRequested) return;
+                if (_pointerWithinRail || _pointerWithinFlyout) return;
+                if (await IsRailInteractionActiveAsync()) return;
                 _flyoutOpen = false;
                 StateHasChanged();
             });
+        }
+
+        private async Task<bool> IsRailInteractionActiveAsync()
+        {
+            try
+            {
+                _jsModuleTask ??= JS.InvokeAsync<IJSObjectReference>(
+                    "import",
+                    "/_content/Sufficit.Blazor.UI/sufficit-ui.js").AsTask();
+                var module = await _jsModuleTask;
+                return await module.InvokeAsync<bool>(
+                    "isRailInteractionActive",
+                    _flyoutElement);
+            }
+            catch (Exception ex) when (ex is JSException or JSDisconnectedException or InvalidOperationException)
+            {
+                return false;
+            }
         }
 
         private void UpdateNavigationContext()

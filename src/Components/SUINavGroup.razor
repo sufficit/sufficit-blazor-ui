@@ -4,8 +4,8 @@
 {
     @* Rail mode: top-level group = icon trigger + floating glass flyout. *@
     <div class="@Classname sui-rail-group"
-         @onpointerenter="OpenFlyout"
-         @onpointerleave="ScheduleCloseFlyout">
+         @onpointerenter="EnterRail"
+         @onpointerleave="LeaveRail">
         <button type="button"
                 class="sui-rail-trigger @(_flyoutOpen ? "is-open" : "")"
                 aria-haspopup="menu"
@@ -17,11 +17,12 @@
             @RenderTrigger()
         </button>
         <div class="sui-popover sui-popover--rail sui-rail-flyout @(_flyoutOpen ? "is-open" : "")"
+             @ref="_flyoutElement"
              role="menu"
              aria-label="@Title"
              hidden="@(!_flyoutOpen)"
-             @onpointerenter="OpenFlyout"
-             @onpointerleave="ScheduleCloseFlyout"
+             @onpointerenter="EnterFlyout"
+             @onpointerleave="LeaveFlyout"
              @onfocusin="OpenFlyout">
             <div class="sui-rail-flyout-inner">
                 <div class="sui-rail-flyout-head">

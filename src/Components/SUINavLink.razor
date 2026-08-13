@@ -6,37 +6,32 @@
      class="@Classname"
      style="@Style"
      aria-disabled="@IsDisabled">
-    @if (OnClick.HasDelegate)
+    @if (RailTooltip is not null)
     {
-        <button type="button"
-                class="@LinkClassname"
-                disabled="@IsDisabled"
-                @onclick="OnClickHandler">
-            @RenderContent()
-        </button>
-    }
-    else if (ForceLoad)
-    {
-        <a href="@Href"
-           class="@ForceLoadLinkClassname"
-           @attributes="Attributes"
-           aria-disabled="@IsDisabled"
-           @onclick:preventDefault="true"
-           @onclick="HandleNavigation">
-            @RenderContent()
-        </a>
+        <SUITooltip Text="@RailTooltip"
+                    Placement="@TooltipPlacement"
+                    BackgroundColor="@TooltipBackgroundColor"
+                    TextColor="@TooltipTextColor"
+                    BorderColor="@TooltipBorderColor"
+                    Opacity="@TooltipOpacity"
+                    Offset="@TooltipOffset"
+                    MaxWidth="@TooltipMaxWidth"
+                    ShowDelay="@TooltipShowDelay"
+                    HideDelay="@TooltipHideDelay"
+                    ShowArrow="@TooltipShowArrow"
+                    BorderRadius="@TooltipBorderRadius"
+                    Padding="@TooltipPadding"
+                    BoxShadow="@TooltipBoxShadow"
+                    FontSize="@TooltipFontSize"
+                    FontWeight="@TooltipFontWeight"
+                    TooltipClass="@TooltipClass"
+                    Class="sui-nav-link__tooltip-anchor">
+            @RenderInteractive()
+        </SUITooltip>
     }
     else
     {
-        <NavLink href="@Href"
-                 class="@LinkClassname"
-                 @attributes="Attributes"
-                 Match="@Match"
-                 ActiveClass="@ActiveClass"
-                 aria-disabled="@IsDisabled"
-                 @onclick="HandleNavigation">
-            @RenderContent()
-        </NavLink>
+        @RenderInteractive()
     }
 </div>
 
@@ -60,6 +55,24 @@
     [Parameter] public bool IconAsAvatar { get; set; }
     [Parameter] public bool Disabled { get; set; }
     [Parameter] public int TabIndex { get; set; }
+    [Parameter] public string? Tooltip { get; set; }
+    [Parameter] public SUITooltipPlacement TooltipPlacement { get; set; } = SUITooltipPlacement.Right;
+    [Parameter] public string? TooltipBackgroundColor { get; set; }
+    [Parameter] public string? TooltipTextColor { get; set; }
+    [Parameter] public string? TooltipBorderColor { get; set; }
+    [Parameter] public double TooltipOpacity { get; set; } = .95;
+    [Parameter] public int TooltipOffset { get; set; } = 10;
+    [Parameter] public int TooltipMaxWidth { get; set; } = 240;
+    [Parameter] public int TooltipShowDelay { get; set; } = 220;
+    [Parameter] public int TooltipHideDelay { get; set; } = 70;
+    [Parameter] public bool TooltipShowArrow { get; set; } = true;
+    [Parameter] public string? TooltipBorderRadius { get; set; }
+    [Parameter] public string? TooltipPadding { get; set; }
+    [Parameter] public string? TooltipBoxShadow { get; set; }
+    [Parameter] public string? TooltipFontSize { get; set; }
+    [Parameter] public int TooltipFontWeight { get; set; } = 600;
+    [Parameter] public string? TooltipClass { get; set; }
+    [Parameter] public bool DisableTooltip { get; set; }
     [Parameter] public string? Class { get; set; }
     [Parameter] public string? Style { get; set; }
     [Parameter] public Dictionary<string, object?> Attributes { get; set; } = new();
@@ -72,6 +85,12 @@
 
     private bool IsDisabled
         => Disabled || ParentNavigationContext is { Disabled: true };
+
+    private string? RailTooltip
+        => RailMode && !RailFlyoutMode && !DisableTooltip
+            && !string.IsNullOrWhiteSpace(Tooltip ?? Title)
+            ? (Tooltip ?? Title)!.Trim()
+            : null;
 
     private string Classname
         => SUIClassBuilder.Default("sui-nav-link")
@@ -113,6 +132,45 @@
         => SUIClassBuilder.Default("sui-icon sui-nav-link__icon")
             .AddClass($"sui-color-{IconColor.ToString().ToLowerInvariant()}", IconColor != SUIColor.Default)
             .Build();
+
+    private RenderFragment RenderInteractive() => __builder =>
+    {
+        if (OnClick.HasDelegate)
+        {
+            <button type="button"
+                    class="@LinkClassname"
+                    aria-label="@RailTooltip"
+                    disabled="@IsDisabled"
+                    @onclick="OnClickHandler">
+                @RenderContent()
+            </button>
+        }
+        else if (ForceLoad)
+        {
+            <a href="@Href"
+               class="@ForceLoadLinkClassname"
+               @attributes="Attributes"
+               aria-label="@RailTooltip"
+               aria-disabled="@IsDisabled"
+               @onclick:preventDefault="true"
+               @onclick="HandleNavigation">
+                @RenderContent()
+            </a>
+        }
+        else
+        {
+            <NavLink href="@Href"
+                     class="@LinkClassname"
+                     @attributes="Attributes"
+                     aria-label="@RailTooltip"
+                     Match="@Match"
+                     ActiveClass="@ActiveClass"
+                     aria-disabled="@IsDisabled"
+                     @onclick="HandleNavigation">
+                @RenderContent()
+            </NavLink>
+        }
+    };
 
     private RenderFragment RenderContent() => __builder =>
     {
