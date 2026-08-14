@@ -1221,8 +1221,32 @@ button.sui-nav-link:disabled,
 .sui-empty__icon    { display: inline-flex; opacity: .7; margin-bottom: var(--sui-space-3); color: var(--sui-text-secondary); }
 .sui-empty__title   { font-size: var(--sui-fs-h6); font-weight: 600; color: var(--sui-text-primary); }
 .sui-empty__description { font-size: var(--sui-fs-body2); margin-top: var(--sui-space-1); max-width: 44ch; }
-.sui-empty__action,
-.sui-empty__actions { margin-top: var(--sui-space-4); }
+.sui-empty__action { margin-top: var(--sui-space-4); }
+.sui-empty__actions {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sui-space-2);
+  margin-top: var(--sui-space-4);
+}
+.sui-empty__actions > form {
+  display: flex;
+  margin: 0;
+}
+
+@media (max-width: 30rem) {
+  .sui-empty__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .sui-empty__actions > .sui-btn,
+  .sui-empty__actions > form,
+  .sui-empty__actions > form > .sui-btn {
+    width: 100%;
+  }
+}
 
 /* ------------------------------------------------------------------ *
  * Page header
