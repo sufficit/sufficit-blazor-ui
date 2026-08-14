@@ -20,6 +20,9 @@ concluído é arquivado em `activities/` com prefixo de timestamp
 
 ## Planos ativos (trabalho pendente)
 
+- [Arquitetura e hardening da biblioteca SUI](PLAN-SUI-ARCHITECTURE-HARDENING.md) —
+  componentização híbrida de CSS/JavaScript, acessibilidade, theming, testes,
+  empacotamento e rollout seguro nos consumidores
 - [Adoção dos componentes `SUI*`](PLAN-CONSUMER-MIGRATION.md) —
   implementado em `sufficit-blazor`, `sufficit-ai-genius`,
   `Sufficit.Identity.UI.Management`, `sufficit-cloud-mobile` e
