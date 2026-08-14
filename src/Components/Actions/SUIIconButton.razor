@@ -9,10 +9,10 @@
     // navigate instead of being silently swallowed by preventDefault).
     bool preventDefault = OnClick.HasDelegate;
     var cls = SUIClassBuilder.Default("sui-btn sui-btn--icon")
-        .AddClass($"sui-btn--{SUIClassBuilder.Slug(Variant)}")
-        .AddClass($"sui-btn--color-{SUIClassBuilder.Slug(Color)}")
-        .AddClass($"sui-btn--{SUIClassBuilder.Slug(Size)}")
-        .AddClass($"sui-btn--edge-{SUIClassBuilder.Slug(Edge)}")
+        .AddClass($"sui-btn--{SUIClassBuilder.Slug(EffectiveVariant)}")
+        .AddClass($"sui-btn--color-{SUIClassBuilder.Slug(EffectiveColor)}")
+        .AddClass($"sui-btn--{SUIClassBuilder.Slug(EffectiveSize)}")
+        .AddClass($"sui-btn--edge-{SUIClassBuilder.Slug(EffectiveEdge)}")
         .AddClass("sui-btn--full-width", FullWidth)
         .AddClass("sui-btn--loading", IsLoading)
         .AddClass(Class)
@@ -30,7 +30,7 @@
 }
 else
 {
-    <button type="@SUIClassBuilder.Slug(ButtonType)" class="@cls" style="@Style"
+    <button type="@SUIClassBuilder.Slug(EffectiveButtonType)" class="@cls" style="@Style"
             aria-label="@Title" disabled="@isDisabled" @onclick="OnClickHandler"
             @attributes="UserAttributes">
         @RenderBody()
@@ -52,20 +52,26 @@ else
     [Parameter]
     public string? Title { get; set; }
 
-    [Parameter]
+    [Parameter, Obsolete("Use ColorValue. The object bridge will be removed in v2.0.0.")]
     public object Color { get; set; } = SUIColor.Default;
 
-    [Parameter]
+    [Parameter, Obsolete("Use SizeValue. The object bridge will be removed in v2.0.0.")]
     public object Size { get; set; } = SUISize.Medium;
 
-    [Parameter]
+    [Parameter, Obsolete("Use VariantValue. The object bridge will be removed in v2.0.0.")]
     public object Variant { get; set; } = SUIVariant.Text;
 
-    [Parameter]
+    [Parameter, Obsolete("Use EdgeValue. The object bridge will be removed in v2.0.0.")]
     public object Edge { get; set; } = SUIEdge.False;
 
-    [Parameter]
+    [Parameter, Obsolete("Use ButtonTypeValue. The object bridge will be removed in v2.0.0.")]
     public object ButtonType { get; set; } = SUIButtonType.Button;
+
+    [Parameter] public SUIColor? ColorValue { get; set; }
+    [Parameter] public SUISize? SizeValue { get; set; }
+    [Parameter] public SUIVariant? VariantValue { get; set; }
+    [Parameter] public SUIEdge? EdgeValue { get; set; }
+    [Parameter] public SUIButtonType? ButtonTypeValue { get; set; }
 
     [Parameter]
     public bool FullWidth { get; set; }
@@ -126,14 +132,14 @@ else
         if (IsLoading)
         {
             <span class="sui-overlay sui-overlay--light">
-                <span class="sui-progress-circular sui-progress-circular--sm sui-color-@SUIClassBuilder.Slug(Color)">
+                <span class="sui-progress-circular sui-progress-circular--sm sui-color-@SUIClassBuilder.Slug(EffectiveColor)">
                     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)SUIIcons.ProgressCircular)</svg>
                 </span>
             </span>
         }
         if (!string.IsNullOrEmpty(Icon))
         {
-            <span class="sui-icon sui-icon--@SUIClassBuilder.Slug(Size)">
+            <span class="sui-icon sui-icon--@SUIClassBuilder.Slug(EffectiveSize)">
                 <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)Icon)</svg>
             </span>
         }
@@ -144,4 +150,12 @@ else
     };
 
     public void Dispose() { }
+
+#pragma warning disable CS0618
+    private object EffectiveColor => ColorValue ?? Color;
+    private object EffectiveSize => SizeValue ?? Size;
+    private object EffectiveVariant => VariantValue ?? Variant;
+    private object EffectiveEdge => EdgeValue ?? Edge;
+    private object EffectiveButtonType => ButtonTypeValue ?? ButtonType;
+#pragma warning restore CS0618
 }

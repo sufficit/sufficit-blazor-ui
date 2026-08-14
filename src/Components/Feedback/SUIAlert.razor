@@ -1,6 +1,6 @@
 @namespace Sufficit.Blazor.UI.Components
 
-<div class="@Classname" role="alert">
+<div class="@Classname" role="alert" style="@Style" @attributes="AdditionalAttributes">
     @if (!string.IsNullOrWhiteSpace(Icon))
     {
         <span class="sui-alert__icon">
@@ -22,8 +22,11 @@
     /// <summary>Alert tone. Accepts a lowercase string ("info", "success",
     /// "warning", "danger", "error") for compatibility, defaulting to "info".
     /// "error" is mapped to the danger style.</summary>
-    [Parameter]
+    [Parameter, Obsolete("Use ToneValue. The string bridge will be removed in v2.0.0.")]
     public string Severity { get; set; } = "info";
+
+    [Parameter]
+    public SUITone? ToneValue { get; set; }
 
     [Parameter]
     public bool ShowCloseIcon { get; set; }
@@ -45,13 +48,21 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
+
     private string Classname
     {
         get
         {
             // "error" (MudBlazor) and "danger" both map to the danger style.
-            var tone = Severity.Equals("error", StringComparison.OrdinalIgnoreCase)
+#pragma warning disable CS0618
+            var legacyTone = Severity.Equals("error", StringComparison.OrdinalIgnoreCase)
                 ? "danger" : Severity.ToLowerInvariant();
+#pragma warning restore CS0618
+            var tone = ToneValue is { } typedTone
+                ? SUIClassBuilder.Slug(typedTone)
+                : legacyTone;
             return SUIClassBuilder.Default($"sui-alert sui-alert--{tone}")
                 .AddClass(Class)
                 .Build();

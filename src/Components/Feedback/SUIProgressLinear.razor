@@ -1,9 +1,10 @@
 @namespace Sufficit.Blazor.UI.Components
+@using System.Globalization
 
 <div class="@Classname" role="progressbar"
-     aria-valuenow="@Value" aria-valuemin="0" aria-valuemax="100"
-     aria-label="@AriaLabel" style="@Style">
-    <div class="sui-progress-linear__bar" style="width:@(Value)%"></div>
+     aria-valuenow="@ClampedValue" aria-valuemin="0" aria-valuemax="100"
+     aria-label="@AriaLabel" style="@Style" @attributes="AdditionalAttributes">
+    <div class="sui-progress-linear__bar" style="@ProgressStyle"></div>
 </div>
 
 @code {
@@ -12,8 +13,11 @@
     public double Value { get; set; }
 
     /// <summary>Color: "primary", "success", "warning", "error", "info". Default "primary".</summary>
-    [Parameter]
+    [Parameter, Obsolete("Use ColorValue. The object bridge will be removed in v2.0.0.")]
     public object? Color { get; set; } = SUIColor.Primary;
+
+    [Parameter]
+    public SUIColor? ColorValue { get; set; }
 
     [Parameter]
     public bool Rounded { get; set; }
@@ -27,10 +31,23 @@
     [Parameter]
     public string? Style { get; set; }
 
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
+
     private string Classname
         => SUIClassBuilder.Default("sui-progress-linear")
-            .AddClass($"sui-progress-linear--{SUIClassBuilder.Slug(Color)}")
+            .AddClass($"sui-progress-linear--{SUIClassBuilder.Slug(EffectiveColor)}")
             .AddClass("sui-progress-linear--rounded", Rounded)
             .AddClass(Class)
             .Build();
+
+    private double ClampedValue
+        => double.IsFinite(Value) ? Math.Clamp(Value, 0, 100) : 0;
+
+    private string ProgressStyle
+        => $"--sui-progress-scale:{(ClampedValue / 100).ToString("0.####", CultureInfo.InvariantCulture)}";
+
+#pragma warning disable CS0618
+    private object EffectiveColor => ColorValue ?? Color ?? SUIColor.Primary;
+#pragma warning restore CS0618
 }

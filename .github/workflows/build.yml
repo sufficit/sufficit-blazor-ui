@@ -1,8 +1,6 @@
 name: Build
 
-# This repository has no local build environment behind it: components are
-# copied in from other projects, so CI is the only thing that proves they
-# actually compile. Keep this workflow fast and unconditional.
+# Build both supported target frameworks and validate the installable package.
 on:
   push:
     branches: [main]
@@ -18,9 +16,13 @@ concurrency:
 
 jobs:
   build:
-    name: Build (net10.0)
+    name: Build (${{ matrix.target-framework }})
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        target-framework: [net9.0, net10.0]
 
     steps:
       - name: Checkout
@@ -32,7 +34,7 @@ jobs:
           dotnet-version: "10.0.x"
 
       - name: Restore
-        run: dotnet restore src/Sufficit.Blazor.UI/Sufficit.Blazor.UI.csproj
+        run: dotnet restore src/Sufficit.Blazor.UI.csproj
 
       - name: Build (warnings treated as errors)
         # Captures the log so the diagnostics step below can surface failures as
@@ -40,8 +42,9 @@ jobs:
         id: build
         run: |
           set -o pipefail
-          dotnet build src/Sufficit.Blazor.UI/Sufficit.Blazor.UI.csproj \
-            --no-restore --configuration Release -warnaserror \
+          dotnet build src/Sufficit.Blazor.UI.csproj \
+            --no-restore --configuration Release \
+            --framework ${{ matrix.target-framework }} -warnaserror \
             /p:ErrorEndLocation=true -maxcpucount:1 2>&1 | tee build.log
 
       - name: Surface build diagnostics
@@ -60,3 +63,111 @@ jobs:
           grep -niE "razor|taghelper|component" build.log | head -20 | while IFS= read -r line; do
             echo "::error::RAZOR ${line}"
           done
+
+  pack:
+    name: Pack and inspect
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore
+        run: dotnet restore src/Sufficit.Blazor.UI.csproj
+
+      - name: Pack without publishing
+        run: dotnet pack src/Sufficit.Blazor.UI.csproj --no-restore --configuration Release --output artifacts/packages
+
+      - name: Inspect package and test minimal consumers
+        run: ./scripts/validate-package.sh artifacts/packages/*.nupkg
+
+  component-tests:
+    name: Component tests
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Test bUnit contracts
+        run: dotnet test tests/Sufficit.Blazor.UI.Tests/Sufficit.Blazor.UI.Tests.csproj --configuration Release -warnaserror
+
+  browser-tests:
+    name: Browser and accessibility tests
+    needs: component-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Build catalog and browser tests
+        run: dotnet build Sufficit.Blazor.UI.slnx --configuration Release -warnaserror
+
+      - name: Install Chromium
+        run: |
+          tests/Sufficit.Blazor.UI.BrowserTests/bin/Release/net10.0/.playwright/node/linux-x64/node \
+            tests/Sufficit.Blazor.UI.BrowserTests/bin/Release/net10.0/.playwright/package/cli.js \
+            install --with-deps chromium
+
+      - name: Run Playwright and axe
+        env:
+          SUI_CATALOG_URL: http://127.0.0.1:5180
+          SUI_CATALOG_SUBPATH_URL: http://127.0.0.1:5181/app/
+        run: |
+          dotnet run \
+            --project samples/Sufficit.Blazor.UI.Catalog/Sufficit.Blazor.UI.Catalog.csproj \
+            --configuration Release --no-build \
+            --urls "$SUI_CATALOG_URL" >catalog.log 2>&1 &
+          catalog_pid=$!
+          PathBase=/app dotnet run \
+            --project samples/Sufficit.Blazor.UI.Catalog/Sufficit.Blazor.UI.Catalog.csproj \
+            --configuration Release --no-build \
+            --urls "http://127.0.0.1:5181" >catalog-subpath.log 2>&1 &
+          catalog_subpath_pid=$!
+          trap 'kill "$catalog_pid" "$catalog_subpath_pid" 2>/dev/null || true' EXIT
+
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent "$SUI_CATALOG_URL" >/dev/null; then
+              break
+            fi
+            if [[ "$attempt" -eq 30 ]]; then
+              cat catalog.log
+              exit 1
+            fi
+            sleep 1
+          done
+
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent "$SUI_CATALOG_SUBPATH_URL" >/dev/null; then
+              break
+            fi
+            if [[ "$attempt" -eq 30 ]]; then
+              cat catalog-subpath.log
+              exit 1
+            fi
+            sleep 1
+          done
+
+          dotnet test tests/Sufficit.Blazor.UI.BrowserTests/Sufficit.Blazor.UI.BrowserTests.csproj \
+            --configuration Release --no-build

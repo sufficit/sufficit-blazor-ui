@@ -22,10 +22,10 @@ public sealed record SUIPalette
     /// <summary>Contrast color on top of <see cref="Secondary"/>.</summary>
     public string SecondaryContrast { get; init; } = "#ffffff";
 
-    public string Info { get; init; } = "#0ea5e9";
-    public string Success { get; init; } = "#16a34a";
-    public string Warning { get; init; } = "#d97706";
-    public string Error { get; init; } = "#dc2626";
+    public string Info { get; init; } = "#0369a1";
+    public string Success { get; init; } = "#166534";
+    public string Warning { get; init; } = "#92400e";
+    public string Error { get; init; } = "#b91c1c";
     public string Dark { get; init; } = "#1e293b";
     public string Light { get; init; } = "#f8fafc";
 

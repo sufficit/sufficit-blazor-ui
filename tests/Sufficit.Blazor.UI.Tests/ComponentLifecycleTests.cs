@@ -1,0 +1,55 @@
+using Bunit;
+using Microsoft.Extensions.DependencyInjection;
+using Sufficit.Blazor.UI.Components;
+using Sufficit.Blazor.UI.Services;
+
+namespace Sufficit.Blazor.UI.Tests;
+
+public sealed class ComponentLifecycleTests
+{
+    [Fact]
+    public async Task Autocomplete_DisposeCancelsPendingDebounce()
+    {
+        var context = new BunitContext();
+        var cut = context.Render<SUIAutocomplete<string>>(parameters => parameters
+            .Add(component => component.DebounceInterval, 5_000)
+            .Add(component => component.SearchFunc,
+                _ => Task.FromResult<IEnumerable<string>>(["São Paulo"])));
+
+        var inputTask = cut.Find("input").InputAsync("s");
+        cut.WaitForAssertion(() =>
+            Assert.Equal("true", cut.Find("input").GetAttribute("aria-expanded")));
+
+        await context.DisposeAsync();
+
+        await inputTask.WaitAsync(TimeSpan.FromSeconds(1));
+    }
+
+    [Fact]
+    public async Task DialogHost_CompletesReplacedBackdropAndDisposedRequests()
+    {
+        var context = new BunitContext();
+        context.JSInterop.Mode = JSRuntimeMode.Loose;
+        var service = new SUIDialogService();
+        context.Services.AddSingleton<ISUIDialogService>(service);
+        var cut = context.Render<SUIDialogHost>();
+
+        var first = await service.ShowAsync<SUIConfirmDialog>("Primeiro");
+        cut.WaitForElement("[role=dialog]");
+        var second = await service.ShowAsync<SUIConfirmDialog>("Segundo");
+
+        await first.Result.WaitAsync(TimeSpan.FromSeconds(1));
+        cut.WaitForAssertion(() =>
+            Assert.Equal("Segundo", cut.Find(".sui-dialog__title").TextContent));
+
+        cut.Find(".sui-dialog-overlay").Click();
+        await second.Result.WaitAsync(TimeSpan.FromSeconds(1));
+        cut.WaitForAssertion(() => Assert.Empty(cut.FindAll("[role=dialog]")));
+
+        var third = await service.ShowAsync<SUIConfirmDialog>("Terceiro");
+        cut.WaitForElement("[role=dialog]");
+        await context.DisposeAsync();
+
+        await third.Result.WaitAsync(TimeSpan.FromSeconds(1));
+    }
+}

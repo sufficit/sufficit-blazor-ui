@@ -1,7 +1,7 @@
 @* Empty State — progressive disclosure pattern. *@
 @namespace Sufficit.Blazor.UI.Components
 
-<div class="@Classname">
+<div class="@Classname" @attributes="AdditionalAttributes">
     @if (!string.IsNullOrEmpty(IconPath))
     {
         <svg class="sui-empty__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -63,6 +63,9 @@
 
     [Parameter]
     public string? Class { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
     private string Classname
         => string.IsNullOrWhiteSpace(Class) ? "sui-empty" : $"sui-empty {Class}";

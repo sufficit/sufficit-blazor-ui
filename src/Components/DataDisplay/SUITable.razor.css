@@ -1,0 +1,33 @@
+/* ------------------------------------------------------------------ *
+ * Table
+ * ------------------------------------------------------------------ */
+
+.sui-table-wrapper { width: 100%; overflow-x: auto; }
+.sui-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--sui-fs-body2);
+  color: var(--sui-text-primary);
+}
+.sui-table ::deep thead th {
+  text-align: start;
+  font-weight: 600;
+  padding: var(--sui-space-3) var(--sui-space-3);
+  border-bottom: 1px solid var(--sui-border-strong);
+  background: var(--sui-surface-2);
+  white-space: nowrap;
+}
+.sui-table ::deep tbody td {
+  padding: var(--sui-space-3) var(--sui-space-3);
+  border-bottom: 1px solid var(--sui-border);
+  vertical-align: middle;
+}
+.sui-table--dense ::deep thead th,
+.sui-table--dense ::deep tbody td { padding: var(--sui-space-2); }
+.sui-table--hover .sui-table__row:hover { background: var(--sui-surface-2); }
+.sui-table__row { cursor: inherit; }
+.sui-table__row--interactive { cursor: pointer; }
+.sui-table__row--interactive:focus-visible {
+  outline: 2px solid var(--sui-color-primary);
+  outline-offset: -2px;
+}

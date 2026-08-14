@@ -88,6 +88,7 @@ else
         }
     </button>
     <div class="sui-collapse @(_navigationContext.Expanded ? "is-expanded" : "")"
+         id="@_navigationContext.MenuId"
          style="@GetCollapseStyle()"
          aria-hidden="@((_navigationContext.Expanded is false).ToString().ToLowerInvariant())">
         <div class="sui-collapse__inner">

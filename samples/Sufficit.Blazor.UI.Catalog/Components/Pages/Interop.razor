@@ -1,0 +1,55 @@
+@page "/interop"
+
+<PageTitle>Interop SUI</PageTitle>
+
+<SUIThemeProvider>
+    <main class="catalog" data-interop-ready>
+        <h1>Interop por instância</h1>
+        <button type="button" data-testid="toggle-instances" @onclick="ToggleInstances">
+            @(_showInstances ? "Remover instâncias" : "Recriar instâncias")
+        </button>
+
+        @if (_showInstances)
+        {
+            <section aria-label="Tooltips">
+                <SUITooltip Text="Tooltip A" ShowDelay="0" data-testid="tooltip-a">
+                    <button type="button">Âncora A</button>
+                </SUITooltip>
+                <SUITooltip Text="Tooltip B" ShowDelay="0" data-testid="tooltip-b">
+                    <button type="button">Âncora B</button>
+                </SUITooltip>
+            </section>
+
+            <section aria-label="Selects">
+                <SUISelect T="string" Label="Select A" data-testid="select-a">
+                    <SUISelectItem Value="OptionA1">Opção A1</SUISelectItem>
+                    <SUISelectItem Value="OptionA2">Opção A2</SUISelectItem>
+                </SUISelect>
+                <SUISelect T="string" Label="Select B" data-testid="select-b">
+                    <SUISelectItem Value="OptionB1">Opção B1</SUISelectItem>
+                    <SUISelectItem Value="OptionB2">Opção B2</SUISelectItem>
+                </SUISelect>
+            </section>
+
+            <section aria-label="Rail">
+                <CascadingValue Value="true" Name="SufficitRailMode" IsFixed="true">
+                    <SUINavGroup Title="Rail A">
+                        <SUINavLink Title="Destino A" Href="#rail-a" />
+                    </SUINavGroup>
+                    <SUINavGroup Title="Rail B">
+                        <SUINavLink Title="Destino B" Href="#rail-b" />
+                    </SUINavGroup>
+                </CascadingValue>
+            </section>
+        }
+    </main>
+</SUIThemeProvider>
+
+@code {
+    private const string OptionA1 = "a1";
+    private const string OptionA2 = "a2";
+    private const string OptionB1 = "b1";
+    private const string OptionB2 = "b2";
+    private bool _showInstances = true;
+    private void ToggleInstances() => _showInstances = !_showInstances;
+}

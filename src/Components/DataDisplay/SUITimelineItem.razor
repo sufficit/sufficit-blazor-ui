@@ -1,6 +1,6 @@
 @namespace Sufficit.Blazor.UI.Components
 
-<li class="@Classname">
+<li class="@Classname" @attributes="AdditionalAttributes">
     <span class="sui-timeline__marker sui-timeline__marker--@ToneSlug sui-timeline__marker--@VariantSlug" aria-hidden="true"></span>
     <div class="sui-timeline__body">
         @ChildContent
@@ -9,16 +9,20 @@
 
 @code {
     /// <summary>Marker color: "default", "primary", "success", "warning", "error", "info".</summary>
-    [Parameter]
+    [Parameter, Obsolete("Use ColorValue. The object bridge will be removed in v2.0.0.")]
     public object? Color { get; set; } = SUIColor.Primary;
 
     /// <summary>"small" or "medium". Default "small".</summary>
-    [Parameter]
+    [Parameter, Obsolete("Use SizeValue. The object bridge will be removed in v2.0.0.")]
     public object? Size { get; set; } = SUISize.Small;
 
     /// <summary>"filled" or "outlined". Default "filled".</summary>
-    [Parameter]
+    [Parameter, Obsolete("Use VariantValue. The object bridge will be removed in v2.0.0.")]
     public object? Variant { get; set; } = SUIVariant.Filled;
+
+    [Parameter] public SUIColor? ColorValue { get; set; }
+    [Parameter] public SUISize? SizeValue { get; set; }
+    [Parameter] public SUIVariant? VariantValue { get; set; }
 
     [Parameter]
     public string? Class { get; set; }
@@ -26,12 +30,17 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    private string ToneSlug => SUIClassBuilder.Slug(Color);
-    private string VariantSlug => SUIClassBuilder.Slug(Variant);
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
+
+#pragma warning disable CS0618
+    private string ToneSlug => SUIClassBuilder.Slug(ColorValue ?? Color ?? SUIColor.Primary);
+    private string VariantSlug => SUIClassBuilder.Slug(VariantValue ?? Variant ?? SUIVariant.Filled);
 
     private string Classname
         => SUIClassBuilder.Default("sui-timeline__item")
-            .AddClass($"sui-timeline__item--{SUIClassBuilder.Slug(Size)}")
+            .AddClass($"sui-timeline__item--{SUIClassBuilder.Slug(SizeValue ?? Size ?? SUISize.Small)}")
             .AddClass(Class)
             .Build();
+#pragma warning restore CS0618
 }

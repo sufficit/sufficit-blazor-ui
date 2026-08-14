@@ -6,7 +6,7 @@ version: 2
 # remains for the Razor SDK.
 updates:
   - package-ecosystem: nuget
-    directory: "/src/Sufficit.Blazor.UI"
+    directory: "/src"
     schedule:
       interval: weekly
       day: monday

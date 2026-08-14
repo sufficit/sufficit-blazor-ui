@@ -15,7 +15,17 @@ Carregue ao construir lógica de página/componente em Blazor Server/interactive
 
 ## Lifecycle async (regra dura)
 
-**Nunca bloqueie a UI em `OnInitializedAsync`/`OnParametersSetAsync`** — eles travam o render. Padrão Sufficit:
+Não envolva I/O assíncrono em `Task.Run`. Escolha o hook pelo contrato visual:
+
+- use `await` em `OnInitializedAsync`/`OnParametersSetAsync` quando o estado é
+  requisito do primeiro render; mantenha o componente válido antes do primeiro
+  `await`, porque Blazor pode renderizar enquanto a tarefa está incompleta;
+- use `OnAfterRenderAsync(firstRender)` para exibir o shell primeiro e carregar
+  dados depois; proteja contra reentrada e renderize loading/error explicitamente;
+- reserve `Task.Run` para trabalho realmente CPU-bound e isolado, nunca como
+  substituto de `await` em HTTP, banco ou filesystem.
+
+Padrão direto:
 
 ```csharp
 protected override async Task OnInitializedAsync()
@@ -37,7 +47,20 @@ private async Task LoadAsync()
 }
 ```
 
-Para operações pesadas que não devem travar o primeiro render, dispare a partir de `OnAfterRender(firstRender)` com `_ = Task.Run(...)`; trackee `IsLoading`; mostre `<SUISkeletonLoader Type="SUISkeletonType.Table" />`.
+Quando o shell precisar aparecer antes dos dados:
+
+```csharp
+protected override async Task OnAfterRenderAsync(bool firstRender)
+{
+    if (!firstRender) return;
+    await LoadAsync();
+    await InvokeAsync(StateHasChanged);
+}
+```
+
+Trackee `IsLoading`; mostre
+`<SUISkeletonLoader Type="SUISkeletonType.Table" />`. Cancele operações longas
+com `CancellationTokenSource` no `Dispose` quando aplicável.
 
 ## Estado e render
 
@@ -56,7 +79,7 @@ Senão vaza o circuito (Blazor Server) ou cresce o heap.
 
 ## Headings semânticos
 
-Título de página = `<h1>` real (ver `components.md` → "Headings"). Um `<h1>` por rota. `FocusOnNavigate Selector="h1"` no `Routes.razor` move o foco/annonuncia a troca de página ao leitor de tela. Subseções `<h2>`.
+Título de página = `<h1>` real (ver `components.md` → "Headings"). Um `<h1>` por rota. `SUIText` com `Typo=h1`–`h6` e `Tag=Auto` já produz o elemento nativo; use `SUITextTag` para separar nível semântico de aparência. `FocusOnNavigate Selector="h1"` no `Routes.razor` move o foco/anuncia a troca de página ao leitor de tela.
 
 ## Naming e dados
 
@@ -71,10 +94,12 @@ Apps híbridos (`sufficit-cloud-mobile`): default `InteractiveWebAssembly`, mas 
 
 ## Touch targets
 
-≥44px em mobile. O SUI defaulta botão de ícone md para ~36px — em barras de app toque, sobrescreva no `@media (max-width: 899px)`:
+≥44px em mobile. A RCL eleva buttons, fields, tabs, switches e closes críticos
+para 44px em viewport touch. Só sobrescreva componentes de domínio que não
+usam essas primitives:
 
 ```css
-.cloud-mobile-shell .sui-icon-button { min-width: 44px; min-height: 44px; }
+.cloud-mobile-shell .domain-action { min-width: 44px; min-height: 44px; }
 ```
 
 ## Contexto multi-tenant (sufficit-cloud-mobile)

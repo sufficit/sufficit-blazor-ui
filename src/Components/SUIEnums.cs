@@ -108,6 +108,22 @@ public enum SUIAlign
     Justify,
 }
 
+/// <summary>Semantic HTML element rendered by <c>SUIText</c>.</summary>
+public enum SUITextTag
+{
+    /// <summary>Map h1-h6 typography to the matching heading; otherwise use div.</summary>
+    Auto,
+    Div,
+    Span,
+    P,
+    H1,
+    H2,
+    H3,
+    H4,
+    H5,
+    H6,
+}
+
 /// <summary>
 /// Anchor points used by popover/flyout positioning. Replaces MudBlazor.Origin.
 /// </summary>

@@ -1,127 +1,148 @@
 # Sufficit.Blazor.UI
 
-Biblioteca de componentes Blazor da Sufficit User Interface (SUI). Autônoma:
-**não depende de MudBlazor** (nem pacote, nem código-fonte vendorizado). Traz o
-próprio stylesheet (`sufficit-ui.css`) com design tokens `--sui-*`.
+Razor Class Library dos componentes **Sufficit User Interface (SUI)**. A
+biblioteca usa Blazor puro, HTML, CSS e módulos JavaScript ES; não depende de
+MudBlazor nem contém código-fonte vendorizado de outra biblioteca visual.
 
-**Status: primeiro consumidor migrado.** O repositório consolidou os
-componentes compartilhados que viviam no `sufficit-blazor`; a biblioteca já é
-consumida por referência de projeto e permanece agnóstica de domínio.
+## Compatibilidade e distribuição
 
-## Alvo
+- Target frameworks: `net9.0` e `net10.0`.
+- Package ID: `Sufficit.Blazor.UI`.
+- Distribuição: pacote NuGet e `ProjectReference` local.
+- Namespace dos componentes: `Sufficit.Blazor.UI.Components`.
+- Namespace de temas: `Sufficit.Blazor.UI.Themes`.
 
-`net10.0`. O `sufficit-blazor` já foi migrado para `net10.0`; o
-`sufficit-ai` continua em `net9.0` e será avaliado separadamente.
+O CI compila ambos os frameworks com warnings tratados como erros, gera o
+`.nupkg`, inspeciona seus assets e instala o pacote em consumidores Razor
+mínimos `net9.0` e `net10.0`. As dependências ASP.NET Core usam versões de
+servicing exatas; o Dependabot mantém a atualização semanal, evitando que dois
+restores do mesmo commit escolham versões diferentes.
 
-## Componentes
+Uma varredura local encontra referências à biblioteca em 11 projetos de
+aplicação/biblioteca e em um projeto de testes. Dez caminhos de produção já
+resolvem a estrutura atual; o `sufficit-checkout` ainda usa o caminho legado e
+permanece como débito explícito do rollout de consumidores.
 
-Prefixo `SUI`, namespace único `Sufficit.Blazor.UI.Components`. São componentes
-nossos, baseados em Blazor puro (HTML + CSS), sem herança de bibliotecas de
-terceiros.
+## Instalação
 
-| Componente | Substitui (no `sufficit-blazor`) | Uso hoje |
-| --- | --- | --- |
-| `SUIButton` | `MudButtonEnchanted` | 16 |
-| `SUINavGroup` | `MudNavGroupEnhanted` | 16 |
-| `SUITableEmpty` | `TableNoRecords` | 40 |
-| `SUILoadingButton` | `LoadingButton` | 5 |
-| `SUINavLink` | `MudNavLinkEnchanted` | 3 |
-| `SUITooltip` | Tooltip flutuante acessível e reutilizável | Navegação rail e uso geral |
-| `SUIIconButton` | `MudIconButtonEnchanted` | 2 |
-| `SUISkeletonLoader` | `SkeletonLoader` | 2 |
-| `SUIEmptyState` | `EmptyState` | 1 |
-| `SUISelect` / `SUISelectItem` | Native `<select>` when a styled listbox is needed | 4 |
-| `SUIStatusBanner` | Faixas dominantes de saúde, incidente e prontidão operacional | Background |
-| `SUISwitchButton` | `MudSwitchButton` | 1 |
-| `SUIChoiceCard<TValue>` | Opções selecionáveis de pagamento, configuração ou fluxo | Checkout |
+Por pacote:
 
-`SUISkeletonType` acompanha o `SUISkeletonLoader`.
-
-`GenericTable` foi descartado: zero usos em qualquer projeto.
-
-## Tipografia operacional
-
-Além da escala legada `h1`–`h6`, a biblioteca oferece uma rampa semântica e
-compacta para consoles e superfícies operacionais. Ela é aditiva e não altera
-os tamanhos dos consumidores existentes:
-
-| Papel | `SUITypo` / classe | Uso |
-| --- | --- | --- |
-| Display | `display` / `.sui-type-display` | título principal da página |
-| Headline | `headline` / `.sui-type-headline` | diagnóstico ou estado dominante |
-| Title | `title` / `.sui-type-title` | título de seção ou superfície |
-| Body | `body` / `.sui-type-body` | explicação operacional compacta |
-| Label | `label` / `.sui-type-label` | controles, tabelas e metadados |
-| Mono | `mono` / `.sui-type-mono` | IDs, agendas e valores estruturados |
-
-Use `SUIText Typo="SUITypo.display"` quando o elemento genérico for suficiente,
-ou aplique a classe correspondente a um elemento semântico (`h1`, `p`, `code`).
-Os valores podem ser personalizados em `SUITypography`; o
-`SUIThemeProvider` os publica como variáveis `--sui-fs-*`, `--sui-lh-*` e
-`--sui-ls-display`.
-
-`SUIPageHeader Prominent="true"` combina os papéis Display e Body na mesma
-composição responsiva usada por consoles operacionais. O padrão anterior do
-componente permanece inalterado.
-
-## SUIStatusBanner
-
-`SUIStatusBanner` apresenta a condição mais importante de uma superfície antes
-dos detalhes. O tom sempre acompanha título e descrição; a cor nunca é o único
-indicador. A área `MetaContent` aceita carimbo de host, versão, contagens ou
-outro contexto curto:
-
-```razor
-<SUIStatusBanner Tone="SUITone.Success"
-                 Title="Runtime estável"
-                 Description="Todos os workers responderam e não há falhas recentes."
-                 ActionText="Gerenciar tarefas"
-                 ActionHref="/tasks">
-    <MetaContent>
-        <strong>eveo-apps</strong>
-        <span>v1.26</span>
-        <small>0 em execução</small>
-    </MetaContent>
-</SUIStatusBanner>
+```xml
+<PackageReference Include="Sufficit.Blazor.UI" Version="1.*" />
 ```
 
-Use a faixa para saúde, prontidão ou incidente que realmente deve dominar a
-primeira dobra. Mensagens locais, validações e erros recuperáveis continuam em
-`SUIAlert`; estados curtos dentro de linhas continuam em `SUIStatusBadge`.
+Durante desenvolvimento conjunto, um consumidor também pode apontar para
+`src/Sufficit.Blazor.UI.csproj` com `ProjectReference`.
 
-## Estilo e tokens
+Inclua no `<head>` tanto o entrypoint global da RCL quanto o bundle de CSS
+isolation gerado para a aplicação consumidora:
 
-Os componentes não usam Material Design. Toda a estilização vem de
-`wwwroot/sufficit-ui.css`, com tokens próprios em `:root` (modo claro) e
-`[data-sui-theme="dark"]` (modo escuro). Para adotar o tema escuro, basta
-colocar o atributo no elemento raiz (ex.: `<body data-sui-theme="dark">`).
+```html
+<link href="_content/Sufficit.Blazor.UI/sufficit-ui.css" rel="stylesheet" />
+<link href="MinhaAplicacao.styles.css" rel="stylesheet" />
+```
 
-Inclua a folha de estilo na aplicação consumidora. O caminho exato depende de
-como a biblioteca é consumida:
+Substitua `MinhaAplicacao` pelo assembly do projeto host. O primeiro arquivo
+carrega tokens, primitives compartilhadas, portais e as regras globais ainda
+em migração; o segundo reúne os `.razor.css` da aplicação e das RCLs
+referenciadas. Carregar apenas um deles deixa parte dos componentes sem estilo.
+O entrypoint `sufficit-ui.css` permanece compatível durante a janela de
+migração dos consumidores.
 
-- **Como referência de projeto** (uso atual no `sufficit-blazor`): adicione o
-  `ProjectReference` para `Sufficit.Blazor.UI.csproj` e referencie
-  `<link href="_content/Sufficit.Blazor.UI/sufficit-ui.css" rel="stylesheet" />`.
-- **Copiando os `.razor`**: ainda é possível para protótipos isolados; copie
-  também `wwwroot/sufficit-ui.css` e referencie-o diretamente. Não há pacote
-  NuGet publicado neste momento (`IsPackable=false`).
+Não inclua scripts SUI manualmente. Cada componente com interop importa seu
+módulo JavaScript colocalizado de forma assíncrona e remove listeners no
+descarte.
 
-## API
+Registre os serviços no `Program.cs`:
 
-Os parâmetros que controlam aparência usam enums próprios (não do MudBlazor):
-`SUIColor`, `SUIVariant`, `SUISize`, `SUIButtonType`, `SUIEdge`, `SUITypo`,
-`SUIAlign`, `SUIOrigin`, `SUITone`. Quem está migrando de componentes MudBlazor precisa
-preferir esses enums no código novo. Os controles de ação mantêm uma ponte
-temporária para valores visuais legados, permitindo migrar telas sem uma troca
-big-bang.
+```csharp
+using Sufficit.Blazor.UI;
 
-## SUIChoiceCard
+builder.Services.AddSufficitUI();
+```
 
-`SUIChoiceCard<TValue>` transforma uma opção inteira em um alvo de toque acessível.
-Ele combina rádio nativo, título, descrição, ícone contextual e estado selecionado,
-sem acoplar o componente a um domínio de negócio. O checkout usa o mesmo componente
-para PIX, cartão e boleto; outros projetos podem usá-lo para qualquer enum ou tipo de
-opção.
+E instale o provider uma única vez na raiz interativa da aplicação:
+
+```razor
+@using Sufficit.Blazor.UI.Themes
+
+<SUIThemeProvider>
+    <Routes />
+</SUIThemeProvider>
+```
+
+## Tema
+
+O contrato público usa o casing real do código: `ISUITheme`, `SUIPalette`,
+`SUITypography`, `SUILayout`, `DefaultSUITheme` e `SUIThemeProvider`.
+
+Uma aplicação pode fornecer seu tema pelo DI:
+
+```csharp
+builder.Services.AddSufficitUI(options =>
+    options.Theme = new IdentitySUITheme());
+```
+
+Ou diretamente no provider:
+
+```razor
+<SUIThemeProvider Theme="Theme">
+    <Routes />
+</SUIThemeProvider>
+```
+
+O provider publica os tokens `--sui-*` globalmente, inclusive `color-scheme`,
+para que menus, dialogs, tooltips e toasts anexados ao `body` recebam a mesma
+paleta. `ISUITheme.IsDark` seleciona o esquema; a paleta continua pertencendo
+ao tema consumidor. Sem configuração, `DefaultSUITheme` fornece o fallback
+claro azul.
+
+Exemplos de tokens:
+
+- cores: `--sui-color-primary`, `--sui-color-primary-contrast`,
+  `--sui-surface`, `--sui-text-primary`, `--sui-border`;
+- tipografia: `--sui-font`, `--sui-fs-body`, `--sui-lh-body`;
+- layout: `--sui-space-*`, `--sui-radius-*`, `--sui-shadow-*` e
+  `--sui-control-h-*`.
+
+## Catálogo de componentes
+
+A referência por família, contratos de forms e páginas de Select, Tooltip,
+NavGroup, Dialog e ThemeProvider ficam em
+[`docs/components`](docs/components/README.md).
+
+Todos os componentes públicos usam o prefixo `SUI`.
+
+| Família | Componentes |
+| --- | --- |
+| Ações | `SUIButton`, `SUIIconButton`, `SUILoadingButton`, `SUILink` |
+| Formulários | `SUIAutocomplete`, `SUIChoiceCard<TValue>`, `SUINumericField`, `SUISelect<T>`, `SUISelectItem`, `SUISwitch`, `SUISwitchButton`, `SUITextField` |
+| Layout | `SUIAppBar`, `SUICard`, `SUIContainer`, `SUIDivider`, `SUIDrawer`, `SUIGrid`, `SUILayout`, `SUIPageHeader`, `SUISpacer`, `SUIStack` |
+| Navegação | `SUIItem`, `SUIList`, `SUIListItem`, `SUINavGroup`, `SUINavLink`, `SUITabPanel`, `SUITabs` |
+| Exibição de dados | `SUIChip`, `SUIIcon`, `SUIStatusBadge`, `SUITable`, `SUITableEmpty`, `SUITd`, `SUIText`, `SUITh`, `SUITimeline`, `SUITimelineItem` |
+| Feedback | `SUIAlert`, `SUIEmptyState`, `SUIProgressLinear`, `SUISkeletonLoader`, `SUIStatusBanner`, `SUIToast` |
+| Overlays | `SUIConfirmDialog`, `SUIDialogHost`, `SUISnackbarHost`, `SUITooltip` |
+
+Enums como `SUIColor`, `SUIVariant`, `SUISize`, `SUIButtonType`, `SUIEdge`,
+`SUITypo`, `SUIAlign`, `SUIOrigin` e `SUITone` evitam dependência de tipos
+visuais externos. Algumas APIs ainda aceitam valores legados por uma ponte de
+compatibilidade; código novo deve usar os enums SUI.
+
+## Exemplos
+
+### Ação e feedback
+
+```razor
+<SUIButton ColorValue="SUIColor.Primary" OnClick="SaveAsync">
+    Salvar alterações
+</SUIButton>
+
+<SUIStatusBanner Tone="SUITone.Success"
+                 Title="Runtime estável"
+                 Description="Todos os workers responderam." />
+```
+
+### Choice card
 
 ```razor
 <SUIChoiceCard TValue="PaymentMethod"
@@ -131,138 +152,48 @@ opção.
                Name="payment-method"
                Title="PIX"
                Description="Confirmação rápida, a qualquer hora"
-               LeadingTone="SUITone.Success">
-    <IconContent>
-        <SUIIcon Name="pix" Size="20" />
-    </IconContent>
-</SUIChoiceCard>
+               LeadingTone="SUITone.Success" />
 ```
 
-Inclua `_content/Sufficit.Blazor.UI/sufficit-ui.css` no app consumidor. O slot
-`IconContent` é opcional; `LeadingTone`, `LeadingClass`, `TrailingContent` e `Class`
-permitem ajustar a variação sem duplicar a estrutura de acessibilidade.
-
-`SUISelect` renderiza um listbox customizado, portanto o menu aberto recebe o
-mesmo tema e espaçamento do campo fechado em todos os consumidores. Por padrão,
-ele acompanha o conteúdo, nunca fica menor que o campo e respeita a largura
-disponível da viewport. Quando necessário, `MenuWidth` aceita um valor CSS para
-fixar ou ampliar a largura; `MenuMaxWidth` define um limite próprio, mantendo a
-proteção da viewport:
+### Select
 
 ```razor
-<!-- padrão: largura pelo conteúdo -->
-<SUISelect T="string">...</SUISelect>
-
-<!-- largura fixa de 22rem; em telas menores, reduz até caber -->
-<SUISelect T="string" MenuWidth="22rem">...</SUISelect>
-
-<!-- conteúdo fluido, permitindo opções mais longas até 36rem -->
-<SUISelect T="string" MenuMaxWidth="36rem">...</SUISelect>
+<SUISelect T="string"
+           Label="Região"
+           Value="SelectedRegion"
+           ValueChanged="OnRegionChanged"
+           MenuMaxWidth="36rem">
+    <SUISelectItem T="string" Value="sudeste">Sudeste</SUISelectItem>
+    <SUISelectItem T="string" Value="sul">Sul</SUISelectItem>
+</SUISelect>
 ```
 
-Ele mantém a API existente com `<SUISelectItem>` e inclui teclado
-(`ArrowUp`/`ArrowDown`, `Home`, `End`, `Enter`, `Space`, `Escape`) e fechamento
-por seleção ou perda de foco. O menu usa a top layer do navegador, portanto
-fica acima de cards, tabelas e drawers mesmo quando esses contêineres usam
-`overflow: hidden`; perto das bordas da viewport, ele reposiciona e limita a
-altura automaticamente. Use o `<select>` nativo quando a integração com
-postagem HTML ou o menu do sistema operacional for deliberada.
+O menu do `SUISelect` usa a top layer quando disponível, reposiciona-se nas
+bordas da viewport e suporta `ArrowUp`, `ArrowDown`, `Home`, `End`, `Enter`,
+`Space` e `Escape`. Use `<select>` nativo quando postagem HTML ou o seletor do
+sistema operacional forem requisitos.
 
-## Temas
-
-Cada aplicação consumidora tem identidade visual própria (o Identity é
-vermelho `#cc0000`, o Blazor é laranja `#ee6321`). A biblioteca não impõe os
-seus valores: implementa o contrato `ISuiTheme` (`SuiPalette`, `SuiTypography`,
-`SuiLayout`) em `Sufficit.Blazor.UI.Themes` e regista no DI:
-
-```csharp
-// na app consumidora
-services.AddSufficitUI(opts => opts.Theme = new IdentitySuiTheme());
-```
-
-Depois envolve a raiz com `<SuiThemeProvider>`, que injeta as variáveis CSS
-(`--sui-color-primary`, `--sui-surface`, ...) a partir do tema ativo:
-
-```razor
-<SuiThemeProvider>
-    <Routes />
-</SuiThemeProvider>
-```
-
-Sem o provider, a biblioteca usa `DefaultSuiTheme` (azul, claro) como fallback.
-Ver [`docs/activities/202608092045-completed-identity-management-adoption.md`](docs/activities/202608092045-completed-identity-management-adoption.md)
-para um exemplo completo de implementação.
-
-## Namespaces
-
-Namespace único: `Sufficit.Blazor.UI.Components` (componentes) e
-`Sufficit.Blazor.UI.Themes` (contrato de tema).
-
-## O que ainda não está aqui, e por quê
-
-- **`Layout` e `UI/FilterControl`** do `sufficit-blazor` referenciam domínios de
-  negócio (telefonia, financeiro, gateway de mensagens, logging). Não são
-  genéricos como estão: precisam ser desacoplados antes de entrar numa
-  biblioteca compartilhada — ainda mais numa pública.
-- **Contrato de temas.** O `sufficit-blazor` já tem `ThemeService` e
-  `MudThemeContainer`; eles evoluem para um contrato explícito (paleta,
-  tipografia, densidade) quando houver mais de um consumidor real. Desenhar
-  temas antes disso é adivinhação.
-- **Testes e CI.** A serem adicionados junto com o primeiro consumidor.
-
-## Como usar
-
-No consumidor principal, use uma referência de projeto e inclua o stylesheet
-estático `_content/Sufficit.Blazor.UI/sufficit-ui.css`. O projeto continua
-existindo como biblioteca Razor independente, sem pacote MudBlazor e sem
-componentes vendorizados.
-
-## Roadmap
-
-1. [x] Migrar `sufficit-blazor` para `net10.0`.
-2. [x] Adotar os componentes no `sufficit-blazor`, trocando os nomes antigos
-   pelos `SUI*` e removendo as duplicatas locais.
-3. Contrato de temas, quando houver mais de um consumidor real.
-
-Observação: o `sufficit-ai` hoje **não usa nenhum** destes componentes. A
-consolidação lá é adoção, não migração — vale confirmar se compensa.
-
-## SUINavGroup
-
-O `SUINavGroup` reimplementa o padrão de navegação em árvore (grupo expansível,
-modo rail com flyout flutuante, accordion exclusivo entre irmãos) usando apenas
-componentes SUI. O collapse usa `grid-template-rows: 0fr↔1fr`; o módulo
-`sufficit-ui.js` posiciona o flyout em relação ao acionador e preserva sua área
-de interação fora dos limites da barra lateral.
-
-## SUITooltip
-
-`SUITooltip` mantém a superfície flutuante fora dos limites de overflow do
-componente consumidor, oferece nome acessível ao controle interno e reposiciona
-automaticamente o conteúdo quando não há espaço no lado preferido. Sua
-opacidade padrão é `0.95` (5% de transparência):
+### Tooltip
 
 ```razor
 <SUITooltip Text="Armazenamento"
             Placement="SUITooltipPlacement.Right"
-            BackgroundColor="#171b24"
-            TextColor="#ffffff"
-            BorderColor="transparent"
-            Opacity="0.95"
-            Offset="10"
-            MaxWidth="280"
-            ShowDelay="180"
-            HideDelay="100">
+            MaxWidth="280">
     <SUIIconButton Icon="@Icons.Storage" AriaLabel="Armazenamento" />
 </SUITooltip>
 ```
 
-Também podem ser personalizados `ShowArrow`, `BorderRadius`, `Padding`,
-`BoxShadow`, `FontSize`, `FontWeight` e `TooltipClass`. `Placement` aceita
-`Auto`, `Right`, `Left`, `Top` ou `Bottom`. `SUINavLink` expõe as mesmas opções
-com o prefixo `Tooltip*` para links exibidos no rail recolhido.
+## Engenharia e documentação
+
+- [Atividade concluída de arquitetura e hardening](docs/activities/202608141316-completed-sui-architecture-hardening.md)
+- [Rollout e rollback dos consumidores](docs/CONSUMER-ROLLOUT.md)
+- [Índice de documentação](docs/README.md)
+- [Skill e convenções SUI](skills/sui-design/SKILL.md)
+
+A atividade registra a migração para organização por famílias, CSS híbrido,
+módulos JavaScript colocalizados, catálogo executável, testes de componentes,
+gates de acessibilidade, pacote final e validação nos consumidores.
 
 ## Licença
 
-MIT-0 para o código da Sufficit — ver [LICENSE](LICENSE). Compartilhamento
-máximo, sem exigência de atribuição.
+MIT-0 — veja [LICENSE](LICENSE).

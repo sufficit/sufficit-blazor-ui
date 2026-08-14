@@ -2,7 +2,7 @@
 @typeparam T
 
 <div class="@WrapperClass">
-    <table class="@Classname">
+    <table class="@Classname" @attributes="AdditionalAttributes">
         @if (HeaderContent is not null)
         {
             <thead>
@@ -14,16 +14,31 @@
             {
                 @if (NoRecordsContent is not null)
                 {
-                    <tr><td>@NoRecordsContent</td></tr>
+                    <tr class="sui-table__empty-row">
+                        <td colspan="@EffectiveColumnCount">@NoRecordsContent</td>
+                    </tr>
                 }
             }
             else
             {
                 @foreach (var item in Items)
                 {
-                    <tr class="sui-table__row" @onclick="() => OnRowItemClick(item)">
-                        @RowTemplate?.Invoke(item)
-                    </tr>
+                    @if (OnRowClick.HasDelegate)
+                    {
+                        <tr class="sui-table__row sui-table__row--interactive"
+                            role="button"
+                            tabindex="0"
+                            @onclick="() => OnRowItemClick(item)"
+                            @onkeydown="args => OnRowKeyDown(args, item)">
+                            @RowTemplate?.Invoke(item)
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr class="sui-table__row">
+                            @RowTemplate?.Invoke(item)
+                        </tr>
+                    }
                 }
             }
         </tbody>
@@ -45,6 +60,13 @@
     [Parameter]
     public bool Dense { get; set; }
 
+    /// <summary>
+    /// Number of data columns. Used by the no-records cell so its
+    /// <c>colspan</c> covers the full table.
+    /// </summary>
+    [Parameter]
+    public int ColumnCount { get; set; } = 1;
+
     /// <summary>Called when a row is clicked (item passed).</summary>
     [Parameter]
     public EventCallback<T> OnRowClick { get; set; }
@@ -64,6 +86,9 @@
     [Parameter]
     public string? Class { get; set; }
 
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
+
     private string WrapperClass
         => SUIClassBuilder.Default("sui-table-wrapper")
             .Build();
@@ -76,4 +101,11 @@
             .Build();
 
     private Task OnRowItemClick(T item) => OnRowClick.InvokeAsync(item);
+
+    private Task OnRowKeyDown(KeyboardEventArgs args, T item)
+        => args.Key is "Enter" or " " or "Spacebar"
+            ? OnRowItemClick(item)
+            : Task.CompletedTask;
+
+    private int EffectiveColumnCount => Math.Max(1, ColumnCount);
 }

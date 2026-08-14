@@ -2,7 +2,7 @@
 @using System
 @inject IServiceProvider Services
 
-<CascadingValue Value="@ActiveTheme" IsFixed="true">
+<CascadingValue Value="@ActiveTheme">
     <div class="@WrapperClass" data-sui-theme="@(ActiveTheme.IsDark ? "dark" : "light")">
         @ChildContent
     </div>
@@ -22,7 +22,7 @@
 
     private ISUITheme? _resolved;
 
-    protected override void OnInitialized()
+    protected override void OnParametersSet()
         => _resolved = Theme
             ?? Services.GetService(typeof(ISUITheme)) as ISUITheme;
 
@@ -40,10 +40,8 @@
         var p = theme.Palette;
         var t = theme.Typography;
         var l = theme.Layout;
-        var root = theme.IsDark ? "" : ":root";
-
         var sb = new System.Text.StringBuilder(2048);
-        sb.Append(root).Append('{');
+        sb.Append(":root{");
         Append(sb, "--sui-color-primary", p.Primary);
         Append(sb, "--sui-color-primary-contrast", p.PrimaryContrast);
         Append(sb, "--sui-color-primary-soft", p.PrimarySoft);
@@ -114,8 +112,8 @@
         Append(sb, "--sui-control-px-sm", l.ControlPxSm);
         Append(sb, "--sui-control-px-md", l.ControlPxMd);
         Append(sb, "--sui-control-px-lg", l.ControlPxLg);
-        sb.Append('}');
         sb.Append("color-scheme:").Append(theme.IsDark ? "dark" : "light").Append(';');
+        sb.Append('}');
         return sb.ToString();
     }
 

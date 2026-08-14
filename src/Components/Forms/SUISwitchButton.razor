@@ -1,6 +1,6 @@
 @namespace Sufficit.Blazor.UI.Components
 
-<SUIButton Variant="@Variant" Color="SUIColor.Primary" FullWidth OnClick="OnClicked">
+<SUIButton VariantValue="@Variant" ColorValue="SUIColor.Primary" FullWidth OnClick="OnClicked">
     @ChildContent
 </SUIButton>
 @code{
@@ -19,7 +19,7 @@
     /// <summary>
     /// Toggle on clicked
     /// </summary>
-    protected async void OnClicked(MouseEventArgs _)
+    protected async Task OnClicked(MouseEventArgs _)
     {
         Checked = !Checked;
         if (CheckedChanged.HasDelegate)

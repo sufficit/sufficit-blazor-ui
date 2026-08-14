@@ -1,6 +1,6 @@
 @namespace Sufficit.Blazor.UI.Components
 
-<span class="@Classname">
+<span class="@Classname" @attributes="AdditionalAttributes">
     @if (!string.IsNullOrWhiteSpace(Icon))
     {
         <SUIIcon Name="@Icon" Size="14" />
@@ -14,8 +14,11 @@
     /// <c>"warning"</c>, <c>"danger"</c>, <c>"info"</c>. Kept as a string so
     /// consumers can compute it at runtime without enum conversion.
     /// </summary>
-    [Parameter]
+    [Parameter, Obsolete("Use ToneValue. The string bridge will be removed in v2.0.0.")]
     public string Tone { get; set; } = "neutral";
+
+    [Parameter]
+    public SUITone? ToneValue { get; set; }
 
     /// <summary>Optional icon name (resolved by <see cref="SUIIcon"/>).</summary>
     [Parameter]
@@ -24,6 +27,13 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
+
+#pragma warning disable CS0618
+    private object EffectiveTone => ToneValue is { } typedTone ? typedTone : Tone;
+#pragma warning restore CS0618
+
     private string Classname
-        => $"sui-status-badge sui-status-badge--{Tone}";
+        => $"sui-status-badge sui-status-badge--{SUIClassBuilder.Slug(EffectiveTone)}";
 }

@@ -1,8 +1,6 @@
 @namespace Sufficit.Blazor.UI.Components
 
-<div class="@Classname @AlignClass" style="@ColorStyle">
-    @ChildContent
-</div>
+@RenderText()
 
 @code {
     [Parameter]
@@ -15,11 +13,21 @@
     [Parameter]
     public SUIAlign? Align { get; set; }
 
+    /// <summary>
+    /// Semantic element to render. <see cref="SUITextTag.Auto"/> maps h1-h6
+    /// typography to the matching native heading and uses div otherwise.
+    /// </summary>
+    [Parameter]
+    public SUITextTag Tag { get; set; } = SUITextTag.Auto;
+
     [Parameter]
     public string? Class { get; set; }
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
     private string Classname
         => SUIClassBuilder.Default($"sui-text sui-text--{Typo.ToString()}")
@@ -40,5 +48,32 @@
         SUIColor.Inherit   => "color: inherit;",
         SUIColor.Default   => "color: var(--sui-text-secondary);",
         _ => string.Empty,
+    };
+
+    private string TagName => Tag switch
+    {
+        SUITextTag.Auto => Typo switch
+        {
+            SUITypo.h1 => "h1",
+            SUITypo.h2 => "h2",
+            SUITypo.h3 => "h3",
+            SUITypo.h4 => "h4",
+            SUITypo.h5 => "h5",
+            SUITypo.h6 => "h6",
+            _ => "div",
+        },
+        _ => Tag.ToString().ToLowerInvariant(),
+    };
+
+    private RenderFragment RenderText() => builder =>
+    {
+        builder.OpenElement(0, TagName);
+        builder.AddAttribute(1, "class", $"{Classname} {AlignClass}".TrimEnd());
+        if (!string.IsNullOrWhiteSpace(ColorStyle))
+            builder.AddAttribute(2, "style", ColorStyle);
+        builder.AddMultipleAttributes(3, AdditionalAttributes.Select(attribute =>
+            new KeyValuePair<string, object>(attribute.Key, attribute.Value!)));
+        builder.AddContent(4, ChildContent);
+        builder.CloseElement();
     };
 }

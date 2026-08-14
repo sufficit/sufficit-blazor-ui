@@ -1,0 +1,4 @@
+interface:
+  display_name: "SUI Design"
+  short_description: "Projete e audite interfaces Blazor Sufficit"
+  default_prompt: "Use $sui-design para projetar ou auditar esta interface Blazor conforme os padrões SUI."

@@ -41,26 +41,28 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageIcon>icon.png</PackageIcon>
+    <EnablePackageValidation>true</EnablePackageValidation>
   </PropertyGroup>
 
   <ItemGroup Label="Sufficit Pacote NUGET Itens">
-    <None Include="../../icon.png">
+    <None Include="../icon.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-    <None Include="../../README.md" Pack="True" PackagePath="readme.md" />
+    <None Include="../README.md" Pack="True" PackagePath="readme.md" />
   </ItemGroup>
 
   <ItemGroup Label="Blazor component tooling for .NET 9">
     <!-- The SUI components are plain Blazor: they need only the Razor SDK
-         component base packages. No MudBlazor dependency. -->
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="9.*" Condition="'$(TargetFramework)' == 'net9.0'" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.*" Condition="'$(TargetFramework)' == 'net9.0'" />
+         component base packages. Exact servicing versions make restore
+         reproducible; Dependabot owns the regular update cadence. -->
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="9.0.19" Condition="'$(TargetFramework)' == 'net9.0'" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.19" Condition="'$(TargetFramework)' == 'net9.0'" />
   </ItemGroup>
 
   <ItemGroup Label="Blazor component tooling for .NET 10">
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.*" Condition="'$(TargetFramework)' == 'net10.0'" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.*" Condition="'$(TargetFramework)' == 'net10.0'" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.11" Condition="'$(TargetFramework)' == 'net10.0'" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.11" Condition="'$(TargetFramework)' == 'net10.0'" />
   </ItemGroup>
 
   <ItemGroup>

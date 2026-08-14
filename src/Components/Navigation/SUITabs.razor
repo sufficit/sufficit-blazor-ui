@@ -1,31 +1,47 @@
 @namespace Sufficit.Blazor.UI.Components
+@implements IAsyncDisposable
+@inject IJSRuntime JS
 
 <CascadingValue Value="this">
-    <div class="@Classname">
-        <div class="sui-tabs__list" role="tablist">
+    <div @ref="_rootElement" class="@Classname" @attributes="AdditionalAttributes">
+        <div class="sui-tabs__list"
+             role="tablist"
+             aria-label="@AriaLabel"
+             aria-orientation="horizontal">
             @for (var i = 0; i < _panels.Count; i++)
             {
                 var idx = i;
                 var panel = _panels[i];
                 <button type="button"
+                        @ref="_tabReferences[idx]"
+                        id="@TabId(idx)"
                         class="sui-tab @(idx == _activeIndex ? "is-active" : null)"
                         role="tab"
                         aria-selected="@(idx == _activeIndex ? "true" : "false")"
+                        aria-controls="@PanelId(idx)"
+                        tabindex="@(idx == _activeIndex ? 0 : -1)"
+                        @onkeydown="args => HandleKeyDown(args, idx)"
                         @onclick="() => Activate(idx)">
                     @panel.Text
                 </button>
             }
         </div>
-        <div class="sui-tabs__panels">
-            @if (_panels.Count > _activeIndex)
-            {
-                @_panels[_activeIndex].ChildContent
-            }
-        </div>
+        @if (_panels.Count > _activeIndex)
+        {
+            var activePanel = _panels[_activeIndex];
+            <div @key="activePanel"
+                 id="@PanelId(_activeIndex)"
+                 class="@PanelClass(activePanel)"
+                 role="tabpanel"
+                 aria-labelledby="@TabId(_activeIndex)"
+                 tabindex="0">
+                @activePanel.ChildContent
+            </div>
+        }
         @* Instantiate the child SUITabPanel components so they can register with
            this parent. Their own templates render nothing visible; the active
            panel's ChildContent is shown in .sui-tabs__panels above. *@
-        <div hidden>@ChildContent</div>
+        <div hidden aria-hidden="true">@ChildContent</div>
     </div>
 </CascadingValue>
 
@@ -33,17 +49,35 @@
     [Parameter]
     public string? Class { get; set; }
 
+    /// <summary>Stable id prefix used to associate tabs and panels.</summary>
+    [Parameter]
+    public string? Id { get; set; }
+
+    /// <summary>Accessible name for the tab list.</summary>
+    [Parameter]
+    public string? AriaLabel { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
+
     private readonly List<SUITabPanel> _panels = new();
+    private readonly string _generatedId = $"sui-tabs-{Guid.NewGuid():N}";
+    private ElementReference[] _tabReferences = [];
+    private ElementReference _rootElement;
+    private IJSObjectReference? _module;
+    private IJSObjectReference? _interop;
     private int _activeIndex;
+    private int? _pendingFocusIndex;
 
     internal void Register(SUITabPanel panel)
     {
         if (!_panels.Contains(panel))
         {
             _panels.Add(panel);
+            Array.Resize(ref _tabReferences, _panels.Count);
             StateHasChanged();
         }
     }
@@ -51,6 +85,7 @@
     internal void Unregister(SUITabPanel panel)
     {
         _panels.Remove(panel);
+        Array.Resize(ref _tabReferences, _panels.Count);
         if (_activeIndex >= _panels.Count && _panels.Count > 0)
             _activeIndex = _panels.Count - 1;
         StateHasChanged();
@@ -58,9 +93,78 @@
 
     private void Activate(int index)
     {
+        if (index < 0 || index >= _panels.Count)
+            return;
+
         _activeIndex = index;
-        StateHasChanged();
     }
+
+    private void HandleKeyDown(KeyboardEventArgs args, int index)
+    {
+        if (_panels.Count == 0 || args.AltKey || args.CtrlKey || args.MetaKey)
+            return;
+
+        var nextIndex = args.Key switch
+        {
+            "ArrowRight" => (index + 1) % _panels.Count,
+            "ArrowLeft" => (index - 1 + _panels.Count) % _panels.Count,
+            "Home" => 0,
+            "End" => _panels.Count - 1,
+            _ => -1,
+        };
+
+        if (nextIndex < 0)
+            return;
+
+        Activate(nextIndex);
+        _pendingFocusIndex = nextIndex;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _module = await JS.InvokeAsync<IJSObjectReference>(
+                "import", "./_content/Sufficit.Blazor.UI/Components/Navigation/SUITabs.razor.js");
+            _interop = await _module.InvokeAsync<IJSObjectReference>("initialize", _rootElement);
+        }
+
+        if (_pendingFocusIndex is not int index || index >= _tabReferences.Length)
+            return;
+
+        _pendingFocusIndex = null;
+        await _tabReferences[index].FocusAsync(preventScroll: true);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            if (_interop is not null)
+                await _interop.InvokeVoidAsync("dispose");
+            if (_module is not null)
+                await _module.DisposeAsync();
+        }
+        catch (Exception ex) when (ex is JSException or JSDisconnectedException or InvalidOperationException)
+        {
+            // The browser circuit may already be gone during disposal.
+        }
+
+        GC.SuppressFinalize(this);
+    }
+
+    private string TabsId
+        => string.IsNullOrWhiteSpace(Id) ? _generatedId : Id!;
+
+    private string TabId(int index) => $"{TabsId}-tab-{index}";
+
+    private string PanelId(int index) => $"{TabsId}-panel-{index}";
+
+    private static string PanelClass(SUITabPanel panel)
+        => SUIClassBuilder.Default("sui-tabs__panels")
+            .AddClass("sui-tab-panel")
+            .AddClass(panel.Class)
+            .Build();
 
     private string Classname
         => SUIClassBuilder.Default("sui-tabs")

@@ -130,9 +130,14 @@ Três camadas **discordam** — sinalize, não faz de conta:
 
 - `CloudMobileSUITheme.IsDark => false` (hardcoded). Sem `prefers-color-scheme`. Sem toggle.
 - O SUI **tem** dark palette em `sufficit-ui.css` `[data-sui-theme="dark"]`, **mas** o primário escuro é **`#3b82f6` (azul)** — off-brand. Se for ligar dark num consumer âmbar, **sobrescreva o primário** no tema do consumer antes, senão a marca vira azul silenciosamente.
+- `.theme-dark` permanece como alias de compatibilidade em hosts antigos;
+  aplicações novas devem preferir `SUIThemeProvider`/`data-sui-theme`.
 
 ## Arquivos-chave por projeto
 
 - `sufficit-blazor`: `src/Components/Layout/MudThemeContainer.razor` (tema authoritative), `src/wwwroot/assets/css/mudblazor-customize.min.css` (tokens âmbar).
 - `sufficit-cloud-mobile`: `src/Sufficit.Cloud.Mobile.Web/CloudMobileSUITheme.cs`, `wwwroot/cloud-mobile.css`.
-- `sufficit-blazor-ui` (esta lib): `src/Themes/` (`ISUITheme.cs`, `SUIPalette.cs`, `SUITypography.cs`, `SUILayout.cs`, `SUIThemeProvider.razor`), `src/Components/` (componentes + `SUIEnums.cs`), `src/Utilities/SUIClassBuilder.cs`, `src/wwwroot/sufficit-ui.css`. (Layout achatado em 2026-08: sem o prefixo `Sufficit.Blazor.UI/`.)
+- `sufficit-blazor-ui` (esta lib): `src/Themes/`, componentes agrupados em
+  `src/Components/{Actions,DataDisplay,Feedback,Forms,Layout,Navigation,Overlays}`,
+  `src/Utilities/SUIClassBuilder.cs`, `src/wwwroot/sufficit-ui.css` e
+  `src/wwwroot/styles/`. O host também carrega seu `{Consumer}.styles.css`.

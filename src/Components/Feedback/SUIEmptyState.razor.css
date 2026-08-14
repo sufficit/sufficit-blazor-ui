@@ -1,0 +1,42 @@
+/* ------------------------------------------------------------------ *
+ * Empty state
+ * ------------------------------------------------------------------ */
+
+.sui-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--sui-space-6) var(--sui-space-4);
+  color: var(--sui-text-secondary);
+}
+.sui-empty__icon    { display: inline-flex; opacity: .7; margin-bottom: var(--sui-space-3); color: var(--sui-text-secondary); }
+.sui-empty__title   { font-size: var(--sui-fs-h6); font-weight: 600; color: var(--sui-text-primary); }
+.sui-empty__description { font-size: var(--sui-fs-body2); margin-top: var(--sui-space-1); max-width: 44ch; }
+.sui-empty__action { margin-top: var(--sui-space-4); }
+.sui-empty__actions {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sui-space-2);
+  margin-top: var(--sui-space-4);
+}
+.sui-empty__actions ::deep > form {
+  display: flex;
+  margin: 0;
+}
+
+@media (max-width: 30rem) {
+  .sui-empty__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .sui-empty__actions ::deep > .sui-btn,
+  .sui-empty__actions ::deep > form,
+  .sui-empty__actions ::deep > form > .sui-btn {
+    width: 100%;
+  }
+}

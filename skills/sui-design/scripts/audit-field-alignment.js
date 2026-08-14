@@ -4,12 +4,16 @@
     const DEFAULTS = Object.freeze({
         containerSelector: "[data-sui-align-row]",
         fieldSelector:
-            ":scope > [data-sui-align-field], :scope > .field-group, :scope > .sui-field",
+            ":scope > [data-sui-align-field], :scope > .field-group, :scope > .sui-field, :scope > .mud-input-control",
         labelSelector:
-            ":scope > label, :scope > legend, :scope > [data-sui-field-label], :scope > span",
+            ":scope > label, :scope > legend, :scope > [data-sui-field-label], .sui-field__label, .mud-input-label",
         controlSelector:
-            ":scope > input, :scope > select, :scope > textarea, :scope > .sui-input, :scope > .sui-select__trigger, :scope > [data-sui-field-control]",
-        tolerance: 2
+            ":scope > input, :scope > select, :scope > textarea, :scope > [data-sui-field-control], .sui-field__input, .sui-select__trigger, .mud-input, .mud-select-input, .mud-picker-input-button",
+        tolerance: 2,
+        requireContainers: true,
+        requireComparisons: true,
+        requireControls: true,
+        requireLabels: false
     });
 
     function isFiniteRect(rect) {
@@ -28,19 +32,35 @@
         return separatedHorizontally && overlap >= minimumOverlap;
     }
 
-    function comparePeerGeometry(left, right, tolerance) {
+    function measurePeerGeometry(left, right) {
         if (!areHorizontalPeers(left.field, right.field)) return [];
-        const failures = [];
+        const measurements = [];
         for (const dimension of ["field", "label", "control"]) {
             if (!isFiniteRect(left[dimension]) || !isFiniteRect(right[dimension])) {
                 continue;
             }
             const delta = Math.abs(left[dimension].top - right[dimension].top);
-            if (delta > tolerance) {
-                failures.push({ dimension, delta });
-            }
+            measurements.push({ dimension, metric: "top", delta });
         }
-        return failures;
+        if (isFiniteRect(left.control) && isFiniteRect(right.control)) {
+            const heightDelta = Math.abs(
+                left.control.height - right.control.height);
+            measurements.push({
+                dimension: "control",
+                metric: "height",
+                delta: heightDelta
+            });
+        }
+        return measurements;
+    }
+
+    function comparePeerGeometry(left, right, tolerance) {
+        return measurePeerGeometry(left, right)
+            .filter((measurement) => measurement.delta > tolerance)
+            .map((measurement) => ({
+                reason: "misaligned",
+                ...measurement
+            }));
     }
 
     function visible(element, view) {
@@ -75,6 +95,14 @@
             : `${element.tagName.toLowerCase()}[${fallback}]`;
     }
 
+    function identifyField(element, control, fallback) {
+        const explicitName = element?.dataset?.suiAlignName?.trim();
+        if (explicitName) return explicitName;
+        if (element?.id) return `#${element.id}`;
+        if (control?.id) return `#${control.id}`;
+        return identify(element, fallback);
+    }
+
     function audit(options) {
         const settings = { ...DEFAULTS, ...(options || {}) };
         const documentRef = settings.document || root.document;
@@ -88,11 +116,21 @@
         }
 
         const failures = [];
+        const diagnostics = [];
+        const pairs = [];
         let comparisons = 0;
+        let measuredFields = 0;
         const containers = [...documentRef.querySelectorAll(
             settings.containerSelector)];
 
+        if (settings.requireContainers && containers.length === 0) {
+            failures.push({ reason: "no-containers" });
+        }
+
         containers.forEach((container, containerIndex) => {
+            const containerName = identify(
+                container,
+                `container-${containerIndex + 1}`);
             const fields = [...container.querySelectorAll(settings.fieldSelector)]
                 .filter((field) => field.parentElement === container)
                 .filter((field) => visible(field, view))
@@ -100,31 +138,67 @@
                     const label = field.querySelector(settings.labelSelector);
                     const control = field.querySelector(settings.controlSelector);
                     return {
-                        name: identify(field, `field-${fieldIndex + 1}`),
+                        name: identifyField(
+                            field,
+                            control,
+                            `field-${fieldIndex + 1}`),
                         field: rectOf(field),
                         label: visible(label, view) ? rectOf(label) : null,
                         control: visible(control, view) ? rectOf(control) : null
                     };
                 });
+            measuredFields += fields.length;
+
+            fields.forEach((field) => {
+                if (!field.label) {
+                    diagnostics.push({
+                        reason: "missing-label",
+                        container: containerName,
+                        field: field.name
+                    });
+                    if (settings.requireLabels) {
+                        failures.push(diagnostics.at(-1));
+                    }
+                }
+                if (!field.control) {
+                    diagnostics.push({
+                        reason: "missing-control",
+                        container: containerName,
+                        field: field.name
+                    });
+                    if (settings.requireControls) {
+                        failures.push(diagnostics.at(-1));
+                    }
+                }
+            });
 
             for (let leftIndex = 0; leftIndex < fields.length; leftIndex += 1) {
                 for (let rightIndex = leftIndex + 1;
                     rightIndex < fields.length;
                     rightIndex += 1) {
-                    const pairFailures = comparePeerGeometry(
-                        fields[leftIndex],
-                        fields[rightIndex],
-                        tolerance);
                     if (!areHorizontalPeers(
                         fields[leftIndex].field,
                         fields[rightIndex].field)) {
                         continue;
                     }
                     comparisons += 1;
+                    const measurements = measurePeerGeometry(
+                        fields[leftIndex],
+                        fields[rightIndex]);
+                    pairs.push({
+                        container: containerName,
+                        left: fields[leftIndex].name,
+                        right: fields[rightIndex].name,
+                        measurements
+                    });
+                    const pairFailures = measurements
+                        .filter((measurement) => measurement.delta > tolerance)
+                        .map((measurement) => ({
+                            reason: "misaligned",
+                            ...measurement
+                        }));
                     pairFailures.forEach((failure) => failures.push({
-                        container: identify(
-                            container,
-                            `container-${containerIndex + 1}`),
+                        container: containerName,
                         left: fields[leftIndex].name,
                         right: fields[rightIndex].name,
                         ...failure
@@ -133,12 +207,19 @@
             }
         });
 
+        if (settings.requireComparisons && comparisons === 0) {
+            failures.push({ reason: "no-horizontal-comparisons" });
+        }
+
         const report = {
             pass: failures.length === 0,
             tolerance,
             containers: containers.length,
+            measuredFields,
             comparisons,
-            failures
+            pairs,
+            failures,
+            diagnostics
         };
         if (root.console) {
             const method = report.pass ? "info" : "error";
@@ -149,6 +230,11 @@
 
     root.SUIAlignmentAudit = audit;
     if (typeof module !== "undefined" && module.exports) {
-        module.exports = { audit, areHorizontalPeers, comparePeerGeometry };
+        module.exports = {
+            audit,
+            areHorizontalPeers,
+            measurePeerGeometry,
+            comparePeerGeometry
+        };
     }
 }(typeof window !== "undefined" ? window : globalThis));

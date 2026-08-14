@@ -4,9 +4,10 @@
 <div class="@Classname">
     @if (!string.IsNullOrWhiteSpace(Label))
     {
-        <label class="sui-field__label">@Label</label>
+        <label class="sui-field__label" for="@EffectiveId">@Label</label>
     }
     <input class="sui-field__input"
+           id="@EffectiveId"
            type="number"
            value="@Value"
            @onchange="OnChanged"
@@ -14,10 +15,17 @@
            max="@Max"
            step="@Step"
            disabled="@Disabled"
+           aria-describedby="@DescribedBy"
+           aria-invalid="@(HasError ? "true" : null)"
+           aria-errormessage="@(HasError ? ErrorId : null)"
            @attributes="UserAttributes" />
     @if (!string.IsNullOrWhiteSpace(HelperText))
     {
-        <span class="sui-field__helper">@HelperText</span>
+        <span id="@HelperId" class="sui-field__helper">@HelperText</span>
+    }
+    @if (!string.IsNullOrWhiteSpace(ErrorText))
+    {
+        <span id="@ErrorId" class="sui-field__error">@ErrorText</span>
     }
 </div>
 
@@ -33,6 +41,18 @@
 
     [Parameter]
     public string? HelperText { get; set; }
+
+    [Parameter]
+    public string? ErrorText { get; set; }
+
+    [Parameter]
+    public bool Invalid { get; set; }
+
+    [Parameter]
+    public string? Id { get; set; }
+
+    [Parameter]
+    public string? AriaDescribedBy { get; set; }
 
     [Parameter]
     public T? Min { get; set; }
@@ -51,6 +71,20 @@
 
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object?> UserAttributes { get; set; } = new();
+
+    private readonly string _generatedId = $"sui-numeric-field-{Guid.NewGuid():N}";
+    private string EffectiveId => string.IsNullOrWhiteSpace(Id) ? _generatedId : Id;
+    private string HelperId => $"{EffectiveId}-helper";
+    private string ErrorId => $"{EffectiveId}-error";
+    private bool HasError => Invalid || !string.IsNullOrWhiteSpace(ErrorText);
+    private string? DescribedBy
+        => string.Join(' ', new[]
+            {
+                AriaDescribedBy,
+                string.IsNullOrWhiteSpace(HelperText) ? null : HelperId,
+                string.IsNullOrWhiteSpace(ErrorText) ? null : ErrorId,
+            }
+            .Where(value => !string.IsNullOrWhiteSpace(value)));
 
     private string Classname
         => SUIClassBuilder.Default("sui-field")

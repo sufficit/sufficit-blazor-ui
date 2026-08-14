@@ -1,6 +1,6 @@
 @namespace Sufficit.Blazor.UI.Components
 
-<ol class="@Classname">@ChildContent</ol>
+<ol class="@Classname" @attributes="AdditionalAttributes">@ChildContent</ol>
 
 @code {
     /// <summary>"start" (default) or "end" — places markers on the left/right.</summary>
@@ -12,6 +12,9 @@
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
     private string Classname
         => SUIClassBuilder.Default("sui-timeline")

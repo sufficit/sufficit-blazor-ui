@@ -20,9 +20,6 @@ concluído é arquivado em `activities/` com prefixo de timestamp
 
 ## Planos ativos (trabalho pendente)
 
-- [Arquitetura e hardening da biblioteca SUI](PLAN-SUI-ARCHITECTURE-HARDENING.md) —
-  componentização híbrida de CSS/JavaScript, acessibilidade, theming, testes,
-  empacotamento e rollout seguro nos consumidores
 - [Adoção dos componentes `SUI*`](PLAN-CONSUMER-MIGRATION.md) —
   implementado em `sufficit-blazor`, `sufficit-ai-genius`,
   `Sufficit.Identity.UI.Management`, `sufficit-cloud-mobile` e
@@ -30,6 +27,9 @@ concluído é arquivado em `activities/` com prefixo de timestamp
 
 ## Trabalho concluído (activities/)
 
+- [Arquitetura e hardening da biblioteca SUI](activities/202608141316-completed-sui-architecture-hardening.md) —
+  famílias de componentes, CSS híbrido, módulos colocalizados, acessibilidade,
+  catálogo, pacote multialvo e rollout nos consumidores concluídos
 - [Adoção SUI no Vault + remoção dos componentes antigos](activities/202608092140-completed-vault-adoption.md) —
   Vault migrado, `AppIcon`/`EmptyState`/`PageHeader`/`StatusBadge` extintos do identity
 - [Adoção SUI no cloud-mobile — completa](activities/202608092113-completed-cloud-mobile.md) —

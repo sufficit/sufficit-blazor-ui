@@ -1,173 +1,101 @@
 @namespace Sufficit.Blazor.UI.Components
 @typeparam T
-@inject Microsoft.AspNetCore.Components.NavigationManager NavManager
+@using Microsoft.AspNetCore.Components.Web
+@implements IAsyncDisposable
 
-<div class="@Classname" @onfocusout="OnFocusOut">
+<div class="@Classname" @onfocusout="OnFocusOutAsync" @attributes="UserAttributes">
     @if (!string.IsNullOrWhiteSpace(Label))
     {
-        <label class="sui-field__label">@Label</label>
+        <label id="@LabelId" class="sui-field__label" for="@EffectiveId">@Label</label>
     }
+
     <div class="sui-autocomplete__control">
-        <input class="sui-field__input"
+        <input id="@EffectiveId"
+               class="sui-field__input"
                type="text"
+               role="combobox"
+               autocomplete="off"
+               aria-autocomplete="list"
+               aria-expanded="@(_open ? "true" : "false")"
+               aria-controls="@ListId"
+               aria-activedescendant="@ActiveDescendantId"
+               aria-labelledby="@LabelledBy"
+               aria-describedby="@DescribedBy"
+               aria-invalid="@(Invalid ? "true" : "false")"
+               aria-errormessage="@ErrorMessageId"
                value="@_query"
-               @oninput="OnInput"
+               @oninput="OnInputAsync"
                @onfocus="OnFocus"
+               @onkeydown="OnKeyDownAsync"
                placeholder="@Placeholder"
                disabled="@Disabled" />
         @if (!string.IsNullOrWhiteSpace(AdornmentIcon))
         {
-            <span class="sui-autocomplete__adornment">
+            <span class="sui-autocomplete__adornment" aria-hidden="true">
                 <SUIIcon Name="@AdornmentIcon" Size="18" />
             </span>
         }
     </div>
+
     @if (!string.IsNullOrWhiteSpace(HelperText))
     {
-        <span class="sui-field__helper">@HelperText</span>
-    }
-    @if (_open && (_items.Count > 0 || NoItemsTemplate is not null))
-    {
-        <ul class="sui-autocomplete__list">
-            @if (_items.Count == 0 && NoItemsTemplate is not null)
-            {
-                <li class="sui-autocomplete__noitems">@NoItemsTemplate</li>
-            }
-            else
-            {
-                @foreach (var item in _items.Take(MaxItems))
-                {
-                    <li class="sui-autocomplete__option" @onclick="() => Select(item)">
-                        @if (ItemTemplate is not null)
-                        {
-                            @ItemTemplate(item)
-                        }
-                        else
-                        {
-                            <span>@(_toString?.Invoke(item))</span>
-                        }
-                    </li>
-                }
-            }
-        </ul>
-    }
-</div>
-
-@code {
-    [Parameter]
-    public T? Value { get; set; }
-
-    [Parameter]
-    public EventCallback<T?> ValueChanged { get; set; }
-
-    [Parameter]
-    public Func<string, Task<IEnumerable<T>>>? SearchFunc { get; set; }
-
-    [Parameter]
-    public Func<T, string>? ToStringFunc { get; set; }
-
-    [Parameter]
-    public string? Label { get; set; }
-
-    [Parameter]
-    public string? Placeholder { get; set; }
-
-    [Parameter]
-    public string? HelperText { get; set; }
-
-    [Parameter]
-    public string? AdornmentIcon { get; set; }
-
-    [Parameter]
-    public int MinCharacters { get; set; } = 0;
-
-    [Parameter]
-    public int MaxItems { get; set; } = 20;
-
-    [Parameter]
-    public int DebounceInterval { get; set; } = 300;
-
-    [Parameter]
-    public bool Disabled { get; set; }
-
-    [Parameter]
-    public RenderFragment? ChildContent { get; set; }
-
-    [Parameter]
-    public RenderFragment<T>? ItemTemplate { get; set; }
-
-    [Parameter]
-    public RenderFragment? NoItemsTemplate { get; set; }
-
-    [Parameter]
-    public string? Class { get; set; }
-
-    private string _query = string.Empty;
-    private bool _open;
-    private readonly List<T> _items = new();
-    private Func<T, string>? _toString;
-    private CancellationTokenSource? _cts;
-
-    private string Classname
-        => SUIClassBuilder.Default("sui-field sui-autocomplete")
-            .AddClass(Class)
-            .Build();
-
-    protected override void OnInitialized()
-    {
-        _toString = ToStringFunc;
-        if (Value is not null && _toString is not null)
-            _query = _toString(Value);
+        <span id="@HelperId" class="sui-field__helper">@HelperText</span>
     }
 
-    protected override void OnParametersSet()
+    @if (!string.IsNullOrWhiteSpace(ErrorText))
     {
-        _toString ??= item => item?.ToString() ?? string.Empty;
+        <span id="@ErrorId" class="sui-field__error">@ErrorText</span>
     }
 
-    private async Task OnInput(ChangeEventArgs e)
-    {
-        _query = e.Value?.ToString() ?? string.Empty;
-        _cts?.Cancel();
-        _cts = new CancellationTokenSource();
-        var token = _cts.Token;
+    <span id="@StatusId" class="sui-sr-only" role="status" aria-live="polite">@StatusMessage</span>
 
-        if (_query.Length < MinCharacters)
+    <ul id="@ListId"
+        class="sui-autocomplete__list"
+        role="listbox"
+        aria-labelledby="@LabelledBy"
+        hidden="@(!_open)">
+        @if (_loading)
         {
-            _items.Clear();
-            return;
+            <li class="sui-autocomplete__noitems" role="presentation">@LoadingText</li>
         }
-
-        _ = Task.Run(async () =>
+        else if (!string.IsNullOrWhiteSpace(_searchError))
         {
-            try { await Task.Delay(DebounceInterval, token); }
-            catch (TaskCanceledException) { return; }
-            if (token.IsCancellationRequested || SearchFunc is null) return;
-
-            var results = await SearchFunc(_query);
-            if (token.IsCancellationRequested) return;
-
-            _items.Clear();
-            _items.AddRange(results);
-            _open = true;
-            await InvokeAsync(StateHasChanged);
-        }, token);
-    }
-
-    private void OnFocus() { if (_items.Count > 0) _open = true; }
-
-    private async Task OnFocusOut(FocusEventArgs _)
-    {
-        // small delay so a click on an option registers before we close
-        await Task.Delay(120);
-        _open = false;
-        await InvokeAsync(StateHasChanged);
-    }
-
-    private async Task Select(T item)
-    {
-        _query = _toString?.Invoke(item) ?? string.Empty;
-        _open = false;
-        await ValueChanged.InvokeAsync(item);
-    }
-}
+            <li class="sui-autocomplete__noitems" role="presentation">@_searchError</li>
+        }
+        else if (_items.Count == 0)
+        {
+            <li class="sui-autocomplete__noitems" role="presentation">
+                @if (NoItemsTemplate is not null)
+                {
+                    @NoItemsTemplate
+                }
+                else
+                {
+                    @NoItemsText
+                }
+            </li>
+        }
+        else
+        {
+            @for (var index = 0; index < _items.Count; index++)
+            {
+                var item = _items[index];
+                <li id="@OptionId(index)"
+                    class="@OptionClass(index)"
+                    role="option"
+                    aria-selected="@(index == _activeIndex ? "true" : "false")"
+                    @onmousedown:preventDefault="true"
+                    @onclick="() => SelectAsync(item)">
+                    @if (ItemTemplate is not null)
+                    {
+                        @ItemTemplate(item)
+                    }
+                    else
+                    {
+                        <span>@ToDisplayString(item)</span>
+                    }
+                </li>
+            }
+        }
+    </ul>
+</div>

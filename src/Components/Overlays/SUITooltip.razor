@@ -1,8 +1,11 @@
 @namespace Sufficit.Blazor.UI.Components
 @using System.Globalization
 @using Sufficit.Blazor.UI.Utilities
+@implements IAsyncDisposable
+@inject IJSRuntime JS
 
-<span @attributes="UserAttributes"
+<span @ref="_anchorElement"
+      @attributes="UserAttributes"
       class="@Classname"
       style="@Style"
       data-sui-tooltip="@EffectiveText"
@@ -123,4 +126,43 @@
     private int SafeShowDelay => Math.Clamp(ShowDelay, 0, 5_000);
     private int SafeHideDelay => Math.Clamp(HideDelay, 0, 5_000);
     private int SafeFontWeight => Math.Clamp(FontWeight, 100, 900);
+
+    private IJSObjectReference? _module;
+    private ElementReference _anchorElement;
+    private bool _connected;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        _module = await JS.InvokeAsync<IJSObjectReference>(
+            "import",
+            "./_content/Sufficit.Blazor.UI/Components/Overlays/SUITooltip.razor.js");
+        await _module.InvokeVoidAsync("connectTooltip", _anchorElement);
+        _connected = true;
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_module is null)
+        {
+            return;
+        }
+
+        try
+        {
+            if (_connected)
+            {
+                await _module.InvokeVoidAsync("disconnectTooltip", _anchorElement);
+            }
+            await _module.DisposeAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+            // The browser document owns the delegated listeners and is already gone.
+        }
+    }
 }

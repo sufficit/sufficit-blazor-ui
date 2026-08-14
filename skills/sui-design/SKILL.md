@@ -5,7 +5,9 @@ description: Projete, construa, critique, refine e publique interfaces frontend 
 
 # SUI Design
 
-Skill de frontend da Sufficit para UIs Blazor que usam a biblioteca **Sufficit.Blazor.UI (SUI)** — e projetos irmãos em MudBlazor. Consolida o melhor de duas skills externas (impeccable = filosofia/qualidade; ui-ux-pro-max = do/don't por stack) **mais** o sistema de marca Sufficit, o catálogo SUI e os padrões de engenharia/deploy que vivemos no `sufficit-cloud-mobile`.
+Skill de frontend da Sufficit para UIs Blazor com
+**Sufficit.Blazor.UI (SUI)** ou MudBlazor. Reúne marca, contratos dos
+componentes, acessibilidade, responsividade, lifecycle e release.
 
 ## Como usar
 
@@ -21,7 +23,9 @@ Invocável como skill. Sem subcomando, faça triagem (abaixo) e siga o fluxo. Co
 | `colorize` / `typeset` / `layout` / `animate` / `quieter` / `bolder` | realces focados | ajustes na dimensão escolhida |
 | `ship` | publicar no `eveo-apps` | release ativa + health check (ver `references/shipping.md`) |
 
-Saída sempre em **código pronto para produção**, não protótipo. Até estar completo: bonito, responsivo, rápido, acessível, on-brand.
+Em fluxos de implementação, entregue código pronto para produção. Em `shape`,
+`audit` e `critique`, entregue o artefato descrito na tabela, com achados
+verificáveis e próximos passos concretos.
 
 ## Setup antes de projetar (sempre)
 
@@ -30,7 +34,11 @@ Saída sempre em **código pronto para produção**, não protótipo. Até estar
 3. **Defina o registro:** `brand` (design É o produto: marketing, landing) ou `product` (design SERVE o produto: app, dashboard, painel). O registro muda as regras (cor, motion, densidade). Detalhe em `references/brand-and-theme.md`.
 4. **Leia pelo menos um arquivo real do projeto** (um `.razor`, o tema, o CSS). Não reinvente; use o que existe quando funciona.
 5. **Se o projeto é Blazor Server/interactive**, leia `references/blazor-patterns.md` (lifecycle, headings semânticos, contexto/auth).
-6. **Se houver formulário em duas ou mais colunas**, leia `references/alignment-audit.md`, marque as linhas equivalentes com `data-sui-align-row` e execute o gate geométrico antes do ship.
+6. **Se houver formulário em duas ou mais colunas**, leia
+   `references/alignment-audit.md`, marque cada linha de campos equivalentes
+   com `data-sui-align-row` e execute o gate geométrico em desktop e no último
+   viewport antes do empilhamento. Zero containers ou zero comparações é falha,
+   não aprovação.
 
 ## Marca Sufficit (resumo — detalhes em `references/brand-and-theme.md`)
 
@@ -46,8 +54,14 @@ Saída sempre em **código pronto para produção**, não protótipo. Até estar
 - Prefixo **`SUI`** (`SUIButton`, `SUIPageHeader`, …); classes **`.sui-*`**; tokens **`--sui-*`** em `:root`.
 - **Não é Material Design:** flat, sombras suaves, raios generosos.
 - Enums **próprios** em `SUIColor`, `SUIVariant` (Text/Outlined/Filled), `SUISize`, `SUIButtonType`, `SUIEdge`, `SUITypo`, `SUIAlign`, `SUITone` — **não** os do MudBlazor.
-- Tema via `services.AddSufficitUI(o => o.Theme = new MeuTema())` + `<SUIThemeProvider>`; sem provider, cai em `DefaultSUITheme` (azul claro). Dark via `[data-sui-theme="dark"]`.
+- Tema via `services.AddSufficitUI(o => o.Theme = new MeuTema())` + `<SUIThemeProvider>`; sem provider, cai em `DefaultSUITheme` (azul claro). Dark via `[data-sui-theme="dark"]`; `.theme-dark` é somente alias legado.
 - Class builder: `SUIClassBuilder.Default("sui-btn").AddClass(...).Slug(valor).Build()`.
+- Assets: carregue `_content/Sufficit.Blazor.UI/sufficit-ui.css` **e** o
+  `{Consumer}.styles.css`. Nunca inclua script SUI manualmente; Select,
+  Tooltip, NavGroup, Tabs e Dialog importam módulos `.razor.js` colocalizados.
+- Em APIs visuais novas use `ColorValue`, `VariantValue`, `SizeValue`,
+  `ButtonTypeValue`, `EdgeValue` e `ToneValue`. Os nomes antigos sem `Value`
+  são pontes `object`/string obsoletas até v2.
 
 ## Registros (definem as regras)
 
@@ -68,7 +82,10 @@ Saída sempre em **código pronto para produção**, não protótipo. Até estar
 **Layout**
 - Varie espaçamento pra ter ritmo. **Cards são a resposta preguiçosa** — use só quando são a melhor affordance. Cards aninhados são sempre errado.
 - Flexbox 1D, Grid 2D. Grid responsivo sem breakpoint: `repeat(auto-fit, minmax(280px, 1fr))`.
-- Campos lado a lado devem alinhar wrapper, label e controle no eixo vertical. Não deixe regras verticais como `.field + .field { margin-top: ... }` vazarem para filhos de Grid/Flex; zere a margem no contexto horizontal e valide a geometria renderizada, não só o CSS.
+- Campos equivalentes lado a lado devem alinhar topo do wrapper, label, topo e
+  altura do controle. Use `align-items: start`, `min-width: 0`, elimine margens
+  verticais herdadas e reserve a mesma altura de label quando ele puder quebrar
+  linha. Valide a geometria renderizada; revisar apenas o CSS não fecha o gate.
 - Escala semântica de z-index (dropdown → sticky → modal-backdrop → modal → toast → tooltip). Nunca `999`/`9999` arbitrário.
 
 **Motion**
@@ -96,12 +113,19 @@ Se alguém pode olhar e dizer "IA fez isso" sem dúvida, falhou. Cheque em duas 
 
 ## Engenharia Blazor (resumo — detalhes em `references/blazor-patterns.md`)
 
-- **Lifecycle:** NUNCA bloqueie a UI em `OnInitializedAsync`/`OnParametersSetAsync`. Dispare `_ = Task.Run(LoadAsync)` em `OnAfterRender(firstRender)`, trackee `IsLoading`, e sempre `await InvokeAsync(StateHasChanged)` de threads de background. Mostre `<SUISkeletonLoader>`/`<MudSkeleton>` enquanto carrega. Descadastre eventos no `Dispose`.
-- **Headings semânticos:** títulos de página devem ser `<h1>` reais. `SUIText` renderiza `<div>` — não serve para heading; aplique a classe `sui-text--h5` num `<h1>` (visual idêntico, semântica real) para o `FocusOnNavigate` ter alvo e o leitor de tela navegar.
+- **Lifecycle:** não use `Task.Run` para I/O assíncrono. Faça `await` no hook
+  apropriado quando o primeiro render puder aguardar; quando o shell precisar
+  aparecer antes dos dados, inicie `LoadAsync` após o primeiro render, controle
+  loading/error e finalize via `InvokeAsync(StateHasChanged)`. Mostre skeleton
+  enquanto carrega e descadastre eventos no `Dispose`.
+- **Headings semânticos:** títulos de página devem ser `<h1>` reais.
+  `SUIText Typo="SUITypo.h1"`–`h6` já renderiza o heading correspondente com
+  `Tag=Auto`; use `Tag="SUITextTag.H1"` quando aparência e nível semântico
+  forem diferentes. `FocusOnNavigate Selector="h1"` precisa desse elemento.
 - **Naming:** "Manager" não "Admin" (`User.IsManager()`); Guid PKs; comentários/commits em inglês.
 - **Contexto multi-tenant (sufficit-cloud-mobile):** detail-by-id (instância/operação por id) deve buscar sempre em escopo agregado (`scope=all`); o id é o escopo, o server autoriza via `AccessibleTenantIds`/`CanSelectAnyTenant`. Coleções e mutações respeitam o contexto selecionado (`X-Sufficit-Context-Id`).
 
-## Do/Don't por stack (do ui-ux-pro-max)
+## Checklist de engenharia frontend
 
 Princípios consolidados: lifecycle async, `StateHasChanged` via `InvokeAsync`, `Dispose`, skeletons, brand via `--sufficit-amber`, hex/`color-mix` não OKLCH, enums SUI, render-mode por rota, touch targets ≥44px. Ver `references/components.md` e `references/blazor-patterns.md`.
 

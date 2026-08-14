@@ -21,6 +21,7 @@ namespace Sufficit.Blazor.UI.Components
         private bool _expandedState;
         private bool _expandedParameterInitialized;
         private bool _lastExpandedParameter;
+        private bool _railInteropConnected;
 
         protected override void OnInitialized()
         {
@@ -48,6 +49,22 @@ namespace Sufficit.Blazor.UI.Components
             UpdateNavigationContext();
         }
 
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (!IsRootRail)
+            {
+                return;
+            }
+
+            var module = await GetJsModuleAsync();
+            if (!_railInteropConnected)
+            {
+                await module.InvokeVoidAsync("connectRailFlyout", _flyoutElement);
+                _railInteropConnected = true;
+            }
+            await module.InvokeVoidAsync("updateRailFlyout", _flyoutElement);
+        }
+
         public async ValueTask DisposeAsync()
         {
             if (_railCoordinatorSubscribed)
@@ -66,9 +83,13 @@ namespace Sufficit.Blazor.UI.Components
                 try
                 {
                     var module = await moduleTask;
+                    if (_railInteropConnected)
+                    {
+                        await module.InvokeVoidAsync("disconnectRailFlyout", _flyoutElement);
+                    }
                     await module.DisposeAsync();
                 }
-                catch (Exception)
+                catch (Exception ex) when (ex is JSException or JSDisconnectedException or InvalidOperationException)
                 {
                     // The browser circuit may already be gone during disposal.
                 }
@@ -296,10 +317,7 @@ namespace Sufficit.Blazor.UI.Components
         {
             try
             {
-                _jsModuleTask ??= JS.InvokeAsync<IJSObjectReference>(
-                    "import",
-                    "/_content/Sufficit.Blazor.UI/sufficit-ui.js").AsTask();
-                var module = await _jsModuleTask;
+                var module = await GetJsModuleAsync();
                 return await module.InvokeAsync<bool>(
                     "isRailInteractionActive",
                     _flyoutElement);
@@ -309,6 +327,11 @@ namespace Sufficit.Blazor.UI.Components
                 return false;
             }
         }
+
+        private Task<IJSObjectReference> GetJsModuleAsync()
+            => _jsModuleTask ??= JS.InvokeAsync<IJSObjectReference>(
+                "import",
+                "./_content/Sufficit.Blazor.UI/Components/Navigation/SUINavGroup.razor.js").AsTask();
 
         private void UpdateNavigationContext()
         {

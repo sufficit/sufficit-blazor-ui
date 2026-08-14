@@ -11,16 +11,20 @@
 @code {
     /// <summary>Chip color. Lowercase string: "default", "primary", "secondary",
     /// "success", "warning", "error", "info". Default "default".</summary>
-    [Parameter]
+    [Parameter, Obsolete("Use ColorValue. The object bridge will be removed in v2.0.0.")]
     public object? Color { get; set; } = SUIColor.Default;
 
     /// <summary>Size: "small" or "medium". Default "medium".</summary>
-    [Parameter]
+    [Parameter, Obsolete("Use SizeValue. The object bridge will be removed in v2.0.0.")]
     public object? Size { get; set; }
 
     /// <summary>Variant: "filled", "outlined", "text". Default "filled".</summary>
-    [Parameter]
+    [Parameter, Obsolete("Use VariantValue. The object bridge will be removed in v2.0.0.")]
     public object? Variant { get; set; } = SUIVariant.Filled;
+
+    [Parameter] public SUIColor? ColorValue { get; set; }
+    [Parameter] public SUISize? SizeValue { get; set; }
+    [Parameter] public SUIVariant? VariantValue { get; set; }
 
     [Parameter]
     public string? Icon { get; set; }
@@ -33,9 +37,15 @@
 
     private string Classname
         => SUIClassBuilder.Default("sui-chip")
-            .AddClass($"sui-chip--{SUIClassBuilder.Slug(Color)}")
-            .AddClass($"sui-chip--{SUIClassBuilder.Slug(Size)}", Size is not null)
-            .AddClass($"sui-chip--{SUIClassBuilder.Slug(Variant)}")
+            .AddClass($"sui-chip--{SUIClassBuilder.Slug(EffectiveColor)}")
+            .AddClass($"sui-chip--{SUIClassBuilder.Slug(EffectiveSize)}", EffectiveSize is not null)
+            .AddClass($"sui-chip--{SUIClassBuilder.Slug(EffectiveVariant)}")
             .AddClass(Class)
             .Build();
+
+#pragma warning disable CS0618
+    private object EffectiveColor => ColorValue ?? Color ?? SUIColor.Default;
+    private object? EffectiveSize => SizeValue ?? Size;
+    private object EffectiveVariant => VariantValue ?? Variant ?? SUIVariant.Filled;
+#pragma warning restore CS0618
 }

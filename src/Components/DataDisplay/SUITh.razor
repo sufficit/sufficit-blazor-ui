@@ -1,10 +1,14 @@
 @namespace Sufficit.Blazor.UI.Components
 
-<th class="@Class" @attributes="UserAttributes">@ChildContent</th>
+<th class="@Class" scope="@Scope" @attributes="UserAttributes">@ChildContent</th>
 
 @code {
     [Parameter]
     public string? Class { get; set; }
+
+    /// <summary>Header scope. Defaults to a column header.</summary>
+    [Parameter]
+    public string Scope { get; set; } = "col";
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }

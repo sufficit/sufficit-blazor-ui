@@ -1,8 +1,16 @@
 @namespace Sufficit.Blazor.UI.Components
 
-<li class="@Classname" role="@(_hasClick ? "button" : null)" tabindex="@(_hasClick ? "0" : null)"
-    @onclick="OnClickHandler" @onkeypress="OnKeyHandler">
-    @ChildContent
+<li class="@Classname">
+    @if (_hasClick)
+    {
+        <button type="button" class="sui-list__button" @onclick="OnClickHandler">
+            @ChildContent
+        </button>
+    }
+    else
+    {
+        @ChildContent
+    }
 </li>
 
 @code {
@@ -24,9 +32,4 @@
             .Build();
 
     private Task OnClickHandler() => OnClick.InvokeAsync();
-    private async Task OnKeyHandler(KeyboardEventArgs e)
-    {
-        if (_hasClick && (e.Key == "Enter" || e.Key == " "))
-            await OnClick.InvokeAsync();
-    }
 }

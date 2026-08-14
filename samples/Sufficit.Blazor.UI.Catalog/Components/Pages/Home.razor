@@ -1,0 +1,256 @@
+@page "/"
+@inject ISUIDialogService DialogService
+@inject ISUISnackbar Snackbar
+
+<PageTitle>Catálogo SUI</PageTitle>
+
+<SUIThemeProvider Theme="@ActiveTheme" Class="catalog-theme-root">
+    <main class="catalog" data-catalog-ready data-theme="@(_dark ? "dark" : "light")">
+        <header class="catalog__header">
+            <SUIPageHeader Title="Catálogo SUI"
+                           Description="Estados reais, teclado, temas e conteúdo extremo dos componentes compartilhados."
+                           Prominent>
+                <Actions>
+                    <SUIButton VariantValue="SUIVariant.Outlined" OnClick="ToggleTheme" data-testid="theme-toggle">
+                        Tema @(_dark ? "claro" : "escuro")
+                    </SUIButton>
+                </Actions>
+            </SUIPageHeader>
+        </header>
+
+        <nav class="catalog__jump" aria-label="Famílias do catálogo">
+            <a href="#actions">Ações</a>
+            <a href="#forms">Formulários</a>
+            <a href="#navigation">Navegação</a>
+            <a href="#data">Dados</a>
+            <a href="#feedback">Feedback</a>
+            <a href="#layout">Layout</a>
+        </nav>
+
+        <section id="actions" class="catalog__section">
+            <h2>Ações</h2>
+            <p class="catalog__description">Variantes, tamanhos, loading, link e estado indisponível.</p>
+            <SUIStack Row Wrap AlignItems="Center">
+                <SUIButton ColorValue="SUIColor.Primary">Primária</SUIButton>
+                <SUIButton VariantValue="SUIVariant.Outlined">Secundária</SUIButton>
+                <SUIButton VariantValue="SUIVariant.Text" StartIcon="@SUIIcons.Add">Criar item</SUIButton>
+                <SUIButton Disabled>Indisponível</SUIButton>
+                <SUILoadingButton IsLoading>Salvando</SUILoadingButton>
+                <SUIIconButton Icon="@SUIIcons.Restart" Title="Atualizar" EdgeValue="SUIEdge.True" />
+                <SUILink Href="#forms">Ir para formulários</SUILink>
+            </SUIStack>
+        </section>
+
+        <section id="forms" class="catalog__section">
+            <h2>Formulários</h2>
+            <div class="catalog__form-grid" data-sui-align-row>
+                <SUITextField T="string" Label="Nome público" Placeholder="Ex.: Operação Sudeste"
+                              HelperText="Até 80 caracteres, incluindo acentos." MaxLength="80"
+                              data-testid="text-field" />
+                <SUITextField T="string" Label="Campo indisponível" Value="DisabledFieldValue" Disabled />
+                <SUINumericField T="int" Label="Tentativas" HelperText="Entre 1 e 10."
+                                 Min="1" Max="10" Value="3" />
+                <SUISelect T="string" Label="Região" Placeholder="Selecione uma região"
+                           HelperText="A seleção controla o roteamento." @bind-Value="_region"
+                           data-testid="select">
+                    <SUISelectItem Value="Southeast">Sudeste — São Paulo e Rio de Janeiro</SUISelectItem>
+                    <SUISelectItem Value="South">Sul</SUISelectItem>
+                    <SUISelectItem Value="North" Disabled>Norte — indisponível</SUISelectItem>
+                </SUISelect>
+                <div data-testid="autocomplete" data-sui-align-field>
+                    <SUIAutocomplete T="string" Label="Cidade" Placeholder="Digite ao menos uma letra"
+                                     HelperText="Resultados são atualizados enquanto você digita."
+                                     SearchFunc="SearchCities" ToStringFunc="@(value => value)"
+                                     MinCharacters="1" DebounceInterval="0">
+                        <NoItemsTemplate>Nenhuma cidade encontrada.</NoItemsTemplate>
+                    </SUIAutocomplete>
+                </div>
+                <div class="catalog__field-group">
+                    <SUISwitch Label="Notificações operacionais" @bind-Value="_notifications" />
+                    <SUISwitch Label="Controle indisponível" Disabled />
+                    <SUISwitchButton @bind-Checked="_notifications">Alternar notificações</SUISwitchButton>
+                </div>
+            </div>
+            <div class="catalog__choice-grid">
+                <SUIChoiceCard TValue="string" Value="PixPayment" SelectedValue="_payment"
+                               SelectedValueChanged="SelectPayment" Name="payment" Title="PIX"
+                               Description="Confirmação rápida, a qualquer hora" LeadingTone="SUITone.Success" />
+                <SUIChoiceCard TValue="string" Value="CardPayment" SelectedValue="_payment"
+                               SelectedValueChanged="SelectPayment" Name="payment"
+                               Title="Cartão corporativo com uma descrição propositalmente longa"
+                               Description="Aprovação sujeita às regras internacionais e aos limites configurados para a organização." />
+                <SUIChoiceCard TValue="string" Value="InvoicePayment" SelectedValue="_payment" Name="payment"
+                               Title="Boleto indisponível" Disabled />
+            </div>
+            <SUIButton VariantValue="SUIVariant.Text" data-testid="after-select">Próxima ação no Tab</SUIButton>
+        </section>
+
+        <section id="navigation" class="catalog__section">
+            <h2>Navegação</h2>
+            <SUIStack Row Wrap>
+                <SUIList Dense Class="catalog__nav-list">
+                    <SUIListItem>Item informativo</SUIListItem>
+                    <SUIListItem OnClick="OnListItemClick">Item acionável por teclado</SUIListItem>
+                </SUIList>
+                <div class="catalog__nav-tree">
+                    <SUINavGroup Title="Configurações" Expanded>
+                        <SUINavLink Title="Preferências" Href="#navigation" Icon="@SUIIcons.Admin" />
+                        <SUINavLink Title="Auditoria" Href="#data" Icon="@SUIIcons.DataUsage" />
+                    </SUINavGroup>
+                </div>
+            </SUIStack>
+            <SUITabs AriaLabel="Visões do catálogo">
+                <SUITabPanel Text="Visão geral"><p>Conteúdo da visão geral.</p></SUITabPanel>
+                <SUITabPanel Text="Texto longo para expansão internacional">
+                    <p lang="de">Konfigurationseinstellungen für internationale Bereitstellungen.</p>
+                </SUITabPanel>
+                <SUITabPanel Text="RTL">
+                    <p dir="rtl" lang="ar">واجهة تشغيلية تدعم النص من اليمين إلى اليسار.</p>
+                </SUITabPanel>
+            </SUITabs>
+        </section>
+
+        <section id="data" class="catalog__section">
+            <h2>Exibição de dados</h2>
+            <SUIStack Row Wrap AlignItems="Center">
+                <SUIIcon Name="database" />
+                <SUIChip ColorValue="SUIColor.Primary">Produção</SUIChip>
+                <SUIChip ColorValue="SUIColor.Warning" VariantValue="SUIVariant.Outlined">Manutenção</SUIChip>
+                <SUIStatusBadge ToneValue="SUITone.Success" Icon="check">Saudável</SUIStatusBadge>
+                <SUIStatusBadge ToneValue="SUITone.Danger" Icon="alert">Incidente</SUIStatusBadge>
+            </SUIStack>
+            <SUIText Typo="SUITypo.headline">Tipografia operacional</SUIText>
+            <SUIText Typo="SUITypo.body">IDs e métricas permanecem legíveis sem virar decoração.</SUIText>
+            <SUIText Typo="SUITypo.mono">worker/eveo-apps-01 · 99,98%</SUIText>
+
+            <SUITable T="CatalogRow" Items="_rows" ColumnCount="3" Hover Dense OnRowClick="SelectRow">
+                <HeaderContent>
+                    <SUITh scope="col">Serviço</SUITh><SUITh scope="col">Região</SUITh><SUITh scope="col">Estado</SUITh>
+                </HeaderContent>
+                <RowTemplate Context="row">
+                    <SUITd DataLabel="Serviço">@row.Name</SUITd>
+                    <SUITd DataLabel="Região">@row.Region</SUITd>
+                    <SUITd DataLabel="Estado"><SUIStatusBadge ToneValue="@row.Tone">@row.Status</SUIStatusBadge></SUITd>
+                </RowTemplate>
+            </SUITable>
+            <SUITable T="CatalogRow" Items="Array.Empty<CatalogRow>()" ColumnCount="3">
+                <HeaderContent><SUITh scope="col">Resultado vazio</SUITh></HeaderContent>
+                <NoRecordsContent><SUITableEmpty /></NoRecordsContent>
+            </SUITable>
+            <SUITimeline>
+                <SUITimelineItem ColorValue="SUIColor.Success">Deploy concluído às 10:42</SUITimelineItem>
+                <SUITimelineItem ColorValue="SUIColor.Info" VariantValue="SUIVariant.Outlined">Verificação de saúde executada</SUITimelineItem>
+            </SUITimeline>
+        </section>
+
+        <section id="feedback" class="catalog__section">
+            <h2>Feedback e overlays</h2>
+            <SUIStatusBanner Tone="SUITone.Success" Title="Runtime estável"
+                             Description="Todos os workers responderam e não há falhas recentes."
+                             data-testid="status-banner" />
+            <div class="catalog__feedback-grid">
+                <SUIAlert ToneValue="SUITone.Info" Icon="info">A atualização pode levar alguns minutos.</SUIAlert>
+                <SUIAlert ToneValue="SUITone.Warning" Icon="alert" ShowCloseIcon>Revise o limite antes de continuar.</SUIAlert>
+                <SUIToast Color="SUIColor.Error">Não foi possível concluir. Tente novamente.</SUIToast>
+                <SUIProgressLinear Value="68" Rounded AriaLabel="Sincronização" />
+                <SUISkeletonLoader Type="SUISkeletonType.Text" />
+                <SUISkeletonLoader Type="SUISkeletonType.Circle" />
+            </div>
+            <SUIEmptyState Title="Nenhuma automação"
+                           Description="Crie uma automação para começar a processar eventos."
+                           Icon="workflow">
+                <Actions><SUIButton>Criar automação</SUIButton></Actions>
+            </SUIEmptyState>
+            <SUIStack Row Wrap>
+                <SUITooltip Text="Descrição disponível sem depender de outro componente"
+                            Placement="SUITooltipPlacement.Top" ShowDelay="0" data-testid="tooltip">
+                    <SUIIconButton Icon="@SUIIcons.Pending" Title="Ajuda sobre o catálogo" />
+                </SUITooltip>
+                <SUIButton OnClick="ShowDialog" data-testid="open-dialog">Abrir dialog</SUIButton>
+                <SUIButton VariantValue="SUIVariant.Outlined" OnClick="ShowSnackbar">Mostrar snackbar</SUIButton>
+            </SUIStack>
+        </section>
+
+        <section id="layout" class="catalog__section">
+            <h2>Layout</h2>
+            <SUIContainer MaxWidth="false" Class="catalog__layout-preview">
+                <SUILayout DrawerOpen>
+                    <SUIAppBar Dense Color="surface">Barra da aplicação</SUIAppBar>
+                    <SUIDrawer Open Width="11rem">Navegação lateral</SUIDrawer>
+                    <SUIGrid>
+                        <SUIItem xs="12" md="6"><SUICard data-catalog-attribute="forwarded">Coluna responsiva A</SUICard></SUIItem>
+                        <SUIItem xs="12" md="6"><SUICard>Coluna responsiva B</SUICard></SUIItem>
+                    </SUIGrid>
+                    <SUIDivider />
+                    <SUIStack Row><span>Início</span><SUISpacer /><span>Fim</span></SUIStack>
+                </SUILayout>
+            </SUIContainer>
+        </section>
+
+        <section class="catalog__section catalog__stress" aria-labelledby="stress-title">
+            <h2 id="stress-title">Conteúdo extremo</h2>
+            <p>Anticonstitucionalissimamente · 東京 · 😀 · naïve · Привет</p>
+            <p dir="rtl" lang="ar">اختبار واجهة طويلة مع اتجاه من اليمين إلى اليسار وتكبير النص.</p>
+            <p>identificador-sem-quebra-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+        </section>
+    </main>
+    <SUIDialogHost />
+    <SUISnackbarHost />
+</SUIThemeProvider>
+
+@code {
+    private const string DisabledFieldValue = "Somente leitura";
+    private const string Southeast = "sudeste";
+    private const string South = "sul";
+    private const string North = "norte";
+    private const string PixPayment = "pix";
+    private const string CardPayment = "card";
+    private const string InvoicePayment = "invoice";
+    private static readonly ISUITheme LightTheme = new CatalogTheme(false);
+    private static readonly ISUITheme DarkTheme = new CatalogTheme(true);
+    private readonly CatalogRow[] _rows =
+    [
+        new("API de autenticação", "São Paulo", "Saudável", SUITone.Success),
+        new("Fila internacional com nome muito longo para testar expansão", "Frankfurt", "Atenção", SUITone.Warning),
+    ];
+    private readonly string[] _cities = ["São Paulo", "Rio de Janeiro", "Curitiba", "München", "東京"];
+    private bool _dark;
+    private bool _notifications = true;
+    private string? _region;
+    private string _payment = "pix";
+
+    private ISUITheme ActiveTheme => _dark ? DarkTheme : LightTheme;
+    private void ToggleTheme() => _dark = !_dark;
+    private Task SelectPayment(string value) { _payment = value; return Task.CompletedTask; }
+    private Task SelectRow(CatalogRow row) { Snackbar.Info($"Selecionado: {row.Name}"); return Task.CompletedTask; }
+    private void OnListItemClick() => Snackbar.Info("Item acionado por teclado.");
+    private void ShowSnackbar() => Snackbar.Success("Alterações salvas com sucesso.");
+    private async Task ShowDialog() => await DialogService.ConfirmAsync("Confirmar alteração", "Deseja aplicar esta configuração agora?");
+    private Task<IEnumerable<string>> SearchCities(string query)
+        => Task.FromResult(_cities.Where(city => city.Contains(query, StringComparison.OrdinalIgnoreCase)));
+
+    private sealed record CatalogRow(string Name, string Region, string Status, SUITone Tone);
+
+    private sealed class CatalogTheme(bool dark) : ISUITheme
+    {
+        public bool IsDark { get; } = dark;
+        public SUIPalette Palette { get; } = dark
+            ? new SUIPalette
+            {
+                Primary = "#fb923c", PrimaryContrast = "#111827",
+                PrimarySoft = "color-mix(in srgb, #fb923c 18%, transparent)",
+                Info = "#7dd3fc", Success = "#4ade80", Warning = "#fbbf24", Error = "#fca5a5",
+                Surface = "#111827", Surface2 = "#1f2937", Surface3 = "#374151",
+                TextPrimary = "#f9fafb", TextSecondary = "#d1d5db", TextDisabled = "#9ca3af",
+                Border = "#374151", BorderStrong = "#4b5563", Overlay = "rgba(0, 0, 0, .68)",
+            }
+            : new SUIPalette
+            {
+                Primary = "#c2410c", PrimaryContrast = "#ffffff",
+                PrimarySoft = "color-mix(in srgb, #c2410c 12%, transparent)",
+            };
+        public SUITypography Typography { get; } = SUITypography.Default;
+        public Sufficit.Blazor.UI.Themes.SUILayout Layout { get; }
+            = Sufficit.Blazor.UI.Themes.SUILayout.Default;
+    }
+}

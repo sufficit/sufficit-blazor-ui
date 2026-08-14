@@ -1,0 +1,40 @@
+﻿@inject IConfiguration Configuration
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="@BaseHref" />
+    <ResourcePreloader />
+    <link rel="stylesheet" href="_content/Sufficit.Blazor.UI/sufficit-ui.css" />
+    <link rel="stylesheet" href="@Assets["app.css"]" />
+    <link rel="stylesheet" href="@Assets["Sufficit.Blazor.UI.Catalog.styles.css"]" />
+    <ImportMap />
+    <HeadOutlet @rendermode="InteractiveServer" />
+</head>
+
+<body>
+    <Routes @rendermode="InteractiveServer" />
+    <ReconnectModal />
+    <script src="@Assets["_framework/blazor.web.js"]"></script>
+</body>
+
+</html>
+
+@code {
+    private string BaseHref
+    {
+        get
+        {
+            var pathBase = Configuration["PathBase"]?.Trim();
+            if (string.IsNullOrWhiteSpace(pathBase) || pathBase == "/")
+            {
+                return "/";
+            }
+
+            return $"/{pathBase.Trim('/')}/";
+        }
+    }
+}

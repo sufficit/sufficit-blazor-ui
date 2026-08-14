@@ -1,0 +1,42 @@
+/* ------------------------------------------------------------------ *
+ * Tabs
+ * ------------------------------------------------------------------ */
+
+.sui-tabs { width: 100%; }
+.sui-tabs__list {
+  display: flex;
+  gap: var(--sui-space-1);
+  border-bottom: 1px solid var(--sui-border);
+  overflow-x: auto;
+}
+.sui-tab {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: var(--sui-space-3) var(--sui-space-4);
+  font-family: var(--sui-font);
+  font-size: var(--sui-fs-body2);
+  font-weight: 600;
+  color: var(--sui-text-secondary);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color var(--sui-transition), border-color var(--sui-transition);
+  white-space: nowrap;
+}
+.sui-tab:hover { color: var(--sui-text-primary); }
+.sui-tab:focus-visible {
+  outline: 2px solid var(--sui-color-primary);
+  outline-offset: -2px;
+}
+.sui-tab.is-active { color: var(--sui-color-primary); border-bottom-color: var(--sui-color-primary); }
+.sui-tabs__panels { padding: var(--sui-space-4) 0; }
+.sui-tab-panel { overflow-wrap: anywhere; }
+
+@media (pointer: coarse), (max-width: 599.98px) {
+  .sui-tab { min-height: 44px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sui-tab { transition: none; }
+}
