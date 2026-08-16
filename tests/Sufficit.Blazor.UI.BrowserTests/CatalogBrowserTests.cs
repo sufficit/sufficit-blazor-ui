@@ -353,11 +353,7 @@ public sealed class CatalogBrowserTests : PageTest
     public async Task Autocomplete_SupportsComboboxKeyboardNavigation()
     {
         var input = Page.Locator("[data-testid='autocomplete'] input");
-        // PressSequentially, not Fill: Fill sets the value programmatically and
-        // synthesises a single input event, which WebKit does not always deliver
-        // to Blazor's @oninput handler — the dropdown then never opens and the
-        // assertion below fails on WebKit alone. Typing key by key exercises the
-        // same path a user does and behaves consistently across engines.
+        // Fill's synthesised input event is unreliable on WebKit's @oninput.
         await input.ClickAsync();
         await input.PressSequentiallyAsync("s");
 
@@ -375,9 +371,7 @@ public sealed class CatalogBrowserTests : PageTest
         await Expect(input).ToHaveAttributeAsync("aria-expanded", "false");
         await Expect(input).Not.ToHaveValueAsync(string.Empty);
 
-        // Clear through the keyboard rather than Fill, for the same reason as
-        // above: the previous Enter left the picked option in the box, so select
-        // all and retype instead of appending to it.
+        // Select-all: Enter above left the picked option; typing appends.
         await input.PressAsync("ControlOrMeta+a");
         await input.PressSequentiallyAsync("s");
         await Expect(input).ToHaveAttributeAsync("aria-expanded", "true");
