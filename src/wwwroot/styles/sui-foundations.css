@@ -1,0 +1,400 @@
+/*
+ * Sufficit UI — authoring source for foundations and shared primitives.
+ *
+ * Design tokens live on :root (light) and [data-sui-theme="dark"] (dark).
+ * Every component class is namespaced .sui-* so the library never collides
+ * with the host page. Visual language is deliberately its own (flat, soft
+ * shadows, generous radii) — it does not mimic Material Design.
+ */
+
+/* ------------------------------------------------------------------ *
+ * Design tokens
+ * ------------------------------------------------------------------ */
+
+:root {
+  /* color ramp */
+  --sui-color-primary:        var(--sufficit-amber, #ee6321);
+  --sui-color-primary-contrast:#111827;
+  --sui-color-primary-action: #b7440e;
+  --sui-color-primary-action-contrast:#fff7ed;
+  --sui-color-primary-soft:   color-mix(in srgb, var(--sui-color-primary) 14%, transparent);
+  --sui-color-secondary:      #64748b;
+  --sui-color-secondary-contrast:#fff;
+  --sui-color-info:           #0369a1;
+  --sui-color-success:        #166534;
+  --sui-color-warning:        #92400e;
+  --sui-color-error:          #b91c1c;
+  --sui-color-dark:           #1e293b;
+  --sui-color-light:          #f8fafc;
+
+  /* surface / text */
+  --sui-surface:              #ffffff;
+  --sui-surface-2:            #f1f5f9;
+  --sui-surface-3:            #e2e8f0;
+  --sui-text-primary:         #0f172a;
+  --sui-text-secondary:       #475569;
+  --sui-text-disabled:        #94a3b8;
+  --sui-border:               #e2e8f0;
+  --sui-border-strong:        #cbd5e1;
+  --sui-overlay:              rgba(15, 23, 42, .45);
+
+  /* shape */
+  --sui-radius-sm: 4px;
+  --sui-radius:    8px;
+  --sui-radius-lg: 14px;
+  --sui-radius-full: 9999px;
+
+  /* spacing scale */
+  --sui-space-1: 4px;
+  --sui-space-2: 8px;
+  --sui-space-3: 12px;
+  --sui-space-4: 16px;
+  --sui-space-5: 24px;
+  --sui-space-6: 32px;
+
+  /* elevation */
+  --sui-shadow-1: 0 1px 2px rgba(15,23,42,.06);
+  --sui-shadow-2: 0 4px 10px rgba(15,23,42,.08);
+  --sui-shadow-3: 0 12px 28px rgba(15,23,42,.14);
+
+  /* stacking order */
+  --sui-z-dropdown: 1000;
+  --sui-z-sticky: 1100;
+  --sui-z-drawer: 1200;
+  --sui-z-backdrop: 1300;
+  --sui-z-modal: 1400;
+  --sui-z-toast: 1500;
+  --sui-z-tooltip: 1600;
+
+  /* motion */
+  --sui-transition: 160ms cubic-bezier(.4, 0, .2, 1);
+  --sui-transition-slow: 280ms cubic-bezier(.4, 0, .2, 1);
+
+  /* typography */
+  --sui-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+              Helvetica, Arial, sans-serif;
+  --sui-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --sui-font-label: var(--sui-font);
+  --sui-fs-h1: 2.5rem;
+  --sui-fs-h2: 2rem;
+  --sui-fs-h3: 1.6rem;
+  --sui-fs-h4: 1.35rem;
+  --sui-fs-h5: 1.15rem;
+  --sui-fs-h6: 1rem;
+  --sui-fs-subtitle1: 1rem;
+  --sui-fs-subtitle2: .875rem;
+  --sui-fs-body1: 1rem;
+  --sui-fs-body2: .875rem;
+  --sui-fs-button: .875rem;
+  --sui-fs-caption: .75rem;
+  --sui-fs-overline: .6875rem;
+
+  /* compact semantic ramp for operational products */
+  --sui-fs-display: clamp(1.55rem, 2.2vw, 2.25rem);
+  --sui-fs-headline: 1.28rem;
+  --sui-fs-title: 1rem;
+  --sui-fs-body: .875rem;
+  --sui-fs-label: .75rem;
+  --sui-fs-mono: .76rem;
+  --sui-lh-display: 1.2;
+  --sui-lh-headline: 1.2;
+  --sui-lh-title: 1.2;
+  --sui-lh-body: 1.45;
+  --sui-lh-label: 1.2;
+  --sui-lh-mono: 1.4;
+  --sui-ls-display: -.025em;
+
+  /* control sizing */
+  --sui-control-h-sm: 28px;
+  --sui-control-h-md: 36px;
+  --sui-control-h-lg: 44px;
+  --sui-control-px-sm: 10px;
+  --sui-control-px-md: 14px;
+  --sui-control-px-lg: 18px;
+
+  color-scheme: light;
+}
+
+[data-sui-theme="dark"],
+:root.theme-dark,
+.theme-dark {
+  --sui-color-primary:        #fb923c;
+  --sui-color-primary-contrast:#111827;
+  --sui-color-primary-soft:   color-mix(in srgb, var(--sui-color-primary) 22%, transparent);
+  --sui-color-secondary:      #94a3b8;
+  --sui-surface:              #0f172a;
+  --sui-surface-2:            #1e293b;
+  --sui-surface-3:            #334155;
+  --sui-text-primary:         #f1f5f9;
+  --sui-text-secondary:       #94a3b8;
+  --sui-text-disabled:        #475569;
+  --sui-border:               #1e293b;
+  --sui-border-strong:        #334155;
+  --sui-overlay:              rgba(0, 0, 0, .55);
+
+  color-scheme: dark;
+}
+
+/* ------------------------------------------------------------------ *
+ * Helpers
+ * ------------------------------------------------------------------ */
+
+.sui-root {
+  /* The provider wraps the app and sets data-sui-theme. The block above
+     (:root defaults) is the fallback when no SuiThemeProvider is used; the
+     provider's injected <style> overrides it with the consuming app's tokens. */
+  color: var(--sui-text-primary);
+  font-family: var(--sui-font);
+  box-sizing: border-box;
+}
+
+.sui-root *,
+.sui-root *::before,
+.sui-root *::after { box-sizing: inherit; }
+
+.sui-ff { font-family: var(--sui-font); }
+
+.sui-color-default  { color: var(--sui-text-primary); }
+.sui-color-primary  { color: var(--sui-color-primary); }
+.sui-color-secondary{ color: var(--sui-color-secondary); }
+.sui-color-info     { color: var(--sui-color-info); }
+.sui-color-success  { color: var(--sui-color-success); }
+.sui-color-warning  { color: var(--sui-color-warning); }
+.sui-color-error    { color: var(--sui-color-error); }
+.sui-color-inherit  { color: inherit; }
+
+.sui-align-start    { text-align: start; }
+.sui-align-center   { text-align: center; }
+.sui-align-end      { text-align: end; }
+.sui-align-justify  { text-align: justify; }
+
+.sui-width-full { width: 100%; }
+.sui-mr-2 { margin-right: var(--sui-space-2); }
+.sui-ml-2 { margin-left: var(--sui-space-2); }
+.sui-mt-2 { margin-top: var(--sui-space-2); }
+
+/* ------------------------------------------------------------------ *
+ * Icon
+ * ------------------------------------------------------------------ */
+
+.sui-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5em;
+  height: 1.5em;
+  line-height: 0;
+  color: currentColor;
+  flex: 0 0 auto;
+}
+.sui-icon svg { width: 100%; height: 100%; display: block; }
+.sui-icon--sm { width: 1.25em; height: 1.25em; }
+.sui-icon--md { width: 1.5em;  height: 1.5em; }
+.sui-icon--lg { width: 2em;    height: 2em; }
+.sui-icon--disabled { opacity: .55; }
+
+/* ------------------------------------------------------------------ *
+ * Button
+ * ------------------------------------------------------------------ */
+
+.sui-btn {
+  --_btn-h: var(--sui-control-h-md);
+  --_btn-px: var(--sui-control-px-md);
+  --_btn-color: var(--sui-color-primary);
+  --_btn-contrast: var(--sui-color-primary-contrast);
+  --_btn-action: var(--_btn-color);
+  --_btn-action-contrast: var(--_btn-contrast);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sui-space-2);
+  height: var(--_btn-h);
+  padding: 0 var(--_btn-px);
+  font-family: var(--sui-font);
+  font-size: var(--sui-fs-button);
+  font-weight: 600;
+  line-height: 1;
+  border: 1px solid transparent;
+  border-radius: var(--sui-radius);
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  color: var(--_btn-color);
+  background: transparent;
+  transition: background var(--sui-transition), border-color var(--sui-transition),
+              color var(--sui-transition), box-shadow var(--sui-transition);
+  -webkit-tap-highlight-color: transparent;
+}
+.sui-btn:focus-visible {
+  outline: 2px solid var(--_btn-color);
+  outline-offset: 2px;
+}
+.sui-btn:disabled,
+.sui-btn[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: .55;
+  box-shadow: none;
+}
+
+/* sizes */
+.sui-btn--sm { --_btn-h: var(--sui-control-h-sm); --_btn-px: var(--sui-control-px-sm); font-size: var(--sui-fs-caption); }
+.sui-btn--md { --_btn-h: var(--sui-control-h-md); --_btn-px: var(--sui-control-px-md); }
+.sui-btn--lg { --_btn-h: var(--sui-control-h-lg); --_btn-px: var(--sui-control-px-lg); font-size: var(--sui-fs-body1); }
+
+/* color modifiers */
+.sui-btn--color-default   { --_btn-color: var(--sui-text-primary); }
+.sui-btn--color-primary   {
+  --_btn-color: var(--sui-color-primary);
+  --_btn-contrast: var(--sui-color-primary-contrast);
+  --_btn-action: var(--sui-color-primary-action, var(--sui-color-primary));
+  --_btn-action-contrast: var(--sui-color-primary-action-contrast, var(--sui-color-primary-contrast));
+}
+.sui-btn--color-secondary { --_btn-color: var(--sui-color-secondary); --_btn-contrast: var(--sui-color-secondary-contrast); }
+.sui-btn--color-info      { --_btn-color: var(--sui-color-info); }
+.sui-btn--color-success   { --_btn-color: var(--sui-color-success); }
+.sui-btn--color-warning   { --_btn-color: var(--sui-color-warning); }
+.sui-btn--color-error     { --_btn-color: var(--sui-color-error); }
+.sui-btn--color-inherit   { --_btn-color: inherit; }
+
+/* variants */
+.sui-btn--filled {
+  background: var(--_btn-action);
+  color: var(--_btn-action-contrast);
+  border-color: var(--_btn-color);
+}
+.sui-btn--filled:not(:disabled):hover {
+  background: color-mix(in srgb, var(--_btn-action) 90%, black);
+}
+.sui-btn--filled:not(:disabled):active {
+  background: color-mix(in srgb, var(--_btn-action) 82%, black);
+}
+
+.sui-btn--outlined {
+  background: transparent;
+  color: var(--_btn-color);
+  border-color: color-mix(in srgb, var(--_btn-color) 45%, var(--sui-border));
+}
+.sui-btn--outlined:not(:disabled):hover {
+  background: color-mix(in srgb, var(--_btn-color) 8%, transparent);
+}
+
+.sui-btn--text {
+  background: transparent;
+  color: var(--_btn-color);
+  border-color: transparent;
+}
+.sui-btn--text:not(:disabled):hover {
+  background: color-mix(in srgb, var(--_btn-color) 8%, transparent);
+}
+
+/* modifiers */
+.sui-btn--full-width { width: 100%; }
+.sui-btn--loading { cursor: progress; }
+
+.sui-btn__label {
+  display: inline-flex;
+  align-items: center;
+  gap: inherit;
+}
+.sui-btn__icon { display: inline-flex; }
+
+/* icon button */
+.sui-btn--icon {
+  --_btn-h: var(--sui-control-h-md);
+  width: var(--_btn-h);
+  padding: 0;
+  border-radius: var(--sui-radius);
+  gap: 0;
+}
+.sui-btn--icon.sui-btn--sm { width: var(--sui-control-h-sm); }
+.sui-btn--icon.sui-btn--lg { width: var(--sui-control-h-lg); }
+.sui-btn--edge-true   { border-radius: var(--sui-radius-full); }
+.sui-btn--edge-center {
+  border-radius: var(--sui-radius-full);
+  /* fab-like: rounded on one axis only */
+  border-top-left-radius: var(--sui-radius-sm);
+  border-bottom-left-radius: var(--sui-radius-sm);
+}
+
+/* ------------------------------------------------------------------ *
+ * Form fields (shared .sui-field)
+ * ------------------------------------------------------------------ */
+
+.sui-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sui-space-1);
+  width: 100%;
+}
+.sui-field__label {
+  font-size: var(--sui-fs-caption);
+  font-weight: 600;
+  color: var(--sui-text-secondary);
+}
+.sui-field__input {
+  width: 100%;
+  height: var(--sui-control-h-md);
+  padding: 0 var(--sui-space-3);
+  font-family: var(--sui-font);
+  font-size: var(--sui-fs-body2);
+  color: var(--sui-text-primary);
+  background: var(--sui-surface);
+  border: 1px solid var(--sui-border-strong);
+  border-radius: var(--sui-radius);
+  transition: border-color var(--sui-transition), box-shadow var(--sui-transition);
+}
+.sui-field__input:focus {
+  outline: none;
+  border-color: var(--sui-color-primary);
+  box-shadow: 0 0 0 3px var(--sui-color-primary-soft);
+}
+.sui-field__input:disabled { background: var(--sui-surface-2); color: var(--sui-text-disabled); cursor: not-allowed; }
+.sui-field__helper { font-size: var(--sui-fs-caption); color: var(--sui-text-secondary); }
+.sui-field__error { font-size: var(--sui-fs-caption); color: var(--sui-color-error); }
+.sui-field__input[aria-invalid="true"],
+.sui-select__trigger[aria-invalid="true"] { border-color: var(--sui-color-error); }
+.sui-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (pointer: coarse), (max-width: 599.98px) {
+  .sui-btn { height: max(var(--_btn-h), 44px); }
+  .sui-btn--icon { width: max(var(--_btn-h), 44px); min-width: 44px; }
+  .sui-field__input { height: 44px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sui-btn,
+  .sui-field__input {
+    transition: none;
+  }
+}
+
+/* Windows High Contrast / forced-colors must keep boundaries and keyboard
+ * ownership visible even when authored fills and shadows are replaced. */
+@media (forced-colors: active) {
+  :is(.sui-btn, .sui-icon-btn, .sui-field__input, .sui-select__trigger,
+      .sui-tab, .sui-switch__track, .sui-alert, .sui-chip,
+      .sui-status-badge) {
+    border: 1px solid CanvasText;
+  }
+
+  :is(.sui-btn, .sui-icon-btn, .sui-field__input, .sui-select__trigger,
+      .sui-tab, .sui-switch):focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  .sui-switch__thumb { background: CanvasText; }
+  .sui-switch[aria-checked="true"] .sui-switch__track { background: Highlight; }
+}
