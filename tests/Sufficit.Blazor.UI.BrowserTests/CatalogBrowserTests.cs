@@ -103,6 +103,45 @@ public sealed class CatalogBrowserTests : PageTest
     }
 
     [Test]
+    public async Task TimelineMarkers_AreVerticallyCentredOnTheirText()
+    {
+        // The marker used to be positioned with a fixed `top: 2px`, tuned by eye
+        // against one font size, so it sat about 4-5px below the optical centre
+        // of its label — visible in the committed catalog baselines. Assert the
+        // relationship instead of the offset, so this holds at any font or
+        // marker size.
+        var offsets = await Page.EvaluateAsync<double[]>(
+            """
+            () => Array.from(document.querySelectorAll('.sui-timeline__item')).map(item => {
+                const marker = item.querySelector('.sui-timeline__marker');
+                const body = item.querySelector('.sui-timeline__body');
+                if (!marker || !body) return 0;
+
+                const markerBox = marker.getBoundingClientRect();
+
+                // Measure the first line box of the label, not the whole body:
+                // a multi-line item would otherwise report a centre far below
+                // the line the marker is meant to align with.
+                const range = document.createRange();
+                range.selectNodeContents(body);
+                const firstLine = range.getClientRects()[0] ?? body.getBoundingClientRect();
+
+                const markerCentre = markerBox.top + markerBox.height / 2;
+                const lineCentre = firstLine.top + firstLine.height / 2;
+                return markerCentre - lineCentre;
+            })
+            """);
+
+        Assert.That(offsets, Is.Not.Empty, "Catalog rendered no timeline items to check.");
+        foreach (var offset in offsets)
+        {
+            // One pixel of slack for sub-pixel layout and font rounding.
+            Assert.That(Math.Abs(offset), Is.LessThanOrEqualTo(1.0),
+                $"Timeline marker is {offset:0.##}px off the centre of its first line of text.");
+        }
+    }
+
+    [Test]
     public async Task HorizontalFormFields_KeepLabelsAndControlsAligned()
     {
         await Page.AddScriptTagAsync(new PageAddScriptTagOptions
@@ -353,21 +392,23 @@ public sealed class CatalogBrowserTests : PageTest
     public async Task Autocomplete_SupportsComboboxKeyboardNavigation()
     {
         var input = Page.Locator("[data-testid='autocomplete'] input");
-        await input.FillAsync("s");
+        await input.ClickAsync(); // Fill's input event is unreliable on WebKit.
+        await input.PressSequentiallyAsync("s");
 
         await Expect(input).ToHaveAttributeAsync("aria-expanded", "true");
         await Expect(Page.Locator("[data-testid='autocomplete'] [role='option']")).Not.ToHaveCountAsync(0);
         var firstActiveId = await input.GetAttributeAsync("aria-activedescendant");
         Assert.That(firstActiveId, Is.Not.Null.And.Not.Empty);
 
-        await Page.Keyboard.PressAsync("End");
+        await Page.Keyboard.PressAsync("ArrowDown"); // End only moves the caret.
         var lastActiveId = await input.GetAttributeAsync("aria-activedescendant");
         Assert.That(lastActiveId, Is.Not.Null.And.Not.Empty);
         await Page.Keyboard.PressAsync("Enter");
         await Expect(input).ToHaveAttributeAsync("aria-expanded", "false");
         await Expect(input).Not.ToHaveValueAsync(string.Empty);
 
-        await input.FillAsync("s");
+        await input.PressAsync("ControlOrMeta+a"); // Enter left the pick behind.
+        await input.PressSequentiallyAsync("s");
         await Expect(input).ToHaveAttributeAsync("aria-expanded", "true");
         await Page.Keyboard.PressAsync("Escape");
         await Expect(input).ToHaveAttributeAsync("aria-expanded", "false");
@@ -423,7 +464,7 @@ public sealed class CatalogBrowserTests : PageTest
 
         await Page.Locator("[data-testid='toggle-instances']").ClickAsync();
         await Expect(Page.GetByRole(AriaRole.Tooltip)).ToHaveCountAsync(0);
-        Assert.That(await Page.Locator(":popover-open").CountAsync(), Is.Zero);
+        await Expect(Page.Locator(":popover-open")).ToHaveCountAsync(0);
 
         await Page.Locator("[data-testid='toggle-instances']").ClickAsync();
         await Page.Locator("[data-testid='tooltip-a']").HoverAsync();

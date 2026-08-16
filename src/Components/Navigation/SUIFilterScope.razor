@@ -1,0 +1,18 @@
+@namespace Sufficit.Blazor.UI.Components
+
+@* IsFixed is deliberately not set: the context changes with every keystroke of
+   the filter box, and a fixed cascade would freeze the first value forever. *@
+<CascadingValue Value="@Context">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    /// <summary>Current filter text. Null or blank shows everything.</summary>
+    [Parameter]
+    public string? FilterText { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private SUIFilterContext Context => new(FilterText);
+}

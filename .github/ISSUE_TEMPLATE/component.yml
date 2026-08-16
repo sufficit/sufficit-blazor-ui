@@ -1,0 +1,27 @@
+name: Novo componente ou mudança de API
+description: Propor um componente SUI, ou alterar a API pública de um existente.
+labels: [enhancement]
+assignees: [sufficit-triage]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: Necessidade
+      description: >
+        Qual problema real isto resolve, e onde ele aparece hoje. Se já existe
+        implementação duplicada em algum consumidor, cite o arquivo.
+    validations:
+      required: true
+
+  - type: textarea
+    id: api
+    attributes:
+      label: API proposta
+      description: Parâmetros, eventos e um exemplo de uso.
+
+  - type: checkboxes
+    id: breaking
+    attributes:
+      label: Compatibilidade
+      options:
+        - label: Isto quebra código existente nos consumidores

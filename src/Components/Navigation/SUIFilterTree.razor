@@ -1,0 +1,121 @@
+@namespace Sufficit.Blazor.UI.Components
+@implements IDisposable
+
+@* Promoted from sufficit-blazor's FilterTree (100 usages there). Leaves match
+   the filter against their Tags; groups are visible while any registered child
+   matches, so a whole section disappears only when nothing under it survives
+   the filter. *@
+<CascadingValue Value="this" IsFixed="true">
+    @if (Group)
+    {
+        @* Groups hide with display:none instead of leaving the tree: removing
+           them would dispose every child, and disposed children cannot report
+           matches when the filter changes again. *@
+        <div style="@(IsMatch ? null : "display:none")">
+            @ChildContent
+        </div>
+    }
+    else if (IsMatch)
+    {
+        @ChildContent
+    }
+</CascadingValue>
+
+@code {
+    [CascadingParameter]
+    protected SUIFilterContext? Filter { get; set; }
+
+    /// <summary>
+    /// Nearest ancestor node. IsFixed on the cascade above is safe because the
+    /// reference never changes for a given parent — only the filter context
+    /// does, and that cascades separately.
+    /// </summary>
+    [CascadingParameter]
+    protected SUIFilterTree? Parent { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Group node: matches while any registered child matches, and renders
+    /// hidden rather than unmounting so children keep participating.
+    /// </summary>
+    [Parameter]
+    public bool Group { get; set; }
+
+    /// <summary>
+    /// Values matched against the filter text: titles, routes, keywords.
+    /// Comparison is case-insensitive contains. A leaf without tags never
+    /// matches while a filter is active.
+    /// </summary>
+    [Parameter]
+    public string[]? Tags { get; set; }
+
+    /// <summary>Whether this node matches the current filter.</summary>
+    public bool IsMatch => EvaluateMatch();
+
+    /// <summary>
+    /// Whether a filter is active. Groups use this to auto-expand while the
+    /// user is narrowing down.
+    /// </summary>
+    public bool IsFiltering => Filter?.IsFiltering ?? false;
+
+    private readonly HashSet<SUIFilterTree> _children = new();
+
+    protected override void OnInitialized()
+        => Parent?.RegisterChild(this);
+
+    internal void RegisterChild(SUIFilterTree child)
+    {
+        _children.Add(child);
+        // A child appearing while a filter is active can flip this group from
+        // hidden to visible; without the explicit re-render the group only
+        // updates on the next filter keystroke.
+        if (IsFiltering)
+            InvokeAsync(StateHasChanged);
+    }
+
+    internal void UnregisterChild(SUIFilterTree child)
+    {
+        _children.Remove(child);
+        // Symmetric with RegisterChild: the last matching child leaving should
+        // hide the group now, not on the next keystroke. The original component
+        // only re-rendered on registration, which left empty groups visible.
+        if (IsFiltering)
+            InvokeAsync(StateHasChanged);
+    }
+
+    private bool EvaluateMatch()
+    {
+        var filter = Filter?.FilterText;
+        if (string.IsNullOrWhiteSpace(filter))
+            return true;
+
+        filter = filter.Trim();
+
+        if (Tags is { Length: > 0 })
+        {
+            foreach (var tag in Tags)
+            {
+                if (!string.IsNullOrWhiteSpace(tag) && tag.Contains(filter, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+        }
+
+        if (Group)
+        {
+            foreach (var child in _children)
+            {
+                if (child.IsMatch)
+                    return true;
+            }
+
+            return false;
+        }
+
+        return false;
+    }
+
+    public void Dispose()
+        => Parent?.UnregisterChild(this);
+}

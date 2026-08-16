@@ -1,0 +1,129 @@
+@namespace Sufficit.Blazor.UI.Components
+@using Microsoft.AspNetCore.Components.Web
+@using Sufficit.Blazor.UI.Services
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+@inject ISUISnackbar Snackbar
+
+@* Promoted from sufficit-blazor's CopyToClipBoard (17 usages). Two modes:
+
+   - With ChildContent the wrapper is semantically transparent — no role, no
+     tabindex — and the click bubbles up from the child, exactly like the
+     original. Keyboard access is the child's job (wrap a real button).
+   - Without ChildContent it renders its own SUIIconButton, so the default
+     path is keyboard-reachable and announced, which the original span never
+     was. *@
+@if (ChildContent is not null)
+{
+    <span class="@WrapperClassname" style="@Style"
+          @onclick="CopyAsync" @onclick:stopPropagation="true"
+          @attributes="AdditionalAttributes">
+        @ChildContent
+    </span>
+}
+else
+{
+    <SUIIconButton Title="@EffectiveAriaLabel"
+                   SizeValue="SUISize.Small"
+                   Class="@Class"
+                   Style="@Style"
+                   OnClick="CopyAsync"
+                   @attributes="AdditionalAttributes">
+        <svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor"
+             aria-hidden="true" focusable="false">
+            <path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z" />
+        </svg>
+    </SUIIconButton>
+}
+
+@code {
+    private IJSObjectReference? _module;
+
+    /// <summary>Text placed on the clipboard.</summary>
+    [Parameter]
+    [EditorRequired]
+    public string Text { get; set; } = default!;
+
+    /// <summary>
+    /// Name of the copied item, used in the success toast ("Token copiado…").
+    /// Falls back to a generic message when not set.
+    /// </summary>
+    [Parameter]
+    public string? Title { get; set; }
+
+    /// <summary>Full success toast, overriding the Title-based default.</summary>
+    [Parameter]
+    public string? SuccessMessage { get; set; }
+
+    /// <summary>Prefix of the failure toast. The reason is appended.</summary>
+    [Parameter]
+    public string? ErrorMessage { get; set; }
+
+    /// <summary>Stretch the clickable wrapper to full width.</summary>
+    [Parameter]
+    public bool FullWidth { get; set; }
+
+    /// <summary>Accessible name of the built-in button. Ignored with ChildContent.</summary>
+    [Parameter]
+    public string? AriaLabel { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
+
+    private string WrapperClassname
+        => SUIClassBuilder.Default("sui-copy-clip")
+            .AddClass("sui-copy-clip--full", FullWidth)
+            .AddClass(Class)
+            .Build();
+
+    private string EffectiveAriaLabel
+        => AriaLabel
+            ?? (string.IsNullOrWhiteSpace(Title) ? "Copiar" : $"Copiar {Title}");
+
+    private async Task CopyAsync()
+    {
+        try
+        {
+            _module ??= await JS.InvokeAsync<IJSObjectReference>(
+                "import",
+                "./_content/Sufficit.Blazor.UI/Components/Actions/SUICopyToClipboard.razor.js");
+            await _module.InvokeVoidAsync("copyText", Text);
+            Snackbar.Success(SuccessMessage ?? (string.IsNullOrWhiteSpace(Title)
+                ? "Copiado para a área de transferência."
+                : $"{Title} copiado para a área de transferência."));
+        }
+        catch (Exception ex)
+        {
+            // First line only: interop exceptions carry a stack trace the user
+            // has no use for, and the toast has no room for it either.
+            var reason = ex.Message?.Split('\n')[0]?.Trim() ?? "falha desconhecida";
+            if (reason.Length > 160)
+                reason = reason[..160] + "…";
+            Snackbar.Error($"{ErrorMessage ?? "Erro ao copiar"}: {reason}");
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_module is null)
+            return;
+
+        try
+        {
+            await _module.DisposeAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+            // Circuit already gone; nothing left to release.
+        }
+    }
+}
