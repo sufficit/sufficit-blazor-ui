@@ -361,8 +361,7 @@ public sealed class CatalogBrowserTests : PageTest
         var firstActiveId = await input.GetAttributeAsync("aria-activedescendant");
         Assert.That(firstActiveId, Is.Not.Null.And.Not.Empty);
 
-        // ArrowDown, not End: on WebKit End only moves the caret.
-        await Page.Keyboard.PressAsync("ArrowDown");
+        await Page.Keyboard.PressAsync("ArrowDown"); // End only moves the caret.
         var lastActiveId = await input.GetAttributeAsync("aria-activedescendant");
         Assert.That(lastActiveId, Is.Not.Null.And.Not.Empty);
         await Page.Keyboard.PressAsync("Enter");
