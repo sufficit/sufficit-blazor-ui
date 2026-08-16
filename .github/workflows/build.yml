@@ -188,7 +188,12 @@ jobs:
             --configuration Release --no-build \
             --urls "$SUI_CATALOG_URL" >catalog.log 2>&1 &
           catalog_pid=$!
-          PathBase=/app dotnet run \
+          # ASPNETCORE_ prefix required: WebApplication.CreateBuilder only reads
+          # environment variables with that prefix into IConfiguration, and the
+          # catalog resolves the value via Configuration["PathBase"]. A bare
+          # PathBase=/app is silently ignored, so this instance would serve at
+          # the root and every sub-path assertion would fail.
+          ASPNETCORE_PathBase=/app dotnet run \
             --project samples/Sufficit.Blazor.UI.Catalog/Sufficit.Blazor.UI.Catalog.csproj \
             --configuration Release --no-build \
             --urls "http://127.0.0.1:5181" >catalog-subpath.log 2>&1 &
@@ -217,8 +222,24 @@ jobs:
             sleep 1
           done
 
+          set -o pipefail
           dotnet test tests/Sufficit.Blazor.UI.BrowserTests/Sufficit.Blazor.UI.BrowserTests.csproj \
-            --configuration Release --no-build
+            --configuration Release --no-build 2>&1 | tee browser-test.log
+
+      - name: Surface failing assertions
+        # Test artifacts land in storage that is not reachable from every
+        # environment, so a red run could show an exit code and nothing else.
+        # Re-emit the failing assertions as annotations, which are readable
+        # through the API.
+        if: failure()
+        run: |
+          echo "::group::failing tests"
+          grep -nE "^\s*(Failed|Error Message|Assert\.|Expected|Actual|at Sufficit)" browser-test.log \
+            | head -40 | while IFS= read -r line; do echo "::error::${line}"; done
+          echo "::endgroup::"
+          echo "--- catalog logs ---"
+          tail -15 catalog.log 2>/dev/null | while IFS= read -r l; do echo "::error::CATALOG ${l}"; done
+          tail -15 catalog-subpath.log 2>/dev/null | while IFS= read -r l; do echo "::error::SUBPATH ${l}"; done
 
       - name: Preserve browser diagnostics
         if: failure()
