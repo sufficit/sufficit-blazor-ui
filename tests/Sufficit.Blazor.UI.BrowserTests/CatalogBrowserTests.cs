@@ -353,7 +353,13 @@ public sealed class CatalogBrowserTests : PageTest
     public async Task Autocomplete_SupportsComboboxKeyboardNavigation()
     {
         var input = Page.Locator("[data-testid='autocomplete'] input");
-        await input.FillAsync("s");
+        // PressSequentially, not Fill: Fill sets the value programmatically and
+        // synthesises a single input event, which WebKit does not always deliver
+        // to Blazor's @oninput handler — the dropdown then never opens and the
+        // assertion below fails on WebKit alone. Typing key by key exercises the
+        // same path a user does and behaves consistently across engines.
+        await input.ClickAsync();
+        await input.PressSequentiallyAsync("s");
 
         await Expect(input).ToHaveAttributeAsync("aria-expanded", "true");
         await Expect(Page.Locator("[data-testid='autocomplete'] [role='option']")).Not.ToHaveCountAsync(0);
@@ -369,7 +375,11 @@ public sealed class CatalogBrowserTests : PageTest
         await Expect(input).ToHaveAttributeAsync("aria-expanded", "false");
         await Expect(input).Not.ToHaveValueAsync(string.Empty);
 
-        await input.FillAsync("s");
+        // Clear through the keyboard rather than Fill, for the same reason as
+        // above: the previous Enter left the picked option in the box, so select
+        // all and retype instead of appending to it.
+        await input.PressAsync("ControlOrMeta+a");
+        await input.PressSequentiallyAsync("s");
         await Expect(input).ToHaveAttributeAsync("aria-expanded", "true");
         await Page.Keyboard.PressAsync("Escape");
         await Expect(input).ToHaveAttributeAsync("aria-expanded", "false");
