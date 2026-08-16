@@ -152,7 +152,19 @@ jobs:
           dotnet-version: "10.0.x"
 
       - name: Test bUnit contracts
-        run: dotnet test tests/Sufficit.Blazor.UI.Tests/Sufficit.Blazor.UI.Tests.csproj --configuration Release -warnaserror
+        run: |
+          set -o pipefail
+          dotnet test tests/Sufficit.Blazor.UI.Tests/Sufficit.Blazor.UI.Tests.csproj \
+            --configuration Release -warnaserror 2>&1 | tee component-test.log
+
+      - name: Surface failing assertions
+        # Same reason as in browser-tests: test output lands in storage that is
+        # not reachable everywhere, so a red run would otherwise show only an
+        # exit code.
+        if: failure()
+        run: |
+          grep -nE "^\s*(Failed|Error Message|Assert\.|Expected|Actual|at Sufficit)" component-test.log \
+            | head -40 | while IFS= read -r line; do echo "::error::${line}"; done
 
   browser-tests:
     name: Browser and accessibility tests (${{ matrix.browser }})
