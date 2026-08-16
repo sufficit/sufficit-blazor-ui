@@ -279,8 +279,25 @@ jobs:
         if: failure()
         run: |
           echo "::group::failing tests"
-          grep -nE "^\s*(Failed|Error Message|Assert\.|Expected|Actual|at Sufficit)" browser-test.log \
-            | head -40 | while IFS= read -r line; do echo "::error::${line}"; done
+          # The previous pattern anchored on leading whitespace, which the
+          # runner's NUnit output does not use, so a red run produced no
+          # annotations at all and the failure was undiagnosable from the API.
+          # Match the shapes NUnit actually emits, unanchored.
+          grep -nE "(Failed |error NUnit|Error Message|Stack Trace|Assert\.|Expected:|But was:|Actual:|at Sufficit|Playwright|TimeoutException|axe)" \
+            browser-test.log | head -60 \
+            | while IFS= read -r line; do echo "::error::${line}"; done
+
+          # Always emit the summary line, so even an unrecognised failure shape
+          # reports how many tests failed and which run it was.
+          grep -nE "(Passed!|Failed!|Total tests|test(s)? failed)" browser-test.log \
+            | tail -5 | while IFS= read -r line; do echo "::error::SUMMARY ${line}"; done
+
+          # Last resort: if nothing above matched, the log format changed again
+          # — dump the tail verbatim rather than leaving an exit code alone.
+          if ! grep -qE "(Failed |Error Message|Assert\.|Expected:)" browser-test.log; then
+            echo "::error::No recognised assertion output; dumping tail verbatim"
+            tail -50 browser-test.log | while IFS= read -r l; do echo "::error::RAW ${l}"; done
+          fi
           echo "::endgroup::"
           echo "--- catalog logs ---"
           tail -15 catalog.log 2>/dev/null | while IFS= read -r l; do echo "::error::CATALOG ${l}"; done
