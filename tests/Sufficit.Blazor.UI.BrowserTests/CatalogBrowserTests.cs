@@ -353,8 +353,7 @@ public sealed class CatalogBrowserTests : PageTest
     public async Task Autocomplete_SupportsComboboxKeyboardNavigation()
     {
         var input = Page.Locator("[data-testid='autocomplete'] input");
-        // Fill's synthesised input event is unreliable on WebKit's @oninput.
-        await input.ClickAsync();
+        await input.ClickAsync(); // Fill's input event is unreliable on WebKit.
         await input.PressSequentiallyAsync("s");
 
         await Expect(input).ToHaveAttributeAsync("aria-expanded", "true");
@@ -362,8 +361,7 @@ public sealed class CatalogBrowserTests : PageTest
         var firstActiveId = await input.GetAttributeAsync("aria-activedescendant");
         Assert.That(firstActiveId, Is.Not.Null.And.Not.Empty);
 
-        // ArrowDown, not End: in WebKit, End moves the caret inside the input
-        // rather than reaching the listbox, so activedescendant never advances.
+        // ArrowDown, not End: on WebKit End only moves the caret.
         await Page.Keyboard.PressAsync("ArrowDown");
         var lastActiveId = await input.GetAttributeAsync("aria-activedescendant");
         Assert.That(lastActiveId, Is.Not.Null.And.Not.Empty);
@@ -371,8 +369,7 @@ public sealed class CatalogBrowserTests : PageTest
         await Expect(input).ToHaveAttributeAsync("aria-expanded", "false");
         await Expect(input).Not.ToHaveValueAsync(string.Empty);
 
-        // Select-all: Enter above left the picked option; typing appends.
-        await input.PressAsync("ControlOrMeta+a");
+        await input.PressAsync("ControlOrMeta+a"); // Enter left the pick behind.
         await input.PressSequentiallyAsync("s");
         await Expect(input).ToHaveAttributeAsync("aria-expanded", "true");
         await Page.Keyboard.PressAsync("Escape");
