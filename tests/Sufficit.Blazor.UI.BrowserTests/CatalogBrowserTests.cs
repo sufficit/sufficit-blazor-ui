@@ -464,7 +464,7 @@ public sealed class CatalogBrowserTests : PageTest
 
         await Page.Locator("[data-testid='toggle-instances']").ClickAsync();
         await Expect(Page.GetByRole(AriaRole.Tooltip)).ToHaveCountAsync(0);
-        Assert.That(await Page.Locator(":popover-open").CountAsync(), Is.Zero);
+        await Expect(Page.Locator(":popover-open")).ToHaveCountAsync(0);
 
         await Page.Locator("[data-testid='toggle-instances']").ClickAsync();
         await Page.Locator("[data-testid='tooltip-a']").HoverAsync();
