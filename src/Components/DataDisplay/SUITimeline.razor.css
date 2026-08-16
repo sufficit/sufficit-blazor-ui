@@ -11,8 +11,16 @@
   gap: var(--sui-space-4);
   /* Height of the first line of item text. Markers and the connector line are
      positioned from this so they stay centred on the text at any font size.
-     Override on .sui-timeline if a consumer changes the body line-height. */
+     `1lh` is the element's own computed line box, so it follows whatever
+     line-height the consumer applies — the catalog uses 1.6, and a hardcoded
+     1.5em left the marker 3.5px low. The em fallback covers engines without
+     `lh` support; override --_sui-timeline-line to tune it there. */
   --_sui-timeline-line: 1.5em;
+}
+@supports (height: 1lh) {
+  /* Resolved on the item, not the list: `lh` computes against the element's own
+     font-size and line-height, and the item is what carries the text. */
+  .sui-timeline ::deep .sui-timeline__item { --_sui-timeline-line: 1lh; }
 }
 .sui-timeline ::deep .sui-timeline__item {
   position: relative;
