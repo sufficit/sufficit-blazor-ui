@@ -103,20 +103,27 @@
                 <div class="catalog__nav-tree">
                     <SUITextField T="string" Label="Filtrar seções" @bind-Value="NavFilter" @bind-Value:event="oninput" />
                     <SUIFilterScope FilterText="@NavFilter">
+                        @* The filter-tree leaves render no element of their own, so the
+                           list can wrap them directly and the li stays a valid child of
+                           the ul — li outside a list is an axe violation (listitem). *@
                         <SUIFilterTree Group Tags="@(new[] { "Operações" })">
                             <SUIText Typo="SUITypo.subtitle2">Operações</SUIText>
-                            <SUIFilterTree Tags="@(new[] { "Telefonia", "voz" })">
-                                <SUIListItem>Telefonia</SUIListItem>
-                            </SUIFilterTree>
-                            <SUIFilterTree Tags="@(new[] { "Provisionamento", "dispositivos" })">
-                                <SUIListItem>Provisionamento</SUIListItem>
-                            </SUIFilterTree>
+                            <SUIList>
+                                <SUIFilterTree Tags="@(new[] { "Telefonia", "voz" })">
+                                    <SUIListItem>Telefonia</SUIListItem>
+                                </SUIFilterTree>
+                                <SUIFilterTree Tags="@(new[] { "Provisionamento", "dispositivos" })">
+                                    <SUIListItem>Provisionamento</SUIListItem>
+                                </SUIFilterTree>
+                            </SUIList>
                         </SUIFilterTree>
                         <SUIFilterTree Group Tags="@(new[] { "Financeiro" })">
                             <SUIText Typo="SUITypo.subtitle2">Financeiro</SUIText>
-                            <SUIFilterTree Tags="@(new[] { "Boletos", "cobrança" })">
-                                <SUIListItem>Boletos</SUIListItem>
-                            </SUIFilterTree>
+                            <SUIList>
+                                <SUIFilterTree Tags="@(new[] { "Boletos", "cobrança" })">
+                                    <SUIListItem>Boletos</SUIListItem>
+                                </SUIFilterTree>
+                            </SUIList>
                         </SUIFilterTree>
                     </SUIFilterScope>
                 </div>
