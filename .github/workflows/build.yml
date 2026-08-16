@@ -251,6 +251,24 @@ jobs:
           dotnet test tests/Sufficit.Blazor.UI.BrowserTests/Sufficit.Blazor.UI.BrowserTests.csproj \
             --configuration Release --no-build 2>&1 | tee browser-test.log
 
+      - name: Surface browser test failures
+        # The component-tests job already does this; browser-tests did not, so a
+        # red matrix leg showed only an exit code and the failing assertion was
+        # reachable solely through the raw log in storage. Same treatment here.
+        if: failure()
+        run: |
+          echo "--- failed tests ---"
+          grep -nE "^\s*(Failed|Error Message|Assert\.|Expected|But was|Actual|at Sufficit)" \
+            browser-test.log | head -60 | while IFS= read -r line; do
+            echo "::error::[${BROWSER}] ${line}"
+          done
+          echo "--- catalog startup log (tail) ---"
+          tail -20 catalog.log 2>/dev/null | while IFS= read -r line; do
+            echo "::error::[${BROWSER}] CATALOG ${line}"
+          done
+        env:
+          BROWSER: ${{ matrix.browser }}
+
       - name: Commit regenerated baselines
         # Only on an explicit manual run with update-baselines, and only from
         # chromium, which is the engine the committed screenshots are captured
