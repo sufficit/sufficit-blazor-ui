@@ -11,10 +11,18 @@ const entryPath = path.join(repositoryRoot, "src", "styles", "sui-entry.css");
 const outputPath = path.join(repositoryRoot, "src", "wwwroot", "sufficit-ui.css");
 const checkOnly = process.argv.includes("--check");
 
+// Ceilings, not targets. They exist to catch unnoticed growth, so raising one
+// belongs in the same commit as the components that justify it — never as a
+// quiet fix for a red build.
+// 2026-08: 8_000 -> 8_400 brotli for SUICard slots, SUIProgressCircular,
+// SUIAvatar and SUITableSortLabel, which together replace 399 MudBlazor usages
+// in sufficit-blazor. Measured 7_655 before, 8_141 after: ~120 bytes of brotli
+// per component. Redundant rules were folded first; the remainder is the real
+// cost of the new surface.
 const budgets = {
   raw: 52_000,
   gzip: 9_500,
-  brotli: 8_000,
+  brotli: 8_400,
 };
 
 const result = bundle({
