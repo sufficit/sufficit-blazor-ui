@@ -333,6 +333,36 @@
 .sui-card--e2 { box-shadow: var(--sui-shadow-2); }
 .sui-card--e3 { box-shadow: var(--sui-shadow-3); }
 
+/* Card slots.
+   A card with slots drops its own padding: each slot brings its own, so
+   keeping both would double the inset along every shared edge. Cards without
+   slots are untouched, so existing usage keeps rendering exactly as before. */
+.sui-card:has(> .sui-card__header),
+.sui-card:has(> .sui-card__content),
+.sui-card:has(> .sui-card__actions) { padding: 0; }
+
+.sui-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--sui-space-3);
+  padding: var(--sui-space-4);
+  border-bottom: 1px solid var(--sui-border);
+}
+.sui-card__content { padding: var(--sui-space-4); }
+.sui-card__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sui-space-2);
+  padding: var(--sui-space-3) var(--sui-space-4);
+  border-top: 1px solid var(--sui-border);
+}
+.sui-card__actions--end { justify-content: flex-end; }
+
+/* A header or actions row sitting alone keeps the card's rounded corners
+   instead of showing a divider against nothing. */
+.sui-card__header:last-child { border-bottom: 0; }
+.sui-card__actions:first-child { border-top: 0; }
+
 /* ------------------------------------------------------------------ *
  * Form fields (shared .sui-field)
  * ------------------------------------------------------------------ */

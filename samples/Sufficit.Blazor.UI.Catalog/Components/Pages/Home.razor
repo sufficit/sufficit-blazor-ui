@@ -144,6 +144,36 @@
                 <SUITimelineItem ColorValue="SUIColor.Success">Deploy concluído às 10:42</SUITimelineItem>
                 <SUITimelineItem ColorValue="SUIColor.Info" VariantValue="SUIVariant.Outlined">Verificação de saúde executada</SUITimelineItem>
             </SUITimeline>
+            <SUIStack Row="true" AlignItems="center" Spacing="3">
+                <SUIAvatar Alt="Ana Lima">AL</SUIAvatar>
+                <SUIAvatar SizeValue="SUISize.Small" ColorValue="SUIColor.Primary" Alt="Bruno Reis">BR</SUIAvatar>
+                <SUIAvatar SizeValue="SUISize.Large" ColorValue="SUIColor.Success" Rounded="true" Alt="Equipe">EQ</SUIAvatar>
+                <SUIProgressCircular Value="65" AriaLabel="Sincronização" />
+                <SUIProgressCircular Indeterminate="true" ColorValue="SUIColor.Info" AriaLabel="Carregando" />
+                <SUIProgressCircular SizeValue="SUISize.Small" Value="30" ColorValue="SUIColor.Warning" AriaLabel="Uso de disco" />
+            </SUIStack>
+            <SUITable T="CatalogRow" Items="SortedRows" ColumnCount="2">
+                <HeaderContent>
+                    <SUITh scope="col" aria-sort="@(SortDirection is SUISortDirection.None ? null : SortDirection is SUISortDirection.Ascending ? "ascending" : "descending")">
+                        <SUITableSortLabel SortDirection="SortDirection" SortDirectionChanged="OnSortChanged">Serviço</SUITableSortLabel>
+                    </SUITh>
+                    <SUITh scope="col">Região</SUITh>
+                </HeaderContent>
+                <RowTemplate Context="row">
+                    <SUITd>@row.Name</SUITd>
+                    <SUITd>@row.Region</SUITd>
+                </RowTemplate>
+            </SUITable>
+            <SUICard>
+                <SUICardHeader><SUIText Typo="SUITypo.h6">Cartão com seções</SUIText></SUICardHeader>
+                <SUICardContent>
+                    <SUIText>Cabeçalho, conteúdo e ações como componentes separados.</SUIText>
+                </SUICardContent>
+                <SUICardActions AlignEnd="true">
+                    <SUIButton VariantValue="SUIVariant.Text">Cancelar</SUIButton>
+                    <SUIButton ColorValue="SUIColor.Primary">Salvar</SUIButton>
+                </SUICardActions>
+            </SUICard>
         </section>
 
         <section id="feedback" class="catalog__section">
@@ -231,6 +261,21 @@
     private async Task ShowDialog() => await DialogService.ConfirmAsync("Confirmar alteração", "Deseja aplicar esta configuração agora?");
     private Task<IEnumerable<string>> SearchCities(string query)
         => Task.FromResult(_cities.Where(city => city.Contains(query, StringComparison.OrdinalIgnoreCase)));
+
+    private SUISortDirection SortDirection { get; set; } = SUISortDirection.Ascending;
+
+    /// <summary>
+    /// Rows ordered by the sort label's current state. Kept deterministic so the
+    /// visual baseline does not shift between captures.
+    /// </summary>
+    private IEnumerable<CatalogRow> SortedRows => SortDirection switch
+    {
+        SUISortDirection.Ascending => _rows.OrderBy(r => r.Name, StringComparer.Ordinal),
+        SUISortDirection.Descending => _rows.OrderByDescending(r => r.Name, StringComparer.Ordinal),
+        _ => _rows.AsEnumerable(),
+    };
+
+    private void OnSortChanged(SUISortDirection direction) => SortDirection = direction;
 
     private sealed record CatalogRow(string Name, string Region, string Status, SUITone Tone);
 

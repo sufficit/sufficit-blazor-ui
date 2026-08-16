@@ -1,0 +1,98 @@
+@namespace Sufficit.Blazor.UI.Components
+@using System.Globalization
+
+<div class="@Classname"
+     role="progressbar"
+     aria-valuenow="@(Indeterminate ? null : ClampedValue.ToString("0", CultureInfo.InvariantCulture))"
+     aria-valuemin="@(Indeterminate ? null : "0")"
+     aria-valuemax="@(Indeterminate ? null : "100")"
+     aria-label="@AriaLabel"
+     style="@Style"
+     @attributes="AdditionalAttributes">
+    @* SVG rather than a spinning border: a stroked circle animates the
+       determinate arc through stroke-dasharray, which a border cannot do, and
+       it scales cleanly with the component size. *@
+    <svg class="sui-progress-circular__svg" viewBox="0 0 44 44" aria-hidden="true" focusable="false">
+        <circle class="sui-progress-circular__track" cx="22" cy="22" r="@RadiusText" fill="none" />
+        <circle class="sui-progress-circular__arc" cx="22" cy="22" r="@RadiusText" fill="none"
+                stroke-dasharray="@DashArray" stroke-dashoffset="@DashOffset" stroke-linecap="round" />
+    </svg>
+</div>
+
+@code {
+    private const double Radius = 19;
+
+    /// <summary>Progress 0-100. Ignored when <see cref="Indeterminate"/> is true.</summary>
+    [Parameter]
+    public double Value { get; set; }
+
+    /// <summary>
+    /// Spin continuously instead of showing a measured value. Use this when the
+    /// operation has no known duration — a determinate bar that never moves is
+    /// worse than an honest spinner.
+    /// </summary>
+    [Parameter]
+    public bool Indeterminate { get; set; }
+
+    /// <summary>Color: "primary", "success", "warning", "error", "info". Default "primary".</summary>
+    [Parameter, Obsolete("Use ColorValue. The object bridge will be removed in v2.0.0.")]
+    public object? Color { get; set; } = SUIColor.Primary;
+
+    [Parameter]
+    public SUIColor? ColorValue { get; set; }
+
+    /// <summary>"small", "medium" or "large". Default "medium".</summary>
+    [Parameter]
+    public SUISize? SizeValue { get; set; }
+
+    /// <summary>
+    /// Accessible label. Required when the spinner is the only indication that
+    /// something is happening, otherwise screen readers announce a progressbar
+    /// with no purpose.
+    /// </summary>
+    [Parameter]
+    public string? AriaLabel { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-progress-circular")
+            .AddClass($"sui-progress-circular--{SUIClassBuilder.Slug(EffectiveColor)}")
+            .AddClass($"sui-progress-circular--{SUIClassBuilder.Slug(SizeValue ?? SUISize.Medium)}")
+            .AddClass("sui-progress-circular--indeterminate", Indeterminate)
+            .AddClass(Class)
+            .Build();
+
+    private double ClampedValue
+        => double.IsFinite(Value) ? Math.Clamp(Value, 0, 100) : 0;
+
+    private static string RadiusText
+        => Radius.ToString("0.####", CultureInfo.InvariantCulture);
+
+    private static double Circumference => 2 * Math.PI * Radius;
+
+    private string DashArray
+        => Circumference.ToString("0.##", CultureInfo.InvariantCulture);
+
+    /// <summary>
+    /// Offset that reveals the arc. Left at the full circumference while
+    /// indeterminate so the CSS animation owns the dash instead of fighting a
+    /// value written inline.
+    /// </summary>
+    private string DashOffset
+        => (Indeterminate
+            ? Circumference
+            : Circumference * (1 - ClampedValue / 100))
+            .ToString("0.##", CultureInfo.InvariantCulture);
+
+#pragma warning disable CS0618
+    private object EffectiveColor => ColorValue ?? Color ?? SUIColor.Primary;
+#pragma warning restore CS0618
+}
