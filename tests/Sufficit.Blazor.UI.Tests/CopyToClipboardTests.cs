@@ -1,6 +1,7 @@
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
 using Sufficit.Blazor.UI.Components;
+using Sufficit.Blazor.UI.Services;
 
 namespace Sufficit.Blazor.UI.Tests;
 
