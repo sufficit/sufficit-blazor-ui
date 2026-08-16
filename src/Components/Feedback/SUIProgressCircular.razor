@@ -1,26 +1,35 @@
 @namespace Sufficit.Blazor.UI.Components
 @using System.Globalization
 
-<div class="@Classname"
-     role="progressbar"
-     aria-valuenow="@(Indeterminate ? null : ClampedValue.ToString("0", CultureInfo.InvariantCulture))"
-     aria-valuemin="@(Indeterminate ? null : "0")"
-     aria-valuemax="@(Indeterminate ? null : "100")"
-     aria-label="@AriaLabel"
-     style="@Style"
-     @attributes="AdditionalAttributes">
-    @* SVG rather than a spinning border: a stroked circle animates the
-       determinate arc through stroke-dasharray, which a border cannot do, and
-       it scales cleanly with the component size. *@
-    <svg class="sui-progress-circular__svg" viewBox="0 0 44 44" aria-hidden="true" focusable="false">
-        <circle class="sui-progress-circular__track" cx="22" cy="22" r="@RadiusText" fill="none" />
-        <circle class="sui-progress-circular__arc" cx="22" cy="22" r="@RadiusText" fill="none"
-                stroke-dasharray="@DashArray" stroke-dashoffset="@DashOffset" stroke-linecap="round" />
-    </svg>
-</div>
+@* Built on the .sui-progress-circular rules that SUILoadingButton already
+   renders inline, so both spin identically instead of drifting apart. The
+   determinate mode adds a stroked arc, which the spinner glyph cannot express. *@
+<span class="@Classname"
+      role="progressbar"
+      aria-valuenow="@(Indeterminate ? null : ClampedValue.ToString("0", CultureInfo.InvariantCulture))"
+      aria-valuemin="@(Indeterminate ? null : "0")"
+      aria-valuemax="@(Indeterminate ? null : "100")"
+      aria-label="@AriaLabel"
+      style="@Style"
+      @attributes="AdditionalAttributes">
+    @if (Indeterminate)
+    {
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)SUIIcons.ProgressCircular)</svg>
+    }
+    else
+    {
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-opacity=".2" stroke-width="3" />
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                    stroke-dasharray="@DashArray" stroke-dashoffset="@DashOffset"
+                    transform="rotate(-90 12 12)" />
+        </svg>
+    }
+</span>
 
 @code {
-    private const double Radius = 19;
+    /// <summary>Circumference of the r=10 circle used by the determinate arc.</summary>
+    private const double Circumference = 2 * Math.PI * 10;
 
     /// <summary>Progress 0-100. Ignored when <see cref="Indeterminate"/> is true.</summary>
     [Parameter]
@@ -28,16 +37,13 @@
 
     /// <summary>
     /// Spin continuously instead of showing a measured value. Use this when the
-    /// operation has no known duration — a determinate bar that never moves is
+    /// operation has no known duration — a determinate arc that never moves is
     /// worse than an honest spinner.
     /// </summary>
     [Parameter]
     public bool Indeterminate { get; set; }
 
-    /// <summary>Color: "primary", "success", "warning", "error", "info". Default "primary".</summary>
-    [Parameter, Obsolete("Use ColorValue. The object bridge will be removed in v2.0.0.")]
-    public object? Color { get; set; } = SUIColor.Primary;
-
+    /// <summary>Color: "primary", "success", "warning", "error", "info".</summary>
     [Parameter]
     public SUIColor? ColorValue { get; set; }
 
@@ -62,37 +68,31 @@
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
+    /// <summary>
+    /// Size suffix matching the existing --sm/--md/--lg rules rather than
+    /// introducing a second naming convention for the same component.
+    /// </summary>
+    private string SizeSuffix => (SizeValue ?? SUISize.Medium) switch
+    {
+        SUISize.Small => "sm",
+        SUISize.Large => "lg",
+        _ => "md",
+    };
+
     private string Classname
         => SUIClassBuilder.Default("sui-progress-circular")
-            .AddClass($"sui-progress-circular--{SUIClassBuilder.Slug(EffectiveColor)}")
-            .AddClass($"sui-progress-circular--{SUIClassBuilder.Slug(SizeValue ?? SUISize.Medium)}")
-            .AddClass("sui-progress-circular--indeterminate", Indeterminate)
+            .AddClass($"sui-progress-circular--{SizeSuffix}")
+            .AddClass($"sui-color-{SUIClassBuilder.Slug(ColorValue)}", ColorValue is not null)
+            .AddClass("sui-progress-circular--static", !Indeterminate)
             .AddClass(Class)
             .Build();
 
     private double ClampedValue
         => double.IsFinite(Value) ? Math.Clamp(Value, 0, 100) : 0;
 
-    private static string RadiusText
-        => Radius.ToString("0.####", CultureInfo.InvariantCulture);
-
-    private static double Circumference => 2 * Math.PI * Radius;
-
-    private string DashArray
+    private static string DashArray
         => Circumference.ToString("0.##", CultureInfo.InvariantCulture);
 
-    /// <summary>
-    /// Offset that reveals the arc. Left at the full circumference while
-    /// indeterminate so the CSS animation owns the dash instead of fighting a
-    /// value written inline.
-    /// </summary>
     private string DashOffset
-        => (Indeterminate
-            ? Circumference
-            : Circumference * (1 - ClampedValue / 100))
-            .ToString("0.##", CultureInfo.InvariantCulture);
-
-#pragma warning disable CS0618
-    private object EffectiveColor => ColorValue ?? Color ?? SUIColor.Primary;
-#pragma warning restore CS0618
+        => (Circumference * (1 - ClampedValue / 100)).ToString("0.##", CultureInfo.InvariantCulture);
 }

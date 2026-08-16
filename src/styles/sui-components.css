@@ -524,21 +524,6 @@ button.sui-nav-link:disabled,
 .sui-overlay--light { background: rgba(255,255,255,.55); }
 [data-sui-theme="dark"] .sui-overlay--light { background: rgba(15,23,42,.55); }
 
-.sui-progress-circular {
-  display: inline-block;
-  width: 1.25em;
-  height: 1.25em;
-  color: var(--sui-color-primary);
-  animation: sui-spin 1.4s linear infinite;
-}
-.sui-progress-circular svg { width: 100%; height: 100%; display: block; }
-.sui-progress-circular--sm { width: 1em; }
-.sui-progress-circular--md { width: 1.25em; }
-.sui-progress-circular--lg { width: 1.75em; }
-
-@keyframes sui-spin {
-  to { transform: rotate(360deg); }
-}
 
 /* ------------------------------------------------------------------ *
  * Toast / transient feedback
@@ -1086,67 +1071,6 @@ button.sui-nav-link:disabled,
 .sui-progress-linear--info    .sui-progress-linear__bar { background: var(--sui-color-info); }
 
 /* ------------------------------------------------------------------ *
- * Progress circular
- * ------------------------------------------------------------------ */
-
-.sui-progress-circular {
-  display: inline-flex;
-  --_sui-pc-size: 40px;
-  --_sui-pc-stroke: 3.6px;
-  --_sui-pc-color: var(--sui-color-primary);
-  width: var(--_sui-pc-size);
-  height: var(--_sui-pc-size);
-}
-.sui-progress-circular--small  { --_sui-pc-size: 24px; --_sui-pc-stroke: 4.4px; }
-.sui-progress-circular--large  { --_sui-pc-size: 56px; --_sui-pc-stroke: 3.2px; }
-
-.sui-progress-circular__svg {
-  width: 100%;
-  height: 100%;
-  /* Start at 12 o'clock; SVG circles begin at 3. */
-  transform: rotate(-90deg);
-}
-.sui-progress-circular__track,
-.sui-progress-circular__arc { stroke-width: var(--_sui-pc-stroke); }
-.sui-progress-circular__track { stroke: var(--sui-surface-3); }
-.sui-progress-circular__arc {
-  stroke: var(--_sui-pc-color);
-  transition: stroke-dashoffset var(--sui-transition);
-}
-
-/* Indeterminate: ring rotates while the dash breathes, so it reads as motion. */
-.sui-progress-circular--indeterminate .sui-progress-circular__svg {
-  animation: sui-pc-rotate 1.4s linear infinite;
-}
-.sui-progress-circular--indeterminate .sui-progress-circular__arc {
-  transition: none;
-  animation: sui-pc-dash 1.4s ease-in-out infinite;
-}
-@keyframes sui-pc-rotate {
-  to { transform: rotate(270deg); }
-}
-@keyframes sui-pc-dash {
-  0%   { stroke-dasharray: 1 119; stroke-dashoffset: 0; }
-  50%  { stroke-dasharray: 90 119; stroke-dashoffset: -18; }
-  100% { stroke-dasharray: 90 119; stroke-dashoffset: -104; }
-}
-
-/* Reduced motion: hold a readable arc instead of spinning. */
-@media (prefers-reduced-motion: reduce) {
-  .sui-progress-circular--indeterminate .sui-progress-circular__svg { animation: none; }
-  .sui-progress-circular--indeterminate .sui-progress-circular__arc {
-    animation: none;
-    stroke-dasharray: 30 119;
-    stroke-dashoffset: 0;
-  }
-}
-
-.sui-progress-circular--success { --_sui-pc-color: var(--sui-color-success); }
-.sui-progress-circular--warning { --_sui-pc-color: var(--sui-color-warning); }
-.sui-progress-circular--error   { --_sui-pc-color: var(--sui-color-error); }
-.sui-progress-circular--info    { --_sui-pc-color: var(--sui-color-info); }
-
-/* ------------------------------------------------------------------ *
  * Link
  * ------------------------------------------------------------------ */
 
@@ -1488,73 +1412,3 @@ button.sui-nav-link:disabled,
     transition: none;
   }
 }
-
-/* ------------------------------------------------------------------ *
- * Avatar
- * ------------------------------------------------------------------ */
-
-.sui-avatar {
-  --_sui-avatar-size: 40px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-  width: var(--_sui-avatar-size);
-  height: var(--_sui-avatar-size);
-  border-radius: var(--sui-radius-full);
-  background: var(--sui-surface-3);
-  color: var(--sui-text-primary);
-  font-size: calc(var(--_sui-avatar-size) * 0.4);
-  font-weight: 600;
-  line-height: 1;
-  overflow: hidden;
-  /* Initials must not wrap or spill outside the circle. */
-  white-space: nowrap;
-  user-select: none;
-}
-.sui-avatar--small { --_sui-avatar-size: 28px; }
-.sui-avatar--large { --_sui-avatar-size: 56px; }
-.sui-avatar--rounded { border-radius: var(--sui-radius-md); }
-.sui-avatar--image { object-fit: cover; }
-
-.sui-avatar--primary   { background: var(--sui-color-primary);   color: var(--sui-color-primary-contrast); }
-.sui-avatar--secondary { background: var(--sui-color-secondary); color: var(--sui-surface); }
-.sui-avatar--success   { background: var(--sui-color-success);   color: var(--sui-surface); }
-.sui-avatar--warning   { background: var(--sui-color-warning);   color: var(--sui-surface); }
-.sui-avatar--error     { background: var(--sui-color-error);     color: var(--sui-surface); }
-.sui-avatar--info      { background: var(--sui-color-info);      color: var(--sui-surface); }
-
-/* ------------------------------------------------------------------ *
- * Table sort label
- * ------------------------------------------------------------------ */
-
-.sui-sort-label {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sui-space-1);
-  /* A real button: sorting is an action. */
-  appearance: none;
-  background: none;
-  border: 0;
-  padding: 0;
-  margin: 0;
-  font: inherit;
-  color: inherit;
-  cursor: pointer;
-}
-.sui-sort-label:focus-visible {
-  outline: 2px solid var(--sui-color-primary);
-  outline-offset: 2px;
-  border-radius: var(--sui-radius-sm);
-}
-.sui-sort-label__icon {
-  /* Reserve the arrow's space so headers do not shift when sorted. */
-  display: inline-flex;
-  width: 1em;
-  height: 1em;
-  opacity: 0;
-  transition: opacity var(--sui-transition), transform var(--sui-transition);
-}
-.sui-sort-label:hover .sui-sort-label__icon { opacity: .5; }
-.sui-sort-label--active .sui-sort-label__icon { opacity: 1; }
-.sui-sort-label--descending .sui-sort-label__icon { transform: rotate(180deg); }

@@ -55,12 +55,25 @@ else
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
+    /// <summary>
+    /// Size suffix. The stylesheet already used --sm/--md/--lg for the avatars
+    /// rendered inside SUINavGroup and SUINavLink, so this maps onto the
+    /// existing rules rather than introducing a second convention that would
+    /// have to be kept in sync.
+    /// </summary>
+    private string SizeSuffix => (SizeValue ?? SUISize.Medium) switch
+    {
+        SUISize.Small => "sm",
+        SUISize.Large => "lg",
+        _ => "md",
+    };
+
     private string Classname
         => SUIClassBuilder.Default("sui-avatar")
-            .AddClass($"sui-avatar--{SUIClassBuilder.Slug(SizeValue ?? SUISize.Medium)}")
-            .AddClass($"sui-avatar--{SUIClassBuilder.Slug(ColorValue ?? SUIColor.Default)}")
+            .AddClass($"sui-avatar--{SizeSuffix}")
+            .AddClass($"sui-color-{SUIClassBuilder.Slug(ColorValue ?? SUIColor.Default)}",
+                ColorValue is not null and not SUIColor.Default)
             .AddClass("sui-avatar--rounded", Rounded)
-            .AddClass("sui-avatar--image", !string.IsNullOrWhiteSpace(Src))
             .AddClass(Class)
             .Build();
 }
