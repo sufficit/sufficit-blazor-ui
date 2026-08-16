@@ -23,7 +23,7 @@ public sealed class FileSizeBudgetTests
         ["src/styles/sui-components.css"] = 1430,
         ["src/styles/sui-foundations.css"] = 420,
         // One NUnit class covering the whole catalog surface; split by concern.
-        ["tests/Sufficit.Blazor.UI.BrowserTests/CatalogBrowserTests.cs"] = 940,
+        ["tests/Sufficit.Blazor.UI.BrowserTests/CatalogBrowserTests.cs"] = 937,
     };
 
     public static TheoryData<string, int> BudgetedFiles()
