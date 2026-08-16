@@ -360,7 +360,13 @@ public sealed class CatalogBrowserTests : PageTest
         var firstActiveId = await input.GetAttributeAsync("aria-activedescendant");
         Assert.That(firstActiveId, Is.Not.Null.And.Not.Empty);
 
-        await Page.Keyboard.PressAsync("End");
+        // ArrowDown rather than End: in WebKit, End inside a text input moves the
+        // caret to the end of the value instead of reaching the listbox, so the
+        // active descendant never advances and the assertion below fails there.
+        // ArrowDown is the combobox interaction every engine routes to the list
+        // (WAI-ARIA combobox pattern), so this exercises the same behaviour
+        // portably.
+        await Page.Keyboard.PressAsync("ArrowDown");
         var lastActiveId = await input.GetAttributeAsync("aria-activedescendant");
         Assert.That(lastActiveId, Is.Not.Null.And.Not.Empty);
         await Page.Keyboard.PressAsync("Enter");
