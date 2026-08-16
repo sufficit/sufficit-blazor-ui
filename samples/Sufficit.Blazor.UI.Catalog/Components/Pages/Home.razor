@@ -283,6 +283,9 @@
     private Task<IEnumerable<string>> SearchCities(string query)
         => Task.FromResult(_cities.Where(city => city.Contains(query, StringComparison.OrdinalIgnoreCase)));
 
+    /// <summary>Filter text driving the SUIFilterTree demo.</summary>
+    private string? NavFilter { get; set; }
+
     private SUISortDirection SortDirection { get; set; } = SUISortDirection.Ascending;
 
     /// <summary>
