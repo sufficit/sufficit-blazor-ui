@@ -19,6 +19,9 @@ public sealed class CopyToClipboardTests
 
         public void Add(string message, string severity = "info", int durationMs = 4000)
             => Entries.Add((message, severity));
+
+        // Required by the interface; the host subscribes to it, these tests do not.
+        public event Action<SUISnackbarEntry>? OnEnqueue { add { } remove { } }
     }
 
     private static (BunitContext Context, RecordingSnackbar Snackbar) CreateContext()
