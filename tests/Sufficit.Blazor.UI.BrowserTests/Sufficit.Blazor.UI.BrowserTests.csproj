@@ -26,6 +26,9 @@
     <Content Include="..\..\skills\sui-design\scripts\audit-field-alignment.js"
              Link="audit-field-alignment.js"
              CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\docs\baselines\catalog\*.png"
+             Link="baselines\catalog\%(Filename)%(Extension)"
+             CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

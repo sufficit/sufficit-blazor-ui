@@ -44,6 +44,8 @@
         sb.Append(":root{");
         Append(sb, "--sui-color-primary", p.Primary);
         Append(sb, "--sui-color-primary-contrast", p.PrimaryContrast);
+        Append(sb, "--sui-color-primary-action", p.PrimaryAction ?? p.Primary);
+        Append(sb, "--sui-color-primary-action-contrast", p.PrimaryActionContrast ?? p.PrimaryContrast);
         Append(sb, "--sui-color-primary-soft", p.PrimarySoft);
         Append(sb, "--sui-color-secondary", p.Secondary);
         Append(sb, "--sui-color-secondary-contrast", p.SecondaryContrast);

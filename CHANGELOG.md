@@ -1,0 +1,56 @@
+# Changelog
+
+Todas as mudanças relevantes deste pacote serão registradas neste arquivo.
+
+O projeto segue [Semantic Versioning](https://semver.org/). Versões publicadas
+são derivadas exclusivamente de tags Git no formato
+`vMAJOR.MINOR.PATCH[-prerelease]`.
+
+## [Unreleased]
+
+### Added
+
+- Plano da próxima etapa de engenharia da SUI.
+- Primitive responsiva `SUIFormGrid` e contratos de alinhamento.
+- Visual regression light/dark, matriz de browsers e forced-colors.
+- Smoke executável do pacote sob raiz e `PathBase`.
+- Política de versionamento/TFMs e plano explícito da v2.
+- Guarda automatizada contra dependência de biblioteca visual de terceiros
+  (pacote, assembly, código, classes CSS e custom properties).
+- Testes de convenção (prefixo `SUI`, namespaces, parâmetros, arquivos
+  colocalizados), de tamanho de arquivo com débito congelado e de contrato de
+  estilo (`!important`, z-index tokenizado, foco visível, OKLCH).
+- Budgets de payload em bytes brutos, gzip e Brotli para o bundle CSS e os
+  módulos JS.
+- Suíte de acessibilidade em viewport mobile, dark, reduced-motion, espaçamento
+  de texto (WCAG 1.4.12), ordem de tabulação, foco visível, landmarks e
+  hierarquia de headings.
+- Budgets de runtime no navegador (requests, DOM, bytes transferidos, LCP, CLS,
+  estabilidade ao abrir overlays) e gate de Lighthouse no CI com
+  `eng/lighthouse-budget.json` e `scripts/check-lighthouse.mjs`.
+
+### Changed
+
+- O stylesheet deixa de ler custom properties de biblioteca visual de terceiros:
+  os componentes resolvem exclusivamente tokens `--sui-*`. Consumidores que
+  dependiam do fallback precisam fornecer o tema via `SUIThemeProvider`.
+
+- Builds locais usam a versão não publicável `0.0.0-local`.
+- O pipeline de release passa a publicar apenas tags SemVer depois de todos os
+  gates obrigatórios.
+- O entrypoint CSS passa a ser um bundle único e minificado, sem `@import` em
+  runtime.
+- `SUIChoiceCard` passa a reservar colunas somente para conteúdo opcional
+  realmente renderizado, mantém título/descrição legíveis e alinha o indicador
+  de seleção ao início do conteúdo detalhado.
+- O catálogo adota ritmo vertical consistente entre cabeçalhos, descrições e
+  grupos de conteúdo em desktop e mobile.
+- A palette separa o acento primário da superfície opcional de ações
+  preenchidas; temas existentes mantêm o comportamento por fallback, enquanto
+  o catálogo âmbar usa ember profundo e texto branco quente nos botões.
+
+## Histórico anterior
+
+As versões `1.26.*` anteriores à adoção deste changelog usavam versionamento
+temporal. As evidências da última versão local validada permanecem em
+`docs/CONSUMER-ROLLOUT.md`.

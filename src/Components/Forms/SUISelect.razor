@@ -64,6 +64,7 @@
                                 aria-disabled="@(item.Disabled ? "true" : "false")"
                                 disabled="@item.Disabled"
                                 @onclick="() => SelectAsync(item)"
+                                @onpointerdown:preventDefault="true"
                                 @onmousedown:preventDefault="true">
                             @item.ChildContent
                         </button>

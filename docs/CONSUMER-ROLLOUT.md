@@ -75,8 +75,9 @@ API de domínio não foi iniciada; não afetaram o carregamento/interação do s
 ## Janela de compatibilidade
 
 - `sufficit-ui.css` permanece como entrypoint estável por toda a série v1 e na
-  primeira v2; `styles/sui-foundations.css` e `styles/sui-portals.css` são
-  detalhes internos e não devem ser usados diretamente por consumidores.
+  primeira v2. A partir da etapa seguinte ao rollout, foundations e portals são
+  fontes autorais incorporados ao entrypoint minificado, não URLs públicos para
+  consumers.
 - Parâmetros `object`/textuais depreciados permanecem até `v2.0.0`; consumidores
   migrados usam os parâmetros tipados. O adapter textual `IdentitySuiTone` fica
   no consumer, separado dos componentes-base.

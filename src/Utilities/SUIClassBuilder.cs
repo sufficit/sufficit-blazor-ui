@@ -4,8 +4,8 @@ using System.Collections.Generic;
 namespace Sufficit.Blazor.UI.Utilities;
 
 /// <summary>
-/// Tiny fluent CSS class builder. Drop-in replacement for the subset of
-/// MudBlazor.Utilities.CssBuilder used by the SUI components.
+/// Tiny fluent CSS class builder used by the SUI components to compose
+/// conditional class lists.
 /// </summary>
 public sealed class SUIClassBuilder
 {
@@ -49,7 +49,7 @@ public sealed class SUIClassBuilder
     public override string ToString() => Build();
 
     /// <summary>
-    /// Normalizes an enum-like value (SUI enum or a legacy MudBlazor enum
+    /// Normalizes an enum-like value (SUI enum or a legacy enum
     /// passed through the compatibility bridge) into a lowercase CSS slug.
     /// Tolerates null (returns empty string). Used by components whose
     /// parameters are typed <c>object</c> to accept both enum families.

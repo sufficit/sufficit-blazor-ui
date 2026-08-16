@@ -4,6 +4,7 @@ name: Build
 on:
   push:
     branches: [main]
+    tags: ["v*"]
   pull_request:
   workflow_dispatch:
 
@@ -15,8 +16,30 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  css:
+    name: CSS bundle and budget
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "22.x"
+          cache: npm
+
+      - name: Install CSS tooling
+        run: npm ci
+
+      - name: Verify generated entrypoint and budgets
+        run: npm run check:css
+
   build:
     name: Build (${{ matrix.target-framework }})
+    needs: css
     runs-on: ubuntu-latest
     timeout-minutes: 15
     strategy:
@@ -82,8 +105,26 @@ jobs:
       - name: Restore
         run: dotnet restore src/Sufficit.Blazor.UI.csproj
 
+      - name: Resolve package version
+        shell: bash
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            package_version="${GITHUB_REF_NAME#v}"
+          else
+            package_version="0.0.0-ci.${GITHUB_RUN_NUMBER}"
+          fi
+          if [[ ! "$package_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]; then
+            echo "invalid SemVer package version: $package_version" >&2
+            exit 1
+          fi
+          echo "SUI_PACKAGE_VERSION=$package_version" >> "$GITHUB_ENV"
+
       - name: Pack without publishing
-        run: dotnet pack src/Sufficit.Blazor.UI.csproj --no-restore --configuration Release --output artifacts/packages
+        run: |
+          dotnet pack src/Sufficit.Blazor.UI.csproj \
+            --no-restore --configuration Release --output artifacts/packages \
+            /p:Version="$SUI_PACKAGE_VERSION" \
+            /p:ContinuousIntegrationBuild=true
 
       - name: Inspect package and test minimal consumers
         run: ./scripts/validate-package.sh artifacts/packages/*.nupkg
@@ -107,10 +148,14 @@ jobs:
         run: dotnet test tests/Sufficit.Blazor.UI.Tests/Sufficit.Blazor.UI.Tests.csproj --configuration Release -warnaserror
 
   browser-tests:
-    name: Browser and accessibility tests
+    name: Browser and accessibility tests (${{ matrix.browser }})
     needs: component-tests
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
 
     steps:
       - name: Checkout
@@ -124,16 +169,19 @@ jobs:
       - name: Build catalog and browser tests
         run: dotnet build Sufficit.Blazor.UI.slnx --configuration Release -warnaserror
 
-      - name: Install Chromium
+      - name: Install browser
         run: |
           tests/Sufficit.Blazor.UI.BrowserTests/bin/Release/net10.0/.playwright/node/linux-x64/node \
             tests/Sufficit.Blazor.UI.BrowserTests/bin/Release/net10.0/.playwright/package/cli.js \
-            install --with-deps chromium
+            install --with-deps "${{ matrix.browser }}"
 
       - name: Run Playwright and axe
         env:
+          BROWSER: ${{ matrix.browser }}
           SUI_CATALOG_URL: http://127.0.0.1:5180
           SUI_CATALOG_SUBPATH_URL: http://127.0.0.1:5181/app/
+          SUI_BASELINE_DIR: ${{ github.workspace }}/docs/baselines/catalog
+          SUI_VISUAL_ARTIFACT_DIR: ${{ github.workspace }}/artifacts/visual/${{ matrix.browser }}
         run: |
           dotnet run \
             --project samples/Sufficit.Blazor.UI.Catalog/Sufficit.Blazor.UI.Catalog.csproj \
@@ -171,3 +219,134 @@ jobs:
 
           dotnet test tests/Sufficit.Blazor.UI.BrowserTests/Sufficit.Blazor.UI.BrowserTests.csproj \
             --configuration Release --no-build
+
+      - name: Preserve browser diagnostics
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: browser-diagnostics-${{ matrix.browser }}
+          if-no-files-found: ignore
+          path: |
+            artifacts/visual/${{ matrix.browser }}
+            catalog.log
+            catalog-subpath.log
+
+  lighthouse:
+    name: Lighthouse performance gate
+    needs: component-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "22.x"
+          cache: npm
+
+      - name: Build catalog
+        run: dotnet build Sufficit.Blazor.UI.slnx --configuration Release -warnaserror
+
+      - name: Install Chromium
+        run: |
+          tests/Sufficit.Blazor.UI.BrowserTests/bin/Release/net10.0/.playwright/node/linux-x64/node \
+            tests/Sufficit.Blazor.UI.BrowserTests/bin/Release/net10.0/.playwright/package/cli.js \
+            install --with-deps chromium
+
+      - name: Audit the published catalog
+        env:
+          SUI_CATALOG_URL: http://127.0.0.1:5180
+        run: |
+          dotnet run \
+            --project samples/Sufficit.Blazor.UI.Catalog/Sufficit.Blazor.UI.Catalog.csproj \
+            --configuration Release --no-build \
+            --urls "$SUI_CATALOG_URL" >catalog.log 2>&1 &
+          catalog_pid=$!
+          trap 'kill "$catalog_pid" 2>/dev/null || true' EXIT
+
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent "$SUI_CATALOG_URL" >/dev/null; then
+              break
+            fi
+            if [[ "$attempt" -eq 30 ]]; then
+              cat catalog.log
+              exit 1
+            fi
+            sleep 1
+          done
+
+          mkdir -p artifacts/lighthouse
+          CHROME_PATH="$(find "$HOME/.cache/ms-playwright" -maxdepth 3 -name chrome -type f | head -1)"
+          export CHROME_PATH
+          npx --yes lighthouse@12 "$SUI_CATALOG_URL" \
+            --preset=desktop \
+            --quiet \
+            --output=json \
+            --output-path=artifacts/lighthouse/report.json \
+            --budget-path=eng/lighthouse-budget.json \
+            --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage"
+
+          node scripts/check-lighthouse.mjs artifacts/lighthouse/report.json
+
+      - name: Preserve Lighthouse report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: lighthouse-report
+          if-no-files-found: ignore
+          path: |
+            artifacts/lighthouse/report.json
+            catalog.log
+
+  publish:
+    name: Publish tagged package
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [css, pack, component-tests, browser-tests, lighthouse]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Validate release tag
+        shell: bash
+        run: |
+          package_version="${GITHUB_REF_NAME#v}"
+          if [[ ! "$package_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]; then
+            echo "release tag must be vMAJOR.MINOR.PATCH[-prerelease]: $GITHUB_REF_NAME" >&2
+            exit 1
+          fi
+          echo "SUI_PACKAGE_VERSION=$package_version" >> "$GITHUB_ENV"
+
+      - name: Restore
+        run: dotnet restore src/Sufficit.Blazor.UI.csproj
+
+      - name: Pack exact release artifact
+        run: |
+          dotnet pack src/Sufficit.Blazor.UI.csproj \
+            --no-restore --configuration Release --output artifacts/packages \
+            /p:Version="$SUI_PACKAGE_VERSION" \
+            /p:ContinuousIntegrationBuild=true
+
+      - name: Validate exact release artifact
+        run: ./scripts/validate-package.sh artifacts/packages/*.nupkg
+
+      - name: Publish to NuGet.org
+        run: |
+          dotnet nuget push artifacts/packages/*.nupkg \
+            --source https://api.nuget.org/v3/index.json \
+            --api-key "${{ secrets.NUGET_API_KEY }}"

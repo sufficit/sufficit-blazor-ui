@@ -53,6 +53,8 @@ public sealed class CloudMobileSUITheme : ISUITheme
     {
         Primary = "#ee6321",
         PrimaryContrast = "#ffffff",
+        PrimaryAction = "#b7440e",
+        PrimaryActionContrast = "#fff7ed",
         PrimarySoft = "color-mix(in srgb, #ee6321 14%, transparent)",
         Secondary = "#475569",
         Info = "#0284c7", Success = "#15803d", Warning = "#b45309", Error = "#b91c1c",
@@ -87,6 +89,8 @@ Rampa (brand CSS):
 | Token | Claro | Escuro |
 |---|---|---|
 | Primary | `#ee6321` | `#f4854a` |
+| Primary action (opcional) | `#b7440e` | `#b7440e` |
+| Primary action contrast | `#fff7ed` | `#fff7ed` |
 | Primary hover/darken | `#d1530e` | `#d1530e` |
 | Primary lighten | `#f58a4b` | `#f69a66` |
 | Secondary | `#3a3f45` | `#9aa1a9` |
@@ -109,6 +113,13 @@ O CSS Sufficit usa **hex + `color-mix(in srgb, …)`** em tudo. **Não há OKLCH
 
 Bordas tintadas de âmbar são intencionais — são quentes, não cinza neutro.
 
+`Primary` é o acento vivo de marca para links, foco, tabs e contornos.
+`PrimaryAction` é uma superfície opcional, mais profunda, para botões primários
+preenchidos; use `PrimaryActionContrast` para seu texto e ícone. O provider
+recua para `Primary`/`PrimaryContrast` quando esses campos não forem definidos,
+portanto consumers existentes não precisam migrar. Não resolva preto-sobre-
+âmbar com um hardcode por botão: declare o papel no tema.
+
 ## Raio e layout
 
 - Default `0.75rem` (`MudThemeContainer` / `SUILayout.Radius`).
@@ -129,7 +140,10 @@ Três camadas **discordam** — sinalize, não faz de conta:
 ## Dark mode (bomba latente)
 
 - `CloudMobileSUITheme.IsDark => false` (hardcoded). Sem `prefers-color-scheme`. Sem toggle.
-- O SUI **tem** dark palette em `sufficit-ui.css` `[data-sui-theme="dark"]`, **mas** o primário escuro é **`#3b82f6` (azul)** — off-brand. Se for ligar dark num consumer âmbar, **sobrescreva o primário** no tema do consumer antes, senão a marca vira azul silenciosamente.
+- O CSS de fundação possui uma palette escura âmbar, mas `DefaultSUITheme`
+  continua brand-agnostic e azul. Ao ligar dark em um consumer de marca,
+  forneça `Primary` e, quando botões preenchidos precisarem de superfície mais
+  profunda, `PrimaryAction`/`PrimaryActionContrast` no tema do consumer.
 - `.theme-dark` permanece como alias de compatibilidade em hosts antigos;
   aplicações novas devem preferir `SUIThemeProvider`/`data-sui-theme`.
 
@@ -140,4 +154,6 @@ Três camadas **discordam** — sinalize, não faz de conta:
 - `sufficit-blazor-ui` (esta lib): `src/Themes/`, componentes agrupados em
   `src/Components/{Actions,DataDisplay,Feedback,Forms,Layout,Navigation,Overlays}`,
   `src/Utilities/SUIClassBuilder.cs`, `src/wwwroot/sufficit-ui.css` e
-  `src/wwwroot/styles/`. O host também carrega seu `{Consumer}.styles.css`.
+  `src/styles/`; o build gera o único asset público
+  `src/wwwroot/sufficit-ui.css`. O host também carrega seu
+  `{Consumer}.styles.css`.

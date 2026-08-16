@@ -28,6 +28,12 @@
   line-height: 1.25;
   color: var(--sui-text-primary);
 }
+/* Programmatic focus target after navigation. It is not in the tab order
+   (tabindex="-1"), so the ring would only ever appear as an unexplained
+   artifact of a route change; the announcement is what carries the meaning. */
+.sui-page-header__title[tabindex="-1"]:focus {
+  outline: none;
+}
 .sui-page-header__description {
   margin: var(--sui-space-1) 0 0;
   font-size: var(--sui-fs-body2);

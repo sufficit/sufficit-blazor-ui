@@ -9,6 +9,7 @@
         <header class="catalog__header">
             <SUIPageHeader Title="Catálogo SUI"
                            Description="Estados reais, teclado, temas e conteúdo extremo dos componentes compartilhados."
+                           Class="catalog__page-header"
                            Prominent>
                 <Actions>
                     <SUIButton VariantValue="SUIVariant.Outlined" OnClick="ToggleTheme" data-testid="theme-toggle">
@@ -43,7 +44,7 @@
 
         <section id="forms" class="catalog__section">
             <h2>Formulários</h2>
-            <div class="catalog__form-grid" data-sui-align-row>
+            <SUIFormGrid Class="catalog__form-grid">
                 <SUITextField T="string" Label="Nome público" Placeholder="Ex.: Operação Sudeste"
                               HelperText="Até 80 caracteres, incluindo acentos." MaxLength="80"
                               data-testid="text-field" />
@@ -70,7 +71,7 @@
                     <SUISwitch Label="Controle indisponível" Disabled />
                     <SUISwitchButton @bind-Checked="_notifications">Alternar notificações</SUISwitchButton>
                 </div>
-            </div>
+            </SUIFormGrid>
             <div class="catalog__choice-grid">
                 <SUIChoiceCard TValue="string" Value="PixPayment" SelectedValue="_payment"
                                SelectedValueChanged="SelectPayment" Name="payment" Title="PIX"
@@ -119,9 +120,11 @@
                 <SUIStatusBadge ToneValue="SUITone.Success" Icon="check">Saudável</SUIStatusBadge>
                 <SUIStatusBadge ToneValue="SUITone.Danger" Icon="alert">Incidente</SUIStatusBadge>
             </SUIStack>
-            <SUIText Typo="SUITypo.headline">Tipografia operacional</SUIText>
-            <SUIText Typo="SUITypo.body">IDs e métricas permanecem legíveis sem virar decoração.</SUIText>
-            <SUIText Typo="SUITypo.mono">worker/eveo-apps-01 · 99,98%</SUIText>
+            <div class="catalog__type-sample">
+                <SUIText Typo="SUITypo.headline">Tipografia operacional</SUIText>
+                <SUIText Typo="SUITypo.body">IDs e métricas permanecem legíveis sem virar decoração.</SUIText>
+                <SUIText Typo="SUITypo.mono">worker/eveo-apps-01 · 99,98%</SUIText>
+            </div>
 
             <SUITable T="CatalogRow" Items="_rows" ColumnCount="3" Hover Dense OnRowClick="SelectRow">
                 <HeaderContent>
@@ -238,6 +241,7 @@
             ? new SUIPalette
             {
                 Primary = "#fb923c", PrimaryContrast = "#111827",
+                PrimaryAction = "#b7440e", PrimaryActionContrast = "#fff7ed",
                 PrimarySoft = "color-mix(in srgb, #fb923c 18%, transparent)",
                 Info = "#7dd3fc", Success = "#4ade80", Warning = "#fbbf24", Error = "#fca5a5",
                 Surface = "#111827", Surface2 = "#1f2937", Surface3 = "#374151",
@@ -247,6 +251,7 @@
             : new SUIPalette
             {
                 Primary = "#c2410c", PrimaryContrast = "#ffffff",
+                PrimaryAction = "#b7440e", PrimaryActionContrast = "#fff7ed",
                 PrimarySoft = "color-mix(in srgb, #c2410c 12%, transparent)",
             };
         public SUITypography Typography { get; } = SUITypography.Default;

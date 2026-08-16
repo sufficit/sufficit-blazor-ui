@@ -122,8 +122,13 @@
         => SUIClassBuilder.Default("sui-choice-card")
             .AddClass("is-selected", IsSelected)
             .AddClass("is-disabled", Disabled)
+            .AddClass("sui-choice-card--has-leading", IconContent is not null)
+            .AddClass("sui-choice-card--has-description", !string.IsNullOrWhiteSpace(Description))
+            .AddClass("sui-choice-card--has-trailing", HasTrailing)
             .AddClass(Class)
             .Build();
+
+    private bool HasTrailing => TrailingContent is not null || ShowSelectionIndicator;
 
     private string IconClassName
         => SUIClassBuilder.Default("sui-choice-card__leading")

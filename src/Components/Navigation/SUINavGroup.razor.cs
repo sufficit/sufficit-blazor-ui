@@ -11,8 +11,7 @@ namespace Sufficit.Blazor.UI.Components
 #nullable enable
 
     /// <summary>
-    /// A deeper level of navigation links. Standalone (no MudBlazor dependency):
-    /// plain Blazor + CSS. Preserves rail-mode flyout, exclusive accordion
+    /// A deeper level of navigation links. Standalone: plain Blazor + CSS. Preserves rail-mode flyout, exclusive accordion
     /// between siblings, and animated collapse.
     /// </summary>
     public partial class SUINavGroup : ComponentBase, IAsyncDisposable
@@ -99,7 +98,7 @@ namespace Sufficit.Blazor.UI.Components
         }
 
         // ---------------------------------------------------------------------
-        // Styling helpers (SUIClassBuilder replaces MudBlazor CssBuilder).
+        // Styling helpers.
         // ---------------------------------------------------------------------
 
         protected string Classname =>

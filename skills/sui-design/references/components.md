@@ -18,11 +18,12 @@ Carregue ao construir ou migrar UI. Namespace único `Sufficit.Blazor.UI.Compone
 - Prefixo **`SUI`**; classes **`.sui-*`**; tokens **`--sui-*`** em `:root`.
 - **Não é Material Design:** flat, sombras suaves, raios generosos. Componentes nossos em Blazor puro (HTML+CSS), sem herança de libs de terceiros.
 - Dark mode via `[data-sui-theme="dark"]` num elemento raiz.
-- A biblioteca **não depende de MudBlazor** (nem pacote, nem vendorizado).
+- A biblioteca **não depende de biblioteca visual de terceiros** (nem pacote,
+  nem vendorizado, nem tokens CSS de outra lib).
 
 ## Enums próprios
 
-Use **estes**, não os do MudBlazor:
+Use **estes**, nunca enums de outra biblioteca visual:
 
 `SUIColor`, `SUIVariant` (Text/Outlined/Filled), `SUISize` (Small/Medium/Large), `SUIButtonType`, `SUIEdge`, `SUITypo` (h1–h6, subtitle1/2, body1/2, button, caption, overline), `SUITextTag`, `SUIAlign`, `SUIOrigin`, `SUITone`. Definidos em `src/Components/SUIEnums.cs`.
 
@@ -109,8 +110,10 @@ passa `Invalid`/`ErrorText` a partir do seu EditContext/validador.
 
 ## Layout e alinhamento de formulários
 
-Componentes SUI controlam o ritmo interno de label, controle e helper; o
-consumer controla a relação entre colunas. Em Grid/Flex horizontal:
+Componentes SUI controlam o ritmo interno de label, controle e helper. Para
+fields equivalentes em colunas, use `SUIFormGrid`: ele aplica `min-width: 0`,
+alinhamento no topo, reserva uniforme de labels, empilhamento a `44rem` e
+`data-sui-align-row`. Em Grid/Flex misto ou legado:
 
 - aplique `min-width: 0` e `align-self: start` aos wrappers `.sui-field`;
 - neutralize margens de fluxo como `.field-group + .field-group` dentro da
@@ -125,14 +128,19 @@ consumer controla a relação entre colunas. Em Grid/Flex horizontal:
 Não corrija desalinhamento com `transform`, offsets negativos ou valores
 específicos por campo; isso quebra com idioma, zoom e mensagens de validação.
 
-## Coexistência com MudBlazor
+## Coexistência com biblioteca visual legada
 
-Projetos podem ter MudBlazor residual durante migração. Regras:
+Consumidores podem ter uma lib visual de terceiros residual durante migração.
+Regras:
 - No **código novo**, use SUI + enums SUI. Os componentes de ação têm ponte temporária para valores visuais legados (migrar sem big-bang).
-- **Não misture** classes `mud-*` em componentes SUI esperando styling SUI.
-- O stylesheet SUI tem fallbacks defensivos `var(--mud-palette-primary, var(--sui-color-primary))` e um bloco legado `.mud-drawer.sufficit-rail` — são peso morto quando MudBlazor não está carregado, inofensivos.
+- **Não misture** classes de outra lib em componentes SUI esperando styling SUI.
+- O stylesheet SUI **não lê mais tokens de terceiros**: todo `var(--mud-*)` foi
+  removido, os componentes resolvem só `--sui-*`. Um teste-guarda
+  (`NoThirdPartyUiFrameworkTests`) falha se algum voltar. Consequência prática:
+  aplicar tema num consumidor exige definir tokens `--sui-*`, não basta ter o
+  tema da lib legada carregado.
 
-## Mapeamento de migração (MudBlazor → SUI)
+## Mapeamento de migração (lib legada → SUI)
 
 | SUI | Substitui (no `sufficit-blazor`) |
 |---|---|

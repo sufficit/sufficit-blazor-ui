@@ -1,7 +1,7 @@
 namespace Sufficit.Blazor.UI.Components;
 
 /// <summary>
-/// Color tokens shared by every SUI component. Replaces MudBlazor.Color.
+/// Color tokens shared by every SUI component.
 /// </summary>
 public enum SUIColor
 {
@@ -20,7 +20,7 @@ public enum SUIColor
 }
 
 /// <summary>
-/// Visual style of a control surface. Replaces MudBlazor.Variant.
+/// Visual style of a control surface.
 /// </summary>
 public enum SUIVariant
 {
@@ -33,7 +33,7 @@ public enum SUIVariant
 }
 
 /// <summary>
-/// Size buckets for controls. Replaces MudBlazor.Size.
+/// Size buckets for controls.
 /// </summary>
 public enum SUISize
 {
@@ -43,7 +43,7 @@ public enum SUISize
 }
 
 /// <summary>
-/// HTML button types. Replaces MudBlazor.ButtonType.
+/// HTML button types.
 /// </summary>
 public enum SUIButtonType
 {
@@ -53,7 +53,7 @@ public enum SUIButtonType
 }
 
 /// <summary>
-/// Edge shape for icon buttons. Replaces MudBlazor.Edge.
+/// Edge shape for icon buttons.
 /// </summary>
 public enum SUIEdge
 {
@@ -66,7 +66,7 @@ public enum SUIEdge
 }
 
 /// <summary>
-/// Typography scale. Replaces MudBlazor.Typo.
+/// Typography scale.
 /// </summary>
 public enum SUITypo
 {
@@ -98,7 +98,7 @@ public enum SUITypo
 }
 
 /// <summary>
-/// Horizontal text alignment. Replaces MudBlazor.Align.
+/// Horizontal text alignment.
 /// </summary>
 public enum SUIAlign
 {
@@ -125,7 +125,7 @@ public enum SUITextTag
 }
 
 /// <summary>
-/// Anchor points used by popover/flyout positioning. Replaces MudBlazor.Origin.
+/// Anchor points used by popover/flyout positioning.
 /// </summary>
 public enum SUIOrigin
 {

@@ -13,6 +13,20 @@ public sealed record SUIPalette
     /// <summary>Text/icon color on top of <see cref="Primary"/>.</summary>
     public string PrimaryContrast { get; init; } = "#ffffff";
 
+    /// <summary>
+    /// Optional deeper surface used by filled primary actions. When omitted,
+    /// filled actions use <see cref="Primary"/> for backward compatibility.
+    /// Accent treatments such as focus rings, links and outlined buttons keep
+    /// using <see cref="Primary"/>.
+    /// </summary>
+    public string? PrimaryAction { get; init; }
+
+    /// <summary>
+    /// Text/icon color on top of <see cref="PrimaryAction"/>. Falls back to
+    /// <see cref="PrimaryContrast"/> when the action surface is not supplied.
+    /// </summary>
+    public string? PrimaryActionContrast { get; init; }
+
     /// <summary>Soft tint of the primary color, used for active backgrounds.</summary>
     public string PrimarySoft { get; init; } = "color-mix(in srgb, #2563eb 14%, transparent)";
 

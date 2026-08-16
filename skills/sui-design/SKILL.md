@@ -1,13 +1,13 @@
 ---
 name: sui-design
-description: Projete, construa, critique, refine e publique interfaces frontend em projetos Blazor da Sufficit que usam a biblioteca Sufficit.Blazor.UI (SUI) e/ou MudBlazor. Use quando o usuário quiser criar ou refinar uma página, componente, formulário, layout, tema ou token de design em Blazor; detectar campos desalinhados em linhas horizontais; aplicar a marca Sufficit (âmbar #ee6321, modelo hex + color-mix, NÃO OKLCH); seguir as convenções SUI (prefixo SUI, tokens --sui-*, SUIThemeProvider, enums próprios); auditar acessibilidade, contraste, responsividade ou lifecycle do Blazor; ou publicar uma release (eveo-apps). Consolida o sistema de marca Sufficit, o catálogo de componentes SUI, as regras editoriais anti-"AI slop", o guia de do/don't de Blazor e os padrões de engenharia e deploy praticados no sufficit-cloud-mobile. Não serve para tarefas só de backend ou não-Blazor.
+description: Projete, construa, critique e refine interfaces frontend em projetos Blazor da Sufficit que usam a biblioteca Sufficit.Blazor.UI (SUI). Use quando o usuário quiser criar ou refinar uma página, componente, formulário, layout, tema ou token de design em Blazor; detectar campos desalinhados em linhas horizontais; aplicar a marca Sufficit (âmbar #ee6321, modelo hex + color-mix, NÃO OKLCH); seguir as convenções SUI (prefixo SUI, tokens --sui-*, SUIThemeProvider, enums próprios); ou auditar acessibilidade, contraste, responsividade e lifecycle do Blazor. Consolida o sistema de marca Sufficit, o catálogo de componentes SUI, as regras editoriais anti-"AI slop" e o guia de do/don't de Blazor. Não serve para tarefas só de backend, não-Blazor ou deploy de infraestrutura/consumers.
 ---
 
 # SUI Design
 
 Skill de frontend da Sufficit para UIs Blazor com
-**Sufficit.Blazor.UI (SUI)** ou MudBlazor. Reúne marca, contratos dos
-componentes, acessibilidade, responsividade, lifecycle e release.
+**Sufficit.Blazor.UI (SUI)**. Reúne marca, contratos dos
+componentes, acessibilidade, responsividade e lifecycle.
 
 ## Como usar
 
@@ -21,7 +21,6 @@ Invocável como skill. Sem subcomando, faça triagem (abaixo) e siga o fluxo. Co
 | `critique [alvo]` | revisão de UX/heurística | avaliação editorial |
 | `polish [alvo]` | passada final pré-ship | detalhes que separam bom de ótimo |
 | `colorize` / `typeset` / `layout` / `animate` / `quieter` / `bolder` | realces focados | ajustes na dimensão escolhida |
-| `ship` | publicar no `eveo-apps` | release ativa + health check (ver `references/shipping.md`) |
 
 Em fluxos de implementação, entregue código pronto para produção. Em `shape`,
 `audit` e `critique`, entregue o artefato descrito na tabela, com achados
@@ -35,25 +34,31 @@ verificáveis e próximos passos concretos.
 4. **Leia pelo menos um arquivo real do projeto** (um `.razor`, o tema, o CSS). Não reinvente; use o que existe quando funciona.
 5. **Se o projeto é Blazor Server/interactive**, leia `references/blazor-patterns.md` (lifecycle, headings semânticos, contexto/auth).
 6. **Se houver formulário em duas ou mais colunas**, leia
-   `references/alignment-audit.md`, marque cada linha de campos equivalentes
-   com `data-sui-align-row` e execute o gate geométrico em desktop e no último
-   viewport antes do empilhamento. Zero containers ou zero comparações é falha,
-   não aprovação.
+   `references/alignment-audit.md`. Para fields SUI, prefira `SUIFormGrid`, que
+   já emite `data-sui-align-row`; em layouts mistos/legados, marque cada linha
+   equivalente manualmente. Execute o gate geométrico em desktop e no último
+   viewport antes do empilhamento. Zero containers ou zero comparações é falha.
 
 ## Marca Sufficit (resumo — detalhes em `references/brand-and-theme.md`)
 
 - **Primária:** âmbar `#ee6321` (`--sufficit-amber`). Hover `#d1530e`, lighten `#f58a4b`.
+- **Papéis de ação:** preserve o âmbar vivo em acentos, foco, tabs e contornos.
+  Quando preto-sobre-âmbar deixar um botão preenchido visualmente pesado, use
+  `PrimaryAction`/`PrimaryActionContrast` no tema (ember profundo + branco
+  quente), nunca um hardcode por botão.
 - **Modelo de cor: hex + `color-mix(in srgb, …)`. NÃO use OKLCH** no CSS Sufficit — não existe lá; introduzir OKLCH cria inconsistência.
 - **Neutros (claro):** canvas `#f7f8fa`, surface `#ffffff`, surface-2 `#f4f5f7`, ink `#1f2226`, text-secondary `#475569`, muted `#6b7178`. Divisores tintados de âmbar (`#ebdbd5`).
 - **Raio:** default `0.75rem` (0.625–0.875rem por superfície). Escala CSS `--radius-sm 4 / -md 8 / -lg 12 / -full 9999`.
 - **Tipografia — armadilha conhecida:** o MudTheme referencia Poppins/Open Sans, mas o `App.razor` carrega de fato Roboto/Ubuntu/Montserrat; SUI defaulta pra system stack. **Nunca assuma que uma fonte referenciada está renderizando** — ou carregue-a ou alinhe o tema ao que está carregado.
-- **Dark mode — bomba latente:** o dark palette default do SUI usa **azul `#3b82f6`** (off-brand). Se for ligar dark mode num consumer âmbar, sobrescreva o primário no tema do consumer.
+- **Dark mode:** `DefaultSUITheme` permanece azul e brand-agnostic. Consumers
+  âmbar devem fornecer `Primary` e, se aplicável, os tokens `PrimaryAction` no
+  próprio tema antes de ativar dark mode.
 
 ## Convenções SUI (resumo — detalhes em `references/components.md`)
 
 - Prefixo **`SUI`** (`SUIButton`, `SUIPageHeader`, …); classes **`.sui-*`**; tokens **`--sui-*`** em `:root`.
 - **Não é Material Design:** flat, sombras suaves, raios generosos.
-- Enums **próprios** em `SUIColor`, `SUIVariant` (Text/Outlined/Filled), `SUISize`, `SUIButtonType`, `SUIEdge`, `SUITypo`, `SUIAlign`, `SUITone` — **não** os do MudBlazor.
+- Enums **próprios** em `SUIColor`, `SUIVariant` (Text/Outlined/Filled), `SUISize`, `SUIButtonType`, `SUIEdge`, `SUITypo`, `SUIAlign`, `SUITone` — **nunca** os de outra biblioteca visual.
 - Tema via `services.AddSufficitUI(o => o.Theme = new MeuTema())` + `<SUIThemeProvider>`; sem provider, cai em `DefaultSUITheme` (azul claro). Dark via `[data-sui-theme="dark"]`; `.theme-dark` é somente alias legado.
 - Class builder: `SUIClassBuilder.Default("sui-btn").AddClass(...).Slug(valor).Build()`.
 - Assets: carregue `_content/Sufficit.Blazor.UI/sufficit-ui.css` **e** o
@@ -82,6 +87,8 @@ verificáveis e próximos passos concretos.
 **Layout**
 - Varie espaçamento pra ter ritmo. **Cards são a resposta preguiçosa** — use só quando são a melhor affordance. Cards aninhados são sempre errado.
 - Flexbox 1D, Grid 2D. Grid responsivo sem breakpoint: `repeat(auto-fit, minmax(280px, 1fr))`.
+- Em formulários SUI horizontais use `SUIFormGrid`; reserve CSS manual para
+  grids mistos ou relações que não sejam fields equivalentes.
 - Campos equivalentes lado a lado devem alinhar topo do wrapper, label, topo e
   altura do controle. Use `align-items: start`, `min-width: 0`, elimine margens
   verticais herdadas e reserve a mesma altura de label quando ele puder quebrar
@@ -128,12 +135,3 @@ Se alguém pode olhar e dizer "IA fez isso" sem dúvida, falhou. Cheque em duas 
 ## Checklist de engenharia frontend
 
 Princípios consolidados: lifecycle async, `StateHasChanged` via `InvokeAsync`, `Dispose`, skeletons, brand via `--sufficit-amber`, hex/`color-mix` não OKLCH, enums SUI, render-mode por rota, touch targets ≥44px. Ver `references/components.md` e `references/blazor-patterns.md`.
-
-## Publicar (ship)
-
-Release manual no host `eveo-apps` (`/opt/sufficit-cloud-mobile`, symlinks por componente). Sem CD — o CI só builda/testa. Flow completo, health checks e rollback em **`references/shipping.md`**. Resumo:
-
-1. `dotnet publish` (net10, Release, framework-dependent) do projeto alterado;
-2. `rsync` para `/opt/sufficit-cloud-mobile/releases/<slug>/<component>/`;
-3. swap atômico do symlink + `systemctl restart sufficit-cloud-mobile-<component>`;
-4. health checks (`systemctl is-active`, `/` → 302 Identity, CSS novo, `/health/ready` 200, `nginx -t`).

@@ -1,0 +1,11 @@
+{
+  "name": "sufficit-blazor-ui-assets",
+  "private": true,
+  "scripts": {
+    "build:css": "node scripts/build-css.mjs",
+    "check:css": "node scripts/build-css.mjs --check"
+  },
+  "devDependencies": {
+    "lightningcss": "1.33.0"
+  }
+}

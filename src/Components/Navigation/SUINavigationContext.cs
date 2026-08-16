@@ -4,8 +4,6 @@ namespace Sufficit.Blazor.UI.Components;
 
 /// <summary>
 /// Cascading context for nested navigation (SUINavGroup / SUINavLink).
-/// Replaces the MudBlazor.NavigationContext record that used to flow through
-/// the vendored NavMenu tree.
 /// </summary>
 public sealed record SUINavigationContext
 {

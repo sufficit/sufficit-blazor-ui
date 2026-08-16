@@ -2,6 +2,7 @@ using Deque.AxeCore.Commons;
 using Deque.AxeCore.Playwright;
 using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
+using System.Globalization;
 using System.Text.Json;
 
 namespace Sufficit.Blazor.UI.BrowserTests;
@@ -52,14 +53,14 @@ public sealed class CatalogBrowserTests : PageTest
     }
 
     [Test]
-    public async Task HybridCss_LoadsFoundationsPortalsAndIsolatedComponents()
+    public async Task BundledCss_LoadsFoundationsPortalsAndIsolatedComponents()
     {
         var cssResources = await Page.EvaluateAsync<string[]>(
             "performance.getEntriesByType('resource').map(entry => entry.name).filter(name => name.includes('.css'))");
 
         Assert.That(cssResources.Any(url => url.Contains("/sufficit-ui.css", StringComparison.Ordinal)), Is.True);
-        Assert.That(cssResources.Any(url => url.Contains("/styles/sui-foundations.css", StringComparison.Ordinal)), Is.True);
-        Assert.That(cssResources.Any(url => url.Contains("/styles/sui-portals.css", StringComparison.Ordinal)), Is.True);
+        Assert.That(cssResources.Any(url => url.Contains("/styles/sui-foundations.css", StringComparison.Ordinal)), Is.False);
+        Assert.That(cssResources.Any(url => url.Contains("/styles/sui-portals.css", StringComparison.Ordinal)), Is.False);
         Assert.That(cssResources.Any(url => url.Contains("Sufficit.Blazor.UI.Catalog", StringComparison.Ordinal)
             && url.EndsWith(".styles.css", StringComparison.Ordinal)), Is.True);
 
@@ -172,6 +173,98 @@ public sealed class CatalogBrowserTests : PageTest
         Assert.That(rejectedFailures.Any(failure =>
             failure.GetProperty("reason").GetString() == "misaligned"
             && failure.GetProperty("dimension").GetString() == "control"), Is.True);
+    }
+
+    [Test]
+    public async Task ChoiceCardsAndHeaders_KeepAConsistentVerticalRhythm()
+    {
+        foreach (var width in new[] { 1440, 390 })
+        {
+            await Page.SetViewportSizeAsync(width, 1000);
+            await Page.GotoAsync(BaseUrl, new PageGotoOptions { WaitUntil = WaitUntilState.NetworkIdle });
+            await Expect(Page.Locator("[data-catalog-ready]")).ToBeVisibleAsync();
+
+            var reportJson = await Page.EvaluateAsync<string>(
+                """
+                () => {
+                    const box = element => element.getBoundingClientRect();
+                    const centerY = rectangle => rectangle.top + rectangle.height / 2;
+                    const cards = [...document.querySelectorAll('.sui-choice-card')].map(card => {
+                        const cardBox = box(card);
+                        const content = card.querySelector('.sui-choice-card__content');
+                        const title = card.querySelector('.sui-choice-card__title');
+                        const description = card.querySelector('.sui-choice-card__description');
+                        const indicator = card.querySelector('.sui-choice-card__indicator');
+                        const titleBox = box(title);
+                        const indicatorBox = box(indicator);
+                        const detailed = card.classList.contains('sui-choice-card--has-description');
+                        return {
+                            contentRatio: box(content).width / cardBox.width,
+                            titleOverflow: title.scrollWidth - title.clientWidth,
+                            descriptionOverflow: description
+                                ? description.scrollWidth - description.clientWidth
+                                : 0,
+                            indicatorDelta: detailed
+                                ? Math.abs(indicatorBox.top - titleBox.top)
+                                : Math.abs(centerY(indicatorBox) - centerY(titleBox)),
+                        };
+                    });
+
+                    const pageHeader = box(document.querySelector('.sui-page-header'));
+                    const pageTitle = document.querySelector('.sui-page-header__title');
+                    const jump = box(document.querySelector('.catalog__jump'));
+                    const badgeRow = box(document.querySelector('#data > .sui-stack'));
+                    const typeGroup = document.querySelector('.catalog__type-sample');
+                    const typeNodes = [...typeGroup.children].map(box);
+                    const sectionGap = selector => {
+                        const heading = document.querySelector(`${selector} > h2`);
+                        return box(heading.nextElementSibling).top - box(heading).bottom;
+                    };
+                    const description = document.querySelector('#actions > .catalog__description');
+                    const actionRow = document.querySelector('#actions > .sui-stack');
+
+                    return JSON.stringify({
+                        cards,
+                        pageHeaderGap: jump.top - pageHeader.bottom,
+                        pageTitleOutline: getComputedStyle(pageTitle).outlineStyle,
+                        typeGroupGap: box(typeGroup).top - badgeRow.bottom,
+                        typeInnerGaps: [
+                            typeNodes[1].top - typeNodes[0].bottom,
+                            typeNodes[2].top - typeNodes[1].bottom,
+                        ],
+                        directSectionGaps: ['#forms', '#navigation', '#data', '#feedback', '#layout']
+                            .map(sectionGap),
+                        stressGap: sectionGap('.catalog__stress'),
+                        actionDescriptionGap:
+                            box(description).top - box(document.querySelector('#actions > h2')).bottom,
+                        actionContentGap: box(actionRow).top - box(description).bottom,
+                    });
+                }
+                """);
+            using var report = JsonDocument.Parse(reportJson);
+            var root = report.RootElement;
+
+            foreach (var card in root.GetProperty("cards").EnumerateArray())
+            {
+                Assert.That(card.GetProperty("contentRatio").GetDouble(), Is.GreaterThan(0.78),
+                    $"choice content remained squeezed at {width}px: {reportJson}");
+                Assert.That(card.GetProperty("titleOverflow").GetDouble(), Is.LessThanOrEqualTo(1));
+                Assert.That(card.GetProperty("descriptionOverflow").GetDouble(), Is.LessThanOrEqualTo(1));
+                Assert.That(card.GetProperty("indicatorDelta").GetDouble(), Is.LessThanOrEqualTo(1.1),
+                    $"choice indicator is vertically displaced at {width}px: {reportJson}");
+            }
+
+            Assert.That(root.GetProperty("pageHeaderGap").GetDouble(), Is.InRange(23, 25));
+            Assert.That(root.GetProperty("pageTitleOutline").GetString(), Is.EqualTo("none"));
+            Assert.That(root.GetProperty("typeGroupGap").GetDouble(), Is.InRange(23, 25));
+            Assert.That(root.GetProperty("typeInnerGaps").EnumerateArray()
+                .Select(value => value.GetDouble()), Is.All.InRange(3, 5));
+            Assert.That(root.GetProperty("directSectionGaps").EnumerateArray()
+                .Select(value => value.GetDouble()), Is.All.InRange(23, 25));
+            Assert.That(root.GetProperty("stressGap").GetDouble(), Is.InRange(23, 25));
+            Assert.That(root.GetProperty("actionDescriptionGap").GetDouble(), Is.InRange(7, 9));
+            Assert.That(root.GetProperty("actionContentGap").GetDouble(), Is.InRange(23, 25));
+        }
     }
 
     private async Task AssertNoBlockingAxeViolationsAsync()
@@ -436,6 +529,67 @@ public sealed class CatalogBrowserTests : PageTest
     }
 
     [Test]
+    public async Task PrimaryActions_UseDedicatedAccessibleFillAcrossThemes()
+    {
+        var root = Page.Locator("[data-catalog-ready]");
+        var button = Page.Locator(".sui-btn.sui-btn--filled.sui-btn--color-primary:not(:disabled)").First;
+
+        foreach (var theme in new[] { "light", "dark" })
+        {
+            await Expect(root).ToHaveAttributeAsync("data-theme", theme);
+            await button.ScrollIntoViewIfNeededAsync();
+            await Page.Mouse.MoveAsync(0, 0);
+            await Page.WaitForTimeoutAsync(220);
+
+            var resting = await ReadPrimaryActionAppearanceAsync(button);
+            Assert.That(resting[0], Is.EqualTo("183,68,14"), $"unexpected {theme} action surface");
+            Assert.That(resting[1], Is.EqualTo("255,247,237"), $"unexpected {theme} action foreground");
+            Assert.That(resting[4], Is.Not.EqualTo(resting[5]),
+                $"{theme} filled action reused the bright accent surface");
+            Assert.That(ParseRatio(resting[2]), Is.GreaterThanOrEqualTo(4.5),
+                $"insufficient resting text contrast in {theme}");
+            Assert.That(ParseRatio(resting[3]), Is.GreaterThanOrEqualTo(3),
+                $"insufficient action boundary contrast in {theme}");
+
+            await button.FocusAsync();
+            await Page.Keyboard.PressAsync("Shift+Tab");
+            await Page.Keyboard.PressAsync("Tab");
+            await Expect(button).ToBeFocusedAsync();
+            var focused = await ReadPrimaryActionAppearanceAsync(button);
+            Assert.That(focused[6], Is.Not.EqualTo("none"), $"missing focus outline in {theme}");
+
+            await button.HoverAsync();
+            await Page.WaitForTimeoutAsync(220);
+            var hovered = await ReadPrimaryActionAppearanceAsync(button);
+            Assert.That(hovered[0], Is.Not.EqualTo(resting[0]), $"missing hover feedback in {theme}");
+            Assert.That(ParseRatio(hovered[2]), Is.GreaterThanOrEqualTo(4.5),
+                $"insufficient hover text contrast in {theme}");
+
+            var bounds = await button.BoundingBoxAsync();
+            Assert.That(bounds, Is.Not.Null);
+            await Page.Mouse.MoveAsync(bounds!.X + bounds.Width / 2, bounds.Y + bounds.Height / 2);
+            await Page.Mouse.DownAsync();
+            try
+            {
+                await Page.WaitForTimeoutAsync(220);
+                var pressed = await ReadPrimaryActionAppearanceAsync(button);
+                Assert.That(pressed[0], Is.Not.EqualTo(hovered[0]), $"missing pressed feedback in {theme}");
+                Assert.That(ParseRatio(pressed[2]), Is.GreaterThanOrEqualTo(4.5),
+                    $"insufficient pressed text contrast in {theme}");
+            }
+            finally
+            {
+                await Page.Mouse.UpAsync();
+            }
+
+            if (theme == "light")
+            {
+                await Page.Locator("[data-testid='theme-toggle']").ClickAsync();
+            }
+        }
+    }
+
+    [Test]
     public async Task Catalog_DoesNotOverflowAt320PixelsOrTwoHundredPercentZoom()
     {
         await Page.SetViewportSizeAsync(320, 800);
@@ -525,33 +679,257 @@ public sealed class CatalogBrowserTests : PageTest
     }
 
     [Test]
-    public async Task CaptureCatalogDesktopAndMobileReference()
+    public async Task Catalog_MatchesCommittedVisualBaselines()
     {
-        var outputDirectory = Environment.GetEnvironmentVariable("SUI_BASELINE_DIR")
-            ?? Path.Combine(TestContext.CurrentContext.WorkDirectory, "screenshots");
-        Directory.CreateDirectory(outputDirectory);
-
-        await Page.SetViewportSizeAsync(1440, 1000);
-        await Page.ReloadAsync(new PageReloadOptions { WaitUntil = WaitUntilState.NetworkIdle });
-        await Page.ScreenshotAsync(new PageScreenshotOptions
+        if (!string.Equals(BrowserName, "chromium", StringComparison.OrdinalIgnoreCase))
         {
-            Path = Path.Combine(outputDirectory, "catalog-light-desktop.png"),
-            FullPage = true,
-        });
+            Assert.Ignore("Committed visual baselines are intentionally Chromium-only.");
+        }
 
-        await Page.SetViewportSizeAsync(390, 844);
-        await Page.ReloadAsync(new PageReloadOptions { WaitUntil = WaitUntilState.NetworkIdle });
-        await Page.ScreenshotAsync(new PageScreenshotOptions
+        var baselineDirectory = Environment.GetEnvironmentVariable("SUI_BASELINE_DIR")
+            ?? Path.Combine(AppContext.BaseDirectory, "baselines", "catalog");
+        var artifactDirectory = Environment.GetEnvironmentVariable("SUI_VISUAL_ARTIFACT_DIR")
+            ?? Path.Combine(TestContext.CurrentContext.WorkDirectory, "visual-artifacts", BrowserName);
+        var updateBaselines = Environment.GetEnvironmentVariable("SUI_UPDATE_BASELINES") == "1";
+        Directory.CreateDirectory(baselineDirectory);
+        Directory.CreateDirectory(artifactDirectory);
+
+        var scenarios = new[]
         {
-            Path = Path.Combine(outputDirectory, "catalog-light-mobile.png"),
-            FullPage = true,
-        });
+            new VisualScenario("catalog-light-desktop.png", 1440, 1000, false),
+            new VisualScenario("catalog-light-mobile.png", 390, 844, false),
+            new VisualScenario("catalog-dark-desktop.png", 1440, 1000, true),
+            new VisualScenario("catalog-dark-mobile.png", 390, 844, true),
+        };
 
-        Assert.That(File.Exists(Path.Combine(outputDirectory, "catalog-light-desktop.png")), Is.True);
-        Assert.That(File.Exists(Path.Combine(outputDirectory, "catalog-light-mobile.png")), Is.True);
+        foreach (var scenario in scenarios)
+        {
+            await Page.SetViewportSizeAsync(scenario.Width, scenario.Height);
+            await Page.GotoAsync(BaseUrl, new PageGotoOptions { WaitUntil = WaitUntilState.NetworkIdle });
+            await Expect(Page.Locator("[data-catalog-ready]")).ToBeVisibleAsync();
+            if (scenario.Dark)
+            {
+                await Page.Locator("[data-testid='theme-toggle']").ClickAsync();
+                await Expect(Page.Locator("[data-catalog-ready]")).ToHaveAttributeAsync("data-theme", "dark");
+            }
+
+            await Page.EvaluateAsync("document.fonts.ready");
+            var actualPath = Path.Combine(artifactDirectory, scenario.FileName);
+            await Page.ScreenshotAsync(new PageScreenshotOptions
+            {
+                Path = actualPath,
+                FullPage = true,
+                Animations = ScreenshotAnimations.Disabled,
+                Caret = ScreenshotCaret.Hide,
+            });
+
+            var baselinePath = Path.Combine(baselineDirectory, scenario.FileName);
+            if (updateBaselines)
+            {
+                File.Copy(actualPath, baselinePath, true);
+                continue;
+            }
+
+            Assert.That(File.Exists(baselinePath), Is.True,
+                $"Missing visual baseline: {baselinePath}. Set SUI_UPDATE_BASELINES=1 for an intentional update.");
+            var comparison = await ComparePngsInBrowserAsync(baselinePath, actualPath);
+            Assert.That(comparison.DimensionsMatch, Is.True,
+                $"Visual dimensions changed for {scenario.FileName}: expected "
+                + $"{comparison.ExpectedWidth}x{comparison.ExpectedHeight}, actual "
+                + $"{comparison.ActualWidth}x{comparison.ActualHeight}. Actual: {actualPath}");
+            Assert.That(comparison.DiffRatio, Is.LessThanOrEqualTo(0.005),
+                $"Visual regression in {scenario.FileName}: {comparison.DifferentPixels:N0}/"
+                + $"{comparison.TotalPixels:N0} pixels ({comparison.DiffRatio:P3}) differ; "
+                + $"changed bounds={comparison.ChangedBounds}. Actual: {actualPath}");
+        }
+    }
+
+    [Test]
+    public async Task Catalog_RemainsOperableInForcedColors()
+    {
+        if (!string.Equals(BrowserName, "chromium", StringComparison.OrdinalIgnoreCase))
+        {
+            Assert.Ignore("Forced-colors contract is exercised once in Chromium.");
+        }
+
+        await using var context = await Browser.NewContextAsync(new BrowserNewContextOptions
+        {
+            ForcedColors = ForcedColors.Active,
+            ViewportSize = new ViewportSize { Width = 1280, Height = 900 },
+        });
+        var page = await context.NewPageAsync();
+        await page.GotoAsync(BaseUrl, new PageGotoOptions { WaitUntil = WaitUntilState.NetworkIdle });
+        await Expect(page.Locator("[data-catalog-ready]")).ToBeVisibleAsync();
+
+        Assert.That(await page.EvaluateAsync<bool>("matchMedia('(forced-colors: active)').matches"), Is.True);
+        foreach (var selector in new[]
+        {
+            ".sui-btn",
+            ".sui-field__input",
+            ".sui-select__trigger",
+            ".sui-tab",
+            ".sui-alert",
+        })
+        {
+            await Expect(page.Locator(selector).First).ToBeVisibleAsync();
+        }
+
+        var themeToggle = page.Locator("[data-testid='theme-toggle']");
+        await themeToggle.FocusAsync();
+        var focus = await themeToggle.EvaluateAsync<string[]>(
+            "element => { const style = getComputedStyle(element); return [style.outlineStyle, style.outlineWidth]; }");
+        Assert.That(focus[0], Is.Not.EqualTo("none"));
+        Assert.That(focus[1], Is.Not.EqualTo("0px"));
     }
 
     private async Task<bool> HasHorizontalOverflowAsync()
         => await Page.EvaluateAsync<bool>(
             "document.documentElement.scrollWidth > document.documentElement.clientWidth + 1");
+
+    private static double ParseRatio(string value)
+        => double.Parse(value, CultureInfo.InvariantCulture);
+
+    private static async Task<string[]> ReadPrimaryActionAppearanceAsync(ILocator button)
+        => await button.EvaluateAsync<string[]>(
+            """
+            element => {
+                const canvas = document.createElement('canvas');
+                canvas.width = canvas.height = 1;
+                const context = canvas.getContext('2d', { willReadFrequently: true });
+                const rgb = value => {
+                    context.clearRect(0, 0, 1, 1);
+                    context.fillStyle = '#000';
+                    context.fillStyle = value;
+                    context.fillRect(0, 0, 1, 1);
+                    return [...context.getImageData(0, 0, 1, 1).data.slice(0, 3)];
+                };
+                const luminance = color => {
+                    const channels = color.map(value => value / 255)
+                        .map(value => value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4);
+                    return .2126 * channels[0] + .7152 * channels[1] + .0722 * channels[2];
+                };
+                const contrast = (left, right) => {
+                    const values = [luminance(left), luminance(right)].sort((a, b) => b - a);
+                    return ((values[0] + .05) / (values[1] + .05)).toFixed(3);
+                };
+                const style = getComputedStyle(element);
+                const rootStyle = getComputedStyle(document.documentElement);
+                const background = rgb(style.backgroundColor);
+                const foreground = rgb(style.color);
+                const border = rgb(style.borderTopColor);
+                const canvasBackground = rgb(getComputedStyle(document.body).backgroundColor);
+                return [
+                    background.join(','),
+                    foreground.join(','),
+                    contrast(background, foreground),
+                    contrast(border, canvasBackground),
+                    rootStyle.getPropertyValue('--sui-color-primary-action').trim(),
+                    rootStyle.getPropertyValue('--sui-color-primary').trim(),
+                    style.outlineStyle,
+                ];
+            }
+            """);
+
+    private async Task<VisualComparison> ComparePngsInBrowserAsync(string expectedPath, string actualPath)
+    {
+        var reportJson = await Page.EvaluateAsync<string>(
+            """
+            async images => {
+                const load = source => new Promise((resolve, reject) => {
+                    const image = new Image();
+                    image.onload = () => resolve(image);
+                    image.onerror = reject;
+                    image.src = `data:image/png;base64,${source}`;
+                });
+                const expected = await load(images.expected);
+                const actual = await load(images.actual);
+                if (expected.width !== actual.width || expected.height !== actual.height) {
+                    return JSON.stringify({
+                        dimensionsMatch: false,
+                        expectedWidth: expected.width,
+                        expectedHeight: expected.height,
+                        actualWidth: actual.width,
+                        actualHeight: actual.height,
+                        differentPixels: 0,
+                        totalPixels: Math.max(expected.width * expected.height, actual.width * actual.height),
+                        diffRatio: 1,
+                        changedBounds: 'dimensions',
+                    });
+                }
+
+                const canvas = document.createElement('canvas');
+                canvas.width = expected.width;
+                canvas.height = expected.height;
+                const context = canvas.getContext('2d', { willReadFrequently: true });
+                context.drawImage(expected, 0, 0);
+                const expectedPixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.drawImage(actual, 0, 0);
+                const actualPixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+                let differentPixels = 0;
+                let minX = canvas.width;
+                let minY = canvas.height;
+                let maxX = -1;
+                let maxY = -1;
+                for (let offset = 0; offset < expectedPixels.length; offset += 4) {
+                    const delta = Math.max(
+                        Math.abs(expectedPixels[offset] - actualPixels[offset]),
+                        Math.abs(expectedPixels[offset + 1] - actualPixels[offset + 1]),
+                        Math.abs(expectedPixels[offset + 2] - actualPixels[offset + 2]),
+                        Math.abs(expectedPixels[offset + 3] - actualPixels[offset + 3]));
+                    if (delta <= 24) continue;
+                    differentPixels++;
+                    const pixel = offset / 4;
+                    const x = pixel % canvas.width;
+                    const y = Math.floor(pixel / canvas.width);
+                    minX = Math.min(minX, x);
+                    minY = Math.min(minY, y);
+                    maxX = Math.max(maxX, x);
+                    maxY = Math.max(maxY, y);
+                }
+                const totalPixels = canvas.width * canvas.height;
+                return JSON.stringify({
+                    dimensionsMatch: true,
+                    expectedWidth: expected.width,
+                    expectedHeight: expected.height,
+                    actualWidth: actual.width,
+                    actualHeight: actual.height,
+                    differentPixels,
+                    totalPixels,
+                    diffRatio: differentPixels / totalPixels,
+                    changedBounds: differentPixels === 0 ? 'none' : `${minX},${minY}-${maxX},${maxY}`,
+                });
+            }
+            """,
+            new
+            {
+                expected = Convert.ToBase64String(await File.ReadAllBytesAsync(expectedPath)),
+                actual = Convert.ToBase64String(await File.ReadAllBytesAsync(actualPath)),
+            });
+        using var report = JsonDocument.Parse(reportJson);
+        var root = report.RootElement;
+        return new VisualComparison(
+            root.GetProperty("dimensionsMatch").GetBoolean(),
+            root.GetProperty("expectedWidth").GetInt32(),
+            root.GetProperty("expectedHeight").GetInt32(),
+            root.GetProperty("actualWidth").GetInt32(),
+            root.GetProperty("actualHeight").GetInt32(),
+            root.GetProperty("differentPixels").GetInt32(),
+            root.GetProperty("totalPixels").GetInt32(),
+            root.GetProperty("diffRatio").GetDouble(),
+            root.GetProperty("changedBounds").GetString() ?? "unknown");
+    }
+
+    private sealed record VisualScenario(string FileName, int Width, int Height, bool Dark);
+
+    private sealed record VisualComparison(
+        bool DimensionsMatch,
+        int ExpectedWidth,
+        int ExpectedHeight,
+        int ActualWidth,
+        int ActualHeight,
+        int DifferentPixels,
+        int TotalPixels,
+        double DiffRatio,
+        string ChangedBounds);
 }

@@ -55,7 +55,7 @@
     {
         get
         {
-            // "error" (MudBlazor) and "danger" both map to the danger style.
+            // "error" and "danger" both map to the danger style.
 #pragma warning disable CS0618
             var legacyTone = Severity.Equals("error", StringComparison.OrdinalIgnoreCase)
                 ? "danger" : Severity.ToLowerInvariant();

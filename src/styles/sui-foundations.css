@@ -1,5 +1,5 @@
 /*
- * Sufficit UI — component stylesheet.
+ * Sufficit UI — authoring source for foundations and shared primitives.
  *
  * Design tokens live on :root (light) and [data-sui-theme="dark"] (dark).
  * Every component class is namespaced .sui-* so the library never collides
@@ -15,6 +15,8 @@
   /* color ramp */
   --sui-color-primary:        var(--sufficit-amber, #ee6321);
   --sui-color-primary-contrast:#111827;
+  --sui-color-primary-action: #b7440e;
+  --sui-color-primary-action-contrast:#fff7ed;
   --sui-color-primary-soft:   color-mix(in srgb, var(--sui-color-primary) 14%, transparent);
   --sui-color-secondary:      #64748b;
   --sui-color-secondary-contrast:#fff;
@@ -200,6 +202,8 @@
   --_btn-px: var(--sui-control-px-md);
   --_btn-color: var(--sui-color-primary);
   --_btn-contrast: var(--sui-color-primary-contrast);
+  --_btn-action: var(--_btn-color);
+  --_btn-action-contrast: var(--_btn-contrast);
 
   position: relative;
   display: inline-flex;
@@ -241,7 +245,12 @@
 
 /* color modifiers */
 .sui-btn--color-default   { --_btn-color: var(--sui-text-primary); }
-.sui-btn--color-primary   { --_btn-color: var(--sui-color-primary); --_btn-contrast: var(--sui-color-primary-contrast); }
+.sui-btn--color-primary   {
+  --_btn-color: var(--sui-color-primary);
+  --_btn-contrast: var(--sui-color-primary-contrast);
+  --_btn-action: var(--sui-color-primary-action, var(--sui-color-primary));
+  --_btn-action-contrast: var(--sui-color-primary-action-contrast, var(--sui-color-primary-contrast));
+}
 .sui-btn--color-secondary { --_btn-color: var(--sui-color-secondary); --_btn-contrast: var(--sui-color-secondary-contrast); }
 .sui-btn--color-info      { --_btn-color: var(--sui-color-info); }
 .sui-btn--color-success   { --_btn-color: var(--sui-color-success); }
@@ -251,12 +260,16 @@
 
 /* variants */
 .sui-btn--filled {
-  background: var(--_btn-color);
-  color: var(--_btn-contrast);
+  background: var(--_btn-action);
+  color: var(--_btn-action-contrast);
   border-color: var(--_btn-color);
 }
-.sui-btn--filled:not(:disabled):hover { filter: brightness(.95); }
-.sui-btn--filled:not(:disabled):active{ filter: brightness(.9); }
+.sui-btn--filled:not(:disabled):hover {
+  background: color-mix(in srgb, var(--_btn-action) 90%, black);
+}
+.sui-btn--filled:not(:disabled):active {
+  background: color-mix(in srgb, var(--_btn-action) 82%, black);
+}
 
 .sui-btn--outlined {
   background: transparent;
@@ -380,4 +393,23 @@
   .sui-field__input {
     transition: none;
   }
+}
+
+/* Windows High Contrast / forced-colors must keep boundaries and keyboard
+ * ownership visible even when authored fills and shadows are replaced. */
+@media (forced-colors: active) {
+  :is(.sui-btn, .sui-icon-btn, .sui-field__input, .sui-select__trigger,
+      .sui-tab, .sui-switch__track, .sui-alert, .sui-chip,
+      .sui-status-badge) {
+    border: 1px solid CanvasText;
+  }
+
+  :is(.sui-btn, .sui-icon-btn, .sui-field__input, .sui-select__trigger,
+      .sui-tab, .sui-switch):focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  .sui-switch__thumb { background: CanvasText; }
+  .sui-switch[aria-checked="true"] .sui-switch__track { background: Highlight; }
 }

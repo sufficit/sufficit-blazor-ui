@@ -20,13 +20,36 @@ concluído é arquivado em `activities/` com prefixo de timestamp
 
 ## Planos ativos (trabalho pendente)
 
+- [Sufficit.Blazor.UI v2](PLAN-SUI-V2.md) — remoção das pontes obsoletas,
+  adapters `InputBase<T>`, net10-only e gates dos consumers
 - [Adoção dos componentes `SUI*`](PLAN-CONSUMER-MIGRATION.md) —
-  implementado em `sufficit-blazor`, `sufficit-ai-genius`,
-  `Sufficit.Identity.UI.Management`, `sufficit-cloud-mobile` e
-  `Sufficit.Identity.UI.Vault`; pendente apenas em `Sufficit.Identity.UI`
+  adoção básica concluída nos consumers; permanecem verificações visuais,
+  runtime WASM e navegação Management explicitamente listadas no plano
+
+## Runbooks
+
+- [Release do pacote SUI](RUNBOOK-RELEASE.md) — tag SemVer, gates, publicação,
+  verificação e recuperação
+
+## Arquitetura
+
+- [Versionamento, compatibilidade e TFMs](ARCHITECTURE-VERSIONING-AND-TFM.md) —
+  SemVer, garantias da v1, política de retirada de framework e API baseline
 
 ## Trabalho concluído (activities/)
 
+- [Polimento da cor de ações primárias](activities/202608141506-completed-primary-action-color-polish.md) —
+  acento âmbar separado da superfície ember, texto branco quente e contratos
+  de contraste/estados nos dois temas
+- [Alinhamento e ritmo do catálogo](activities/202608141448-completed-catalog-alignment-polish.md) —
+  `SUIChoiceCard` sem tracks vazios, radios alinhados, headings com ritmo
+  consistente e contratos geométricos desktop/mobile
+- [Próxima etapa de engenharia da SUI](activities/202608141432-completed-sui-next-stage.md) —
+  release determinístico, `SUIFormGrid`, regressão visual multi-browser,
+  pacote executável, bundle CSS, skill desacoplada e último consumer validados
+- [Independência de terceiros e hardening de testes](activities/202608141603-completed-frontend-test-hardening.md) —
+  tokens CSS de terceiros removidos, guardas de convenção/tamanho/estilo,
+  a11y ampliada, budgets de runtime e gate Lighthouse no CI
 - [Arquitetura e hardening da biblioteca SUI](activities/202608141316-completed-sui-architecture-hardening.md) —
   famílias de componentes, CSS híbrido, módulos colocalizados, acessibilidade,
   catálogo, pacote multialvo e rollout nos consumidores concluídos

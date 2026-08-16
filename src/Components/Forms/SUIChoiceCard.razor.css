@@ -11,11 +11,11 @@
 
   position: relative;
   display: grid;
-  grid-template-columns: 40px minmax(0, 1fr) 20px;
+  grid-template-columns: minmax(0, 1fr);
   min-height: 72px;
   align-items: center;
-  gap: 13px;
-  padding: 13px 15px;
+  gap: var(--sui-space-3);
+  padding: var(--sui-space-3) var(--sui-space-4);
   border: 1px solid var(--_choice-border);
   border-radius: 12px;
   color: var(--_choice-text);
@@ -25,6 +25,22 @@
   transition: border-color var(--sui-transition), background-color var(--sui-transition),
               box-shadow var(--sui-transition), opacity var(--sui-transition);
   -webkit-tap-highlight-color: transparent;
+}
+
+.sui-choice-card--has-leading {
+  grid-template-columns: 40px minmax(0, 1fr);
+}
+
+.sui-choice-card--has-trailing {
+  grid-template-columns: minmax(0, 1fr) 20px;
+}
+
+.sui-choice-card--has-leading.sui-choice-card--has-trailing {
+  grid-template-columns: 40px minmax(0, 1fr) 20px;
+}
+
+.sui-choice-card--has-description {
+  align-items: start;
 }
 
 .sui-choice-card:hover:not(.is-disabled) {
@@ -103,22 +119,18 @@
 }
 
 .sui-choice-card__title {
-  overflow: hidden;
   font-size: .91rem;
   font-weight: 700;
   line-height: 1.3;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 .sui-choice-card__description {
   margin-top: 2px;
-  overflow: hidden;
   color: var(--_choice-muted);
   font-size: .74rem;
   line-height: 1.45;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 .sui-choice-card__trailing {

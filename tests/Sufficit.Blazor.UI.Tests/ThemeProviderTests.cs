@@ -17,7 +17,24 @@ public sealed class ThemeProviderTests
 
         Assert.StartsWith(":root{", css, StringComparison.Ordinal);
         Assert.Contains("--sui-color-primary:#fb923c;", css, StringComparison.Ordinal);
+        Assert.Contains("--sui-color-primary-action:#fb923c;", css, StringComparison.Ordinal);
+        Assert.Contains("--sui-color-primary-action-contrast:#111827;", css, StringComparison.Ordinal);
         Assert.Contains("color-scheme:dark;}", css, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void ExplicitPrimaryAction_SeparatesFilledControlsFromAccentTreatments()
+    {
+        using var context = new BunitContext();
+        var cut = context.Render<SUIThemeProvider>(parameters => parameters
+            .Add(component => component.Theme, ExplicitActionTheme.Instance));
+
+        var css = cut.Find("style").TextContent;
+
+        Assert.Contains("--sui-color-primary:#fb923c;", css, StringComparison.Ordinal);
+        Assert.Contains("--sui-color-primary-contrast:#111827;", css, StringComparison.Ordinal);
+        Assert.Contains("--sui-color-primary-action:#b7440e;", css, StringComparison.Ordinal);
+        Assert.Contains("--sui-color-primary-action-contrast:#fff7ed;", css, StringComparison.Ordinal);
     }
 
     [Fact]
@@ -47,5 +64,22 @@ public sealed class ThemeProviderTests
         public Sufficit.Blazor.UI.Themes.SUILayout Layout { get; }
             = Sufficit.Blazor.UI.Themes.SUILayout.Default;
         public bool IsDark { get; } = dark;
+    }
+
+    private sealed class ExplicitActionTheme : ISUITheme
+    {
+        public static ExplicitActionTheme Instance { get; } = new();
+
+        public SUIPalette Palette { get; } = SUIPalette.Default with
+        {
+            Primary = "#fb923c",
+            PrimaryContrast = "#111827",
+            PrimaryAction = "#b7440e",
+            PrimaryActionContrast = "#fff7ed",
+        };
+        public SUITypography Typography { get; } = SUITypography.Default;
+        public Sufficit.Blazor.UI.Themes.SUILayout Layout { get; }
+            = Sufficit.Blazor.UI.Themes.SUILayout.Default;
+        public bool IsDark => true;
     }
 }

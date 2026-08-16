@@ -34,8 +34,7 @@ else
 }
 
 @code {
-    // The SUI button mirrors the MudBlazor-derived original: it manages its own
-    // loading state during click handling. ComponentBase is the only base class.
+    // The SUI button manages its own loading state during click handling. ComponentBase is the only base class.
 
     protected bool IsLoading;
     private ElementReference _elementReference;
@@ -108,7 +107,7 @@ else
     {
         if (!string.IsNullOrWhiteSpace(Rel))
             return Rel;
-        // Mirror MudBlazor: external/new-tab anchors get noopener by default.
+        // External/new-tab anchors get noopener by default.
         if (!string.IsNullOrWhiteSpace(Target) && Target != "_self")
             return "noopener noreferrer";
         return string.Empty;

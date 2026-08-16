@@ -25,7 +25,17 @@ Carregue ao construir ou revisar formulários com campos lado a lado.
 
 ## Correção estrutural preferida
 
-Corrija o contexto da linha, não cada campo com offsets. Exemplo para SUI:
+Corrija o contexto da linha, não cada campo com offsets. Para fields SUI, use a
+primitive pública — ela já aplica este contrato e instrumenta o gate:
+
+```razor
+<SUIFormGrid Columns="2" LabelLines="2">
+  <SUITextField T="string" Label="Nome" @bind-Value="Model.Name" />
+  <SUISelect T="string" Label="Região" @bind-Value="Model.Region">...</SUISelect>
+</SUIFormGrid>
+```
+
+Em layouts mistos, legados ou fora de uma RCL SUI, reproduza a estrutura:
 
 ```css
 .form-grid {
@@ -59,7 +69,8 @@ essas correções quebram com tradução, zoom, helper e erro.
 
 ## Instrumentação
 
-Marque cada container cujos filhos diretos formam uma linha de campos:
+Marque cada container cujos filhos diretos formam uma linha de campos. O
+`SUIFormGrid` já emite essa marca; não a duplique:
 
 ```html
 <div class="form-grid" data-sui-align-row>

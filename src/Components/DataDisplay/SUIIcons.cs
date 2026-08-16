@@ -4,8 +4,7 @@ namespace Sufficit.Blazor.UI.Components;
 /// Inline SVG path markup (the inner content of an <c>&lt;svg&gt;</c>)
 /// for the icons used as defaults by the SUI components. Each constant is a
 /// ready-to-render <c>&lt;path&gt;</c> (or set of paths) drawn on a 24x24
-/// viewBox with <c>fill="currentColor"</c>. Replaces the MudBlazor
-/// <c>Icons.Material.Filled.*</c> constants.
+/// viewBox with <c>fill="currentColor"</c>.
 /// </summary>
 public static class SUIIcons
 {

@@ -1,0 +1,30 @@
+.sui-form-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--sui-form-grid-columns, 2), minmax(0, 1fr));
+  align-items: start;
+  gap: var(--sui-form-grid-gap, var(--sui-space-4));
+  min-inline-size: 0;
+}
+
+.sui-form-grid ::deep > * {
+  min-inline-size: 0;
+  align-self: start;
+}
+
+.sui-form-grid ::deep > :is(.sui-field, [data-sui-align-field]) {
+  margin-block: 0;
+}
+
+.sui-form-grid:not(.sui-form-grid--single) ::deep :is(.sui-field__label, [data-sui-field-label]) {
+  min-block-size: calc(var(--sui-form-grid-label-lines, 2) * 1.2em);
+}
+
+@media (max-width: 44rem) {
+  .sui-form-grid--stack-mobile {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sui-form-grid--stack-mobile ::deep :is(.sui-field__label, [data-sui-field-label]) {
+    min-block-size: auto;
+  }
+}

@@ -21,5 +21,5 @@ ambos são fornecidos. `SUISelectItem.Value` permanece `object` de propósito: o
 item Razor é não genérico e registra seu valor no `SUISelect<T>` pai, que faz a
 comparação no tipo `T`.
 
-Adapters para MudBlazor não entram nos componentes-base; se ainda necessários,
-devem ficar num pacote/camada legada separado.
+Adapters para bibliotecas visuais de terceiros não entram nos componentes-base;
+se ainda necessários, devem ficar num pacote/camada legada separado.

@@ -1,0 +1,4 @@
+/*! Sufficit UI public entrypoint. Generated from modular sources; do not edit the output directly. */
+@import "./sui-foundations.css";
+@import "./sui-portals.css";
+@import "./sui-components.css";

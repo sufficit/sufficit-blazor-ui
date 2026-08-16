@@ -5,8 +5,8 @@
     <Configurations>Debug;Release;Packing</Configurations>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <!-- Namespace matches the assembly. The project is self-contained:
-         no MudBlazor source or package is referenced. -->
+    <!-- Namespace matches the assembly. The project is self-contained: it has
+         no third-party UI framework source or package reference. -->
     <RootNamespace>Sufficit.Blazor.UI</RootNamespace>
     <AssemblyName>Sufficit.Blazor.UI</AssemblyName>
     <!-- The namespace deliberately differs from the legacy Sufficit.Blazor
@@ -15,11 +15,15 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Sufficit Versioning">
-    <VersionSuffix Condition=" '$(Configuration)' != 'Debug' ">1.$([System.DateTime]::UtcNow.ToString(yy)).$([System.DateTime]::UtcNow.ToString(MMdd)).$([System.DateTime]::UtcNow.ToString(HHmm))</VersionSuffix>
-    <AssemblyVersion Condition=" '$(VersionSuffix)' == '' ">1.99.0.0</AssemblyVersion>
-    <AssemblyVersion Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</AssemblyVersion>
-    <Version Condition=" '$(VersionSuffix)' == '' ">1.99.0.0</Version>
-    <Version Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</Version>
+    <!-- Local builds are intentionally non-publishable. Release automation
+         overrides Version from a validated vMAJOR.MINOR.PATCH tag. -->
+    <VersionPrefix>0.0.0</VersionPrefix>
+    <VersionSuffix>local</VersionSuffix>
+    <!-- Keep assembly identity stable throughout v1. Package SemVer carries
+         feature and patch releases without forcing binding changes. -->
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
 
   <PropertyGroup Label="Sufficit Product General">
@@ -32,7 +36,7 @@
   <PropertyGroup Label="Sufficit Pacote NUGET">
     <Name>Sufficit.Blazor.UI</Name>
     <PackageId>Sufficit.Blazor.UI</PackageId>
-    <PackageDescription>Sufficit Blazor UI component library (SUI) — autonomous components, theme contract, no MudBlazor dependency.</PackageDescription>
+    <PackageDescription>Sufficit Blazor UI component library (SUI) — autonomous components, theme contract, no third-party UI framework dependency.</PackageDescription>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/sufficit/sufficit-blazor-ui</RepositoryUrl>
     <PackageProjectUrl>https://github.com/sufficit/sufficit-blazor-ui</PackageProjectUrl>

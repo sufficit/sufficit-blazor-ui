@@ -1,10 +1,21 @@
 version: 2
 
 # Keeps the ASP.NET Core / Blazor package references and the pinned GitHub
-# Actions current. The library no longer references MudBlazor (it was removed
-# alongside the vendored source tree); only Microsoft.AspNetCore.Components.*
-# remains for the Razor SDK.
+# Actions current. The library has no third-party UI framework dependency;
+# only Microsoft.AspNetCore.Components.* remains for the Razor SDK.
 updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: America/Sao_Paulo
+    open-pull-requests-limit: 3
+    labels: [dependencies, frontend]
+    commit-message:
+      prefix: "chore(css)"
+
   - package-ecosystem: nuget
     directory: "/src"
     schedule:

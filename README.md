@@ -2,7 +2,7 @@
 
 Razor Class Library dos componentes **Sufficit User Interface (SUI)**. A
 biblioteca usa Blazor puro, HTML, CSS e módulos JavaScript ES; não depende de
-MudBlazor nem contém código-fonte vendorizado de outra biblioteca visual.
+nenhuma biblioteca visual de terceiros nem contém código-fonte vendorizado.
 
 ## Compatibilidade e distribuição
 
@@ -12,11 +12,24 @@ MudBlazor nem contém código-fonte vendorizado de outra biblioteca visual.
 - Namespace dos componentes: `Sufficit.Blazor.UI.Components`.
 - Namespace de temas: `Sufficit.Blazor.UI.Themes`.
 
+A série v1 mantém os dois TFMs. A v2 está planejada como net10-only, não antes
+do fim de suporte do .NET 9 em 2026-11-10 e condicionada à validação de todos os
+consumers conhecidos. Veja a
+[política de versionamento e TFMs](docs/ARCHITECTURE-VERSIONING-AND-TFM.md) e o
+[plano da v2](docs/PLAN-SUI-V2.md).
+
 O CI compila ambos os frameworks com warnings tratados como erros, gera o
-`.nupkg`, inspeciona seus assets e instala o pacote em consumidores Razor
-mínimos `net9.0` e `net10.0`. As dependências ASP.NET Core usam versões de
+`.nupkg`, inspeciona seus assets e instala o pacote em RCLs e Blazor Web Apps
+temporárias `net9.0` e `net10.0`. As apps são iniciadas na raiz e sob
+`PathBase`, validando markup SSR, CSS global/isolation e módulos. As dependências ASP.NET Core usam versões de
 servicing exatas; o Dependabot mantém a atualização semanal, evitando que dois
 restores do mesmo commit escolham versões diferentes.
+
+Builds locais usam a versão não publicável `0.0.0-local`. Uma release nasce
+somente de tag `vMAJOR.MINOR.PATCH[-prerelease]`; o pacote só é enviado ao
+NuGet.org depois dos gates multialvo, bUnit, Playwright/axe e validação do
+artefato exato. Veja o [runbook de release](docs/RUNBOOK-RELEASE.md) e o
+[changelog](CHANGELOG.md).
 
 Uma varredura local encontra referências à biblioteca em 11 projetos de
 aplicação/biblioteca e em um projeto de testes. Dez caminhos de produção já
@@ -42,7 +55,8 @@ isolation gerado para a aplicação consumidora:
 <link href="MinhaAplicacao.styles.css" rel="stylesheet" />
 ```
 
-Substitua `MinhaAplicacao` pelo assembly do projeto host. O primeiro arquivo
+Substitua `MinhaAplicacao` pelo assembly do projeto host. O primeiro arquivo é
+gerado e minificado a partir de fontes modulares; sem `@import` em runtime, ele
 carrega tokens, primitives compartilhadas, portais e as regras globais ainda
 em migração; o segundo reúne os `.razor.css` da aplicação e das RCLs
 referenciadas. Carregar apenas um deles deixa parte dos componentes sem estilo.
@@ -52,6 +66,23 @@ migração dos consumidores.
 Não inclua scripts SUI manualmente. Cada componente com interop importa seu
 módulo JavaScript colocalizado de forma assíncrona e remove listeners no
 descarte.
+
+### Desenvolvimento do CSS
+
+Os fontes autorais ficam em `src/styles`: foundations, portals, regras globais
+de compatibilidade e o entrypoint de build. Depois de alterá-los, execute:
+
+```bash
+npm ci
+npm run build:css
+npm run check:css
+```
+
+O primeiro comando instala a versão travada do Lightning CSS; o segundo gera o
+único asset público `src/wwwroot/sufficit-ui.css`; o terceiro confirma que o
+artefato está atualizado e dentro dos budgets bruto, gzip e Brotli. O output é
+minificado, portanto diagnósticos devem ser rastreados aos arquivos autorais,
+não editados diretamente no arquivo gerado.
 
 Registre os serviços no `Program.cs`:
 
@@ -100,10 +131,16 @@ claro azul.
 Exemplos de tokens:
 
 - cores: `--sui-color-primary`, `--sui-color-primary-contrast`,
+  `--sui-color-primary-action`, `--sui-color-primary-action-contrast`,
   `--sui-surface`, `--sui-text-primary`, `--sui-border`;
 - tipografia: `--sui-font`, `--sui-fs-body`, `--sui-lh-body`;
 - layout: `--sui-space-*`, `--sui-radius-*`, `--sui-shadow-*` e
   `--sui-control-h-*`.
+
+Na `SUIPalette`, `Primary` continua sendo o acento de marca. Os campos
+opcionais `PrimaryAction`/`PrimaryActionContrast` permitem uma superfície
+própria para botões primários preenchidos; quando omitidos, o provider recua
+para `Primary`/`PrimaryContrast` e preserva temas existentes.
 
 ## Catálogo de componentes
 
@@ -116,7 +153,7 @@ Todos os componentes públicos usam o prefixo `SUI`.
 | Família | Componentes |
 | --- | --- |
 | Ações | `SUIButton`, `SUIIconButton`, `SUILoadingButton`, `SUILink` |
-| Formulários | `SUIAutocomplete`, `SUIChoiceCard<TValue>`, `SUINumericField`, `SUISelect<T>`, `SUISelectItem`, `SUISwitch`, `SUISwitchButton`, `SUITextField` |
+| Formulários | `SUIAutocomplete`, `SUIChoiceCard<TValue>`, `SUIFormGrid`, `SUINumericField`, `SUISelect<T>`, `SUISelectItem`, `SUISwitch`, `SUISwitchButton`, `SUITextField` |
 | Layout | `SUIAppBar`, `SUICard`, `SUIContainer`, `SUIDivider`, `SUIDrawer`, `SUIGrid`, `SUILayout`, `SUIPageHeader`, `SUISpacer`, `SUIStack` |
 | Navegação | `SUIItem`, `SUIList`, `SUIListItem`, `SUINavGroup`, `SUINavLink`, `SUITabPanel`, `SUITabs` |
 | Exibição de dados | `SUIChip`, `SUIIcon`, `SUIStatusBadge`, `SUITable`, `SUITableEmpty`, `SUITd`, `SUIText`, `SUITh`, `SUITimeline`, `SUITimelineItem` |
@@ -182,6 +219,33 @@ sistema operacional forem requisitos.
     <SUIIconButton Icon="@Icons.Storage" AriaLabel="Armazenamento" />
 </SUITooltip>
 ```
+
+## Testes
+
+A suíte é dividida em três camadas. Todas rodam no CI e falham o build.
+
+| Camada | Projeto/gate | Cobre |
+| --- | --- | --- |
+| Contrato de código | `tests/Sufficit.Blazor.UI.Tests` | bUnit (render, lifecycle, forward de atributos, acessibilidade de formulário), compatibilidade de API pública, convenções de nome e namespace, tamanho de arquivo, contrato de CSS, budgets de bytes e guarda anti-biblioteca-de-terceiros |
+| Navegador | `tests/Sufficit.Blazor.UI.BrowserTests` | Playwright + axe em chromium/firefox/webkit: WCAG 2.2 AA em desktop/mobile e light/dark, teclado, foco visível, focus trap, forced-colors, RTL, zoom 200%, alvos de 44px, baselines visuais, budgets de runtime (requests, DOM, bytes, LCP, CLS) |
+| Página completa | job `lighthouse` | `eng/lighthouse-budget.json` + `scripts/check-lighthouse.mjs`: categorias performance/accessibility/best-practices/SEO e métricas FCP, LCP, TBT, CLS, Speed Index |
+
+```bash
+dotnet test tests/Sufficit.Blazor.UI.Tests/Sufficit.Blazor.UI.Tests.csproj
+
+# o catálogo precisa estar no ar para as camadas 2 e 3
+dotnet run --project samples/Sufficit.Blazor.UI.Catalog/Sufficit.Blazor.UI.Catalog.csproj \
+  -c Release --urls http://127.0.0.1:5180 &
+BROWSER=chromium dotnet test tests/Sufficit.Blazor.UI.BrowserTests/Sufficit.Blazor.UI.BrowserTests.csproj
+npx --yes lighthouse@12 http://127.0.0.1:5180 --preset=desktop --output=json \
+  --output-path=artifacts/lighthouse/report.json --budget-path=eng/lighthouse-budget.json
+node scripts/check-lighthouse.mjs artifacts/lighthouse/report.json
+```
+
+Budgets são teto, não meta móvel: quando um arquivo ou payload estoura, a
+correção é dividir ou reduzir. Os poucos casos herdados ficam congelados em
+listas de débito explícitas (`FileSizeBudgetTests.Debt`,
+`NamingConventionTests.LegacyParameterNames`) que só podem encolher.
 
 ## Engenharia e documentação
 
