@@ -38,6 +38,7 @@
                 <SUIButton Disabled>Indisponível</SUIButton>
                 <SUILoadingButton IsLoading>Salvando</SUILoadingButton>
                 <SUIIconButton Icon="@SUIIcons.Restart" Title="Atualizar" EdgeValue="SUIEdge.True" />
+                <SUICopyToClipboard Text="exemplo-de-token" Title="Token" />
                 <SUILink Href="#forms">Ir para formulários</SUILink>
             </SUIStack>
         </section>
@@ -98,6 +99,26 @@
                         <SUINavLink Title="Preferências" Href="#navigation" Icon="@SUIIcons.Admin" />
                         <SUINavLink Title="Auditoria" Href="#data" Icon="@SUIIcons.DataUsage" />
                     </SUINavGroup>
+                </div>
+                <div class="catalog__nav-tree">
+                    <SUITextField T="string" Label="Filtrar seções" @bind-Value="NavFilter" @bind-Value:event="oninput" />
+                    <SUIFilterScope FilterText="@NavFilter">
+                        <SUIFilterTree Group Tags="@(new[] { "Operações" })">
+                            <SUIText Typo="SUITypo.subtitle2">Operações</SUIText>
+                            <SUIFilterTree Tags="@(new[] { "Telefonia", "voz" })">
+                                <SUIListItem>Telefonia</SUIListItem>
+                            </SUIFilterTree>
+                            <SUIFilterTree Tags="@(new[] { "Provisionamento", "dispositivos" })">
+                                <SUIListItem>Provisionamento</SUIListItem>
+                            </SUIFilterTree>
+                        </SUIFilterTree>
+                        <SUIFilterTree Group Tags="@(new[] { "Financeiro" })">
+                            <SUIText Typo="SUITypo.subtitle2">Financeiro</SUIText>
+                            <SUIFilterTree Tags="@(new[] { "Boletos", "cobrança" })">
+                                <SUIListItem>Boletos</SUIListItem>
+                            </SUIFilterTree>
+                        </SUIFilterTree>
+                    </SUIFilterScope>
                 </div>
             </SUIStack>
             <SUITabs AriaLabel="Visões do catálogo">
