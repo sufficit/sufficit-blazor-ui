@@ -1,0 +1,8 @@
+# Revisor padrão de tudo. Faz com que toda pull request peça revisão da conta de
+# triagem (triage@sufficit.com.br), em vez de depender de alguém lembrar de
+# adicioná-la.
+#
+# CODEOWNERS cobre pull requests, não issues: o GitHub não atribui issues
+# automaticamente por este arquivo. Para issues, use o template em
+# ISSUE_TEMPLATE/, que já traz a conta como assignee padrão.
+* @sufficit-triage

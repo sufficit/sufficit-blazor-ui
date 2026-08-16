@@ -1,0 +1,79 @@
+@namespace Sufficit.Blazor.UI.Components
+
+@if (!string.IsNullOrWhiteSpace(Src))
+{
+    <img class="@Classname" src="@Src" alt="@Alt" style="@Style" @attributes="AdditionalAttributes" />
+}
+else
+{
+    @* No image: the visual is decorative, so the accessible name has to come
+       from Alt. Without it the avatar is hidden from assistive tech rather
+       than announced as a meaningless letter. *@
+    <div class="@Classname" style="@Style"
+         role="@(string.IsNullOrWhiteSpace(Alt) ? null : "img")"
+         aria-label="@(string.IsNullOrWhiteSpace(Alt) ? null : Alt)"
+         aria-hidden="@(string.IsNullOrWhiteSpace(Alt) ? "true" : null)"
+         @attributes="AdditionalAttributes">
+        @ChildContent
+    </div>
+}
+
+@code {
+    /// <summary>Image URL. When set, the avatar renders an img element.</summary>
+    [Parameter]
+    public string? Src { get; set; }
+
+    /// <summary>
+    /// Accessible name. For an image avatar this is the alt text; for an
+    /// initials avatar it is what screen readers announce. Leave empty only
+    /// when the avatar is decorative and the name is already in the text.
+    /// </summary>
+    [Parameter]
+    public string? Alt { get; set; }
+
+    /// <summary>"small", "medium" or "large". Default "medium".</summary>
+    [Parameter]
+    public SUISize? SizeValue { get; set; }
+
+    /// <summary>Color: "primary", "success", "warning", "error", "info", "default".</summary>
+    [Parameter]
+    public SUIColor? ColorValue { get; set; }
+
+    /// <summary>Square with rounded corners instead of a circle.</summary>
+    [Parameter]
+    public bool Rounded { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
+
+    /// <summary>
+    /// Size suffix. The stylesheet already used --sm/--md/--lg for the avatars
+    /// rendered inside SUINavGroup and SUINavLink, so this maps onto the
+    /// existing rules rather than introducing a second convention that would
+    /// have to be kept in sync.
+    /// </summary>
+    private string SizeSuffix => (SizeValue ?? SUISize.Medium) switch
+    {
+        SUISize.Small => "sm",
+        SUISize.Large => "lg",
+        _ => "md",
+    };
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-avatar")
+            .AddClass($"sui-avatar--{SizeSuffix}")
+            .AddClass($"sui-color-{SUIClassBuilder.Slug(ColorValue ?? SUIColor.Default)}",
+                ColorValue is not null and not SUIColor.Default)
+            .AddClass("sui-avatar--rounded", Rounded)
+            .AddClass(Class)
+            .Build();
+}

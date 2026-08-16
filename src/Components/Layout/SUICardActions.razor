@@ -1,0 +1,30 @@
+@namespace Sufficit.Blazor.UI.Components
+
+<div class="@Classname" style="@Style" @attributes="Attributes">
+    @ChildContent
+</div>
+
+@code {
+    /// <summary>Forward unmatched attributes to the root element.</summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?>? Attributes { get; set; }
+
+    /// <summary>Align actions to the end of the row instead of the start.</summary>
+    [Parameter]
+    public bool AlignEnd { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-card__actions")
+            .AddClass("sui-card__actions--end", AlignEnd)
+            .AddClass(Class)
+            .Build();
+}

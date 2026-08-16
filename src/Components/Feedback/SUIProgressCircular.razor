@@ -1,0 +1,98 @@
+@namespace Sufficit.Blazor.UI.Components
+@using System.Globalization
+
+@* Built on the .sui-progress-circular rules that SUILoadingButton already
+   renders inline, so both spin identically instead of drifting apart. The
+   determinate mode adds a stroked arc, which the spinner glyph cannot express. *@
+<span class="@Classname"
+      role="progressbar"
+      aria-valuenow="@(Indeterminate ? null : ClampedValue.ToString("0", CultureInfo.InvariantCulture))"
+      aria-valuemin="@(Indeterminate ? null : "0")"
+      aria-valuemax="@(Indeterminate ? null : "100")"
+      aria-label="@AriaLabel"
+      style="@Style"
+      @attributes="AdditionalAttributes">
+    @if (Indeterminate)
+    {
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)SUIIcons.ProgressCircular)</svg>
+    }
+    else
+    {
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-opacity=".2" stroke-width="3" />
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                    stroke-dasharray="@DashArray" stroke-dashoffset="@DashOffset"
+                    transform="rotate(-90 12 12)" />
+        </svg>
+    }
+</span>
+
+@code {
+    /// <summary>Circumference of the r=10 circle used by the determinate arc.</summary>
+    private const double Circumference = 2 * Math.PI * 10;
+
+    /// <summary>Progress 0-100. Ignored when <see cref="Indeterminate"/> is true.</summary>
+    [Parameter]
+    public double Value { get; set; }
+
+    /// <summary>
+    /// Spin continuously instead of showing a measured value. Use this when the
+    /// operation has no known duration — a determinate arc that never moves is
+    /// worse than an honest spinner.
+    /// </summary>
+    [Parameter]
+    public bool Indeterminate { get; set; }
+
+    /// <summary>Color: "primary", "success", "warning", "error", "info".</summary>
+    [Parameter]
+    public SUIColor? ColorValue { get; set; }
+
+    /// <summary>"small", "medium" or "large". Default "medium".</summary>
+    [Parameter]
+    public SUISize? SizeValue { get; set; }
+
+    /// <summary>
+    /// Accessible label. Required when the spinner is the only indication that
+    /// something is happening, otherwise screen readers announce a progressbar
+    /// with no purpose.
+    /// </summary>
+    [Parameter]
+    public string? AriaLabel { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
+
+    /// <summary>
+    /// Size suffix matching the existing --sm/--md/--lg rules rather than
+    /// introducing a second naming convention for the same component.
+    /// </summary>
+    private string SizeSuffix => (SizeValue ?? SUISize.Medium) switch
+    {
+        SUISize.Small => "sm",
+        SUISize.Large => "lg",
+        _ => "md",
+    };
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-progress-circular")
+            .AddClass($"sui-progress-circular--{SizeSuffix}")
+            .AddClass($"sui-color-{SUIClassBuilder.Slug(ColorValue)}", ColorValue is not null)
+            .AddClass("sui-progress-circular--static", !Indeterminate)
+            .AddClass(Class)
+            .Build();
+
+    private double ClampedValue
+        => double.IsFinite(Value) ? Math.Clamp(Value, 0, 100) : 0;
+
+    private static string DashArray
+        => Circumference.ToString("0.##", CultureInfo.InvariantCulture);
+
+    private string DashOffset
+        => (Circumference * (1 - ClampedValue / 100)).ToString("0.##", CultureInfo.InvariantCulture);
+}
