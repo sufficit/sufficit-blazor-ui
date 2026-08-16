@@ -1,7 +1,7 @@
 @namespace Sufficit.Blazor.UI.Components
 
 <li class="@Classname" @attributes="AdditionalAttributes">
-    <span class="sui-timeline__marker sui-timeline__marker--@ToneSlug sui-timeline__marker--@VariantSlug" aria-hidden="true"></span>
+    <span class="sui-timeline__marker sui-timeline__marker--@SizeSlug sui-timeline__marker--@ToneSlug sui-timeline__marker--@VariantSlug" aria-hidden="true"></span>
     <div class="sui-timeline__body">
         @ChildContent
     </div>
@@ -37,9 +37,18 @@
     private string ToneSlug => SUIClassBuilder.Slug(ColorValue ?? Color ?? SUIColor.Primary);
     private string VariantSlug => SUIClassBuilder.Slug(VariantValue ?? Variant ?? SUIVariant.Filled);
 
+    /// <summary>
+    /// Size slug shared by the item and its marker. The marker previously got
+    /// only the tone and variant classes, so a "small" timeline rendered the
+    /// item with small spacing but the marker at the base 24px — and the
+    /// marker's own centring rule (which assumes the base size) left it sitting
+    /// below the text.
+    /// </summary>
+    private string SizeSlug => SUIClassBuilder.Slug(SizeValue ?? Size ?? SUISize.Small);
+
     private string Classname
         => SUIClassBuilder.Default("sui-timeline__item")
-            .AddClass($"sui-timeline__item--{SUIClassBuilder.Slug(SizeValue ?? Size ?? SUISize.Small)}")
+            .AddClass($"sui-timeline__item--{SizeSlug}")
             .AddClass(Class)
             .Build();
 #pragma warning restore CS0618

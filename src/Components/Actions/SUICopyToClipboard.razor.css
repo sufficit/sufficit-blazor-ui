@@ -1,0 +1,12 @@
+/* Transparent click wrapper. inline-flex keeps icon children vertically
+   centred with surrounding text; the full variant stretches for block
+   children such as full-width buttons. */
+.sui-copy-clip {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+.sui-copy-clip--full {
+  display: flex;
+  width: 100%;
+}

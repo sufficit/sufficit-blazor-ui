@@ -319,21 +319,6 @@
 }
 
 /* ------------------------------------------------------------------ *
- * Card / Paper
- * ------------------------------------------------------------------ */
-
-.sui-card {
-  background: var(--sui-surface);
-  border: 1px solid var(--sui-border);
-  border-radius: var(--sui-radius-lg);
-  padding: var(--sui-space-4);
-}
-.sui-card--e0 { box-shadow: none; }
-.sui-card--e1 { box-shadow: var(--sui-shadow-1); }
-.sui-card--e2 { box-shadow: var(--sui-shadow-2); }
-.sui-card--e3 { box-shadow: var(--sui-shadow-3); }
-
-/* ------------------------------------------------------------------ *
  * Form fields (shared .sui-field)
  * ------------------------------------------------------------------ */
 

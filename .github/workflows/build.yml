@@ -2,14 +2,21 @@ name: Build
 
 # Build both supported target frameworks and validate the installable package.
 on:
+  workflow_dispatch:
+    inputs:
+      update-baselines:
+        description: "Recapture the committed visual baselines (chromium only)"
+        type: boolean
+        default: false
   push:
     branches: [main]
     tags: ["v*"]
   pull_request:
-  workflow_dispatch:
 
 permissions:
-  contents: read
+  # write is needed by the baseline-refresh path in browser-tests, which commits
+  # the recaptured screenshots back to the branch. Every other job only reads.
+  contents: write
 
 concurrency:
   group: build-${{ github.ref }}
@@ -145,7 +152,19 @@ jobs:
           dotnet-version: "10.0.x"
 
       - name: Test bUnit contracts
-        run: dotnet test tests/Sufficit.Blazor.UI.Tests/Sufficit.Blazor.UI.Tests.csproj --configuration Release -warnaserror
+        run: |
+          set -o pipefail
+          dotnet test tests/Sufficit.Blazor.UI.Tests/Sufficit.Blazor.UI.Tests.csproj \
+            --configuration Release -warnaserror 2>&1 | tee component-test.log
+
+      - name: Surface failing assertions
+        # Same reason as in browser-tests: test output lands in storage that is
+        # not reachable everywhere, so a red run would otherwise show only an
+        # exit code.
+        if: failure()
+        run: |
+          grep -nE "^\s*(Failed|Error Message|Assert\.|Expected|Actual|at Sufficit)" component-test.log \
+            | head -40 | while IFS= read -r line; do echo "::error::${line}"; done
 
   browser-tests:
     name: Browser and accessibility tests (${{ matrix.browser }})
@@ -182,13 +201,24 @@ jobs:
           SUI_CATALOG_SUBPATH_URL: http://127.0.0.1:5181/app/
           SUI_BASELINE_DIR: ${{ github.workspace }}/docs/baselines/catalog
           SUI_VISUAL_ARTIFACT_DIR: ${{ github.workspace }}/artifacts/visual/${{ matrix.browser }}
+          # Regenerate the committed screenshots instead of comparing against
+          # them. Full-page screenshots take their height from rendered content,
+          # so any layout change makes the stored baselines stale — and there was
+          # no way to refresh them from CI, where they must be captured to match
+          # the runner's fonts and rendering.
+          SUI_UPDATE_BASELINES: ${{ github.event.inputs.update-baselines == 'true' && '1' || '' }}
         run: |
           dotnet run \
             --project samples/Sufficit.Blazor.UI.Catalog/Sufficit.Blazor.UI.Catalog.csproj \
             --configuration Release --no-build \
             --urls "$SUI_CATALOG_URL" >catalog.log 2>&1 &
           catalog_pid=$!
-          PathBase=/app dotnet run \
+          # ASPNETCORE_ prefix required: WebApplication.CreateBuilder only reads
+          # environment variables with that prefix into IConfiguration, and the
+          # catalog resolves the value via Configuration["PathBase"]. A bare
+          # PathBase=/app is silently ignored, so this instance would serve at
+          # the root and every sub-path assertion would fail.
+          ASPNETCORE_PathBase=/app dotnet run \
             --project samples/Sufficit.Blazor.UI.Catalog/Sufficit.Blazor.UI.Catalog.csproj \
             --configuration Release --no-build \
             --urls "http://127.0.0.1:5181" >catalog-subpath.log 2>&1 &
@@ -217,8 +247,87 @@ jobs:
             sleep 1
           done
 
+          set -o pipefail
+          # Playwright.BrowserName is what actually selects the engine. Without
+          # it every matrix leg ran Chromium regardless of the BROWSER env var:
+          # the tests read BROWSER only to decide whether to skip, so the
+          # "webkit" and "firefox" legs still launched Chromium while
+          # BrowserName reported "chromium" — meaning the Chromium-only visual
+          # baseline test did NOT skip there and compared screenshots it was
+          # never meant to run.
           dotnet test tests/Sufficit.Blazor.UI.BrowserTests/Sufficit.Blazor.UI.BrowserTests.csproj \
-            --configuration Release --no-build
+            --configuration Release --no-build \
+            -- Playwright.BrowserName="${{ matrix.browser }}" 2>&1 | tee browser-test.log
+
+      - name: Surface browser test failures
+        # The component-tests job already does this; browser-tests did not, so a
+        # red matrix leg showed only an exit code and the failing assertion was
+        # reachable solely through the raw log in storage. Same treatment here.
+        if: failure()
+        run: |
+          echo "--- failed tests ---"
+          grep -nE "^\s*(Failed|Error Message|Assert\.|Expected|But was|Actual|at Sufficit)" \
+            browser-test.log | head -60 | while IFS= read -r line; do
+            echo "::error::[${BROWSER}] ${line}"
+          done
+          echo "--- catalog startup log (tail) ---"
+          tail -20 catalog.log 2>/dev/null | while IFS= read -r line; do
+            echo "::error::[${BROWSER}] CATALOG ${line}"
+          done
+        env:
+          BROWSER: ${{ matrix.browser }}
+
+      - name: Commit regenerated baselines
+        # Only on an explicit manual run with update-baselines, and only from
+        # chromium, which is the engine the committed screenshots are captured
+        # with (the test ignores itself on the others).
+        if: >
+          github.event_name == 'workflow_dispatch'
+          && github.event.inputs.update-baselines == 'true'
+          && matrix.browser == 'chromium'
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/baselines/catalog
+          if git diff --cached --quiet; then
+            echo "Baselines already current."
+            exit 0
+          fi
+          git commit -m "chore(baselines): recapture catalog visual baselines"
+          git push
+
+      - name: Surface failing assertions
+        # Test artifacts land in storage that is not reachable from every
+        # environment, so a red run could show an exit code and nothing else.
+        # Re-emit the failing assertions as annotations, which are readable
+        # through the API.
+        if: failure()
+        run: |
+          echo "::group::failing tests"
+          # The previous pattern anchored on leading whitespace, which the
+          # runner's NUnit output does not use, so a red run produced no
+          # annotations at all and the failure was undiagnosable from the API.
+          # Match the shapes NUnit actually emits, unanchored.
+          grep -nE "(Failed |error NUnit|Error Message|Stack Trace|Assert\.|Expected:|But was:|Actual:|at Sufficit|Playwright|TimeoutException|axe)" \
+            browser-test.log | head -60 \
+            | while IFS= read -r line; do echo "::error::${line}"; done
+
+          # Always emit the summary line, so even an unrecognised failure shape
+          # reports how many tests failed and which run it was.
+          grep -nE "(Passed!|Failed!|Total tests|test(s)? failed)" browser-test.log \
+            | tail -5 | while IFS= read -r line; do echo "::error::SUMMARY ${line}"; done
+
+          # Last resort: if nothing above matched, the log format changed again
+          # — dump the tail verbatim rather than leaving an exit code alone.
+          if ! grep -qE "(Failed |Error Message|Assert\.|Expected:)" browser-test.log; then
+            echo "::error::No recognised assertion output; dumping tail verbatim"
+            tail -50 browser-test.log | while IFS= read -r l; do echo "::error::RAW ${l}"; done
+          fi
+          echo "::endgroup::"
+          echo "--- catalog logs ---"
+          tail -15 catalog.log 2>/dev/null | while IFS= read -r l; do echo "::error::CATALOG ${l}"; done
+          tail -15 catalog-subpath.log 2>/dev/null | while IFS= read -r l; do echo "::error::SUBPATH ${l}"; done
 
       - name: Preserve browser diagnostics
         if: failure()

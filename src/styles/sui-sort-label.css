@@ -1,0 +1,36 @@
+/*
+ * Sufficit UI — table sort label.
+ * Split out of sui-components.css per the debt list, which asks for that sheet
+ * to be broken up by component instead of grown.
+ */
+
+.sui-sort-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sui-space-1);
+  /* A real button: sorting is an action. */
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.sui-sort-label:focus-visible {
+  outline: 2px solid var(--sui-color-primary);
+  outline-offset: 2px;
+  border-radius: var(--sui-radius-sm);
+}
+.sui-sort-label__icon {
+  /* Reserve the arrow's space so headers do not shift when sorted. */
+  display: inline-flex;
+  width: 1em;
+  height: 1em;
+  opacity: 0;
+  transition: opacity var(--sui-transition), transform var(--sui-transition);
+}
+.sui-sort-label:hover .sui-sort-label__icon { opacity: .5; }
+.sui-sort-label--active .sui-sort-label__icon { opacity: 1; }
+.sui-sort-label--descending .sui-sort-label__icon { transform: rotate(180deg); }

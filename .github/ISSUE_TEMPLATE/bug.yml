@@ -1,0 +1,46 @@
+name: Bug
+description: Comportamento incorreto em um componente, no tema ou no CI.
+labels: [bug]
+assignees: [sufficit-triage]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: O que acontece
+      description: O comportamento observado, e o que era esperado no lugar.
+    validations:
+      required: true
+
+  - type: input
+    id: component
+    attributes:
+      label: Componente
+      placeholder: SUISelect, SUINavGroup, tema escuro, CI...
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Navegador
+      description: >
+        Relevante porque a matriz de testes cobre os três motores e já houve
+        defeito que só aparecia no WebKit.
+      multiple: true
+      options:
+        - Chromium
+        - Firefox
+        - WebKit
+        - Não se aplica
+        - Não verificado
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Como reproduzir
+      description: Passos, ou o teste que falha.
+
+  - type: checkboxes
+    id: a11y
+    attributes:
+      label: Acessibilidade
+      options:
+        - label: Isto afeta contraste, foco, navegação por teclado ou leitores de tela

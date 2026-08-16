@@ -1,0 +1,76 @@
+@namespace Sufficit.Blazor.UI.Components
+
+@* Rendered as a button, not a clickable th: sorting is an action, and without
+   button semantics it is unreachable by keyboard and silent to screen readers.
+   aria-sort belongs on the th, so the consumer sets it there — this component
+   exposes SortDirection so that value is easy to derive. *@
+<button type="button" class="@Classname" @onclick="ToggleAsync" @attributes="AdditionalAttributes">
+    <span class="sui-sort-label__text">@ChildContent</span>
+    <span class="sui-sort-label__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="100%" height="100%" fill="currentColor" aria-hidden="true" focusable="false">
+            <path d="M7 14l5-5 5 5z" />
+        </svg>
+    </span>
+    @* The current state is announced through text rather than through the icon
+       alone, which carries no meaning for assistive technology. *@
+    <span class="sui-sr-only">@StateDescription</span>
+</button>
+
+@code {
+    /// <summary>Current sort direction for this column.</summary>
+    [Parameter]
+    public SUISortDirection SortDirection { get; set; }
+
+    /// <summary>Raised with the direction the column should take next.</summary>
+    [Parameter]
+    public EventCallback<SUISortDirection> SortDirectionChanged { get; set; }
+
+    /// <summary>
+    /// Whether clicking a third time clears the sort. Default true, so a user
+    /// can get back to the table's natural order without reloading.
+    /// </summary>
+    [Parameter]
+    public bool AllowUnsorted { get; set; } = true;
+
+    /// <summary>
+    /// Text appended to the accessible name describing the current state, e.g.
+    /// "sorted ascending". Override to localise.
+    /// </summary>
+    [Parameter]
+    public Func<SUISortDirection, string>? StateDescriptionFactory { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-sort-label")
+            .AddClass("sui-sort-label--active", SortDirection is not SUISortDirection.None)
+            .AddClass("sui-sort-label--descending", SortDirection is SUISortDirection.Descending)
+            .AddClass(Class)
+            .Build();
+
+    private string StateDescription
+        => StateDescriptionFactory?.Invoke(SortDirection) ?? SortDirection switch
+        {
+            SUISortDirection.Ascending => ", sorted ascending",
+            SUISortDirection.Descending => ", sorted descending",
+            _ => ", not sorted",
+        };
+
+    private Task ToggleAsync()
+        => SortDirectionChanged.InvokeAsync(Next());
+
+    private SUISortDirection Next()
+        => SortDirection switch
+        {
+            SUISortDirection.None => SUISortDirection.Ascending,
+            SUISortDirection.Ascending => SUISortDirection.Descending,
+            _ => AllowUnsorted ? SUISortDirection.None : SUISortDirection.Ascending,
+        };
+}

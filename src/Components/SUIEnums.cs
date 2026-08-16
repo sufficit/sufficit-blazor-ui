@@ -152,3 +152,14 @@ public enum SUITone
     Danger,
     Info,
 }
+
+/// <summary>
+/// Sort state of a table column.
+/// </summary>
+public enum SUISortDirection
+{
+    /// <summary>Not sorted by this column.</summary>
+    None,
+    Ascending,
+    Descending,
+}
