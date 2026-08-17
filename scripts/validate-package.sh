@@ -30,6 +30,7 @@ required_entries=(
   "readme.md"
   "icon.png"
   "staticwebassets/sufficit-ui.css"
+  "staticwebassets/Components/Forms/SUIDateField.razor.js"
   "staticwebassets/Components/Forms/SUISelect.razor.js"
   "staticwebassets/Components/Navigation/SUINavGroup.razor.js"
   "staticwebassets/Components/Navigation/SUITabs.razor.js"
@@ -185,6 +186,12 @@ for framework in net9.0 net10.0; do
       "${app_base}_content/Sufficit.Blazor.UI/Components/Forms/SUISelect.razor.js" \
       >"$select_module"
     grep -Fq 'export function' "$select_module"
+
+    date_module="$validation_root/$app_name-$mode.SUIDateField.razor.js"
+    curl --fail --silent \
+      "${app_base}_content/Sufficit.Blazor.UI/Components/Forms/SUIDateField.razor.js" \
+      >"$date_module"
+    grep -Fq 'export function' "$date_module"
 
     styles_href="$(grep -oE 'href="[^"]+\.styles[^" ]*\.css"' "$app_html" \
       | head -n 1 \

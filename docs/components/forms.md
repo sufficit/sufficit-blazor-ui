@@ -1,8 +1,39 @@
 # Formulários
 
-Família: `SUITextField<T>`, `SUINumericField<T>`, `SUISelect<T>`,
-`SUIAutocomplete<T>`, `SUIChoiceCard<TValue>`, `SUISwitch` e
+Família: `SUITextField<T>`, `SUINumericField<T>`, `SUIDateField`, `SUISelect<T>`,
+`SUIAutocomplete<T>`, `SUIChoiceCard<TValue>`, `SUICheckbox`, `SUISwitch` e
 `SUISwitchButton`. `SUIFormGrid` organiza fields equivalentes em colunas.
+
+## Data localizada
+
+`SUIDateField` substitui o `input type="date"` quando o calendário precisa
+seguir o tema e a cultura da aplicação. O valor é `DateOnly?`; a apresentação,
+os nomes de mês/dia e as ações do popover usam `Culture` ou, quando omitida,
+`CultureInfo.CurrentUICulture`:
+
+```razor
+<SUIDateField Label="Cadastro inicial"
+              Name="registeredFrom"
+              @bind-Value="Model.RegisteredFrom" />
+```
+
+O calendário usa um `dialog` não modal no top layer, fecha ao clicar fora e
+aceita setas, Home/End, PageUp/PageDown, Enter, Espaço e Escape. `Min`, `Max`,
+`Required`, helper e erro preservam o mesmo contrato controlado dos demais
+fields. O valor enviado por `Name` permanece ISO (`yyyy-MM-dd`), independente
+do formato visível.
+
+## Checkbox
+
+`SUICheckbox` mantém o contrato controlado `Value`/`ValueChanged` sobre um
+checkbox nativo, com foco visível, nome acessível e alvo mínimo de 44px em
+viewports touch:
+
+```razor
+<SUICheckbox Value="_selected"
+             ValueChanged="OnSelectedChanged"
+             AriaLabel="Selecionar provider" />
+```
 
 ## Layout horizontal
 

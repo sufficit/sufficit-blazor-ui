@@ -1,0 +1,112 @@
+@namespace Sufficit.Blazor.UI.Components
+@using Microsoft.AspNetCore.Components.Web
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+<div @ref="_rootElement" class="@Classname">
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <label id="@LabelId" class="sui-field__label" for="@EffectiveId">@Label</label>
+    }
+
+    <div class="sui-date-field__control">
+        <button @ref="_triggerElement"
+                type="button"
+                id="@EffectiveId"
+                class="sui-field__input sui-date-field__trigger"
+                aria-haspopup="dialog"
+                aria-expanded="@(_open ? "true" : "false")"
+                aria-controls="@PopoverId"
+                aria-labelledby="@TriggerLabelledBy"
+                aria-label="@TriggerAriaLabel"
+                aria-describedby="@DescribedBy"
+                aria-invalid="@(HasError ? "true" : null)"
+                aria-errormessage="@(HasError ? ErrorId : null)"
+                aria-required="@(Required ? "true" : null)"
+                disabled="@Disabled"
+                @onclick="Toggle"
+                @onkeydown="OnTriggerKeyDown"
+                @attributes="UserAttributes">
+            <span class="@(Value is null ? "sui-date-field__value sui-date-field__placeholder" : "sui-date-field__value")">
+                @(Value is { } value ? FormatDate(value) : EffectivePlaceholder)
+            </span>
+            <SUIIcon Name="calendar" Size="18" CssClass="sui-date-field__icon" />
+        </button>
+
+        @if (!string.IsNullOrWhiteSpace(Name))
+        {
+            <input type="hidden" name="@Name" value="@FormValue" disabled="@Disabled" />
+        }
+
+        <div @ref="_popoverElement"
+             id="@PopoverId"
+             class="@PopoverClass"
+             role="dialog"
+             aria-modal="false"
+             aria-label="@CalendarAriaLabel"
+             lang="@EffectiveCulture.Name"
+             dir="@(EffectiveCulture.TextInfo.IsRightToLeft ? "rtl" : "ltr")"
+             popover="manual"
+             @onkeydown="OnPopoverKeyDown">
+            <div class="sui-date-field__header">
+                <button type="button" class="sui-btn sui-btn--icon sui-btn--sm sui-btn--text sui-btn--color-default sui-date-field__nav"
+                        aria-label="@PreviousMonthText" title="@PreviousMonthText"
+                        disabled="@(!CanMoveMonth(-1))" @onclick="() => MoveMonth(-1)">
+                    <SUIIcon Name="chevron-left" Size="18" />
+                </button>
+                <strong id="@MonthId" class="sui-date-field__month" aria-live="polite">@MonthLabel</strong>
+                <button type="button" class="sui-btn sui-btn--icon sui-btn--sm sui-btn--text sui-btn--color-default sui-date-field__nav"
+                        aria-label="@NextMonthText" title="@NextMonthText"
+                        disabled="@(!CanMoveMonth(1))" @onclick="() => MoveMonth(1)">
+                    <SUIIcon Name="chevron-right" Size="18" />
+                </button>
+            </div>
+
+            <div class="sui-date-field__weekdays" role="row">
+                @foreach (var weekday in Weekdays)
+                {
+                    <span role="columnheader" aria-label="@weekday.Full">@weekday.Short</span>
+                }
+            </div>
+
+            <div class="sui-date-field__grid" role="grid" aria-labelledby="@MonthId">
+                @for (var row = 0; row < 6; row++)
+                {
+                    <div class="sui-date-field__week" role="row">
+                        @for (var column = 0; column < 7; column++)
+                        {
+                            var date = CalendarDate(row * 7 + column);
+                            <button type="button"
+                                    class="@DayClass(date)"
+                                    role="gridcell"
+                                    data-sui-date="@IsoDate(date)"
+                                    aria-label="@FormatLongDate(date)"
+                                    aria-selected="@(Value == date ? "true" : "false")"
+                                    aria-current="@(IsToday(date) ? "date" : null)"
+                                    tabindex="@(date == FocusedDate ? "0" : "-1")"
+                                    disabled="@IsDateDisabled(date)"
+                                    @onclick="() => SelectDateAsync(date)"
+                                    @onkeydown="args => OnDayKeyDown(args, date)">@date.Day</button>
+                        }
+                    </div>
+                }
+            </div>
+
+            <div class="sui-date-field__footer">
+                <button type="button" class="sui-btn sui-btn--sm sui-btn--text sui-btn--color-primary sui-date-field__action"
+                        disabled="@IsDateDisabled(Today)" @onclick="SelectTodayAsync">@TodayText</button>
+                <button type="button" class="sui-btn sui-btn--sm sui-btn--text sui-btn--color-primary sui-date-field__action"
+                        disabled="@(Required || Value is null)" @onclick="ClearAsync">@ClearText</button>
+            </div>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(HelperText))
+    {
+        <span id="@HelperId" class="sui-field__helper">@HelperText</span>
+    }
+    @if (!string.IsNullOrWhiteSpace(ErrorText))
+    {
+        <span id="@ErrorId" class="sui-field__error">@ErrorText</span>
+    }
+</div>

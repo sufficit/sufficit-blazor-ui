@@ -327,6 +327,7 @@
   flex-direction: column;
   gap: var(--sui-space-1);
   width: 100%;
+  min-width: 0;
 }
 .sui-field__label {
   font-size: var(--sui-fs-caption);
@@ -334,7 +335,9 @@
   color: var(--sui-text-secondary);
 }
 .sui-field__input {
+  box-sizing: border-box;
   width: 100%;
+  min-width: 0;
   height: var(--sui-control-h-md);
   padding: 0 var(--sui-space-3);
   font-family: var(--sui-font);

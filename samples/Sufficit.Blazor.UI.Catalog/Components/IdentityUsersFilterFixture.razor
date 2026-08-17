@@ -1,0 +1,57 @@
+@using System.Globalization
+
+<div class="identity-filter-fixture" aria-label="Grade de filtros do consumidor Identity">
+    <h3>Grade de filtros do consumidor Identity</h3>
+    <form class="identity-filter-grid" data-testid="identity-filter-grid" data-sui-align-row>
+        <SUITextField T="string" Class="identity-filter-field"
+                      Id="fixture-users-search" name="search" autocomplete="off"
+                      Label="Nome ou e-mail" InputType="search" Placeholder="Buscar no diretório" />
+        <SUISelect T="string" Class="identity-filter-field" Label="Investigação"
+                   Id="fixture-review" Value="@All">
+            <SUISelectItem Value="@All">Diretório completo</SUISelectItem>
+        </SUISelect>
+        <SUISelect T="string" Class="identity-filter-field" Label="Estado"
+                   Id="fixture-state" Value="@All">
+            <SUISelectItem Value="@All">Todos</SUISelectItem>
+        </SUISelect>
+        <SUISelect T="string" Class="identity-filter-field" Label="E-mail"
+                   Id="fixture-email" Value="@All">
+            <SUISelectItem Value="@All">Todos</SUISelectItem>
+        </SUISelect>
+        <SUISelect T="string" Class="identity-filter-field" Label="MFA"
+                   Id="fixture-mfa" Value="@All">
+            <SUISelectItem Value="@All">Todos</SUISelectItem>
+        </SUISelect>
+        <SUIDateField Class="identity-filter-field"
+                      Id="fixture-registered-from" Name="registeredFrom"
+                      Label="Cadastro inicial" Culture="@Culture"
+                      Value="@_registeredFrom" ValueChanged="value => _registeredFrom = value" />
+        <SUIDateField Class="identity-filter-field"
+                      Id="fixture-registered-to" Name="registeredTo"
+                      Label="Cadastro final" Culture="@Culture"
+                      Value="@_registeredTo" ValueChanged="value => _registeredTo = value" />
+        <SUISelect T="string" Class="identity-filter-field" Label="Ordenar por"
+                   Id="fixture-sort" Value="@Newest">
+            <SUISelectItem Value="@Newest">Cadastro mais recente</SUISelectItem>
+        </SUISelect>
+        <SUISelect T="string" Class="identity-filter-field" Label="Histórico do gráfico"
+                   Id="fixture-history" Value="@ThirtyDays">
+            <SUISelectItem Value="@ThirtyDays">30 dias</SUISelectItem>
+        </SUISelect>
+        <div class="identity-filter-actions" data-testid="identity-filter-actions">
+            <SUIButton ColorValue="SUIColor.Primary" ButtonTypeValue="SUIButtonType.Submit">Aplicar filtros</SUIButton>
+            <SUIButton ColorValue="SUIColor.Default" VariantValue="SUIVariant.Outlined">Limpar</SUIButton>
+        </div>
+    </form>
+</div>
+
+@code {
+    [Parameter]
+    public CultureInfo? Culture { get; set; }
+
+    private const string All = "all";
+    private const string Newest = "newest";
+    private const string ThirtyDays = "30";
+    private DateOnly? _registeredFrom = new DateOnly(2026, 8, 1);
+    private DateOnly? _registeredTo = new DateOnly(2026, 8, 17);
+}

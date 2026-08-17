@@ -1,0 +1,89 @@
+/* Date field / localized calendar */
+.sui-date-field__control { position: relative; min-width: 0; }
+.sui-date-field__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sui-space-2);
+  cursor: pointer;
+  text-align: start;
+}
+.sui-date-field__trigger:hover { background: var(--sui-surface-2); }
+.sui-date-field__value {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sui-date-field__placeholder { color: var(--sui-text-secondary); }
+.sui-date-field__popover {
+  --sui-select-menu-width: min(19rem, calc(100vw - 24px));
+  --sui-select-menu-max-width: calc(100vw - 24px);
+  gap: var(--sui-space-2);
+  max-height: min(26rem, calc(100vh - 24px));
+  padding: var(--sui-space-3);
+  border-radius: var(--sui-radius-lg);
+  box-shadow: var(--sui-shadow-3);
+}
+.sui-date-field__header {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 28px;
+  align-items: center;
+  gap: var(--sui-space-2);
+}
+.sui-date-field__month {
+  font-size: var(--sui-fs-body2);
+  text-align: center;
+  text-transform: capitalize;
+}
+.sui-date-field__weekdays,
+.sui-date-field__week {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 2px;
+}
+.sui-date-field__weekdays span {
+  padding-block: var(--sui-space-1);
+  color: var(--sui-text-secondary);
+  font-size: var(--sui-fs-caption);
+  font-weight: 700;
+  text-align: center;
+  text-transform: lowercase;
+}
+.sui-date-field__grid { display: flex; flex-direction: column; gap: 2px; }
+.sui-date-field__day.sui-btn {
+  width: 100%;
+  height: auto;
+  min-width: 0;
+  aspect-ratio: 1;
+  padding: 0;
+  font-size: var(--sui-fs-body2);
+}
+.sui-date-field__day--outside { color: var(--sui-text-disabled); }
+.sui-date-field__day--today:not(.sui-date-field__day--selected) {
+  box-shadow: inset 0 0 0 1px var(--sui-border-strong);
+  font-weight: 700;
+}
+.sui-date-field__day--selected {
+  background: var(--sui-color-primary-action, var(--sui-color-primary));
+  color: var(--sui-color-primary-action-contrast, #fff);
+  font-weight: 700;
+}
+.sui-date-field__day--selected:hover {
+  background: color-mix(in srgb, var(--sui-color-primary-action, var(--sui-color-primary)) 90%, black);
+}
+.sui-date-field__footer {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sui-space-2);
+  padding-block-start: var(--sui-space-1);
+  border-top: 1px solid var(--sui-border);
+}
+@supports selector(:popover-open) {
+  .sui-date-field__popover[popover] {
+    max-height: min(26rem, var(--sui-date-field-available-height, calc(100vh - 24px)));
+  }
+}
+@media (pointer: coarse), (width <= 599.98px) {
+  .sui-date-field__day.sui-btn { height: 40px; min-height: 40px; }
+}

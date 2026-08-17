@@ -21,6 +21,7 @@ namespace Sufficit.Blazor.UI.Components
         private bool _expandedParameterInitialized;
         private bool _lastExpandedParameter;
         private bool _railInteropConnected;
+        private bool _navigationSubscribed;
 
         protected override void OnInitialized()
         {
@@ -28,6 +29,9 @@ namespace Sufficit.Blazor.UI.Components
 
             RailFlyoutOpened += OnAnotherRailFlyoutOpened;
             _railCoordinatorSubscribed = true;
+
+            Navigation.LocationChanged += OnLocationChanged;
+            _navigationSubscribed = true;
 
             ParentAccordionScope?.Register(this);
         }
@@ -70,6 +74,12 @@ namespace Sufficit.Blazor.UI.Components
             {
                 RailFlyoutOpened -= OnAnotherRailFlyoutOpened;
                 _railCoordinatorSubscribed = false;
+            }
+
+            if (_navigationSubscribed)
+            {
+                Navigation.LocationChanged -= OnLocationChanged;
+                _navigationSubscribed = false;
             }
 
             ParentAccordionScope?.Unregister(this);
@@ -222,6 +232,9 @@ namespace Sufficit.Blazor.UI.Components
         [Inject]
         private IJSRuntime JS { get; set; } = default!;
 
+        [Inject]
+        private NavigationManager Navigation { get; set; } = default!;
+
         protected bool IsRootRail => RailMode && ParentNavigationContext is null;
 
         private bool _flyoutOpen;
@@ -281,6 +294,18 @@ namespace Sufficit.Blazor.UI.Components
             _pointerWithinFlyout = false;
             _flyoutOpen = false;
             InvokeAsync(StateHasChanged);
+        }
+
+        private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs args)
+        {
+            if (!IsRootRail || !_flyoutOpen)
+                return;
+
+            _flyoutCloseCts?.Cancel();
+            _pointerWithinRail = false;
+            _pointerWithinFlyout = false;
+            _flyoutOpen = false;
+            _ = InvokeAsync(StateHasChanged);
         }
 
         protected void ToggleFlyout()

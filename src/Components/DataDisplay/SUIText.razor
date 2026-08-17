@@ -65,10 +65,21 @@
         _ => Tag.ToString().ToLowerInvariant(),
     };
 
+    private string RenderClassName
+    {
+        get
+        {
+            var alignClass = AlignClass;
+            return string.IsNullOrEmpty(alignClass)
+                ? Classname
+                : Classname + " " + alignClass;
+        }
+    }
+
     private RenderFragment RenderText() => builder =>
     {
         builder.OpenElement(0, TagName);
-        builder.AddAttribute(1, "class", $"{Classname} {AlignClass}".TrimEnd());
+        builder.AddAttribute(1, "class", RenderClassName);
         if (!string.IsNullOrWhiteSpace(ColorStyle))
             builder.AddAttribute(2, "style", ColorStyle);
         builder.AddMultipleAttributes(3, AdditionalAttributes.Select(attribute =>

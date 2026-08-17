@@ -40,7 +40,10 @@ public sealed class FileSizeBudgetTests
         foreach (var file in RepositoryLayout.Files(RepositoryLayout.Src, "*.cs"))
             data.Add(RepositoryLayout.Relative(file), CSharpBudget);
 
-        foreach (var file in RepositoryLayout.Files(RepositoryLayout.Src, "*.css"))
+        // CSS line budgets apply to authored modules only. The generated
+        // compatibility copies under src/wwwroot/styles are published assets,
+        // not independent sources and must not be counted a second time.
+        foreach (var file in RepositoryLayout.Files(RepositoryLayout.Styles, "*.css"))
             data.Add(RepositoryLayout.Relative(file), ComponentCssBudget);
 
         foreach (var file in RepositoryLayout.Files(RepositoryLayout.Src, "*.js"))

@@ -1,0 +1,21 @@
+@page "/fixtures/identity-users-filter"
+@using System.Globalization
+
+<PageTitle>Fixture de filtros do Identity | Catálogo SUI</PageTitle>
+
+<SUIThemeProvider Class="catalog-theme-root">
+    <main class="catalog" data-catalog-ready>
+        <h1>Fixture de filtros do Identity</h1>
+        <IdentityUsersFilterFixture Culture="@FixtureCulture" />
+    </main>
+</SUIThemeProvider>
+
+@code {
+    [SupplyParameterFromQuery(Name = "culture")]
+    public string? CultureName { get; set; }
+
+    private CultureInfo FixtureCulture
+        => string.Equals(CultureName, "en-US", StringComparison.OrdinalIgnoreCase)
+            ? CultureInfo.GetCultureInfo("en-US")
+            : CultureInfo.GetCultureInfo("pt-BR");
+}

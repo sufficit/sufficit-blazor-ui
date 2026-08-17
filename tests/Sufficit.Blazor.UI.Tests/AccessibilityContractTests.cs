@@ -98,6 +98,24 @@ public sealed class AccessibilityContractTests
     }
 
     [Fact]
+    public void Checkbox_UsesNativeInputAndAccessibleName()
+    {
+        using var context = new BunitContext();
+        var changed = false;
+        var cut = context.Render<SUICheckbox>(parameters => parameters
+            .Add(component => component.Value, true)
+            .Add(component => component.AriaLabel, "Selecionar provider")
+            .Add(component => component.ValueChanged, value => changed = value));
+
+        var input = cut.Find("input[type=checkbox]");
+        Assert.Equal("Selecionar provider", input.GetAttribute("aria-label"));
+        Assert.Contains("sui-checkbox--checked", cut.Find("label").ClassList);
+
+        input.Change(false);
+        Assert.False(changed);
+    }
+
+    [Fact]
     public void Select_ExposesInvalidErrorRelationship()
     {
         using var context = new BunitContext();
@@ -228,6 +246,20 @@ public sealed class AccessibilityContractTests
             .Add(component => component.Tag, SUITextTag.Span)
             .AddChildContent("Operação"));
         Assert.Equal("SPAN", heading.Find("span").TagName);
+    }
+
+    [Fact]
+    public void Text_DoesNotEmitTrailingClassWhitespaceWithoutAlignment()
+    {
+        using var context = new BunitContext();
+        var cut = context.Render<SUIText>(parameters => parameters
+            .Add(component => component.Typo, SUITypo.body2)
+            .AddChildContent("Conteúdo"));
+
+        var className = cut.Find("div").GetAttribute("class");
+
+        Assert.NotNull(className);
+        Assert.False(className!.EndsWith(" ", StringComparison.Ordinal));
     }
 
     private static void AssertFieldRelationships<TComponent>(
