@@ -1208,7 +1208,7 @@ button.sui-nav-link:disabled,
   cursor: pointer;
 }
 .sui-select__option:hover,
-.sui-select__option--active { background: var(--sui-surface-2); }
+.sui-select__option--active { background: var(--sui-surface-3); }
 .sui-select__option:disabled,
 .sui-select__option--disabled {
   /* Disabled options remain readable because the label already explains why
