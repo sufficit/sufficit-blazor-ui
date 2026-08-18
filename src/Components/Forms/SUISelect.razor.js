@@ -133,6 +133,13 @@ export function openSelectMenu(trigger, menu) {
     }
 
     placeMenu(trigger, menu);
+
+    // The Blazor-rendered menu persists across open/close cycles, so its
+    // scrollTop survives too: a list reopened after scrolling used to show
+    // a half-clipped first item. Realign to the selected option (or top).
+    menu.scrollTop = 0;
+    const selected = menu.querySelector('.sui-select__option--active, [aria-selected="true"]');
+    if (selected) selected.scrollIntoView({ block: 'nearest' });
 }
 
 export function closeSelectMenu(menu) {
