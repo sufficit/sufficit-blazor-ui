@@ -1188,6 +1188,10 @@ button.sui-nav-link:disabled,
 .sui-select__option {
   display: block;
   width: 100%;
+  /* The menu is a flex column with a max-height; without this every row
+     gets flex-shrunk to fit (a 15-item list crushed into 280px reads as
+     options stacked on top of each other). */
+  flex: 0 0 auto;
   padding: var(--sui-space-2) var(--sui-space-3);
   border: 0;
   border-radius: var(--sui-radius-sm);
