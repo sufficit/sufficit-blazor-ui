@@ -61,17 +61,17 @@
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>Two-way bound active panel index (tab deep-linking).</summary>
+    /// <remarks>The setter only records the value: calling StateHasChanged
+    /// here fires during parameter application and recurses infinitely in
+    /// static prerender (stack overflow kills the process). Parameter flow
+    /// already re-renders.</remarks>
     [Parameter]
     public int ActiveIndex
     {
         get => _activeIndex;
         set
         {
-            if (value >= 0 && value != _activeIndex)
-            {
-                _activeIndex = value;
-                StateHasChanged();
-            }
+            if (value >= 0 && value != _activeIndex) _activeIndex = value;
         }
     }
 
