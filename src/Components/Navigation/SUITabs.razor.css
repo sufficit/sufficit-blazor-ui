@@ -8,7 +8,11 @@
   gap: var(--sui-space-1);
   border-bottom: 1px solid var(--sui-border);
   overflow-x: auto;
+  /* Narrow windows overflow by a few pixels and the visible scrollbar read
+     as a layout bug; the strip stays scrollable (touch/drag/wheel). */
+  scrollbar-width: none;
 }
+.sui-tabs__list::-webkit-scrollbar { display: none; }
 .sui-tab {
   appearance: none;
   border: none;
