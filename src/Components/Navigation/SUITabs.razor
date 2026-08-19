@@ -29,8 +29,7 @@
         @if (_panels.Count > _activeIndex)
         {
             var activePanel = _panels[_activeIndex];
-            <div @key="activePanel"
-                 id="@PanelId(_activeIndex)"
+            <div id="@PanelId(_activeIndex)"
                  class="@PanelClass(activePanel)"
                  role="tabpanel"
                  aria-labelledby="@TabId(_activeIndex)"
@@ -96,7 +95,7 @@
         {
             _panels.Add(panel);
             Array.Resize(ref _tabReferences, _panels.Count);
-            StateHasChanged();
+            _ = InvokeAsync(StateHasChanged);
         }
     }
 
@@ -106,7 +105,7 @@
         Array.Resize(ref _tabReferences, _panels.Count);
         if (_activeIndex >= _panels.Count && _panels.Count > 0)
             _activeIndex = _panels.Count - 1;
-        StateHasChanged();
+        _ = InvokeAsync(StateHasChanged);
     }
 
     private void Activate(int index)
