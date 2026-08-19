@@ -60,6 +60,24 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>Two-way bound active panel index (tab deep-linking).</summary>
+    [Parameter]
+    public int ActiveIndex
+    {
+        get => _activeIndex;
+        set
+        {
+            if (value >= 0 && value != _activeIndex)
+            {
+                _activeIndex = value;
+                StateHasChanged();
+            }
+        }
+    }
+
+    [Parameter]
+    public EventCallback<int> ActiveIndexChanged { get; set; }
+
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
@@ -97,6 +115,7 @@
             return;
 
         _activeIndex = index;
+        _ = ActiveIndexChanged.InvokeAsync(index);
     }
 
     private void HandleKeyDown(KeyboardEventArgs args, int index)
