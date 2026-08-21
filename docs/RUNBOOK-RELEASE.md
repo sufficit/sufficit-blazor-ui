@@ -6,6 +6,7 @@
 - `CHANGELOG.md` atualizado;
 - versão escolhida conforme SemVer;
 - nenhuma ponte pública removida fora de uma nova major;
+- para a linha `net10.0`-only, a tag deve ser `v2.0.0` ou superior;
 - secret `NUGET_API_KEY` configurado no repositório.
 
 ## Publicação
@@ -15,11 +16,11 @@
 2. Crie uma tag anotada, por exemplo:
 
    ```bash
-   git tag -a v1.27.0 -m "Sufficit.Blazor.UI 1.27.0"
-   git push origin v1.27.0
+   git tag -a v2.0.0 -m "Sufficit.Blazor.UI 2.0.0"
+   git push origin v2.0.0
    ```
 
-3. O workflow `Build` valida o formato da tag, compila `net9.0` e `net10.0`,
+3. O workflow `Build` valida o formato da tag, compila `net10.0`,
    executa bUnit, Playwright/axe, gera e inspeciona o pacote e somente então
    habilita o job `Publish tagged package`.
 4. O job final recria e valida o artefato exato com a versão da tag antes de

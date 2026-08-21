@@ -31,6 +31,8 @@ são derivadas exclusivamente de tags Git no formato
 
 ### Changed
 
+- A linha de desenvolvimento passa a suportar somente `net10.0`; o próximo
+  pacote deve ser publicado como v2 por remover o asset `lib/net9.0`.
 - O stylesheet deixa de ler custom properties de biblioteca visual de terceiros:
   os componentes resolvem exclusivamente tokens `--sui-*`. Consumidores que
   dependiam do fallback precisam fornecer o tema via `SUIThemeProvider`.

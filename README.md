@@ -6,28 +6,28 @@ nenhuma biblioteca visual de terceiros nem contém código-fonte vendorizado.
 
 ## Compatibilidade e distribuição
 
-- Target frameworks: `net9.0` e `net10.0`.
+- Target framework: `net10.0`.
 - Package ID: `Sufficit.Blazor.UI`.
 - Distribuição: pacote NuGet e `ProjectReference` local.
 - Namespace dos componentes: `Sufficit.Blazor.UI.Components`.
 - Namespace de temas: `Sufficit.Blazor.UI.Themes`.
 
-A série v1 mantém os dois TFMs. A v2 está planejada como net10-only, não antes
-do fim de suporte do .NET 9 em 2026-11-10 e condicionada à validação de todos os
-consumers conhecidos. Veja a
+A linha de desenvolvimento atual é `net10.0`-only. Como a retirada de um TFM é
+uma alteração incompatível, o próximo pacote derivado desta linha deve usar a
+major v2. Veja a
 [política de versionamento e TFMs](docs/ARCHITECTURE-VERSIONING-AND-TFM.md) e o
 [plano da v2](docs/PLAN-SUI-V2.md).
 
-O CI compila ambos os frameworks com warnings tratados como erros, gera o
-`.nupkg`, inspeciona seus assets e instala o pacote em RCLs e Blazor Web Apps
-temporárias `net9.0` e `net10.0`. As apps são iniciadas na raiz e sob
-`PathBase`, validando markup SSR, CSS global/isolation e módulos. As dependências ASP.NET Core usam versões de
+O CI compila `net10.0` com warnings tratados como erros, gera o `.nupkg`,
+inspeciona seus assets e instala o pacote em uma RCL e uma Blazor Web App
+temporárias `net10.0`. A app é iniciada na raiz e sob `PathBase`, validando
+markup SSR, CSS global/isolation e módulos. As dependências ASP.NET Core usam versões de
 servicing exatas; o Dependabot mantém a atualização semanal, evitando que dois
 restores do mesmo commit escolham versões diferentes.
 
 Builds locais usam a versão não publicável `0.0.0-local`. Uma release nasce
 somente de tag `vMAJOR.MINOR.PATCH[-prerelease]`; o pacote só é enviado ao
-NuGet.org depois dos gates multialvo, bUnit, Playwright/axe e validação do
+NuGet.org depois dos gates de .NET 10, bUnit, Playwright/axe e validação do
 artefato exato. Veja o [runbook de release](docs/RUNBOOK-RELEASE.md) e o
 [changelog](CHANGELOG.md).
 
