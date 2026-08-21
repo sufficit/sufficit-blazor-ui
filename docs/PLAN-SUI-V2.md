@@ -56,11 +56,11 @@ a lista só pode encolher.
 
 ### Framework
 
-- [ ] confirmar novamente que não existe consumer de produção net9;
+- [x] confirmar novamente que não existe consumer de produção net9;
+- [x] tornar a linha de desenvolvimento net10-only;
+- [x] remover do CI/validador os cenários net9 no mesmo commit da mudança;
 - [ ] lançar prerelease v2 net10-only;
-- [ ] validar canário e os consumers Identity, Blazor, AI Genius e Background;
-- [ ] retirar net9 somente na major e após 2026-11-10;
-- [ ] remover do CI/validador os cenários net9 no mesmo commit da mudança.
+- [ ] validar a prerelease no canário e nos consumers Identity, Blazor, AI Genius e Background.
 
 ## Checklist de migração de consumer
 

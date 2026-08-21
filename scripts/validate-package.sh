@@ -25,7 +25,6 @@ if [[ -z "$package_version" ]]; then
 fi
 
 required_entries=(
-  "lib/net9.0/Sufficit.Blazor.UI.dll"
   "lib/net10.0/Sufficit.Blazor.UI.dll"
   "readme.md"
   "icon.png"
@@ -44,6 +43,11 @@ for entry in "${required_entries[@]}"; do
     exit 1
   fi
 done
+
+if grep -Eq '^lib/net9\.0/' <<<"$entries"; then
+  echo "unexpected net9.0 asset in net10-only package" >&2
+  exit 1
+fi
 
 if ! grep -Eq '^staticwebassets/Sufficit\.Blazor\.UI\.[^.]+\.bundle\.scp\.css$' <<<"$entries"; then
   echo "missing package entry: fingerprinted CSS-isolation bundle" >&2
@@ -64,13 +68,9 @@ dotnet nuget add source "$package_dir" \
   --name sui-local \
   --configfile "$validation_root/nuget.config" >/dev/null
 
-for framework in net9.0 net10.0; do
+for framework in net10.0; do
   consumer_dir="$validation_root/$framework"
-  if [[ "$framework" == "net9.0" ]]; then
-    aspnet_version="9.0.19"
-  else
-    aspnet_version="10.0.11"
-  fi
+  aspnet_version="10.0.11"
 
   dotnet new razorclasslib --framework "$framework" --output "$consumer_dir" --no-restore >/dev/null
   # The installed SDK template can lag behind the servicing floor required by
@@ -94,7 +94,7 @@ for framework in net9.0 net10.0; do
 done
 
 framework_index=0
-for framework in net9.0 net10.0; do
+for framework in net10.0; do
   framework_index=$((framework_index + 1))
   framework_slug="${framework//./}"
   app_name="SuiPackageSmoke${framework_slug}"

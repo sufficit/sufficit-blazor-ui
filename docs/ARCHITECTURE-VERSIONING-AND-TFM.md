@@ -15,9 +15,9 @@ tag usam `0.0.0-ci.<run>`.
 Pacotes publicados são imutáveis. Uma falha pós-release gera uma nova versão;
 `--skip-duplicate` não faz parte do caminho normal.
 
-## Compatibilidade da série v1
+## Compatibilidade da linha atual
 
-- TFMs: `net9.0` e `net10.0`;
+- TFM: `net10.0`;
 - `sufficit-ui.css` permanece o único entrypoint global público;
 - CSS isolation continua sendo carregado pelo `{Consumer}.styles.css`;
 - os 25 parâmetros visuais legados continuam presentes com `ObsoleteAttribute`;
@@ -29,16 +29,13 @@ Pacotes publicados são imutáveis. Uma falha pós-release gera uma nova versão
 
 Em 2026-08-14, a varredura dos projetos que referenciam diretamente a SUI
 encontrou todos os consumers de produção em `net10.0` ou `net10.0-android`.
-`net9.0` permanece apenas como contrato de compatibilidade do pacote e nos
-consumers temporários de validação.
+Em 2026-08-21, o contrato temporário `net9.0` foi retirado do projeto, CI e
+validador de pacote para eliminar uma matriz duplicada sem consumer de
+produção correspondente.
 
-O .NET 9 encerra suporte em 2026-11-10. A série v1 preserva `net9.0` até essa
-data. A v2 poderá ser `net10.0`-only, mas apenas depois de:
-
-1. nova varredura de references no commit candidato;
-2. build/teste de todos os consumers conhecidos;
-3. prerelease consumida pelo menos pelo canário `sufficit-cloud-mobile`;
-4. documentação explícita da retirada no changelog e release notes.
+Essa retirada é incompatível com a série v1 já publicada. Portanto, qualquer
+pacote produzido a partir desta linha deve usar versão `v2.0.0` ou superior; o
+runbook e o changelog impedem uma tag v1 acidental.
 
 Adicionar um novo TFM segue o caminho aditivo. Retirar um TFM exige major,
 mesmo quando o runtime já saiu de suporte.
