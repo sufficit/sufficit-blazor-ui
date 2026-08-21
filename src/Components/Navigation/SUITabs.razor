@@ -15,24 +15,24 @@
                 <button type="button"
                         @ref="_tabReferences[idx]"
                         id="@TabId(idx)"
-                        class="sui-tab @(idx == _activeIndex ? "is-active" : null)"
+                        class="sui-tab @(idx == ActiveIndex ? "is-active" : null)"
                         role="tab"
-                        aria-selected="@(idx == _activeIndex ? "true" : "false")"
+                        aria-selected="@(idx == ActiveIndex ? "true" : "false")"
                         aria-controls="@PanelId(idx)"
-                        tabindex="@(idx == _activeIndex ? 0 : -1)"
+                        tabindex="@(idx == ActiveIndex ? 0 : -1)"
                         @onkeydown="args => HandleKeyDown(args, idx)"
                         @onclick="() => Activate(idx)">
                     @panel.Text
                 </button>
             }
         </div>
-        @if (_panels.Count > _activeIndex)
+        @if (_panels.Count > ActiveIndex)
         {
-            var activePanel = _panels[_activeIndex];
-            <div id="@PanelId(_activeIndex)"
+            var activePanel = _panels[ActiveIndex];
+            <div id="@PanelId(ActiveIndex)"
                  class="@PanelClass(activePanel)"
                  role="tabpanel"
-                 aria-labelledby="@TabId(_activeIndex)"
+                 aria-labelledby="@TabId(ActiveIndex)"
                  tabindex="0">
                 @activePanel.ChildContent
             </div>
@@ -60,19 +60,8 @@
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>Two-way bound active panel index (tab deep-linking).</summary>
-    /// <remarks>The setter only records the value: calling StateHasChanged
-    /// here fires during parameter application and recurses infinitely in
-    /// static prerender (stack overflow kills the process). Parameter flow
-    /// already re-renders.</remarks>
     [Parameter]
-    public int ActiveIndex
-    {
-        get => _activeIndex;
-        set
-        {
-            if (value >= 0 && value != _activeIndex) _activeIndex = value;
-        }
-    }
+    public int ActiveIndex { get; set; }
 
     [Parameter]
     public EventCallback<int> ActiveIndexChanged { get; set; }
@@ -86,7 +75,6 @@
     private ElementReference _rootElement;
     private IJSObjectReference? _module;
     private IJSObjectReference? _interop;
-    private int _activeIndex;
     private int? _pendingFocusIndex;
 
     internal void Register(SUITabPanel panel)
@@ -103,8 +91,8 @@
     {
         _panels.Remove(panel);
         Array.Resize(ref _tabReferences, _panels.Count);
-        if (_activeIndex >= _panels.Count && _panels.Count > 0)
-            _activeIndex = _panels.Count - 1;
+        if (ActiveIndex >= _panels.Count && _panels.Count > 0)
+            ActiveIndex = _panels.Count - 1;
         _ = InvokeAsync(StateHasChanged);
     }
 
@@ -113,7 +101,7 @@
         if (index < 0 || index >= _panels.Count)
             return;
 
-        _activeIndex = index;
+        ActiveIndex = index;
         _ = ActiveIndexChanged.InvokeAsync(index);
     }
 

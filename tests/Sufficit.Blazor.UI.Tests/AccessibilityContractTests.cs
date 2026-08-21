@@ -198,6 +198,34 @@ public sealed class AccessibilityContractTests
     }
 
     [Fact]
+    public void Tabs_HonorInitialActiveIndexParameter()
+    {
+        using var context = new BunitContext();
+        context.JSInterop.Mode = JSRuntimeMode.Loose;
+        var cut = context.Render<SUITabs>(parameters => parameters
+            .Add(component => component.ActiveIndex, 1)
+            .AddChildContent(builder =>
+            {
+                builder.OpenComponent<SUITabPanel>(0);
+                builder.AddAttribute(1, nameof(SUITabPanel.Text), "Primeiro");
+                builder.AddAttribute(2, nameof(SUITabPanel.ChildContent),
+                    (RenderFragment)(content => content.AddContent(0, "Conteúdo inicial")));
+                builder.CloseComponent();
+                builder.OpenComponent<SUITabPanel>(3);
+                builder.AddAttribute(4, nameof(SUITabPanel.Text), "Segundo");
+                builder.AddAttribute(5, nameof(SUITabPanel.ChildContent),
+                    (RenderFragment)(content => content.AddContent(0, "Conteúdo selecionado")));
+                builder.CloseComponent();
+            }));
+
+        cut.WaitForAssertion(() => Assert.Equal(2, cut.FindAll("[role=tab]").Count));
+        var tabs = cut.FindAll("[role=tab]");
+        Assert.Equal("false", tabs[0].GetAttribute("aria-selected"));
+        Assert.Equal("true", tabs[1].GetAttribute("aria-selected"));
+        Assert.Contains("Conteúdo selecionado", cut.Find("[role=tabpanel]").TextContent);
+    }
+
+    [Fact]
     public void Table_UsesScopedHeadersFullEmptyColspanAndKeyboardRows()
     {
         using var context = new BunitContext();
