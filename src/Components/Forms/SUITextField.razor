@@ -7,19 +7,38 @@
     {
         <label class="sui-field__label" for="@EffectiveId">@Label</label>
     }
-    <input class="sui-field__input"
-           id="@EffectiveId"
-           type="@InputType"
-           value="@Value"
-           @onchange="OnChanged"
-           @oninput="OnInput"
-           placeholder="@Placeholder"
-           maxlength="@MaxLength"
-           disabled="@Disabled"
-           aria-describedby="@DescribedBy"
-           aria-invalid="@(HasError ? "true" : null)"
-           aria-errormessage="@(HasError ? ErrorId : null)"
-           @attributes="UserAttributes" />
+    @if (Multiline)
+    {
+        <textarea class="sui-field__input sui-field__input--multiline"
+                  id="@EffectiveId"
+                  rows="@EffectiveRows"
+                  style="height:auto;min-height:108px;padding:var(--sui-space-3);resize:vertical"
+                  @onchange="OnChanged"
+                  @oninput="OnInput"
+                  placeholder="@Placeholder"
+                  maxlength="@MaxLength"
+                  disabled="@Disabled"
+                  aria-describedby="@DescribedBy"
+                  aria-invalid="@(HasError ? "true" : null)"
+                  aria-errormessage="@(HasError ? ErrorId : null)"
+                  @attributes="UserAttributes">@Value</textarea>
+    }
+    else
+    {
+        <input class="sui-field__input"
+               id="@EffectiveId"
+               type="@InputType"
+               value="@Value"
+               @onchange="OnChanged"
+               @oninput="OnInput"
+               placeholder="@Placeholder"
+               maxlength="@MaxLength"
+               disabled="@Disabled"
+               aria-describedby="@DescribedBy"
+               aria-invalid="@(HasError ? "true" : null)"
+               aria-errormessage="@(HasError ? ErrorId : null)"
+               @attributes="UserAttributes" />
+    }
     @if (!string.IsNullOrWhiteSpace(HelperText))
     {
         <span id="@HelperId" class="sui-field__helper">@HelperText</span>
@@ -65,6 +84,14 @@
     [Parameter]
     public string InputType { get; set; } = "text";
 
+    /// <summary>Renders a resizable textarea while preserving the same field contract.</summary>
+    [Parameter]
+    public bool Multiline { get; set; }
+
+    /// <summary>Initial number of visible rows when <see cref="Multiline"/> is enabled.</summary>
+    [Parameter]
+    public int Rows { get; set; } = 4;
+
     [Parameter]
     public int? MaxLength { get; set; }
 
@@ -82,6 +109,7 @@
 
     private readonly string _generatedId = $"sui-text-field-{Guid.NewGuid():N}";
     private string EffectiveId => string.IsNullOrWhiteSpace(Id) ? _generatedId : Id;
+    private int EffectiveRows => Math.Clamp(Rows, 2, 20);
     private string HelperId => $"{EffectiveId}-helper";
     private string ErrorId => $"{EffectiveId}-error";
     private bool HasError => Invalid || !string.IsNullOrWhiteSpace(ErrorText);

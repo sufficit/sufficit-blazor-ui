@@ -19,6 +19,20 @@ public sealed class AccessibilityContractTests
     }
 
     [Fact]
+    public void TextField_MultilinePreservesAccessibleRelationshipsAndRows()
+    {
+        using var context = new BunitContext();
+        var cut = context.Render<SUITextField<string>>(parameters => parameters
+            .Add(component => component.Label, "Texto ou SSML")
+            .Add(component => component.HelperText, "Aceita um documento speak completo.")
+            .Add(component => component.Multiline, true)
+            .Add(component => component.Rows, 6));
+
+        AssertFieldRelationships(cut, "textarea");
+        Assert.Equal("6", cut.Find("textarea").GetAttribute("rows"));
+    }
+
+    [Fact]
     public void NumericField_AssociatesLabelAndHelperWithInput()
     {
         using var context = new BunitContext();
