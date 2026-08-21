@@ -1,4 +1,5 @@
 @namespace Sufficit.Blazor.UI.Components
+@typeparam T
 
 @* Rendered as a button, not a clickable th: sorting is an action, and without
    button semantics it is unreachable by keyboard and silent to screen readers.
@@ -31,6 +32,17 @@
     /// </summary>
     [Parameter]
     public bool AllowUnsorted { get; set; } = true;
+
+    /// <summary>
+    /// Compatibility metadata for callers migrating from MudTableSortLabel.
+    /// Sorting remains controlled by SortDirectionChanged at the UI layer.
+    /// </summary>
+    [Parameter]
+    public Func<T, object?>? SortBy { get; set; }
+
+    /// <summary>Optional initial sort metadata retained for migration compatibility.</summary>
+    [Parameter]
+    public object? InitialDirection { get; set; }
 
     /// <summary>
     /// Text appended to the accessible name describing the current state, e.g.
