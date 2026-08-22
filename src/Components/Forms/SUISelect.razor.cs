@@ -185,7 +185,15 @@ public partial class SUISelect<T>
             _keyboardInteropConnected = true;
         }
 
-        if (_open)
+        // Only on the transition. openSelectMenu ends by realigning the list
+        // (scrollTop = 0 + scrollIntoView), which is right when the menu opens
+        // and destructive on every later render: a parent that re-renders on a
+        // timer — a status poll, a progress bar — snatched the list back to the
+        // top while the person was scrolling it, and re-placed the popover
+        // under their cursor mid-click. Staying open is not an event; the JS
+        // already keeps the position current through its own ResizeObserver
+        // and window listeners.
+        if (_open && !_interopOpen)
         {
             await _module.InvokeVoidAsync(
                 "openSelectMenu",
@@ -193,7 +201,7 @@ public partial class SUISelect<T>
                 _menuElement);
             _interopOpen = true;
         }
-        else if (_interopOpen && _module is not null)
+        else if (!_open && _interopOpen)
         {
             await _module.InvokeVoidAsync("closeSelectMenu", _menuElement);
             _interopOpen = false;
