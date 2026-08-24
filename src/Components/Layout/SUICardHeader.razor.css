@@ -16,6 +16,13 @@
     gap: var(--sui-space-1);
 }
 
+.sui-card__header-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+}
+
 .sui-card__header-title {
     margin: 0;
     color: var(--sui-text-primary);

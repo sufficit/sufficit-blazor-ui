@@ -177,6 +177,18 @@ public sealed class StyleContractTests
             "Sufficit CSS uses hex + color-mix(in srgb, ...), never OKLCH: " + string.Join(", ", offenders));
     }
 
+    [Fact]
+    public void Avatar_owns_and_clips_its_image_geometry()
+    {
+        var stylesheet = File.ReadAllText(Path.Combine(
+            RepositoryLayout.Styles, "sui-components.css"));
+        var compact = Regex.Replace(stylesheet, @"\s+", string.Empty);
+
+        Assert.Contains(".sui-avatar{", compact, StringComparison.Ordinal);
+        Assert.Contains("overflow:hidden", compact, StringComparison.Ordinal);
+        Assert.Contains("object-fit:cover", compact, StringComparison.Ordinal);
+    }
+
     private static IEnumerable<string> ReadDeclarationLines(string relativePath)
         => File.ReadAllLines(Path.Combine(RepositoryLayout.Root, relativePath))
             .Where(line => !line.TrimStart().StartsWith("/*", StringComparison.Ordinal)

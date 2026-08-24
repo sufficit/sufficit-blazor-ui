@@ -55,7 +55,9 @@ public static class SUIIcons
 
     /// <summary>Restart / refresh.</summary>
     public const string Restart =
-        "<path d=\"M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5\"/>";
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<path d=\"M4.75 4.75V9H9\"/><path d=\"M4.75 9a8 8 0 1 1 1.6 7.55\"/>" +
+        "</g>";
 
     /// <summary>Cast / screen-share.</summary>
     public const string Cast =
@@ -63,15 +65,21 @@ public static class SUIIcons
 
     /// <summary>Delete / trash.</summary>
     public const string Delete =
-        "<path d=\"M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6\"/>";
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<path d=\"M4.75 7.25h14.5M9.25 7.25v-2.5h5.5v2.5M6.75 7.25l.75 12h9l.75-12M10 11v4.75M14 11v4.75\"/>" +
+        "</g>";
 
     /// <summary>Save / floppy disk.</summary>
     public const string Save =
-        "<path d=\"M5 3h12l4 4v14H3V3h2Zm2 2v6h10V5H7Zm0 10v4h10v-4H7Zm7-9h2v3h-2V6Z\"/>";
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<path d=\"M4.75 3.75h11.5l3 3v13.5H4.75zM8 3.75v6h8v-5M8 20.25v-6h8v6\"/>" +
+        "</g>";
 
     /// <summary>Broken link / unlink.</summary>
     public const string Unlink =
-        "<path d=\"m8.9 14.1-1.4 1.4a3 3 0 0 1-4.2-4.2l3-3a3 3 0 0 1 4.2 0l.7.7-1.4 1.4-.7-.7a1 1 0 0 0-1.4 0l-3 3a1 1 0 0 0 1.4 1.4l1.4-1.4 1.4 1.4Zm6.2-4.2 1.4-1.4a3 3 0 0 1 4.2 4.2l-3 3a3 3 0 0 1-4.2 0l-.7-.7 1.4-1.4.7.7a1 1 0 0 0 1.4 0l3-3a1 1 0 0 0-1.4-1.4l-1.4 1.4-1.4-1.4ZM8 11h8v2H8v-2Z\"/>";
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<path d=\"m9.5 14.5-1.75 1.75a3.18 3.18 0 0 1-4.5-4.5L5 10M14.5 9.5l1.75-1.75a3.18 3.18 0 0 1 4.5 4.5L19 14M9.75 12h4.5M4 4l16 16\"/>" +
+        "</g>";
 
     /// <summary>Phone / device.</summary>
     public const string Phone =

@@ -234,18 +234,18 @@ public sealed class CatalogBrowserTests : PageTest
                         const title = card.querySelector('.sui-choice-card__title');
                         const description = card.querySelector('.sui-choice-card__description');
                         const indicator = card.querySelector('.sui-choice-card__indicator');
-                        const titleBox = box(title);
-                        const indicatorBox = box(indicator);
-                        const detailed = card.classList.contains('sui-choice-card--has-description');
+                        const leading = card.querySelector('.sui-choice-card__leading');
                         return {
                             contentRatio: box(content).width / cardBox.width,
                             titleOverflow: title.scrollWidth - title.clientWidth,
                             descriptionOverflow: description
                                 ? description.scrollWidth - description.clientWidth
                                 : 0,
-                            indicatorDelta: detailed
-                                ? Math.abs(indicatorBox.top - titleBox.top)
-                                : Math.abs(centerY(indicatorBox) - centerY(titleBox)),
+                            alignmentDeltas: [
+                                Math.abs(centerY(box(content)) - centerY(cardBox)),
+                                Math.abs(centerY(box(indicator)) - centerY(cardBox)),
+                                leading ? Math.abs(centerY(box(leading)) - centerY(cardBox)) : 0,
+                            ],
                         };
                     });
 
@@ -289,8 +289,8 @@ public sealed class CatalogBrowserTests : PageTest
                     $"choice content remained squeezed at {width}px: {reportJson}");
                 Assert.That(card.GetProperty("titleOverflow").GetDouble(), Is.LessThanOrEqualTo(1));
                 Assert.That(card.GetProperty("descriptionOverflow").GetDouble(), Is.LessThanOrEqualTo(1));
-                Assert.That(card.GetProperty("indicatorDelta").GetDouble(), Is.LessThanOrEqualTo(1.1),
-                    $"choice indicator is vertically displaced at {width}px: {reportJson}");
+                Assert.That(card.GetProperty("alignmentDeltas").EnumerateArray().Select(value => value.GetDouble()), Is.All.LessThanOrEqualTo(1.1),
+                    $"choice elements are vertically displaced at {width}px: {reportJson}");
             }
 
             Assert.That(root.GetProperty("pageHeaderGap").GetDouble(), Is.InRange(23, 25));

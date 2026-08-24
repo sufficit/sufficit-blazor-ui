@@ -64,8 +64,9 @@ continuam utilizáveis em viewport estreita e zoom de 200%.
 `SUIChoiceCard<TValue>` reserva as colunas de ícone e conteúdo final somente
 quando `IconContent`, `TrailingContent` ou o indicador padrão forem realmente
 renderizados. Sem ícone, título e descrição ocupam a coluna principal inteira.
-Textos longos quebram linha em vez de serem truncados; quando há descrição, o
-indicador se alinha ao início do título para não parecer deslocado verticalmente.
+Textos longos quebram linha em vez de serem truncados. Ícone, bloco textual e
+indicador permanecem centralizados verticalmente no card, inclusive quando há
+descrição.
 
 Opções do mesmo grupo devem compartilhar `Name`. Use `Description` apenas para
 informação necessária à decisão e mantenha `ShowSelectionIndicator="true"`

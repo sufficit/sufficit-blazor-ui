@@ -1,0 +1,82 @@
+.sui-pending-changes-bar {
+    position: fixed;
+    z-index: var(--sui-z-sticky);
+    inset-inline-start: 50%;
+    inset-block-end: max(var(--sui-space-4), env(safe-area-inset-bottom));
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--sui-space-3);
+    width: min(48rem, calc(100vw - (2 * var(--sui-space-4))));
+    padding: 0.625rem 0.75rem;
+    color: var(--sui-text-primary);
+    background: color-mix(in srgb, var(--sui-surface) 94%, transparent);
+    border: 1px solid var(--sui-border-strong);
+    border-radius: var(--sui-radius-lg);
+    box-shadow: 0 1rem 2.5rem rgb(15 23 42 / 22%);
+    backdrop-filter: blur(1rem) saturate(140%);
+    transform: translateX(-50%);
+}
+
+.sui-pending-changes-bar__signal {
+    display: inline-grid;
+    width: 2.25rem;
+    height: 2.25rem;
+    color: var(--sui-color-primary);
+    background: var(--sui-color-primary-soft);
+    border-radius: var(--sui-radius);
+    place-items: center;
+}
+
+.sui-pending-changes-bar__copy {
+    display: grid;
+    min-width: 0;
+    gap: 0.125rem;
+}
+
+.sui-pending-changes-bar__copy strong {
+    font-size: var(--sui-fs-body2);
+    line-height: 1.25;
+}
+
+.sui-pending-changes-bar__copy > span {
+    color: var(--sui-text-secondary);
+    font-size: var(--sui-fs-caption);
+    line-height: 1.35;
+}
+
+.sui-pending-changes-bar__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--sui-space-2);
+}
+
+@supports not (backdrop-filter: blur(1rem)) {
+    .sui-pending-changes-bar { background: var(--sui-surface); }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+    .sui-pending-changes-bar {
+        background: var(--sui-surface);
+        backdrop-filter: none;
+    }
+}
+
+@media (max-width: 599.98px) {
+    .sui-pending-changes-bar {
+        grid-template-columns: auto minmax(0, 1fr);
+        width: calc(100vw - (2 * var(--sui-space-3)));
+        padding: var(--sui-space-3);
+    }
+
+    .sui-pending-changes-bar__actions {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .sui-pending-changes-bar__actions ::deep .sui-btn {
+        width: 100%;
+    }
+}

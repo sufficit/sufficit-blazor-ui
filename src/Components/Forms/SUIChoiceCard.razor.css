@@ -39,10 +39,6 @@
   grid-template-columns: 40px minmax(0, 1fr) 20px;
 }
 
-.sui-choice-card--has-description {
-  align-items: start;
-}
-
 .sui-choice-card:hover:not(.is-disabled) {
   border-color: color-mix(in srgb, var(--_choice-accent) 50%, var(--_choice-border));
   background: color-mix(in srgb, var(--_choice-accent) 3%, var(--_choice-surface));

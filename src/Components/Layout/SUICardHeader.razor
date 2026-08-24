@@ -8,7 +8,12 @@
         </span>
     }
 
-    @if (!string.IsNullOrWhiteSpace(Title) || !string.IsNullOrWhiteSpace(Description))
+    @if (CardHeaderAvatar is not null)
+    {
+        <div class="sui-card__header-avatar">@CardHeaderAvatar</div>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(Title) || !string.IsNullOrWhiteSpace(Description) || CardHeaderContent is not null)
     {
         <div class="sui-card__header-copy">
             @if (!string.IsNullOrWhiteSpace(Title))
@@ -19,6 +24,7 @@
             {
                 <p class="sui-card__header-description">@Description</p>
             }
+            @CardHeaderContent
         </div>
     }
 
@@ -32,9 +38,12 @@
         <div class="sui-card__header-meta">@Meta</div>
     }
 
-    @if (Actions is not null)
+    @if (Actions is not null || CardHeaderActions is not null)
     {
-        <div class="sui-card__header-actions">@Actions</div>
+        <div class="sui-card__header-actions">
+            @Actions
+            @CardHeaderActions
+        </div>
     }
 </div>
 
@@ -71,6 +80,21 @@
     /// <summary>Optional actions aligned to the end of the header.</summary>
     [Parameter]
     public RenderFragment? Actions { get; set; }
+
+    /// <summary>
+    /// Compatibility slot for consumers that still use MudCardHeader's named
+    /// fragment convention while the surrounding card is already SUI-based.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? CardHeaderAvatar { get; set; }
+
+    /// <summary>Compatibility slot for legacy card header content.</summary>
+    [Parameter]
+    public RenderFragment? CardHeaderContent { get; set; }
+
+    /// <summary>Compatibility slot for legacy card header actions.</summary>
+    [Parameter]
+    public RenderFragment? CardHeaderActions { get; set; }
 
     private string Classname
         => SUIClassBuilder.Default("sui-card__header")

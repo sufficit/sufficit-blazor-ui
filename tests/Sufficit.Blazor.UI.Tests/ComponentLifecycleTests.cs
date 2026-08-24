@@ -42,6 +42,23 @@ public sealed class ComponentLifecycleTests
     }
 
     [Fact]
+    public void CardHeader_SupportsLegacyNamedSlotsDuringSuiMigration()
+    {
+        using var context = new BunitContext();
+        var cut = context.Render<SUICardHeader>(parameters => parameters
+            .Add(component => component.CardHeaderAvatar,
+                builder => builder.AddMarkupContent(0, "<span data-slot='avatar'>A</span>"))
+            .Add(component => component.CardHeaderContent,
+                builder => builder.AddMarkupContent(0, "<span data-slot='content'>C</span>"))
+            .Add(component => component.CardHeaderActions,
+                builder => builder.AddMarkupContent(0, "<span data-slot='actions'>X</span>")));
+
+        Assert.NotNull(cut.Find("[data-slot='avatar']"));
+        Assert.NotNull(cut.Find("[data-slot='content']"));
+        Assert.NotNull(cut.Find("[data-slot='actions']"));
+    }
+
+    [Fact]
     public async Task DialogHost_CompletesReplacedBackdropAndDisposedRequests()
     {
         var context = new BunitContext();

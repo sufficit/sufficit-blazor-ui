@@ -297,6 +297,7 @@
   display: inline-flex;
   align-items: center;
   gap: inherit;
+  transform: translateY(1px);
 }
 .sui-btn__icon { display: inline-flex; }
 

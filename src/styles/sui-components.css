@@ -12,17 +12,17 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
   border-radius: var(--sui-radius-full);
   font-weight: 600;
   font-size: .875rem;
   line-height: 1;
   background: var(--sui-surface-3);
   color: var(--sui-text-primary);
-  user-select: none;
+  object-fit: cover;
   width: 40px; height: 40px;
 }
 .sui-avatar--sm { width: 28px; height: 28px; font-size: .75rem; }
-.sui-avatar--md { width: 40px; height: 40px; }
 .sui-avatar--lg { width: 56px; height: 56px; font-size: 1rem; }
 
 /* ------------------------------------------------------------------ *

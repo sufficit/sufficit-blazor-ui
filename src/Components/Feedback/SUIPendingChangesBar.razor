@@ -1,0 +1,83 @@
+@namespace Sufficit.Blazor.UI.Components
+@using Microsoft.AspNetCore.Components.Web
+
+<section class="@Classname"
+         style="@Style"
+         role="region"
+         aria-label="@AriaLabel"
+         @attributes="AdditionalAttributes">
+    <span class="sui-pending-changes-bar__signal" aria-hidden="true">
+        <SUIIcon Name="clock" Size="20" />
+    </span>
+
+    <span class="sui-pending-changes-bar__copy" role="status" aria-live="polite">
+        <strong>@Title</strong>
+        @if (!string.IsNullOrWhiteSpace(Description))
+        {
+            <span>@Description</span>
+        }
+    </span>
+
+    <span class="sui-pending-changes-bar__actions">
+        @if (OnCancel.HasDelegate)
+        {
+            <SUIButton VariantValue="SUIVariant.Outlined"
+                       ColorValue="SUIColor.Default"
+                       SizeValue="SUISize.Medium"
+                       StartIcon="@SUIIcons.Restart"
+                       Disabled="@Disabled"
+                       OnClick="OnCancel">
+                @CancelText
+            </SUIButton>
+        }
+
+        <SUIButton VariantValue="SUIVariant.Filled"
+                   ColorValue="SUIColor.Primary"
+                   SizeValue="SUISize.Medium"
+                   StartIcon="@SUIIcons.Save"
+                   Disabled="@Disabled"
+                   OnClick="OnSave">
+            @SaveText
+        </SUIButton>
+    </span>
+</section>
+
+@code {
+    [Parameter]
+    public string Title { get; set; } = "Alterações pendentes";
+
+    [Parameter]
+    public string? Description { get; set; }
+
+    [Parameter]
+    public string SaveText { get; set; } = "Salvar tudo";
+
+    [Parameter]
+    public string CancelText { get; set; } = "Cancelar alterações";
+
+    [Parameter]
+    public string AriaLabel { get; set; } = "Alterações pendentes";
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnSave { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnCancel { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-pending-changes-bar")
+            .AddClass(Class)
+            .Build();
+}
