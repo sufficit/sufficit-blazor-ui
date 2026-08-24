@@ -1,0 +1,23 @@
+.sui-autocomplete__clear {
+    position: absolute;
+    right: var(--sui-space-2);
+    top: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    color: var(--sui-text-secondary);
+    background: transparent;
+    border: 0;
+    border-radius: var(--sui-radius-full);
+    cursor: pointer;
+    transform: translateY(-50%);
+}
+
+.sui-autocomplete__clear:hover { color: var(--sui-text-primary); background: var(--sui-surface-2); }
+.sui-autocomplete__clear:focus-visible { outline: 2px solid var(--sui-color-primary); outline-offset: 1px; }
+.sui-autocomplete__control:has(.sui-autocomplete__clear) .sui-field__input { padding-inline-end: 3rem; }
+.sui-autocomplete__adornment--with-clear { right: 2.75rem; }
+.sui-autocomplete__control:has(.sui-autocomplete__adornment--with-clear) .sui-field__input { padding-inline-end: 5rem; }

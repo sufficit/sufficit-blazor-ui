@@ -29,9 +29,20 @@
                @onkeydown="OnKeyDownAsync"
                placeholder="@Placeholder"
                disabled="@Disabled" />
+        @if (CanClear)
+        {
+            <button type="button"
+                    class="sui-autocomplete__clear"
+                    title="@ClearText"
+                    aria-label="@ClearText"
+                    @onmousedown:preventDefault="true"
+                    @onclick="ClearAsync">
+                <SUIIcon Name="x" Size="16" />
+            </button>
+        }
         @if (!string.IsNullOrWhiteSpace(AdornmentIcon))
         {
-            <span class="sui-autocomplete__adornment" aria-hidden="true">
+            <span class="@(CanClear ? "sui-autocomplete__adornment sui-autocomplete__adornment--with-clear" : "sui-autocomplete__adornment")" aria-hidden="true">
                 <SUIIcon Name="@AdornmentIcon" Size="18" />
             </span>
         }

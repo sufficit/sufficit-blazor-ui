@@ -55,6 +55,12 @@ public partial class SUIAutocomplete<T>
     public bool Disabled { get; set; }
 
     [Parameter]
+    public bool Clearable { get; set; }
+
+    [Parameter]
+    public string ClearText { get; set; } = "Limpar seleção";
+
+    [Parameter]
     public string LoadingText { get; set; } = "Carregando resultados…";
 
     [Parameter]
@@ -102,6 +108,8 @@ public partial class SUIAutocomplete<T>
         => _open && _activeIndex >= 0 && _activeIndex < _items.Count
             ? OptionId(_activeIndex)
             : null;
+    private bool CanClear
+        => Clearable && !Disabled && (!string.IsNullOrEmpty(_query) || Value is not null);
     private string? DescribedBy
     {
         get
@@ -157,6 +165,12 @@ public partial class SUIAutocomplete<T>
         _items.Clear();
         _activeIndex = -1;
         _searchError = null;
+
+        if (string.IsNullOrEmpty(_query) && !EqualityComparer<T?>.Default.Equals(_observedValue, default))
+        {
+            _observedValue = default;
+            await ValueChanged.InvokeAsync(default);
+        }
 
         if (Disabled || SearchFunc is null || _query.Length < Math.Max(0, MinCharacters))
         {
@@ -280,6 +294,19 @@ public partial class SUIAutocomplete<T>
         _open = false;
         _activeIndex = -1;
         await ValueChanged.InvokeAsync(item);
+    }
+
+    private async Task ClearAsync()
+    {
+        CancelPendingSearch();
+        _query = string.Empty;
+        _items.Clear();
+        _observedValue = default;
+        _loading = false;
+        _open = false;
+        _activeIndex = -1;
+        _searchError = null;
+        await ValueChanged.InvokeAsync(default);
     }
 
     private string ToDisplayString(T item)

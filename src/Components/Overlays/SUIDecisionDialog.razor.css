@@ -1,0 +1,4 @@
+.sui-dialog__description {
+    margin: calc(var(--sui-space-4) * -0.5) 0 var(--sui-space-4);
+    color: var(--sui-text-secondary);
+}

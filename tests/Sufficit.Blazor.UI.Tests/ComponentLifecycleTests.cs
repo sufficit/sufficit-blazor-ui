@@ -26,6 +26,22 @@ public sealed class ComponentLifecycleTests
     }
 
     [Fact]
+    public void Autocomplete_ClearButtonResetsControlledValue()
+    {
+        using var context = new BunitContext();
+        string? changedValue = "Destino atual";
+        var cut = context.Render<SUIAutocomplete<string>>(parameters => parameters
+            .Add(component => component.Value, "Destino atual")
+            .Add(component => component.Clearable, true)
+            .Add(component => component.ValueChanged, value => changedValue = value));
+
+        cut.Find("button[aria-label='Limpar seleção']").Click();
+
+        Assert.Null(changedValue);
+        Assert.Equal(string.Empty, cut.Find("input").GetAttribute("value"));
+    }
+
+    [Fact]
     public async Task DialogHost_CompletesReplacedBackdropAndDisposedRequests()
     {
         var context = new BunitContext();

@@ -65,6 +65,14 @@ public static class SUIIcons
     public const string Delete =
         "<path d=\"M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6\"/>";
 
+    /// <summary>Save / floppy disk.</summary>
+    public const string Save =
+        "<path d=\"M5 3h12l4 4v14H3V3h2Zm2 2v6h10V5H7Zm0 10v4h10v-4H7Zm7-9h2v3h-2V6Z\"/>";
+
+    /// <summary>Broken link / unlink.</summary>
+    public const string Unlink =
+        "<path d=\"m8.9 14.1-1.4 1.4a3 3 0 0 1-4.2-4.2l3-3a3 3 0 0 1 4.2 0l.7.7-1.4 1.4-.7-.7a1 1 0 0 0-1.4 0l-3 3a1 1 0 0 0 1.4 1.4l1.4-1.4 1.4 1.4Zm6.2-4.2 1.4-1.4a3 3 0 0 1 4.2 4.2l-3 3a3 3 0 0 1-4.2 0l-.7-.7 1.4-1.4.7.7a1 1 0 0 0 1.4 0l3-3a1 1 0 0 0-1.4-1.4l-1.4 1.4-1.4-1.4ZM8 11h8v2H8v-2Z\"/>";
+
     /// <summary>Phone / device.</summary>
     public const string Phone =
         "<rect x=\"7\" y=\"2\" width=\"10\" height=\"20\" rx=\"2\"/><path d=\"M11 18h2\"/>";
