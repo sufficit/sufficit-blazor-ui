@@ -1,7 +1,11 @@
 @namespace Sufficit.Blazor.UI.Components
 @typeparam T
 
-<div class="@WrapperClass">
+<div class="@WrapperClass" aria-busy="@(Loading ? "true" : "false")">
+    @if (Loading)
+    {
+        <SUIProgressLinear Indeterminate="true" Class="sui-table__progress" />
+    }
     <table class="@Classname" @attributes="AdditionalAttributes">
         @if (HeaderContent is not null)
         {
@@ -21,11 +25,14 @@
             }
             else
             {
-                @foreach (var item in Items)
+                @foreach (var indexedItem in Items.Select((item, index) => (item, index)))
                 {
+                    var item = indexedItem.item;
+                    var index = indexedItem.index;
                     @if (OnRowClick.HasDelegate)
                     {
-                        <tr class="sui-table__row sui-table__row--interactive"
+                        <tr class="@GetRowClass(item, index, interactive: true)"
+                            style="@RowStyleFunc?.Invoke(item, index)"
                             role="button"
                             tabindex="0"
                             @onclick="() => OnRowItemClick(item)"
@@ -35,7 +42,8 @@
                     }
                     else
                     {
-                        <tr class="sui-table__row">
+                        <tr class="@GetRowClass(item, index)"
+                            style="@RowStyleFunc?.Invoke(item, index)">
                             @RowTemplate?.Invoke(item)
                         </tr>
                     }
@@ -59,6 +67,18 @@
 
     [Parameter]
     public bool Dense { get; set; }
+
+    /// <summary>Shows an indeterminate progress indicator and exposes aria-busy.</summary>
+    [Parameter]
+    public bool Loading { get; set; }
+
+    /// <summary>Optional class selector calculated for each rendered row.</summary>
+    [Parameter]
+    public Func<T, int, string?>? RowClassFunc { get; set; }
+
+    /// <summary>Optional inline style calculated for each rendered row.</summary>
+    [Parameter]
+    public Func<T, int, string?>? RowStyleFunc { get; set; }
 
     /// <summary>
     /// Number of data columns. Used by the no-records cell so its
@@ -108,4 +128,10 @@
             : Task.CompletedTask;
 
     private int EffectiveColumnCount => Math.Max(1, ColumnCount);
+
+    private string GetRowClass(T item, int index, bool interactive = false)
+        => SUIClassBuilder.Default("sui-table__row")
+            .AddClass("sui-table__row--interactive", interactive)
+            .AddClass(RowClassFunc?.Invoke(item, index))
+            .Build();
 }

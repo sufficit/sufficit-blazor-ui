@@ -26,9 +26,15 @@ public sealed class AttributeForwardingTests
         var table = context.Render<SUITable<string>>(parameters => parameters
             .Add(component => component.Items, Array.Empty<string>())
             .AddUnmatched("data-probe", "table"));
+        var chip = context.Render<SUIChip>(parameters => parameters
+            .AddUnmatched("aria-live", "polite")
+            .AddUnmatched("role", "status")
+            .AddChildContent("3 notas encontradas"));
 
         Assert.Equal("alert", alert.Find("[role=alert]").GetAttribute("data-probe"));
         Assert.Equal("Aviso", alert.Find("[role=alert]").GetAttribute("aria-label"));
         Assert.Equal("table", table.Find("table").GetAttribute("data-probe"));
+        Assert.Equal("polite", chip.Find(".sui-chip").GetAttribute("aria-live"));
+        Assert.Equal("status", chip.Find(".sui-chip").GetAttribute("role"));
     }
 }

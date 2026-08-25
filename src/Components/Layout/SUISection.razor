@@ -1,0 +1,26 @@
+@namespace Sufficit.Blazor.UI.Components
+
+<section class="@Classname" @attributes="AdditionalAttributes">
+    <SUICard Elevation="@Elevation">
+        <SUICardHeader Icon="@Icon" Title="@Title" Description="@Description">
+            <Actions>@Actions</Actions>
+        </SUICardHeader>
+        @if (ChildContent is not null)
+        {
+            <SUICardContent>@ChildContent</SUICardContent>
+        }
+    </SUICard>
+</section>
+
+@code {
+    [Parameter] public string? Icon { get; set; }
+    [Parameter, EditorRequired] public string Title { get; set; } = string.Empty;
+    [Parameter] public string? Description { get; set; }
+    [Parameter] public RenderFragment? Actions { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public int Elevation { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
+
+    private string Classname => SUIClassBuilder.Default("sui-section").AddClass(Class).Build();
+}

@@ -260,6 +260,48 @@ public sealed class AccessibilityContractTests
     }
 
     [Fact]
+    public void Table_ExposesLoadingAndCalculatedRowPresentation()
+    {
+        using var context = new BunitContext();
+        var cut = context.Render<SUITable<string>>(parameters => parameters
+            .Add(component => component.Items, ["Crédito"])
+            .Add(component => component.Loading, true)
+            .Add(component => component.RowClassFunc, (_, _) => "row-positive")
+            .Add(component => component.RowStyleFunc, (_, _) => "color: green;")
+            .Add(component => component.RowTemplate,
+                item => builder =>
+                {
+                    builder.OpenElement(0, "td");
+                    builder.AddContent(1, item);
+                    builder.CloseElement();
+                }));
+
+        Assert.Equal("true", cut.Find(".sui-table-wrapper").GetAttribute("aria-busy"));
+        Assert.NotNull(cut.Find("[role=progressbar]"));
+        var row = cut.Find("tbody tr");
+        Assert.Contains("row-positive", row.ClassList);
+        Assert.Contains("color: green", row.GetAttribute("style"), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Pagination_AnnouncesRangeAndMovesByKeyboardButton()
+    {
+        using var context = new BunitContext();
+        context.JSInterop.Mode = JSRuntimeMode.Loose;
+        var selectedPage = -1;
+        var cut = context.Render<SUIPagination>(parameters => parameters
+            .Add(component => component.TotalItems, 60)
+            .Add(component => component.PageSize, 25)
+            .Add(component => component.PageIndex, 1)
+            .Add(component => component.PageIndexChanged, page => selectedPage = page));
+
+        Assert.Equal("Paginação", cut.Find("nav").GetAttribute("aria-label"));
+        Assert.Contains("26–50 de 60 itens", cut.Markup, StringComparison.Ordinal);
+        cut.Find("button[aria-label='Próxima página']").Click();
+        Assert.Equal(2, selectedPage);
+    }
+
+    [Fact]
     public void Progress_ClampsValueAndUsesTransformScale()
     {
         using var context = new BunitContext();

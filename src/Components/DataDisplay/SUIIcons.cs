@@ -108,4 +108,54 @@ public static class SUIIcons
     /// <summary>Data usage / pie chart.</summary>
     public const string DataUsage =
         "<path d=\"M12 2a10 10 0 1 0 10 10h-10V2Z\"/><circle cx=\"12\" cy=\"12\" r=\"10\"/>";
+
+    public const string Search =
+        "<circle cx=\"11\" cy=\"11\" r=\"7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><path d=\"m20 20-4-4\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/>";
+
+    public const string Refresh = Restart;
+
+    public const string ChevronLeft =
+        "<path d=\"m15 18-6-6 6-6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>";
+
+    public const string ChevronRight =
+        "<path d=\"m9 18 6-6-6-6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>";
+
+    public const string Send =
+        "<path d=\"m3 3 18 9-18 9 4-9-4-9Zm4 9h14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>";
+
+    public const string Filter =
+        "<path d=\"M4 5h16l-6 7v5l-4 2v-7L4 5Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linejoin=\"round\"/>";
+
+    public const string Copy =
+        "<rect x=\"8\" y=\"8\" width=\"11\" height=\"11\" rx=\"2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/><path d=\"M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/>";
+
+    public const string Link =
+        "<path d=\"M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1.1 1.1M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1.1-1.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"/>";
+
+    public const string External =
+        "<path d=\"M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>";
+
+    public const string Close =
+        "<path d=\"m18 6-12 12M6 6l12 12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/>";
+
+    public const string Warning =
+        "<path d=\"M10.3 2.9 1.8 17a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 2.9a2 2 0 0 0-3.4 0Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/><path d=\"M12 9v4M12 17h.01\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/>";
+
+    public const string Receipt =
+        "<path d=\"M5 3h14a2 2 0 0 1 2 2v16l-3-1.5-3 1.5-3-1.5L9 21l-3-1.5L3 21V5a2 2 0 0 1 2-2Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/><path d=\"M7 8h10M7 12h10M7 16h5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/>";
+
+    public const string Tune =
+        "<path d=\"M4 6h10M18 6h2M4 12h2M10 12h10M4 18h7M15 18h5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/><circle cx=\"16\" cy=\"6\" r=\"2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/><circle cx=\"8\" cy=\"12\" r=\"2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/><circle cx=\"13\" cy=\"18\" r=\"2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/>";
+
+    public const string Pdf =
+        "<path d=\"M6 2h8l4 4v16H6zM14 2v5h5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/><path d=\"M8 13h3a2 2 0 0 1 0 4H8v-4Zm7 0v4M15 13h3\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/>";
+
+    public const string Code =
+        "<path d=\"m8 9-3 3 3 3M16 9l3 3-3 3M14 5l-4 14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>";
+
+    public const string Login =
+        "<path d=\"M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>";
+
+    public const string Payments =
+        "<rect x=\"3\" y=\"6\" width=\"18\" height=\"12\" rx=\"2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/><path d=\"M3 10h18M7 14h4\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"/>";
 }
