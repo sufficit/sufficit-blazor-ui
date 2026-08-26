@@ -38,8 +38,7 @@
 }
 
 .sui-nav-group {
-  --sui-tree-axis: 26px;
-  --sui-tree-stem-start: 35px;
+  --sui-nav-accent: var(--sui-color-primary);
   position: relative;
   display: block;
   margin: 0;
@@ -70,6 +69,7 @@ button.sui-nav-link,
   text-align: start;
   text-decoration: none;
   cursor: pointer;
+  position: relative;
   transition: background-color var(--sui-transition), color var(--sui-transition);
 }
 
@@ -198,6 +198,9 @@ button.sui-nav-link:disabled,
 .sui-nav-link__expand {
   width: 20px;
   height: 20px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--sui-nav-accent) 8%, var(--sui-surface));
+  color: color-mix(in srgb, var(--sui-nav-accent) 62%, var(--sui-text-primary));
   transition: transform var(--sui-transition);
 }
 
@@ -220,43 +223,68 @@ button.sui-nav-link:disabled,
 }
 
 .sui-collapse__inner {
+  position: relative;
   min-height: 0;
   overflow: hidden;
 }
 
 .sui-nav--nested {
   position: relative;
-  margin-inline-start: 20px;
-  width: calc(100% - 20px);
+  margin-inline-start: 0;
+  width: 100%;
   border-inline-start: 0;
 }
 
-/* A single stem starts under the parent icon and ends at the final child row. */
-.sui-nav-group.is-expanded:not(.sui-nav-group--account):not(.sui-rail-group)::before {
-  content: "";
-  position: absolute;
-  inset-inline-start: var(--sui-tree-axis);
-  top: var(--sui-tree-stem-start);
-  bottom: 20px;
-  width: 1px;
-  z-index: 1;
-  border-radius: 999px;
-  background: linear-gradient(180deg,
-    rgba(148, 163, 184, .34) 0%,
-    rgba(148, 163, 184, .12) 100%);
-  pointer-events: none;
+.sui-nav-group--nested {
+  --sui-nav-accent: color-mix(in srgb, var(--sui-color-primary) 62%, var(--sui-text-secondary));
 }
 
-.sui-nav-group--nested {
-  --sui-tree-axis: 22px;
-  --sui-tree-stem-start: 30px;
+.sui-nav--nested .sui-nav--nested > .sui-nav-group {
+  --sui-nav-accent: color-mix(in srgb, var(--sui-color-primary) 38%, var(--sui-text-secondary));
+}
+
+/* Disclosure rows use compact, repeated cues instead of tree connector lines. */
+.sui-nav-group__toggle {
+  font-weight: 600;
+}
+
+.sui-nav-group__toggle--nested::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--sui-nav-accent);
+  opacity: .72;
+}
+
+.sui-nav-group--nested.is-expanded {
+  margin-block: 2px 6px;
+}
+
+.sui-nav-group--nested.is-expanded > .sui-nav-group__toggle,
+.sui-nav-group--nested.is-expanded > .sui-collapse {
+  background: color-mix(in srgb, var(--sui-surface-2) 68%, var(--sui-surface));
+}
+
+.sui-nav-group--nested.is-expanded > .sui-nav-group__toggle {
+  border-radius: var(--sui-radius) var(--sui-radius) 0 0;
+}
+
+.sui-nav-group--nested.is-expanded > .sui-collapse {
+  border-radius: 0 0 var(--sui-radius) var(--sui-radius);
+}
+
+.sui-nav-group__toggle--nested[aria-expanded="true"] .sui-nav-link__expand {
+  background: color-mix(in srgb, var(--sui-nav-accent) 16%, var(--sui-surface));
 }
 
 .sui-nav--nested button.sui-nav-link,
 .sui-nav--nested .sui-nav-link__row {
   min-height: 40px;
   padding-block: 8px;
-  padding-inline: 10px;
+  padding-inline: 14px;
 }
 
 .sui-rail-group {
@@ -380,30 +408,6 @@ button.sui-nav-link:disabled,
   font-size: var(--sui-fs-caption);
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.sui-rail-flyout .sui-nav--nested {
-  width: 100%;
-  margin-inline-start: 0;
-  border-inline-start: 0;
-}
-
-.sui-rail-flyout .sui-nav--nested .sui-nav--nested {
-  width: calc(100% - 20px);
-  margin-inline-start: 20px;
-  border-inline-start: 0;
-}
-
-.sui-rail-flyout .sui-nav-link__row,
-.sui-rail-flyout button.sui-nav-link {
-  min-height: 40px;
-  padding-block: 8px;
-  padding-inline: 10px;
-}
-
-.sui-rail-flyout .sui-nav-group--nested .sui-collapse .sui-nav--nested .sui-nav-link__row,
-.sui-rail-flyout .sui-nav-group--nested .sui-collapse .sui-nav--nested button.sui-nav-link {
-  padding-inline-start: 18px;
 }
 
 @supports not (top: anchor(top)) {
@@ -988,7 +992,7 @@ button.sui-nav-link:disabled,
 
 /* container max widths */
 .sui-container {
-  width: 100%;
+  box-sizing: border-box; width: 100%; min-width: 0;
   margin-inline: auto;
   padding-inline: var(--sui-space-4);
 }

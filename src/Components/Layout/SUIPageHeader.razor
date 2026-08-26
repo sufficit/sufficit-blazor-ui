@@ -1,20 +1,22 @@
 @namespace Sufficit.Blazor.UI.Components
 
 <header class="@Classname" @attributes="AdditionalAttributes">
-    <div class="sui-page-header__copy">
+    <div class="sui-page-header__identity">
         @if (LeadingContent is not null)
         {
             <div class="sui-page-header__leading">@LeadingContent</div>
         }
-        @if (!string.IsNullOrWhiteSpace(Eyebrow))
-        {
-            <p class="sui-page-header__eyebrow">@Eyebrow</p>
-        }
-        <h1 class="sui-page-header__title">@Title</h1>
-        @if (!string.IsNullOrWhiteSpace(Description))
-        {
-            <p class="sui-page-header__description">@Description</p>
-        }
+        <div class="sui-page-header__copy">
+            @if (!string.IsNullOrWhiteSpace(Eyebrow))
+            {
+                <p class="sui-page-header__eyebrow">@Eyebrow</p>
+            }
+            <h1 class="sui-page-header__title">@Title</h1>
+            @if (!string.IsNullOrWhiteSpace(Description))
+            {
+                <p class="sui-page-header__description">@Description</p>
+            }
+        </div>
     </div>
     @if (Actions is not null)
     {

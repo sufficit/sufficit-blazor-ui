@@ -8,14 +8,18 @@ namespace Sufficit.Blazor.UI.Components;
 /// </summary>
 public static class SUIIcons
 {
+    /// <summary>Home / application entry.</summary>
+    public const string Home =
+        "<path d=\"m3 11 9-8 9 8M5 10v11h14V10M9 21v-7h6v7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>";
+
     /// <summary>Magnifier with a slash — "no results". Replaces SearchOff.</summary>
     public const string SearchOff =
         "<path d=\"M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z\"/>" +
         "<path d=\"M2.7 2.7a.996.996 0 0 0-1.41 0c-.39.39-.39 1.02 0 1.41l16.31 16.32c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L2.7 2.7z\"/>";
 
-    /// <summary>Down-pointing chevron. Replaces ArrowDropDown.</summary>
+    /// <summary>Down-pointing chevron used by expandable navigation groups.</summary>
     public const string ArrowDropDown =
-        "<path d=\"M8.71 11.71a.996.996 0 0 1 0-1.41l3.29-3.29c.63-.63 1.71-.18 1.71.71v6.59c0 .89-1.08 1.34-1.71.71L8.7 11.72z\"/>";
+        "<path d=\"m6 9 6 6 6-6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>";
 
     /// <summary>Up-pointing chevron, used for collapsed nav groups.</summary>
     public const string ArrowDropUp =
@@ -69,6 +73,12 @@ public static class SUIIcons
         "<path d=\"M4.75 7.25h14.5M9.25 7.25v-2.5h5.5v2.5M6.75 7.25l.75 12h9l.75-12M10 11v4.75M14 11v4.75\"/>" +
         "</g>";
 
+    /// <summary>Edit / pencil.</summary>
+    public const string Edit =
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<path d=\"M13.5 5.5 18.5 10.5M4 20l4.25-1 10.5-10.5a2.12 2.12 0 0 0-3-3L5.25 16 4 20Z\"/>" +
+        "</g>";
+
     /// <summary>Save / floppy disk.</summary>
     public const string Save =
         "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
@@ -89,9 +99,13 @@ public static class SUIIcons
     public const string Dashboard =
         "<rect x=\"3\" y=\"3\" width=\"7\" height=\"7\" rx=\"1.5\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"7\" rx=\"1.5\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\" rx=\"1.5\"/><rect x=\"14\" y=\"14\" width=\"7\" height=\"7\" rx=\"1.5\"/>";
 
-    /// <summary>Pending / clock list.</summary>
-    public const string Pending =
-        "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/>";
+    /// <summary>Clock used for history, pending state and time-based activity.</summary>
+    public const string Clock =
+        "<circle cx=\"12\" cy=\"12\" r=\"9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/>" +
+        "<path d=\"M12 7v5l3 2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>";
+
+    /// <summary>Pending state uses the shared clock glyph.</summary>
+    public const string Pending = Clock;
 
     /// <summary>Admin / shield-settings.</summary>
     public const string Admin =
@@ -101,9 +115,18 @@ public static class SUIIcons
     public const string Category =
         "<path d=\"m12 2 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 17l9 5 9-5\"/>";
 
+    /// <summary>Connected workflow used by services and recurring operations.</summary>
+    public const string Workflow =
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<rect x=\"3\" y=\"3\" width=\"6\" height=\"6\" rx=\"1.5\"/><rect x=\"15\" y=\"15\" width=\"6\" height=\"6\" rx=\"1.5\"/>" +
+        "<path d=\"M9 6h4a4 4 0 0 1 4 4v5M15 18h-4a4 4 0 0 1-4-4V9\"/>" +
+        "</g>";
+
     /// <summary>Storage / database disk.</summary>
     public const string Storage =
-        "<ellipse cx=\"12\" cy=\"5\" rx=\"8\" ry=\"3\"/><path d=\"M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6\"/>";
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<ellipse cx=\"12\" cy=\"5\" rx=\"8\" ry=\"3\"/><path d=\"M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6\"/>" +
+        "</g>";
 
     /// <summary>Data usage / pie chart.</summary>
     public const string DataUsage =
@@ -143,6 +166,18 @@ public static class SUIIcons
 
     public const string Receipt =
         "<path d=\"M5 3h14a2 2 0 0 1 2 2v16l-3-1.5-3 1.5-3-1.5L9 21l-3-1.5L3 21V5a2 2 0 0 1 2-2Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/><path d=\"M7 8h10M7 12h10M7 16h5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/>";
+
+    /// <summary>Bank building used for banking and settlement areas.</summary>
+    public const string Bank =
+        "<path d=\"m3 9 9-6 9 6M5 10h14M6 10v8M10 10v8M14 10v8M18 10v8M3 21h18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/>";
+
+    /// <summary>Barcode used for boleto identification and reconciliation.</summary>
+    public const string Barcode =
+        "<path d=\"M5 6v12M8 6v12M11 6v12M14 6v12M17 6v12M19 6v12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"/>";
+
+    /// <summary>Wallet used for a customer's own financial documents.</summary>
+    public const string Wallet =
+        "<path d=\"M4 6h14a2 2 0 0 1 2 2v10H4a2 2 0 0 1-2-2V6a3 3 0 0 1 3-3h12v3M15 11h7v4h-7a2 2 0 0 1 0-4Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/>";
 
     public const string Tune =
         "<path d=\"M4 6h10M18 6h2M4 12h2M10 12h10M4 18h7M15 18h5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/><circle cx=\"16\" cy=\"6\" r=\"2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/><circle cx=\"8\" cy=\"12\" r=\"2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/><circle cx=\"13\" cy=\"18\" r=\"2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/>";

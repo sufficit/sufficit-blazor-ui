@@ -189,6 +189,82 @@ public sealed class StyleContractTests
         Assert.Contains("object-fit:cover", compact, StringComparison.Ordinal);
     }
 
+    [Fact]
+    public void Container_keeps_padding_inside_the_available_width()
+    {
+        var stylesheet = File.ReadAllText(Path.Combine(
+            RepositoryLayout.Styles, "sui-components.css"));
+        var compact = Regex.Replace(stylesheet, @"\s+", string.Empty);
+
+        Assert.Contains(
+            ".sui-container{box-sizing:border-box;width:100%;min-width:0",
+            compact,
+            StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Navigation_groups_preserve_width_and_use_disclosure_cues_without_tree_lines()
+    {
+        var stylesheet = File.ReadAllText(Path.Combine(
+            RepositoryLayout.Styles, "sui-components.css"));
+        var compact = Regex.Replace(stylesheet, @"\s+", string.Empty);
+
+        Assert.Contains(
+            ".sui-nav--nested{position:relative;margin-inline-start:0;width:100%",
+            compact,
+            StringComparison.Ordinal);
+        Assert.DoesNotContain("width:calc(100%-20px)", compact, StringComparison.Ordinal);
+        Assert.DoesNotContain("margin-inline-start:20px", compact, StringComparison.Ordinal);
+        Assert.DoesNotContain("--sui-tree-axis", compact, StringComparison.Ordinal);
+        Assert.DoesNotContain("--sui-tree-stem-color", compact, StringComparison.Ordinal);
+        Assert.DoesNotContain(".sui-collapse__inner::before", compact, StringComparison.Ordinal);
+        Assert.Contains("--sui-nav-accent:var(--sui-color-primary)", compact, StringComparison.Ordinal);
+        Assert.Contains(".sui-nav-group__toggle--nested::before", compact, StringComparison.Ordinal);
+        Assert.DoesNotContain(".sui-nav-group__toggle.sui-nav-link__icon{", compact, StringComparison.Ordinal);
+        Assert.Contains(".sui-nav-group--nested.is-expanded{margin-block:2px6px", compact, StringComparison.Ordinal);
+        Assert.Contains(
+            ".sui-nav-group--nested.is-expanded>.sui-nav-group__toggle,.sui-nav-group--nested.is-expanded>.sui-collapse{background:",
+            compact,
+            StringComparison.Ordinal);
+        Assert.Contains(
+            ".sui-nav-group__toggle--nested[aria-expanded=\"true\"].sui-nav-link__expand",
+            compact,
+            StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Navigation_group_uses_a_stroked_chevron_instead_of_a_filled_triangle()
+    {
+        Assert.Contains("stroke=\"currentColor\"", global::Sufficit.Blazor.UI.Components.SUIIcons.ArrowDropDown, StringComparison.Ordinal);
+        Assert.Contains("stroke-linecap=\"round\"", global::Sufficit.Blazor.UI.Components.SUIIcons.ArrowDropDown, StringComparison.Ordinal);
+        Assert.Contains("stroke-linejoin=\"round\"", global::Sufficit.Blazor.UI.Components.SUIIcons.ArrowDropDown, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Divider_always_emits_the_zero_margin_design_system_class()
+    {
+        var component = File.ReadAllText(Path.Combine(
+            RepositoryLayout.Src, "Components", "Layout", "SUIDivider.razor"));
+
+        Assert.Contains("<hr class=\"sui-divider @Class\"", component, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Page_header_keeps_identity_together_and_actions_in_a_separate_command_area()
+    {
+        var component = File.ReadAllText(Path.Combine(
+            RepositoryLayout.Src, "Components", "Layout", "SUIPageHeader.razor"));
+        var stylesheet = File.ReadAllText(Path.Combine(
+            RepositoryLayout.Src, "Components", "Layout", "SUIPageHeader.razor.css"));
+        var compact = Regex.Replace(stylesheet, @"\s+", string.Empty);
+
+        Assert.Contains("sui-page-header__identity", component, StringComparison.Ordinal);
+        Assert.Contains("sui-page-header__copy", component, StringComparison.Ordinal);
+        Assert.Contains("grid-template-columns:minmax(0,1fr)auto", compact, StringComparison.Ordinal);
+        Assert.Contains("border-bottom:1pxsolidcolor-mix", compact, StringComparison.Ordinal);
+        Assert.DoesNotContain("font-size:var(--sui-fs-display)", compact, StringComparison.Ordinal);
+    }
+
     private static IEnumerable<string> ReadDeclarationLines(string relativePath)
         => File.ReadAllLines(Path.Combine(RepositoryLayout.Root, relativePath))
             .Where(line => !line.TrimStart().StartsWith("/*", StringComparison.Ordinal)
