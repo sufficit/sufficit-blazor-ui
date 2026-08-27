@@ -14,7 +14,16 @@
       @attributes="AdditionalAttributes">
     @if (Indeterminate)
     {
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)SUIIcons.ProgressCircular)</svg>
+        @if (LoadingIcon is { Length: > 0 } custom)
+        {
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)custom)</svg>
+        }
+        else
+        {
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true">
+                <path d="M12 2.75A9.25 9.25 0 1 0 21.25 12" />
+            </svg>
+        }
     }
     else
     {
@@ -42,6 +51,14 @@
     /// </summary>
     [Parameter]
     public bool Indeterminate { get; set; }
+
+    /// <summary>Custom indeterminate glyph: inner SVG content. Null = default 3/4 arc.</summary>
+    [Parameter]
+    public string? LoadingIcon { get; set; }
+
+    /// <summary>Rotation direction while indeterminate. Default clockwise.</summary>
+    [Parameter]
+    public SUISpinDirection SpinDirection { get; set; } = SUISpinDirection.Clockwise;
 
     /// <summary>Color: "primary", "success", "warning", "error", "info".</summary>
     [Parameter]
@@ -84,6 +101,7 @@
             .AddClass($"sui-progress-circular--{SizeSuffix}")
             .AddClass($"sui-color-{SUIClassBuilder.Slug(ColorValue)}", ColorValue is not null)
             .AddClass("sui-progress-circular--static", !Indeterminate)
+            .AddClass("sui-progress-circular--reverse", Indeterminate && SpinDirection == SUISpinDirection.CounterClockwise)
             .AddClass(Class)
             .Build();
 

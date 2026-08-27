@@ -12,6 +12,9 @@
         .AddClass("sui-btn--loading", IsLoading)
         .AddClass(Class)
         .Build();
+    string spinClass = SpinDirection == SUISpinDirection.CounterClockwise
+        ? "sui-progress-circular sui-progress-circular--reverse"
+        : "sui-progress-circular";
 }
 
 @if (isAnchor)
@@ -22,7 +25,7 @@
         @if (IsLoading)
         {
             <span class="sui-overlay sui-overlay--light">
-                <span class="sui-progress-circular"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)SUIIcons.ProgressCircular)</svg></span>
+                <span class="@spinClass">@SpinnerSvg</span>
             </span>
             <span class="sui-btn__label" style="opacity:0">@ChildContent</span>
         }
@@ -50,7 +53,7 @@ else
         @if (IsLoading)
         {
             <span class="sui-overlay sui-overlay--light">
-                <span class="sui-progress-circular"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)SUIIcons.ProgressCircular)</svg></span>
+                <span class="@spinClass">@SpinnerSvg</span>
             </span>
             <span class="sui-btn__label" style="opacity:0">@ChildContent</span>
         }
@@ -111,6 +114,28 @@ else
 
     [Parameter]
     public string? EndIcon { get; set; }
+
+    /// <summary>
+    /// Custom loading indicator: inner SVG content (paths). Null = the default
+    /// 3/4 arc, a stroke-based glyph with no arrowhead so the rotation always
+    /// reads as forward motion.
+    /// </summary>
+    [Parameter]
+    public string? LoadingIcon { get; set; }
+
+    /// <summary>Rotation direction of the loading spinner. Default clockwise.</summary>
+    [Parameter]
+    public SUISpinDirection SpinDirection { get; set; } = SUISpinDirection.Clockwise;
+
+    /// <summary>
+    /// The loading svg. A custom <see cref="LoadingIcon"/> renders fill-based
+    /// like the other icons; the default arc renders stroke-based with a
+    /// rounded cap — the same artwork family as the determinate progress ring,
+    /// so indeterminate and determinate no longer look like strangers.
+    /// </summary>
+    private MarkupString SpinnerSvg => LoadingIcon is { Length: > 0 } custom
+        ? (MarkupString)$"<svg viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\">{custom}</svg>"
+        : (MarkupString)"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M12 2.75A9.25 9.25 0 1 0 21.25 12\"/></svg>";
 
     [Parameter]
     public string? Href { get; set; }

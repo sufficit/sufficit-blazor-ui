@@ -43,6 +43,17 @@ public enum SUISize
 }
 
 /// <summary>
+/// Rotation direction of spinning indicators (loading buttons, circular
+/// progress). Screen convention is clockwise; counter-clockwise exists for
+/// glyphs whose artwork reads better unrolled the other way.
+/// </summary>
+public enum SUISpinDirection
+{
+    Clockwise,
+    CounterClockwise,
+}
+
+/// <summary>
 /// HTML button types.
 /// </summary>
 public enum SUIButtonType
