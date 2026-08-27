@@ -85,4 +85,27 @@ public sealed class ComponentLifecycleTests
 
         await third.Result.WaitAsync(TimeSpan.FromSeconds(1));
     }
+
+    [Fact]
+    public async Task DialogService_DeliversRequestCreatedBeforeHostSubscribes()
+    {
+        var context = new BunitContext();
+        context.JSInterop.Mode = JSRuntimeMode.Loose;
+        var service = new SUIDialogService();
+        context.Services.AddSingleton<ISUIDialogService>(service);
+
+        var reference = await service.ShowAsync<SUIConfirmDialog>(
+            "Desvincular",
+            new Dictionary<string, object?> { ["Message"] = "Confirmar operação?" });
+
+        Assert.False(reference.Result.IsCompleted);
+
+        var host = context.Render<SUIDialogHost>();
+        host.WaitForAssertion(() =>
+            Assert.Equal("Desvincular", host.Find(".sui-dialog__title").TextContent));
+
+        host.FindAll("button").Single(button => button.TextContent.Contains("Confirmar")).Click();
+
+        Assert.True(await reference.Result.WaitAsync(TimeSpan.FromSeconds(1)) is true);
+    }
 }

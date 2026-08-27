@@ -12,7 +12,38 @@ namespace Sufficit.Blazor.UI.Services;
 /// </summary>
 public sealed class SUIDialogService : ISUIDialogService
 {
-    public event Action<SUIDialogRequest>? OnShow;
+    private readonly object _sync = new();
+    private readonly Queue<SUIDialogRequest> _pendingRequests = new();
+    private Action<SUIDialogRequest>? _onShow;
+
+    public event Action<SUIDialogRequest>? OnShow
+    {
+        add
+        {
+            if (value is null)
+                return;
+
+            SUIDialogRequest[] pending;
+            lock (_sync)
+            {
+                _onShow += value;
+                pending = _pendingRequests.ToArray();
+                _pendingRequests.Clear();
+            }
+
+            // InteractiveAuto can create the scoped service before the layout's
+            // dialog host subscribes during the server-to-WASM transition. Keep
+            // requests made in that interval instead of losing them and leaving
+            // callers waiting forever for an unrendered dialog.
+            foreach (var request in pending)
+                value(request);
+        }
+        remove
+        {
+            lock (_sync)
+                _onShow -= value;
+        }
+    }
 
     public Task<SUIDialogReference> ShowAsync<T>(string title, IDictionary<string, object?>? parameters = null)
         where T : ComponentBase
@@ -24,7 +55,15 @@ public sealed class SUIDialogService : ISUIDialogService
             title,
             (IReadOnlyDictionary<string, object?>?)parameters ?? new Dictionary<string, object?>(),
             reference);
-        OnShow?.Invoke(request);
+        Action<SUIDialogRequest>? handler;
+        lock (_sync)
+        {
+            handler = _onShow;
+            if (handler is null)
+                _pendingRequests.Enqueue(request);
+        }
+
+        handler?.Invoke(request);
         return Task.FromResult(reference);
     }
 
