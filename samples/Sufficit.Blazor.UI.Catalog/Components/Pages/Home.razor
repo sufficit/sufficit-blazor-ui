@@ -183,7 +183,7 @@
             <SUITable T="CatalogRow" Items="SortedRows" ColumnCount="2">
                 <HeaderContent>
                     <SUITh scope="col" aria-sort="@(SortDirection is SUISortDirection.None ? null : SortDirection is SUISortDirection.Ascending ? "ascending" : "descending")">
-                        <SUITableSortLabel SortDirection="SortDirection" SortDirectionChanged="OnSortChanged">Serviço</SUITableSortLabel>
+                        <SUITableSortLabel T="CatalogRow" SortDirection="SortDirection" SortDirectionChanged="OnSortChanged">Serviço</SUITableSortLabel>
                     </SUITh>
                     <SUITh scope="col">Região</SUITh>
                 </HeaderContent>
