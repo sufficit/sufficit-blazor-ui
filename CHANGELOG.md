@@ -8,6 +8,17 @@ são derivadas exclusivamente de tags Git no formato
 
 ## [Unreleased]
 
+### Fixed (já em main, aguardando a próxima tag)
+
+- Política global de quebra de texto: `overflow-wrap: anywhere` em `:root`
+  nas foundations — tokens indivisíveis (ids, URLs, JSON) nunca mais
+  transbordam cards nem forçam trilhas de grid/flex além do contêiner;
+  herda para toda superfície consumidora. Orçamento brotli do bundle
+  elevado 8000→8100 para acomodar a regra.
+- Catálogo de amostras volta a compilar sob `-warnaserror` (o build de
+  main estava vermelho desde 25e5424): `SUITableSortLabel` requer `T`
+  explícito quando nenhum parâmetro tipado é passado.
+
 ### Added
 
 - Plano da próxima etapa de engenharia da SUI.
