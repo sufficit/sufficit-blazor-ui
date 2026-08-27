@@ -91,7 +91,9 @@ public sealed class CatalogBrowserTests : PageTest
         Assert.That(styles[3], Is.EqualTo("flex"));
         Assert.That(styles[4], Is.EqualTo("relative"));
         Assert.That(styles[5], Is.EqualTo("flex"));
-        Assert.That(styles[6], Is.EqualTo("flex"));
+        // The header moved to a two-column grid (identity + actions) in the
+        // header-layout refinement — computed display is grid, not flex.
+        Assert.That(styles[6], Is.EqualTo("grid"));
         Assert.That(styles[7], Is.EqualTo("collapse"));
         Assert.That(styles[8], Is.EqualTo("flex"));
 
