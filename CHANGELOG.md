@@ -8,7 +8,14 @@ são derivadas exclusivamente de tags Git no formato
 
 ## [Unreleased]
 
-### Fixed (já em main, aguardando a próxima tag)
+## [2.0.0] — 2026-08-27
+
+Primeira release da linha `net10.0`-only (o pacote exige tag v2+). Inclui
+tudo acumulado em main: política global de quebra de texto, ícones
+financeiros e header refinado, suites de acessibilidade/visual/performance
+com baselines em CI, e a correção do build do catálogo de amostras.
+
+### Fixed
 
 - Política global de quebra de texto: `overflow-wrap: anywhere` em `:root`
   nas foundations — tokens indivisíveis (ids, URLs, JSON) nunca mais
