@@ -152,6 +152,15 @@
 .sui-root *::before,
 .sui-root *::after { box-sizing: inherit; }
 
+/* Global wrap policy: long unbreakable tokens (ids, URLs, JSON fragments)
+   must never overflow a card or force a grid/flex track wider than its
+   container. overflow-wrap is inherited, so declaring it at :root covers
+   every consuming surface, SUI or host; "anywhere" (not "break-word") also
+   lets intrinsic min-content sizing collapse so tracks can actually
+   shrink. Surfaces that need hard clipping (tables, code) opt out with
+   their own overflow rules. */
+:root { overflow-wrap: anywhere; }
+
 .sui-ff { font-family: var(--sui-font); }
 
 .sui-color-default  { color: var(--sui-text-primary); }

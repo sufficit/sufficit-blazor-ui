@@ -14,7 +14,9 @@ const checkOnly = process.argv.includes("--check");
 const budgets = {
   raw: 52_000,
   gzip: 9_500,
-  brotli: 8_000,
+  // The global overflow-wrap policy (cards can never be blown up by long
+  // tokens) sits at the edge; budget raised deliberately for it.
+  brotli: 8_100,
 };
 
 const result = bundle({
