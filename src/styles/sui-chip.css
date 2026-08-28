@@ -1,0 +1,98 @@
+/* ------------------------------------------------------------------ *
+ * Chip
+ * ------------------------------------------------------------------ */
+
+.sui-chip {
+  --_chip-bg: var(--sui-surface-2);
+  --_chip-fg: var(--sui-text-primary);
+  --_chip-bd: transparent;
+  --_chip-remove-size: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sui-space-1);
+  height: 32px;
+  padding: 0 var(--sui-space-3);
+  font-size: var(--sui-fs-caption);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--_chip-fg);
+  background: var(--_chip-bg);
+  border: 1px solid var(--_chip-bd);
+  border-radius: var(--sui-radius-full);
+  white-space: nowrap;
+}
+.sui-chip--small {
+  --_chip-remove-size: 18px;
+  height: 24px;
+  padding: 0 var(--sui-space-2);
+  font-size: var(--sui-fs-overline);
+}
+.sui-chip--removable { padding-inline-end: 3px; }
+.sui-chip--actionable {
+  gap: 0;
+  padding-inline: 0;
+}
+.sui-chip__action {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sui-space-1);
+  height: 100%;
+  padding: 0 var(--sui-space-3);
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-radius: inherit;
+}
+.sui-chip--small .sui-chip__action { padding-inline: var(--sui-space-2); }
+.sui-chip--actionable.sui-chip--removable .sui-chip__action { padding-inline-end: var(--sui-space-1); }
+.sui-chip__action:hover { background: color-mix(in srgb, currentColor 7%, transparent); }
+.sui-chip__action:focus-visible { outline: 2px solid currentColor; outline-offset: -2px; }
+.sui-chip__leading { display: inline-flex; line-height: 0; }
+.sui-chip__label { transform: translateY(1px); }
+.sui-chip__remove {
+  position: relative;
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: var(--_chip-remove-size);
+  height: var(--_chip-remove-size);
+  padding: 0;
+  color: inherit;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-radius: var(--sui-radius-full);
+}
+.sui-chip__remove::before { position: absolute; inset: -3px; content: ""; }
+.sui-chip__remove:hover {
+  color: var(--sui-text-primary);
+  background: color-mix(in srgb, currentColor 9%, transparent);
+}
+.sui-chip__remove:focus-visible { outline: 2px solid currentColor; outline-offset: 1px; }
+
+.sui-chip--filled { }
+.sui-chip--outlined { background: transparent; border-color: var(--_chip-bd); }
+.sui-chip--text { background: transparent; border-color: transparent; }
+
+.sui-chip--default   { --_chip-bg: var(--sui-surface-2); --_chip-fg: var(--sui-text-primary); --_chip-bd: var(--sui-border); }
+.sui-chip--primary   { --_chip-bg: var(--sui-color-primary); --_chip-fg: var(--sui-color-primary-contrast); --_chip-bd: var(--sui-color-primary); }
+.sui-chip--secondary { --_chip-bg: var(--sui-color-secondary); --_chip-fg: var(--sui-color-secondary-contrast); --_chip-bd: var(--sui-color-secondary); }
+.sui-chip--success   { --_chip-bg: color-mix(in srgb, var(--sui-color-success) 16%, transparent); --_chip-fg: var(--sui-color-success); --_chip-bd: var(--sui-color-success); }
+.sui-chip--warning   { --_chip-bg: color-mix(in srgb, var(--sui-color-warning) 16%, transparent); --_chip-fg: var(--sui-color-warning); --_chip-bd: var(--sui-color-warning); }
+.sui-chip--error     { --_chip-bg: color-mix(in srgb, var(--sui-color-error)  16%, transparent); --_chip-fg: var(--sui-color-error); --_chip-bd: var(--sui-color-error); }
+.sui-chip--info      { --_chip-bg: color-mix(in srgb, var(--sui-color-info)    16%, transparent); --_chip-fg: var(--sui-color-info); --_chip-bd: var(--sui-color-info); }
+.sui-chip--dark      { --_chip-bg: var(--sui-color-dark); --_chip-fg: #fff; --_chip-bd: var(--sui-color-dark); }
+.sui-chip--outlined.sui-chip--primary,
+.sui-chip--text.sui-chip--primary { background: transparent; color: var(--sui-color-primary); }
+.sui-chip--outlined.sui-chip--success,
+.sui-chip--text.sui-chip--success { background: transparent; color: var(--sui-color-success); }
+.sui-chip--outlined.sui-chip--warning,
+.sui-chip--text.sui-chip--warning { background: transparent; color: var(--sui-color-warning); }
+.sui-chip--outlined.sui-chip--error,
+.sui-chip--text.sui-chip--error { background: transparent; color: var(--sui-color-error); }
+.sui-chip--outlined.sui-chip--info,
+.sui-chip--text.sui-chip--info { background: transparent; color: var(--sui-color-info); }
+.sui-chip--outlined.sui-chip--secondary,
+.sui-chip--text.sui-chip--secondary { background: transparent; color: var(--sui-color-secondary); }

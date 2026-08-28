@@ -1,11 +1,43 @@
 @namespace Sufficit.Blazor.UI.Components
 
 <span class="@Classname" @attributes="AdditionalAttributes">
-    @if (!string.IsNullOrWhiteSpace(Icon))
+    @if (OnClick.HasDelegate)
     {
-        <SUIIcon Name="@Icon" Size="14" />
+        <button type="button"
+                class="sui-chip__action"
+                aria-label="@ActionLabel"
+                title="@ActionLabel"
+                @onclick="ClickAsync">
+            @if (!string.IsNullOrWhiteSpace(Icon))
+            {
+                <span class="sui-chip__leading" aria-hidden="true">
+                    <SUIIcon Name="@Icon" Size="@LeadingIconSize" />
+                </span>
+            }
+            <span class="sui-chip__label">@ChildContent</span>
+        </button>
     }
-    @ChildContent
+    else
+    {
+        @if (!string.IsNullOrWhiteSpace(Icon))
+        {
+            <span class="sui-chip__leading" aria-hidden="true">
+                <SUIIcon Name="@Icon" Size="@LeadingIconSize" />
+            </span>
+        }
+        <span class="sui-chip__label">@ChildContent</span>
+    }
+    @if (OnRemove.HasDelegate)
+    {
+        <button type="button"
+                class="sui-chip__remove"
+                aria-label="@RemoveLabel"
+                title="@RemoveLabel"
+                @onclick="RemoveAsync"
+                @onclick:stopPropagation="true">
+            <SUIIcon Name="x" Size="@RemoveIconSize" />
+        </button>
+    }
 </span>
 
 @code {
@@ -35,6 +67,22 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>Optional primary action for interactive chips.</summary>
+    [Parameter]
+    public EventCallback OnClick { get; set; }
+
+    /// <summary>Accessible label and tooltip for the primary action.</summary>
+    [Parameter]
+    public string ActionLabel { get; set; } = "Selecionar";
+
+    /// <summary>Optional action that renders a compact, accessible remove control.</summary>
+    [Parameter]
+    public EventCallback OnRemove { get; set; }
+
+    /// <summary>Accessible label and tooltip for the remove action.</summary>
+    [Parameter]
+    public string RemoveLabel { get; set; } = "Remover";
+
     /// <summary>
     /// Additional HTML attributes forwarded to the root element, including
     /// accessibility attributes such as <c>aria-live</c> and <c>role</c>.
@@ -47,8 +95,17 @@
             .AddClass($"sui-chip--{SUIClassBuilder.Slug(EffectiveColor)}")
             .AddClass($"sui-chip--{SUIClassBuilder.Slug(EffectiveSize)}", EffectiveSize is not null)
             .AddClass($"sui-chip--{SUIClassBuilder.Slug(EffectiveVariant)}")
+            .AddClass("sui-chip--actionable", OnClick.HasDelegate)
+            .AddClass("sui-chip--removable", OnRemove.HasDelegate)
             .AddClass(Class)
             .Build();
+
+    private bool IsSmall => SUIClassBuilder.Slug(EffectiveSize) == "small";
+    private int LeadingIconSize => IsSmall ? 12 : 14;
+    private int RemoveIconSize => IsSmall ? 10 : 12;
+
+    private Task ClickAsync() => OnClick.InvokeAsync();
+    private Task RemoveAsync() => OnRemove.InvokeAsync();
 
 #pragma warning disable CS0618
     private object EffectiveColor => ColorValue ?? Color ?? SUIColor.Default;

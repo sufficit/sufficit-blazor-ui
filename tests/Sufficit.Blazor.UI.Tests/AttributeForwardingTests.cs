@@ -37,4 +37,34 @@ public sealed class AttributeForwardingTests
         Assert.Equal("polite", chip.Find(".sui-chip").GetAttribute("aria-live"));
         Assert.Equal("status", chip.Find(".sui-chip").GetAttribute("role"));
     }
+
+    [Fact]
+    public void Chip_AlignsItsContentAndExposesAnAccessibleRemoveAction()
+    {
+        using var context = new BunitContext();
+        var selected = false;
+        var removed = false;
+        var chip = context.Render<SUIChip>(parameters => parameters
+            .Add(component => component.Icon, "check-circle")
+            .Add(component => component.SizeValue, SUISize.Small)
+            .Add(component => component.ActionLabel, "Editar filtro Situação")
+            .Add(component => component.OnClick, () => selected = true)
+            .Add(component => component.RemoveLabel, "Remover filtro Situação")
+            .Add(component => component.OnRemove, () => removed = true)
+            .AddChildContent("Situação: Em aberto e pagos"));
+
+        Assert.NotNull(chip.Find(".sui-chip__leading"));
+        Assert.Equal("Situação: Em aberto e pagos", chip.Find(".sui-chip__label").TextContent);
+
+        var action = chip.Find(".sui-chip__action");
+        Assert.Equal("Editar filtro Situação", action.GetAttribute("aria-label"));
+        action.Click();
+
+        var remove = chip.Find(".sui-chip__remove");
+        Assert.Equal("Remover filtro Situação", remove.GetAttribute("aria-label"));
+        remove.Click();
+
+        Assert.True(selected);
+        Assert.True(removed);
+    }
 }
