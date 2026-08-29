@@ -25,11 +25,12 @@
     }
     else
     {
-        <div class="sui-text-field__control">
+        <div class="sui-text-field__control" style="position:relative">
             <input class="sui-field__input"
                    id="@EffectiveId"
                    type="@InputType"
                    value="@Value"
+                   style="@InputPaddingStyle"
                    @onchange="OnChanged"
                    @oninput="OnInput"
                    placeholder="@Placeholder"
@@ -43,6 +44,7 @@
             {
                 <button type="button"
                         class="sui-text-field__clear"
+                        style="position:absolute;inset-block-start:50%;inset-inline-end:0;display:inline-flex;align-items:center;justify-content:center;width:2.75rem;height:100%;padding:0;color:var(--sui-text-secondary);background:transparent;border:0;cursor:pointer;transform:translateY(-50%)"
                         title="@ClearText"
                         aria-label="@ClearText"
                         @onmousedown:preventDefault="true"
@@ -53,6 +55,7 @@
             @if (!string.IsNullOrWhiteSpace(AdornmentIcon))
             {
                 <span class="@(CanClear ? "sui-text-field__adornment sui-text-field__adornment--with-clear" : "sui-text-field__adornment")"
+                      style="@AdornmentStyle"
                       aria-hidden="true">
                     <SUIIcon Name="@AdornmentIcon" Size="18" />
                 </span>
@@ -147,6 +150,14 @@
     private bool HasError => Invalid || !string.IsNullOrWhiteSpace(ErrorText);
     private bool CanClear
         => Clearable && !Disabled && !string.IsNullOrEmpty(Value?.ToString());
+    private string? InputPaddingStyle
+        => CanClear && !string.IsNullOrWhiteSpace(AdornmentIcon)
+            ? "padding-inline-end:5rem"
+            : CanClear || !string.IsNullOrWhiteSpace(AdornmentIcon)
+                ? "padding-inline-end:3rem"
+                : null;
+    private string AdornmentStyle
+        => $"position:absolute;inset-block-start:50%;inset-inline-end:{(CanClear ? "2.75rem" : "var(--sui-space-3)")};color:var(--sui-text-secondary);pointer-events:none;transform:translateY(-50%)";
     private string? DescribedBy
         => string.Join(' ', new[]
             {

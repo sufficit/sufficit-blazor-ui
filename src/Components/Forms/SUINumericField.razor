@@ -1,3 +1,4 @@
+@using System.Globalization
 @namespace Sufficit.Blazor.UI.Components
 @typeparam T
 
@@ -9,7 +10,7 @@
     <input class="sui-field__input"
            id="@EffectiveId"
            type="number"
-           value="@Value"
+           value="@FormattedValue"
            @onchange="OnChanged"
            min="@Min"
            max="@Max"
@@ -91,13 +92,19 @@
             .AddClass(Class)
             .Build();
 
+    private string? FormattedValue
+        => Value is null
+            ? null
+            : Convert.ToString(Value, CultureInfo.InvariantCulture);
+
     private async Task OnChanged(ChangeEventArgs e)
     {
-        try
+        if (BindConverter.TryConvertTo<T>(
+                e.Value,
+                CultureInfo.InvariantCulture,
+                out var converted))
         {
-            var converted = e.Value is null ? default : (T?)Convert.ChangeType(e.Value, typeof(T));
             await ValueChanged.InvokeAsync(converted);
         }
-        catch { }
     }
 }
