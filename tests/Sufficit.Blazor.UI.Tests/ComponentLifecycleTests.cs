@@ -59,6 +59,40 @@ public sealed class ComponentLifecycleTests
     }
 
     [Fact]
+    public void Avatar_FallsBackToChildContentWhenImageFails()
+    {
+        using var context = new BunitContext();
+        var cut = context.Render<SUIAvatar>(parameters => parameters
+            .Add(component => component.Src, "https://avatars.tests.local/owner.jpg")
+            .Add(component => component.Alt, string.Empty)
+            .AddChildContent("OP"));
+
+        cut.Find("img").TriggerEvent("onerror", new EventArgs());
+
+        var fallback = cut.Find("div.sui-avatar");
+        Assert.Equal("OP", fallback.TextContent);
+        Assert.Equal("true", fallback.GetAttribute("aria-hidden"));
+    }
+
+    [Fact]
+    public void Avatar_RetriesWhenItsSourceChanges()
+    {
+        using var context = new BunitContext();
+        var cut = context.Render<SUIAvatar>(parameters => parameters
+            .Add(component => component.Src, "https://avatars.tests.local/first.jpg")
+            .AddChildContent("OP"));
+        cut.Find("img").TriggerEvent("onerror", new EventArgs());
+
+        cut.Render(parameters => parameters
+            .Add(component => component.Src, "https://avatars.tests.local/second.jpg")
+            .AddChildContent("OP"));
+
+        Assert.Equal(
+            "https://avatars.tests.local/second.jpg",
+            cut.Find("img").GetAttribute("src"));
+    }
+
+    [Fact]
     public async Task DialogHost_CompletesReplacedBackdropAndDisposedRequests()
     {
         var context = new BunitContext();
