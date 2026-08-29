@@ -911,6 +911,7 @@ P|Sufficit.Blazor.UI.Components.SUITd|System.Collections.Generic.Dictionary<Syst
 P|Sufficit.Blazor.UI.Components.SUITd|System.String|Class|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITd|System.String|DataLabel|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:T>|Microsoft.AspNetCore.Components.EventCallback<`0:T>|ValueChanged|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITextField<`0:T>|System.Boolean|Clearable|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:T>|System.Boolean|Disabled|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:T>|System.Boolean|Immediate|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:T>|System.Boolean|Invalid|[]|get;set;
@@ -918,7 +919,9 @@ P|Sufficit.Blazor.UI.Components.SUITextField<`0:T>|System.Collections.Generic.Di
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:T>|System.Linq.Expressions.Expression<System.Func<`0:T>>|ValueExpression|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:T>|System.Nullable<System.Int32>|MaxLength|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:T>|System.String|AriaDescribedBy|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITextField<`0:T>|System.String|AdornmentIcon|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:T>|System.String|Class|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITextField<`0:T>|System.String|ClearText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:T>|System.String|ErrorText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:T>|System.String|HelperText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:T>|System.String|Id|[]|get;set;

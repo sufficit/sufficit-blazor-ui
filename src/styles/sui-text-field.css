@@ -1,0 +1,47 @@
+.sui-text-field__control {
+  position: relative;
+}
+
+.sui-text-field__clear,
+.sui-text-field__adornment {
+  position: absolute;
+  inset-block-start: 50%;
+  color: var(--sui-text-secondary);
+  transform: translateY(-50%);
+}
+
+.sui-text-field__clear {
+  inset-inline-end: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 100%;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.sui-text-field__clear:focus-visible {
+  outline: 2px solid var(--sui-color-primary);
+  outline-offset: 1px;
+}
+
+.sui-text-field__adornment {
+  inset-inline-end: var(--sui-space-3);
+  pointer-events: none;
+}
+
+.sui-text-field__adornment--with-clear {
+  inset-inline-end: 2.75rem;
+}
+
+.sui-text-field__control:has(.sui-text-field__clear) .sui-field__input,
+.sui-text-field__control:has(.sui-text-field__adornment) .sui-field__input {
+  padding-inline-end: 3rem;
+}
+
+.sui-text-field__control:has(.sui-text-field__adornment--with-clear) .sui-field__input {
+  padding-inline-end: 5rem;
+}
