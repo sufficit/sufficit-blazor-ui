@@ -1,0 +1,133 @@
+@namespace Sufficit.Blazor.UI.Components
+@using Sufficit.Blazor.UI.Utilities
+
+<nav class="@ClassName" style="@InlineStyle" aria-label="@AriaLabel" @attributes="AdditionalAttributes">
+    <ol class="sui-stack sui-stack--row sui-stack--wrap"
+        style="margin:0;padding:0;gap:var(--sui-space-2);list-style:none">
+        @for (var index = 0; index < Steps.Count; index++)
+        {
+            var stepIndex = index;
+            var state = StateFor(stepIndex);
+            var canSelect = CanSelect(stepIndex);
+
+            <li class="sui-spacer is-@state" style="flex:1 1 8rem">
+                <button class="sui-btn sui-btn--text sui-btn--sm sui-btn--full-width sui-stack sui-stack--ai-center @ButtonColorClass(state)"
+                        style="height:auto;min-height:var(--sui-control-h-md);padding:var(--sui-space-2)"
+                        type="button"
+                        disabled="@(!canSelect)"
+                        aria-current="@(stepIndex == EffectiveActiveIndex ? "step" : null)"
+                        aria-label="@AccessibleLabel(stepIndex, state)"
+                        @onclick="@(() => SelectAsync(stepIndex))">
+                    <span class="@MarkerClass(state)" aria-hidden="true">
+                        @if (state == "completed")
+                        {
+                            <SUIIcon Name="check" Size="16" />
+                        }
+                        else
+                        {
+                            @(stepIndex + 1)
+                        }
+                    </span>
+                    <span class="sui-text sui-text--caption">@Steps[stepIndex]</span>
+                </button>
+            </li>
+        }
+    </ol>
+</nav>
+
+@code {
+    /// <summary>Labels shown in workflow order.</summary>
+    [Parameter, EditorRequired]
+    public IReadOnlyList<string> Steps { get; set; } = Array.Empty<string>();
+
+    /// <summary>Zero-based current step. Values outside the collection are clamped.</summary>
+    [Parameter]
+    public int ActiveIndex { get; set; }
+
+    /// <summary>
+    /// Furthest step the user may select. Defaults to the current step so completed
+    /// steps remain revisitable while future work stays disabled.
+    /// </summary>
+    [Parameter]
+    public int? MaxReachableIndex { get; set; }
+
+    /// <summary>Raised when the user selects a reachable step.</summary>
+    [Parameter]
+    public EventCallback<int> ActiveIndexChanged { get; set; }
+
+    /// <summary>Accessible name for the workflow navigation landmark.</summary>
+    [Parameter]
+    public string AriaLabel { get; set; } = "Progresso da configuração";
+
+    [Parameter]
+    public string CompletedStatusLabel { get; set; } = "concluída";
+
+    [Parameter]
+    public string CurrentStatusLabel { get; set; } = "atual";
+
+    [Parameter]
+    public string PendingStatusLabel { get; set; } = "não iniciada";
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
+
+    private int EffectiveActiveIndex
+        => Steps.Count == 0 ? 0 : Math.Clamp(ActiveIndex, 0, Steps.Count - 1);
+
+    private int EffectiveMaxReachableIndex
+        => Steps.Count == 0
+            ? -1
+            : Math.Clamp(Math.Max(MaxReachableIndex ?? EffectiveActiveIndex, EffectiveActiveIndex), 0, Steps.Count - 1);
+
+    private string ClassName
+        => SUIClassBuilder.Default("sui-progress-steps")
+            .AddClass(Class)
+            .Build();
+
+    private string? InlineStyle => Style;
+
+    private string StateFor(int index)
+        => index < EffectiveActiveIndex
+            ? "completed"
+            : index == EffectiveActiveIndex ? "active" : "pending";
+
+    private static string ButtonColorClass(string state) => state switch
+    {
+        "active" => "sui-btn--color-primary",
+        "completed" => "sui-btn--color-success",
+        _ => "sui-btn--color-default"
+    };
+
+    private static string MarkerClass(string state) => state switch
+    {
+        "active" => "sui-avatar sui-avatar--sm sui-avatar--primary",
+        "completed" => "sui-avatar sui-avatar--sm sui-avatar--outlined sui-color-success",
+        _ => "sui-avatar sui-avatar--sm sui-avatar--outlined"
+    };
+
+    private bool CanSelect(int index)
+        => index <= EffectiveMaxReachableIndex && ActiveIndexChanged.HasDelegate;
+
+    private string AccessibleLabel(int index, string state)
+    {
+        var status = state switch
+        {
+            "completed" => CompletedStatusLabel,
+            "active" => CurrentStatusLabel,
+            _ => PendingStatusLabel
+        };
+
+        return $"Etapa {index + 1} de {Steps.Count}: {Steps[index]}, {status}";
+    }
+
+    private Task SelectAsync(int index)
+        => CanSelect(index) && index != EffectiveActiveIndex
+            ? ActiveIndexChanged.InvokeAsync(index)
+            : Task.CompletedTask;
+}
