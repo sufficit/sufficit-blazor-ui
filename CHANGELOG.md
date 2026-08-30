@@ -8,6 +8,14 @@ são derivadas exclusivamente de tags Git no formato
 
 ## [Unreleased]
 
+## [2.2.1] — 2026-08-30
+
+### Changed
+
+- O orçamento de transferência CSS do catálogo passa a 92 KiB após medição
+  Chromium de 89,3 KiB, acomodando os estados responsivos do drawer e dos
+  choice cards com menos de 3 KiB de margem explícita.
+
 ## [2.2.0] — 2026-08-30
 
 ### Added

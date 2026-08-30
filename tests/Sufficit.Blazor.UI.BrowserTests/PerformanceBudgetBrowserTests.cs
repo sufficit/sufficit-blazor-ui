@@ -16,10 +16,10 @@ public sealed class PerformanceBudgetBrowserTests : PageTest
 {
     private const int RequestBudget = 30;
     private const int DomNodeBudget = 3000;
-    // The financial-icons set and the header refinement grew the catalog's
-    // page CSS to ~85.8 KiB (measured); the global overflow-wrap policy adds
-    // ~40 B on top. Budget raised with room to breathe, not headroom to burn.
-    private const long CssTransferBudget = 88 * 1024;
+    // Responsive drawer states and content-sized choice-card summaries bring
+    // the measured catalog CSS to ~89.3 KiB. Keep less than 3 KiB of explicit
+    // headroom so new component CSS still requires a deliberate review.
+    private const long CssTransferBudget = 92 * 1024;
     private const long TotalTransferBudget = 900 * 1024;
     private const double LargestContentfulPaintBudgetMs = 2500;
     private const double CumulativeLayoutShiftBudget = 0.1;
