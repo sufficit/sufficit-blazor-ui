@@ -916,25 +916,66 @@ button.sui-nav-link:disabled,
 .sui-appbar--inherit { background: inherit; color: inherit; }
 
 .sui-drawer {
-  background: var(--sui-surface);
-  color: var(--sui-text-primary);
+  display: flex; flex-direction: column;
+  background: var(--sui-surface); color: var(--sui-text-primary);
   border-inline-end: 1px solid var(--sui-border);
-  width: 256px;
-  flex: 0 0 auto;
-  overflow-y: auto;
+  width: var(--sui-drawer-width, 256px); max-width: 100%; height: 100%;
+  flex: 0 0 auto; overflow: hidden;
 }
-.sui-drawer--permanent { display: block; }
-.sui-drawer--temporary {
-  position: fixed;
-  inset-block: 0;
-  inset-inline-start: 0;
+.sui-drawer__header {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sui-space-3);
+  min-height: 64px;
+  padding-block: max(var(--sui-space-2), env(safe-area-inset-top));
+  padding-inline: max(var(--sui-space-4), env(safe-area-inset-left))
+                  max(var(--sui-space-2), env(safe-area-inset-right));
+  border-bottom: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+  background: inherit; flex: 0 0 auto;
+}
+.sui-drawer__title {
+  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.sui-drawer__content {
+  flex: 1 1 auto; min-height: 0; overflow: auto; overscroll-behavior: contain;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.sui-drawer--permanent:not(.sui-drawer--open) { display: none; }
+.sui-drawer--temporary,
+.sui-drawer--responsive {
+  position: fixed; inset-block: 0; inset-inline-start: 0;
   z-index: var(--sui-z-drawer, 1200);
-  transform: translateX(-100%);
-  transition: transform var(--sui-transition);
+  transform: translateX(-100%); visibility: hidden; pointer-events: none;
+  transition:
+    transform var(--sui-transition),
+    visibility 0s linear var(--sui-transition-duration, 200ms);
 }
-.sui-drawer--temporary.sui-drawer--open { transform: translateX(0); }
-.sui-drawer--temporary:dir(rtl) { transform: translateX(100%); }
-.sui-drawer--temporary.sui-drawer--open:dir(rtl) { transform: translateX(0); }
+.sui-drawer--temporary.sui-drawer--ready,
+.sui-drawer--responsive.sui-drawer--ready { visibility: visible; }
+.sui-drawer--temporary.sui-drawer--open,
+.sui-drawer--responsive.sui-drawer--open {
+  transform: translateX(0); visibility: visible; pointer-events: auto;
+  transition-delay: 0s;
+}
+.sui-drawer--responsive.sui-drawer--ready:not(.sui-drawer--compact) {
+  position: relative; inset: auto; transform: none;
+  visibility: visible; pointer-events: auto;
+}
+.sui-drawer--responsive:not(.sui-drawer--compact):not(.sui-drawer--open) { display: none; }
+.sui-drawer--temporary:dir(rtl),
+.sui-drawer--responsive:dir(rtl) { transform: translateX(100%); }
+.sui-drawer--temporary.sui-drawer--open:dir(rtl),
+.sui-drawer--responsive.sui-drawer--open:dir(rtl) { transform: translateX(0); }
+.sui-drawer--compact.sui-drawer--fullscreen-compact {
+  inset: 0; width: 100vw; width: 100dvw;
+  max-width: none;
+  height: 100vh; height: 100dvh; border: 0;
+}
+.sui-drawer-backdrop {
+  position: fixed; inset: 0;
+  z-index: calc(var(--sui-z-drawer, 1200) - 1);
+  background: var(--sui-overlay, rgb(0 0 0 / 48%));
+}
+html:has(.sui-drawer--compact.sui-drawer--fullscreen-compact.sui-drawer--open),
+body:has(.sui-drawer--compact.sui-drawer--fullscreen-compact.sui-drawer--open) { overflow: hidden; }
 .sui-drawer--e1 { box-shadow: var(--sui-shadow-1); }
 .sui-drawer--e2 { box-shadow: var(--sui-shadow-2); }
 .sui-drawer--e3 { box-shadow: var(--sui-shadow-3); }
@@ -955,7 +996,7 @@ button.sui-nav-link:disabled,
 /* desktop layout: drawer beside content (≥900px). Mobile: drawer is overlay. */
 @media (min-width: 900px) {
   .sui-layout { flex-direction: row; }
-  .sui-drawer--permanent { position: sticky; top: 0; height: 100vh; }
+  .sui-drawer--permanent { position: sticky; top: 0; height: 100vh; height: 100dvh; }
   .sui-layout__main { padding-top: 0; }
   .sui-appbar { position: sticky; top: 0; }
 }
@@ -1364,6 +1405,7 @@ button.sui-nav-link:disabled,
   }
 
   .sui-drawer--temporary,
+  .sui-drawer--responsive,
   .sui-progress-linear__bar,
   .sui-select__trigger,
   .sui-select__indicator,

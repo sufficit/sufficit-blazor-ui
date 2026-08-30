@@ -12,11 +12,13 @@ const outputPath = path.join(repositoryRoot, "src", "wwwroot", "sufficit-ui.css"
 const checkOnly = process.argv.includes("--check");
 
 const budgets = {
-  raw: 52_000,
-  gzip: 9_500,
+  // Includes the accessible responsive drawer, focus-safe full-screen mode,
+  // safe-area handling, and navigation overlay states.
+  raw: 53_000,
+  gzip: 9_800,
   // Includes the global overflow guard and the accessible removable-chip
   // contract used by shared filtering surfaces.
-  brotli: 8_200,
+  brotli: 8_500,
 };
 
 const result = bundle({

@@ -1,38 +1,42 @@
 @namespace Sufficit.Blazor.UI.Components
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
 
-<aside class="@Classname">
-    @ChildContent
-</aside>
-
-@code {
-    [Parameter]
-    public bool Open { get; set; }
-
-    [Parameter]
-    public EventCallback<bool> OpenChanged { get; set; }
-
-    /// <summary>"permanent" (default, desktop), "temporary" (mobile overlay).</summary>
-    [Parameter]
-    public string Variant { get; set; } = "permanent";
-
-    /// <summary>Drawer width (CSS length). Default 256px.</summary>
-    [Parameter]
-    public string Width { get; set; } = "256px";
-
-    [Parameter]
-    public int Elevation { get; set; } = 1;
-
-    [Parameter]
-    public string? Class { get; set; }
-
-    [Parameter]
-    public RenderFragment? ChildContent { get; set; }
-
-    private string Classname
-        => SUIClassBuilder.Default("sui-drawer")
-            .AddClass($"sui-drawer--{Variant}")
-            .AddClass("sui-drawer--open", Open)
-            .AddClass($"sui-drawer--e{(Elevation is > 0 and < 4 ? Elevation : 1)}")
-            .AddClass(Class)
-            .Build();
+@if (ShowBackdrop && _isCompact && Open)
+{
+    <div class="sui-drawer-backdrop"
+         aria-hidden="true"
+         @onclick="CloseFromBackdropAsync"></div>
 }
+
+<aside @ref="_drawerElement"
+       id="@Id"
+       class="@Classname"
+       style="@StyleValue"
+       role="@Role"
+       aria-label="@AriaLabel"
+       aria-modal="@AriaModal"
+       aria-hidden="@AriaHidden"
+       tabindex="@TabIndex"
+       @attributes="AdditionalAttributes">
+    @if (_isCompact && ShowCloseButton)
+    {
+        <div class="sui-drawer__header">
+            <SUIText Typo="SUITypo.subtitle1" Color="SUIColor.Inherit" Class="sui-drawer__title">
+                @Title
+            </SUIText>
+            <SUIIconButton Icon="@SUIIcons.Close"
+                           Title="@CloseLabel"
+                           ColorValue="SUIColor.Inherit"
+                           SizeValue="SUISize.Large"
+                           EdgeValue="SUIEdge.True"
+                           OnClick="CloseAsync"
+                           data-sui-drawer-close="true" />
+        </div>
+    }
+
+    <div class="sui-drawer__content">
+        @ChildContent
+    </div>
+</aside>

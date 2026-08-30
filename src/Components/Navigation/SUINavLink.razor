@@ -135,7 +135,7 @@
 
     private RenderFragment RenderInteractive() => __builder =>
     {
-        if (OnClick.HasDelegate)
+        if (OnClick.HasDelegate && string.IsNullOrWhiteSpace(Href))
         {
             <button type="button"
                     class="@LinkClassname"
@@ -157,6 +157,15 @@
                 @RenderContent()
             </a>
         }
+        else if (IsDisabled)
+        {
+            <span class="@LinkClassname"
+                  @attributes="Attributes"
+                  aria-label="@RailTooltip"
+                  aria-disabled="true">
+                @RenderContent()
+            </span>
+        }
         else
         {
             <NavLink href="@Href"
@@ -165,7 +174,6 @@
                      aria-label="@RailTooltip"
                      Match="@Match"
                      ActiveClass="@ActiveClass"
-                     aria-disabled="@IsDisabled"
                      @onclick="HandleNavigation">
                 @RenderContent()
             </NavLink>
@@ -197,18 +205,19 @@
             await OnClick.InvokeAsync(args);
     }
 
-    private Task HandleNavigation(MouseEventArgs args)
+    private async Task HandleNavigation(MouseEventArgs args)
     {
         if (IsDisabled)
-            return Task.CompletedTask;
+            return;
+
+        if (OnClick.HasDelegate)
+            await OnClick.InvokeAsync(args);
 
         if (ForceLoad && !string.IsNullOrWhiteSpace(Href))
         {
             Navigation.NavigateTo(Href, forceLoad: true);
-            return Task.CompletedTask;
+            return;
         }
-
-        return OnClick.HasDelegate ? OnClick.InvokeAsync(args) : Task.CompletedTask;
     }
 
     private string GetInitials()

@@ -38,6 +38,27 @@ public sealed class FormLayoutContractTests
     }
 
     [Fact]
+    public void ChoiceCard_DistinguishesCustomTrailingContentFromSelectionIndicator()
+    {
+        using var context = new BunitContext();
+        var cut = context.Render<SUIChoiceCard<string>>(parameters => parameters
+            .Add(component => component.Value, "marketplace")
+            .Add(component => component.Title, "Usar uma oferta pronta")
+            .Add(component => component.TrailingContent,
+                (RenderFragment)(builder => builder.AddContent(0, "Nenhuma oferta compatível agora"))));
+
+        var root = cut.Find(".sui-choice-card");
+        Assert.Contains("sui-choice-card--has-trailing", root.ClassList);
+        Assert.Contains("sui-choice-card--has-custom-trailing", root.ClassList);
+        Assert.Contains(
+            "--_choice-trailing-track:minmax(min-content,15rem)",
+            root.GetAttribute("style"));
+        Assert.Contains(
+            "sui-choice-card__trailing--custom",
+            cut.Find(".sui-choice-card__trailing").ClassList);
+    }
+
+    [Fact]
     public void FormGrid_EmitsAlignmentContractAndForwardsAttributes()
     {
         using var context = new BunitContext();

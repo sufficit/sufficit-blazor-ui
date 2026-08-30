@@ -4,7 +4,7 @@
 @using Microsoft.AspNetCore.Components.Web
 @using Sufficit.Blazor.UI.Utilities
 
-<label class="@ClassName" style="@Style" @attributes="AdditionalAttributes">
+<label class="@ClassName" style="@StyleValue" @attributes="AdditionalAttributes">
     <input class="sui-choice-card__input"
            id="@InputId"
            name="@Name"
@@ -32,7 +32,7 @@
 
     @if (TrailingContent is not null)
     {
-        <span class="sui-choice-card__trailing">
+        <span class="@TrailingClassName">
             @TrailingContent
         </span>
     }
@@ -125,10 +125,21 @@
             .AddClass("sui-choice-card--has-leading", IconContent is not null)
             .AddClass("sui-choice-card--has-description", !string.IsNullOrWhiteSpace(Description))
             .AddClass("sui-choice-card--has-trailing", HasTrailing)
+            .AddClass("sui-choice-card--has-custom-trailing", TrailingContent is not null)
             .AddClass(Class)
             .Build();
 
     private bool HasTrailing => TrailingContent is not null || ShowSelectionIndicator;
+
+    private string? StyleValue
+        => TrailingContent is null
+            ? Style
+            : $"--_choice-trailing-track:minmax(min-content,15rem);{Style}";
+
+    private string TrailingClassName
+        => SUIClassBuilder.Default("sui-choice-card__trailing")
+            .AddClass("sui-choice-card__trailing--custom", TrailingContent is not null)
+            .Build();
 
     private string IconClassName
         => SUIClassBuilder.Default("sui-choice-card__leading")

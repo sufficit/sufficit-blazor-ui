@@ -1,7 +1,3 @@
-/* ------------------------------------------------------------------ *
- * Choice card
- * ------------------------------------------------------------------ */
-
 .sui-choice-card {
   --_choice-accent: var(--sufficit-choice-accent, var(--sui-color-primary));
   --_choice-border: var(--sufficit-choice-border, var(--sui-border-strong));
@@ -32,11 +28,11 @@
 }
 
 .sui-choice-card--has-trailing {
-  grid-template-columns: minmax(0, 1fr) 20px;
+  grid-template-columns: minmax(0, 1fr) var(--_choice-trailing-track, 20px);
 }
 
 .sui-choice-card--has-leading.sui-choice-card--has-trailing {
-  grid-template-columns: 40px minmax(0, 1fr) 20px;
+  grid-template-columns: 40px minmax(0, 1fr) var(--_choice-trailing-track, 20px);
 }
 
 .sui-choice-card:hover:not(.is-disabled) {
@@ -137,6 +133,14 @@
   min-height: 20px;
 }
 
+.sui-choice-card__trailing--custom {
+  justify-content: flex-end;
+  min-width: 0;
+  max-width: 15rem;
+  text-align: end;
+  overflow-wrap: anywhere;
+}
+
 .sui-choice-card__indicator {
   display: grid;
   width: 20px;
@@ -152,8 +156,20 @@
 }
 
 @media (max-width: 599.98px) {
-  .sui-choice-card {
-    min-height: 72px;
+  .sui-choice-card--has-custom-trailing {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sui-choice-card--has-leading.sui-choice-card--has-custom-trailing {
+    grid-template-columns: 40px minmax(0, 1fr);
+  }
+  .sui-choice-card__trailing--custom {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+    max-width: none;
+    text-align: start;
+  }
+  .sui-choice-card--has-leading .sui-choice-card__trailing--custom {
+    grid-column-start: 2;
   }
 }
 

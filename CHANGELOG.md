@@ -8,6 +8,27 @@ são derivadas exclusivamente de tags Git no formato
 
 ## [Unreleased]
 
+## [2.2.0] — 2026-08-30
+
+### Added
+
+- `SUIDrawer` responsivo com breakpoint configurável, modo compacto em tela
+  cheia, botão de fechamento, backdrop, fechamento após navegação, safe areas,
+  controle de foco e atributos ARIA de diálogo.
+- Testes unitários e de navegador para o drawer responsivo e para conteúdo
+  textual no slot final de `SUIChoiceCard`.
+
+### Fixed
+
+- `SUIChoiceCard` diferencia o indicador circular de resumos textuais: no
+  desktop o resumo recebe uma trilha dimensionada pelo conteúdo e, no mobile,
+  ocupa uma linha própria sem comprimir título ou descrição.
+- `SUINavLink` preserva navegação quando também possui callback, dispara o
+  callback antes da navegação e renderiza links desabilitados sem destino
+  interativo.
+- O bundle compartilhado inclui os estados responsivos do drawer, bloqueio de
+  rolagem, backdrop e tratamento de movimento reduzido.
+
 ## [2.0.0] — 2026-08-27
 
 Primeira release da linha `net10.0`-only (o pacote exige tag v2+). Inclui

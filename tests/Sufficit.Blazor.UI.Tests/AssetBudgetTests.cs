@@ -15,7 +15,9 @@ public sealed class AssetBudgetTests
     private const int BundleBrotliBudget = 9 * 1024;
     private const int JsModuleRawBudget = 12 * 1024;
     private const int JsTotalBrotliBudget = 8 * 1024;
-    private const int IsolatedCssRawBudget = 24 * 1024;
+    // Includes the responsive custom-trailing layout used by choice cards for
+    // statuses and summaries without compressing their primary content.
+    private const int IsolatedCssRawBudget = 25 * 1024;
 
     [Fact]
     public void GlobalStylesheet_FitsTheTransferBudget()
