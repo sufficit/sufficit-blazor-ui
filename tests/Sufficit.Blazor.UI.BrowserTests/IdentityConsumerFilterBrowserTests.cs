@@ -33,10 +33,14 @@ public sealed class IdentityConsumerFilterBrowserTests : PageTest
                 const grid = document.querySelector('[data-testid="identity-filter-grid"]');
                 const fields = [...grid.querySelectorAll(':scope > .sui-field')];
                 const controlFor = field => field.querySelector(
-                    ':scope > [data-sui-field-control], :scope > input, .sui-select__trigger, .sui-date-field__trigger');
+                    ':scope > [data-sui-field-control], :scope > input, :scope > textarea, '
+                    + ':scope > .sui-text-field__control > input, .sui-select__trigger, .sui-date-field__trigger');
                 const measures = fields.map(field => {
                     const fieldBox = field.getBoundingClientRect();
                     const control = controlFor(field);
+                    if (!control) {
+                        throw new Error(`No measurable control found for ${field.className}`);
+                    }
                     const controlBox = control.getBoundingClientRect();
                     return {
                         name: field.dataset.suiAlignName || control.id,
