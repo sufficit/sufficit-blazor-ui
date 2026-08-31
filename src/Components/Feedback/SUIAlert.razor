@@ -18,6 +18,14 @@
     }
 </div>
 
+@* Alert é o veículo de PROMOÇÃO do sistema: ele tira um texto da corrida e
+   transforma em outro tipo de objeto. Duas regras que decidem se cabe aqui,
+   ambas em docs/DESIGN-VISUAL-HIERARCHY.md:
+
+   1. Pintar um texto de laranja NÃO é promover — some na varredura e não
+      existe para quem não distingue tom. Promoção é forma.
+   2. Promover tudo não promove nada. Reserve para o que interrompe o
+      trabalho de quem lê: reinicia, derruba a sessão, apaga, cobra. *@
 @code {
     /// <summary>Alert tone. Accepts a lowercase string ("info", "success",
     /// "warning", "danger", "error") for compatibility, defaulting to "info".

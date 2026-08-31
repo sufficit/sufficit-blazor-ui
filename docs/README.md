@@ -31,6 +31,12 @@ concluído é arquivado em `activities/` com prefixo de timestamp
 - [Release do pacote SUI](RUNBOOK-RELEASE.md) — tag SemVer, gates, publicação,
   verificação e recuperação
 
+## Design
+
+- [Hierarquia visual: em que ordem a tela é lida](DESIGN-VISUAL-HIERARCHY.md) —
+  papéis de leitura e a escala de cada um, por que cor sozinha não cria
+  hierarquia, razão mínima perceptível, e onde a consequência de uma ação mora
+
 ## Arquitetura
 
 - [Versionamento, compatibilidade e TFMs](ARCHITECTURE-VERSIONING-AND-TFM.md) —
