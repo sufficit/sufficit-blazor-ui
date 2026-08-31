@@ -123,9 +123,9 @@ A ordem certa dentro da caixa:
 
 | Papel | Peso na caixa | Como |
 | --- | --- | --- |
-| **Valor** | domina | `--sui-fs-field` = 1rem (1,33× o rótulo), peso 500, cor primária |
-| **Rótulo** | identifica | `--sui-fs-overline`, peso 600, **caixa alta e espaçado** — é etiqueta, não frase |
-| **Dica** | opcional | `--sui-fs-caption`, peso 400, secundária, afastada **e recuada** para a margem do texto do controle |
+| **Valor** | domina | `--sui-fs-field` = .9375rem (1,25× o rótulo), peso 500, cor primária |
+| **Rótulo** | identifica | `--sui-fs-caption`, peso 500, secundária, caixa **baixa** |
+| **Dica** | opcional | `--sui-fs-caption`, **itálico**, secundária, afastada e recuada para a margem do texto |
 
 Duas decisões que costumam ser tentadas e estão erradas:
 
@@ -168,12 +168,26 @@ de tons diferentes produz o mesmo objeto tingido, não dois objetos.
 
 O que muda a espécie:
 
-- **caixa alta + espaçamento entre letras** → vira etiqueta, e etiqueta não se
-  lê como frase; o olho a classifica antes de decodificar;
+- **itálico** → vira anotação; o olho a classifica como comentário antes de
+  decodificar, e a mudança é de forma da letra, não de volume;
 - **recuo** → sai da margem dos irmãos e passa a pertencer ao bloco de cima;
 - **moldura** → o caso da consequência, mais acima.
 
 Só depois de a espécie estar decidida é que cor e peso ajustam o volume.
+
+#### Caixa alta é a ferramenta errada aqui
+
+Foi tentada e reprovada em 2026-08-31: o rótulo em `text-transform: uppercase`
+resolveu a distinção e criou dois problemas maiores — "fica desproporcional,
+como se estivesse gritando". Caixa alta funciona em **título de seção**, que é
+curto e serve de placa; num rótulo de campo, que costuma ser uma frase longa
+com parênteses, ela destrói o contorno das palavras e vira ruído.
+
+Regra: caixa alta só onde o texto for curto e o papel for sinalizar posição,
+nunca onde o texto for lido como frase.
+
+Marcar a DICA custa menos que gritar o rótulo — o item que precisa se afastar é
+o de menor prioridade, não o do meio.
 
 ## Antipadrões
 

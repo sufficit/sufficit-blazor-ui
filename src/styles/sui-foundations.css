@@ -88,7 +88,7 @@
   --sui-fs-button: .875rem;
   --sui-fs-caption: .75rem;
   --sui-fs-overline: .6875rem;
-  --sui-fs-field: 1rem;       /* valor digitado: ganha do rótulo; 16px evita o zoom do iOS */
+  --sui-fs-field: .9375rem;   /* valor digitado: ganha do rótulo sem inchar o controle */
   /* compact semantic ramp for operational products */
   --sui-fs-display: clamp(1.55rem, 2.2vw, 2.25rem);
   --sui-fs-headline: 1.28rem;
@@ -339,13 +339,12 @@
   width: 100%;
   min-width: 0;
 }
-/* Hierarquia do campo (docs/DESIGN-VISUAL-HIERARCHY.md): rótulo é ETIQUETA e a
-   dica recua para a margem do texto — espécies diferentes, não o mesmo tingido. */
+/* Hierarquia do campo — docs/DESIGN-VISUAL-HIERARCHY.md. O rótulo é frase, não
+   etiqueta: caixa alta em rótulo longo grita e desproporciona. Quem muda de
+   espécie é a DICA, que ganha ícone e recuo. */
 .sui-field__label {
-  font-size: var(--sui-fs-overline);
-  font-weight: 600;
-  letter-spacing: .05em;
-  text-transform: uppercase;
+  font-size: var(--sui-fs-caption);
+  font-weight: 500;
   color: var(--sui-text-secondary);
 }
 .sui-field__input {
@@ -372,7 +371,7 @@
 /* margin-top desfaz a simetria; a cor NÃO muda — contraste de texto de apoio
    é piso de acessibilidade, não alavanca de hierarquia. O erro interrompe e
    por isso é o único que sobe de peso. */
-.sui-field__helper { margin-top: var(--sui-space-2); padding-left: var(--sui-space-3); font-size: var(--sui-fs-caption); color: var(--sui-text-secondary); }
+.sui-field__helper { margin-top: var(--sui-space-2); padding-left: var(--sui-space-3); font-size: var(--sui-fs-caption); font-style: italic; color: var(--sui-text-secondary); }
 .sui-field__error { margin-top: var(--sui-space-1); padding-left: var(--sui-space-3); font-size: var(--sui-fs-caption); font-weight: 600; color: var(--sui-color-error); }
 .sui-field__input[aria-invalid="true"],
 .sui-select__trigger[aria-invalid="true"] { border-color: var(--sui-color-error); }
