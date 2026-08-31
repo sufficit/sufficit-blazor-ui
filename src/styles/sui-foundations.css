@@ -88,7 +88,7 @@
   --sui-fs-button: .875rem;
   --sui-fs-caption: .75rem;
   --sui-fs-overline: .6875rem;
-  --sui-fs-field: .9375rem;   /* valor digitado: ganha do rótulo sem inchar o controle */
+  --sui-fs-field: .875rem;    /* valor digitado; densidade pedida pelo produto */
   /* compact semantic ramp for operational products */
   --sui-fs-display: clamp(1.55rem, 2.2vw, 2.25rem);
   --sui-fs-headline: 1.28rem;

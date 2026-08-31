@@ -123,7 +123,7 @@ A ordem certa dentro da caixa:
 
 | Papel | Peso na caixa | Como |
 | --- | --- | --- |
-| **Valor** | domina | `--sui-fs-field` = .9375rem (1,25× o rótulo), peso 500, cor primária |
+| **Valor** | domina | `--sui-fs-field`, peso 500, cor **primária** — o rótulo é secundário |
 | **Rótulo** | identifica | `--sui-fs-caption`, peso 500, secundária, caixa **baixa** |
 | **Dica** | opcional | `--sui-fs-caption`, **itálico**, secundária, afastada e recuada para a margem do texto |
 
@@ -188,6 +188,21 @@ nunca onde o texto for lido como frase.
 
 Marcar a DICA custa menos que gritar o rótulo — o item que precisa se afastar é
 o de menor prioridade, não o do meio.
+
+### A regra do sistema só vale se a tela usar o componente
+
+O erro mais caro desta sequência não foi de design: o itálico entrou no
+`.sui-field__helper` e **não apareceu em lugar nenhum**, porque a tela escrevia
+a dica à mão, num `<span>` com classe própria, ao lado do campo — em vez de
+passá-la em `HelperText`.
+
+Toda vez que uma tela reimplementa um pedaço de anatomia que o componente já
+tem, ela sai do alcance do design system: a regra passa a existir em dois
+lugares, um deles não recebe correção, e o sintoma é exatamente este — mexer no
+sistema e não ver diferença.
+
+Antes de concluir que uma regra "não funcionou", confira se o HTML renderizado
+é mesmo o do componente. `HelperText`/`ErrorText` existem para isso.
 
 ## Antipadrões
 
