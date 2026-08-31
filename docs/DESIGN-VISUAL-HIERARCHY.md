@@ -102,11 +102,47 @@ consequência        ← o que vai acontecer   (colado no botão)
 botão               ← a ação
 ```
 
+## Anatomia de um campo
+
+Um campo de formulário tem três textos e é onde o erro de hierarquia mais se
+repete — inclusive neste sistema, até 2026-08-31:
+
+```css
+.sui-field__label  { font-size: var(--sui-fs-caption); color: var(--sui-text-secondary); }
+.sui-field__helper { font-size: var(--sui-fs-caption); color: var(--sui-text-secondary); }
+```
+
+Rótulo e dica **idênticos**, separados só pelo peso, e o `gap` uniforme punha os
+dois à mesma distância do controle — um acima, outro abaixo. O resultado é uma
+moldura simétrica: os dois chamam igual e quem lê não sabe por onde começar.
+Pior, o **valor** — a única coisa que a pessoa foi ali buscar — era a menor
+diferença de todas (14px contra 12px).
+
+A ordem certa dentro da caixa:
+
+| Papel | Peso na caixa | Como |
+| --- | --- | --- |
+| **Valor** | domina | `--sui-fs-field` (1,25× o rótulo), peso 500, cor primária |
+| **Rótulo** | identifica | `--sui-fs-caption`, peso 600, secundária, **colado** no controle |
+| **Dica** | opcional | `--sui-fs-caption`, peso 400, secundária, **afastada** do controle |
+
+Duas decisões que costumam ser tentadas e estão erradas:
+
+- **Clarear a dica para rebaixá-la.** Texto de apoio tem piso de contraste
+  (4,5:1). Contraste é acessibilidade, não alavanca de hierarquia — quem rebaixa
+  por aí acaba com uma dica ilegível e ainda assim simétrica.
+- **Aumentar o rótulo para diferenciá-lo da dica.** Aí ele passa a competir com
+  o valor. O rótulo não é o conteúdo; ele é a pergunta cuja resposta é o valor.
+
+O que desempata rótulo e dica é a **distância**: o rótulo pertence ao controle,
+a dica é comentário sobre ele.
+
 ## Antipadrões
 
 | Antipadrão | Por que falha |
 | --- | --- |
 | Aviso só colorido | Invisível na varredura; inexistente para daltônicos |
+| Rótulo e dica iguais cercando o input | Moldura simétrica: nada manda, e o valor fica espremido |
 | Tudo em negrito | Se tudo é promovido, nada é |
 | Título de seção grande | Compete com o conteúdo que ele deveria apenas rotular |
 | Espaçamento uniforme | Impede agrupamento; a dica parece pertencer ao campo de baixo |
