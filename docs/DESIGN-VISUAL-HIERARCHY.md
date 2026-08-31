@@ -124,8 +124,8 @@ A ordem certa dentro da caixa:
 | Papel | Peso na caixa | Como |
 | --- | --- | --- |
 | **Valor** | domina | `--sui-fs-field` = 1rem (1,33× o rótulo), peso 500, cor primária |
-| **Rótulo** | identifica | `--sui-fs-caption`, peso 500, **primária**, colado no controle |
-| **Dica** | opcional | `--sui-fs-caption`, peso 400, secundária, **afastada** do controle |
+| **Rótulo** | identifica | `--sui-fs-overline`, peso 600, **caixa alta e espaçado** — é etiqueta, não frase |
+| **Dica** | opcional | `--sui-fs-caption`, peso 400, secundária, afastada **e recuada** para a margem do texto do controle |
 
 Duas decisões que costumam ser tentadas e estão erradas:
 
@@ -155,13 +155,25 @@ A saída é dar a cada par um eixo diferente:
 
 | Par | O que os separa |
 | --- | --- |
-| valor × rótulo | **tamanho** (1,33×) |
-| rótulo × dica | **cor** (primária × secundária) e **distância** (4px × 8px) |
-| valor × dica | tamanho, cor e distância — os três |
+| valor × rótulo | **tamanho** (16px × 11px) e **espécie** (frase × etiqueta) |
+| rótulo × dica | **caixa** (alta × baixa), **tamanho** e **alinhamento** (a dica recua) |
+| valor × dica | tamanho, espécie, alinhamento — os três |
 
-Rótulo e valor dividem o tom escuro de propósito: são a pergunta e a resposta,
-a mesma unidade de informação. A dica é a única apagada, e é isso que a faz
-recuar sem precisar encolher nem perder contraste legível.
+### Espécie vence tinta
+
+A tentativa que falhou antes desta foi separar rótulo e dica só pela cor. Não
+funcionou, e a razão é a que já está na regra 1: **dois textos do mesmo tamanho,
+no mesmo alinhamento e no mesmo ritmo são o mesmo tipo de objeto** — pintá-los
+de tons diferentes produz o mesmo objeto tingido, não dois objetos.
+
+O que muda a espécie:
+
+- **caixa alta + espaçamento entre letras** → vira etiqueta, e etiqueta não se
+  lê como frase; o olho a classifica antes de decodificar;
+- **recuo** → sai da margem dos irmãos e passa a pertencer ao bloco de cima;
+- **moldura** → o caso da consequência, mais acima.
+
+Só depois de a espécie estar decidida é que cor e peso ajustam o volume.
 
 ## Antipadrões
 
