@@ -339,12 +339,14 @@
   width: 100%;
   min-width: 0;
 }
-/* Hierarquia do campo — docs/DESIGN-VISUAL-HIERARCHY.md. Rótulo e dica eram
-   idênticos e equidistantes; agora o valor ancora e a distância desempata. */
+/* Hierarquia do campo — docs/DESIGN-VISUAL-HIERARCHY.md. Nenhum par se separa
+   por um eixo só: o valor ganha do rótulo por TAMANHO (1,33×), o rótulo ganha
+   da dica por COR e DISTÂNCIA. Rótulo e valor dividem o tom escuro (pergunta e
+   resposta); a dica é a única apagada, e é isso que a faz recuar. */
 .sui-field__label {
   font-size: var(--sui-fs-caption);
   font-weight: 500;
-  color: var(--sui-text-secondary);
+  color: var(--sui-text-primary);
 }
 .sui-field__input {
   box-sizing: border-box;
@@ -353,7 +355,7 @@
   height: var(--sui-control-h-md);
   padding: 0 var(--sui-space-3);
   font-family: var(--sui-font);
-  font-size: var(--sui-fs-field);   /* 1,25× o rótulo: razão mínima perceptível */
+  font-size: var(--sui-fs-field);   /* 1,33× o rótulo: é o tamanho que decide aqui */
   font-weight: 500;
   color: var(--sui-text-primary);
   background: var(--sui-surface);
@@ -370,7 +372,7 @@
 /* margin-top desfaz a simetria; a cor NÃO muda — contraste de texto de apoio
    é piso de acessibilidade, não alavanca de hierarquia. O erro interrompe e
    por isso é o único que sobe de peso. */
-.sui-field__helper { margin-top: var(--sui-space-1); font-size: var(--sui-fs-caption); color: var(--sui-text-secondary); }
+.sui-field__helper { margin-top: var(--sui-space-2); font-size: var(--sui-fs-caption); color: var(--sui-text-secondary); }
 .sui-field__error { margin-top: var(--sui-space-1); font-size: var(--sui-fs-caption); font-weight: 600; color: var(--sui-color-error); }
 .sui-field__input[aria-invalid="true"],
 .sui-select__trigger[aria-invalid="true"] { border-color: var(--sui-color-error); }

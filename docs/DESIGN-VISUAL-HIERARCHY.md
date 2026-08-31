@@ -124,7 +124,7 @@ A ordem certa dentro da caixa:
 | Papel | Peso na caixa | Como |
 | --- | --- | --- |
 | **Valor** | domina | `--sui-fs-field` = 1rem (1,33× o rótulo), peso 500, cor primária |
-| **Rótulo** | identifica | `--sui-fs-caption`, peso 500, secundária, **colado** no controle |
+| **Rótulo** | identifica | `--sui-fs-caption`, peso 500, **primária**, colado no controle |
 | **Dica** | opcional | `--sui-fs-caption`, peso 400, secundária, **afastada** do controle |
 
 Duas decisões que costumam ser tentadas e estão erradas:
@@ -140,8 +140,28 @@ Duas decisões que costumam ser tentadas e estão erradas:
   empatado. O peso do rótulo precisa ficar ABAIXO do peso do valor — ele já é
   achado pela posição, logo acima do controle.
 
-O que desempata rótulo e dica é a **distância**: o rótulo pertence ao controle,
-a dica é comentário sobre ele.
+### Nenhum par se separa por um eixo só
+
+São três textos, logo **três pares**, e cada par precisa do seu próprio
+diferenciador. Consertar um par mexendo num eixo compartilhado quebra o outro —
+foi o que aconteceu aqui, duas vezes seguidas:
+
+1. o rótulo estava em negrito para se distinguir da dica, e com isso vencia o
+   valor;
+2. tirei o negrito do rótulo, o valor passou a vencer — e o rótulo virou
+   praticamente a mesma coisa que a dica.
+
+A saída é dar a cada par um eixo diferente:
+
+| Par | O que os separa |
+| --- | --- |
+| valor × rótulo | **tamanho** (1,33×) |
+| rótulo × dica | **cor** (primária × secundária) e **distância** (4px × 8px) |
+| valor × dica | tamanho, cor e distância — os três |
+
+Rótulo e valor dividem o tom escuro de propósito: são a pergunta e a resposta,
+a mesma unidade de informação. A dica é a única apagada, e é isso que a faz
+recuar sem precisar encolher nem perder contraste legível.
 
 ## Antipadrões
 
