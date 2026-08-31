@@ -266,6 +266,7 @@ public sealed class AccessibilityContractTests
         var cut = context.Render<SUITable<string>>(parameters => parameters
             .Add(component => component.Items, ["Crédito"])
             .Add(component => component.Loading, true)
+            .Add(component => component.StackOnMobile, true)
             .Add(component => component.RowClassFunc, (_, _) => "row-positive")
             .Add(component => component.RowStyleFunc, (_, _) => "color: green;")
             .Add(component => component.RowTemplate,
@@ -277,6 +278,8 @@ public sealed class AccessibilityContractTests
                 }));
 
         Assert.Equal("true", cut.Find(".sui-table-wrapper").GetAttribute("aria-busy"));
+        Assert.Contains("sui-table-wrapper--stack-mobile", cut.Find(".sui-table-wrapper").ClassList);
+        Assert.Contains("sui-table--stack-mobile", cut.Find("table").ClassList);
         Assert.NotNull(cut.Find("[role=progressbar]"));
         var row = cut.Find("tbody tr");
         Assert.Contains("row-positive", row.ClassList);

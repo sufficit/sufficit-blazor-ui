@@ -68,6 +68,14 @@
     [Parameter]
     public bool Dense { get; set; }
 
+    /// <summary>
+    /// Presents each body row as a labelled card on compact screens. Cells should
+    /// provide <see cref="SUITd.DataLabel"/> so their column name remains visible.
+    /// Desktop table semantics and layout are unchanged.
+    /// </summary>
+    [Parameter]
+    public bool StackOnMobile { get; set; }
+
     /// <summary>Shows an indeterminate progress indicator and exposes aria-busy.</summary>
     [Parameter]
     public bool Loading { get; set; }
@@ -111,12 +119,14 @@
 
     private string WrapperClass
         => SUIClassBuilder.Default("sui-table-wrapper")
+            .AddClass("sui-table-wrapper--stack-mobile", StackOnMobile)
             .Build();
 
     private string Classname
         => SUIClassBuilder.Default("sui-table")
             .AddClass("sui-table--hover", Hover)
             .AddClass("sui-table--dense", Dense)
+            .AddClass("sui-table--stack-mobile", StackOnMobile)
             .AddClass(Class)
             .Build();
 

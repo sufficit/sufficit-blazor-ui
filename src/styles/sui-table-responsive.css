@@ -1,0 +1,49 @@
+/* Optional compact presentation for data tables whose cells expose data-label. */
+@media (width <= 599.98px) {
+  .sui-table-wrapper--stack-mobile { overflow-x: visible; }
+  .sui-table--stack-mobile,
+  .sui-table--stack-mobile tbody { display: block; }
+  .sui-table--stack-mobile thead {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .sui-table--stack-mobile tbody {
+    display: grid;
+    gap: var(--sui-space-3);
+  }
+  .sui-table--stack-mobile tbody tr {
+    display: block;
+    border: 1px solid var(--sui-border);
+    border-radius: var(--sui-radius);
+    background: var(--sui-surface);
+    overflow: hidden;
+  }
+  .sui-table--stack-mobile tbody td {
+    display: grid;
+    grid-template-columns: minmax(6.5rem, 38%) minmax(0, 1fr);
+    align-items: start;
+    gap: var(--sui-space-3);
+    padding: var(--sui-space-3);
+    overflow-wrap: anywhere;
+  }
+  .sui-table--stack-mobile tbody td::before {
+    content: attr(data-label);
+    color: var(--sui-text-secondary);
+    font-size: var(--sui-fs-caption);
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  .sui-table--stack-mobile tbody td:last-child { border-bottom: 0; }
+  .sui-table--stack-mobile tbody td[colspan] {
+    display: block;
+    padding: 0;
+  }
+  .sui-table--stack-mobile tbody td[colspan]::before { content: none; }
+}
