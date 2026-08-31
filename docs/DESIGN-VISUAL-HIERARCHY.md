@@ -56,7 +56,8 @@ contraste de leitura.
 
 13px contra 14px é uma diferença que existe na régua e não na percepção. Para
 que dois papéis se separem sem que a pessoa precise compará-los lado a lado, a
-razão precisa ser de **cerca de 1,25×**.
+razão precisa ser de **cerca de 1,25×** — e tamanho sozinho não basta se o
+papel menor for mais pesado: peso e tamanho têm que apontar para o mesmo lado.
 
 Uma escala com quatro tamanhos entre 12 e 15px não é uma escala — é ruído com
 casas decimais. Menos degraus, mais distantes.
@@ -122,8 +123,8 @@ A ordem certa dentro da caixa:
 
 | Papel | Peso na caixa | Como |
 | --- | --- | --- |
-| **Valor** | domina | `--sui-fs-field` (1,25× o rótulo), peso 500, cor primária |
-| **Rótulo** | identifica | `--sui-fs-caption`, peso 600, secundária, **colado** no controle |
+| **Valor** | domina | `--sui-fs-field` = 1rem (1,33× o rótulo), peso 500, cor primária |
+| **Rótulo** | identifica | `--sui-fs-caption`, peso 500, secundária, **colado** no controle |
 | **Dica** | opcional | `--sui-fs-caption`, peso 400, secundária, **afastada** do controle |
 
 Duas decisões que costumam ser tentadas e estão erradas:
@@ -133,6 +134,11 @@ Duas decisões que costumam ser tentadas e estão erradas:
   por aí acaba com uma dica ilegível e ainda assim simétrica.
 - **Aumentar o rótulo para diferenciá-lo da dica.** Aí ele passa a competir com
   o valor. O rótulo não é o conteúdo; ele é a pergunta cuja resposta é o valor.
+- **Deixar o rótulo em negrito.** Foi o que segurou este sistema mesmo depois de
+  o valor crescer: um rótulo de 12px em peso 600 ao lado de um valor de 15px em
+  peso 400 continua lendo como o elemento mais forte, e o campo continua
+  empatado. O peso do rótulo precisa ficar ABAIXO do peso do valor — ele já é
+  achado pela posição, logo acima do controle.
 
 O que desempata rótulo e dica é a **distância**: o rótulo pertence ao controle,
 a dica é comentário sobre ele.

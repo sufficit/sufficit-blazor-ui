@@ -88,7 +88,7 @@
   --sui-fs-button: .875rem;
   --sui-fs-caption: .75rem;
   --sui-fs-overline: .6875rem;
-  --sui-fs-field: .9375rem;   /* valor digitado: precisa ganhar do rótulo */
+  --sui-fs-field: 1rem;       /* valor digitado: ganha do rótulo; 16px evita o zoom do iOS */
   /* compact semantic ramp for operational products */
   --sui-fs-display: clamp(1.55rem, 2.2vw, 2.25rem);
   --sui-fs-headline: 1.28rem;
@@ -343,7 +343,7 @@
    idênticos e equidistantes; agora o valor ancora e a distância desempata. */
 .sui-field__label {
   font-size: var(--sui-fs-caption);
-  font-weight: 600;
+  font-weight: 500;
   color: var(--sui-text-secondary);
 }
 .sui-field__input {
