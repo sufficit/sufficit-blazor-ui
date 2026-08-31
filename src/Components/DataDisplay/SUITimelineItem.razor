@@ -3,7 +3,35 @@
 <li class="@Classname" @attributes="AdditionalAttributes">
     <span class="sui-timeline__marker sui-timeline__marker--@SizeSlug sui-timeline__marker--@ToneSlug sui-timeline__marker--@VariantSlug" aria-hidden="true"></span>
     <div class="sui-timeline__body">
-        @ChildContent
+        @if (!string.IsNullOrWhiteSpace(Title) || !string.IsNullOrWhiteSpace(Description) || MetaContent is not null || TrailingContent is not null)
+        {
+            <div class="sui-timeline__heading">
+                @if (!string.IsNullOrWhiteSpace(Title))
+                {
+                    <strong class="sui-timeline__title">@Title</strong>
+                }
+                @if (MetaContent is not null)
+                {
+                    <span class="sui-timeline__meta">@MetaContent</span>
+                }
+            </div>
+            @if (!string.IsNullOrWhiteSpace(Description))
+            {
+                <p class="sui-timeline__description">@Description</p>
+            }
+            @if (ChildContent is not null)
+            {
+                <div class="sui-timeline__content">@ChildContent</div>
+            }
+            @if (TrailingContent is not null)
+            {
+                <div class="sui-timeline__trailing">@TrailingContent</div>
+            }
+        }
+        else
+        {
+            @ChildContent
+        }
     </div>
 </li>
 
@@ -26,6 +54,22 @@
 
     [Parameter]
     public string? Class { get; set; }
+
+    /// <summary>Optional structured title. Existing free-form child content remains supported.</summary>
+    [Parameter]
+    public string? Title { get; set; }
+
+    /// <summary>Optional concise explanation rendered below the title.</summary>
+    [Parameter]
+    public string? Description { get; set; }
+
+    /// <summary>Short contextual data such as a timestamp, sequence or state.</summary>
+    [Parameter]
+    public RenderFragment? MetaContent { get; set; }
+
+    /// <summary>Secondary structured content rendered after the description and child content.</summary>
+    [Parameter]
+    public RenderFragment? TrailingContent { get; set; }
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }

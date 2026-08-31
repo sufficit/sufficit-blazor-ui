@@ -1095,7 +1095,11 @@ body:has(.sui-drawer--compact.sui-drawer--fullscreen-compact.sui-drawer--open) {
   background: var(--sui-surface);
   color: var(--sui-text-primary);
   font: inherit;
-  font-size: var(--sui-fs-body2);
+  /* Mesmo degrau do .sui-field__input: um select e um campo de texto lado a
+     lado são o MESMO papel (o valor escolhido), e divergir aqui faria a
+     coluna de um formulário misto ondular. */
+  font-size: var(--sui-fs-field);
+  font-weight: 500;
   line-height: 1.35;
   box-sizing: border-box;
   text-align: start;

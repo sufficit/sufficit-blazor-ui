@@ -1,7 +1,3 @@
-/* ------------------------------------------------------------------ *
- * Timeline
- * ------------------------------------------------------------------ */
-
 .sui-timeline {
   list-style: none;
   margin: 0;
@@ -9,17 +5,9 @@
   display: flex;
   flex-direction: column;
   gap: var(--sui-space-4);
-  /* Height of the first line of item text. Markers and the connector line are
-     positioned from this so they stay centred on the text at any font size.
-     `1lh` is the element's own computed line box, so it follows whatever
-     line-height the consumer applies — the catalog uses 1.6, and a hardcoded
-     1.5em left the marker 3.5px low. The em fallback covers engines without
-     `lh` support; override --_sui-timeline-line to tune it there. */
   --_sui-timeline-line: 1.5em;
 }
 @supports (height: 1lh) {
-  /* Resolved on the item, not the list: `lh` computes against the element's own
-     font-size and line-height, and the item is what carries the text. */
   .sui-timeline ::deep .sui-timeline__item { --_sui-timeline-line: 1lh; }
 }
 .sui-timeline ::deep .sui-timeline__item {
@@ -28,11 +16,9 @@
   min-height: var(--sui-space-5);
 }
 .sui-timeline ::deep .sui-timeline__item::before {
-  /* connector line */
   content: "";
   position: absolute;
   inset-inline-start: 11px;
-  /* Starts below the marker, which now shifts with the line box. */
   top: calc(var(--_sui-timeline-line, 1.5em) / 2 + var(--sui-space-5) / 2);
   bottom: calc(-1 * var(--sui-space-4));
   width: 2px;
@@ -42,12 +28,6 @@
 .sui-timeline ::deep .sui-timeline__marker {
   position: absolute;
   inset-inline-start: 0;
-  /* Centre the marker on the first line of text rather than offsetting it by a
-     fixed amount. `top: 2px` was tuned by eye against one font size, so the
-     marker sat below the text's optical centre — visibly so on the default
-     size, where the 24px marker is taller than the 21px line box.
-     Half the line box minus half the marker keeps them centred on each other
-     at any font size or marker size. */
   top: calc(var(--_sui-timeline-line, 1.5em) / 2 - var(--sui-space-5) / 2);
   width: var(--sui-space-5);
   height: var(--sui-space-5);
@@ -80,6 +60,15 @@
 .sui-timeline ::deep .sui-timeline__marker--error   { color: var(--sui-color-error); }
 .sui-timeline ::deep .sui-timeline__marker--info    { color: var(--sui-color-info); }
 .sui-timeline ::deep .sui-timeline__body { min-width: 0; }
+.sui-timeline ::deep .sui-timeline__heading { display: flex; align-items: baseline; justify-content: space-between; gap: var(--sui-space-3); min-width: 0; }
+.sui-timeline ::deep .sui-timeline__title { color: var(--sui-text-primary); font-size: var(--sui-fs-body2); font-weight: 700; line-height: var(--sui-lh-body); }
+.sui-timeline ::deep .sui-timeline__meta { flex: none; color: var(--sui-text-secondary); font-size: var(--sui-fs-caption); }
+.sui-timeline ::deep .sui-timeline__description { max-width: 72ch; margin: var(--sui-space-1) 0 0; color: var(--sui-text-secondary); font-size: var(--sui-fs-body2); line-height: var(--sui-lh-body); }
+.sui-timeline ::deep .sui-timeline__content,
+.sui-timeline ::deep .sui-timeline__trailing { margin-block-start: var(--sui-space-2); }
+.sui-timeline ::deep .sui-timeline__trailing { color: var(--sui-text-secondary); font-size: var(--sui-fs-caption); }
 .sui-timeline--end ::deep .sui-timeline__item { padding-inline: 0; padding-inline-end: calc(var(--sui-space-5) + var(--sui-space-2)); text-align: end; }
 .sui-timeline--end ::deep .sui-timeline__marker { inset-inline-start: auto; inset-inline-end: 0; }
 .sui-timeline--end ::deep .sui-timeline__item::before { inset-inline-start: auto; inset-inline-end: 11px; }
+
+@media (width <= 599.98px) { .sui-timeline ::deep .sui-timeline__heading { align-items: flex-start; flex-direction: column; gap: 2px; } }
