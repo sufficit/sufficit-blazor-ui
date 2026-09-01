@@ -7,7 +7,10 @@ Card e PageHeader. PageHeader sempre renderiza `header` com `h1`; `LeadingConten
 `SUISection` combina CardHeader e CardContent para seções operacionais tituladas,
 com slots opcionais de ícone e ações. Use-o quando a mesma seção precisa aparecer
 em mais de uma superfície; conteúdo pontual pode continuar compondo `SUICard`
-diretamente.
+diretamente. Seus blocos de conteúdo seguem, por padrão, um fluxo vertical com
+`ContentSpacing="4"` (16px), evitando que alertas, campos e grupos fiquem colados.
+Use outro valor da escala de 0 a 6 quando a densidade da seção exigir; reserve
+`ContentSpacing="0"` para conteúdo que controla integralmente o próprio layout.
 
 Drawer permanente participa do fluxo em desktop. Drawer temporário usa eixo
 lógico, funciona em RTL e ocupa o nível `--sui-z-drawer`. Tokens de spacing,

@@ -7,6 +7,44 @@ namespace Sufficit.Blazor.UI.Tests;
 public sealed class FormLayoutContractTests
 {
     [Fact]
+    public void Section_AppliesSafeVerticalRhythmBetweenContentBlocks()
+    {
+        using var context = new BunitContext();
+        var cut = context.Render<SUISection>(parameters => parameters
+            .Add(component => component.Title, "Visibilidade")
+            .AddChildContent((RenderFragment)(builder =>
+            {
+                builder.OpenElement(0, "fieldset");
+                builder.AddContent(1, "Opções");
+                builder.CloseElement();
+                builder.OpenElement(2, "aside");
+                builder.AddContent(3, "Orientação");
+                builder.CloseElement();
+            })));
+
+        var content = cut.Find(".sui-card__content");
+        var stack = content.QuerySelector(":scope > .sui-stack");
+
+        Assert.NotNull(stack);
+        Assert.Contains("gap: var(--sui-space-4)", stack.GetAttribute("style"));
+        Assert.Equal(2, stack.Children.Length);
+    }
+
+    [Fact]
+    public void Section_ClampsUnsafeContentSpacing()
+    {
+        using var context = new BunitContext();
+        var cut = context.Render<SUISection>(parameters => parameters
+            .Add(component => component.Title, "Visibilidade")
+            .Add(component => component.ContentSpacing, 99)
+            .AddChildContent("Conteúdo"));
+
+        var stack = cut.Find(".sui-card__content > .sui-stack");
+
+        Assert.Contains("gap: var(--sui-space-6)", stack.GetAttribute("style"));
+    }
+
+    [Fact]
     public void ChoiceCard_OnlyReservesTracksForRenderedContent()
     {
         using var context = new BunitContext();

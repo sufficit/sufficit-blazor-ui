@@ -7,7 +7,11 @@
         </SUICardHeader>
         @if (ChildContent is not null)
         {
-            <SUICardContent>@ChildContent</SUICardContent>
+            <SUICardContent>
+                <SUIStack Spacing="@EffectiveContentSpacing">
+                    @ChildContent
+                </SUIStack>
+            </SUICardContent>
         }
     </SUICard>
 </section>
@@ -18,9 +22,18 @@
     [Parameter] public string? Description { get; set; }
     [Parameter] public RenderFragment? Actions { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Defines the vertical rhythm between direct content blocks using the Sufficit
+    /// spacing scale. Defaults to 4 (16px); use 0 only when the consumer owns the
+    /// complete internal layout.
+    /// </summary>
+    [Parameter] public int ContentSpacing { get; set; } = 4;
+
     [Parameter] public int Elevation { get; set; }
     [Parameter] public string? Class { get; set; }
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
     private string Classname => SUIClassBuilder.Default("sui-section").AddClass(Class).Build();
+    private int EffectiveContentSpacing => Math.Clamp(ContentSpacing, 0, 6);
 }
