@@ -6,7 +6,7 @@ namespace Sufficit.Blazor.UI.Tests;
 public sealed class ButtonContentAlignmentTests
 {
     [Fact]
-    public void Label_groups_icon_and_text_for_optical_alignment()
+    public void Icon_receives_the_optical_offset_without_moving_the_text_label()
     {
         using var context = new BunitContext();
 
@@ -20,6 +20,11 @@ public sealed class ButtonContentAlignmentTests
         var stylesheet = File.ReadAllText(Path.Combine(
             RepositoryLayout.Styles,
             "sui-foundations.css"));
-        Assert.Contains("transform: translateY(1px);", stylesheet, StringComparison.Ordinal);
+        Assert.DoesNotMatch(
+            @"\.sui-btn__label\s*\{[^}]*transform\s*:",
+            stylesheet);
+        Assert.Matches(
+            @"\.sui-btn__icon\s*\{[^}]*transform\s*:\s*translateY\(1px\)",
+            stylesheet);
     }
 }

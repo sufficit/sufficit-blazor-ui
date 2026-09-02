@@ -9,3 +9,8 @@ Use `ColorValue`, `VariantValue`, `SizeValue`, `ButtonTypeValue` e, no botão de
 ícone, `EdgeValue`. Os parâmetros antigos sem sufixo aceitam `object` apenas
 como ponte obsoleta até v2. Targets críticos passam a 44 px em viewport touch,
 sem alterar a densidade desktop.
+
+Para ações com ícone e texto, use `StartIcon` ou `EndIcon` em vez de posicionar
+um SVG manualmente ao lado do conteúdo. O botão mantém o texto no centro
+geométrico e aplica somente ao ícone a compensação óptica necessária; isso vale
+também durante o estado de carregamento.
