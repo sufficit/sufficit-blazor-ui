@@ -12,6 +12,9 @@ public sealed class ActionIconQualityTests
         SUIIcons.Unlink,
         SUIIcons.Save,
         SUIIcons.Restart,
+        SUIIcons.Shield,
+        SUIIcons.Bolt,
+        SUIIcons.Devices,
     };
 
     [Theory]
@@ -23,6 +26,17 @@ public sealed class ActionIconQualityTests
         Assert.Contains("stroke-width=\"1.75\"", icon, StringComparison.Ordinal);
         Assert.Contains("stroke-linecap=\"round\"", icon, StringComparison.Ordinal);
         Assert.Contains("stroke-linejoin=\"round\"", icon, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Shield_bolt_and_devices_are_three_distinct_glyphs()
+    {
+        Assert.Contains("m9.25 12 2 2 3.75-4", SUIIcons.Shield, StringComparison.Ordinal);
+        Assert.Contains("M13.25 2.75", SUIIcons.Bolt, StringComparison.Ordinal);
+        Assert.Contains("<rect", SUIIcons.Devices, StringComparison.Ordinal);
+        Assert.NotEqual(SUIIcons.Shield, SUIIcons.Admin);
+        Assert.NotEqual(SUIIcons.Devices, SUIIcons.Phone);
+        Assert.NotEqual(SUIIcons.Bolt, SUIIcons.Shield);
     }
 
     [Fact]

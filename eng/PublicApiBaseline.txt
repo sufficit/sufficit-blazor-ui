@@ -178,11 +178,13 @@ F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Add
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Admin
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|ArrowDropDown
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|ArrowDropUp
+F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Bolt
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Cast
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Category
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Dashboard
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|DataUsage
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Delete
+F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Devices
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Folder
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Inbox
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Logout
@@ -193,6 +195,7 @@ F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Play
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|ProgressCircular
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Restart
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|SearchOff
+F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Shield
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Stop
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Storage
 F|Sufficit.Blazor.UI.Components.SUIOrigin|Sufficit.Blazor.UI.Components.SUIOrigin|BottomCenter
@@ -1051,6 +1054,7 @@ P|Sufficit.Blazor.UI.Themes.SUIThemeOptions|Sufficit.Blazor.UI.Themes.ISUITheme|
 P|Sufficit.Blazor.UI.Themes.SUIThemeProvider|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Themes.SUIThemeProvider|Sufficit.Blazor.UI.Themes.ISUITheme|Theme|[]|get;set;
 P|Sufficit.Blazor.UI.Themes.SUIThemeProvider|System.String|Class|[]|get;set;
+F|Sufficit.Blazor.UI.Themes.SUIThemeProvider|System.String|TokenSelector
 P|Sufficit.Blazor.UI.Themes.SUITypography|Sufficit.Blazor.UI.Themes.SUITypography|Default|[]|get;
 P|Sufficit.Blazor.UI.Themes.SUITypography|System.String|FontFamilyLabel|[]|get;set;
 P|Sufficit.Blazor.UI.Themes.SUITypography|System.String|FontFamilyMono|[]|get;set;

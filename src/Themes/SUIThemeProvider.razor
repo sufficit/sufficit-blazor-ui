@@ -33,7 +33,12 @@
 
     /// <summary>
     /// Emits the theme as CSS variables on :root, so every <c>.sui-*</c> class
-    /// picks up the consuming app's palette/typography/layout.
+    /// picks up the consuming app's palette/typography/layout. The same block is
+    /// scoped to the provider's own wrapper: the foundations stylesheet declares
+    /// a dark fallback on <c>[data-sui-theme="dark"]</c>, and custom properties
+    /// resolve from the nearest ancestor, so tokens published on :root alone lose
+    /// to that fallback inside the wrapper. Portals attached to body keep reading
+    /// the :root copy and stay on the same palette.
     /// </summary>
     private static string ToCssVars(ISUITheme theme)
     {
@@ -41,7 +46,7 @@
         var t = theme.Typography;
         var l = theme.Layout;
         var sb = new System.Text.StringBuilder(2048);
-        sb.Append(":root{");
+        sb.Append(TokenSelector).Append('{');
         Append(sb, "--sui-color-primary", p.Primary);
         Append(sb, "--sui-color-primary-contrast", p.PrimaryContrast);
         Append(sb, "--sui-color-primary-action", p.PrimaryAction ?? p.Primary);
@@ -118,6 +123,9 @@
         sb.Append('}');
         return sb.ToString();
     }
+
+    /// <summary>Where the theme tokens are published. Public so consumers and tests can assert it.</summary>
+    public const string TokenSelector = ":root,.sui-root[data-sui-theme]";
 
     private static void Append(System.Text.StringBuilder sb, string name, string value)
         => sb.Append(name).Append(':').Append(value).Append(';');

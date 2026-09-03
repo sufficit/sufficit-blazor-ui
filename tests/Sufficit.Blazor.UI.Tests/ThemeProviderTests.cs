@@ -15,11 +15,29 @@ public sealed class ThemeProviderTests
 
         var css = cut.Find("style").TextContent;
 
-        Assert.StartsWith(":root{", css, StringComparison.Ordinal);
+        Assert.StartsWith(SUIThemeProvider.TokenSelector + "{", css, StringComparison.Ordinal);
         Assert.Contains("--sui-color-primary:#fb923c;", css, StringComparison.Ordinal);
         Assert.Contains("--sui-color-primary-action:#fb923c;", css, StringComparison.Ordinal);
         Assert.Contains("--sui-color-primary-action-contrast:#111827;", css, StringComparison.Ordinal);
         Assert.Contains("color-scheme:dark;}", css, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Tokens_AreScopedToTheWrapperSoTheConsumerPaletteBeatsTheDarkFallback()
+    {
+        // sui-foundations.css declares a dark fallback on [data-sui-theme="dark"], the
+        // provider's own wrapper. A palette published on :root only would resolve
+        // below it and every dark consumer would silently wear the fallback amber.
+        using var context = new BunitContext();
+        var cut = context.Render<SUIThemeProvider>(parameters => parameters
+            .Add(component => component.Theme, TestTheme.Dark));
+
+        var css = cut.Find("style").TextContent;
+        var wrapper = cut.Find(".sui-root");
+
+        Assert.Contains(".sui-root[data-sui-theme]", SUIThemeProvider.TokenSelector, StringComparison.Ordinal);
+        Assert.StartsWith(":root,", css, StringComparison.Ordinal);
+        Assert.Equal("dark", wrapper.GetAttribute("data-sui-theme"));
     }
 
     [Fact]

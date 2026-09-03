@@ -91,6 +91,25 @@ public static class SUIIcons
         "<path d=\"m9.5 14.5-1.75 1.75a3.18 3.18 0 0 1-4.5-4.5L5 10M14.5 9.5l1.75-1.75a3.18 3.18 0 0 1 4.5 4.5L19 14M9.75 12h4.5M4 4l16 16\"/>" +
         "</g>";
 
+    /// <summary>Shield with a check: privilege, protection, a contract of power.</summary>
+    public const string Shield =
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<path d=\"M12 21.25s7.25-3.5 7.25-9.5V5.5L12 2.75 4.75 5.5v6.25c0 6 7.25 9.5 7.25 9.5Z\"/><path d=\"m9.25 12 2 2 3.75-4\"/>" +
+        "</g>";
+
+    /// <summary>Lightning bolt: trigger, event, something that fires.</summary>
+    public const string Bolt =
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<path d=\"M13.25 2.75 4.75 13.5h6.5l-1 7.75 8.5-10.75h-6.5l1-7.75Z\"/>" +
+        "</g>";
+
+    /// <summary>A screen beside a handset: devices, fleet members, agents.</summary>
+    public const string Devices =
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<rect x=\"2.75\" y=\"4.75\" width=\"13.5\" height=\"9.5\" rx=\"1.5\"/><path d=\"M6 18.25h7M9.5 14.25v4M19.25 8.25h.5\"/>" +
+        "<rect x=\"17.25\" y=\"9.25\" width=\"4.5\" height=\"11\" rx=\"1.25\"/><path d=\"M19.5 17.75h.01\"/>" +
+        "</g>";
+
     /// <summary>Phone / device.</summary>
     public const string Phone =
         "<rect x=\"7\" y=\"2\" width=\"10\" height=\"20\" rx=\"2\"/><path d=\"M11 18h2\"/>";

@@ -8,6 +8,18 @@ são derivadas exclusivamente de tags Git no formato
 
 ## [Unreleased]
 
+### Added
+
+- Ícones `SUIIcons.Shield`, `SUIIcons.Bolt` e `SUIIcons.Devices`, no mesmo
+  traço leve dos ícones de ação, com amostra no grupo de navegação do catálogo.
+
+### Fixed
+
+- `SUIThemeProvider` publica os tokens também em `.sui-root[data-sui-theme]`.
+  Antes, em modo escuro, o fallback das fundações em `[data-sui-theme="dark"]`
+  vencia a palette do consumidor dentro do wrapper e todo tema escuro vestia o
+  âmbar padrão; a cópia em `:root` continua servindo os portais no body.
+
 ## [2.2.1] — 2026-08-30
 
 ### Changed
