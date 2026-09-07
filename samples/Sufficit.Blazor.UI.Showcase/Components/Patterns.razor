@@ -1,5 +1,7 @@
 <h1>Componha uma interface completa</h1>
 <p class="lead">Padrões que combinam os componentes da biblioteca. Todos os dados desta página são demonstrativos.</p>
+<Sufficit.Blazor.UI.Demos.Compositions.OperationsWorkspace />
+<details class="source-panel"><summary>Código da tela completa</summary><div class="source-actions"><SUICopyToClipboard Text="@DemoCatalog.WorkspaceSource"><SUIButton VariantValue="SUIVariant.Text">Copiar tela</SUIButton></SUICopyToClipboard></div><pre tabindex="0"><code>@DemoCatalog.WorkspaceSource</code></pre></details>
 <section><h2>Formulário com validação</h2><p>Os campos notificam o EditContext e exibem as mensagens de validação.</p>
 <EditForm Model="_model" OnValidSubmit="Saved">
     <DataAnnotationsValidator />
@@ -11,13 +13,15 @@
 <SUITable T="string" Items="_services.Skip(_page * 5).Take(5)" RowKey="@(item => item)" ColumnCount="1"><HeaderContent><SUITh>Serviço</SUITh></HeaderContent><RowTemplate Context="item"><SUITd DataLabel="Serviço">@item</SUITd></RowTemplate></SUITable>
 <SUIPagination TotalItems="_services.Length" PageSize="5" @bind-PageIndex="_page" />
 </section>
-<section><h2>Seção com alterações pendentes</h2><SUISection Title="Preferências"><SUITextField T="string" Label="Nome da seção" @bind-Value="_sectionName" /></SUISection><SUIPendingChangesBar OnSave="Saved" OnCancel="ResetSection" /></section>
+<section><h2>Seção com alterações pendentes</h2><SUISection Title="Preferências"><SUITextField T="string" Label="Nome da seção" @bind-Value="_sectionName" /></SUISection>@if (_sectionName != _savedSectionName) { <SUIPendingChangesBar OnSave="SaveSection" OnCancel="ResetSection" /> }</section>
 <section><h2>Confirmar antes de aplicar</h2><Sufficit.Blazor.UI.Demos.Examples.SUIConfirmDialogExample /></section>
 @code {
     [Inject] private ISUISnackbar Snackbar { get; set; } = default!;
     private readonly ExampleForm _model = new();
     private string? _sectionName = "Operação Sudeste";
-    private void ResetSection() { _sectionName = "Operação Sudeste"; Snackbar.Info("Alterações descartadas."); }
+    private string? _savedSectionName = "Operação Sudeste";
+    private void SaveSection() { _savedSectionName = _sectionName; Snackbar.Success("Preferências de demonstração salvas."); }
+    private void ResetSection() { _sectionName = _savedSectionName; Snackbar.Info("Alterações descartadas."); }
     private int _page;
     private readonly string[] _services = Enumerable.Range(1, 18).Select(i => $"Serviço de demonstração {i:00}").ToArray();
     private void Saved() => Snackbar.Success("Formulário validado com sucesso.");

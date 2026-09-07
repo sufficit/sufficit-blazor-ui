@@ -5,7 +5,7 @@ using Microsoft.Playwright.NUnit;
 
 namespace Sufficit.Blazor.UI.BrowserTests;
 
-public sealed class ShowcaseBrowserTests : PageTest
+public sealed partial class ShowcaseBrowserTests : PageTest
 {
     private string BaseUrl => Environment.GetEnvironmentVariable("SUI_SHOWCASE_URL")!;
 
@@ -40,7 +40,7 @@ public sealed class ShowcaseBrowserTests : PageTest
         {
             await Page.GotoAsync(link);
             await Expect(Page.Locator(".component-preview")).ToBeVisibleAsync();
-            await Expect(Page.Locator(".source-panel code")).Not.ToBeEmptyAsync();
+            await Expect(Page.Locator(".component-source code")).Not.ToBeEmptyAsync();
             Assert.That(await Page.Locator("#blazor-error-ui").IsVisibleAsync(), Is.False, link);
         }
         await Page.ReloadAsync();

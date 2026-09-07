@@ -34,6 +34,7 @@ public sealed class ResponsiveDrawerTests
         cut.Find("button[aria-label='Fechar navegação']").Click();
 
         Assert.False(open);
+        Assert.True(cut.Find("aside").HasAttribute("inert"));
         Assert.DoesNotContain("sui-drawer--open", cut.Find("aside.sui-drawer").ClassList);
     }
 

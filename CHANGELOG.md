@@ -10,6 +10,11 @@ são derivadas exclusivamente de tags Git no formato
 
 ### Added
 
+- `SUITabs.Vertical` com teclado por orientação e seleção horizontal sempre visível.
+- `SUIColorContrast` para verificar pares de cores opacas.
+- Playground de quatro componentes, composição operacional completa, editor avançado
+  com comparação isolada de temas e medição reproduzível do carregamento WASM.
+
 - Vitrine estática Blazor WebAssembly com 68 componentes reais, busca,
   exemplos copiáveis verificados por compilação, API por componente, padrões
   compostos e publicação GitHub Pages por Actions.
@@ -20,6 +25,10 @@ são derivadas exclusivamente de tags Git no formato
 - `SUIAutocomplete.SearchFuncAsync` com `CancellationToken` e `SUITable.RowKey`.
 
 ### Changed
+
+- Drawer compacto fechado inerte, foco visível em switches e contraste secundário escuro.
+- Exportações copiadas refletem o código exibido; validação e alterações pendentes
+  da vitrine acompanham o estado real. Documentação mostra a versão compilada.
 
 - Exemplos extraídos para RCL compartilhada pelos hosts Server e WebAssembly.
 - CSS compartilhado dividido por responsabilidade; build também sincroniza

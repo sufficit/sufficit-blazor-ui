@@ -7,7 +7,7 @@
         <div class="sui-tabs__list"
              role="tablist"
              aria-label="@AriaLabel"
-             aria-orientation="horizontal">
+             aria-orientation="@(Vertical ? "vertical" : "horizontal")">
             @for (var i = 0; i < _panels.Count; i++)
             {
                 var idx = i;
@@ -45,6 +45,9 @@
 </CascadingValue>
 
 @code {
+    /// <summary>Place the tab list beside its panel; uses Up/Down keyboard navigation.</summary>
+    [Parameter] public bool Vertical { get; set; }
+
     [Parameter]
     public string? Class { get; set; }
 
@@ -112,8 +115,10 @@
 
         var nextIndex = args.Key switch
         {
-            "ArrowRight" => (index + 1) % _panels.Count,
-            "ArrowLeft" => (index - 1 + _panels.Count) % _panels.Count,
+            "ArrowRight" when !Vertical => (index + 1) % _panels.Count,
+            "ArrowLeft" when !Vertical => (index - 1 + _panels.Count) % _panels.Count,
+            "ArrowDown" when Vertical => (index + 1) % _panels.Count,
+            "ArrowUp" when Vertical => (index - 1 + _panels.Count) % _panels.Count,
             "Home" => 0,
             "End" => _panels.Count - 1,
             _ => -1,
@@ -134,6 +139,8 @@
                 "import", "./_content/Sufficit.Blazor.UI/Components/Navigation/SUITabs.razor.js");
             _interop = await _module.InvokeAsync<IJSObjectReference>("initialize", _rootElement);
         }
+
+        if (_module is not null) await _module.InvokeVoidAsync("reveal", _rootElement);
 
         if (_pendingFocusIndex is not int index || index >= _tabReferences.Length)
             return;
@@ -174,6 +181,7 @@
 
     private string Classname
         => SUIClassBuilder.Default("sui-tabs")
+            .AddClass("sui-tabs--vertical", Vertical)
             .AddClass(Class)
             .Build();
 }

@@ -4,9 +4,10 @@
     <div class="preview-label"><span>Demonstração interativa</span><a href="?view=themes">Personalizar tema</a></div>
     <div class="preview-content"><DynamicComponent Type="DemoCatalog.ExampleType(Entry.Name)" /></div>
 </section>
-<details class="source-panel" open>
+<ComponentPlayground Name="@Entry.Name" />
+<details class="source-panel component-source" open>
     <summary>Código Razor <span>Exemplo completo</span></summary>
-    <div class="source-actions"><SUICopyToClipboard Text="Entry.Source" Title="Exemplo Razor"><SUIButton VariantValue="SUIVariant.Text">Copiar código</SUIButton></SUICopyToClipboard></div>
+    <div class="source-actions"><SUICopyToClipboard Text="@Entry.Source" Title="Exemplo Razor"><SUIButton VariantValue="SUIVariant.Text">Copiar código</SUIButton></SUICopyToClipboard></div>
     <pre tabindex="0"><code>@Entry.Source</code></pre>
 </details>
 <section class="api-section">
@@ -15,10 +16,10 @@
     @if (Entry.Parameters.Count == 0) { <p>Este componente não expõe parâmetros próprios.</p> }
     else
     {
-        <div class="api-scroll" tabindex="0" role="region" aria-label="Parâmetros do componente"><table><thead><tr><th scope="col">Parâmetro</th><th scope="col">Tipo</th><th scope="col">Padrão</th></tr></thead><tbody>
+        <div class="api-scroll" tabindex="0" role="region" aria-label="Parâmetros do componente"><table><thead><tr><th scope="col">Parâmetro</th><th scope="col">Tipo</th><th scope="col">Padrão</th><th scope="col">Uso</th></tr></thead><tbody>
             @foreach (var parameter in Entry.Parameters)
             {
-                <tr><th scope="row"><code>@parameter.Name</code>@if (parameter.Required) { <small>Obrigatório</small> }@if (parameter.Deprecated) { <small>Obsoleto</small> }</th><td><code>@parameter.Type</code></td><td><code>@parameter.Default</code></td></tr>
+                <tr><th scope="row"><code>@parameter.Name</code>@if (parameter.Required) { <small>Obrigatório</small> }@if (parameter.Deprecated) { <small>Obsoleto</small> }</th><td><code>@parameter.Type</code></td><td><code>@parameter.Default</code></td><td>@(string.IsNullOrWhiteSpace(parameter.Description) ? "Sem descrição no código-fonte." : parameter.Description)</td></tr>
             }
         </tbody></table></div>
     }

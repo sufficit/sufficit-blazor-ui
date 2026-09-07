@@ -1,0 +1,112 @@
+@using Sufficit.Blazor.UI.Components
+@using Microsoft.AspNetCore.Components.Forms
+@using System.ComponentModel.DataAnnotations
+
+<section aria-label="Espaço de trabalho demonstrativo">
+    <SUIStack Row="true" Wrap="true" AlignItems="Center" Spacing="3">
+        <SUIText Typo="SUITypo.h5" Tag="SUITextTag.H2">Operação da equipe</SUIText>
+        <SUISpacer />
+        <SUISelect T="string" Label="Estado da demonstração" @bind-Value="_state">
+            <SUISelectItem Value='@("ready")'>Com dados</SUISelectItem><SUISelectItem Value='@("loading")'>Carregando</SUISelectItem>
+            <SUISelectItem Value='@("error")'>Erro</SUISelectItem><SUISelectItem Value='@("empty")'>Sem dados</SUISelectItem>
+        </SUISelect>
+    </SUIStack>
+    <p>Dados fictícios. Filtros, edição e feedback funcionam apenas nesta demonstração.</p>
+    @if (_state == "loading")
+    {
+        <SUISkeletonLoader Type="SUISkeletonType.Table" Rows="4" />
+    }
+    else if (_state == "error")
+    {
+        <SUIAlert ToneValue="SUITone.Danger">Não foi possível carregar a lista de demonstração.</SUIAlert>
+        <SUIButton OnClick='@(() => _state = "ready")'>Tentar novamente</SUIButton>
+    }
+    else if (_state == "empty")
+    {
+        <SUIEmptyState Title="Seu espaço está pronto" Description="Cadastre um serviço para acompanhar sua operação.">
+            <Actions><SUIButton OnClick="Create">Criar serviço de demonstração</SUIButton></Actions>
+        </SUIEmptyState>
+    }
+    else
+    {
+        <SUITabs AriaLabel="Áreas da operação demonstrativa">
+            <SUITabPanel Text="Resumo">
+                <SUIGrid>
+                    <SUIItem xs="12" sm="6"><SUISection Title="Serviços"><SUIText Typo="SUITypo.h4">@_items.Count</SUIText><SUIText Typo="SUITypo.body2">cadastrados na operação</SUIText></SUISection></SUIItem>
+                    <SUIItem xs="12" sm="6"><SUISection Title="Disponibilidade"><SUIText Typo="SUITypo.h4">@_items.Count(i => i.Enabled)</SUIText><SUIText Typo="SUITypo.body2">habilitados para uso</SUIText></SUISection></SUIItem>
+                </SUIGrid>
+                <SUIAlert ToneValue="SUITone.Info">Abra Serviços para filtrar e editar. Preferências concentra os ajustes da equipe.</SUIAlert>
+            </SUITabPanel>
+            <SUITabPanel Text="Serviços">
+                <SUIStack Row="true" Wrap="true" AlignItems="End" Spacing="3">
+                    <SUITextField T="string" Label="Buscar serviço" Value="@_search" ValueChanged="Search" Immediate="true" />
+                    <SUISelect T="string" Label="Disponibilidade" Value="@_filter" ValueChanged="Filter">
+                        <SUISelectItem Value='@("all")'>Todos</SUISelectItem><SUISelectItem Value='@("enabled")'>Habilitados</SUISelectItem>
+                    </SUISelect>
+                    <SUIButton VariantValue="SUIVariant.Outlined" OnClick="Create">Novo serviço</SUIButton>
+                </SUIStack>
+                <SUITable T="Service" Items="Filtered.Skip(_page * 5).Take(5)" RowKey="@(item => item.Id)" ColumnCount="3" StackOnMobile="true">
+                    <HeaderContent><SUITh>Nome</SUITh><SUITh>Disponibilidade</SUITh><SUITh>Ação</SUITh></HeaderContent>
+                    <RowTemplate Context="item">
+                        <SUITd DataLabel="Nome">@item.Name</SUITd><SUITd DataLabel="Disponibilidade">@(item.Enabled ? "Habilitado" : "Desabilitado")</SUITd>
+                        <SUITd DataLabel="Ação"><SUIButton VariantValue="SUIVariant.Text" OnClick="() => Edit(item)" aria-label="@($"Editar {item.Name}")">Editar</SUIButton></SUITd>
+                    </RowTemplate>
+                    <NoRecordsContent><SUITableEmpty Title="Nenhum serviço encontrado" Description="Altere a busca ou a disponibilidade."><SUIButton OnClick="Clear">Limpar filtros</SUIButton></SUITableEmpty></NoRecordsContent>
+                </SUITable>
+                <SUIPagination TotalItems="Filtered.Count" PageSize="5" @bind-PageIndex="_page" ItemLabel="serviços" />
+                @if (_draft is not null)
+                {
+                    <SUISection Title="Editar serviço">
+                        <EditForm Model="_draft" OnValidSubmit="Save">
+                            <DataAnnotationsValidator />
+                            <SUITextField T="string" Label="Nome do serviço" @bind-Value="_draft.Name" />
+                            <SUICheckbox Label="Habilitado para uso" @bind-Value="_draft.Enabled" />
+                            <SUIButton ButtonTypeValue="SUIButtonType.Submit">Salvar serviço</SUIButton>
+                            <SUIButton VariantValue="SUIVariant.Text" OnClick="() => _draft = null">Cancelar edição</SUIButton>
+                        </EditForm>
+                    </SUISection>
+                }
+            </SUITabPanel>
+            <SUITabPanel Text="Preferências">
+                <SUISection Title="Notificações da equipe">
+                    <SUICheckbox Label="Avisar sobre mudanças nos serviços" @bind-Value="_notify" />
+                    @if (_notify != _savedNotify)
+                    {
+                        <SUIPendingChangesBar OnSave="SavePreferences" OnCancel="() => _notify = _savedNotify" />
+                    }
+                </SUISection>
+            </SUITabPanel>
+        </SUITabs>
+    }
+    @if (_message is not null) { <SUIAlert ToneValue="SUITone.Success" role="status">@_message</SUIAlert> }
+</section>
+@code {
+    private string _state = "ready", _search = "", _filter = "all";
+    private string? _message;
+    private int _page;
+    private bool _notify = true, _savedNotify = true;
+    private Service? _draft;
+    private readonly List<Service> _items = Enumerable.Range(1, 18).Select(i => new Service { Id = i, Name = $"Serviço de demonstração {i:00}", Enabled = i % 3 != 0 }).ToList();
+    private IReadOnlyList<Service> Filtered => _items.Where(i => i.Name.Contains(_search.Trim(), StringComparison.OrdinalIgnoreCase) && (_filter != "enabled" || i.Enabled)).ToArray();
+    private void Search(string? value) { _search = value ?? ""; _page = 0; }
+    private void Filter(string? value) { _filter = value ?? "all"; _page = 0; }
+    private void Clear() { _search = ""; _filter = "all"; _page = 0; }
+    private void Edit(Service item) => _draft = new Service { Id = item.Id, Name = item.Name, Enabled = item.Enabled };
+    private void Create() { _state = "ready"; _items.Add(new Service { Id = _items.Max(i => i.Id) + 1, Name = "Novo serviço de demonstração", Enabled = true }); _message = "Serviço criado nesta demonstração."; }
+    private void Save()
+    {
+        var index = _items.FindIndex(i => i.Id == _draft!.Id);
+        _items[index] = _draft!;
+        _draft = null;
+        _message = "Serviço atualizado nesta demonstração.";
+        _page = Math.Min(_page, Math.Max(0, (Filtered.Count - 1) / 5));
+    }
+    private void SavePreferences() { _savedNotify = _notify; _message = "Preferências salvas nesta demonstração."; }
+    private sealed class Service
+    {
+        public int Id { get; init; }
+        [Required(ErrorMessage = "Informe o nome do serviço.")]
+        public string Name { get; set; } = "";
+        public bool Enabled { get; set; }
+    }
+}

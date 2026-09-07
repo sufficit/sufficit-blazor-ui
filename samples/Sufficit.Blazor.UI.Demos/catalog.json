@@ -5,6 +5,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack Row Wrap>\n<SUIButton OnClick=\"Notify\">Salvar alterações</SUIButton>\n<SUIButton VariantValue=\"SUIVariant.Outlined\" OnClick=\"Reset\">Cancelar</SUIButton>\n<SUIButton Disabled>Indisponível</SUIButton>\n</SUIStack>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n    protected void Reset() { Text = \"Operação Sudeste\"; Snackbar.Info(\"Alterações descartadas.\"); }\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -12,6 +13,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "OnClick",
         "type": "EventCallback<MouseEventArgs>",
         "default": "Padrão do tipo",
@@ -19,6 +21,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Color",
         "type": "object",
         "default": "SUIColor.Primary",
@@ -26,6 +29,7 @@
         "deprecated": true
       },
       {
+        "description": "",
         "name": "IconColor",
         "type": "object?",
         "default": "Padrão do tipo",
@@ -33,6 +37,7 @@
         "deprecated": true
       },
       {
+        "description": "",
         "name": "Variant",
         "type": "object",
         "default": "SUIVariant.Filled",
@@ -40,6 +45,7 @@
         "deprecated": true
       },
       {
+        "description": "",
         "name": "Size",
         "type": "object",
         "default": "SUISize.Medium",
@@ -47,6 +53,7 @@
         "deprecated": true
       },
       {
+        "description": "",
         "name": "IconSize",
         "type": "object?",
         "default": "Padrão do tipo",
@@ -54,6 +61,7 @@
         "deprecated": true
       },
       {
+        "description": "",
         "name": "ButtonType",
         "type": "object",
         "default": "SUIButtonType.Button",
@@ -61,6 +69,7 @@
         "deprecated": true
       },
       {
+        "description": "",
         "name": "ColorValue",
         "type": "SUIColor?",
         "default": "Padrão do tipo",
@@ -68,6 +77,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "IconColorValue",
         "type": "SUIColor?",
         "default": "Padrão do tipo",
@@ -75,6 +85,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "VariantValue",
         "type": "SUIVariant?",
         "default": "Padrão do tipo",
@@ -82,6 +93,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "SizeValue",
         "type": "SUISize?",
         "default": "Padrão do tipo",
@@ -89,6 +101,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "IconSizeValue",
         "type": "SUISize?",
         "default": "Padrão do tipo",
@@ -96,6 +109,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ButtonTypeValue",
         "type": "SUIButtonType?",
         "default": "Padrão do tipo",
@@ -103,6 +117,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "StartIcon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -110,6 +125,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "EndIcon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -117,6 +133,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "IconClass",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -124,6 +141,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "FullWidth",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -131,6 +149,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Disabled",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -138,6 +157,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Href",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -145,6 +165,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Target",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -152,6 +173,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Rel",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -159,6 +181,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -166,6 +189,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -173,6 +197,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -187,6 +212,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUICopyToClipboard Text=\"dotnet add package Sufficit.Blazor.UI\" Title=\"Comando de instalação\" />\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n}\n",
     "parameters": [
       {
+        "description": "Text placed on the clipboard.",
         "name": "Text",
         "type": "string",
         "default": "default!",
@@ -194,6 +220,7 @@
         "deprecated": false
       },
       {
+        "description": "Name of the copied item, used in the success toast (\"Token copiado…\"). Falls back to a generic message when not set.",
         "name": "Title",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -201,6 +228,7 @@
         "deprecated": false
       },
       {
+        "description": "Full success toast, overriding the Title-based default.",
         "name": "SuccessMessage",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -208,6 +236,7 @@
         "deprecated": false
       },
       {
+        "description": "Prefix of the failure toast. The reason is appended.",
         "name": "ErrorMessage",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -215,6 +244,7 @@
         "deprecated": false
       },
       {
+        "description": "Stretch the clickable wrapper to full width.",
         "name": "FullWidth",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -222,6 +252,7 @@
         "deprecated": false
       },
       {
+        "description": "Accessible name of the built-in button. Ignored with ChildContent.",
         "name": "AriaLabel",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -229,6 +260,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -236,6 +268,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -243,6 +276,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -250,6 +284,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -264,6 +299,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIIconButton Icon=\"@SUIIcons.Restart\" Title=\"Atualizar exemplo\" OnClick=\"Notify\" />\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -271,6 +307,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "OnClick",
         "type": "EventCallback<MouseEventArgs>",
         "default": "Padrão do tipo",
@@ -278,6 +315,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Icon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -285,6 +323,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Title",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -292,6 +331,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Color",
         "type": "object",
         "default": "SUIColor.Default",
@@ -299,6 +339,7 @@
         "deprecated": true
       },
       {
+        "description": "",
         "name": "Size",
         "type": "object",
         "default": "SUISize.Medium",
@@ -306,6 +347,7 @@
         "deprecated": true
       },
       {
+        "description": "",
         "name": "Variant",
         "type": "object",
         "default": "SUIVariant.Text",
@@ -313,6 +355,7 @@
         "deprecated": true
       },
       {
+        "description": "",
         "name": "Edge",
         "type": "object",
         "default": "SUIEdge.False",
@@ -320,6 +363,7 @@
         "deprecated": true
       },
       {
+        "description": "",
         "name": "ButtonType",
         "type": "object",
         "default": "SUIButtonType.Button",
@@ -327,6 +371,7 @@
         "deprecated": true
       },
       {
+        "description": "",
         "name": "ColorValue",
         "type": "SUIColor?",
         "default": "Padrão do tipo",
@@ -334,6 +379,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "SizeValue",
         "type": "SUISize?",
         "default": "Padrão do tipo",
@@ -341,6 +387,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "VariantValue",
         "type": "SUIVariant?",
         "default": "Padrão do tipo",
@@ -348,6 +395,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "EdgeValue",
         "type": "SUIEdge?",
         "default": "Padrão do tipo",
@@ -355,6 +403,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ButtonTypeValue",
         "type": "SUIButtonType?",
         "default": "Padrão do tipo",
@@ -362,6 +411,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "FullWidth",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -369,6 +419,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Disabled",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -376,6 +427,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Href",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -383,6 +435,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Target",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -390,6 +443,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Rel",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -397,6 +451,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -404,6 +459,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -411,6 +467,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -425,6 +482,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUILink Href=\"https://github.com/sufficit/sufficit-blazor-ui\">Código-fonte da biblioteca</SUILink>\n",
     "parameters": [
       {
+        "description": "",
         "name": "Href",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -432,6 +490,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Target",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -439,6 +498,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Rel",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -446,6 +506,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -453,6 +514,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -460,6 +522,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -474,6 +537,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUILoadingButton IsLoading>Salvando alterações</SUILoadingButton>\n",
     "parameters": [
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -481,6 +545,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "OnClick",
         "type": "EventCallback<MouseEventArgs>",
         "default": "Padrão do tipo",
@@ -488,6 +553,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "IsLoading",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -495,6 +561,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Disabled",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -502,6 +569,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Variant",
         "type": "object",
         "default": "SUIVariant.Filled",
@@ -509,6 +577,7 @@
         "deprecated": true
       },
       {
+        "description": "",
         "name": "Color",
         "type": "object",
         "default": "SUIColor.Primary",
@@ -516,6 +585,7 @@
         "deprecated": true
       },
       {
+        "description": "",
         "name": "ButtonType",
         "type": "object",
         "default": "SUIButtonType.Button",
@@ -523,6 +593,7 @@
         "deprecated": true
       },
       {
+        "description": "",
         "name": "Size",
         "type": "object",
         "default": "SUISize.Medium",
@@ -530,6 +601,7 @@
         "deprecated": true
       },
       {
+        "description": "",
         "name": "VariantValue",
         "type": "SUIVariant?",
         "default": "Padrão do tipo",
@@ -537,6 +609,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ColorValue",
         "type": "SUIColor?",
         "default": "Padrão do tipo",
@@ -544,6 +617,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ButtonTypeValue",
         "type": "SUIButtonType?",
         "default": "Padrão do tipo",
@@ -551,6 +625,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "SizeValue",
         "type": "SUISize?",
         "default": "Padrão do tipo",
@@ -558,6 +633,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "FullWidth",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -565,6 +641,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "StartIcon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -572,6 +649,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "EndIcon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -579,6 +657,7 @@
         "deprecated": false
       },
       {
+        "description": "Custom loading indicator: inner SVG content (paths). Null = the default 3/4 arc, a stroke-based glyph with no arrowhead so the rotation always reads as forward motion.",
         "name": "LoadingIcon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -586,6 +665,7 @@
         "deprecated": false
       },
       {
+        "description": "Rotation direction of the loading spinner. Default clockwise.",
         "name": "SpinDirection",
         "type": "SUISpinDirection",
         "default": "SUISpinDirection.Clockwise",
@@ -593,6 +673,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Href",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -600,6 +681,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Target",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -607,6 +689,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -614,6 +697,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -621,6 +705,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -635,6 +720,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack Row>\n<SUIAvatar SizeValue=\"SUISize.Small\">AL</SUIAvatar>\n<SUIAvatar>BR</SUIAvatar>\n</SUIStack>\n",
     "parameters": [
       {
+        "description": "Image URL. When set, the avatar renders an img element.",
         "name": "Src",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -642,6 +728,7 @@
         "deprecated": false
       },
       {
+        "description": "Accessible name. For an image avatar this is the alt text; for an initials avatar it is what screen readers announce. Leave empty only when the avatar is decorative and the name is already in the text.",
         "name": "Alt",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -649,6 +736,7 @@
         "deprecated": false
       },
       {
+        "description": "\"small\", \"medium\" or \"large\". Default \"medium\".",
         "name": "SizeValue",
         "type": "SUISize?",
         "default": "Padrão do tipo",
@@ -656,6 +744,7 @@
         "deprecated": false
       },
       {
+        "description": "Color: \"primary\", \"success\", \"warning\", \"error\", \"info\", \"default\".",
         "name": "ColorValue",
         "type": "SUIColor?",
         "default": "Padrão do tipo",
@@ -663,6 +752,7 @@
         "deprecated": false
       },
       {
+        "description": "Square with rounded corners instead of a circle.",
         "name": "Rounded",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -670,6 +760,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -677,6 +768,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -684,6 +776,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -691,6 +784,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -705,6 +799,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack Row Wrap>\n<SUIChip ColorValue=\"SUIColor.Primary\">Produção</SUIChip>\n<SUIChip VariantValue=\"SUIVariant.Outlined\">Manutenção</SUIChip>\n</SUIStack>\n",
     "parameters": [
       {
+        "description": "Chip color. Lowercase string: \"default\", \"primary\", \"secondary\", \"success\", \"warning\", \"error\", \"info\". Default \"default\".",
         "name": "Color",
         "type": "object?",
         "default": "SUIColor.Default",
@@ -712,6 +807,7 @@
         "deprecated": true
       },
       {
+        "description": "Size: \"small\" or \"medium\". Default \"medium\".",
         "name": "Size",
         "type": "object?",
         "default": "Padrão do tipo",
@@ -719,6 +815,7 @@
         "deprecated": true
       },
       {
+        "description": "Variant: \"filled\", \"outlined\", \"text\". Default \"filled\".",
         "name": "Variant",
         "type": "object?",
         "default": "SUIVariant.Filled",
@@ -726,6 +823,7 @@
         "deprecated": true
       },
       {
+        "description": "",
         "name": "ColorValue",
         "type": "SUIColor?",
         "default": "Padrão do tipo",
@@ -733,6 +831,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "SizeValue",
         "type": "SUISize?",
         "default": "Padrão do tipo",
@@ -740,6 +839,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "VariantValue",
         "type": "SUIVariant?",
         "default": "Padrão do tipo",
@@ -747,6 +847,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Icon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -754,6 +855,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -761,6 +863,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -768,6 +871,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional primary action for interactive chips.",
         "name": "OnClick",
         "type": "EventCallback",
         "default": "Padrão do tipo",
@@ -775,6 +879,7 @@
         "deprecated": false
       },
       {
+        "description": "Accessible label and tooltip for the primary action.",
         "name": "ActionLabel",
         "type": "string",
         "default": "\"Selecionar\"",
@@ -782,6 +887,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional action that renders a compact, accessible remove control.",
         "name": "OnRemove",
         "type": "EventCallback",
         "default": "Padrão do tipo",
@@ -789,6 +895,7 @@
         "deprecated": false
       },
       {
+        "description": "Accessible label and tooltip for the remove action.",
         "name": "RemoveLabel",
         "type": "string",
         "default": "\"Remover\"",
@@ -796,6 +903,7 @@
         "deprecated": false
       },
       {
+        "description": "Additional HTML attributes forwarded to the root element, including accessibility attributes such as aria-live and role.",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -810,6 +918,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack Row>\n<SUIIcon Name=\"check\" />\n<SUIIcon Name=\"calendar\" />\n<SUIIcon Name=\"clock\" />\n</SUIStack>\n",
     "parameters": [
       {
+        "description": "Icon name. See the switch above for the available keys (dashboard, users, key, shield, scope, palette, workflow, audit, chart, settings, menu, x, bell, search, eye-off, arrow-right, arrow-left, plus, external, volume, phone, inbox, alert, check, clock, database, lock, code, browser, device, server, terminal, info, calendar, chevron-left, chevron-right, chevron-down, refresh, trash, edit, pix, credit-card, receipt, barcode).",
         "name": "Name",
         "type": "string",
         "default": "string.Empty",
@@ -817,6 +926,7 @@
         "deprecated": false
       },
       {
+        "description": "Pixel size of the square viewBox (default 20).",
         "name": "Size",
         "type": "int",
         "default": "20",
@@ -824,6 +934,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional CSS class applied to the root <svg>.",
         "name": "CssClass",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -838,6 +949,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIList>\n<SUIListItem>Telefonia</SUIListItem>\n<SUIListItem OnClick=\"Notify\">Abrir atendimento</SUIListItem>\n</SUIList>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "Dense",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -845,6 +957,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -852,6 +965,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -866,6 +980,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIList>\n<SUIListItem>Telefonia</SUIListItem>\n<SUIListItem OnClick=\"Notify\">Abrir atendimento</SUIListItem>\n</SUIList>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "OnClick",
         "type": "EventCallback",
         "default": "Padrão do tipo",
@@ -873,6 +988,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -880,6 +996,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -894,6 +1011,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIPagination TotalItems=\"125\" @bind-PageIndex=\"PageIndex\" @bind-PageSize=\"PageSize\" PageSizeOptions=\"@(new[] { 10, 25, 50 })\" />\n\n@code {\n    protected int PageIndex { get; set; }\n    protected int PageSize { get; set; } = 10;\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "TotalItems",
         "type": "int",
         "default": "Padrão do tipo",
@@ -901,6 +1019,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "PageSize",
         "type": "int",
         "default": "25",
@@ -908,6 +1027,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "PageSizeChanged",
         "type": "EventCallback<int>",
         "default": "Padrão do tipo",
@@ -915,6 +1035,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "PageIndex",
         "type": "int",
         "default": "Padrão do tipo",
@@ -922,6 +1043,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "PageIndexChanged",
         "type": "EventCallback<int>",
         "default": "Padrão do tipo",
@@ -929,6 +1051,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "PageSizeOptions",
         "type": "IReadOnlyList<int>?",
         "default": "Padrão do tipo",
@@ -936,6 +1059,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ItemLabel",
         "type": "string",
         "default": "\"itens\"",
@@ -943,6 +1067,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AriaLabel",
         "type": "string",
         "default": "\"Paginação\"",
@@ -950,6 +1075,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -964,6 +1090,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStat Value=\"12\" Label=\"Serviços no exemplo\" Icon=\"check\" />\n",
     "parameters": [
       {
+        "description": "",
         "name": "Value",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -971,6 +1098,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Label",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -978,6 +1106,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Icon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -985,6 +1114,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ColorValue",
         "type": "SUIColor",
         "default": "SUIColor.Primary",
@@ -992,6 +1122,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1006,6 +1137,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITable T=\"string\" Items=\"Rows\" RowKey=\"@(row => row)\" ColumnCount=\"1\">\n<HeaderContent>\n<SUITh>Serviço</SUITh>\n</HeaderContent>\n<RowTemplate Context=\"row\">\n<SUITd DataLabel=\"Serviço\">@row</SUITd>\n</RowTemplate>\n</SUITable>\n\n@code {\n    protected string[] Rows { get; } = [\"Telefonia\", \"Provisionamento\", \"Atendimento\"];\n}\n",
     "parameters": [
       {
+        "description": "Stable identity retained when rows are sorted or paged.",
         "name": "RowKey",
         "type": "Func<T, object>?",
         "default": "Padrão do tipo",
@@ -1013,6 +1145,7 @@
         "deprecated": false
       },
       {
+        "description": "Items to render. When null/empty, NoRecordsContent shows.",
         "name": "Items",
         "type": "IEnumerable<T>?",
         "default": "Padrão do tipo",
@@ -1020,6 +1153,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Hover",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -1027,6 +1161,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Dense",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -1034,6 +1169,7 @@
         "deprecated": false
       },
       {
+        "description": "Presents each body row as a labelled card on compact screens. Cells should provide SUITd.DataLabel so their column name remains visible. Desktop table semantics and layout are unchanged.",
         "name": "StackOnMobile",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -1041,6 +1177,7 @@
         "deprecated": false
       },
       {
+        "description": "Shows an indeterminate progress indicator and exposes aria-busy.",
         "name": "Loading",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -1048,6 +1185,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional class selector calculated for each rendered row.",
         "name": "RowClassFunc",
         "type": "Func<T, int, string?>?",
         "default": "Padrão do tipo",
@@ -1055,6 +1193,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional inline style calculated for each rendered row.",
         "name": "RowStyleFunc",
         "type": "Func<T, int, string?>?",
         "default": "Padrão do tipo",
@@ -1062,6 +1201,7 @@
         "deprecated": false
       },
       {
+        "description": "Number of data columns. Used by the no-records cell so its colspan covers the full table.",
         "name": "ColumnCount",
         "type": "int",
         "default": "1",
@@ -1069,6 +1209,7 @@
         "deprecated": false
       },
       {
+        "description": "Called when a row is clicked (item passed).",
         "name": "OnRowClick",
         "type": "EventCallback<T>",
         "default": "Padrão do tipo",
@@ -1076,6 +1217,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "HeaderContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1083,6 +1225,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "RowTemplate",
         "type": "RenderFragment<T>?",
         "default": "Padrão do tipo",
@@ -1090,6 +1233,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "NoRecordsContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1097,6 +1241,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "FooterContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1104,6 +1249,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1111,6 +1257,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -1125,6 +1272,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITable T=\"string\" Items=\"Array.Empty<string>()\" ColumnCount=\"1\">\n<HeaderContent>\n<SUITh>Serviço</SUITh>\n</HeaderContent>\n<NoRecordsContent>\n<SUITableEmpty Title=\"Nenhum serviço encontrado\" />\n</NoRecordsContent>\n</SUITable>\n",
     "parameters": [
       {
+        "description": "",
         "name": "Icon",
         "type": "string",
         "default": "SUIIcons.SearchOff",
@@ -1132,6 +1280,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Title",
         "type": "string",
         "default": "\"Nenhum registro encontrado\"",
@@ -1139,6 +1288,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Description",
         "type": "string?",
         "default": "\"Nenhum resultado foi encontrado com os filtros aplicados.\\nTente revisar ou remover os filtros para ver mais resultados.\"",
@@ -1146,6 +1296,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "TitleTypo",
         "type": "SUITypo",
         "default": "SUITypo.h6",
@@ -1153,6 +1304,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1160,6 +1312,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1174,6 +1327,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITable T=\"string\" Items=\"Rows.Order()\">\n<HeaderContent>\n<SUITh>\n<SUITableSortLabel T=\"string\">Serviço</SUITableSortLabel>\n</SUITh>\n</HeaderContent>\n<RowTemplate Context=\"row\">\n<SUITd>@row</SUITd>\n</RowTemplate>\n</SUITable>\n\n@code {\n    protected string[] Rows { get; } = [\"Telefonia\", \"Provisionamento\", \"Atendimento\"];\n}\n",
     "parameters": [
       {
+        "description": "Current sort direction for this column.",
         "name": "SortDirection",
         "type": "SUISortDirection",
         "default": "Padrão do tipo",
@@ -1181,6 +1335,7 @@
         "deprecated": false
       },
       {
+        "description": "Raised with the direction the column should take next.",
         "name": "SortDirectionChanged",
         "type": "EventCallback<SUISortDirection>",
         "default": "Padrão do tipo",
@@ -1188,6 +1343,7 @@
         "deprecated": false
       },
       {
+        "description": "Whether clicking a third time clears the sort. Default true, so a user can get back to the table's natural order without reloading.",
         "name": "AllowUnsorted",
         "type": "bool",
         "default": "true",
@@ -1195,6 +1351,7 @@
         "deprecated": false
       },
       {
+        "description": "Compatibility metadata for callers migrating from MudTableSortLabel. Sorting remains controlled by SortDirectionChanged at the UI layer.",
         "name": "SortBy",
         "type": "Func<T, object?>?",
         "default": "Padrão do tipo",
@@ -1202,6 +1359,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional initial sort metadata retained for migration compatibility.",
         "name": "InitialDirection",
         "type": "object?",
         "default": "Padrão do tipo",
@@ -1209,6 +1367,7 @@
         "deprecated": false
       },
       {
+        "description": "Text appended to the accessible name describing the current state, e.g. \"sorted ascending\". Override to localise.",
         "name": "StateDescriptionFactory",
         "type": "Func<SUISortDirection, string>?",
         "default": "Padrão do tipo",
@@ -1216,6 +1375,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1223,6 +1383,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1230,6 +1391,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -1244,6 +1406,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITable T=\"string\" Items=\"Rows\" RowKey=\"@(row => row)\" ColumnCount=\"1\">\n<HeaderContent>\n<SUITh>Serviço</SUITh>\n</HeaderContent>\n<RowTemplate Context=\"row\">\n<SUITd DataLabel=\"Serviço\">@row</SUITd>\n</RowTemplate>\n</SUITable>\n\n@code {\n    protected string[] Rows { get; } = [\"Telefonia\", \"Provisionamento\", \"Atendimento\"];\n}\n",
     "parameters": [
       {
+        "description": "Responsive label shown when the table collapses to cards.",
         "name": "DataLabel",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1251,6 +1414,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1258,6 +1422,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1265,6 +1430,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -1279,6 +1445,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack>\n<SUIText Typo=\"SUITypo.h2\">Tipografia SUI</SUIText>\n<SUIText>Texto de leitura e conteúdo da aplicação.</SUIText>\n<SUIText Typo=\"SUITypo.caption\">Informação complementar.</SUIText>\n</SUIStack>\n",
     "parameters": [
       {
+        "description": "",
         "name": "Typo",
         "type": "SUITypo",
         "default": "SUITypo.body1",
@@ -1286,6 +1453,7 @@
         "deprecated": false
       },
       {
+        "description": "Text color. When set, overrides the theme default via inline style.",
         "name": "Color",
         "type": "SUIColor?",
         "default": "Padrão do tipo",
@@ -1293,6 +1461,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Align",
         "type": "SUIAlign?",
         "default": "Padrão do tipo",
@@ -1300,6 +1469,7 @@
         "deprecated": false
       },
       {
+        "description": "Semantic element to render. SUITextTag.Auto maps h1-h6 typography to the matching native heading and uses div otherwise.",
         "name": "Tag",
         "type": "SUITextTag",
         "default": "SUITextTag.Auto",
@@ -1307,6 +1477,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1314,6 +1485,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1321,6 +1493,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -1335,6 +1508,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITable T=\"string\" Items=\"Rows\" RowKey=\"@(row => row)\" ColumnCount=\"1\">\n<HeaderContent>\n<SUITh>Serviço</SUITh>\n</HeaderContent>\n<RowTemplate Context=\"row\">\n<SUITd DataLabel=\"Serviço\">@row</SUITd>\n</RowTemplate>\n</SUITable>\n\n@code {\n    protected string[] Rows { get; } = [\"Telefonia\", \"Provisionamento\", \"Atendimento\"];\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1342,6 +1516,7 @@
         "deprecated": false
       },
       {
+        "description": "Header scope. Defaults to a column header.",
         "name": "Scope",
         "type": "string",
         "default": "\"col\"",
@@ -1349,6 +1524,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1356,6 +1532,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -1370,6 +1547,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITimeline>\n<SUITimelineItem Title=\"Configuração criada\" Description=\"Primeira versão disponível.\" />\n<SUITimelineItem Title=\"Revisão concluída\" Description=\"Pronto para ativar.\" />\n</SUITimeline>\n",
     "parameters": [
       {
+        "description": "\"start\" (default) or \"end\" — places markers on the left/right.",
         "name": "TimelinePosition",
         "type": "string",
         "default": "\"start\"",
@@ -1377,6 +1555,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1384,6 +1563,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1391,6 +1571,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -1405,6 +1586,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITimeline>\n<SUITimelineItem Title=\"Configuração criada\" Description=\"Primeira versão disponível.\" />\n<SUITimelineItem Title=\"Revisão concluída\" Description=\"Pronto para ativar.\" />\n</SUITimeline>\n",
     "parameters": [
       {
+        "description": "Marker color: \"default\", \"primary\", \"success\", \"warning\", \"error\", \"info\".",
         "name": "Color",
         "type": "object?",
         "default": "SUIColor.Primary",
@@ -1412,6 +1594,7 @@
         "deprecated": true
       },
       {
+        "description": "\"small\" or \"medium\". Default \"small\".",
         "name": "Size",
         "type": "object?",
         "default": "SUISize.Small",
@@ -1419,6 +1602,7 @@
         "deprecated": true
       },
       {
+        "description": "\"filled\" or \"outlined\". Default \"filled\".",
         "name": "Variant",
         "type": "object?",
         "default": "SUIVariant.Filled",
@@ -1426,6 +1610,7 @@
         "deprecated": true
       },
       {
+        "description": "",
         "name": "ColorValue",
         "type": "SUIColor?",
         "default": "Padrão do tipo",
@@ -1433,6 +1618,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "SizeValue",
         "type": "SUISize?",
         "default": "Padrão do tipo",
@@ -1440,6 +1626,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "VariantValue",
         "type": "SUIVariant?",
         "default": "Padrão do tipo",
@@ -1447,6 +1634,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1454,6 +1642,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional structured title. Existing free-form child content remains supported.",
         "name": "Title",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1461,6 +1650,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional concise explanation rendered below the title.",
         "name": "Description",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1468,6 +1658,7 @@
         "deprecated": false
       },
       {
+        "description": "Short contextual data such as a timestamp, sequence or state.",
         "name": "MetaContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1475,6 +1666,7 @@
         "deprecated": false
       },
       {
+        "description": "Secondary structured content rendered after the description and child content.",
         "name": "TrailingContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1482,6 +1674,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1489,6 +1682,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -1503,6 +1697,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIAlert ToneValue=\"SUITone.Info\">As alterações serão aplicadas após salvar.</SUIAlert>\n",
     "parameters": [
       {
+        "description": "Alert tone. Accepts a lowercase string (\"info\", \"success\", \"warning\", \"danger\", \"error\") for compatibility, defaulting to \"info\". \"error\" is mapped to the danger style.",
         "name": "Severity",
         "type": "string",
         "default": "\"info\"",
@@ -1510,6 +1705,7 @@
         "deprecated": true
       },
       {
+        "description": "",
         "name": "ToneValue",
         "type": "SUITone?",
         "default": "Padrão do tipo",
@@ -1517,6 +1713,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ShowCloseIcon",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -1524,6 +1721,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "CloseIconClicked",
         "type": "EventCallback",
         "default": "Padrão do tipo",
@@ -1531,6 +1729,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional icon name (resolved by SUIIcon). When null, no icon is shown unless the tone implies one.",
         "name": "Icon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1538,6 +1737,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1545,6 +1745,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1552,6 +1753,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1559,6 +1761,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -1573,6 +1776,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIEmptyState Title=\"Nenhum serviço encontrado\" Description=\"Crie o primeiro serviço para começar.\" />\n",
     "parameters": [
       {
+        "description": "",
         "name": "Title",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1580,6 +1784,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Description",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1587,6 +1792,7 @@
         "deprecated": false
       },
       {
+        "description": "Raw SVG path markup (inner content of an <svg>). Mutually exclusive with Icon; takes precedence when both are set.",
         "name": "IconPath",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1594,6 +1800,7 @@
         "deprecated": false
       },
       {
+        "description": "Icon name resolved by SUIIcon (e.g. \"database\", \"alert\", \"users\"). Convenient when reusing the SUI icon set.",
         "name": "Icon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1601,6 +1808,7 @@
         "deprecated": false
       },
       {
+        "description": "Action buttons / links shown below the copy.",
         "name": "Actions",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1608,6 +1816,7 @@
         "deprecated": false
       },
       {
+        "description": "Legacy alias for Actions (Identity convention).",
         "name": "ActionContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1615,6 +1824,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1622,6 +1832,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -1636,6 +1847,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIPendingChangesBar Description=\"Você alterou as preferências.\" OnSave=\"Notify\" OnCancel=\"Reset\" />\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n    protected void Reset() { Text = \"Operação Sudeste\"; Snackbar.Info(\"Alterações descartadas.\"); }\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "Title",
         "type": "string",
         "default": "\"Alterações pendentes\"",
@@ -1643,6 +1855,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Description",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1650,6 +1863,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "SaveText",
         "type": "string",
         "default": "\"Salvar tudo\"",
@@ -1657,6 +1871,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "CancelText",
         "type": "string",
         "default": "\"Cancelar alterações\"",
@@ -1664,6 +1879,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AriaLabel",
         "type": "string",
         "default": "\"Alterações pendentes\"",
@@ -1671,6 +1887,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Disabled",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -1678,6 +1895,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "OnSave",
         "type": "EventCallback<MouseEventArgs>",
         "default": "Padrão do tipo",
@@ -1685,6 +1903,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "OnCancel",
         "type": "EventCallback<MouseEventArgs>",
         "default": "Padrão do tipo",
@@ -1692,6 +1911,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1699,6 +1919,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1706,6 +1927,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -1720,6 +1942,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIProgressCircular Indeterminate />\n",
     "parameters": [
       {
+        "description": "Progress 0-100. Ignored when Indeterminate is true.",
         "name": "Value",
         "type": "double",
         "default": "Padrão do tipo",
@@ -1727,6 +1950,7 @@
         "deprecated": false
       },
       {
+        "description": "Spin continuously instead of showing a measured value. Use this when the operation has no known duration — a determinate arc that never moves is worse than an honest spinner.",
         "name": "Indeterminate",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -1734,6 +1958,7 @@
         "deprecated": false
       },
       {
+        "description": "Custom indeterminate glyph: inner SVG content. Null = default 3/4 arc.",
         "name": "LoadingIcon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1741,6 +1966,7 @@
         "deprecated": false
       },
       {
+        "description": "Rotation direction while indeterminate. Default clockwise.",
         "name": "SpinDirection",
         "type": "SUISpinDirection",
         "default": "SUISpinDirection.Clockwise",
@@ -1748,6 +1974,7 @@
         "deprecated": false
       },
       {
+        "description": "Color: \"primary\", \"success\", \"warning\", \"error\", \"info\".",
         "name": "ColorValue",
         "type": "SUIColor?",
         "default": "Padrão do tipo",
@@ -1755,6 +1982,7 @@
         "deprecated": false
       },
       {
+        "description": "\"small\", \"medium\" or \"large\". Default \"medium\".",
         "name": "SizeValue",
         "type": "SUISize?",
         "default": "Padrão do tipo",
@@ -1762,6 +1990,7 @@
         "deprecated": false
       },
       {
+        "description": "Accessible label. Required when the spinner is the only indication that something is happening, otherwise screen readers announce a progressbar with no purpose.",
         "name": "AriaLabel",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1769,6 +1998,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1776,6 +2006,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1783,6 +2014,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -1797,6 +2029,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIProgressLinear Value=\"65\" />\n",
     "parameters": [
       {
+        "description": "Progress 0-100.",
         "name": "Value",
         "type": "double",
         "default": "Padrão do tipo",
@@ -1804,6 +2037,7 @@
         "deprecated": false
       },
       {
+        "description": "Color: \"primary\", \"success\", \"warning\", \"error\", \"info\". Default \"primary\".",
         "name": "Color",
         "type": "object?",
         "default": "SUIColor.Primary",
@@ -1811,6 +2045,7 @@
         "deprecated": true
       },
       {
+        "description": "",
         "name": "ColorValue",
         "type": "SUIColor?",
         "default": "Padrão do tipo",
@@ -1818,6 +2053,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Rounded",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -1825,6 +2061,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AriaLabel",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1832,6 +2069,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1839,6 +2077,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1846,6 +2085,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -1860,6 +2100,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISkeletonLoader />\n",
     "parameters": [
       {
+        "description": "",
         "name": "Type",
         "type": "SUISkeletonType",
         "default": "SUISkeletonType.Text",
@@ -1867,6 +2108,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Rows",
         "type": "int",
         "default": "3",
@@ -1874,6 +2116,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Size",
         "type": "string",
         "default": "\"48px\"",
@@ -1881,6 +2124,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1901,6 +2145,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStatusBadge ToneValue=\"SUITone.Success\">Ativo</SUIStatusBadge>\n",
     "parameters": [
       {
+        "description": "Badge tone as a lowercase string: \"neutral\", \"success\", \"warning\", \"danger\", \"info\". Kept as a string so consumers can compute it at runtime without enum conversion.",
         "name": "Tone",
         "type": "string",
         "default": "\"neutral\"",
@@ -1908,6 +2153,7 @@
         "deprecated": true
       },
       {
+        "description": "",
         "name": "ToneValue",
         "type": "SUITone?",
         "default": "Padrão do tipo",
@@ -1915,6 +2161,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional icon name (resolved by SUIIcon).",
         "name": "Icon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1922,6 +2169,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1929,6 +2177,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -1943,6 +2192,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStatusBanner Tone=\"SUITone.Success\" Title=\"Configuração disponível\" Description=\"Exemplo de estado operacional.\" />\n",
     "parameters": [
       {
+        "description": "",
         "name": "Title",
         "type": "string",
         "default": "string.Empty",
@@ -1950,6 +2200,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Description",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1957,6 +2208,7 @@
         "deprecated": false
       },
       {
+        "description": "Semantic state controlling the signal color.",
         "name": "Tone",
         "type": "SUITone",
         "default": "SUITone.Neutral",
@@ -1964,6 +2216,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ActionText",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1971,6 +2224,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ActionHref",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1978,6 +2232,7 @@
         "deprecated": false
       },
       {
+        "description": "Custom action content. Takes precedence over ActionText/ActionHref.",
         "name": "ActionContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1985,6 +2240,7 @@
         "deprecated": false
       },
       {
+        "description": "Short contextual values such as host, version or active count.",
         "name": "MetaContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1992,6 +2248,7 @@
         "deprecated": false
       },
       {
+        "description": "Hides the supplemental three-bar signal when the host supplies another cue.",
         "name": "ShowSignal",
         "type": "bool",
         "default": "true",
@@ -1999,6 +2256,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ShowActionArrow",
         "type": "bool",
         "default": "true",
@@ -2006,6 +2264,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AriaLive",
         "type": "string",
         "default": "\"polite\"",
@@ -2013,6 +2272,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2020,6 +2280,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -2034,6 +2295,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIToast Color=\"SUIColor.Info\" Icon=\"\" Dismissible=\"false\">Mensagem de demonstração.</SUIToast>\n",
     "parameters": [
       {
+        "description": "",
         "name": "Id",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2041,6 +2303,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Color",
         "type": "SUIColor",
         "default": "SUIColor.Error",
@@ -2048,6 +2311,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Icon",
         "type": "string",
         "default": "\"⚠\"",
@@ -2055,6 +2319,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -2062,6 +2327,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Dismissible",
         "type": "bool",
         "default": "true",
@@ -2069,6 +2335,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "DismissLabel",
         "type": "string",
         "default": "\"Fechar\"",
@@ -2076,6 +2343,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "OnDismiss",
         "type": "EventCallback",
         "default": "Padrão do tipo",
@@ -2083,6 +2351,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2090,6 +2359,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -2104,6 +2374,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIAutocomplete T=\"string\" Label=\"Cidade\" SearchFuncAsync=\"Search\" MinCharacters=\"1\" Placeholder=\"Digite para buscar\" Clearable />\n\n@code {\n    protected string[] Cities { get; } = [\"São Paulo\", \"Rio de Janeiro\", \"Curitiba\", \"Porto Alegre\"];\n    protected async Task<IEnumerable<string>> Search(string text, CancellationToken token)\n    {\n        await Task.Delay(150, token);\n        return Cities.Where(city => city.Contains(text, StringComparison.OrdinalIgnoreCase));\n    }\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "ValueExpression",
         "type": "System.Linq.Expressions.Expression<Func<T?>>?",
         "default": "Padrão do tipo",
@@ -2111,6 +2382,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Value",
         "type": "T?",
         "default": "Padrão do tipo",
@@ -2118,6 +2390,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ValueChanged",
         "type": "EventCallback<T?>",
         "default": "Padrão do tipo",
@@ -2125,6 +2398,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "SearchFunc",
         "type": "Func<string, Task<IEnumerable<T>>>?",
         "default": "Padrão do tipo",
@@ -2132,6 +2406,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "SearchFuncAsync",
         "type": "Func<string, CancellationToken, Task<IEnumerable<T>>>?",
         "default": "Padrão do tipo",
@@ -2139,6 +2414,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ToStringFunc",
         "type": "Func<T, string>?",
         "default": "Padrão do tipo",
@@ -2146,6 +2422,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Label",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2153,6 +2430,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Placeholder",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2160,6 +2438,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "HelperText",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2167,6 +2446,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ErrorText",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2174,6 +2454,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Invalid",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -2181,6 +2462,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Id",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2188,6 +2470,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AriaDescribedBy",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2195,6 +2478,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AdornmentIcon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2202,6 +2486,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "MinCharacters",
         "type": "int",
         "default": "Padrão do tipo",
@@ -2209,6 +2494,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "MaxItems",
         "type": "int",
         "default": "20",
@@ -2216,6 +2502,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "DebounceInterval",
         "type": "int",
         "default": "300",
@@ -2223,6 +2510,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Disabled",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -2230,6 +2518,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Clearable",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -2237,6 +2526,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ClearText",
         "type": "string",
         "default": "\"Limpar seleção\"",
@@ -2244,6 +2534,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "LoadingText",
         "type": "string",
         "default": "\"Carregando resultados…\"",
@@ -2251,6 +2542,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "NoItemsText",
         "type": "string",
         "default": "\"Nenhum resultado encontrado.\"",
@@ -2258,6 +2550,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "SearchErrorText",
         "type": "string",
         "default": "\"Não foi possível carregar os resultados.\"",
@@ -2265,6 +2558,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -2272,6 +2566,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ItemTemplate",
         "type": "RenderFragment<T>?",
         "default": "Padrão do tipo",
@@ -2279,6 +2574,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "NoItemsTemplate",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -2286,6 +2582,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2293,6 +2590,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -2307,6 +2605,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUICheckbox Label=\"Receber notificações\" @bind-Value=\"Enabled\" />\n\n@code {\n    protected bool Enabled { get; set; } = true;\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "ValueExpression",
         "type": "System.Linq.Expressions.Expression<Func<bool>>?",
         "default": "Padrão do tipo",
@@ -2314,6 +2613,7 @@
         "deprecated": false
       },
       {
+        "description": "Whether the checkbox is selected.",
         "name": "Value",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -2321,6 +2621,7 @@
         "deprecated": false
       },
       {
+        "description": "Raised after the user changes the selected state.",
         "name": "ValueChanged",
         "type": "EventCallback<bool>",
         "default": "Padrão do tipo",
@@ -2328,6 +2629,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional visible text associated with the checkbox.",
         "name": "Label",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2335,6 +2637,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional form field name.",
         "name": "Name",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2342,6 +2645,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional stable input id. A unique id is generated when omitted.",
         "name": "Id",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2349,6 +2653,7 @@
         "deprecated": false
       },
       {
+        "description": "Accessible name when the checkbox has no visible label.",
         "name": "AriaLabel",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2356,6 +2661,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ColorValue",
         "type": "SUIColor?",
         "default": "Padrão do tipo",
@@ -2363,6 +2669,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Color",
         "type": "object",
         "default": "SUIColor.Primary",
@@ -2370,6 +2677,7 @@
         "deprecated": true
       },
       {
+        "description": "",
         "name": "Disabled",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -2377,6 +2685,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2384,6 +2693,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2391,6 +2701,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -2405,6 +2716,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIChoiceCard TValue=\"string\" Value='@(\"sul\")' @bind-SelectedValue=\"Region\" Name=\"region\" Title=\"Região Sul\" Description=\"Selecionar esta região de atendimento.\" />\n\n@code {\n    protected string? Region { get; set; } = \"sul\";\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "SelectedValueExpression",
         "type": "System.Linq.Expressions.Expression<Func<TValue>>?",
         "default": "Padrão do tipo",
@@ -2412,6 +2724,7 @@
         "deprecated": false
       },
       {
+        "description": "Value represented by this option.",
         "name": "Value",
         "type": "TValue",
         "default": "default!",
@@ -2419,6 +2732,7 @@
         "deprecated": false
       },
       {
+        "description": "Currently selected value for the group.",
         "name": "SelectedValue",
         "type": "TValue",
         "default": "default!",
@@ -2426,6 +2740,7 @@
         "deprecated": false
       },
       {
+        "description": "Raised when this option becomes selected.",
         "name": "SelectedValueChanged",
         "type": "EventCallback<TValue>",
         "default": "Padrão do tipo",
@@ -2433,6 +2748,7 @@
         "deprecated": false
       },
       {
+        "description": "Visible option title.",
         "name": "Title",
         "type": "string",
         "default": "string.Empty",
@@ -2440,6 +2756,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional supporting text displayed below the title.",
         "name": "Description",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2447,6 +2764,7 @@
         "deprecated": false
       },
       {
+        "description": "Radio group name. Options with the same name form one group.",
         "name": "Name",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2454,6 +2772,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional stable id. A unique id is generated when omitted.",
         "name": "Id",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2461,6 +2780,7 @@
         "deprecated": false
       },
       {
+        "description": "Accessible name override for the native radio input.",
         "name": "AriaLabel",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2468,6 +2788,7 @@
         "deprecated": false
       },
       {
+        "description": "Contextual tone applied to the leading icon tile.",
         "name": "LeadingTone",
         "type": "SUITone",
         "default": "SUITone.Neutral",
@@ -2475,6 +2796,7 @@
         "deprecated": false
       },
       {
+        "description": "Additional class for the leading icon tile.",
         "name": "LeadingClass",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2482,6 +2804,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional content rendered inside the leading icon tile.",
         "name": "IconContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -2489,6 +2812,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional trailing content. Replaces the default radio indicator.",
         "name": "TrailingContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -2496,6 +2820,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional content rendered after the description.",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -2503,6 +2828,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ShowSelectionIndicator",
         "type": "bool",
         "default": "true",
@@ -2510,6 +2836,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Disabled",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -2517,6 +2844,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2524,6 +2852,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2531,6 +2860,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -2545,6 +2875,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIDateField Label=\"Data de início\" @bind-Value=\"Date\" />\n\n@code {\n    protected DateOnly? Date { get; set; } = new DateOnly(2026, 9, 7);\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "Value",
         "type": "DateOnly?",
         "default": "Padrão do tipo",
@@ -2552,6 +2883,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ValueChanged",
         "type": "EventCallback<DateOnly?>",
         "default": "Padrão do tipo",
@@ -2559,6 +2891,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ValueExpression",
         "type": "Expression<Func<DateOnly?>>?",
         "default": "Padrão do tipo",
@@ -2566,6 +2899,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Label",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2573,6 +2907,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Placeholder",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2580,6 +2915,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "HelperText",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2587,6 +2923,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ErrorText",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2594,6 +2931,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Invalid",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -2601,6 +2939,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Required",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -2608,6 +2947,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Disabled",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -2615,6 +2955,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Min",
         "type": "DateOnly?",
         "default": "Padrão do tipo",
@@ -2622,6 +2963,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Max",
         "type": "DateOnly?",
         "default": "Padrão do tipo",
@@ -2629,6 +2971,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Culture",
         "type": "CultureInfo?",
         "default": "Padrão do tipo",
@@ -2636,6 +2979,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Id",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2643,6 +2987,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Name",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2650,6 +2995,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2657,6 +3003,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AriaLabel",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2664,6 +3011,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AriaDescribedBy",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2671,6 +3019,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -2685,6 +3034,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIFormGrid>\n<SUITextField T=\"string\" Label=\"Nome\" @bind-Value=\"Text\" HelperText=\"Nome público.\" />\n<SUINumericField T=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" />\n</SUIFormGrid>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected int Count { get; set; } = 3;\n}\n",
     "parameters": [
       {
+        "description": "Number of equal-width columns before the mobile breakpoint (1-4).",
         "name": "Columns",
         "type": "int",
         "default": "2",
@@ -2692,6 +3042,7 @@
         "deprecated": false
       },
       {
+        "description": "Spacing token index (0-6). Defaults to --sui-space-4.",
         "name": "Spacing",
         "type": "int",
         "default": "4",
@@ -2699,6 +3050,7 @@
         "deprecated": false
       },
       {
+        "description": "Equivalent label lines reserved while fields are side by side (1-3). The reservation is removed when the grid stacks.",
         "name": "LabelLines",
         "type": "int",
         "default": "2",
@@ -2706,6 +3058,7 @@
         "deprecated": false
       },
       {
+        "description": "Stacks the grid into one column at 44rem and below.",
         "name": "StackOnMobile",
         "type": "bool",
         "default": "true",
@@ -2713,6 +3066,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2720,6 +3074,7 @@
         "deprecated": false
       },
       {
+        "description": "Additional inline declarations, appended after the generated layout variables.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2727,6 +3082,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -2734,6 +3090,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AdditionalAttributes",
         "type": "IReadOnlyDictionary<string, object?>?",
         "default": "Padrão do tipo",
@@ -2748,6 +3105,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUINumericField T=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" Min=\"1\" Max=\"10\" />\n\n@code {\n    protected int Count { get; set; } = 3;\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "ValueExpression",
         "type": "System.Linq.Expressions.Expression<Func<T?>>?",
         "default": "Padrão do tipo",
@@ -2755,6 +3113,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Value",
         "type": "T?",
         "default": "Padrão do tipo",
@@ -2762,6 +3121,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ValueChanged",
         "type": "EventCallback<T?>",
         "default": "Padrão do tipo",
@@ -2769,6 +3129,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Label",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2776,6 +3137,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "HelperText",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2783,6 +3145,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ErrorText",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2790,6 +3153,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Invalid",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -2797,6 +3161,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Id",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2804,6 +3169,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AriaDescribedBy",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2811,6 +3177,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Min",
         "type": "T?",
         "default": "Padrão do tipo",
@@ -2818,6 +3185,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Max",
         "type": "T?",
         "default": "Padrão do tipo",
@@ -2825,6 +3193,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Step",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2832,6 +3201,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Disabled",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -2839,6 +3209,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2846,6 +3217,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -2860,6 +3232,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISelect T=\"string\" Label=\"Região\" @bind-Value=\"Region\">\n<SUISelectItem Value='@(\"sul\")'>Sul</SUISelectItem>\n<SUISelectItem Value='@(\"sudeste\")'>Sudeste</SUISelectItem>\n</SUISelect>\n\n@code {\n    protected string? Region { get; set; } = \"sul\";\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "ValueExpression",
         "type": "System.Linq.Expressions.Expression<Func<T?>>?",
         "default": "Padrão do tipo",
@@ -2867,6 +3240,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Value",
         "type": "T?",
         "default": "Padrão do tipo",
@@ -2874,6 +3248,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ValueChanged",
         "type": "EventCallback<T?>",
         "default": "Padrão do tipo",
@@ -2881,6 +3256,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Label",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2888,6 +3264,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Placeholder",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2895,6 +3272,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "HelperText",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2902,6 +3280,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ErrorText",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2909,6 +3288,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Invalid",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -2916,6 +3296,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Id",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2923,6 +3304,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AriaDescribedBy",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2930,6 +3312,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Disabled",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -2937,6 +3320,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional CSS width for the open menu. When omitted, the menu sizes itself to its content while preserving the trigger width as its minimum.",
         "name": "MenuWidth",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2944,6 +3328,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional CSS max-width for the open menu. The viewport guard always wins, so a menu cannot become wider than the available browser window.",
         "name": "MenuMaxWidth",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2951,6 +3336,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2958,6 +3344,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -2965,6 +3352,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -2979,6 +3367,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISelect T=\"string\" Label=\"Região\" @bind-Value=\"Region\">\n<SUISelectItem Value='@(\"sul\")'>Sul</SUISelectItem>\n<SUISelectItem Value='@(\"sudeste\")'>Sudeste</SUISelectItem>\n</SUISelect>\n\n@code {\n    protected string? Region { get; set; } = \"sul\";\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "Value",
         "type": "object?",
         "default": "Padrão do tipo",
@@ -2986,6 +3375,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Selected",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -2993,6 +3383,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Disabled",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3000,6 +3391,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -3014,6 +3406,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISwitch Label=\"Ativar notificações\" @bind-Value=\"Enabled\" />\n\n@code {\n    protected bool Enabled { get; set; } = true;\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "ValueExpression",
         "type": "System.Linq.Expressions.Expression<Func<bool>>?",
         "default": "Padrão do tipo",
@@ -3021,6 +3414,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Value",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3028,6 +3422,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ValueChanged",
         "type": "EventCallback<bool>",
         "default": "Padrão do tipo",
@@ -3035,6 +3430,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Label",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3042,6 +3438,7 @@
         "deprecated": false
       },
       {
+        "description": "Color when on: \"primary\" (default), \"success\", etc.",
         "name": "Color",
         "type": "object?",
         "default": "SUIColor.Primary",
@@ -3049,6 +3446,7 @@
         "deprecated": true
       },
       {
+        "description": "",
         "name": "ColorValue",
         "type": "SUIColor?",
         "default": "Padrão do tipo",
@@ -3056,6 +3454,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Disabled",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3063,6 +3462,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3070,6 +3470,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -3084,6 +3485,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISwitchButton @bind-Checked=\"Enabled\">@(Enabled ? \"Notificações ativas\" : \"Notificações desativadas\")</SUISwitchButton>\n\n@code {\n    protected bool Enabled { get; set; } = true;\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "CheckedExpression",
         "type": "System.Linq.Expressions.Expression<Func<bool>>?",
         "default": "Padrão do tipo",
@@ -3091,6 +3493,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -3098,6 +3501,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Checked",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3105,6 +3509,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "CheckedChanged",
         "type": "EventCallback<bool>",
         "default": "Padrão do tipo",
@@ -3119,6 +3524,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITextField T=\"string\" Label=\"Nome público\" @bind-Value=\"Text\" HelperText=\"Nome exibido aos usuários.\" Clearable />\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "Value",
         "type": "T?",
         "default": "Padrão do tipo",
@@ -3126,6 +3532,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ValueChanged",
         "type": "EventCallback<T?>",
         "default": "Padrão do tipo",
@@ -3133,6 +3540,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ValueExpression",
         "type": "Expression<Func<T?>>?",
         "default": "Padrão do tipo",
@@ -3140,6 +3548,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Label",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3147,6 +3556,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Placeholder",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3154,6 +3564,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "HelperText",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3161,6 +3572,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ErrorText",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3168,6 +3580,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Invalid",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3175,6 +3588,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Id",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3182,6 +3596,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AriaDescribedBy",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3189,6 +3604,7 @@
         "deprecated": false
       },
       {
+        "description": "HTML input type. Default \"text\".",
         "name": "InputType",
         "type": "string",
         "default": "\"text\"",
@@ -3196,6 +3612,7 @@
         "deprecated": false
       },
       {
+        "description": "Renders a resizable textarea while preserving the same field contract.",
         "name": "Multiline",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3203,6 +3620,7 @@
         "deprecated": false
       },
       {
+        "description": "Initial number of visible rows when Multiline is enabled.",
         "name": "Rows",
         "type": "int",
         "default": "4",
@@ -3210,6 +3628,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "MaxLength",
         "type": "int?",
         "default": "Padrão do tipo",
@@ -3217,6 +3636,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Immediate",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3224,6 +3644,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Disabled",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3231,6 +3652,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional SUI icon rendered inside the input at the inline end.",
         "name": "AdornmentIcon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3238,6 +3660,7 @@
         "deprecated": false
       },
       {
+        "description": "Shows an accessible clear action while the field contains a value.",
         "name": "Clearable",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3245,6 +3668,7 @@
         "deprecated": false
       },
       {
+        "description": "Accessible label and tooltip used by the clear action.",
         "name": "ClearText",
         "type": "string",
         "default": "\"Limpar campo\"",
@@ -3252,6 +3676,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3259,6 +3684,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -3273,6 +3699,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIAppBar Dense Color=\"surface\">Central de atendimento<SUISpacer />\n<SUIIconButton Title=\"Atualizar\" Icon=\"@SUIIcons.Restart\" OnClick=\"Notify\" />\n</SUIAppBar>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "Dense",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3280,6 +3707,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Elevation",
         "type": "int",
         "default": "1",
@@ -3287,6 +3715,7 @@
         "deprecated": false
       },
       {
+        "description": "Background color: \"primary\", \"dark\", \"surface\" (default), \"inherit\".",
         "name": "Color",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3294,6 +3723,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3301,6 +3731,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3308,6 +3739,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -3322,6 +3754,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUICard>\n<SUICardHeader Title=\"Configuração\" Description=\"Dados de demonstração.\" />\n<SUICardContent>\n<SUITextField T=\"string\" Label=\"Nome público\" @bind-Value=\"Text\" />\n</SUICardContent>\n<SUICardActions>\n<SUIButton OnClick=\"Notify\">Salvar</SUIButton>\n</SUICardActions>\n</SUICard>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
     "parameters": [
       {
+        "description": "Forward unmatched attributes (onclick, role, data-*, etc.) to the root element.",
         "name": "Attributes",
         "type": "Dictionary<string, object?>?",
         "default": "Padrão do tipo",
@@ -3329,6 +3762,7 @@
         "deprecated": false
       },
       {
+        "description": "Elevation 0-3 (shadow depth). Default 1.",
         "name": "Elevation",
         "type": "int",
         "default": "1",
@@ -3336,6 +3770,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3343,6 +3778,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3350,6 +3786,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -3364,6 +3801,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUICard>\n<SUICardHeader Title=\"Configuração\" Description=\"Dados de demonstração.\" />\n<SUICardContent>\n<SUITextField T=\"string\" Label=\"Nome público\" @bind-Value=\"Text\" />\n</SUICardContent>\n<SUICardActions>\n<SUIButton OnClick=\"Notify\">Salvar</SUIButton>\n</SUICardActions>\n</SUICard>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
     "parameters": [
       {
+        "description": "Forward unmatched attributes to the root element.",
         "name": "Attributes",
         "type": "Dictionary<string, object?>?",
         "default": "Padrão do tipo",
@@ -3371,6 +3809,7 @@
         "deprecated": false
       },
       {
+        "description": "Align actions to the end of the row instead of the start.",
         "name": "AlignEnd",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3378,6 +3817,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3385,6 +3825,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3392,6 +3833,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -3406,6 +3848,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUICard>\n<SUICardHeader Title=\"Configuração\" Description=\"Dados de demonstração.\" />\n<SUICardContent>\n<SUITextField T=\"string\" Label=\"Nome público\" @bind-Value=\"Text\" />\n</SUICardContent>\n<SUICardActions>\n<SUIButton OnClick=\"Notify\">Salvar</SUIButton>\n</SUICardActions>\n</SUICard>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
     "parameters": [
       {
+        "description": "Forward unmatched attributes to the root element.",
         "name": "Attributes",
         "type": "Dictionary<string, object?>?",
         "default": "Padrão do tipo",
@@ -3413,6 +3856,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3420,6 +3864,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3427,6 +3872,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -3441,6 +3887,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUICard>\n<SUICardHeader Title=\"Configuração\" Description=\"Dados de demonstração.\" />\n<SUICardContent>\n<SUITextField T=\"string\" Label=\"Nome público\" @bind-Value=\"Text\" />\n</SUICardContent>\n<SUICardActions>\n<SUIButton OnClick=\"Notify\">Salvar</SUIButton>\n</SUICardActions>\n</SUICard>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
     "parameters": [
       {
+        "description": "Forward unmatched attributes to the root element.",
         "name": "Attributes",
         "type": "Dictionary<string, object?>?",
         "default": "Padrão do tipo",
@@ -3448,6 +3895,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3455,6 +3903,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3462,6 +3911,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional SUI icon name shown before the heading.",
         "name": "Icon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3469,6 +3919,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional semantic heading for the card.",
         "name": "Title",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3476,6 +3927,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional supporting copy shown below the title.",
         "name": "Description",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3483,6 +3935,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -3490,6 +3943,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional metadata placed between the heading and actions.",
         "name": "Meta",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -3497,6 +3951,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional actions aligned to the end of the header.",
         "name": "Actions",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -3504,6 +3959,7 @@
         "deprecated": false
       },
       {
+        "description": "Compatibility slot for consumers that still use MudCardHeader's named fragment convention while the surrounding card is already SUI-based.",
         "name": "CardHeaderAvatar",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -3511,6 +3967,7 @@
         "deprecated": false
       },
       {
+        "description": "Compatibility slot for legacy card header content.",
         "name": "CardHeaderContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -3518,6 +3975,7 @@
         "deprecated": false
       },
       {
+        "description": "Compatibility slot for legacy card header actions.",
         "name": "CardHeaderActions",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -3532,6 +3990,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIContainer MaxWidth=\"false\">\n<SUIText>Conteúdo limitado à largura disponível.</SUIText>\n</SUIContainer>\n",
     "parameters": [
       {
+        "description": "Max width bucket: \"sm\", \"md\", \"lg\", \"xl\", \"xxl\", \"false\" (full). Default \"lg\".",
         "name": "MaxWidth",
         "type": "string",
         "default": "\"lg\"",
@@ -3539,6 +3998,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3546,6 +4006,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -3560,6 +4021,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIText>Primeira seção</SUIText>\n<SUIDivider />\n<SUIText>Segunda seção</SUIText>\n",
     "parameters": [
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3567,6 +4029,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3581,6 +4044,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIDrawer Open Width=\"15rem\">\n<SUIList>\n<SUINavLink Title=\"Visão geral\" Href=\"#overview\" />\n<SUINavLink Title=\"Configurações\" Href=\"#settings\" />\n</SUIList>\n</SUIDrawer>\n\n@code {\n    protected bool Open { get; set; } = true;\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "Open",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3588,6 +4052,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "OpenChanged",
         "type": "EventCallback<bool>",
         "default": "Padrão do tipo",
@@ -3595,6 +4060,7 @@
         "deprecated": false
       },
       {
+        "description": "Display behavior: permanent, temporary, or responsive. Responsive drawers use ResponsiveBreakpoint to switch modes.",
         "name": "Variant",
         "type": "string",
         "default": "\"permanent\"",
@@ -3602,6 +4068,7 @@
         "deprecated": false
       },
       {
+        "description": "Drawer width as a CSS length. Default 256px.",
         "name": "Width",
         "type": "string",
         "default": "\"256px\"",
@@ -3609,6 +4076,7 @@
         "deprecated": false
       },
       {
+        "description": "Viewport width, in pixels, below which a responsive drawer is compact.",
         "name": "ResponsiveBreakpoint",
         "type": "int",
         "default": "900",
@@ -3616,6 +4084,7 @@
         "deprecated": false
       },
       {
+        "description": "Expands a compact responsive drawer to the complete dynamic viewport.",
         "name": "FullScreenOnCompact",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3623,6 +4092,7 @@
         "deprecated": false
       },
       {
+        "description": "Opens on wide viewports and closes on compact viewports automatically.",
         "name": "AutoManageResponsiveOpen",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3630,6 +4100,7 @@
         "deprecated": false
       },
       {
+        "description": "Closes the compact drawer after Blazor navigation completes.",
         "name": "CloseOnNavigate",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3637,6 +4108,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ShowBackdrop",
         "type": "bool",
         "default": "true",
@@ -3644,6 +4116,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "CloseOnBackdropClick",
         "type": "bool",
         "default": "true",
@@ -3651,6 +4124,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ShowCloseButton",
         "type": "bool",
         "default": "true",
@@ -3658,6 +4132,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Title",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3665,6 +4140,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "CloseLabel",
         "type": "string",
         "default": "\"Fechar navegação\"",
@@ -3672,6 +4148,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AriaLabel",
         "type": "string",
         "default": "\"Navegação principal\"",
@@ -3679,6 +4156,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Id",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3686,6 +4164,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "CompactChanged",
         "type": "EventCallback<bool>",
         "default": "Padrão do tipo",
@@ -3693,6 +4172,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Elevation",
         "type": "int",
         "default": "1",
@@ -3700,6 +4180,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3707,6 +4188,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3714,6 +4196,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -3721,6 +4204,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -3735,6 +4219,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIGrid>\n<SUIItem xs=\"12\" md=\"6\">\n<SUITextField T=\"string\" Label=\"Nome\" @bind-Value=\"Text\" />\n</SUIItem>\n<SUIItem xs=\"12\" md=\"6\">\n<SUINumericField T=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" />\n</SUIItem>\n</SUIGrid>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected int Count { get; set; } = 3;\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "Spacing",
         "type": "bool",
         "default": "true",
@@ -3742,6 +4227,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3749,6 +4235,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -3763,6 +4250,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIGrid>\n<SUIItem xs=\"12\" md=\"6\">\n<SUITextField T=\"string\" Label=\"Nome\" @bind-Value=\"Text\" />\n</SUIItem>\n<SUIItem xs=\"12\" md=\"6\">\n<SUINumericField T=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" />\n</SUIItem>\n</SUIGrid>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected int Count { get; set; } = 3;\n}\n",
     "parameters": [
       {
+        "description": "Columns at the smallest breakpoint (xs). Default 12.",
         "name": "xs",
         "type": "int",
         "default": "12",
@@ -3770,6 +4258,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "sm",
         "type": "int?",
         "default": "Padrão do tipo",
@@ -3777,6 +4266,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "md",
         "type": "int?",
         "default": "Padrão do tipo",
@@ -3784,6 +4274,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "lg",
         "type": "int?",
         "default": "Padrão do tipo",
@@ -3791,6 +4282,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "xl",
         "type": "int?",
         "default": "Padrão do tipo",
@@ -3798,6 +4290,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3805,6 +4298,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -3819,6 +4313,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUILayout Class=\"demo-shell\">\n<SUIAppBar Dense>Central de atendimento</SUIAppBar>\n<div class=\"demo-shell-body\">\n<SUIDrawer Open Width=\"11rem\">Navegação</SUIDrawer>\n<div class=\"sui-layout__main\">\n<SUIText>Conteúdo principal</SUIText>\n</div>\n</div>\n</SUILayout>\n\n@code {\n    protected bool Open { get; set; } = true;\n}\n",
     "parameters": [
       {
+        "description": "Drawer open state (two-way bindable).",
         "name": "DrawerOpen",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3826,6 +4321,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "DrawerOpenChanged",
         "type": "EventCallback<bool>",
         "default": "Padrão do tipo",
@@ -3833,6 +4329,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -3840,6 +4337,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3854,6 +4352,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIPageHeader Title=\"Configurações\" Description=\"Gerencie as preferências da aplicação.\">\n<Actions>\n<SUIButton OnClick=\"Notify\">Salvar</SUIButton>\n</Actions>\n</SUIPageHeader>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "Title",
         "type": "string",
         "default": "string.Empty",
@@ -3861,6 +4360,7 @@
         "deprecated": false
       },
       {
+        "description": "Small label above the title (e.g. section/breadcrumb).",
         "name": "Eyebrow",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3868,6 +4368,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Description",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3875,6 +4376,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Actions",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -3882,6 +4384,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional content shown before the title, such as a back link. Prefer it to Eyebrow when the element is interactive.",
         "name": "LeadingContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -3889,6 +4392,7 @@
         "deprecated": false
       },
       {
+        "description": "Uses the compact operational display ramp without changing the default page-header scale used by existing consumers.",
         "name": "Prominent",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3896,6 +4400,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3903,6 +4408,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -3917,6 +4423,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISection Title=\"Preferências\" Description=\"Organize conteúdo e ações relacionados.\">\n<SUITextField T=\"string\" Label=\"Nome\" @bind-Value=\"Text\" />\n<SUICheckbox Label=\"Ativar notificações\" @bind-Value=\"Enabled\" />\n</SUISection>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected bool Enabled { get; set; } = true;\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "Icon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3924,6 +4431,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Title",
         "type": "string",
         "default": "string.Empty",
@@ -3931,6 +4439,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Description",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3938,6 +4447,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Actions",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -3945,6 +4455,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -3952,6 +4463,7 @@
         "deprecated": false
       },
       {
+        "description": "Defines the vertical rhythm between direct content blocks using the Sufficit spacing scale. Defaults to 4 (16px); use 0 only when the consumer owns the complete internal layout.",
         "name": "ContentSpacing",
         "type": "int",
         "default": "4",
@@ -3959,6 +4471,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Elevation",
         "type": "int",
         "default": "Padrão do tipo",
@@ -3966,6 +4479,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3973,6 +4487,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -3993,6 +4508,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack Row Wrap Spacing=\"4\">\n<SUIButton OnClick=\"Notify\">Salvar</SUIButton>\n<SUIButton VariantValue=\"SUIVariant.Outlined\" OnClick=\"Reset\">Cancelar</SUIButton>\n</SUIStack>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n    protected void Reset() { Text = \"Operação Sudeste\"; Snackbar.Info(\"Alterações descartadas.\"); }\n}\n",
     "parameters": [
       {
+        "description": "When true, children are laid out horizontally (row).",
         "name": "Row",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -4000,6 +4516,7 @@
         "deprecated": false
       },
       {
+        "description": "Cross-axis alignment. Accepts \"Center\", \"Start\", \"End\" (default null = stretch).",
         "name": "AlignItems",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4007,6 +4524,7 @@
         "deprecated": false
       },
       {
+        "description": "Main-axis distribution. Accepts \"Start\", \"Center\", \"End\", \"Between\", \"Around\".",
         "name": "Justify",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4014,6 +4532,7 @@
         "deprecated": false
       },
       {
+        "description": "Spacing multiplier (0-6 → --sui-space-N). Default 3.",
         "name": "Spacing",
         "type": "int",
         "default": "3",
@@ -4021,6 +4540,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Wrap",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -4028,6 +4548,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4035,6 +4556,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4042,6 +4564,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -4056,6 +4579,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITextField T=\"string\" Label=\"Filtrar serviços\" @bind-Value=\"Text\" Immediate />\n<SUIFilterScope FilterText=\"Text\">\n<SUIFilterTree Tags=\"@(new[] { \"Telefonia\" })\">\n<SUIText>Telefonia</SUIText>\n</SUIFilterTree>\n<SUIFilterTree Tags=\"@(new[] { \"Atendimento\" })\">\n<SUIText>Atendimento</SUIText>\n</SUIFilterTree>\n</SUIFilterScope>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n}\n",
     "parameters": [
       {
+        "description": "Current filter text. Null or blank shows everything.",
         "name": "FilterText",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4063,6 +4587,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -4077,6 +4602,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITextField T=\"string\" Label=\"Filtrar serviços\" @bind-Value=\"Text\" Immediate />\n<SUIFilterScope FilterText=\"Text\">\n<SUIFilterTree Tags=\"@(new[] { \"Telefonia\" })\">\n<SUIText>Telefonia</SUIText>\n</SUIFilterTree>\n<SUIFilterTree Tags=\"@(new[] { \"Atendimento\" })\">\n<SUIText>Atendimento</SUIText>\n</SUIFilterTree>\n</SUIFilterScope>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -4084,6 +4610,7 @@
         "deprecated": false
       },
       {
+        "description": "Group node: matches while any registered child matches, and renders hidden rather than unmounting so children keep participating.",
         "name": "Group",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -4091,6 +4618,7 @@
         "deprecated": false
       },
       {
+        "description": "Values matched against the filter text: titles, routes, keywords. Comparison is case-insensitive contains. A leaf without tags never matches while a filter is active.",
         "name": "Tags",
         "type": "string[]?",
         "default": "Padrão do tipo",
@@ -4105,6 +4633,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUINavGroup Title=\"Configurações\" Expanded>\n<SUINavLink Title=\"Preferências\" Href=\"#preferences\" />\n<SUINavLink Title=\"Auditoria\" Href=\"#audit\" />\n</SUINavGroup>\n",
     "parameters": [
       {
+        "description": "",
         "name": "HeaderClass",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4112,6 +4641,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "TitleContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -4119,6 +4649,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "IconContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -4126,6 +4657,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Title",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4133,6 +4665,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "SubTitle",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4140,6 +4673,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Icon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4147,6 +4681,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "IconColor",
         "type": "SUIColor",
         "default": "SUIColor.Default",
@@ -4154,6 +4689,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Disabled",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -4161,6 +4697,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Ripple",
         "type": "bool",
         "default": "true",
@@ -4168,6 +4705,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Expanded",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -4175,6 +4713,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "HideExpandIcon",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -4182,6 +4721,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "MaxHeight",
         "type": "int?",
         "default": "Padrão do tipo",
@@ -4189,6 +4729,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ExpandIcon",
         "type": "string",
         "default": "SUIIcons.ArrowDropDown",
@@ -4196,6 +4737,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -4203,6 +4745,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ExpandedChanged",
         "type": "EventCallback<bool>",
         "default": "Padrão do tipo",
@@ -4210,6 +4753,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4217,6 +4761,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4224,6 +4769,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -4238,6 +4784,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUINavLink Title=\"Preferências\" Href=\"#preferences\" Icon=\"@SUIIcons.Admin\" />\n",
     "parameters": [
       {
+        "description": "",
         "name": "Title",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4245,6 +4792,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Href",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4252,6 +4800,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Match",
         "type": "NavLinkMatch",
         "default": "NavLinkMatch.Prefix",
@@ -4259,6 +4808,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ForceLoad",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -4266,6 +4816,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ActiveClass",
         "type": "string",
         "default": "\"active\"",
@@ -4273,6 +4824,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Icon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4280,6 +4832,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "IconColor",
         "type": "SUIColor",
         "default": "SUIColor.Default",
@@ -4287,6 +4840,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "IconAsAvatar",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -4294,6 +4848,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Disabled",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -4301,6 +4856,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "TabIndex",
         "type": "int",
         "default": "Padrão do tipo",
@@ -4308,6 +4864,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Tooltip",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4315,6 +4872,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "TooltipPlacement",
         "type": "SUITooltipPlacement",
         "default": "SUITooltipPlacement.Right",
@@ -4322,6 +4880,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "TooltipBackgroundColor",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4329,6 +4888,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "TooltipTextColor",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4336,6 +4896,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "TooltipBorderColor",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4343,6 +4904,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "TooltipOpacity",
         "type": "double",
         "default": ".95",
@@ -4350,6 +4912,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "TooltipOffset",
         "type": "int",
         "default": "10",
@@ -4357,6 +4920,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "TooltipMaxWidth",
         "type": "int",
         "default": "240",
@@ -4364,6 +4928,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "TooltipShowDelay",
         "type": "int",
         "default": "220",
@@ -4371,6 +4936,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "TooltipHideDelay",
         "type": "int",
         "default": "70",
@@ -4378,6 +4944,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "TooltipShowArrow",
         "type": "bool",
         "default": "true",
@@ -4385,6 +4952,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "TooltipBorderRadius",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4392,6 +4960,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "TooltipPadding",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4399,6 +4968,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "TooltipBoxShadow",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4406,6 +4976,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "TooltipFontSize",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4413,6 +4984,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "TooltipFontWeight",
         "type": "int",
         "default": "600",
@@ -4420,6 +4992,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "TooltipClass",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4427,6 +5000,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "DisableTooltip",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -4434,6 +5008,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4441,6 +5016,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4448,6 +5024,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Attributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -4455,6 +5032,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -4462,6 +5040,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -4469,6 +5048,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "OnClick",
         "type": "EventCallback<MouseEventArgs>",
         "default": "Padrão do tipo",
@@ -4483,6 +5063,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIProgressSteps Steps=\"Steps\" @bind-ActiveIndex=\"Step\" MaxReachableIndex=\"2\" />\n\n@code {\n    protected int Step { get; set; } = 1;\n    protected string[] Steps { get; } = [\"Configurar\", \"Revisar\", \"Concluir\"];\n}\n",
     "parameters": [
       {
+        "description": "Labels shown in workflow order.",
         "name": "Steps",
         "type": "IReadOnlyList<string>",
         "default": "Array.Empty<string>()",
@@ -4490,6 +5071,7 @@
         "deprecated": false
       },
       {
+        "description": "Zero-based current step. Values outside the collection are clamped.",
         "name": "ActiveIndex",
         "type": "int",
         "default": "Padrão do tipo",
@@ -4497,6 +5079,7 @@
         "deprecated": false
       },
       {
+        "description": "Furthest step the user may select. Defaults to the current step so completed steps remain revisitable while future work stays disabled.",
         "name": "MaxReachableIndex",
         "type": "int?",
         "default": "Padrão do tipo",
@@ -4504,6 +5087,7 @@
         "deprecated": false
       },
       {
+        "description": "Raised when the user selects a reachable step.",
         "name": "ActiveIndexChanged",
         "type": "EventCallback<int>",
         "default": "Padrão do tipo",
@@ -4511,6 +5095,7 @@
         "deprecated": false
       },
       {
+        "description": "Accessible name for the workflow navigation landmark.",
         "name": "AriaLabel",
         "type": "string",
         "default": "\"Progresso da configuração\"",
@@ -4518,6 +5103,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "CompletedStatusLabel",
         "type": "string",
         "default": "\"concluída\"",
@@ -4525,6 +5111,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "CurrentStatusLabel",
         "type": "string",
         "default": "\"atual\"",
@@ -4532,6 +5119,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "PendingStatusLabel",
         "type": "string",
         "default": "\"não iniciada\"",
@@ -4539,6 +5127,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4546,6 +5135,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4553,6 +5143,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -4567,6 +5158,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITabs>\n<SUITabPanel Text=\"Visão geral\">\n<SUIText>Informações principais.</SUIText>\n</SUITabPanel>\n<SUITabPanel Text=\"Detalhes\">\n<SUIText>Configurações complementares.</SUIText>\n</SUITabPanel>\n</SUITabs>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "Text",
         "type": "string",
         "default": "string.Empty",
@@ -4574,6 +5166,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4581,6 +5174,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -4595,6 +5189,15 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITabs>\n<SUITabPanel Text=\"Visão geral\">\n<SUIText>Informações principais.</SUIText>\n</SUITabPanel>\n<SUITabPanel Text=\"Detalhes\">\n<SUIText>Configurações complementares.</SUIText>\n</SUITabPanel>\n</SUITabs>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n}\n",
     "parameters": [
       {
+        "description": "Place the tab list beside its panel; uses Up/Down keyboard navigation.",
+        "name": "Vertical",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4602,6 +5205,7 @@
         "deprecated": false
       },
       {
+        "description": "Stable id prefix used to associate tabs and panels.",
         "name": "Id",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4609,6 +5213,7 @@
         "deprecated": false
       },
       {
+        "description": "Accessible name for the tab list.",
         "name": "AriaLabel",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4616,6 +5221,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -4623,6 +5229,7 @@
         "deprecated": false
       },
       {
+        "description": "Two-way bound active panel index (tab deep-linking).",
         "name": "ActiveIndex",
         "type": "int",
         "default": "Padrão do tipo",
@@ -4630,6 +5237,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ActiveIndexChanged",
         "type": "EventCallback<int>",
         "default": "Padrão do tipo",
@@ -4637,6 +5245,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -4651,6 +5260,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIButton OnClick=\"Confirm\">Abrir confirmação</SUIButton>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    [Inject] protected ISUIDialogService Dialogs { get; set; } = default!;\n    protected async Task Confirm() => Snackbar.Info(await Dialogs.ConfirmAsync(\"Confirmar alteração\", \"Aplicar a configuração de demonstração?\") ? \"Confirmado.\" : \"Cancelado.\");\n}\n",
     "parameters": [
       {
+        "description": "Set by the dialog service when showing via ConfirmAsync.",
         "name": "Message",
         "type": "string",
         "default": "string.Empty",
@@ -4665,6 +5275,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIButton OnClick=\"Decide\">Escolher como sair</SUIButton>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    [Inject] protected ISUIDialogService Dialogs { get; set; } = default!;\n    protected async Task Decide()\n    {\n        var reference = await Dialogs.ShowAsync<SUIDecisionDialog>(\"Salvar alterações\", new Dictionary<string, object?>\n        {\n            [\"Message\"] = \"Deseja salvar antes de sair?\", [\"PrimaryText\"] = \"Salvar\", [\"SecondaryText\"] = \"Descartar\",\n        });\n        var result = await reference.Result;\n        Snackbar.Info(result is true ? \"Salvo.\" : result is false ? \"Descartado.\" : \"Cancelado.\");\n    }\n}\n",
     "parameters": [
       {
+        "description": "",
         "name": "Message",
         "type": "string",
         "default": "string.Empty",
@@ -4672,6 +5283,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Description",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4679,6 +5291,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "PrimaryText",
         "type": "string",
         "default": "\"Sim\"",
@@ -4686,6 +5299,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "SecondaryText",
         "type": "string",
         "default": "\"Não\"",
@@ -4693,6 +5307,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "CancelText",
         "type": "string",
         "default": "\"Cancelar\"",
@@ -4700,6 +5315,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "PrimaryColor",
         "type": "SUIColor",
         "default": "SUIColor.Primary",
@@ -4707,6 +5323,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "SecondaryColor",
         "type": "SUIColor",
         "default": "SUIColor.Default",
@@ -4727,6 +5344,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITooltip Text=\"Atualizar dados de demonstração\">\n<SUIIconButton Icon=\"@SUIIcons.Restart\" Title=\"Atualizar\" OnClick=\"Notify\" />\n</SUITooltip>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
     "parameters": [
       {
+        "description": "Text displayed inside the tooltip.",
         "name": "Text",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4734,6 +5352,7 @@
         "deprecated": false
       },
       {
+        "description": "Preferred side. The runtime flips it when the viewport has no room.",
         "name": "Placement",
         "type": "SUITooltipPlacement",
         "default": "SUITooltipPlacement.Top",
@@ -4741,6 +5360,7 @@
         "deprecated": false
       },
       {
+        "description": "Tooltip surface color. Defaults to the SUI dark surface.",
         "name": "BackgroundColor",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4748,6 +5368,7 @@
         "deprecated": false
       },
       {
+        "description": "Tooltip foreground color.",
         "name": "TextColor",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4755,6 +5376,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional one-pixel border color.",
         "name": "BorderColor",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4762,6 +5384,7 @@
         "deprecated": false
       },
       {
+        "description": "Surface opacity from 0 to 1. The default 0.95 means 5% transparency.",
         "name": "Opacity",
         "type": "double",
         "default": ".95",
@@ -4769,6 +5392,7 @@
         "deprecated": false
       },
       {
+        "description": "Distance in pixels between the anchor and tooltip.",
         "name": "Offset",
         "type": "int",
         "default": "10",
@@ -4776,6 +5400,7 @@
         "deprecated": false
       },
       {
+        "description": "Maximum tooltip width in pixels.",
         "name": "MaxWidth",
         "type": "int",
         "default": "240",
@@ -4783,6 +5408,7 @@
         "deprecated": false
       },
       {
+        "description": "Delay in milliseconds before a pointer-triggered tooltip appears.",
         "name": "ShowDelay",
         "type": "int",
         "default": "220",
@@ -4790,6 +5416,7 @@
         "deprecated": false
       },
       {
+        "description": "Delay in milliseconds before the tooltip disappears.",
         "name": "HideDelay",
         "type": "int",
         "default": "70",
@@ -4797,6 +5424,7 @@
         "deprecated": false
       },
       {
+        "description": "Whether the directional arrow is rendered.",
         "name": "ShowArrow",
         "type": "bool",
         "default": "true",
@@ -4804,6 +5432,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional CSS border radius applied to the floating surface.",
         "name": "BorderRadius",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4811,6 +5440,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional CSS padding applied to the floating surface.",
         "name": "Padding",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4818,6 +5448,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional CSS box shadow applied to the floating surface.",
         "name": "BoxShadow",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4825,6 +5456,7 @@
         "deprecated": false
       },
       {
+        "description": "Optional CSS font size applied to the floating surface.",
         "name": "FontSize",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4832,6 +5464,7 @@
         "deprecated": false
       },
       {
+        "description": "Tooltip font weight, clamped between 100 and 900.",
         "name": "FontWeight",
         "type": "int",
         "default": "600",
@@ -4839,6 +5472,7 @@
         "deprecated": false
       },
       {
+        "description": "Additional class copied to the floating tooltip element.",
         "name": "TooltipClass",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4846,6 +5480,7 @@
         "deprecated": false
       },
       {
+        "description": "Disables tooltip behavior without removing its child content.",
         "name": "Disabled",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -4853,6 +5488,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4860,6 +5496,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4867,6 +5504,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -4874,6 +5512,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -4888,6 +5527,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIText>Use o painel de tema da vitrine para experimentar os tokens nos componentes reais.</SUIText>\n<SUIButton OnClick=\"Notify\">Testar contraste do tema</SUIButton>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
     "parameters": [
       {
+        "description": "Theme supplied directly to the provider (overrides DI).",
         "name": "Theme",
         "type": "ISUITheme?",
         "default": "Padrão do tipo",
@@ -4895,6 +5535,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -4902,6 +5543,7 @@
         "deprecated": false
       },
       {
+        "description": "",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",

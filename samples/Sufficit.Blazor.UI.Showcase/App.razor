@@ -1,7 +1,10 @@
 @implements IAsyncDisposable
 @inject IJSRuntime JS
+@inject NavigationManager Navigation
 
 <SUIThemeProvider Theme="@_preference.Build()">
+    @if (!IsPreview)
+    {
     <a class="skip-link" href="#main">Ir para o conteúdo</a>
     <header class="site-header">
         <a class="brand" href="."><span class="brand-mark">SUI</span><span>Sufficit.Blazor.UI</span></a>
@@ -14,12 +17,16 @@
             <a href="https://github.com/sufficit/sufficit-blazor-ui">GitHub <span aria-hidden="true">↗</span></a>
         </div>
     </header>
+    }
     <CascadingValue Value="_preference">
         <CascadingValue Value="_changeTheme">
+            @if (IsPreview) { <main id="main" class="theme-frame"><ThemePreview /></main> }
+            else {
             <Router AppAssembly="typeof(App).Assembly">
                 <Found Context="route"><RouteView RouteData="route" /></Found>
                 <NotFound><main id="main" class="document"><h1>Página não encontrada</h1><a href=".">Voltar ao catálogo</a></main></NotFound>
             </Router>
+            }
         </CascadingValue>
     </CascadingValue>
     <SUIDialogHost />
@@ -27,6 +34,7 @@
 </SUIThemeProvider>
 
 @code {
+    private bool IsPreview => Navigation.Uri.Contains("?preview=", StringComparison.Ordinal);
     private ThemePreference _preference = new("system", "amber", "comfortable", false);
     private DotNetObjectReference<App>? _reference;
     private Func<ThemePreference, Task> _changeTheme = default!;
@@ -41,7 +49,7 @@
     private Task ChangeMode(string? mode) => SetTheme(_preference with { Mode = mode ?? "system" });
     private async Task SetTheme(ThemePreference preference)
     {
-        _preference = await JS.InvokeAsync<ThemePreference>("suiShowcase.set", preference.Mode, preference.Brand, preference.Density);
+        _preference = await JS.InvokeAsync<ThemePreference>("suiShowcase.set", preference);
         StateHasChanged();
     }
     [JSInvokable] public Task SystemThemeChanged(ThemePreference preference) => InvokeAsync(() => { _preference = preference; StateHasChanged(); });

@@ -18,6 +18,7 @@
        aria-label="@AriaLabel"
        aria-modal="@AriaModal"
        aria-hidden="@AriaHidden"
+       inert="@(_isCompact && !Open ? "" : null)"
        tabindex="@TabIndex"
        @attributes="AdditionalAttributes">
     @if (_isCompact && ShowCloseButton)

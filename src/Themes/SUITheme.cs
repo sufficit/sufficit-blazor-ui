@@ -15,6 +15,7 @@ public sealed record SUITheme : ISUITheme
         Palette = new()
         {
             Primary = "#93c5fd", PrimaryContrast = "#0f172a",
+            Secondary = "#cbd5e1", SecondaryContrast = "#0f172a",
             Surface = "#0f172a", Surface2 = "#1e293b", Surface3 = "#334155",
             TextPrimary = "#f1f5f9", TextSecondary = "#cbd5e1", TextDisabled = "#94a3b8",
             Border = "#334155", BorderStrong = "#64748b", Overlay = "rgba(0,0,0,.6)",

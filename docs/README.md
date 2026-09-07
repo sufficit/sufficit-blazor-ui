@@ -6,6 +6,8 @@ com prefixo de tipo em maiúsculas e sujeito em kebab-case maiúsculo. Trabalho
 concluído é arquivado em `activities/` com prefixo de timestamp
 `YYYYMMDDHHmm-`.
 
+- [Vitrine: composições, temas e desempenho](USAGE-SHOWCASE-WORKSPACE.md)
+
 ## Convenção de nomes
 
 | Prefixo | Uso |
