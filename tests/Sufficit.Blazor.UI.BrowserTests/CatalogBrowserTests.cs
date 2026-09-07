@@ -489,7 +489,7 @@ public sealed partial class CatalogBrowserTests : PageTest
         await Page.Keyboard.PressAsync("ArrowRight");
         await Expect(Page.GetByRole(AriaRole.Tab).Nth(1)).ToBeFocusedAsync();
         var tabsModuleUrls = await Page.EvaluateAsync<string[]>(
-            "performance.getEntriesByType('resource').map(entry => entry.name).filter(name => name.includes('SUITabs.') && name.endsWith('.razor.js'))");
+            "performance.getEntriesByType('resource').map(entry => entry.name).filter(name => name.includes('SUITabs.') && new URL(name).pathname.endsWith('.razor.js'))");
         Assert.That(tabsModuleUrls, Is.Not.Empty);
         Assert.That(tabsModuleUrls.All(url => new Uri(url).AbsolutePath.StartsWith("/app/_content/", StringComparison.Ordinal)), Is.True);
 
@@ -505,7 +505,7 @@ public sealed partial class CatalogBrowserTests : PageTest
         await Expect(Page.Locator("[data-testid='select-a']")).ToHaveAttributeAsync("aria-expanded", "true");
 
         var moduleUrls = await Page.EvaluateAsync<string[]>(
-            "performance.getEntriesByType('resource').map(entry => entry.name).filter(name => name.includes('_content/Sufficit.Blazor.UI/') && name.endsWith('.razor.js'))");
+            "performance.getEntriesByType('resource').map(entry => entry.name).filter(name => name.includes('_content/Sufficit.Blazor.UI/') && new URL(name).pathname.endsWith('.razor.js'))");
         Assert.That(moduleUrls, Is.Not.Empty);
         Assert.That(moduleUrls.All(url => new Uri(url).AbsolutePath.StartsWith("/app/_content/", StringComparison.Ordinal)), Is.True);
     }
