@@ -153,6 +153,8 @@ para `Primary`/`PrimaryContrast` e preserva temas existentes.
 
 ## Vitrine estática
 
+**[Abrir a vitrine publicada](https://sufficit.github.io/sufficit-blazor-ui/)**
+
 A vitrine em `samples/Sufficit.Blazor.UI.Showcase` executa os **68 componentes**
 em Blazor WebAssembly. Inclui busca, exemplos Razor copiáveis, parâmetros
 públicos, composições e editor de temas claro/escuro/sistema com persistência,

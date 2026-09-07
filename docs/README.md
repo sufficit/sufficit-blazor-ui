@@ -47,6 +47,9 @@ concluído é arquivado em `activities/` com prefixo de timestamp
 
 ## Trabalho concluído (activities/)
 
+- [Publicação da vitrine no GitHub Pages](activities/202609071848-completed-publicacao-vitrine-pages.md) —
+  deploy público, CodeQL alinhado e CI validado nos três navegadores
+
 - [Catálogo estático e temas](activities/202609071829-completed-catalogo-estatico-temas.md) — vitrine WASM,
   GitHub Pages, 68 exemplos executáveis e contratos de componentes
 
