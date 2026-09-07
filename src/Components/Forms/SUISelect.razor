@@ -7,7 +7,7 @@
 @inject IJSRuntime JS
 
 <CascadingValue Value="(ISUISelectRegistry)this" IsFixed="true">
-    <div class="@Classname" @onfocusout="OnFocusOutAsync">
+    <div class="@Classname" @onfocusin="() => { _focusVersion++; }" @onfocusout="OnFocusOutAsync">
         @if (!string.IsNullOrWhiteSpace(Label))
         {
             <label id="@LabelId" class="sui-field__label" for="@EffectiveId">@Label</label>

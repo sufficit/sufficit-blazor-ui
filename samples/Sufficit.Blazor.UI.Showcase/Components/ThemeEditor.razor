@@ -2,9 +2,20 @@
 <p class="lead">Experimente cor, contraste e densidade em toda a vitrine. A preferência fica salva neste navegador.</p>
 <div class="theme-workbench">
     <section class="theme-controls" aria-label="Configurar tema">
-        <label>Paleta de demonstração<select value="@Preference.Brand" @onchange="SetBrand"><option value="amber">Sufficit · Âmbar</option><option value="blue">Azul</option><option value="red">Vermelho</option></select></label>
-        <label>Aparência<select value="@Preference.Mode" @onchange="SetMode"><option value="system">Acompanhar sistema</option><option value="light">Claro</option><option value="dark">Escuro</option></select></label>
-        <label>Densidade<select value="@Preference.Density" @onchange="SetDensity"><option value="comfortable">Confortável</option><option value="compact">Compacta</option></select></label>
+        <SUISelect T="string" Label="Paleta de demonstração" Value="@Preference.Brand" ValueChanged="SetBrand">
+            <SUISelectItem Value='@("amber")'>Sufficit · Âmbar</SUISelectItem>
+            <SUISelectItem Value='@("blue")'>Azul</SUISelectItem>
+            <SUISelectItem Value='@("red")'>Vermelho</SUISelectItem>
+        </SUISelect>
+        <SUISelect T="string" Label="Aparência" Value="@Preference.Mode" ValueChanged="SetMode">
+            <SUISelectItem Value='@("system")'>Acompanhar sistema</SUISelectItem>
+            <SUISelectItem Value='@("light")'>Claro</SUISelectItem>
+            <SUISelectItem Value='@("dark")'>Escuro</SUISelectItem>
+        </SUISelect>
+        <SUISelect T="string" Label="Densidade" Value="@Preference.Density" ValueChanged="SetDensity">
+            <SUISelectItem Value='@("comfortable")'>Confortável</SUISelectItem>
+            <SUISelectItem Value='@("compact")'>Compacta</SUISelectItem>
+        </SUISelect>
         <p>O modo sistema acompanha as mudanças de preferência do dispositivo.</p>
     </section>
     <section class="theme-sample" aria-label="Prévia do tema">
@@ -31,9 +42,9 @@
     [Inject] private ISUISnackbar Snackbar { get; set; } = default!;
     private string? _name = "Operação Sudeste";
     private bool _enabled = true;
-    private Task SetBrand(ChangeEventArgs args) => ChangeTheme(Preference with { Brand = args.Value!.ToString()! });
-    private Task SetMode(ChangeEventArgs args) => ChangeTheme(Preference with { Mode = args.Value!.ToString()! });
-    private Task SetDensity(ChangeEventArgs args) => ChangeTheme(Preference with { Density = args.Value!.ToString()! });
+    private Task SetBrand(string? brand) => ChangeTheme(Preference with { Brand = brand ?? "amber" });
+    private Task SetMode(string? mode) => ChangeTheme(Preference with { Mode = mode ?? "system" });
+    private Task SetDensity(string? density) => ChangeTheme(Preference with { Density = density ?? "comfortable" });
     private void ShowSuccess() => Snackbar.Success("Preferências de demonstração salvas.");
     private (string Name, string Value)[] Tokens => [
         ("Primária", Preference.Build().Palette.Primary), ("Ação", Preference.Build().Palette.PrimaryAction!),

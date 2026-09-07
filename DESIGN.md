@@ -187,7 +187,7 @@ Sobreposições usam `Overlay` da paleta, distinto para claro e escuro. Foco de 
 
 ## Shapes
 
-Cantos discretamente arredondados caracterizam os controles. A biblioteca usa raios pequeno, padrão, grande e circular conforme o frontmatter. Cards SUI usam o raio grande; painéis demonstrativos da vitrine usam `showcase-panel`. Seletores nativos, links de ação e blocos de código da vitrine usam `showcase-control`. Chips são cápsulas. Bordas delimitam estados e agrupamentos sem exigir sombra.
+Cantos discretamente arredondados caracterizam os controles. A biblioteca usa raios pequeno, padrão, grande e circular conforme o frontmatter. Cards SUI usam o raio grande; painéis demonstrativos da vitrine usam `showcase-panel`. Links de ação, busca e blocos de código da vitrine usam `showcase-control`. Seletores do cabeçalho e editor de temas usam o SUISelect e seus tokens, inclusive no menu aberto. Chips são cápsulas. Bordas delimitam estados e agrupamentos sem exigir sombra.
 
 ## Components
 
@@ -197,7 +197,7 @@ Botões preenchidos comunicam a ação principal; outlined e text mantêm a cor 
 
 ### Inputs / Fields
 
-Campos SUI usam superfície base, borda forte, raio padrão e preenchimento horizontal de `space-3`. O foco destaca borda e anel; estado inválido usa borda de erro e mensagem textual. Desabilitados usam superfície secundária e texto desabilitado. Campos nativos da busca e do editor seguem as regras específicas da vitrine, incluindo altura mínima de 44px. Não presumir que toda entrada tenha exatamente a altura do token médio.
+Campos SUI usam superfície base, borda forte, raio padrão e preenchimento horizontal de `space-3`. O foco destaca borda e anel; estado inválido usa borda de erro e mensagem textual. Desabilitados usam superfície secundária e texto desabilitado. O campo nativo da busca segue as regras específicas da vitrine, incluindo altura mínima de 44px. O cabeçalho organiza o label e o SUISelect horizontalmente; os seletores do editor seguem o layout de campos da biblioteca. Não presumir que toda entrada tenha exatamente a altura do token médio.
 
 ### Cards / Containers
 

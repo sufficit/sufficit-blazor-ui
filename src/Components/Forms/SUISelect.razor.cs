@@ -73,6 +73,7 @@ public partial class SUISelect<T>
     private ElementReference _menuElement;
     private IJSObjectReference? _module;
     private bool _open;
+    private int _focusVersion;
     private bool _interopOpen;
     private bool _keyboardInteropConnected;
     private int _activeIndex = -1;
@@ -296,8 +297,10 @@ public partial class SUISelect<T>
     {
         // Keep multiple close paths: toggle, option selection, Escape, and focus loss
         // cover pointer, keyboard, and browser-specific interaction scenarios.
+        var focusVersion = ++_focusVersion;
         await Task.Delay(120);
-        if (!_open)
+        // A previous blur must not close a menu after focus has returned.
+        if (!_open || focusVersion != _focusVersion)
         {
             return;
         }

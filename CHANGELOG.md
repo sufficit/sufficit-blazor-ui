@@ -32,6 +32,11 @@ são derivadas exclusivamente de tags Git no formato
 
 ### Fixed
 
+- Seletores de tema, paleta e densidade da vitrine usam `SUISelect`, com menu
+  estilizado e navegação por teclado; opção selecionada mantém contraste no escuro.
+- `SUISelect` ignora fechamento por blur antigo quando o foco já voltou ao
+  controle, preservando o menu ao reabrir rapidamente.
+
 - CodeQL init/analyze alinhados na versão 4.37.9 e agrupados no Dependabot
   para evitar atualizações parciais incompatíveis.
 
