@@ -47,6 +47,9 @@ concluído é arquivado em `activities/` com prefixo de timestamp
 
 ## Trabalho concluído (activities/)
 
+- [Seletores SUI na vitrine](activities/202609071907-completed-seletores-sui-vitrine.md) — dropdowns
+  do cabeçalho/editor, contraste de seleção e retorno de foco
+
 - [Publicação da vitrine no GitHub Pages](activities/202609071848-completed-publicacao-vitrine-pages.md) —
   deploy público, CodeQL alinhado e CI validado nos três navegadores
 
