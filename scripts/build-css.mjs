@@ -1,4 +1,4 @@
-import { readFile, writeFile } from "node:fs/promises";
+import { readFile, writeFile, readdir, mkdir } from "node:fs/promises";
 import { brotliCompressSync, gzipSync, constants as zlibConstants } from "node:zlib";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
@@ -51,6 +51,20 @@ if (checkOnly) {
   }
 } else {
   await writeFile(outputPath, generated);
+}
+
+// Preserve legacy asset URLs from the same authoring tree.
+const sourceDirectory = path.join(repositoryRoot, "src", "styles");
+const legacyDirectory = path.join(repositoryRoot, "src", "wwwroot", "styles");
+await mkdir(legacyDirectory, { recursive: true });
+for (const file of await readdir(sourceDirectory)) {
+  if (!file.endsWith(".css")) continue;
+  const source = await readFile(path.join(sourceDirectory, file));
+  const destination = path.join(legacyDirectory, file);
+  if (checkOnly) {
+    const current = await readFile(destination);
+    if (!source.equals(current)) throw new Error(`Legacy CSS is stale: ${file}`);
+  } else await writeFile(destination, source);
 }
 
 process.stdout.write(`${checkOnly ? "checked" : "generated"} sufficit-ui.css `

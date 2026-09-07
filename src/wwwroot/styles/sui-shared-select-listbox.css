@@ -1,0 +1,149 @@
+/* ------------------------------------------------------------------ *
+ * Select / listbox
+ * ------------------------------------------------------------------ */
+
+.sui-select { position: relative; }
+.sui-select__control { position: relative; }
+.sui-select__trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sui-space-3);
+  width: 100%;
+  min-height: var(--sui-control-h-md);
+  padding: 0 var(--sui-space-3);
+  border: 1px solid var(--sui-border-strong);
+  border-radius: var(--sui-radius);
+  background: var(--sui-surface);
+  color: var(--sui-text-primary);
+  font: inherit;
+  /* Mesmo degrau do .sui-field__input: um select e um campo de texto lado a
+     lado são o MESMO papel (o valor escolhido), e divergir aqui faria a
+     coluna de um formulário misto ondular. */
+  font-size: var(--sui-fs-field);
+  font-weight: 500;
+  line-height: 1.35;
+  box-sizing: border-box;
+  text-align: start;
+  cursor: pointer;
+  transition: border-color var(--sui-transition), box-shadow var(--sui-transition), background var(--sui-transition);
+}
+.sui-select__trigger:hover { background: var(--sui-surface-2); }
+.sui-select__trigger:focus-visible {
+  outline: none;
+  border-color: var(--sui-color-primary);
+  box-shadow: 0 0 0 3px var(--sui-color-primary-soft);
+}
+.sui-select__trigger:disabled {
+  background: var(--sui-surface-2);
+  color: var(--sui-text-disabled);
+  cursor: not-allowed;
+}
+.sui-select__value { flex: 1 1 auto; min-width: 0; }
+.sui-select__placeholder { color: var(--sui-text-secondary); }
+.sui-select__indicator {
+  flex: 0 0 auto;
+  margin-inline-start: var(--sui-space-1);
+  width: 8px;
+  height: 8px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform var(--sui-transition);
+}
+/* Focus means keyboard ownership; only the actual open state rotates the indicator. */
+.sui-select--open .sui-select__indicator { transform: translateY(2px) rotate(225deg); }
+.sui-select__menu {
+  /* The listbox is independent from the trigger so long options remain readable
+     without creating a horizontal scrollbar inside the open menu. Only one
+     menu is open per interaction, so this extra width does not compete with
+     sibling controls. */
+  position: absolute;
+  top: calc(100% + 4px);
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+  z-index: var(--sui-z-dropdown, 1000);
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  width: var(--sui-select-menu-width, max-content);
+  min-width: 100%;
+  max-width: min(
+    var(--sui-select-menu-max-width, var(--sui-select-menu-width, 28rem)),
+    calc(100vw - 24px)
+  );
+  max-height: 280px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin: 0;
+  padding: var(--sui-space-1);
+  border: 1px solid var(--sui-border);
+  border-radius: var(--sui-radius);
+  background: var(--sui-surface);
+  box-shadow: var(--sui-shadow-2);
+}
+.sui-select__menu--open { display: flex; }
+
+/* Popover places the listbox in the browser top layer. Unlike z-index, the
+   top layer escapes overflow clipping from cards, tables and drawers. The
+   component script supplies viewport-safe fixed coordinates and flips the
+   menu above the trigger when there is not enough room below. Keep these
+   overrides behind feature detection so older browsers retain the absolute
+   inline fallback declared above. */
+@supports selector(:popover-open) {
+  .sui-select__menu[popover] {
+    position: fixed;
+    inset: auto;
+    width: var(--sui-select-menu-width, max-content);
+    min-width: var(--sui-select-trigger-width, 0px);
+    max-width: min(
+      var(--sui-select-menu-max-width, var(--sui-select-menu-width, 28rem)),
+      calc(100vw - 24px)
+    );
+    max-height: min(280px, var(--sui-select-menu-available-height, 280px));
+  }
+  .sui-select__menu[popover]:popover-open { display: flex; }
+  .sui-select__menu[popover]::backdrop { background: transparent; }
+}
+.sui-select__option {
+  display: block;
+  width: 100%;
+  /* The menu is a flex column with a max-height; without this every row
+     gets flex-shrunk to fit (a 15-item list crushed into 280px reads as
+     options stacked on top of each other). */
+  flex: 0 0 auto;
+  padding: var(--sui-space-2) var(--sui-space-3);
+  border: 0;
+  border-radius: var(--sui-radius-sm);
+  background: transparent;
+  color: var(--sui-text-primary);
+  font: inherit;
+  font-size: var(--sui-fs-body2);
+  line-height: 1.35;
+  box-sizing: border-box;
+  text-align: start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+.sui-select__option:hover,
+.sui-select__option--active { background: var(--sui-surface-3); }
+.sui-select__option:disabled,
+.sui-select__option--disabled {
+  /* Disabled options remain readable because the label already explains why
+     the choice cannot be made (for example, "device · unavailable"). */
+  color: var(--sui-text-secondary);
+  cursor: not-allowed;
+  opacity: 1;
+}
+.sui-select__option:disabled:hover,
+.sui-select__option--disabled:hover { background: transparent; }
+.sui-select__option[aria-selected="true"] {
+  background: var(--sui-color-primary-soft);
+  /* The action shade keeps selected text readable on the soft primary fill. */
+  color: var(--sui-color-primary-action, var(--sui-color-primary));
+  font-weight: 600;
+}
+.sui-select__items-source { display: none; }

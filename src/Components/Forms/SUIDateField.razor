@@ -105,8 +105,8 @@
     {
         <span id="@HelperId" class="sui-field__helper">@HelperText</span>
     }
-    @if (!string.IsNullOrWhiteSpace(ErrorText))
+    @if (!string.IsNullOrWhiteSpace(EffectiveErrorText))
     {
-        <span id="@ErrorId" class="sui-field__error">@ErrorText</span>
+        <span id="@ErrorId" class="sui-field__error">@EffectiveErrorText</span>
     }
 </div>

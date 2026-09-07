@@ -1,6 +1,6 @@
 @namespace Sufficit.Blazor.UI.Components
 
-<div class="@Classname" style="@GapStyle">
+<div class="@Classname" style="@($"{GapStyle}{Style}")">
     @ChildContent
 </div>
 
@@ -43,5 +43,5 @@
             .Build();
 
     private string GapStyle
-        => Spacing is >= 0 and <= 6 ? $"gap: var(--sui-space-{Spacing});" : $"gap: var(--sui-space-3);";
+        => Spacing == 0 ? "gap:0;" : Spacing is >= 1 and <= 6 ? $"gap: var(--sui-space-{Spacing});" : $"gap: var(--sui-space-3);";
 }

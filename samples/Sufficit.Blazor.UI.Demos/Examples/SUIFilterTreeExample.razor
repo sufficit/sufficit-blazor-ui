@@ -1,0 +1,11 @@
+@inherits DemoBase
+
+<SUITextField T="string" Label="Filtrar serviços" @bind-Value="Text" Immediate />
+<SUIFilterScope FilterText="Text">
+<SUIFilterTree Tags="@(new[] { "Telefonia" })">
+<SUIText>Telefonia</SUIText>
+</SUIFilterTree>
+<SUIFilterTree Tags="@(new[] { "Atendimento" })">
+<SUIText>Atendimento</SUIText>
+</SUIFilterTree>
+</SUIFilterScope>

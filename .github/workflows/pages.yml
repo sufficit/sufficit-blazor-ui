@@ -1,0 +1,67 @@
+name: Component showcase
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: 10.0.x
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22.x
+          cache: npm
+      - run: npm ci
+      - run: npm run check:css
+      - run: python3 scripts/generate-catalog.py --check
+      - run: python3 scripts/check-catalog-examples.py
+      - run: dotnet test tests/Sufficit.Blazor.UI.Tests -c Release -warnaserror
+      - run: dotnet publish samples/Sufficit.Blazor.UI.Showcase -c Release -o artifacts/showcase -warnaserror
+      - run: python3 scripts/prepare-pages.py artifacts/showcase/wwwroot --base-path /sufficit-blazor-ui/
+      - name: Build browser tests
+        run: dotnet build tests/Sufficit.Blazor.UI.BrowserTests -c Release -warnaserror
+      - name: Install Chromium
+        run: tests/Sufficit.Blazor.UI.BrowserTests/bin/Release/net10.0/.playwright/node/linux-x64/node tests/Sufficit.Blazor.UI.BrowserTests/bin/Release/net10.0/.playwright/package/cli.js install --with-deps chromium
+      - name: Verify published static site
+        env:
+          SUI_SHOWCASE_URL: http://127.0.0.1:5286/sufficit-blazor-ui/
+        run: |
+          mkdir -p artifacts/pages-test
+          ln -s "$(realpath artifacts/showcase/wwwroot)" artifacts/pages-test/sufficit-blazor-ui
+          python3 -m http.server 5286 --bind 127.0.0.1 --directory artifacts/pages-test >artifacts/showcase-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent "$SUI_SHOWCASE_URL" >/dev/null; then break; fi
+            sleep 1
+          done
+          dotnet test tests/Sufficit.Blazor.UI.BrowserTests -c Release --no-build --filter FullyQualifiedName~ShowcaseBrowserTests -- Playwright.BrowserName=chromium
+      - name: Upload static site
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        with:
+          path: artifacts/showcase/wwwroot
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4

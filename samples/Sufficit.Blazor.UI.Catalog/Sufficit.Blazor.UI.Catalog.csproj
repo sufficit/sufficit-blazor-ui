@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Sufficit.Blazor.UI.csproj" />
+    <ProjectReference Include="../Sufficit.Blazor.UI.Demos/Sufficit.Blazor.UI.Demos.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -82,7 +82,8 @@ npm run check:css
 ```
 
 O primeiro comando instala a versão travada do Lightning CSS; o segundo gera o
-único asset público `src/wwwroot/sufficit-ui.css`; o terceiro confirma que o
+bundle público `src/wwwroot/sufficit-ui.css` e sincroniza os CSS de
+compatibilidade em `src/wwwroot/styles`; o terceiro confirma que o
 artefato está atualizado e dentro dos budgets bruto, gzip e Brotli. O output é
 minificado, portanto diagnósticos devem ser rastreados aos arquivos autorais,
 não editados diretamente no arquivo gerado.
@@ -131,6 +132,11 @@ paleta. `ISUITheme.IsDark` seleciona o esquema; a paleta continua pertencendo
 ao tema consumidor. Sem configuração, `DefaultSUITheme` fornece o fallback
 claro azul.
 
+Use `SUITheme.Light` e `SUITheme.Dark` como presets completos e `with` para
+personalizar paleta, tipografia e layout. Alterar apenas `IsDark` não recalcula
+as cores de um tema arbitrário. `InfoContrast`, `SuccessContrast`,
+`WarningContrast` e `ErrorContrast` definem o texto sobre fundos semânticos.
+
 Exemplos de tokens:
 
 - cores: `--sui-color-primary`, `--sui-color-primary-contrast`,
@@ -144,6 +150,24 @@ Na `SUIPalette`, `Primary` continua sendo o acento de marca. Os campos
 opcionais `PrimaryAction`/`PrimaryActionContrast` permitem uma superfície
 própria para botões primários preenchidos; quando omitidos, o provider recua
 para `Primary`/`PrimaryContrast` e preserva temas existentes.
+
+## Vitrine estática
+
+A vitrine em `samples/Sufficit.Blazor.UI.Showcase` executa os **68 componentes**
+em Blazor WebAssembly. Inclui busca, exemplos Razor copiáveis, parâmetros
+públicos, composições e editor de temas claro/escuro/sistema com persistência,
+três paletas, duas densidades e exportação C#. Todos os dados são locais.
+
+```bash
+dotnet run --project samples/Sufficit.Blazor.UI.Showcase
+```
+
+O host Server de regressão permanece em `samples/Sufficit.Blazor.UI.Catalog`.
+Os dois referenciam a RCL `samples/Sufficit.Blazor.UI.Demos`. O workflow
+`.github/workflows/pages.yml` valida e publica a vitrine no GitHub Pages após
+push em `main`; no repositório, configure Pages com origem **GitHub Actions**.
+Veja o [runbook da vitrine](docs/RUNBOOK-SHOWCASE-PAGES.md) para publicar em
+raiz/subpasta, manter exemplos e executar os testes do artefato.
 
 ## Catálogo de componentes
 

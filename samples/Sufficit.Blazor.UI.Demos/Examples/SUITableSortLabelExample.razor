@@ -1,0 +1,12 @@
+@inherits DemoBase
+
+<SUITable T="string" Items="Rows.Order()">
+<HeaderContent>
+<SUITh>
+<SUITableSortLabel T="string">Serviço</SUITableSortLabel>
+</SUITh>
+</HeaderContent>
+<RowTemplate Context="row">
+<SUITd>@row</SUITd>
+</RowTemplate>
+</SUITable>

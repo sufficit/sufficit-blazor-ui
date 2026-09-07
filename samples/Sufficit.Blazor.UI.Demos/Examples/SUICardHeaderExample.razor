@@ -1,0 +1,11 @@
+@inherits DemoBase
+
+<SUICard>
+<SUICardHeader Title="Configuração" Description="Dados de demonstração." />
+<SUICardContent>
+<SUITextField T="string" Label="Nome público" @bind-Value="Text" />
+</SUICardContent>
+<SUICardActions>
+<SUIButton OnClick="Notify">Salvar</SUIButton>
+</SUICardActions>
+</SUICard>

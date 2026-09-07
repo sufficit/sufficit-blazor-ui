@@ -1,3 +1,4 @@
+@implements IDisposable
 @namespace Sufficit.Blazor.UI.Components
 @using Microsoft.AspNetCore.Components
 @using Sufficit.Blazor.UI.Utilities
@@ -23,7 +24,21 @@
     }
 </label>
 
+@if (EffectiveErrorText is not null)
+{
+    <span class="sui-field__error" role="alert">@EffectiveErrorText</span>
+}
+
 @code {
+    public void Dispose() => _field.Dispose();
+
+    protected override void OnParametersSet() => _field.Configure(FormContext, ValueExpression, () => _ = InvokeAsync(StateHasChanged));
+
+    [CascadingParameter] private Microsoft.AspNetCore.Components.Forms.EditContext? FormContext { get; set; }
+    private readonly SUIFieldBinding<bool> _field = new();
+    [Parameter] public System.Linq.Expressions.Expression<Func<bool>>? ValueExpression { get; set; }
+    private string? EffectiveErrorText => _field.Error;
+
     private readonly string _generatedInputId = $"sui-checkbox-{Guid.NewGuid():N}";
 
     /// <summary>Whether the checkbox is selected.</summary>
@@ -79,7 +94,7 @@
             .AddClass(Class)
             .Build();
 
-    private Task OnChanged(ChangeEventArgs args)
+    private async Task OnChanged(ChangeEventArgs args)
     {
         var value = args.Value switch
         {
@@ -88,7 +103,8 @@
             _ => false,
         };
 
-        return ValueChanged.InvokeAsync(value);
+        await ValueChanged.InvokeAsync(value);
+        _field.Notify();
     }
 
 #pragma warning disable CS0618

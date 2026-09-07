@@ -1,0 +1,10 @@
+/* ------------------------------------------------------------------ *
+ * Link
+ * ------------------------------------------------------------------ */
+
+.sui-link {
+  color: var(--sui-color-primary);
+  text-decoration: none;
+  cursor: pointer;
+}
+.sui-link:hover { text-decoration: underline; }

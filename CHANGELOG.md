@@ -10,10 +10,39 @@ são derivadas exclusivamente de tags Git no formato
 
 ### Added
 
+- Vitrine estática Blazor WebAssembly com 68 componentes reais, busca,
+  exemplos copiáveis verificados por compilação, API por componente, padrões
+  compostos e publicação GitHub Pages por Actions.
+- Temas claro/escuro/sistema, presets, densidade, persistência e exportação C#
+  na vitrine; presets públicos `SUITheme.Light`/`Dark` e contrastes semânticos.
+- Integração opcional dos campos com `EditContext` via expressão de valor,
+  validação/parsing e notificação de alterações, preservando a herança atual.
+- `SUIAutocomplete.SearchFuncAsync` com `CancellationToken` e `SUITable.RowKey`.
+
+### Changed
+
+- Exemplos extraídos para RCL compartilhada pelos hosts Server e WebAssembly.
+- CSS compartilhado dividido por responsabilidade; build também sincroniza
+  arquivos de compatibilidade. Budgets existentes preservados.
+- Baseline de API atualizado sem remover assinaturas existentes; referências
+  visuais atualizadas para a composição corrigida do layout no catálogo Server.
+
 - Ícones `SUIIcons.Shield`, `SUIIcons.Bolt` e `SUIIcons.Devices`, no mesmo
   traço leve dos ícones de ação, com amostra no grupo de navegação do catálogo.
 
 ### Fixed
+
+- CodeQL init/analyze alinhados na versão 4.37.9 e agrupados no Dependabot
+  para evitar atualizações parciais incompatíveis.
+
+- `SUIStack` aplica `Style` e espaçamento zero; o exemplo de layout posiciona
+  appbar, drawer e conteúdo em seus eixos corretos.
+- `SUINumericField` omite limites não fornecidos e reporta parsing inválido ao
+  formulário. Callback de texto não tem exceções mascaradas como erro de parsing.
+- Snackbar usa o dispatcher do Blazor, limita mensagens visíveis e cancela
+  expirações no descarte; cores semânticas preservam contraste no escuro.
+- Tabela materializa a sequência uma vez por atualização dos parâmetros;
+  autocomplete cancela a busca anterior e ignora resultados obsoletos.
 
 - `SUIThemeProvider` publica os tokens também em `.sui-root[data-sui-theme]`.
   Antes, em modo escuro, o fallback das fundações em `[data-sui-theme="dark"]`

@@ -1,0 +1,79 @@
+/* ------------------------------------------------------------------ *
+ * Dialog host
+ * ------------------------------------------------------------------ */
+
+.sui-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--sui-z-backdrop, 1300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sui-space-4);
+  background: var(--sui-overlay);
+  animation: sui-dialog-in 160ms ease;
+}
+.sui-dialog {
+  position: relative;
+  z-index: var(--sui-z-modal, 1400);
+  width: min(92vw, 480px);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: var(--sui-space-4);
+}
+.sui-dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sui-space-3);
+  margin-bottom: var(--sui-space-3);
+}
+.sui-dialog__title { margin: 0; font-size: var(--sui-fs-h6); font-weight: 700; color: var(--sui-text-primary); }
+.sui-dialog__close {
+  background: transparent; border: none; color: var(--sui-text-secondary);
+  cursor: pointer; padding: 2px; border-radius: var(--sui-radius-sm); display: inline-flex;
+}
+.sui-dialog__close:hover { color: var(--sui-text-primary); }
+.sui-dialog__body { font-size: var(--sui-fs-body2); color: var(--sui-text-primary); }
+.sui-dialog__message { margin: 0 0 var(--sui-space-4); }
+.sui-dialog__actions { display: flex; justify-content: flex-end; gap: var(--sui-space-2); margin-top: var(--sui-space-3); }
+@keyframes sui-dialog-in { from { opacity: 0; } }
+
+@media (pointer: coarse), (max-width: 599.98px) {
+  .sui-select__trigger,
+  .sui-select__option,
+  .sui-autocomplete__option,
+  .sui-list__button,
+  .sui-switch {
+    min-height: 44px;
+  }
+
+  .sui-toast__dismiss,
+  .sui-alert__close,
+  .sui-snackbar__close,
+  .sui-dialog__close {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sui-progress-circular,
+  .sui-snackbar,
+  .sui-dialog-overlay {
+    animation: none;
+  }
+
+  .sui-drawer--temporary,
+  .sui-drawer--responsive,
+  .sui-progress-linear__bar,
+  .sui-select__trigger,
+  .sui-select__indicator,
+  .sui-switch__track,
+  .sui-switch__track::after {
+    transition: none;
+  }
+}

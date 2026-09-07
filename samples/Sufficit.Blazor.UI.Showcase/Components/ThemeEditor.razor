@@ -1,0 +1,68 @@
+<h1>Um sistema. A sua identidade.</h1>
+<p class="lead">Experimente cor, contraste e densidade em toda a vitrine. A preferência fica salva neste navegador.</p>
+<div class="theme-workbench">
+    <section class="theme-controls" aria-label="Configurar tema">
+        <label>Paleta de demonstração<select value="@Preference.Brand" @onchange="SetBrand"><option value="amber">Sufficit · Âmbar</option><option value="blue">Azul</option><option value="red">Vermelho</option></select></label>
+        <label>Aparência<select value="@Preference.Mode" @onchange="SetMode"><option value="system">Acompanhar sistema</option><option value="light">Claro</option><option value="dark">Escuro</option></select></label>
+        <label>Densidade<select value="@Preference.Density" @onchange="SetDensity"><option value="comfortable">Confortável</option><option value="compact">Compacta</option></select></label>
+        <p>O modo sistema acompanha as mudanças de preferência do dispositivo.</p>
+    </section>
+    <section class="theme-sample" aria-label="Prévia do tema">
+        <h2>Preferências da operação</h2><p>Dados locais de demonstração.</p>
+        <SUITextField T="string" Label="Nome público" @bind-Value="_name" HelperText="Um nome fácil de reconhecer." />
+        <SUICheckbox Label="Receber notificações" @bind-Value="_enabled" />
+        <SUIButton OnClick="ShowSuccess">Salvar preferências</SUIButton>
+        <SUIAlert ToneValue="SUITone.Info">Você pode alterar o tema sem perder os valores preenchidos.</SUIAlert>
+    </section>
+</div>
+<h2>Tokens em uso</h2>
+<div class="swatches">
+    @foreach (var token in Tokens)
+    {
+        <div><span class="swatch" style="background:@token.Value" aria-hidden="true"></span><strong>@token.Name</strong><code>@token.Value</code></div>
+    }
+</div>
+<section class="source-panel"><div class="source-heading"><h2>Usar este tema</h2><SUICopyToClipboard Text="Export" Title="Configuração de tema"><SUIButton VariantValue="SUIVariant.Text">Copiar C#</SUIButton></SUICopyToClipboard></div><pre tabindex="0"><code>@Export</code></pre></section>
+<p>Instale um provider na raiz e configure os hosts de diálogo e snackbar dentro dele. O controle claro/escuro/sistema pertence à aplicação; o código abaixo exporta a aparência atualmente exibida.</p>
+
+@code {
+    [CascadingParameter] public ThemePreference Preference { get; set; } = default!;
+    [CascadingParameter] public Func<ThemePreference, Task> ChangeTheme { get; set; } = default!;
+    [Inject] private ISUISnackbar Snackbar { get; set; } = default!;
+    private string? _name = "Operação Sudeste";
+    private bool _enabled = true;
+    private Task SetBrand(ChangeEventArgs args) => ChangeTheme(Preference with { Brand = args.Value!.ToString()! });
+    private Task SetMode(ChangeEventArgs args) => ChangeTheme(Preference with { Mode = args.Value!.ToString()! });
+    private Task SetDensity(ChangeEventArgs args) => ChangeTheme(Preference with { Density = args.Value!.ToString()! });
+    private void ShowSuccess() => Snackbar.Success("Preferências de demonstração salvas.");
+    private (string Name, string Value)[] Tokens => [
+        ("Primária", Preference.Build().Palette.Primary), ("Ação", Preference.Build().Palette.PrimaryAction!),
+        ("Superfície", Preference.Build().Palette.Surface), ("Texto", Preference.Build().Palette.TextPrimary),
+        ("Sucesso", Preference.Build().Palette.Success), ("Erro", Preference.Build().Palette.Error),
+    ];
+    private string Export
+    {
+        get
+        {
+            var theme = Preference.Build();
+            return $$"""
+                using Sufficit.Blazor.UI;
+                using Sufficit.Blazor.UI.Themes;
+
+                var preset = SUITheme.{{(Preference.Dark ? "Dark" : "Light")}};
+                var theme = preset with
+                {
+                    Palette = preset.Palette with
+                    {
+                        Primary = "{{theme.Palette.Primary}}",
+                        PrimaryContrast = "{{theme.Palette.PrimaryContrast}}",
+                        PrimaryAction = "{{theme.Palette.PrimaryAction}}",
+                        PrimaryActionContrast = "{{theme.Palette.PrimaryActionContrast}}",
+                    },
+                    Layout = preset.Layout with { ControlHMd = "{{theme.Layout.ControlHMd}}" },
+                };
+                builder.Services.AddSufficitUI(options => options.Theme = theme);
+                """;
+        }
+    }
+}

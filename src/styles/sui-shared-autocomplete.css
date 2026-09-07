@@ -1,0 +1,37 @@
+/* ------------------------------------------------------------------ *
+ * Autocomplete
+ * ------------------------------------------------------------------ */
+
+.sui-autocomplete { position: relative; }
+.sui-autocomplete__control { position: relative; }
+.sui-autocomplete__adornment {
+  position: absolute;
+  right: var(--sui-space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--sui-text-secondary);
+  pointer-events: none;
+}
+.sui-autocomplete__list {
+  position: absolute;
+  top: 100%; inset-inline: 0;
+  z-index: var(--sui-z-dropdown, 1000);
+  list-style: none;
+  margin: 4px 0 0;
+  padding: var(--sui-space-1);
+  background: var(--sui-surface);
+  border: 1px solid var(--sui-border);
+  border-radius: var(--sui-radius);
+  box-shadow: var(--sui-shadow-2);
+  max-height: 280px;
+  overflow-y: auto;
+}
+.sui-autocomplete__option {
+  padding: var(--sui-space-2) var(--sui-space-3);
+  border-radius: var(--sui-radius-sm);
+  cursor: pointer;
+  font-size: var(--sui-fs-body2);
+}
+.sui-autocomplete__option:hover,
+.sui-autocomplete__option--active { background: var(--sui-surface-2); }
+.sui-autocomplete__noitems { padding: var(--sui-space-3); color: var(--sui-text-secondary); font-size: var(--sui-fs-body2); }

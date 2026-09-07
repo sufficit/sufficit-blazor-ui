@@ -1,0 +1,31 @@
+<h1>Componha uma interface completa</h1>
+<p class="lead">Padrões que combinam os componentes da biblioteca. Todos os dados desta página são demonstrativos.</p>
+<section><h2>Formulário com validação</h2><p>Os campos notificam o EditContext e exibem as mensagens de validação.</p>
+<EditForm Model="_model" OnValidSubmit="Saved">
+    <DataAnnotationsValidator />
+    <SUIFormGrid><SUITextField T="string" Label="Nome público" @bind-Value="_model.Name" /><SUINumericField T="int" Label="Tentativas" @bind-Value="_model.Attempts" /></SUIFormGrid>
+    <div class="form-actions"><SUIButton ButtonTypeValue="SUIButtonType.Submit">Salvar formulário</SUIButton></div>
+</EditForm>
+</section>
+<section><h2>Lista com paginação</h2><p>Entregue à tabela apenas os registros da página atual. RowKey mantém a identidade de cada linha.</p>
+<SUITable T="string" Items="_services.Skip(_page * 5).Take(5)" RowKey="@(item => item)" ColumnCount="1"><HeaderContent><SUITh>Serviço</SUITh></HeaderContent><RowTemplate Context="item"><SUITd DataLabel="Serviço">@item</SUITd></RowTemplate></SUITable>
+<SUIPagination TotalItems="_services.Length" PageSize="5" @bind-PageIndex="_page" />
+</section>
+<section><h2>Seção com alterações pendentes</h2><SUISection Title="Preferências"><SUITextField T="string" Label="Nome da seção" @bind-Value="_sectionName" /></SUISection><SUIPendingChangesBar OnSave="Saved" OnCancel="ResetSection" /></section>
+<section><h2>Confirmar antes de aplicar</h2><Sufficit.Blazor.UI.Demos.Examples.SUIConfirmDialogExample /></section>
+@code {
+    [Inject] private ISUISnackbar Snackbar { get; set; } = default!;
+    private readonly ExampleForm _model = new();
+    private string? _sectionName = "Operação Sudeste";
+    private void ResetSection() { _sectionName = "Operação Sudeste"; Snackbar.Info("Alterações descartadas."); }
+    private int _page;
+    private readonly string[] _services = Enumerable.Range(1, 18).Select(i => $"Serviço de demonstração {i:00}").ToArray();
+    private void Saved() => Snackbar.Success("Formulário validado com sucesso.");
+    private sealed class ExampleForm
+    {
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Informe o nome público.")]
+        public string Name { get; set; } = "";
+        [System.ComponentModel.DataAnnotations.Range(1, 10, ErrorMessage = "Informe entre 1 e 10 tentativas.")]
+        public int Attempts { get; set; } = 3;
+    }
+}

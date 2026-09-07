@@ -1,5 +1,7 @@
 <Solution>
   <Folder Name="/samples/">
+    <Project Path="samples/Sufficit.Blazor.UI.Demos/Sufficit.Blazor.UI.Demos.csproj" />
+    <Project Path="samples/Sufficit.Blazor.UI.Showcase/Sufficit.Blazor.UI.Showcase.csproj" />
     <Project Path="samples/Sufficit.Blazor.UI.Catalog/Sufficit.Blazor.UI.Catalog.csproj" />
   </Folder>
   <Folder Name="/src/">

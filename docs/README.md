@@ -21,12 +21,15 @@ concluído é arquivado em `activities/` com prefixo de timestamp
 ## Planos ativos (trabalho pendente)
 
 - [Sufficit.Blazor.UI v2](PLAN-SUI-V2.md) — remoção das pontes obsoletas,
-  adapters `InputBase<T>`, net10-only e gates dos consumers
+  integração com `EditContext`, net10-only e gates dos consumers
 - [Adoção dos componentes `SUI*`](PLAN-CONSUMER-MIGRATION.md) —
   adoção básica concluída nos consumers; permanecem verificações visuais,
   runtime WASM e navegação Management explicitamente listadas no plano
 
 ## Runbooks
+
+- [Vitrine estática e GitHub Pages](RUNBOOK-SHOWCASE-PAGES.md) — estrutura, exemplos,
+  publicação, validação em raiz/subpasta e recuperação
 
 - [Release do pacote SUI](RUNBOOK-RELEASE.md) — tag SemVer, gates, publicação,
   verificação e recuperação
@@ -43,6 +46,9 @@ concluído é arquivado em `activities/` com prefixo de timestamp
   SemVer, garantias da v1, política de retirada de framework e API baseline
 
 ## Trabalho concluído (activities/)
+
+- [Catálogo estático e temas](activities/202609071829-completed-catalogo-estatico-temas.md) — vitrine WASM,
+  GitHub Pages, 68 exemplos executáveis e contratos de componentes
 
 - [Polimento da cor de ações primárias](activities/202608141506-completed-primary-action-color-polish.md) —
   acento âmbar separado da superfície ember, texto branco quente e contratos

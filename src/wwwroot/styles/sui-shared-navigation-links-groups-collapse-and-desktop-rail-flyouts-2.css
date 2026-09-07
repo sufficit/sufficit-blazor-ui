@@ -1,0 +1,185 @@
+.sui-collapse.is-expanded {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.sui-collapse__inner {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sui-nav--nested {
+  position: relative;
+  margin-inline-start: 0;
+  width: 100%;
+  border-inline-start: 0;
+}
+
+.sui-nav-group--nested {
+  --sui-nav-accent: color-mix(in srgb,var(--sui-color-primary) 62%,var(--sui-text-secondary));
+}
+
+.sui-nav--nested .sui-nav--nested > .sui-nav-group {
+  --sui-nav-accent: color-mix(in srgb,var(--sui-color-primary) 38%,var(--sui-text-secondary));
+}
+
+/* Disclosure rows use compact, repeated cues instead of tree connector lines. */
+.sui-nav-group__toggle {
+  font-weight: 600;
+}
+
+.sui-nav-group__toggle--nested::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--sui-nav-accent);
+  opacity: .72;
+}
+
+.sui-nav-group--nested.is-expanded {
+  margin-block: 2px 6px;
+}
+
+.sui-nav-group--nested.is-expanded > .sui-nav-group__toggle,
+.sui-nav-group--nested.is-expanded > .sui-collapse {
+  background: color-mix(in srgb,var(--sui-surface-2) 68%,var(--sui-surface));
+}
+
+.sui-nav-group--nested.is-expanded > .sui-nav-group__toggle {
+  border-radius: var(--sui-radius) var(--sui-radius) 0 0;
+}
+
+.sui-nav-group--nested.is-expanded > .sui-collapse {
+  border-radius: 0 0 var(--sui-radius) var(--sui-radius);
+}
+
+.sui-nav-group__toggle--nested[aria-expanded="true"] .sui-nav-link__expand {
+  background: color-mix(in srgb,var(--sui-nav-accent) 16%,var(--sui-surface));
+}
+
+.sui-nav--nested button.sui-nav-link,
+.sui-nav--nested .sui-nav-link__row {
+  min-height: 40px;
+  padding-block: 8px;
+  padding-inline: 14px;
+}
+
+.sui-rail-group {
+  anchor-scope: --sui-rail-trigger;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0;
+}
+
+.sui-rail-trigger {
+  anchor-name: --sui-rail-trigger;
+  appearance: none;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  min-width: 48px;
+  height: 48px;
+  margin: 2px auto;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  color: var(--sui-text-secondary);
+  cursor: pointer;
+  transition: background-color var(--sui-transition), color var(--sui-transition);
+}
+
+.sui-rail-trigger:hover,
+.sui-rail-trigger.is-open {
+  background: color-mix(in srgb,var(--sui-color-primary) 12%,transparent);
+  color: var(--sui-color-primary);
+}
+
+.sui-rail-trigger > .sui-icon {
+  width: 20px;
+  height: 20px;
+  margin: auto;
+  font-size: 20px;
+}
+
+.sui-rail-flyout[hidden] {
+  display: none !important;
+}
+
+.sui-rail-flyout {
+  --sui-rail-flyout-gap: 20px;
+  box-sizing: border-box;
+  position: fixed;
+  position-anchor: --sui-rail-trigger;
+  inset-inline-start: calc(anchor(right) + var(--sui-rail-flyout-gap));
+  top: anchor(top);
+  z-index: var(--sui-z-dropdown, 1000);
+  display: block;
+  /* Keep the secondary menu close to the production drawer scale. The previous
+     340px panel became visually dominant on narrow desktop/tablet viewports and
+     made the rail look like a second full navigation column. */
+  width: min(320px, calc(100vw - 88px));
+  min-width: 248px;
+  max-width: calc(100vw - 88px);
+  isolation: isolate;
+}
+
+/*
+ * Keep the pointer inside the rail group while it crosses the intentional gap
+ * between the drawer and the flyout. Without this corridor, mouseleave fires
+ * before the pointer can reach the panel and the delayed close feels broken.
+ */
+.sui-rail-flyout::before {
+  content: "";
+  position: absolute;
+  inset-block: -12px;
+  inset-inline-start: calc(-1 * var(--sui-rail-flyout-gap));
+  width: var(--sui-rail-flyout-gap);
+  pointer-events: auto;
+}
+
+.sui-rail-flyout-inner {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  max-height: var(--sui-rail-flyout-max-height, calc(100dvh - 24px));
+  padding: var(--sui-space-2);
+  overflow: auto;
+  border: 1px solid var(--sui-border);
+  border-radius: var(--sui-radius-lg);
+  background: var(--sui-surface);
+  background: color-mix(in srgb,var(--sui-surface) 90%,transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: var(--sui-text-primary);
+  box-shadow: 6px 10px 34px rgba(15, 23, 42, .16), 2px 3px 10px rgba(238, 99, 33, .05);
+}
+
+.sui-rail-flyout-head {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 6px 10px 8px;
+}
+
+.sui-rail-flyout-title {
+  overflow: hidden;
+  color: var(--sui-text-secondary);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}

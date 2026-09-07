@@ -26,3 +26,16 @@ O provider também publica `--sui-color-primary-action` e
 `--sui-color-primary-action-contrast`. Eles recebem os valores opcionais
 `SUIPalette.PrimaryAction`/`PrimaryActionContrast` ou, por compatibilidade,
 recuam para `Primary`/`PrimaryContrast`.
+
+## Presets e contraste
+
+`SUITheme.Light` e `SUITheme.Dark` fornecem paletas completas. Personalize com
+`with { Palette = preset.Palette with { Primary = "..." } }` e mantenha o par
+`PrimaryContrast` legível. O mesmo vale para `Info`/`InfoContrast`,
+`Success`/`SuccessContrast`, `Warning`/`WarningContrast` e `Error`/`ErrorContrast`.
+Os tokens semânticos de contraste são usados nas notificações preenchidas.
+`PrimarySoft` acompanha `--sui-color-primary`, sem fixar uma cor de marca.
+
+O provider é global: instâncias simultâneas com temas diferentes disputam os
+mesmos tokens. Claro/escuro/sistema e persistência pertencem ao host. A vitrine
+implementa essa política em `ShowcaseTheme.cs` e `wwwroot/theme.js`.

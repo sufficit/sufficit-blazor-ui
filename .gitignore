@@ -9,3 +9,5 @@ node_modules/
 .playwright-cli/
 # Worktrees (padrao): arvores de trabalho em <repo>/.worktrees/
 **/.worktrees/
+
+.impeccable/review/

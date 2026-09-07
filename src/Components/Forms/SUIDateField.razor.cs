@@ -9,6 +9,10 @@ namespace Sufficit.Blazor.UI.Components;
 
 public partial class SUIDateField
 {
+    [CascadingParameter] private Microsoft.AspNetCore.Components.Forms.EditContext? FormContext { get; set; }
+    private readonly SUIFieldBinding<DateOnly?> _field = new();
+    private string? EffectiveErrorText => ErrorText ?? _field.Error;
+
     [Parameter]
     public DateOnly? Value { get; set; }
 
@@ -97,7 +101,7 @@ public partial class SUIDateField
     private string? TriggerAriaLabel => string.IsNullOrWhiteSpace(Label)
         ? AriaLabel ?? ChooseDateText
         : null;
-    private bool HasError => Invalid || !string.IsNullOrWhiteSpace(ErrorText);
+    private bool HasError => Invalid || !string.IsNullOrWhiteSpace(EffectiveErrorText);
     private string? DescribedBy
     {
         get
@@ -106,7 +110,7 @@ public partial class SUIDateField
             {
                 AriaDescribedBy,
                 string.IsNullOrWhiteSpace(HelperText) ? null : HelperId,
-                string.IsNullOrWhiteSpace(ErrorText) ? null : ErrorId,
+                string.IsNullOrWhiteSpace(EffectiveErrorText) ? null : ErrorId,
             }.Where(item => !string.IsNullOrWhiteSpace(item)));
             return string.IsNullOrWhiteSpace(value) ? null : value;
         }
@@ -151,6 +155,7 @@ public partial class SUIDateField
 
     protected override void OnParametersSet()
     {
+        _field.Configure(FormContext, ValueExpression, () => _ = InvokeAsync(StateHasChanged));
         var cultureName = EffectiveCulture.Name;
         if (!_initialized || (!_open && Value != _lastValue) || _lastCulture != cultureName)
         {
@@ -304,6 +309,7 @@ public partial class SUIDateField
         }
 
         await ValueChanged.InvokeAsync(date);
+        _field.Notify();
         Close(restoreFocus: true);
     }
 
@@ -317,6 +323,7 @@ public partial class SUIDateField
         }
 
         await ValueChanged.InvokeAsync(null);
+        _field.Notify();
         Close(restoreFocus: true);
     }
 
@@ -417,6 +424,7 @@ public partial class SUIDateField
 
     public async ValueTask DisposeAsync()
     {
+        _field.Dispose();
         if (_module is not null)
         {
             try

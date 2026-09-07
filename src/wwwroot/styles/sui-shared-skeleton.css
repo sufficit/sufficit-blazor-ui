@@ -1,0 +1,25 @@
+/* ------------------------------------------------------------------ *
+ * Skeleton
+ * ------------------------------------------------------------------ */
+
+.sui-skeleton {
+  display: block;
+  background: linear-gradient(
+    90deg,
+    var(--sui-surface-2) 25%,var(--sui-surface-3) 37%,var(--sui-surface-2) 63%
+  );
+  background-size: 400% 100%;
+  border-radius: var(--sui-radius-sm);
+  animation: sui-shimmer 1.4s ease infinite;
+}
+@keyframes sui-shimmer {
+  0%   { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+.sui-skeleton-card    { height: 120px; width: 100%; border-radius: var(--sui-radius); }
+.sui-skeleton-text    { height: 12px; width: 100%; margin: 6px 0; }
+.sui-skeleton-circle  { border-radius: var(--sui-radius-full); }
+
+@media (prefers-reduced-motion: reduce) {
+  .sui-skeleton { animation: none; }
+}

@@ -1,0 +1,27 @@
+/* ------------------------------------------------------------------ *
+ * Progress linear
+ * ------------------------------------------------------------------ */
+
+.sui-progress-linear {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  background: var(--sui-surface-3);
+  border-radius: var(--sui-radius-sm);
+  overflow: hidden;
+}
+.sui-progress-linear--rounded { border-radius: var(--sui-radius-full); }
+.sui-progress-linear__bar {
+  width: 100%;
+  height: 100%;
+  background: var(--sui-color-primary);
+  border-radius: inherit;
+  transform: scaleX(var(--sui-progress-scale, 0));
+  transform-origin: left center;
+  transition: transform var(--sui-transition);
+}
+.sui-progress-linear:dir(rtl) .sui-progress-linear__bar { transform-origin: right center; }
+.sui-progress-linear--success .sui-progress-linear__bar { background: var(--sui-color-success); }
+.sui-progress-linear--warning .sui-progress-linear__bar { background: var(--sui-color-warning); }
+.sui-progress-linear--error   .sui-progress-linear__bar { background: var(--sui-color-error); }
+.sui-progress-linear--info    .sui-progress-linear__bar { background: var(--sui-color-info); }

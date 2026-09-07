@@ -8,6 +8,11 @@ namespace Sufficit.Blazor.UI.Components;
 
 public partial class SUISelect<T>
 {
+    [CascadingParameter] private Microsoft.AspNetCore.Components.Forms.EditContext? FormContext { get; set; }
+    private readonly SUIFieldBinding<T?> _field = new();
+    [Parameter] public System.Linq.Expressions.Expression<Func<T?>>? ValueExpression { get; set; }
+    private string? EffectiveErrorText => ErrorText ?? _field.Error;
+
     [Parameter]
     public T? Value { get; set; }
 
@@ -78,7 +83,7 @@ public partial class SUISelect<T>
     private string ErrorId => $"{EffectiveId}-error";
     private string MenuId => $"{EffectiveId}-menu";
     private string? LabelledBy => string.IsNullOrWhiteSpace(Label) ? null : LabelId;
-    private string? ErrorMessageId => Invalid && !string.IsNullOrWhiteSpace(ErrorText) ? ErrorId : null;
+    private string? ErrorMessageId => !string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null;
     private string? ActiveDescendantId
         => _open && _activeIndex >= 0 && _activeIndex < _items.Count
             ? OptionId(_activeIndex)
@@ -91,7 +96,7 @@ public partial class SUISelect<T>
             {
                 AriaDescribedBy,
                 string.IsNullOrWhiteSpace(HelperText) ? null : HelperId,
-                Invalid && !string.IsNullOrWhiteSpace(ErrorText) ? ErrorId : null
+                !string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null
             };
             var value = string.Join(" ", ids.Where(id => !string.IsNullOrWhiteSpace(id)));
             return string.IsNullOrWhiteSpace(value) ? null : value;
@@ -163,6 +168,7 @@ public partial class SUISelect<T>
 
     protected override void OnParametersSet()
     {
+        _field.Configure(FormContext, ValueExpression, () => _ = InvokeAsync(StateHasChanged));
         if (Disabled)
         {
             _open = false;
@@ -313,6 +319,7 @@ public partial class SUISelect<T>
         if (TryConvertValue(item.Value, out var value))
         {
             await ValueChanged.InvokeAsync(value);
+        _field.Notify();
         }
     }
 
@@ -407,6 +414,7 @@ public partial class SUISelect<T>
 
     public async ValueTask DisposeAsync()
     {
+        _field.Dispose();
         if (_module is null)
         {
             return;

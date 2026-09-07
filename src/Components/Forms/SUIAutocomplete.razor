@@ -21,7 +21,7 @@
                aria-activedescendant="@ActiveDescendantId"
                aria-labelledby="@LabelledBy"
                aria-describedby="@DescribedBy"
-               aria-invalid="@(Invalid ? "true" : "false")"
+               aria-invalid="@(Invalid || EffectiveErrorText is not null ? "true" : "false")"
                aria-errormessage="@ErrorMessageId"
                value="@_query"
                @oninput="OnInputAsync"
@@ -53,9 +53,9 @@
         <span id="@HelperId" class="sui-field__helper">@HelperText</span>
     }
 
-    @if (!string.IsNullOrWhiteSpace(ErrorText))
+    @if (!string.IsNullOrWhiteSpace(EffectiveErrorText))
     {
-        <span id="@ErrorId" class="sui-field__error">@ErrorText</span>
+        <span id="@ErrorId" class="sui-field__error">@EffectiveErrorText</span>
     }
 
     <span id="@StatusId" class="sui-sr-only" role="status" aria-live="polite">@StatusMessage</span>

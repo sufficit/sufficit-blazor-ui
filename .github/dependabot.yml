@@ -29,6 +29,10 @@ updates:
       prefix: "chore(deps)"
 
   - package-ecosystem: github-actions
+    groups:
+      codeql:
+        patterns:
+          - "github/codeql-action*"
     directory: "/"
     schedule:
       interval: weekly

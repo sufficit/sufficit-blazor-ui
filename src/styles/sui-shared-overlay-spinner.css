@@ -1,0 +1,15 @@
+/* ------------------------------------------------------------------ *
+ * Overlay + spinner
+ * ------------------------------------------------------------------ */
+
+.sui-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--sui-overlay);
+  border-radius: inherit;
+}
+.sui-overlay--light { background: rgba(255,255,255,.55); }
+[data-sui-theme="dark"] .sui-overlay--light { background: rgba(15,23,42,.55); }

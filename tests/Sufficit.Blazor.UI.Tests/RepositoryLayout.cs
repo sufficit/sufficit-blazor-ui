@@ -44,6 +44,13 @@ internal static class RepositoryLayout
             .OrderBy(path => path, StringComparer.Ordinal);
     }
 
+    public static string ReadStyles(string name)
+    {
+        var css = File.ReadAllText(Path.Combine(Styles, name));
+        return System.Text.RegularExpressions.Regex.Replace(css, "@import \"\\./([^\"]+)\";",
+            match => ReadStyles(match.Groups[1].Value));
+    }
+
     private static bool IsBuildOutput(string path)
     {
         var normalized = path.Replace(Path.DirectorySeparatorChar, '/');

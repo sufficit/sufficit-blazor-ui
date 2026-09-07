@@ -6,6 +6,11 @@ namespace Sufficit.Blazor.UI.Components;
 
 public partial class SUIAutocomplete<T>
 {
+    [CascadingParameter] private Microsoft.AspNetCore.Components.Forms.EditContext? FormContext { get; set; }
+    private readonly SUIFieldBinding<T?> _field = new();
+    [Parameter] public System.Linq.Expressions.Expression<Func<T?>>? ValueExpression { get; set; }
+    private string? EffectiveErrorText => ErrorText ?? _field.Error;
+
     [Parameter]
     public T? Value { get; set; }
 
@@ -14,6 +19,9 @@ public partial class SUIAutocomplete<T>
 
     [Parameter]
     public Func<string, Task<IEnumerable<T>>>? SearchFunc { get; set; }
+
+    [Parameter]
+    public Func<string, CancellationToken, Task<IEnumerable<T>>>? SearchFuncAsync { get; set; }
 
     [Parameter]
     public Func<T, string>? ToStringFunc { get; set; }
@@ -103,7 +111,7 @@ public partial class SUIAutocomplete<T>
     private string StatusId => $"{EffectiveId}-status";
     private string ListId => $"{EffectiveId}-listbox";
     private string? LabelledBy => string.IsNullOrWhiteSpace(Label) ? null : LabelId;
-    private string? ErrorMessageId => Invalid && !string.IsNullOrWhiteSpace(ErrorText) ? ErrorId : null;
+    private string? ErrorMessageId => !string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null;
     private string? ActiveDescendantId
         => _open && _activeIndex >= 0 && _activeIndex < _items.Count
             ? OptionId(_activeIndex)
@@ -118,7 +126,7 @@ public partial class SUIAutocomplete<T>
             {
                 AriaDescribedBy,
                 string.IsNullOrWhiteSpace(HelperText) ? null : HelperId,
-                Invalid && !string.IsNullOrWhiteSpace(ErrorText) ? ErrorId : null,
+                !string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null,
                 StatusId
             };
             return string.Join(" ", ids.Where(id => !string.IsNullOrWhiteSpace(id)));
@@ -145,6 +153,7 @@ public partial class SUIAutocomplete<T>
 
     protected override void OnParametersSet()
     {
+        _field.Configure(FormContext, ValueExpression, () => _ = InvokeAsync(StateHasChanged));
         if (!_valueInitialized || !EqualityComparer<T?>.Default.Equals(Value, _observedValue))
         {
             _observedValue = Value;
@@ -170,9 +179,10 @@ public partial class SUIAutocomplete<T>
         {
             _observedValue = default;
             await ValueChanged.InvokeAsync(default);
+        _field.Notify();
         }
 
-        if (Disabled || SearchFunc is null || _query.Length < Math.Max(0, MinCharacters))
+        if (Disabled || (SearchFunc is null && SearchFuncAsync is null) || _query.Length < Math.Max(0, MinCharacters))
         {
             _loading = false;
             _open = false;
@@ -181,6 +191,7 @@ public partial class SUIAutocomplete<T>
 
         var searchCts = new CancellationTokenSource();
         _cts = searchCts;
+        var token = searchCts.Token;
         var query = _query;
         _loading = true;
         _open = true;
@@ -188,20 +199,22 @@ public partial class SUIAutocomplete<T>
 
         try
         {
-            await Task.Delay(Math.Max(0, DebounceInterval), searchCts.Token);
-            var results = await SearchFunc(query);
-            searchCts.Token.ThrowIfCancellationRequested();
+            await Task.Delay(Math.Max(0, DebounceInterval), token);
+            var results = SearchFuncAsync is not null
+                ? await SearchFuncAsync(query, token)
+                : await SearchFunc!(query);
+            token.ThrowIfCancellationRequested();
 
             _items.AddRange(results.Take(Math.Max(0, MaxItems)));
             _activeIndex = _items.Count > 0 ? 0 : -1;
         }
-        catch (OperationCanceledException) when (searchCts.IsCancellationRequested)
+        catch (OperationCanceledException) when (token.IsCancellationRequested)
         {
             return;
         }
         catch
         {
-            if (!searchCts.IsCancellationRequested)
+            if (!token.IsCancellationRequested)
             {
                 _searchError = SearchErrorText;
             }
@@ -294,6 +307,7 @@ public partial class SUIAutocomplete<T>
         _open = false;
         _activeIndex = -1;
         await ValueChanged.InvokeAsync(item);
+        _field.Notify();
     }
 
     private async Task ClearAsync()
@@ -307,6 +321,7 @@ public partial class SUIAutocomplete<T>
         _activeIndex = -1;
         _searchError = null;
         await ValueChanged.InvokeAsync(default);
+        _field.Notify();
     }
 
     private string ToDisplayString(T item)
@@ -328,6 +343,7 @@ public partial class SUIAutocomplete<T>
 
     public ValueTask DisposeAsync()
     {
+        _field.Dispose();
         _disposed = true;
         CancelPendingSearch();
         return ValueTask.CompletedTask;

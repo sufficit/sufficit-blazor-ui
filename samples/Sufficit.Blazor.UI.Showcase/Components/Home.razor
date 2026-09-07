@@ -1,0 +1,73 @@
+@page "/"
+@inject NavigationManager Navigation
+
+<PageTitle>@(_entry is null ? View == "themes" ? "Temas" : "Componentes" : _entry.Name) — Sufficit.Blazor.UI</PageTitle>
+<div class="site-body">
+    <aside class="sidebar" aria-label="Navegação do catálogo">
+        <label class="search-label" for="component-search">Buscar componente</label>
+        <input id="component-search" type="search" placeholder="Ex.: botão, SUISelect…" @bind="_search" @bind:event="oninput" />
+        <nav>
+            <a class="nav-main @(View is null && ComponentName is null ? "active" : "")" href=".">Visão geral</a>
+            <a class="nav-main @(View == "setup" ? "active" : "")" href="?view=setup">Instalação</a>
+            <a class="nav-main @(View == "themes" ? "active" : "")" href="?view=themes">Temas e densidade</a>
+            <a class="nav-main @(View == "patterns" ? "active" : "")" href="?view=patterns">Composições</a>
+            @foreach (var family in Filtered.GroupBy(entry => entry.Family))
+            {
+                <div class="nav-family"><h2>@family.Key</h2>
+                    @foreach (var entry in family)
+                    {
+                        <a href="@($"?component={entry.Name}")" aria-current="@(entry.Name == ComponentName ? "page" : null)">@entry.Name</a>
+                    }
+                </div>
+            }
+            @if (!Filtered.Any()) { <p role="status">Nenhum componente encontrado.</p> }
+        </nav>
+    </aside>
+    <main id="main" class="document" tabindex="-1">
+        @if (_entry is not null)
+        {
+            <ComponentDocument @key="_entry.Name" Entry="_entry" />
+        }
+        else if (ComponentName is not null)
+        {
+            <h1>Componente não encontrado</h1><p>Use a busca para encontrar um componente disponível.</p><a href=".">Ver todos os componentes</a>
+        }
+        else if (View == "themes") { <ThemeEditor /> }
+        else if (View == "setup") { <GettingStarted /> }
+        else if (View == "patterns") { <Patterns /> }
+        else
+        {
+            <div class="intro">
+                <h1>Componentes que<br />trabalham juntos.</h1>
+                <p>Explore a Sufficit.Blazor.UI. Experimente os componentes, encontre o código e adapte o tema à sua aplicação.</p>
+                <div class="intro-links"><a class="primary-link" href="?view=setup">Começar a usar <span aria-hidden="true">→</span></a><a href="?view=themes">Explorar os temas</a></div>
+            </div>
+            <section class="overview-demo" aria-label="Exemplo de interface">
+                <div><h2>Preferências da operação</h2><p>Componentes reais. Dados de demonstração.</p></div>
+                <PreferencesDemo />
+            </section>
+            <section class="component-index">
+                <h2>Encontre seu próximo componente</h2>
+                <p>@DemoCatalog.Entries.Count componentes, organizados por responsabilidade.</p>
+                @foreach (var family in DemoCatalog.Entries.GroupBy(entry => entry.Family))
+                {
+                    <div class="index-family"><h3>@family.Key</h3><div>
+                        @foreach (var entry in family) { <a href="@($"?component={entry.Name}")">@entry.Name <span aria-hidden="true">↗</span></a> }
+                    </div></div>
+                }
+            </section>
+        }
+        <footer class="document-footer">Sufficit.Blazor.UI · .NET 10 <a href="https://github.com/sufficit/sufficit-blazor-ui/blob/main/CHANGELOG.md">Histórico de versões</a></footer>
+    </main>
+</div>
+
+@code {
+    [SupplyParameterFromQuery(Name = "component")] public string? ComponentName { get; set; }
+    [SupplyParameterFromQuery(Name = "view")] public string? View { get; set; }
+    private string _search = "";
+    private DemoEntry? _entry;
+    private IEnumerable<DemoEntry> Filtered => DemoCatalog.Entries.Where(entry =>
+        entry.Name.Contains(_search.Trim(), StringComparison.OrdinalIgnoreCase) || entry.Family.Contains(_search.Trim(), StringComparison.OrdinalIgnoreCase)
+        || _search.Trim().Equals("botão", StringComparison.OrdinalIgnoreCase) && entry.Name.Contains("Button", StringComparison.Ordinal));
+    protected override void OnParametersSet() => _entry = DemoCatalog.Entries.FirstOrDefault(entry => entry.Name == ComponentName);
+}

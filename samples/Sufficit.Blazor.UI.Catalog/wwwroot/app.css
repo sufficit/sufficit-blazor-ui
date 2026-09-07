@@ -136,3 +136,8 @@ button, input, select, textarea { font: inherit; }
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
 }
+
+.catalog__shell { min-height: 16rem; }
+.catalog__shell-body { display: flex; min-height: 12rem; gap: var(--sui-space-4); }
+.catalog__shell-body > .sui-layout__main { padding: var(--sui-space-4); }
+@media (max-width: 44rem) { .catalog__shell-body { flex-direction: column; } }

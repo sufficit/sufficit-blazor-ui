@@ -1,0 +1,34 @@
+/* ------------------------------------------------------------------ *
+ * Switch
+ * ------------------------------------------------------------------ */
+
+.sui-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sui-space-2);
+  cursor: pointer;
+  user-select: none;
+}
+.sui-switch__input { position: absolute; opacity: 0; pointer-events: none; }
+.sui-switch__track {
+  position: relative;
+  width: 44px; height: 24px;
+  background: var(--sui-surface-3);
+  border-radius: var(--sui-radius-full);
+  transition: background var(--sui-transition);
+  flex: 0 0 auto;
+}
+.sui-switch__track::after {
+  content: "";
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 18px; height: 18px;
+  background: var(--sui-surface);
+  border-radius: var(--sui-radius-full);
+  box-shadow: var(--sui-shadow-1);
+  transition: transform var(--sui-transition);
+}
+.sui-switch--on .sui-switch__track { background: var(--sui-color-primary); }
+.sui-switch--on.sui-switch--success .sui-switch__track { background: var(--sui-color-success); }
+.sui-switch--on .sui-switch__track::after { transform: translateX(20px); }
+.sui-switch__label { font-size: var(--sui-fs-body2); color: var(--sui-text-primary); }

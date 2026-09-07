@@ -1,0 +1,10 @@
+@inherits DemoBase
+
+<SUITable T="string" Items="Rows" RowKey="@(row => row)" ColumnCount="1">
+<HeaderContent>
+<SUITh>Serviço</SUITh>
+</HeaderContent>
+<RowTemplate Context="row">
+<SUITd DataLabel="Serviço">@row</SUITd>
+</RowTemplate>
+</SUITable>

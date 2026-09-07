@@ -1,3 +1,4 @@
+@implements IDisposable
 @namespace Sufficit.Blazor.UI.Components
 @using System.Linq.Expressions
 @typeparam T
@@ -66,13 +67,21 @@
     {
         <span id="@HelperId" class="sui-field__helper">@HelperText</span>
     }
-    @if (!string.IsNullOrWhiteSpace(ErrorText))
+    @if (FormContext is not null || !string.IsNullOrWhiteSpace(EffectiveErrorText))
     {
-        <span id="@ErrorId" class="sui-field__error">@ErrorText</span>
+        <span id="@ErrorId" class="sui-field__error" style="min-height:1.3em">@EffectiveErrorText</span>
     }
 </div>
 
 @code {
+    public void Dispose() => _field.Dispose();
+
+    protected override void OnParametersSet() => _field.Configure(FormContext, ValueExpression, () => _ = InvokeAsync(StateHasChanged));
+
+    [CascadingParameter] private Microsoft.AspNetCore.Components.Forms.EditContext? FormContext { get; set; }
+    private readonly SUIFieldBinding<T?> _field = new();
+    private string? EffectiveErrorText => ErrorText ?? _field.Error;
+
     [Parameter]
     public T? Value { get; set; }
 
@@ -147,7 +156,7 @@
     private int EffectiveRows => Math.Clamp(Rows, 2, 20);
     private string HelperId => $"{EffectiveId}-helper";
     private string ErrorId => $"{EffectiveId}-error";
-    private bool HasError => Invalid || !string.IsNullOrWhiteSpace(ErrorText);
+    private bool HasError => Invalid || !string.IsNullOrWhiteSpace(EffectiveErrorText);
     private bool CanClear
         => Clearable && !Disabled && !string.IsNullOrEmpty(Value?.ToString());
     private string? InputPaddingStyle
@@ -163,7 +172,7 @@
             {
                 AriaDescribedBy,
                 string.IsNullOrWhiteSpace(HelperText) ? null : HelperId,
-                string.IsNullOrWhiteSpace(ErrorText) ? null : ErrorId,
+                string.IsNullOrWhiteSpace(EffectiveErrorText) ? null : ErrorId,
             }
             .Where(value => !string.IsNullOrWhiteSpace(value)));
 
@@ -178,16 +187,20 @@
     private Task OnInput(ChangeEventArgs e)
         => Immediate ? SetValue(e.Value) : Task.CompletedTask;
 
-    private Task ClearAsync()
-        => ValueChanged.InvokeAsync(default);
+    private async Task ClearAsync()
+    {
+        await ValueChanged.InvokeAsync(default);
+        _field.Notify();
+    }
 
     private async Task SetValue(object? raw)
     {
-        try
+        if (!BindConverter.TryConvertTo<T>(raw, System.Globalization.CultureInfo.CurrentCulture, out var converted))
         {
-            var converted = raw is null ? default : (T?)Convert.ChangeType(raw, typeof(T));
-            await ValueChanged.InvokeAsync(converted);
+            _field.Notify("Informe um valor válido.");
+            return;
         }
-        catch { /* leave value unchanged on invalid input */ }
+        await ValueChanged.InvokeAsync(converted);
+        _field.Notify();
     }
 }

@@ -17,9 +17,7 @@ public sealed class ButtonContentAlignmentTests
         Assert.Equal("Salvar tudo", rendered.Find(".sui-btn__label").TextContent.Trim());
         Assert.NotNull(rendered.Find(".sui-btn__icon"));
 
-        var stylesheet = File.ReadAllText(Path.Combine(
-            RepositoryLayout.Styles,
-            "sui-foundations.css"));
+        var stylesheet = RepositoryLayout.ReadStyles("sui-foundations.css");
         Assert.DoesNotMatch(
             @"\.sui-btn__label\s*\{[^}]*transform\s*:",
             stylesheet);

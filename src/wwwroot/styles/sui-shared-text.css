@@ -1,0 +1,68 @@
+/* ------------------------------------------------------------------ *
+ * Text
+ * ------------------------------------------------------------------ */
+
+.sui-text {
+  margin: 0;
+  font-family: var(--sui-font);
+  color: var(--sui-text-primary);
+  line-height: 1.5;
+}
+.sui-text--h1        { font-size: var(--sui-fs-h1); font-weight: 700; line-height: 1.2; }
+.sui-text--h2        { font-size: var(--sui-fs-h2); font-weight: 700; line-height: 1.25; }
+.sui-text--h3        { font-size: var(--sui-fs-h3); font-weight: 600; line-height: 1.3; }
+.sui-text--h4        { font-size: var(--sui-fs-h4); font-weight: 600; line-height: 1.35; }
+.sui-text--h5        { font-size: var(--sui-fs-h5); font-weight: 600; line-height: 1.4; }
+.sui-text--h6        { font-size: var(--sui-fs-h6); font-weight: 600; line-height: 1.5; }
+.sui-text--subtitle1 { font-size: var(--sui-fs-subtitle1); font-weight: 500; }
+.sui-text--subtitle2 { font-size: var(--sui-fs-subtitle2); font-weight: 500; }
+.sui-text--body1     { font-size: var(--sui-fs-body1); }
+.sui-text--body2     { font-size: var(--sui-fs-body2); }
+.sui-text--button    { font-size: var(--sui-fs-button); font-weight: 600; letter-spacing: .02em; }
+.sui-text--caption   { font-size: var(--sui-fs-caption); }
+.sui-text--overline  { font-size: var(--sui-fs-overline); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.sui-text--display,
+.sui-type-display {
+  font-family: var(--sui-font);
+  font-size: var(--sui-fs-display);
+  font-weight: 700;
+  line-height: var(--sui-lh-display);
+  letter-spacing: var(--sui-ls-display);
+}
+.sui-text--headline,
+.sui-type-headline {
+  font-family: var(--sui-font);
+  font-size: var(--sui-fs-headline);
+  font-weight: 700;
+  line-height: var(--sui-lh-headline);
+}
+.sui-text--title,
+.sui-type-title {
+  font-family: var(--sui-font);
+  font-size: var(--sui-fs-title);
+  font-weight: 700;
+  line-height: var(--sui-lh-title);
+}
+.sui-text--body,
+.sui-type-body {
+  font-family: var(--sui-font);
+  font-size: var(--sui-fs-body);
+  font-weight: 400;
+  line-height: var(--sui-lh-body);
+}
+.sui-text--label,
+.sui-type-label {
+  font-family: var(--sui-font-label);
+  font-size: var(--sui-fs-label);
+  font-weight: 500;
+  line-height: var(--sui-lh-label);
+}
+.sui-text--mono,
+.sui-type-mono {
+  font-family: var(--sui-font-mono);
+  font-size: var(--sui-fs-mono);
+  font-weight: 400;
+  line-height: var(--sui-lh-mono);
+}
+.sui-text--secondary { color: var(--sui-text-secondary); }
+.sui-text--disabled  { color: var(--sui-text-disabled); }

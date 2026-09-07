@@ -1,3 +1,4 @@
+@implements IDisposable
 @namespace Sufficit.Blazor.UI.Components
 
 <label class="@Classname" @attributes="AdditionalAttributes">
@@ -12,7 +13,21 @@
     }
 </label>
 
+@if (EffectiveErrorText is not null)
+{
+    <span class="sui-field__error" role="alert">@EffectiveErrorText</span>
+}
+
 @code {
+    public void Dispose() => _field.Dispose();
+
+    protected override void OnParametersSet() => _field.Configure(FormContext, ValueExpression, () => _ = InvokeAsync(StateHasChanged));
+
+    [CascadingParameter] private Microsoft.AspNetCore.Components.Forms.EditContext? FormContext { get; set; }
+    private readonly SUIFieldBinding<bool> _field = new();
+    [Parameter] public System.Linq.Expressions.Expression<Func<bool>>? ValueExpression { get; set; }
+    private string? EffectiveErrorText => _field.Error;
+
     [Parameter]
     public bool Value { get; set; }
 
@@ -45,8 +60,11 @@
             .AddClass(Class)
             .Build();
 
-    private Task OnChanged(ChangeEventArgs e)
-        => ValueChanged.InvokeAsync(e.Value is true);
+    private async Task OnChanged(ChangeEventArgs e)
+    {
+        await ValueChanged.InvokeAsync(e.Value is true);
+        _field.Notify();
+    }
 
 #pragma warning disable CS0618
     private object EffectiveColor => ColorValue ?? Color ?? SUIColor.Primary;

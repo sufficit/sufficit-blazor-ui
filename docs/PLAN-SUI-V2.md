@@ -24,20 +24,18 @@ Total: 23 pontes `object` e duas pontes `string`. Não remover
 `SUISelectItem.Value`: o item não genérico registra o valor no `SUISelect<T>`
 pai, que faz a comparação tipada.
 
-### Adapters de formulário
+### Integração de formulário — implementada por composição
 
-Manter `SUITextField<T>`, `SUINumericField<T>`, `SUISelect<T>` e
-`SUIAutocomplete<T>` como componentes controlados. Adicionar tipos separados
-derivados de `InputBase<T>` — nomes finais sujeitos a API review — que:
+A implementação do catálogo de setembro de 2026 substituiu a proposta de
+adapters `InputBase<T>` por integração opcional via `ValueExpression` e
+`EditContext` nos fields existentes. A herança e as assinaturas anteriores
+foram preservadas; bUnit cobre alterações, mensagens e parsing. O catálogo
+estático contém `EditForm` com validação e exemplos controlados.
 
-- consumam `ValueExpression`/`FieldIdentifier` e notifiquem o `EditContext`;
-- façam parsing somente onde o tipo exigir;
-- projetem mensagens de validação em `Invalid`/`ErrorText` dos fields atuais;
-- mantenham IDs, `aria-describedby`, `aria-invalid` e `aria-errormessage`;
-- funcionem dentro de `SUIFormGrid` sem CSS especial.
-
-Não incorporar leitura implícita de `EditContext` nos componentes controlados:
-isso mudaria timing, parsing e comportamento de binding de aplicações v1.
+A decisão altera notificações de fields com expressão dentro de `EditForm`.
+Permanece necessário validar consumidores com validação manual; consulte
+[contrato de formulários](components/forms.md). Não criar adapters duplicados
+sem uma necessidade de consumidor demonstrada.
 
 ### Renomes bloqueados pela compatibilidade v1
 
@@ -83,8 +81,8 @@ rg -n '\b(Color|IconColor|Variant|Size|IconSize|ButtonType|Edge|Severity|Tone)='
 
 - [ ] nenhuma ponte da tabela permanece na API pública;
 - [ ] baseline público atualizado com review das diferenças;
-- [ ] adapters `InputBase<T>` têm bUnit para válido/inválido/parsing;
-- [ ] catálogo cobre validação automática e fields controlados lado a lado;
+- [x] integração por composição tem bUnit para válido/inválido/parsing;
+- [x] catálogo cobre validação automática e fields controlados;
 - [ ] Chromium, Firefox e WebKit verdes;
 - [ ] pacote net10 instalado e executado em raiz e `PathBase`;
 - [ ] CSS global e isolation preservam seus URLs públicos;

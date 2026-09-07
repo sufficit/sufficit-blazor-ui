@@ -74,18 +74,39 @@ quando não houver outro `TrailingContent` que comunique o estado selecionado.
 
 ## Contrato de valor e validação
 
-Os fields são componentes controlados com `Value`/`ValueChanged`. Eles não
-herdam `InputBase<T>` e não leem automaticamente mensagens do `EditContext`.
-`Invalid` e `ErrorText` pertencem ao caller; quando usados em `EditForm`, o
-caller deve derivá-los do seu validador ou de `EditContext.GetValidationMessages`
-e passá-los explicitamente. `SUITextField<T>.ValueExpression` mantém o contrato
-de binding existente, mas não transforma o componente em `InputBase<T>`.
+Os fields continuam controlados por `Value`/`ValueChanged`, sem herdar
+`InputBase<T>`. Dentro de `EditForm`, uma expressão de valor associa o campo ao
+`EditContext`: alterações notificam o formulário e a primeira mensagem do
+validador aparece no campo. `@bind-Value` fornece `ValueExpression` pelo binding
+Razor; com callbacks explícitos, passe `ValueExpression="() => Model.Name"`.
+`SUIChoiceCard` usa `SelectedValueExpression` com `@bind-SelectedValue`.
 
-Essa decisão evita mudar parsing, timing de notificação e CSS em uma minor.
-Se integração automática for necessária, ela deve nascer em adapters separados
-derivados de `InputBase<T>` numa próxima major, sem contaminar os componentes
-controlados atuais.
+```razor
+<EditForm Model="Model" OnValidSubmit="SaveAsync">
+    <DataAnnotationsValidator />
+    <SUITextField T="string" Label="Nome" @bind-Value="Model.Name" />
+    <SUINumericField T="int" Label="Tentativas" @bind-Value="Model.Attempts" />
+    <SUIButton ButtonTypeValue="SUIButtonType.Submit">Salvar</SUIButton>
+</EditForm>
+```
 
-Todos os fields produzem IDs estáveis, label associado, helper/error em
-`aria-describedby`, `aria-invalid` e `aria-errormessage`. Veja o contrato
-específico do [Select](select.md).
+O modelo e seu validador definem regras como `[Required]` e `[Range]`.
+`Required` no controle sozinho não substitui as regras do modelo. Erros de
+parsing dos campos de texto/número entram no `ValidationMessageStore` e
+impedem submit válido. `Min`/`Max` numéricos só geram atributos HTML quando
+fornecidos. `Invalid` e `ErrorText` continuam disponíveis para validação
+externa; fora de `EditForm`, o componente permanece controlado.
+
+Essa integração altera notificações e mensagens de campos com expressão já
+usados em `EditForm`; revise consumidores que combinam validação manual e
+DataAnnotations para evitar mensagens duplicadas.
+
+Todos os fields produzem IDs estáveis e associações ARIA de label, helper e
+erro. Veja o contrato específico do [Select](select.md).
+
+## Busca remota
+
+`SUIAutocomplete.SearchFuncAsync` recebe `(texto, cancellationToken)` e tem
+prioridade sobre o callback legado `SearchFunc`. Encaminhe o token ao seu
+cliente HTTP. O componente cancela a busca anterior e ignora resultados
+obsoletos; o callback legado permanece compatível, mas não recebe token.

@@ -1,3 +1,4 @@
+@implements IDisposable
 @using System.Globalization
 @namespace Sufficit.Blazor.UI.Components
 @typeparam T
@@ -12,8 +13,8 @@
            type="number"
            value="@FormattedValue"
            @onchange="OnChanged"
-           min="@Min"
-           max="@Max"
+           min="@(_hasMin ? Convert.ToString(Min, CultureInfo.InvariantCulture) : null)"
+           max="@(_hasMax ? Convert.ToString(Max, CultureInfo.InvariantCulture) : null)"
            step="@Step"
            disabled="@Disabled"
            aria-describedby="@DescribedBy"
@@ -24,13 +25,31 @@
     {
         <span id="@HelperId" class="sui-field__helper">@HelperText</span>
     }
-    @if (!string.IsNullOrWhiteSpace(ErrorText))
+    @if (FormContext is not null || !string.IsNullOrWhiteSpace(EffectiveErrorText))
     {
-        <span id="@ErrorId" class="sui-field__error">@ErrorText</span>
+        <span id="@ErrorId" class="sui-field__error" style="min-height:1.3em">@EffectiveErrorText</span>
     }
 </div>
 
 @code {
+    private bool _hasMin;
+    private bool _hasMax;
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        _hasMin = parameters.TryGetValue<T?>(nameof(Min), out _);
+        _hasMax = parameters.TryGetValue<T?>(nameof(Max), out _);
+        return base.SetParametersAsync(parameters);
+    }
+
+    public void Dispose() => _field.Dispose();
+
+    protected override void OnParametersSet() => _field.Configure(FormContext, ValueExpression, () => _ = InvokeAsync(StateHasChanged));
+
+    [CascadingParameter] private Microsoft.AspNetCore.Components.Forms.EditContext? FormContext { get; set; }
+    private readonly SUIFieldBinding<T?> _field = new();
+    [Parameter] public System.Linq.Expressions.Expression<Func<T?>>? ValueExpression { get; set; }
+    private string? EffectiveErrorText => ErrorText ?? _field.Error;
+
     [Parameter]
     public T? Value { get; set; }
 
@@ -77,13 +96,13 @@
     private string EffectiveId => string.IsNullOrWhiteSpace(Id) ? _generatedId : Id;
     private string HelperId => $"{EffectiveId}-helper";
     private string ErrorId => $"{EffectiveId}-error";
-    private bool HasError => Invalid || !string.IsNullOrWhiteSpace(ErrorText);
+    private bool HasError => Invalid || !string.IsNullOrWhiteSpace(EffectiveErrorText);
     private string? DescribedBy
         => string.Join(' ', new[]
             {
                 AriaDescribedBy,
                 string.IsNullOrWhiteSpace(HelperText) ? null : HelperId,
-                string.IsNullOrWhiteSpace(ErrorText) ? null : ErrorId,
+                string.IsNullOrWhiteSpace(EffectiveErrorText) ? null : ErrorId,
             }
             .Where(value => !string.IsNullOrWhiteSpace(value)));
 
@@ -105,6 +124,8 @@
                 out var converted))
         {
             await ValueChanged.InvokeAsync(converted);
+        _field.Notify();
         }
+        else _field.Notify("Informe um número válido.");
     }
 }

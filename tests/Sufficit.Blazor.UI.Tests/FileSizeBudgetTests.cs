@@ -18,9 +18,7 @@ public sealed class FileSizeBudgetTests
     /// <summary>Path (repo-relative) to the frozen ceiling of a known offender.</summary>
     private static readonly Dictionary<string, int> Debt = new(StringComparer.Ordinal)
     {
-        // Single stylesheet holding every non-isolated component rule. Should be
-        // split per component alongside the .razor.css files it already has.
-        ["src/styles/sui-components.css"] = 1430,
+        // Foundations retain the shared tokens and accessibility rules.
         ["src/styles/sui-foundations.css"] = 420,
         // One NUnit class covering the whole catalog surface; split by concern.
         // Raised from 937 for the timeline marker alignment test. Ratcheting the

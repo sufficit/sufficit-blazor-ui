@@ -1,0 +1,14 @@
+<h1>Comece com a Sufficit.Blazor.UI</h1>
+<p class="lead">Instale a biblioteca, registre os serviços e use os componentes na sua aplicação .NET 10.</p>
+<section><h2>Instale o pacote</h2><p>Use a versão da biblioteca compatível com seu projeto.</p><pre tabindex="0"><code>dotnet add package Sufficit.Blazor.UI</code></pre></section>
+<section><h2>Registre os serviços</h2><pre tabindex="0"><code>@Registration</code></pre></section>
+<section><h2>Carregue os estilos</h2><p>O bundle global e o CSS isolado do consumidor são necessários. Substitua MinhaAplicacao pelo nome do seu projeto.</p><pre tabindex="0"><code>@Styles</code></pre></section>
+<section><h2>Configure a raiz interativa</h2><pre tabindex="0"><code>@Root</code></pre><p>No Blazor Server, instale os hosts dentro da mesma raiz interativa das páginas que os utilizam.</p></section>
+<section><h2>Adicione os namespaces</h2><pre tabindex="0"><code>@Imports</code></pre></section>
+<section><h2>Escolha um componente</h2><p>As páginas incluem uma demonstração e o exemplo completo para copiar. Os parâmetros com sufixo Value, como ColorValue e VariantValue, são as APIs tipadas preferenciais.</p><a class="primary-link" href="?component=SUIButton">Experimentar SUIButton →</a></section>
+@code {
+    private const string Registration = "using Sufficit.Blazor.UI;\n\nbuilder.Services.AddSufficitUI();";
+    private const string Styles = "<link rel=\"stylesheet\" href=\"_content/Sufficit.Blazor.UI/sufficit-ui.css\" />\n<link rel=\"stylesheet\" href=\"MinhaAplicacao.styles.css\" />";
+    private const string Root = "<SUIThemeProvider>\n    <Routes />\n    <SUIDialogHost />\n    <SUISnackbarHost />\n</SUIThemeProvider>";
+    private const string Imports = "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Themes\n@using Sufficit.Blazor.UI.Services";
+}

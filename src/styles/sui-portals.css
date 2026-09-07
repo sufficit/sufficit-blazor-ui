@@ -18,7 +18,7 @@
   border-radius: var(--sui-tooltip-radius, var(--sui-radius));
   background: color-mix(
     in srgb,
-    var(--sui-tooltip-background, color-mix(in srgb, #111827 94%, var(--sui-color-primary) 6%))
+    var(--sui-tooltip-background, color-mix(in srgb,#111827 94%, var(--sui-color-primary) 6%))
       var(--sui-tooltip-opacity, 95%),
     transparent);
   color: var(--sui-tooltip-color, #fff);
@@ -46,7 +46,7 @@
   height: 8px;
   background: color-mix(
     in srgb,
-    var(--sui-tooltip-background, color-mix(in srgb, #111827 94%, var(--sui-color-primary) 6%))
+    var(--sui-tooltip-background, color-mix(in srgb,#111827 94%, var(--sui-color-primary) 6%))
       var(--sui-tooltip-opacity, 95%),
     transparent);
   transform: translateY(-50%) rotate(45deg);

@@ -21,30 +21,43 @@
     protected override void OnInitialized()
         => Snackbar.OnEnqueue += Enqueue;
 
-    private async void Enqueue(SUISnackbarEntry entry)
-    {
-        _entries.Add(entry);
-        await InvokeAsync(StateHasChanged);
+    private readonly CancellationTokenSource _lifetime = new();
+    private bool _disposed;
 
-        _ = Task.Run(async () =>
+    private void Enqueue(SUISnackbarEntry entry) => _ = EnqueueAsync(entry);
+
+    private async Task EnqueueAsync(SUISnackbarEntry entry)
+    {
+        if (_disposed) return;
+        var token = _lifetime.Token;
+        try
         {
+            await InvokeAsync(() =>
+            {
+                if (_disposed) return;
+                if (_entries.Count >= 5) _entries.RemoveAt(0);
+                _entries.Add(entry);
+                StateHasChanged();
+            });
             var remaining = entry.ExpiresAt - DateTime.UtcNow;
-            if (remaining > TimeSpan.Zero)
-                await Task.Delay(remaining);
-            Dismiss(entry.Id);
-        });
+            if (remaining > TimeSpan.Zero) await Task.Delay(remaining, token);
+            await InvokeAsync(() => Dismiss(entry.Id));
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested) { }
     }
 
     private void Dismiss(Guid id)
     {
-        var match = _entries.FirstOrDefault(e => e.Id == id);
-        if (match is not null)
-        {
-            _entries.Remove(match);
-            InvokeAsync(StateHasChanged);
-        }
+        if (_disposed) return;
+        _entries.RemoveAll(entry => entry.Id == id);
+        StateHasChanged();
     }
 
     public void Dispose()
-        => Snackbar.OnEnqueue -= Enqueue;
+    {
+        _disposed = true;
+        Snackbar.OnEnqueue -= Enqueue;
+        _lifetime.Cancel();
+        _lifetime.Dispose();
+    }
 }

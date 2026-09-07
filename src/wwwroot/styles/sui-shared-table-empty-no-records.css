@@ -1,0 +1,23 @@
+/* ------------------------------------------------------------------ *
+ * Table empty (no records)
+ * ------------------------------------------------------------------ */
+
+.sui-table-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--sui-space-6) var(--sui-space-4);
+  width: 100%;
+}
+.sui-table-empty__icon {
+  width: 56px; height: 56px;
+  color: var(--sui-text-secondary);
+  opacity: .9;
+  margin-bottom: var(--sui-space-3);
+}
+.sui-table-empty__title { margin-bottom: var(--sui-space-1); }
+.sui-table-empty__description { color: var(--sui-text-secondary); font-size: var(--sui-fs-body2); }
+.sui-table-empty__description-line { margin: 2px 0; }
+.sui-table-empty__content { margin-top: var(--sui-space-3); }

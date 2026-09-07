@@ -28,7 +28,7 @@ public sealed record SUIPalette
     public string? PrimaryActionContrast { get; init; }
 
     /// <summary>Soft tint of the primary color, used for active backgrounds.</summary>
-    public string PrimarySoft { get; init; } = "color-mix(in srgb, #2563eb 14%, transparent)";
+    public string PrimarySoft { get; init; } = "color-mix(in srgb, var(--sui-color-primary) 14%, transparent)";
 
     /// <summary>Secondary accent (avatars, neutral emphasis).</summary>
     public string Secondary { get; init; } = "#64748b";
@@ -40,6 +40,12 @@ public sealed record SUIPalette
     public string Success { get; init; } = "#166534";
     public string Warning { get; init; } = "#92400e";
     public string Error { get; init; } = "#b91c1c";
+    /// <summary>Foreground colors on filled semantic surfaces.</summary>
+    public string InfoContrast { get; init; } = "#ffffff";
+    public string SuccessContrast { get; init; } = "#ffffff";
+    public string WarningContrast { get; init; } = "#ffffff";
+    public string ErrorContrast { get; init; } = "#ffffff";
+
     public string Dark { get; init; } = "#1e293b";
     public string Light { get; init; } = "#f8fafc";
 

@@ -1,0 +1,53 @@
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+<SUIThemeProvider Theme="@_preference.Build()">
+    <a class="skip-link" href="#main">Ir para o conteúdo</a>
+    <header class="site-header">
+        <a class="brand" href="."><span class="brand-mark">SUI</span><span>Sufficit.Blazor.UI</span></a>
+        <div class="header-actions">
+            <label class="theme-select">Tema
+                <select aria-label="Tema" value="@_preference.Mode" @onchange="ChangeMode">
+                    <option value="system">Sistema</option><option value="light">Claro</option><option value="dark">Escuro</option>
+                </select>
+            </label>
+            <a href="https://github.com/sufficit/sufficit-blazor-ui">GitHub <span aria-hidden="true">↗</span></a>
+        </div>
+    </header>
+    <CascadingValue Value="_preference">
+        <CascadingValue Value="_changeTheme">
+            <Router AppAssembly="typeof(App).Assembly">
+                <Found Context="route"><RouteView RouteData="route" /></Found>
+                <NotFound><main id="main" class="document"><h1>Página não encontrada</h1><a href=".">Voltar ao catálogo</a></main></NotFound>
+            </Router>
+        </CascadingValue>
+    </CascadingValue>
+    <SUIDialogHost />
+    <SUISnackbarHost />
+</SUIThemeProvider>
+
+@code {
+    private ThemePreference _preference = new("system", "amber", "comfortable", false);
+    private DotNetObjectReference<App>? _reference;
+    private Func<ThemePreference, Task> _changeTheme = default!;
+    protected override void OnInitialized() => _changeTheme = SetTheme;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        _reference = DotNetObjectReference.Create(this);
+        _preference = await JS.InvokeAsync<ThemePreference>("suiShowcase.connect", _reference);
+        StateHasChanged();
+    }
+    private Task ChangeMode(ChangeEventArgs args) => SetTheme(_preference with { Mode = args.Value?.ToString() ?? "system" });
+    private async Task SetTheme(ThemePreference preference)
+    {
+        _preference = await JS.InvokeAsync<ThemePreference>("suiShowcase.set", preference.Mode, preference.Brand, preference.Density);
+        StateHasChanged();
+    }
+    [JSInvokable] public Task SystemThemeChanged(ThemePreference preference) => InvokeAsync(() => { _preference = preference; StateHasChanged(); });
+    public async ValueTask DisposeAsync()
+    {
+        await JS.InvokeVoidAsync("suiShowcase.disconnect");
+        _reference?.Dispose();
+    }
+}

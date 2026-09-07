@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-07T21:29:40.079338+00:00",
+  "title": "Design System: Sufficit.Blazor.UI",
+  "extensions": {
+    "shadows": [
+      {
+        "name": "shadow-1",
+        "value": "0 1px 2px rgba(15,23,42,.06)",
+        "purpose": "Elevação 1 da biblioteca."
+      },
+      {
+        "name": "shadow-2",
+        "value": "0 4px 10px rgba(15,23,42,.08)",
+        "purpose": "Elevação 2 da biblioteca."
+      },
+      {
+        "name": "shadow-3",
+        "value": "0 12px 28px rgba(15,23,42,.14)",
+        "purpose": "Elevação 3 da biblioteca."
+      }
+    ],
+    "motion": [
+      {
+        "name": "transition",
+        "value": "160ms cubic-bezier(.4, 0, .2, 1)",
+        "purpose": "Transição padrão de estados."
+      },
+      {
+        "name": "transition-slow",
+        "value": "280ms cubic-bezier(.4, 0, .2, 1)",
+        "purpose": "Transição lenta disponível no tema."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "showcase-intermediate-max",
+        "value": "900px"
+      },
+      {
+        "name": "showcase-mobile-max",
+        "value": "640px"
+      },
+      {
+        "name": "library-touch-width-max",
+        "value": "599.98px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botão preenchido",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Variante real de SUIButton vinculada ao tema ativo.",
+      "html": "<button class=\"ds-button\">Salvar alterações</button>",
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;gap:var(--sui-space-2);height:var(--sui-control-h-md);padding:0 var(--sui-control-px-md);font-family:var(--sui-font);font-size:var(--sui-fs-button);font-weight:600;line-height:1;border:1px solid transparent;border-radius:var(--sui-radius);cursor:pointer;transition:background var(--sui-transition),border-color var(--sui-transition),color var(--sui-transition),box-shadow var(--sui-transition)}.ds-button:focus-visible{outline:2px solid var(--sui-color-primary);outline-offset:2px}.ds-button:disabled{cursor:not-allowed;opacity:.55;box-shadow:none}@media(pointer:coarse),(max-width:599.98px){.ds-button{height:max(var(--sui-control-h-md),44px)}}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}.ds-button{background:var(--sui-color-primary-action);color:var(--sui-color-primary-action-contrast);border-color:var(--sui-color-primary)}.ds-button:not(:disabled):hover{background:color-mix(in srgb,var(--sui-color-primary-action) 90%,black)}.ds-button:not(:disabled):active{background:color-mix(in srgb,var(--sui-color-primary-action) 82%,black)}"
+    },
+    {
+      "name": "Botão contornado",
+      "kind": "button",
+      "refersTo": "button-outlined",
+      "description": "Variante real de SUIButton vinculada ao tema ativo.",
+      "html": "<button class=\"ds-button\">Salvar alterações</button>",
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;gap:var(--sui-space-2);height:var(--sui-control-h-md);padding:0 var(--sui-control-px-md);font-family:var(--sui-font);font-size:var(--sui-fs-button);font-weight:600;line-height:1;border:1px solid transparent;border-radius:var(--sui-radius);cursor:pointer;transition:background var(--sui-transition),border-color var(--sui-transition),color var(--sui-transition),box-shadow var(--sui-transition)}.ds-button:focus-visible{outline:2px solid var(--sui-color-primary);outline-offset:2px}.ds-button:disabled{cursor:not-allowed;opacity:.55;box-shadow:none}@media(pointer:coarse),(max-width:599.98px){.ds-button{height:max(var(--sui-control-h-md),44px)}}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}.ds-button{background:transparent;color:var(--sui-color-primary);border-color:color-mix(in srgb,var(--sui-color-primary) 45%,var(--sui-border))}.ds-button:not(:disabled):hover{background:color-mix(in srgb,var(--sui-color-primary) 8%,transparent)}"
+    },
+    {
+      "name": "Botão textual",
+      "kind": "button",
+      "refersTo": "button-text",
+      "description": "Variante real de SUIButton vinculada ao tema ativo.",
+      "html": "<button class=\"ds-button\">Salvar alterações</button>",
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;gap:var(--sui-space-2);height:var(--sui-control-h-md);padding:0 var(--sui-control-px-md);font-family:var(--sui-font);font-size:var(--sui-fs-button);font-weight:600;line-height:1;border:1px solid transparent;border-radius:var(--sui-radius);cursor:pointer;transition:background var(--sui-transition),border-color var(--sui-transition),color var(--sui-transition),box-shadow var(--sui-transition)}.ds-button:focus-visible{outline:2px solid var(--sui-color-primary);outline-offset:2px}.ds-button:disabled{cursor:not-allowed;opacity:.55;box-shadow:none}@media(pointer:coarse),(max-width:599.98px){.ds-button{height:max(var(--sui-control-h-md),44px)}}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}.ds-button{background:transparent;color:var(--sui-color-primary)}.ds-button:not(:disabled):hover{background:color-mix(in srgb,var(--sui-color-primary) 8%,transparent)}"
+    },
+    {
+      "name": "Campo de texto",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Entrada e foco de campo SUI.",
+      "html": "<label class=\"ds-field\">Nome público<input class=\"ds-input\" value=\"Operação Sudeste\"></label>",
+      "css": ".ds-field{display:grid;gap:var(--sui-space-2);font-family:var(--sui-font);font-size:var(--sui-fs-caption);font-weight:600;color:var(--sui-text-secondary)}.ds-input{width:100%;min-width:0;height:var(--sui-control-h-md);padding:0 var(--sui-space-3);font-family:var(--sui-font);font-size:var(--sui-fs-field);font-weight:500;color:var(--sui-text-primary);background:var(--sui-surface);border:1px solid var(--sui-border-strong);border-radius:var(--sui-radius);transition:border-color var(--sui-transition),box-shadow var(--sui-transition)}.ds-input:focus,.ds-input:focus-visible{outline:none;border-color:var(--sui-color-primary);box-shadow:0 0 0 3px var(--sui-color-primary-soft)}.ds-input:disabled{background:var(--sui-surface-2);color:var(--sui-text-disabled);cursor:not-allowed}.ds-input[aria-invalid=true]{border-color:var(--sui-color-error)}@media(pointer:coarse),(max-width:599.98px){.ds-input{height:44px}}@media(prefers-reduced-motion:reduce){.ds-input{transition:none}}"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Superfície SUI sem elevação, com espaçamento padrão.",
+      "html": "<article class=\"ds-card\">Preferências da operação</article>",
+      "css": ".ds-card{font-family:var(--sui-font);color:var(--sui-text-primary);background:var(--sui-surface);border:1px solid var(--sui-border);border-radius:var(--sui-radius-lg);padding:var(--sui-space-4);box-shadow:none}"
+    },
+    {
+      "name": "Chip neutro acionável",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Cápsula neutra com estados de interação existentes.",
+      "html": "<span class=\"ds-chip\"><button class=\"ds-chip-action\">Operação</button></span>",
+      "css": ".ds-chip{display:inline-flex;align-items:center;height:32px;font-family:var(--sui-font);font-size:var(--sui-fs-caption);font-weight:600;line-height:1;color:var(--sui-text-primary);background:var(--sui-surface-2);border:1px solid transparent;border-radius:var(--sui-radius-full);white-space:nowrap}.ds-chip-action{display:inline-flex;align-items:center;height:100%;padding:0 var(--sui-space-3);font:inherit;color:inherit;cursor:pointer;background:transparent;border:0;border-radius:inherit}.ds-chip-action:hover{background:color-mix(in srgb,currentColor 7%,transparent)}.ds-chip-action:focus-visible{outline:2px solid currentColor;outline-offset:-2px}"
+    },
+    {
+      "name": "Navegação da vitrine",
+      "kind": "nav",
+      "refersTo": "navigation-active",
+      "description": "Atalho atual e atalho disponível no índice da vitrine.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Documentação\"><a href=\"#visao-geral\" aria-current=\"page\">Visão geral</a><a href=\"#temas\">Temas e densidade</a></nav>",
+      "css": ".ds-nav{font-family:var(--sui-font)}.ds-nav a{display:block;padding:.4rem .65rem;min-height:36px;font-size:.8rem;color:var(--sui-text-secondary);text-decoration:none;border-radius:5px}.ds-nav a:hover{background:var(--sui-surface-2);color:var(--sui-text-primary)}.ds-nav a[aria-current=page]{color:var(--sui-text-primary);background:var(--sui-color-primary-soft);font-weight:650}.ds-nav a:focus-visible{outline:2px solid var(--sui-color-primary);outline-offset:3px}@media(max-width:640px){.ds-nav a{min-height:44px;display:flex;align-items:center}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Bancada de componentes",
+    "overview": "Descrição inferida da implementação, sem representar uma nova decisão de marca aprovada pelo usuário: uma interface de documentação sóbria, legível e operacional, em que os próprios controles demonstram o sistema. Acentos quentes pontuam ações e navegação; superfícies neutras, divisórias finas e títulos fortes organizam o conteúdo.\n\nEste documento captura o código e as imagens revisadas em 7 de setembro de 2026. A biblioteca mantém o tema padrão azul. A vitrine aplica um tema âmbar próprio e oferece presets azul e vermelho, modos claro, escuro e sistema, e densidades confortável e compacta. Os tokens de componentes no frontmatter representam a vitrine âmbar clara e confortável; os tokens com prefixo `library` ou `dark` identificam explicitamente outros contextos. A composição editorial da vitrine não é uma obrigação para aplicações consumidoras.",
+    "keyCharacteristics": [
+      "Tipografia de sistema, sem dependência de fontes externas.",
+      "Contraste e hierarquia por cor, peso e espaçamento.",
+      "Exemplos reais acompanhados de código e contrato de API.",
+      "Tema global compartilhado pela interface, componentes e portais."
+    ],
+    "rules": [
+      {
+        "name": "The Tema Global Rule.",
+        "body": "Consumir as variáveis `--sui-*` em superfícies novas. `SUIThemeProvider` publica valores em `:root` e `.sui-root[data-sui-theme]`, incluindo `color-scheme`; portais ligados ao body recebem a mesma paleta. O contrato atual é global: providers aninhados não constituem temas locais isolados.",
+        "section": "colors"
+      }
+    ],
+    "dos": [
+      "**Do** usar tokens de tema para cores e controles, mantendo interface e portais coerentes.",
+      "**Do** preservar a diferença entre acento primário e superfície de ação preenchida.",
+      "**Do** mostrar foco, erro textual e estados desabilitados nos exemplos reais.",
+      "**Do** manter código e tabelas acessíveis por teclado e com rolagem local.",
+      "**Do** respeitar as regras de toque e movimento reduzido ao variar a densidade."
+    ],
+    "donts": [
+      "**Don't** substituir o padrão azul da biblioteca pelo âmbar específico da vitrine.",
+      "**Don't** tratar tokens de um preset como cores fixas para todos os modos.",
+      "**Don't** apresentar providers aninhados como isolamento local de temas.",
+      "**Don't** usar texto desabilitado para reduzir a ênfase de instruções legíveis.",
+      "**Don't** transformar a composição documental ou as descrições inferidas em regras de marca aprovadas."
+    ]
+  }
+}

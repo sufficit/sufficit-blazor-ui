@@ -1,6 +1,8 @@
 @namespace Sufficit.Blazor.UI.Components
 @typeparam T
 
+@{ var rows = Items as IReadOnlyList<T> ?? Items?.ToArray() ?? Array.Empty<T>(); }
+
 <div class="@WrapperClass" aria-busy="@(Loading ? "true" : "false")">
     @if (Loading)
     {
@@ -14,7 +16,7 @@
             </thead>
         }
         <tbody>
-            @if (Items is null || !Items.Any())
+            @if (rows.Count == 0)
             {
                 @if (NoRecordsContent is not null)
                 {
@@ -25,13 +27,13 @@
             }
             else
             {
-                @foreach (var indexedItem in Items.Select((item, index) => (item, index)))
+                @foreach (var indexedItem in rows.Select((item, index) => (item, index)))
                 {
                     var item = indexedItem.item;
                     var index = indexedItem.index;
                     @if (OnRowClick.HasDelegate)
                     {
-                        <tr class="@GetRowClass(item, index, interactive: true)"
+                        <tr @key="@(RowKey?.Invoke(item) ?? (object?)item ?? index)" class="@GetRowClass(item, index, interactive: true)"
                             style="@RowStyleFunc?.Invoke(item, index)"
                             role="button"
                             tabindex="0"
@@ -42,7 +44,7 @@
                     }
                     else
                     {
-                        <tr class="@GetRowClass(item, index)"
+                        <tr @key="@(RowKey?.Invoke(item) ?? (object?)item ?? index)" class="@GetRowClass(item, index)"
                             style="@RowStyleFunc?.Invoke(item, index)">
                             @RowTemplate?.Invoke(item)
                         </tr>
@@ -58,6 +60,9 @@
 </div>
 
 @code {
+    /// <summary>Stable identity retained when rows are sorted or paged.</summary>
+    [Parameter] public Func<T, object>? RowKey { get; set; }
+
     /// <summary>Items to render. When null/empty, <see cref="NoRecordsContent"/> shows.</summary>
     [Parameter]
     public IEnumerable<T>? Items { get; set; }

@@ -1,3 +1,4 @@
+@implements IDisposable
 @typeparam TValue
 @namespace Sufficit.Blazor.UI.Components
 @using Microsoft.AspNetCore.Components
@@ -42,7 +43,21 @@
     }
 </label>
 
+@if (EffectiveErrorText is not null)
+{
+    <span class="sui-field__error" role="alert">@EffectiveErrorText</span>
+}
+
 @code {
+    public void Dispose() => _field.Dispose();
+
+    protected override void OnParametersSet() => _field.Configure(FormContext, SelectedValueExpression, () => _ = InvokeAsync(StateHasChanged));
+
+    [CascadingParameter] private Microsoft.AspNetCore.Components.Forms.EditContext? FormContext { get; set; }
+    private readonly SUIFieldBinding<TValue> _field = new();
+    [Parameter] public System.Linq.Expressions.Expression<Func<TValue>>? SelectedValueExpression { get; set; }
+    private string? EffectiveErrorText => _field.Error;
+
     private readonly string _generatedInputId = $"sui-choice-{Guid.NewGuid():N}";
 
     /// <summary>Value represented by this option.</summary>
@@ -149,7 +164,8 @@
 
     private async Task SelectAsync(ChangeEventArgs _)
     {
-        if (!Disabled)
-            await SelectedValueChanged.InvokeAsync(Value);
+        if (Disabled) return;
+        await SelectedValueChanged.InvokeAsync(Value);
+        _field.Notify();
     }
 }

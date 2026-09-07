@@ -45,4 +45,3 @@
    instead of showing a divider against nothing. */
 .sui-card__header:last-child { border-bottom: 0; }
 .sui-card__actions:first-child { border-top: 0; }
-

@@ -1,0 +1,5 @@
+/*
+ * Sufficit UI — compatibility component rules (authoring source).
+ * Foundations and body-level portals live in their own source files. The
+ * public entrypoint is generated and minified by scripts/build-css.mjs.
+ */

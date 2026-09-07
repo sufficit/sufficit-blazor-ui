@@ -1,9 +1,24 @@
+@implements IDisposable
 @namespace Sufficit.Blazor.UI.Components
 
 <SUIButton VariantValue="@Variant" ColorValue="SUIColor.Primary" FullWidth OnClick="OnClicked">
     @ChildContent
 </SUIButton>
+@if (EffectiveErrorText is not null)
+{
+    <span class="sui-field__error" role="alert">@EffectiveErrorText</span>
+}
+
 @code{
+    public void Dispose() => _field.Dispose();
+
+    protected override void OnParametersSet() => _field.Configure(FormContext, CheckedExpression, () => _ = InvokeAsync(StateHasChanged));
+
+    [CascadingParameter] private Microsoft.AspNetCore.Components.Forms.EditContext? FormContext { get; set; }
+    private readonly SUIFieldBinding<bool> _field = new();
+    [Parameter] public System.Linq.Expressions.Expression<Func<bool>>? CheckedExpression { get; set; }
+    private string? EffectiveErrorText => _field.Error;
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -24,5 +39,6 @@
         Checked = !Checked;
         if (CheckedChanged.HasDelegate)
             await CheckedChanged.InvokeAsync(Checked);
+        _field.Notify();
     }
 }

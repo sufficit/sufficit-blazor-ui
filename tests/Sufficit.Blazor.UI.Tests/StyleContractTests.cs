@@ -180,8 +180,7 @@ public sealed class StyleContractTests
     [Fact]
     public void Avatar_owns_and_clips_its_image_geometry()
     {
-        var stylesheet = File.ReadAllText(Path.Combine(
-            RepositoryLayout.Styles, "sui-components.css"));
+        var stylesheet = RepositoryLayout.ReadStyles("sui-components.css");
         var compact = Regex.Replace(stylesheet, @"\s+", string.Empty);
 
         Assert.Contains(".sui-avatar{", compact, StringComparison.Ordinal);
@@ -192,8 +191,7 @@ public sealed class StyleContractTests
     [Fact]
     public void Container_keeps_padding_inside_the_available_width()
     {
-        var stylesheet = File.ReadAllText(Path.Combine(
-            RepositoryLayout.Styles, "sui-components.css"));
+        var stylesheet = RepositoryLayout.ReadStyles("sui-components.css");
         var compact = Regex.Replace(stylesheet, @"\s+", string.Empty);
 
         Assert.Contains(
@@ -205,8 +203,7 @@ public sealed class StyleContractTests
     [Fact]
     public void Navigation_groups_preserve_width_and_use_disclosure_cues_without_tree_lines()
     {
-        var stylesheet = File.ReadAllText(Path.Combine(
-            RepositoryLayout.Styles, "sui-components.css"));
+        var stylesheet = RepositoryLayout.ReadStyles("sui-components.css");
         var compact = Regex.Replace(stylesheet, @"\s+", string.Empty);
 
         Assert.Contains(
