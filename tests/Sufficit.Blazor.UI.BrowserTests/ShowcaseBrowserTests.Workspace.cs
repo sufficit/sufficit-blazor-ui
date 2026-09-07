@@ -98,6 +98,30 @@ public sealed partial class ShowcaseBrowserTests
     }
 
     [Test]
+    public async Task TabsBypassALegacyModuleAlreadyLoadedInTheBrowser()
+    {
+        var errors = new List<string>();
+        Page.PageError += (_, error) => errors.Add(error);
+        // An existing browser tab can retain the old module across a server update.
+        await Page.RouteAsync("**/SUITabs.razor.js", route => route.FulfillAsync(new()
+        {
+            ContentType = "text/javascript",
+            Body = "export function initialize() { return { dispose() {} }; }"
+        }));
+        await Page.AddInitScriptAsync("window.legacyTabs = import(new URL('./_content/Sufficit.Blazor.UI/Components/Navigation/SUITabs.razor.js', document.baseURI));");
+        var freshModule = Page.WaitForRequestAsync("**/SUITabs.razor.js?v=2");
+        await Page.GotoAsync(BaseUrl + "?component=SUITabs");
+        await freshModule;
+        await Expect(Page.Locator(".site-header")).ToBeVisibleAsync();
+        Assert.That(await Page.EvaluateAsync<string>("window.legacyTabs.then(module => typeof module.reveal)"), Is.EqualTo("undefined"));
+        Assert.That(await Page.EvaluateAsync<string>("import(new URL('./_content/Sufficit.Blazor.UI/Components/Navigation/SUITabs.razor.js?v=2', document.baseURI)).then(module => typeof module.reveal)"), Is.EqualTo("function"));
+        var tabs = Page.Locator(".component-preview [role=tab]");
+        await tabs.First.PressAsync("ArrowRight");
+        await Expect(tabs.Nth(1)).ToHaveAttributeAsync("aria-selected", "true");
+        Assert.That(errors, Is.Empty);
+    }
+
+    [Test]
     public async Task ColdWasmLoad_RecordsPayloadAndTimeToInteraction()
     {
         if (BrowserName != "chromium") Assert.Ignore("Cold resource timing baseline uses Chromium.");

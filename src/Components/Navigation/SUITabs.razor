@@ -136,7 +136,7 @@
         if (firstRender)
         {
             _module = await JS.InvokeAsync<IJSObjectReference>(
-                "import", "./_content/Sufficit.Blazor.UI/Components/Navigation/SUITabs.razor.js");
+                "import", "./_content/Sufficit.Blazor.UI/Components/Navigation/SUITabs.razor.js?v=2");
             _interop = await _module.InvokeAsync<IJSObjectReference>("initialize", _rootElement);
         }
 
