@@ -5,8 +5,39 @@
 - worktree limpa e commit alvo presente em `main`;
 - `CHANGELOG.md` atualizado e migrações incompatíveis documentadas;
 - versão no padrão Sufficit `1.yy.MMdd.HHmm` UTC, como Identity.Core;
-- secret `NUGET_API_KEY` disponível ao repositório, com permissão de push;
+- política Trusted Publishing no NuGet para `sufficit/sufficit-blazor-ui`,
+  arquivo `build.yml`, sem environment, autorizando publicar novas versões
+  de `Sufficit.Blazor.UI`;
 - gates de build, componentes, navegador e pacote aprovados.
+
+## Autenticação do dia a dia
+
+`build.yml` usa `NuGet/login` fixado por commit e autenticação OIDC do GitHub.
+A permissão `id-token: write` existe somente nos jobs de publicação e de
+verificação explícita de login. O login ocorre depois da validação do pacote,
+imediatamente antes do push; a chave temporária não é registrada em logs nem
+armazenada como secret. Não há fallback para `secrets.NUGET_API_KEY` na publicação.
+
+O perfil NuGet padrão é `sufficit`, proprietário público do pacote. O login exige o usuário que criou a política, não apenas seu proprietário.
+Se a política foi criada por outro perfil, configure a variável Actions
+`NUGET_USER` com o nome desse usuário (não email). A política deve corresponder a:
+
+- Repository Owner: `sufficit`;
+- Repository: `sufficit-blazor-ui`;
+- Workflow File: `build.yml`;
+- Environment: vazio.
+
+Para validar somente a troca OIDC, sem gerar/publicar pacote adicional:
+
+```bash
+gh workflow run build.yml --repo sufficit/sufficit-blazor-ui --ref main \
+  -f verify-publishing-auth=true
+```
+
+A execução manual com essa opção não roda os demais gates nem publica pacotes.
+As publicações por tag continuam exigindo todos os gates. Uma política ausente,
+perfil incorreto ou escopo insuficiente deve falhar explicitamente no login.
+Referência: https://learn.microsoft.com/en-us/nuget/nuget-org/trusted-publishing
 
 ## Publicação
 
@@ -60,6 +91,6 @@ corporativa publicada. Não apague caches locais para simular remoção remota.
 ## Falha e recuperação
 
 Não reutilize versões já publicadas. Corrija e gere outro timestamp; releases
-no mesmo minuto devem aguardar o minuto seguinte. Credencial ausente bloqueia
-push/unlist; não equivale a pacote publicado ou deslistado. Se a falha ocorreu
+no mesmo minuto devem aguardar o minuto seguinte. Política OIDC inválida bloqueia publicação; a limpeza ainda requer uma chave
+API com escopo Unlist. Falha de autenticação não equivale a pacote publicado ou deslistado. Se a falha ocorreu
 antes do push, confirme a ausência no NuGet antes de corrigir a tag.

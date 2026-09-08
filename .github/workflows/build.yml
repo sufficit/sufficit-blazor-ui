@@ -4,6 +4,10 @@ name: Build
 on:
   workflow_dispatch:
     inputs:
+      verify-publishing-auth:
+        description: "Verify NuGet Trusted Publishing login without publishing a package"
+        type: boolean
+        default: false
       update-baselines:
         description: "Recapture the committed visual baselines (chromium only)"
         type: boolean
@@ -23,19 +27,31 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  publishing-credential:
-    name: Verify publishing credential
-    if: startsWith(github.ref, 'refs/tags/v')
+  publishing-authentication:
+    name: Verify NuGet Trusted Publishing
+    if: >
+      github.event_name == 'workflow_dispatch'
+      && inputs.verify-publishing-auth
+      && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      id-token: write
     steps:
-      - name: Verify NuGet credential without exposing it
+      - name: Authenticate with NuGet using GitHub OIDC
+        id: login
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
+        with:
+          user: ${{ vars.NUGET_USER || 'sufficit' }}
+      - name: Verify temporary credential was issued
         env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-        run: test -n "$NUGET_API_KEY" || { echo "NUGET_API_KEY is not configured for this repository" >&2; exit 1; }
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+        run: test -n "$NUGET_API_KEY"
 
   css:
     name: CSS bundle and budget
+    if: github.event_name != 'workflow_dispatch' || !inputs.verify-publishing-auth
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -423,9 +439,12 @@ jobs:
   publish:
     name: Publish tagged package
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [publishing-credential, css, pack, component-tests, browser-tests, lighthouse]
+    needs: [css, pack, component-tests, browser-tests, lighthouse]
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
       - name: Checkout
@@ -455,9 +474,16 @@ jobs:
       - name: Validate exact release artifact
         run: ./scripts/validate-package.sh artifacts/packages/*.nupkg
 
+      # Request the short-lived credential after validation, immediately before push.
+      - name: Authenticate with NuGet using GitHub OIDC
+        id: login
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
+        with:
+          user: ${{ vars.NUGET_USER || 'sufficit' }}
+
       - name: Publish to NuGet.org
         env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
         run: |
           dotnet nuget push artifacts/packages/*.nupkg \
             --source https://api.nuget.org/v3/index.json \
