@@ -2,6 +2,7 @@
 {
     <section class="playground" aria-label="Configurar demonstração">
         <h2>Ajuste e experimente</h2>
+        @if (Name is "SUIButton" or "SUIIconButton") { <p>O tamanho grande aumenta o espaço de interação, mantendo texto e ícone proporcionais.</p> }
         <div class="playground-controls">
             @if (Name == "SUITabs")
             {

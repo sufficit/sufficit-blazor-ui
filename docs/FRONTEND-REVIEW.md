@@ -33,6 +33,8 @@ As imagens de referência do catálogo precisam ser recapturadas no CI: a remoç
 
 `VariantValue="SUIVariant.Soft"` está disponível para SUIButton, SUILoadingButton e SUIIconButton. Usa fundo tonal opaco derivado da cor e da superfície, texto de maior contraste, peso 500 e `--sui-radius-lg` nos botões com texto. SUIIconButton preserva a geometria configurada por seus modificadores de forma. Hover/pressionado reforçam o tom; foco, desabilitado e movimento reduzido seguem os contratos existentes. Os valores e padrões de Filled/Outlined/Text foram preservados; Soft não é uma variante anunciada para outros componentes.
 
-Os ícones iniciais/finais compartilham o centro vertical do grupo sem o deslocamento antigo de 1px. Esse ajuste substitui a compensação descrita na atividade de 02/09, que se mostrou inadequada na tipografia atual. A vitrine oferece “Suave” no seletor de variantes e usa o tratamento no exemplo de salvar preferências.
+Os ícones iniciais/finais compartilham o centro vertical do grupo sem o deslocamento antigo de 1px. Esse ajuste substitui a compensação descrita na atividade de 02/09, que se mostrou inadequada na tipografia atual. A vitrine oferece “Suave” no seletor de variantes e permite compará-lo com o preenchido.
 
 A variante Soft acrescentou 235 bytes brutos, 41 gzip e 14 Brotli após deduplicação: totais 54.574 / 10.010 / 8.744 bytes. Os limites brutos/gzip passaram a 54.600/10.050; o limite Brotli de 8.800 permanece.
+
+Na revisão seguinte de proporção, Filled foi refinado sem ser substituído por Soft: tipografia menos pesada, raio intermediário e sombra curta. Large passa a usar a fonte de Medium; ícones automáticos deixam de acompanhar o aumento do alvo. Os contratos atuais estão em `docs/components/actions.md`.

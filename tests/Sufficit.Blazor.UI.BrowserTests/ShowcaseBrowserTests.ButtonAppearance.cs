@@ -5,9 +5,11 @@ namespace Sufficit.Blazor.UI.BrowserTests;
 
 public sealed partial class ShowcaseBrowserTests
 {
-    [TestCase(1440, "Claro")]
-    [TestCase(390, "Escuro")]
-    public async Task SoftButtonsKeepContrastAlignmentAndKeyboardActions(int width, string theme)
+    [TestCase(1440, "Claro", "Suave")]
+    [TestCase(1440, "Claro", "Preenchida")]
+    [TestCase(390, "Escuro", "Suave")]
+    [TestCase(390, "Escuro", "Preenchida")]
+    public async Task ButtonVariantsKeepContrastAlignmentAndKeyboardActions(int width, string theme, string variant)
     {
         await Page.SetViewportSizeAsync(width, 1000);
         await Page.EmulateMediaAsync(new() { ReducedMotion = ReducedMotion.Reduce });
@@ -17,7 +19,7 @@ public sealed partial class ShowcaseBrowserTests
             await ChooseAsync("Tema", theme);
             await ChooseAsync("Paleta de demonstração", palette);
             await Page.GotoAsync(BaseUrl + "?component=SUIButton");
-            await ChooseAsync("Variante da demonstração", "Suave");
+            await ChooseAsync("Variante da demonstração", variant);
             var button = Page.Locator(".playground-result button.sui-btn");
             foreach (var size in new[] { "Pequeno", "Médio", "Grande" })
             {
@@ -41,7 +43,7 @@ public sealed partial class ShowcaseBrowserTests
             Assert.That(await button.EvaluateAsync<bool>("el => el.matches(':focus-visible') && getComputedStyle(el).outlineStyle !== 'none'"), Is.True);
             await button.PressAsync("Enter");
             await Expect(Page.Locator(".playground-result [role=status]")).ToHaveTextAsync("Ações realizadas: 4");
-            await Expect(Page.Locator(".playground code")).ToContainTextAsync("SUIVariant.Soft");
+            await Expect(Page.Locator(".playground code")).ToContainTextAsync(variant == "Suave" ? "SUIVariant.Soft" : "SUIVariant.Filled");
             await Page.GetByLabel("Desabilitado", new() { Exact = true }).PressAsync("Space");
             await Expect(button).ToBeDisabledAsync();
             var disabled = await ButtonAppearanceAsync(button);

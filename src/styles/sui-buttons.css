@@ -46,8 +46,8 @@
 
 /* sizes */
 .sui-btn--sm, .sui-btn--small { --_btn-h: var(--sui-control-h-sm); --_btn-px: var(--sui-control-px-sm); font-size: var(--sui-fs-caption); }
-.sui-btn--md, .sui-btn--medium { --_btn-h: var(--sui-control-h-md); --_btn-px: var(--sui-control-px-md); }
-.sui-btn--lg, .sui-btn--large { --_btn-h: var(--sui-control-h-lg); --_btn-px: var(--sui-control-px-lg); font-size: var(--sui-fs-body1); }
+/* Medium uses the base control tokens; Large adds space, not larger type. */
+.sui-btn--lg, .sui-btn--large { --_btn-h: var(--sui-control-h-lg); --_btn-px: var(--sui-control-px-lg); }
 
 /* color modifiers */
 .sui-btn--color-default   { --_btn-color: var(--sui-text-primary); }
@@ -68,17 +68,19 @@
 .sui-btn--filled {
   background: var(--_btn-action);
   color: var(--_btn-action-contrast);
-  border-color: var(--_btn-color);
+  border-color: color-mix(in srgb,var(--_btn-action) 90%,var(--_btn-action-contrast));
+  border-radius: calc(var(--sui-radius) * 1.25);
+  font-weight: 500;
+  box-shadow: var(--sui-shadow-1);
 }
 .sui-btn--filled:not(:disabled,[aria-disabled="true"]):hover {
-  background: color-mix(in srgb,var(--_btn-action) 90%,black);
+  background: color-mix(in srgb,var(--_btn-action) 94%,black);
 }
 .sui-btn--filled:not(:disabled,[aria-disabled="true"]):active {
-  background: color-mix(in srgb,var(--_btn-action) 82%,black);
+  background: color-mix(in srgb,var(--_btn-action) 88%,black);
 }
 
 .sui-btn--outlined {
-  color: var(--_btn-color);
   border-color: color-mix(in srgb,var(--_btn-color) 45%,var(--sui-border));
 }
 
@@ -117,6 +119,7 @@
   border-radius: var(--sui-radius);
   gap: 0;
 }
+.sui-btn--icon .sui-icon { max-width: 1.5em; max-height: 1.5em; }
 .sui-btn--edge-true   { border-radius: var(--sui-radius-full); }
 .sui-btn--edge-center {
   border-radius: var(--sui-radius-full);

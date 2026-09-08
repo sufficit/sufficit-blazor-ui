@@ -181,7 +181,7 @@ else
     private object EffectiveIconColor => IconColorValue ?? IconColor ?? SUIColor.Inherit;
     private object EffectiveVariant => VariantValue ?? Variant;
     private object EffectiveSize => SizeValue ?? Size;
-    private object EffectiveIconSize => IconSizeValue ?? IconSize ?? EffectiveSize;
+    private object EffectiveIconSize => IconSizeValue ?? IconSize ?? SUISize.Small;
     private object EffectiveButtonType => ButtonTypeValue ?? ButtonType;
 #pragma warning restore CS0618
 }

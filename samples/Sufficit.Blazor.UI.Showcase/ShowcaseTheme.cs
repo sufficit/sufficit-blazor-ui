@@ -39,7 +39,7 @@ public sealed record ThemePreference(string Mode, string Brand, string Density, 
                 Error = error, ErrorContrast = Foreground(error),
                 Primary = accent,
                 PrimaryContrast = Dark ? "#0f172a" : "#ffffff",
-                PrimaryAction = Brand == "amber" ? "#b7440e" : accent,
+                PrimaryAction = Brand == "amber" ? "#a34f2b" : accent,
                 PrimaryActionContrast = Brand == "amber" ? "#fff7ed" : Dark ? "#0f172a" : "#ffffff",
             },
             Typography = preset.Typography with

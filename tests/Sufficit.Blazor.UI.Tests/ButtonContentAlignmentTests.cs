@@ -6,6 +6,18 @@ namespace Sufficit.Blazor.UI.Tests;
 public sealed class ButtonContentAlignmentTests
 {
     [Fact]
+    public void Large_target_keeps_a_compact_default_icon_but_honors_explicit_icon_size()
+    {
+        using var context = new BunitContext();
+        var button = context.Render<SUIButton>(p => p
+            .Add(c => c.SizeValue, SUISize.Large)
+            .Add(c => c.StartIcon, SUIIcons.Add).AddChildContent("Criar item"));
+        Assert.Contains("sui-icon--small", button.Find(".sui-btn__icon").ClassName);
+        button.Render(p => p.Add(c => c.IconSizeValue, SUISize.Large));
+        Assert.Contains("sui-icon--large", button.Find(".sui-btn__icon").ClassName);
+    }
+
+    [Fact]
     public void Soft_buttons_preserve_labels_icons_and_existing_variant_values()
     {
         using var context = new BunitContext();

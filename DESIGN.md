@@ -6,7 +6,7 @@ colors:
   library-primary-dark: "#93c5fd"
   showcase-primary: "#c2410c"
   showcase-primary-dark: "#fb923c"
-  showcase-action: "#b7440e"
+  showcase-action: "#a34f2b"
   showcase-action-contrast: "#fff7ed"
   preset-red: "#b91c1c"
   preset-red-dark: "#fca5a5"
@@ -90,9 +90,12 @@ components:
   button-primary:
     backgroundColor: "{colors.showcase-action}"
     textColor: "{colors.showcase-action-contrast}"
-    rounded: "{rounded.default}"
-    padding: "0 14px"
+    rounded: "10px"
+    padding: "4px 14px"
     height: "40px"
+    fontSize: "14px"
+    fontWeight: 500
+    iconSize: "17.5px"
   button-outlined:
     backgroundColor: "transparent"
     textColor: "{colors.showcase-primary}"
@@ -242,3 +245,9 @@ A composição operacional demonstra busca, seleção, abas, edição e feedback
 - **Don't** apresentar providers aninhados como isolamento local de temas.
 - **Don't** usar texto desabilitado para reduzir a ênfase de instruções legíveis.
 - **Don't** transformar a composição documental ou as descrições inferidas em regras de marca aprovadas.
+
+### Proporção dos botões
+
+Large aumenta alvo e espaçamento interno, mantendo a tipografia de Medium. No preset da vitrine: Small 28 px, Medium 40 px e Large 44 px; texto 12/14/14 px e ícone automático 15/17,5/17,5 px. Em toque, prevalece alvo mínimo de 44 px. IconSizeValue explícito no SUIButton permanece independente. IconButton limita o desenho a 1,5em; a escala do SUIIcon isolado permanece disponível.
+
+Filled mantém superfície sólida, com peso 500, raio 1,25×base, sombra curta e borda sutil derivada do preenchimento e de seu contraste. O âmbar de ação menos saturado é específico da vitrine; cores dos consumidores não são substituídas. Soft continua como opção tonal separada.

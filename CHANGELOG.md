@@ -14,6 +14,9 @@ são derivadas exclusivamente de tags Git no formato
 
 ### Fixed
 
+- Large nos botões mantém a tipografia de Medium; SUIButton usa ícone compacto por padrão, independente do alvo, respeitando IconSizeValue explícito. IconButton limita seu glifo a 1,5em.
+- Filled mantém o fundo sólido com peso menor, cantos equilibrados, sombra curta e transições de estado mais discretas. O âmbar de ação da vitrine ficou menos saturado; Soft continua como alternativa.
+
 - Alinhamento: removido o deslocamento vertical artificial dos ícones iniciais/finais dos botões. A vitrine permite comparar Suave e Preenchida e copiar a configuração.
 - SUIButton respeita o alinhamento do conteúdo definido por Style e permite quebra de texto longo sem depender de seletores internos no consumidor.
 
