@@ -35,3 +35,7 @@ Base `d71900b`. A imagem mostrava três raízes independentes no exemplo SUIButt
 - [Demonstração publicada](https://sufficit.github.io/sufficit-blazor-ui/?component=SUIButton).
 
 Trabalho feito com as skills sufficit-frontend 1.0.1 e software-development, em `.worktrees/button-identity-flow`. A alteração preexistente no csproj do checkout principal foi preservada. Commit/push main e Pages seguem a autorização vigente. A execução automática inicial foi substituída pela recaptura conforme a concorrência do workflow, sem cancelamento manual do usuário. Nenhuma nova versão NuGet nem deploy Cloud Mobile nesta entrega.
+
+### Estado local ao encerrar
+
+A tentativa de fast-forward do checkout principal foi abortada pelo Git porque surgiram edições paralelas em `src/styles/sui-shared-switch.css`, sua cópia pública e `src/wwwroot/sufficit-ui.css`. Nenhum desses arquivos foi revertido, sobrescrito ou incluído nesta entrega. O csproj manteve o hash inicial. O checkout principal permanece em `d71900b` com essas edições locais; a worktree `button-identity-flow` contém a entrega e acompanha `origin/main`. A sincronização do checkout principal deve ocorrer quando a edição paralela do switch for integrada. Isso não bloqueia a publicação validada dos botões.
