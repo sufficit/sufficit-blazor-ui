@@ -21,6 +21,10 @@ definem a numeração das próximas publicações.
 
 ### Fixed
 
+- Select e Autocomplete registram o estado enviado ao JavaScript antes de aguardar
+  o retorno, evitando que chamadas concorrentes suprimam a rolagem da seleção
+  por teclado ou reabram a lista (regressão reproduzida no WebKit).
+
 - IconButton playground no longer offers a misleading “Show icon” toggle; its Add icon, accessible title and copied configuration stay consistent. The toggle remains available for text buttons.
 
 - SUISwitch: o trilho desligado usa `--sui-color-secondary` em vez de `--sui-surface-3`, garantindo contraste mínimo de 3:1 contra a superfície nos dois temas (WCAG 1.4.11); antes o controle quase desaparecia em fundos claros. (#20)

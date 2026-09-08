@@ -22,17 +22,21 @@ public partial class SUIAutocomplete<T>
         }
         if (_open && !_interopOpen)
         {
-            await _module.InvokeVoidAsync("openSelectMenu", _inputElement, _listElement);
             _interopOpen = true;
+            await _module.InvokeVoidAsync("openSelectMenu", _inputElement, _listElement);
         }
         else if (!_open && _interopOpen)
         {
-            await _module.InvokeVoidAsync("closeSelectMenu", _listElement);
             _interopOpen = false;
+            await _module.InvokeVoidAsync("closeSelectMenu", _listElement);
         }
         if (_open && _activeIndex != _lastRevealedIndex)
+        {
+            // Do not consume a newer selection when an older JS call completes.
+            _lastRevealedIndex = _activeIndex;
             await _module.InvokeVoidAsync("revealActiveOption", _listElement);
-        _lastRevealedIndex = _open ? _activeIndex : -1;
+        }
+        if (!_open) _lastRevealedIndex = -1;
     }
 
     private async ValueTask DisconnectAsync()

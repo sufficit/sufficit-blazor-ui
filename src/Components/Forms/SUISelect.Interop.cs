@@ -31,21 +31,23 @@ public partial class SUISelect<T>
         // and window listeners.
         if (_open && !_interopOpen)
         {
+            _interopOpen = true;
             await _module.InvokeVoidAsync(
                 "openSelectMenu",
                 _triggerElement,
                 _menuElement);
-            _interopOpen = true;
         }
         else if (!_open && _interopOpen)
         {
-            await _module.InvokeVoidAsync("closeSelectMenu", _menuElement);
             _interopOpen = false;
+            await _module.InvokeVoidAsync("closeSelectMenu", _menuElement);
         }
         if (_open && _lastRevealedIndex != _activeIndex)
         {
-            await _module.InvokeVoidAsync("revealActiveOption", _menuElement);
+            // Record the dispatched state before yielding: a newer render can
+            // run while JS is pending and must still reveal its own selection.
             _lastRevealedIndex = _activeIndex;
+            await _module.InvokeVoidAsync("revealActiveOption", _menuElement);
         }
         if (!_open) _lastRevealedIndex = -1;
     }
