@@ -16,7 +16,6 @@
   justify-content: center;
   gap: var(--sui-space-2);
   min-height: var(--_btn-h);
-  height: auto;
   padding: var(--sui-space-1) var(--_btn-px);
   font-family: var(--sui-font);
   font-size: var(--sui-fs-button);
@@ -37,8 +36,7 @@
   outline: 2px solid var(--_btn-color);
   outline-offset: 2px;
 }
-.sui-btn:disabled,
-.sui-btn[aria-disabled="true"] {
+.sui-btn:is(:disabled,[aria-disabled="true"]) {
   cursor: not-allowed;
   opacity: .55;
   box-shadow: none;
@@ -66,7 +64,7 @@
 
 /* variants */
 .sui-btn--filled {
-  background: var(--_btn-action);
+  background: linear-gradient(#0000, #0001) var(--_btn-action);
   color: var(--_btn-action-contrast);
   border-color: color-mix(in srgb,var(--_btn-action) 90%,var(--_btn-action-contrast));
   border-radius: calc(var(--sui-radius) * 1.25);
@@ -74,10 +72,10 @@
   box-shadow: var(--sui-shadow-1);
 }
 .sui-btn--filled:not(:disabled,[aria-disabled="true"]):hover {
-  background: color-mix(in srgb,var(--_btn-action) 94%,black);
+  background-color: color-mix(in srgb,var(--_btn-action) 94%,black);
 }
 .sui-btn--filled:not(:disabled,[aria-disabled="true"]):active {
-  background: color-mix(in srgb,var(--_btn-action) 88%,black);
+  background-color: color-mix(in srgb,var(--_btn-action) 88%,black);
 }
 
 .sui-btn--outlined {
@@ -104,7 +102,7 @@
 .sui-btn--loading { cursor: progress; }
 
 .sui-btn__label {
-  display: inline-flex;
+  display: flex;
   flex: 1 1 auto;
   min-width: 0;
   align-items: center;
@@ -120,9 +118,8 @@
   gap: 0;
 }
 .sui-btn--icon .sui-icon { max-width: 1.5em; max-height: 1.5em; }
-.sui-btn--edge-true   { border-radius: var(--sui-radius-full); }
+.sui-btn--edge-true, .sui-btn--edge-center { border-radius: var(--sui-radius-full); }
 .sui-btn--edge-center {
-  border-radius: var(--sui-radius-full);
   /* fab-like: rounded on one axis only */
   border-top-left-radius: var(--sui-radius-sm);
   border-bottom-left-radius: var(--sui-radius-sm);

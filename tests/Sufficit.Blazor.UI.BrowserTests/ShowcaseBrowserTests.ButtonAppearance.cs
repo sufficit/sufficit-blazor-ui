@@ -26,6 +26,7 @@ public sealed partial class ShowcaseBrowserTests
                 await ChooseAsync("Tamanho da demonstração", size);
                 await Page.Mouse.MoveAsync(0, 0);
                 var normal = await ButtonAppearanceAsync(button);
+                Assert.That(normal.GetProperty("gradient").GetString()!.Contains("linear-gradient"), Is.EqualTo(variant == "Preenchida"));
                 Assert.That(normal.GetProperty("contrast").GetDouble(), Is.GreaterThanOrEqualTo(4.5), palette);
                 Assert.That(normal.GetProperty("delta").GetDouble(), Is.LessThanOrEqualTo(.1), size);
                 await button.HoverAsync();
@@ -60,13 +61,20 @@ public sealed partial class ShowcaseBrowserTests
             const centre = node => { const r = node.getBoundingClientRect(); return r.top + r.height / 2; };
             const canvas = document.createElement('canvas'); canvas.width = canvas.height = 1;
             const ctx = canvas.getContext('2d');
-            const luminance = color => {
+            const luminance = (color, overlay) => {
                 ctx.clearRect(0,0,1,1); ctx.fillStyle = color; ctx.fillRect(0,0,1,1);
+                if (overlay) { ctx.fillStyle = overlay; ctx.fillRect(0,0,1,1); }
                 const rgb = [...ctx.getImageData(0,0,1,1).data].slice(0,3).map(v => { v /= 255; return v <= .04045 ? v / 12.92 : ((v+.055)/1.055)**2.4; });
                 return rgb[0]*.2126 + rgb[1]*.7152 + rgb[2]*.0722;
             };
-            const a = luminance(style.color), b = luminance(style.backgroundColor);
-            return { contrast: (Math.max(a,b)+.05)/(Math.min(a,b)+.05), background: style.backgroundColor,
+            const a = luminance(style.color);
+            // Check both rendered gradient endpoints, including the composited overlay.
+            const stops = style.backgroundImage.match(/rgba?\([^)]+\)/g) ?? [null];
+            const contrast = Math.min(...stops.map(stop => {
+                const b = luminance(style.backgroundColor, stop);
+                return (Math.max(a,b)+.05)/(Math.min(a,b)+.05);
+            }));
+            return { contrast, gradient: style.backgroundImage, background: style.backgroundColor,
                 delta: Math.max(...[...el.querySelectorAll('.sui-btn__icon')].map(icon => Math.abs(centre(icon)-centre(label)))) };
         }
         """);

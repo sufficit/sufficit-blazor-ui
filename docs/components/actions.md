@@ -11,9 +11,8 @@ como ponte obsoleta até v2. Targets críticos passam a 44 px em viewport touch,
 sem alterar a densidade desktop.
 
 Para ações com ícone e texto, use `StartIcon` ou `EndIcon` em vez de posicionar
-um SVG manualmente ao lado do conteúdo. O botão mantém o texto no centro
-geométrico e aplica somente ao ícone a compensação óptica necessária; isso vale
-também durante o estado de carregamento.
+um SVG manualmente ao lado do conteúdo. O botão alinha texto e quadro do ícone pelo centro, sem deslocamentos artificiais;
+isso vale também durante o estado de carregamento.
 
 ## Alinhamento e conteúdo longo
 
@@ -27,4 +26,10 @@ de palavras longas. Não é necessário selecionar `.sui-btn__label` no consumid
 
 `SizeValue="SUISize.Large"` aumenta altura/padding e conserva `FsButton`, como Medium. O ícone automático de SUIButton usa 1,25em; `IconSizeValue` continua permitindo tamanho explícito independente do botão. SUIIconButton limita o desenho automático a 1,5em, sem mudar a escala do componente SUIIcon isolado. SUILoadingButton segue a mesma tipografia de botão.
 
-Filled permanece sólido: peso 500, raio 1,25×`--sui-radius`, sombra 1 e borda sutil derivada da ação e de seu contraste. Soft mantém o fundo tonal alternativo. O tom de ação da vitrine é configurado por `PrimaryAction`; a biblioteca respeita as cores de cada consumidor.
+Filled mantém preenchimento opaco com gradiente discreto: peso 500, raio 1,25×`--sui-radius`, sombra 1 e borda sutil derivada da ação e de seu contraste. Soft mantém o fundo tonal alternativo. O tom de ação da vitrine é configurado por `PrimaryAction`; a biblioteca respeita as cores de cada consumidor.
+
+### Organização automática
+
+Agrupe ações em `<SUIStack Row Wrap>`: o contêiner distribui o espaço entre botões e quebra linhas conforme a largura disponível. Para vários grupos, use uma pilha externa `<SUIStack Spacing="4">`; assim o espaço entre grupos permanece independente do número de botões ou linhas. O exemplo copiável de SUIButton demonstra essa composição, inclusive com rótulo longo. Evite margens individuais nos botões.
+
+Filled usa gradiente vertical discreto derivado da cor de ação do tema; hover e active mantêm esse acabamento. A paleta Sufficit da vitrine recupera o laranja `#c2410c`.

@@ -6,7 +6,7 @@ colors:
   library-primary-dark: "#93c5fd"
   showcase-primary: "#c2410c"
   showcase-primary-dark: "#fb923c"
-  showcase-action: "#a34f2b"
+  showcase-action: "#c2410c"
   showcase-action-contrast: "#fff7ed"
   preset-red: "#b91c1c"
   preset-red-dark: "#fca5a5"
@@ -250,4 +250,10 @@ A composição operacional demonstra busca, seleção, abas, edição e feedback
 
 Large aumenta alvo e espaçamento interno, mantendo a tipografia de Medium. No preset da vitrine: Small 28 px, Medium 40 px e Large 44 px; texto 12/14/14 px e ícone automático 15/17,5/17,5 px. Em toque, prevalece alvo mínimo de 44 px. IconSizeValue explícito no SUIButton permanece independente. IconButton limita o desenho a 1,5em; a escala do SUIIcon isolado permanece disponível.
 
-Filled mantém superfície sólida, com peso 500, raio 1,25×base, sombra curta e borda sutil derivada do preenchimento e de seu contraste. O âmbar de ação menos saturado é específico da vitrine; cores dos consumidores não são substituídas. Soft continua como opção tonal separada.
+Filled mantém preenchimento opaco com gradiente discreto, peso 500, raio 1,25×base, sombra curta e borda derivada da ação e de seu contraste. O laranja da vitrine não substitui cores dos consumidores. Soft continua como opção tonal separada.
+
+### Identidade e composição das ações
+
+O preenchido conserva o laranja de identidade da vitrine (`#c2410c`), com gradiente vertical discreto da própria cor até uma sobreposição preta de 6,67%. Hover/active conservam o gradiente e o contraste é verificado nos dois extremos. Outras marcas seguem seus tokens.
+
+Conjuntos de ações usam `SUIStack Row Wrap`, que mantém gap ao quebrar linhas. Uma pilha externa separa grupos relacionados: a demonstração SUIButton usa Spacing=4 entre grupos e o gap padrão dentro da linha. Não adicionar margens globais aos botões nem compensações por item.
