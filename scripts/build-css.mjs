@@ -18,11 +18,12 @@ const budgets = {
   // safe-area handling, navigation overlay states, and the opt-in labelled
   // mobile-table presentation. The package-level ceiling remains 56 KiB.
   // Button label flex/alignment adds 60 B raw; wrapping uses the existing root policy.
-  raw: 54_700,
-  gzip: 10_050,
+  // Shared pressed feedback and tonal border; compressed budget remains below 10 KiB.
+  raw: 54_800,
+  gzip: 10_100,
   // Includes the global overflow guard and the accessible removable-chip
   // contract used by shared filtering surfaces.
-  brotli: 8_800,
+  brotli: 8_850,
 };
 
 const result = bundle({

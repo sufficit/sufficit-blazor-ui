@@ -99,13 +99,13 @@ components:
   button-outlined:
     backgroundColor: "transparent"
     textColor: "{colors.showcase-primary}"
-    rounded: "{rounded.default}"
+    rounded: "10px"
     padding: "0 14px"
     height: "40px"
   button-text:
     backgroundColor: "transparent"
     textColor: "{colors.showcase-primary}"
-    rounded: "{rounded.default}"
+    rounded: "10px"
     padding: "0 14px"
     height: "40px"
   input:
@@ -174,7 +174,7 @@ A família principal de sistema serve títulos, corpo e controles no preset padr
 
 Na vitrine, o título principal é responsivo (`display`) e passa para tamanho fixo de 2.15rem até 640px. Títulos de seção usam `headline`; subtítulos menores usam 1rem. Texto corrido usa `body`, com leitura limitada a 70ch; introduções usam 1.05rem e limite de 62ch. Rótulos de navegação usam .8rem, enquanto código de blocos usa `mono` e código inline usa .85em.
 
-A biblioteca tem sua própria escala semântica, representada parcialmente pelos tokens `library-*`, e preserva a escala histórica h1–h6. Não aplicar a escala de títulos da vitrine globalmente aos componentes. Botões usam .875rem e peso 600; o texto de apoio dos campos usa .75rem e itálico, e erros usam peso 600.
+A biblioteca tem sua própria escala semântica, representada parcialmente pelos tokens `library-*`, e preserva a escala histórica h1–h6. Não aplicar a escala de títulos da vitrine globalmente aos componentes. Botões usam .875rem e peso 500; o texto de apoio dos campos usa .75rem e itálico, e erros usam peso 600.
 
 ## Layout
 
@@ -198,7 +198,7 @@ Cantos discretamente arredondados caracterizam os controles. A biblioteca usa ra
 
 ### Buttons
 
-Botões preenchidos comunicam a ação principal; outlined e text mantêm a cor do acento em graus menores de ênfase. O filled escurece sua superfície com mistura de 90% da cor original no hover e 82% no estado ativo. Outlined e text recebem mistura do acento a 8% no hover. Desabilitados têm opacidade .55 e cursor indisponível. Transições de cor, borda e sombra usam o token padrão; a preferência por movimento reduzido remove a transição desses botões.
+Botões preenchidos comunicam a ação principal; outlined e text mantêm a cor do acento em graus menores de ênfase. O filled escurece sua superfície com mistura de 94% da cor original no hover e 88% no estado ativo. Outlined e text recebem mistura do acento a 8% no hover e 14% ao pressionar. Soft usa fundo tonal de 18%, 22% no hover e 26% ao pressionar, texto derivado do acento e borda discreta a 20%. Todas as variantes, incluindo IconButton sem Edge, usam raio 1,25×base e peso 500. Desabilitados têm opacidade .55 e cursor indisponível. Transições de cor, borda e sombra usam o token padrão; a preferência por movimento reduzido remove a transição desses botões.
 
 ### Inputs / Fields
 
@@ -250,7 +250,7 @@ A composição operacional demonstra busca, seleção, abas, edição e feedback
 
 Large aumenta alvo e espaçamento interno, mantendo a tipografia de Medium. No preset da vitrine: Small 28 px, Medium 40 px e Large 44 px; texto 12/14/14 px e ícone automático 15/17,5/17,5 px. Em toque, prevalece alvo mínimo de 44 px. IconSizeValue explícito no SUIButton permanece independente. IconButton limita o desenho a 1,5em; a escala do SUIIcon isolado permanece disponível.
 
-Filled mantém preenchimento opaco com gradiente discreto, peso 500, raio 1,25×base, sombra curta e borda derivada da ação e de seu contraste. O laranja da vitrine não substitui cores dos consumidores. Soft continua como opção tonal separada.
+Filled mantém preenchimento opaco com gradiente discreto, peso 500, raio 1,25×base, sombra curta e borda derivada da ação e de seu contraste. O laranja da vitrine não substitui cores dos consumidores. Soft continua como opção tonal separada, com mais presença. O playground usa Primary explicitamente no IconButton de criar item; o padrão neutro da API permanece disponível.
 
 ### Identidade e composição das ações
 

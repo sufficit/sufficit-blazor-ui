@@ -19,10 +19,10 @@
   padding: var(--sui-space-1) var(--_btn-px);
   font-family: var(--sui-font);
   font-size: var(--sui-fs-button);
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.35;
   border: 1px solid transparent;
-  border-radius: var(--sui-radius);
+  border-radius: calc(var(--sui-radius) * 1.25);
   cursor: pointer;
   user-select: none;
   text-decoration: none;
@@ -67,8 +67,6 @@
   background: linear-gradient(#0000, #0001) var(--_btn-action);
   color: var(--_btn-action-contrast);
   border-color: color-mix(in srgb,var(--_btn-action) 90%,var(--_btn-action-contrast));
-  border-radius: calc(var(--sui-radius) * 1.25);
-  font-weight: 500;
   box-shadow: var(--sui-shadow-1);
 }
 .sui-btn--filled:not(:disabled,[aria-disabled="true"]):hover {
@@ -79,23 +77,26 @@
 }
 
 .sui-btn--outlined {
-  border-color: color-mix(in srgb,var(--_btn-color) 45%,var(--sui-border));
+  border-color: color-mix(in srgb,var(--_btn-color) 30%,var(--sui-border));
 }
 
-:is(.sui-btn--outlined,.sui-btn--text):not(:disabled,[aria-disabled="true"]):hover {
-  background: color-mix(in srgb,var(--_btn-color) 8%,transparent);
+:is(.sui-btn--outlined,.sui-btn--text):not(:disabled,[aria-disabled="true"]):is(:hover,:active) {
+  background: color-mix(in srgb,var(--_btn-color) var(--_btn-tint,8%),transparent);
+}
+
+:is(.sui-btn--outlined,.sui-btn--text):not(:disabled,[aria-disabled="true"]):active {
+  --_btn-tint: 14%;
 }
 
 /* Soft is opt-in: a tinted surface with stronger text instead of solid fill. */
 .sui-btn--soft {
-  --_btn-tint: 12%;
+  --_btn-tint: 18%;
   background: color-mix(in srgb,var(--_btn-color) var(--_btn-tint),var(--sui-surface));
   color: color-mix(in srgb,var(--_btn-color) 70%,var(--sui-text-primary));
-  border-radius: var(--sui-radius-lg);
-  font-weight: 500;
+  border-color: color-mix(in srgb,var(--_btn-color) 20%,transparent);
 }
-.sui-btn--soft:not(:disabled,[aria-disabled="true"]):hover { --_btn-tint: 18%; }
-.sui-btn--soft:not(:disabled,[aria-disabled="true"]):active { --_btn-tint: 22%; }
+.sui-btn--soft:not(:disabled,[aria-disabled="true"]):hover { --_btn-tint: 22%; }
+.sui-btn--soft:not(:disabled,[aria-disabled="true"]):active { --_btn-tint: 26%; }
 
 /* modifiers */
 .sui-btn--full-width { width: 100%; }
@@ -114,7 +115,6 @@
 .sui-btn--icon {
   width: var(--_btn-h);
   padding: 0;
-  border-radius: var(--sui-radius);
   gap: 0;
 }
 .sui-btn--icon .sui-icon { max-width: 1.5em; max-height: 1.5em; }
