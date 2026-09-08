@@ -2,7 +2,7 @@
 {
     <section class="playground" aria-label="Configurar demonstração">
         <h2>Ajuste e experimente</h2>
-        @if (Name is "SUIButton" or "SUIIconButton") { <p>O tamanho grande aumenta o espaço de interação, mantendo texto e ícone proporcionais.</p> }
+        @if (Name is "SUIButton" or "SUIIconButton") { <p>O tamanho grande aumenta o espaço de interação, mantendo o conteúdo proporcional.</p> }
         <div class="playground-controls">
             @if (Name == "SUITabs")
             {
@@ -20,7 +20,7 @@
                 @if (Name is "SUIButton" or "SUIIconButton")
                 {
                     <SUISwitch Label="Desabilitado" @bind-Value="_disabled" />
-                    <SUISwitch Label="Mostrar ícone" @bind-Value="_icon" />
+                    @if (Name == "SUIButton") { <SUISwitch Label="Mostrar ícone" @bind-Value="_icon" /> }
                 }
             }
         </div>
@@ -32,7 +32,7 @@
                     <p role="status">Ações realizadas: @_clicks</p>
                     break;
                 case "SUIIconButton":
-                    <SUIIconButton SizeValue="_size" VariantValue="_variant" Disabled="_disabled" Icon="@(_icon ? SUIIcons.Add : SUIIcons.Edit)" Title="Criar item" OnClick="() => _clicks++" />
+                    <SUIIconButton SizeValue="_size" VariantValue="_variant" Disabled="_disabled" Icon="@SUIIcons.Add" Title="Criar item" OnClick="() => _clicks++" />
                     <p role="status">Ações realizadas: @_clicks</p>
                     break;
                 case "SUIChip":
@@ -62,7 +62,7 @@
     {
         "SUITabs" => $"<SUITabs Vertical=\"{_vertical.ToString().ToLowerInvariant()}\" AriaLabel=\"Seções do item\">\n    <SUITabPanel Text=\"Resumo\">Informações principais.</SUITabPanel>\n    <SUITabPanel Text=\"Configurações\">Preferências.</SUITabPanel>\n    <SUITabPanel Text=\"Atividade\">Histórico.</SUITabPanel>\n</SUITabs>",
         "SUIChip" => $"<SUIChip SizeValue=\"SUISize.{_size}\" VariantValue=\"SUIVariant.{_variant}\" ColorValue=\"SUIColor.Primary\">Em andamento</SUIChip>",
-        "SUIIconButton" => $"<SUIIconButton SizeValue=\"SUISize.{_size}\" VariantValue=\"SUIVariant.{_variant}\" Disabled=\"{_disabled.ToString().ToLowerInvariant()}\" Icon=\"@SUIIcons.{(_icon ? "Add" : "Edit")}\" Title=\"Criar item\" />",
+        "SUIIconButton" => $"<SUIIconButton SizeValue=\"SUISize.{_size}\" VariantValue=\"SUIVariant.{_variant}\" Disabled=\"{_disabled.ToString().ToLowerInvariant()}\" Icon=\"@SUIIcons.Add\" Title=\"Criar item\" />",
         _ => $"<SUIButton SizeValue=\"SUISize.{_size}\" VariantValue=\"SUIVariant.{_variant}\" Disabled=\"{_disabled.ToString().ToLowerInvariant()}\"{(_icon ? " StartIcon=\"@SUIIcons.Add\"" : "")}>Criar item</SUIButton>"
     };
 }
