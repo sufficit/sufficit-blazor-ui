@@ -6,7 +6,7 @@
 - `CHANGELOG.md` atualizado e migrações incompatíveis documentadas;
 - versão no padrão Sufficit `1.yy.MMdd.HHmm` UTC, como Identity.Core;
 - política Trusted Publishing no NuGet para `sufficit/sufficit-blazor-ui`,
-  arquivo `build.yml`, sem environment, autorizando publicar novas versões
+  arquivo `build.yml`, environment `production`, autorizando publicar novas versões
   de `Sufficit.Blazor.UI`;
 - gates de build, componentes, navegador e pacote aprovados.
 
@@ -27,7 +27,7 @@ o workflow falha explicitamente antes de solicitar a credencial. A política dev
 - Repository Owner: `sufficit`;
 - Repository: `sufficit-blazor-ui`;
 - Workflow File: `build.yml`;
-- Environment: vazio.
+- Environment: `production` (também configurado nos jobs de login e publicação).
 
 Para validar somente a troca OIDC, sem gerar/publicar pacote adicional:
 
