@@ -39,11 +39,16 @@ jobs:
       contents: read
       id-token: write
     steps:
+      - name: Verify NuGet policy creator is configured
+        env:
+          NUGET_USER: ${{ vars.NUGET_USER }}
+        run: |
+          test -n "$NUGET_USER" || { echo "Set Actions variable NUGET_USER to the NuGet username that created the trust policy (not the package owner)." >&2; exit 1; }
       - name: Authenticate with NuGet using GitHub OIDC
         id: login
         uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
         with:
-          user: ${{ vars.NUGET_USER || 'sufficit' }}
+          user: ${{ vars.NUGET_USER }}
       - name: Verify temporary credential was issued
         env:
           NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
@@ -447,6 +452,11 @@ jobs:
       id-token: write
 
     steps:
+      - name: Verify NuGet policy creator is configured
+        env:
+          NUGET_USER: ${{ vars.NUGET_USER }}
+        run: |
+          test -n "$NUGET_USER" || { echo "Set Actions variable NUGET_USER to the NuGet username that created the trust policy (not the package owner)." >&2; exit 1; }
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
@@ -479,7 +489,7 @@ jobs:
         id: login
         uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
         with:
-          user: ${{ vars.NUGET_USER || 'sufficit' }}
+          user: ${{ vars.NUGET_USER }}
 
       - name: Publish to NuGet.org
         env:

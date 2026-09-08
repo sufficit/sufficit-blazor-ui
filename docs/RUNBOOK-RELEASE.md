@@ -18,9 +18,11 @@ verificação explícita de login. O login ocorre depois da validação do pacot
 imediatamente antes do push; a chave temporária não é registrada em logs nem
 armazenada como secret. Não há fallback para `secrets.NUGET_API_KEY` na publicação.
 
-O perfil NuGet padrão é `sufficit`, proprietário público do pacote. O login exige o usuário que criou a política, não apenas seu proprietário.
-Se a política foi criada por outro perfil, configure a variável Actions
-`NUGET_USER` com o nome desse usuário (não email). A política deve corresponder a:
+Configure a variável Actions `NUGET_USER` com o nome do usuário NuGet que
+**criou a política** (não email nem necessariamente o proprietário do pacote).
+A variável é obrigatória e não tem fallback: o proprietário público `sufficit`
+não foi reconhecido como criador no teste de autenticação. Sem essa variável,
+o workflow falha explicitamente antes de solicitar a credencial. A política deve corresponder a:
 
 - Repository Owner: `sufficit`;
 - Repository: `sufficit-blazor-ui`;
