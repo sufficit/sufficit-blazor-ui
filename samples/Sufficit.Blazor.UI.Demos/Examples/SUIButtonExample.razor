@@ -1,7 +1,8 @@
 @inherits DemoBase
 
 <SUIStack Row Wrap>
-<SUIButton OnClick="Notify">Salvar alterações</SUIButton>
+<SUIButton VariantValue="SUIVariant.Soft" StartIcon="@SUIIcons.Save" EndIcon="@SUIIcons.ChevronRight" OnClick="Notify">Salvar alterações</SUIButton>
+<SUIButton OnClick="Notify">Preenchido</SUIButton>
 <SUIButton VariantValue="SUIVariant.Outlined" OnClick="Reset">Cancelar</SUIButton>
 <SUIButton Disabled>Indisponível</SUIButton>
 </SUIStack>

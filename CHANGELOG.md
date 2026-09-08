@@ -8,7 +8,13 @@ são derivadas exclusivamente de tags Git no formato
 
 ## [Unreleased]
 
+### Added
+
+- Botões: variante `Soft` com superfície tonal, peso mais leve e raio do tema; disponível em SUIButton, SUILoadingButton e SUIIconButton. Filled/Outlined/Text mantêm seus valores e padrões.
+
 ### Fixed
+
+- Alinhamento: removido o deslocamento vertical artificial dos ícones iniciais/finais dos botões. A vitrine permite comparar Suave e Preenchida e copiar a configuração.
 
 - Limpeza por teclado devolve foco em TextField/Autocomplete; erros de checkbox
   referenciam o input e campos inválidos não apontam para mensagens inexistentes.

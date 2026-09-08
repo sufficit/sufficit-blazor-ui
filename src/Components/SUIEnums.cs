@@ -30,6 +30,8 @@ public enum SUIVariant
     Outlined,
     /// <summary>Solid filled surface (default).</summary>
     Filled,
+    /// <summary>Tinted surface for SUIButton, SUILoadingButton and SUIIconButton.</summary>
+    Soft,
 }
 
 /// <summary>

@@ -29,7 +29,7 @@
                 <SUIButton VariantValue="SUIVariant.Text">Depois do seletor</SUIButton>
             </div>
             <SUIStack Row Wrap>
-                <SUILoadingButton data-testid="loading-action" StartIcon="@SUIIcons.Save" EndIcon="@SUIIcons.ChevronRight" IsLoading="_busy" OnClick="() => _busy = true">Salvar preferências</SUILoadingButton>
+                <SUILoadingButton data-testid="loading-action" VariantValue="SUIVariant.Soft" StartIcon="@SUIIcons.Save" EndIcon="@SUIIcons.ChevronRight" IsLoading="_busy" OnClick="() => _busy = true">Salvar preferências</SUILoadingButton>
                 <SUIButton VariantValue="SUIVariant.Text" OnClick="() => _busy = false">Reiniciar demonstração</SUIButton>
                 <SUILoadingButton Href="#interaction-patterns">Voltar ao início dos exemplos</SUILoadingButton>
             </SUIStack>

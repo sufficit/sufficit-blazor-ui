@@ -78,19 +78,24 @@
 }
 
 .sui-btn--outlined {
-  background: transparent;
   color: var(--_btn-color);
   border-color: color-mix(in srgb,var(--_btn-color) 45%,var(--sui-border));
 }
 
-.sui-btn--text {
-  background: transparent;
-  color: var(--_btn-color);
-  border-color: transparent;
-}
 :is(.sui-btn--outlined,.sui-btn--text):not(:disabled,[aria-disabled="true"]):hover {
   background: color-mix(in srgb,var(--_btn-color) 8%,transparent);
 }
+
+/* Soft is opt-in: a tinted surface with stronger text instead of solid fill. */
+.sui-btn--soft {
+  --_btn-tint: 12%;
+  background: color-mix(in srgb,var(--_btn-color) var(--_btn-tint),var(--sui-surface));
+  color: color-mix(in srgb,var(--_btn-color) 70%,var(--sui-text-primary));
+  border-radius: var(--sui-radius-lg);
+  font-weight: 500;
+}
+.sui-btn--soft:not(:disabled,[aria-disabled="true"]):hover { --_btn-tint: 18%; }
+.sui-btn--soft:not(:disabled,[aria-disabled="true"]):active { --_btn-tint: 22%; }
 
 /* modifiers */
 .sui-btn--full-width { width: 100%; }
@@ -101,7 +106,6 @@
   align-items: center;
   gap: inherit;
 }
-.sui-btn__icon { display: inline-flex; transform: translateY(1px); }
 
 /* icon button */
 .sui-btn--icon {

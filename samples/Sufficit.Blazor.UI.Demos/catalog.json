@@ -2,7 +2,7 @@
   {
     "name": "SUIButton",
     "family": "Ações",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack Row Wrap>\n<SUIButton OnClick=\"Notify\">Salvar alterações</SUIButton>\n<SUIButton VariantValue=\"SUIVariant.Outlined\" OnClick=\"Reset\">Cancelar</SUIButton>\n<SUIButton Disabled>Indisponível</SUIButton>\n</SUIStack>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n    protected void Reset() { Text = \"Operação Sudeste\"; Snackbar.Info(\"Alterações descartadas.\"); }\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack Row Wrap>\n<SUIButton VariantValue=\"SUIVariant.Soft\" StartIcon=\"@SUIIcons.Save\" EndIcon=\"@SUIIcons.ChevronRight\" OnClick=\"Notify\">Salvar alterações</SUIButton>\n<SUIButton OnClick=\"Notify\">Preenchido</SUIButton>\n<SUIButton VariantValue=\"SUIVariant.Outlined\" OnClick=\"Reset\">Cancelar</SUIButton>\n<SUIButton Disabled>Indisponível</SUIButton>\n</SUIStack>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n    protected void Reset() { Text = \"Operação Sudeste\"; Snackbar.Info(\"Alterações descartadas.\"); }\n}\n",
     "parameters": [
       {
         "description": "",
@@ -296,7 +296,7 @@
   {
     "name": "SUIIconButton",
     "family": "Ações",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIIconButton Icon=\"@SUIIcons.Restart\" Title=\"Atualizar exemplo\" OnClick=\"Notify\" />\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIIconButton VariantValue=\"SUIVariant.Soft\" Icon=\"@SUIIcons.Restart\" Title=\"Atualizar exemplo\" OnClick=\"Notify\" />\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
     "parameters": [
       {
         "description": "",
@@ -534,7 +534,7 @@
   {
     "name": "SUILoadingButton",
     "family": "Ações",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUILoadingButton IsLoading>Salvando alterações</SUILoadingButton>\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUILoadingButton VariantValue=\"SUIVariant.Soft\" IsLoading>Salvando alterações</SUILoadingButton>\n",
     "parameters": [
       {
         "description": "",

@@ -13,6 +13,7 @@
                     <SUISelectItem Value="SUISize.Small">Pequeno</SUISelectItem><SUISelectItem Value="SUISize.Medium">Médio</SUISelectItem><SUISelectItem Value="SUISize.Large">Grande</SUISelectItem>
                 </SUISelect>
                 <SUISelect T="SUIVariant" Label="Variante da demonstração" @bind-Value="_variant">
+                    @if (Name is "SUIButton" or "SUIIconButton") { <SUISelectItem Value="SUIVariant.Soft">Suave</SUISelectItem> }
                     <SUISelectItem Value="SUIVariant.Filled">Preenchida</SUISelectItem><SUISelectItem Value="SUIVariant.Outlined">Contorno</SUISelectItem><SUISelectItem Value="SUIVariant.Text">Texto</SUISelectItem>
                 </SUISelect>
                 @if (Name is "SUIButton" or "SUIIconButton")
