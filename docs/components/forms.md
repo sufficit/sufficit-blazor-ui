@@ -110,3 +110,7 @@ erro. Veja o contrato específico do [Select](select.md).
 prioridade sobre o callback legado `SearchFunc`. Encaminhe o token ao seu
 cliente HTTP. O componente cancela a busca anterior e ignora resultados
 obsoletos; o callback legado permanece compatível, mas não recebe token.
+
+### Ajuda de SUITextField
+
+O texto de ajuda usa 92% do token `--sui-fs-caption` e o espaçamento do próprio campo, sem margem superior adicional. No tema padrão, isso corresponde a aproximadamente 11 px e 4 px entre textbox e ajuda. O ajuste pertence ao CSS isolado do componente; label, valor, mensagens de erro e associação `aria-describedby` mantêm seus contratos.

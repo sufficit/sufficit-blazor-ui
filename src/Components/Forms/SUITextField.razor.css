@@ -1,0 +1,5 @@
+/* Keep supporting text close to the input and below the label in hierarchy. */
+.sui-field__helper {
+    margin-top: 0;
+    font-size: calc(var(--sui-fs-caption) * .92);
+}
