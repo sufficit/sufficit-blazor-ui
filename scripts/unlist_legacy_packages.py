@@ -22,9 +22,18 @@ def get_json(url):
 
 
 def catalog(version):
-    url = f"https://api.nuget.org/v3/registration5-gz-semver2/{PACKAGE.lower()}/{version}.json"
-    registration = get_json(url)
-    return get_json(registration["catalogEntry"])
+    # The package index can be ready before the individual version leaf has
+    # propagated. It contains the same authoritative catalog metadata.
+    index = get_json(f"https://api.nuget.org/v3/registration5-gz-semver2/{PACKAGE.lower()}/index.json")
+    for page in index["items"]:
+        entries = page.get("items")
+        if entries is None:
+            entries = get_json(page["@id"])["items"]
+        for entry in entries:
+            metadata = entry["catalogEntry"]
+            if metadata["version"] == version:
+                return metadata
+    raise SystemExit(f"{PACKAGE} {version} is not yet in the NuGet registration index")
 
 
 def main():

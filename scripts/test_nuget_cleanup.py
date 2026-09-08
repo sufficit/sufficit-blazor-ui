@@ -8,6 +8,20 @@ import unlist_legacy_packages as cleanup
 
 
 class NuGetCleanupTests(unittest.TestCase):
+    def test_reads_inline_registration_without_waiting_for_version_leaf(self):
+        metadata = {"version": "1.26.908.1200", "listed": True}
+        index = {"items": [{"items": [{"catalogEntry": metadata}]}]}
+        with patch.object(cleanup, "get_json", return_value=index) as request:
+            self.assertEqual(metadata, cleanup.catalog(metadata["version"]))
+            self.assertEqual(1, request.call_count)
+
+    def test_reads_registration_page_when_not_inlined(self):
+        metadata = {"version": "1.28.0", "listed": False}
+        responses = [{"items": [{"@id": "https://api.nuget.org/page"}]},
+                     {"items": [{"catalogEntry": metadata}]}]
+        with patch.object(cleanup, "get_json", side_effect=responses):
+            self.assertEqual(metadata, cleanup.catalog(metadata["version"]))
+
     def run_cleanup(self, apply=False, listed=True, key="test-key"):
         args = ["cleanup", "--replacement", "1.26.908.1200"]
         if apply:
