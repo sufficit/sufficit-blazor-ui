@@ -15,6 +15,7 @@ são derivadas exclusivamente de tags Git no formato
 ### Fixed
 
 - Alinhamento: removido o deslocamento vertical artificial dos ícones iniciais/finais dos botões. A vitrine permite comparar Suave e Preenchida e copiar a configuração.
+- SUIButton respeita o alinhamento do conteúdo definido por Style e permite quebra de texto longo sem depender de seletores internos no consumidor.
 
 - Limpeza por teclado devolve foco em TextField/Autocomplete; erros de checkbox
   referenciam o input e campos inválidos não apontam para mensagens inexistentes.
