@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sufficit Frontend"
+  short_description: "Frontend com identidade, componentes e validação real"
+  default_prompt: "Use $sufficit-frontend para implementar esta interface preservando o sistema visual e validando os estados no navegador."

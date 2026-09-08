@@ -282,6 +282,7 @@ listas de débito explícitas (`FileSizeBudgetTests.Debt`,
 - [Rollout e rollback dos consumidores](docs/CONSUMER-ROLLOUT.md)
 - [Índice de documentação](docs/README.md)
 - [Skill e convenções SUI](skills/sui-design/SKILL.md)
+- [Sufficit Frontend](skills/sufficit-frontend/SKILL.md) — frontend geral, integração SUI e validação; [instalação e versões](skills/sufficit-frontend/references/installation.md).
 
 A atividade registra a migração para organização por famílias, CSS híbrido,
 módulos JavaScript colocalizados, catálogo executável, testes de componentes,
