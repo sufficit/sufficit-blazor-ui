@@ -2,7 +2,7 @@
 name: sufficit-frontend
 description: Implementa e refina interfaces web com tokens, componentes reutilizáveis e validação no navegador. Use em frontend Sufficit, especialmente Blazor/SUI, ou quando solicitado para transformar referências visuais em telas funcionais, corrigir layout/temas ou evoluir um design system. Não se aplica a backend isolado nem a UI nativa Android/iOS.
 metadata:
-  version: "1.0.0"
+  version: "1.0.1"
 ---
 
 # Sufficit Frontend
@@ -57,4 +57,4 @@ Para manter ou avaliar esta skill, usar os [cenários de validação](references
 
 ## Distribuição e versão
 
-Versão da skill: **1.0.0**. Fonte canônica: `sufficit/sufficit-blazor-ui`, pasta `skills/sufficit-frontend`, ao lado de `sui-design`. Para instalar, conferir integridade ou atualizar, ler [instalação e versões](references/installation.md). A versão da skill é independente da biblioteca Blazor.
+Versão da skill: **1.0.1**. Fonte canônica: `sufficit/sufficit-blazor-ui`, pasta `skills/sufficit-frontend`, ao lado de `sui-design`. Para instalar, conferir integridade ou atualizar, ler [instalação e versões](references/installation.md). A versão da skill é independente da biblioteca Blazor.
