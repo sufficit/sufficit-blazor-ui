@@ -64,6 +64,7 @@ pre code { font-size: inherit; }
 .api-scroll th, .api-scroll td { border-bottom: 1px solid var(--sui-border); padding: .8rem; vertical-align: top; }
 .api-scroll th { font-weight: 600; }
 .api-scroll small { display: block; color: var(--sui-text-secondary); font-weight: 400; }
+.catalog-version { margin-block-start: var(--sui-space-6); }
 .document-footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--sui-border); font-size: .78rem; color: var(--sui-text-secondary); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; }
 .theme-workbench { display: grid; grid-template-columns: minmax(180px, .8fr) minmax(0,1.2fr); gap: 2rem; margin: 2rem 0 3.5rem; }
 .theme-controls > .sui-field { margin-bottom: 1.4rem; }
