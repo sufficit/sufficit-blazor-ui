@@ -17,7 +17,8 @@ const budgets = {
   // Includes the accessible responsive drawer, focus-safe full-screen mode,
   // safe-area handling, navigation overlay states, and the opt-in labelled
   // mobile-table presentation. The package-level ceiling remains 56 KiB.
-  raw: 54_600,
+  // Button label flex/alignment adds 60 B raw; wrapping uses the existing root policy.
+  raw: 54_700,
   gzip: 10_050,
   // Includes the global overflow guard and the accessible removable-chip
   // contract used by shared filtering surfaces.

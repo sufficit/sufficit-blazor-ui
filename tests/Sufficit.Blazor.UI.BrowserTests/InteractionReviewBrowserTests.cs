@@ -102,7 +102,17 @@ public sealed class InteractionReviewBrowserTests : PageTest
         await select.PressAsync("End");
         await Expect(select).ToHaveAttributeAsync("aria-activedescendant", new System.Text.RegularExpressions.Regex("-option-29$"));
         activeId = await select.GetAttributeAsync("aria-activedescendant");
-        Assert.That(await Page.Locator("#" + activeId).EvaluateAsync<bool>("el => { const a=el.getBoundingClientRect(),b=el.parentElement.getBoundingClientRect(); return a.top>=b.top && a.bottom<=b.bottom+1; }"), Is.True);
+        // aria-activedescendant renders before OnAfterRenderAsync reveals the option.
+        // Wait for that interop effect while preserving the full-visibility contract.
+        await Page.WaitForFunctionAsync(
+            """
+            id => {
+                const el = document.getElementById(id);
+                if (!el) return false;
+                const a = el.getBoundingClientRect(), b = el.parentElement.getBoundingClientRect();
+                return a.top >= b.top && a.bottom <= b.bottom + 1;
+            }
+            """, activeId, new() { Timeout = 5000 });
         await select.PressAsync("Tab");
         await Expect(Page.GetByRole(AriaRole.Button, new() { Name = "Depois do seletor" })).ToBeFocusedAsync();
     }
