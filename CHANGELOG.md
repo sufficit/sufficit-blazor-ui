@@ -14,6 +14,8 @@ são derivadas exclusivamente de tags Git no formato
 
 ### Fixed
 
+- SUISwitch: o trilho desligado usa `--sui-color-secondary` em vez de `--sui-surface-3`, garantindo contraste mínimo de 3:1 contra a superfície nos dois temas (WCAG 1.4.11); antes o controle quase desaparecia em fundos claros. (#20)
+
 - SUITextField helper text is slightly smaller and sits closer to its input, using component-scoped CSS and the existing caption/spacing tokens.
 
 - Button showcase restores the Sufficit orange and automatically spaces action groups with nested stacks. Filled buttons retain the brand color with a subtle gradient; contrast is checked at both endpoints.
