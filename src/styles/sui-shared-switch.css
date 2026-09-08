@@ -13,7 +13,10 @@
 .sui-switch__track {
   position: relative;
   width: 44px; height: 24px;
-  background: var(--sui-surface-3);
+  /* Off state must read as a control, not vanish on the surface:
+     surface-3 (#e2e8f0 light / #334155 dark) fails non-text contrast
+     against the page; secondary keeps >= 3:1 in both themes. */
+  background: var(--sui-color-secondary);
   border-radius: var(--sui-radius-full);
   transition: background var(--sui-transition);
   flex: 0 0 auto;
