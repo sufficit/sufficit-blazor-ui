@@ -20,61 +20,42 @@
 @if (isAnchor)
 {
     <a class="@cls" style="@Style" href="@Href" target="@Target"
-       aria-disabled="@IsAriaDisabled" @onclick="HandleClickAsync" @onclick:preventDefault
+       aria-disabled="@IsAriaDisabled" aria-busy="@(IsLoading ? "true" : null)"
+       @onclick="HandleClickAsync" @onclick:preventDefault="@IsAriaDisabled"
        @attributes="UserAttributes">
-        @if (IsLoading)
-        {
-            <span class="sui-overlay sui-overlay--light">
-                <span class="@spinClass">@SpinnerSvg</span>
-            </span>
-            <span class="sui-btn__label" style="opacity:0">@ChildContent</span>
-        }
-        else
-        {
-            <span class="sui-btn__label">
-                @if (!string.IsNullOrEmpty(StartIcon))
-                {
-                    <span class="sui-icon sui-icon--sm sui-btn__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)StartIcon)</svg></span>
-                }
-                @ChildContent
-                @if (!string.IsNullOrEmpty(EndIcon))
-                {
-                    <span class="sui-icon sui-icon--sm sui-btn__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)EndIcon)</svg></span>
-                }
-            </span>
-        }
+        @Body(spinClass)
     </a>
 }
 else
 {
     <button type="@SUIClassBuilder.Slug(EffectiveButtonType)" class="@cls" style="@Style"
             disabled="@(Disabled || IsLoading)" aria-disabled="@IsAriaDisabled"
+            aria-busy="@(IsLoading ? "true" : null)"
             @onclick="HandleClickAsync" @attributes="UserAttributes">
-        @if (IsLoading)
-        {
-            <span class="sui-overlay sui-overlay--light">
-                <span class="@spinClass">@SpinnerSvg</span>
-            </span>
-            <span class="sui-btn__label" style="opacity:0">@ChildContent</span>
-        }
-        else
-        {
-            <span class="sui-btn__label">
-                @if (!string.IsNullOrEmpty(StartIcon))
-                {
-                    <span class="sui-icon sui-icon--sm sui-btn__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)StartIcon)</svg></span>
-                }
-                @ChildContent
-                @if (!string.IsNullOrEmpty(EndIcon))
-                {
-                    <span class="sui-icon sui-icon--sm sui-btn__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)EndIcon)</svg></span>
-                }
-            </span>
-        }
+        @Body(spinClass)
     </button>
 }
 
+
 @code {
+    private RenderFragment Body(string spinClass) => @<text>
+        @if (IsLoading)
+        {
+            <span class="sui-overlay sui-overlay--light" aria-hidden="true"><span class="@spinClass">@SpinnerSvg</span></span>
+        }
+        <span class="sui-btn__label" style="@(IsLoading ? "opacity:0" : null)">
+            @if (!string.IsNullOrEmpty(StartIcon))
+            {
+                <span class="sui-icon sui-icon--sm sui-btn__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)StartIcon)</svg></span>
+            }
+            @ChildContent
+            @if (!string.IsNullOrEmpty(EndIcon))
+            {
+                <span class="sui-icon sui-icon--sm sui-btn__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)EndIcon)</svg></span>
+            }
+        </span>
+    </text>;
+
     private bool IsAriaDisabled => Disabled || IsLoading;
 
     [Parameter]

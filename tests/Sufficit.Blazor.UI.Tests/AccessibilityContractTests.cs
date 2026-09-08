@@ -96,6 +96,8 @@ public sealed class AccessibilityContractTests
     public void Autocomplete_UsesComboboxAndListboxContract()
     {
         using var context = new BunitContext();
+        context.JSInterop.SetupModule("./_content/Sufficit.Blazor.UI/Components/Forms/SUIAutocomplete.razor.js").Mode = JSRuntimeMode.Loose;
+        context.JSInterop.SetupVoid("Blazor._internal.domWrapper.focus", _ => true);
         var cut = context.Render<SUIAutocomplete<string>>(parameters => parameters
             .Add(component => component.Label, "Cidade")
             .Add(component => component.HelperText, "Digite para pesquisar.")
@@ -145,6 +147,8 @@ public sealed class AccessibilityContractTests
     public void Autocomplete_ExposesInvalidErrorRelationship()
     {
         using var context = new BunitContext();
+        context.JSInterop.SetupModule("./_content/Sufficit.Blazor.UI/Components/Forms/SUIAutocomplete.razor.js").Mode = JSRuntimeMode.Loose;
+        context.JSInterop.SetupVoid("Blazor._internal.domWrapper.focus", _ => true);
         var cut = context.Render<SUIAutocomplete<string>>(parameters => parameters
             .Add(component => component.Label, "Cidade")
             .Add(component => component.Invalid, true)

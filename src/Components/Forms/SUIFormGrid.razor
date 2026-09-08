@@ -23,7 +23,11 @@
     [Parameter]
     public int LabelLines { get; set; } = 2;
 
-    /// <summary>Stacks the grid into one column at 44rem and below.</summary>
+    /// <summary>Minimum comfortable column width when adaptive stacking is enabled.</summary>
+    [Parameter]
+    public string MinColumnWidth { get; set; } = "14rem";
+
+    /// <summary>Stacks below 44rem or when the containing panel cannot fit the columns.</summary>
     [Parameter]
     public bool StackOnMobile { get; set; } = true;
 
@@ -55,5 +59,6 @@
         => $"--sui-form-grid-columns:{EffectiveColumns};"
             + $"--sui-form-grid-gap:var(--sui-space-{EffectiveSpacing});"
             + $"--sui-form-grid-label-lines:{EffectiveLabelLines};"
+            + $"--sui-form-grid-min-width:{MinColumnWidth};"
             + (string.IsNullOrWhiteSpace(Style) ? string.Empty : Style);
 }

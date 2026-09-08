@@ -10,6 +10,15 @@ são derivadas exclusivamente de tags Git no formato
 
 ### Fixed
 
+- Limpeza por teclado devolve foco em TextField/Autocomplete; erros de checkbox
+  referenciam o input e campos inválidos não apontam para mensagens inexistentes.
+- Select e Autocomplete revelam a opção ativa sem rolar a página; Tab sai do menu.
+  Autocomplete usa a camada de popover, preserva Enter do formulário durante seleção
+  e cancela busca quando desabilitado.
+- LoadingButton conserva largura com ícones, informa `aria-busy` e respeita Href.
+  Botões acomodam texto longo; ícones herdam o contraste do texto por padrão.
+- Botões semânticos usam os tokens de contraste de cada cor, inclusive em temas próprios.
+
 - Tamanhos de botões e ícones agora reconhecem as classes `small`/`medium`/`large`
   emitidas pelos componentes; botões de ícone preservam a altura escolhida e o formato quadrado.
 - `SUIChip` implementa o tamanho grande oferecido no playground; medidas são
@@ -17,6 +26,10 @@ são derivadas exclusivamente de tags Git no formato
 
 
 ### Added
+
+- `SUIFormGrid.MinColumnWidth` (14rem): adaptação à largura do painel quando
+  `StackOnMobile=true`; `false` preserva colunas fixas. Exemplos de interação
+  copiáveis na vitrine cobrem painel estreito, listas longas e ações com loading.
 
 - `SUISwitch.HelperText`, `Id`, `ErrorText` e `Invalid`: ajuda e erros associados ao checkbox, preservando nome acessível, binding e aparência sem ajuda.
 

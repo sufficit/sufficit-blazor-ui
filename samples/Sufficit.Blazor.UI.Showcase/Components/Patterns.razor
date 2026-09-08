@@ -15,6 +15,8 @@
 </section>
 <section><h2>Seção com alterações pendentes</h2><SUISection Title="Preferências"><SUITextField T="string" Label="Nome da seção" @bind-Value="_sectionName" /></SUISection>@if (_sectionName != _savedSectionName) { <SUIPendingChangesBar OnSave="SaveSection" OnCancel="ResetSection" /> }</section>
 <section><h2>Confirmar antes de aplicar</h2><Sufficit.Blazor.UI.Demos.Examples.SUIConfirmDialogExample /></section>
+<Sufficit.Blazor.UI.Demos.Compositions.InteractionPatterns />
+<details class="source-panel"><summary>Código dos exemplos de interação</summary><div class="source-actions"><SUICopyToClipboard Text="@DemoCatalog.InteractionSource"><SUIButton VariantValue="SUIVariant.Text">Copiar exemplos de interação</SUIButton></SUICopyToClipboard></div><pre tabindex="0"><code>@DemoCatalog.InteractionSource</code></pre></details>
 @code {
     [Inject] private ISUISnackbar Snackbar { get; set; } = default!;
     private readonly ExampleForm _model = new();

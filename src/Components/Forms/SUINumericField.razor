@@ -19,7 +19,7 @@
            disabled="@Disabled"
            aria-describedby="@DescribedBy"
            aria-invalid="@(HasError ? "true" : null)"
-           aria-errormessage="@(HasError ? ErrorId : null)"
+           aria-errormessage="@(!string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null)"
            @attributes="UserAttributes" />
     @if (!string.IsNullOrWhiteSpace(HelperText))
     {

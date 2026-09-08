@@ -80,15 +80,16 @@ public sealed partial class ShowcaseBrowserTests
     [Test]
     public async Task CopyButtonsSendTheDisplayedSourceToClipboard()
     {
-        foreach (var (query, button, selector) in new[] {
-            ("?view=themes", "Copiar C#", ".source-panel code"),
-            ("?component=SUIButton", "Copiar código", ".component-source code"),
-            ("?component=SUIButton", "Copiar configuração", ".playground code"),
-            ("?view=patterns", "Copiar tela", ".source-panel code") })
+        foreach (var (query, button, selector, summary) in new[] {
+            ("?view=themes", "Copiar C#", ".source-panel code", ""),
+            ("?component=SUIButton", "Copiar código", ".component-source code", ""),
+            ("?component=SUIButton", "Copiar configuração", ".playground code", ""),
+            ("?view=patterns", "Copiar tela", ".source-panel:has-text(\"Código da tela completa\") code", "Código da tela completa"),
+            ("?view=patterns", "Copiar exemplos de interação", ".source-panel:has-text(\"Código dos exemplos de interação\") code", "Código dos exemplos de interação") })
         {
             await Page.GotoAsync(BaseUrl + query);
             await Expect(Page.Locator(".site-header")).ToBeVisibleAsync();
-            if (query.Contains("patterns")) await Page.GetByText("Código da tela completa", new() { Exact=true }).ClickAsync();
+            if (summary.Length > 0) await Page.GetByText(summary, new() { Exact=true }).ClickAsync();
             var source = await Page.Locator(selector).InnerTextAsync();
             await Page.EvaluateAsync("Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async text => { window.copiedSource = text; } } })");
             await Page.GetByRole(AriaRole.Button, new() { Name=button,Exact=true }).ClickAsync();

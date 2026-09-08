@@ -457,11 +457,11 @@ public sealed partial class CatalogBrowserTests : PageTest
         var scriptResources = await Page.EvaluateAsync<string[]>(
             "performance.getEntriesByType('resource').map(entry => entry.name).filter(name => name.endsWith('.js') || name.includes('.js?'))");
         Assert.That(scriptResources.Any(url => url.Contains("SUISelect.", StringComparison.Ordinal)
-            && url.EndsWith(".razor.js", StringComparison.Ordinal)), Is.True);
+            && new Uri(url).AbsolutePath.EndsWith(".razor.js", StringComparison.Ordinal)), Is.True);
         Assert.That(scriptResources.Any(url => url.Contains("SUITooltip.", StringComparison.Ordinal)
-            && url.EndsWith(".razor.js", StringComparison.Ordinal)), Is.True);
+            && new Uri(url).AbsolutePath.EndsWith(".razor.js", StringComparison.Ordinal)), Is.True);
         Assert.That(scriptResources.Any(url => url.Contains("SUINavGroup.", StringComparison.Ordinal)
-            && url.EndsWith(".razor.js", StringComparison.Ordinal)), Is.True);
+            && new Uri(url).AbsolutePath.EndsWith(".razor.js", StringComparison.Ordinal)), Is.True);
         Assert.That(scriptResources.Any(url => url.Contains("/sufficit-ui.js", StringComparison.Ordinal)), Is.False);
 
         await Page.Locator("[data-testid='toggle-instances']").ClickAsync();

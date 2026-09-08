@@ -272,7 +272,7 @@
   border: 0;
 }
 @media (pointer: coarse), (max-width: 599.98px) {
-  .sui-btn { height: max(var(--_btn-h), 44px); }
+  .sui-btn { min-height: max(var(--_btn-h), 44px); }
   .sui-btn--icon { width: max(var(--_btn-h), 44px); min-width: 44px; }
   .sui-field__input { height: 44px; }
 }

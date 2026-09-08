@@ -12,10 +12,11 @@ const outputPath = path.join(repositoryRoot, "src", "wwwroot", "sufficit-ui.css"
 const checkOnly = process.argv.includes("--check");
 
 const budgets = {
+  // Includes viewport-safe autocomplete and semantic action contrasts (2026-09 review).
   // Includes the accessible responsive drawer, focus-safe full-screen mode,
   // safe-area handling, navigation overlay states, and the opt-in labelled
   // mobile-table presentation. The package-level ceiling remains 56 KiB.
-  raw: 54_000,
+  raw: 54_500,
   gzip: 10_000,
   // Includes the global overflow guard and the accessible removable-chip
   // contract used by shared filtering surfaces.

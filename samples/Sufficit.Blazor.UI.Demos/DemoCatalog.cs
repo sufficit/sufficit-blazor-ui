@@ -6,10 +6,11 @@ public static partial class DemoCatalog
 {
     public static IReadOnlyList<DemoEntry> Entries { get; } = Load();
 
-    public static string WorkspaceSource { get; } = LoadWorkspace();
-    private static string LoadWorkspace()
+    public static string WorkspaceSource { get; } = LoadComposition("OperationsWorkspace");
+    public static string InteractionSource { get; } = LoadComposition("InteractionPatterns");
+    private static string LoadComposition(string name)
     {
-        using var stream = typeof(DemoCatalog).Assembly.GetManifestResourceStream("Sufficit.Blazor.UI.Demos.Compositions.OperationsWorkspace.razor")!;
+        using var stream = typeof(DemoCatalog).Assembly.GetManifestResourceStream($"Sufficit.Blazor.UI.Demos.Compositions.{name}.razor")!;
         using var reader = new StreamReader(stream);
         return reader.ReadToEnd();
     }

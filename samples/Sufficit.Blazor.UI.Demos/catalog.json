@@ -3031,7 +3031,7 @@
   {
     "name": "SUIFormGrid",
     "family": "Formulários",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIFormGrid>\n<SUITextField T=\"string\" Label=\"Nome\" @bind-Value=\"Text\" HelperText=\"Nome público.\" />\n<SUINumericField T=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" />\n</SUIFormGrid>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected int Count { get; set; } = 3;\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIFormGrid MinColumnWidth=\"14rem\">\n<SUITextField T=\"string\" Label=\"Nome\" @bind-Value=\"Text\" HelperText=\"Nome público.\" />\n<SUINumericField T=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" />\n</SUIFormGrid>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected int Count { get; set; } = 3;\n}\n",
     "parameters": [
       {
         "description": "Number of equal-width columns before the mobile breakpoint (1-4).",
@@ -3058,7 +3058,15 @@
         "deprecated": false
       },
       {
-        "description": "Stacks the grid into one column at 44rem and below.",
+        "description": "Minimum comfortable column width when adaptive stacking is enabled.",
+        "name": "MinColumnWidth",
+        "type": "string",
+        "default": "\"14rem\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Stacks below 44rem or when the containing panel cannot fit the columns.",
         "name": "StackOnMobile",
         "type": "bool",
         "default": "true",

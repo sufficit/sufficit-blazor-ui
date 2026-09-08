@@ -21,13 +21,13 @@
                   disabled="@Disabled"
                   aria-describedby="@DescribedBy"
                   aria-invalid="@(HasError ? "true" : null)"
-                  aria-errormessage="@(HasError ? ErrorId : null)"
+                  aria-errormessage="@(!string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null)"
                   @attributes="UserAttributes">@Value</textarea>
     }
     else
     {
         <div class="sui-text-field__control" style="position:relative">
-            <input class="sui-field__input"
+            <input @ref="_inputElement" class="sui-field__input"
                    id="@EffectiveId"
                    type="@InputType"
                    value="@Value"
@@ -39,7 +39,7 @@
                    disabled="@Disabled"
                    aria-describedby="@DescribedBy"
                    aria-invalid="@(HasError ? "true" : null)"
-                   aria-errormessage="@(HasError ? ErrorId : null)"
+                   aria-errormessage="@(!string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null)"
                    @attributes="UserAttributes" />
             @if (CanClear)
             {
@@ -151,6 +151,7 @@
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object?> UserAttributes { get; set; } = new();
 
+    private ElementReference _inputElement;
     private readonly string _generatedId = $"sui-text-field-{Guid.NewGuid():N}";
     private string EffectiveId => string.IsNullOrWhiteSpace(Id) ? _generatedId : Id;
     private int EffectiveRows => Math.Clamp(Rows, 2, 20);
@@ -191,6 +192,7 @@
     {
         await ValueChanged.InvokeAsync(default);
         _field.Notify();
+        await _inputElement.FocusAsync(preventScroll: true);
     }
 
     private async Task SetValue(object? raw)

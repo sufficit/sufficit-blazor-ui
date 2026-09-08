@@ -92,7 +92,7 @@
    overrides behind feature detection so older browsers retain the absolute
    inline fallback declared above. */
 @supports selector(:popover-open) {
-  .sui-select__menu[popover] {
+  .sui-select__menu[popover], .sui-autocomplete__list[popover] {
     position: fixed;
     inset: auto;
     width: var(--sui-select-menu-width, max-content);

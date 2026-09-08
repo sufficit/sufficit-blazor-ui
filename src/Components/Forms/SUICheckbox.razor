@@ -11,6 +11,9 @@
            checked="@Value"
            disabled="@Disabled"
            aria-label="@AriaLabel"
+           aria-invalid="@(!string.IsNullOrWhiteSpace(EffectiveErrorText) ? "true" : null)"
+           aria-describedby="@(!string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null)"
+           aria-errormessage="@(!string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null)"
            @onchange="OnChanged" />
     <span class="sui-checkbox__box" aria-hidden="true">
         @if (Value)
@@ -26,7 +29,7 @@
 
 @if (EffectiveErrorText is not null)
 {
-    <span class="sui-field__error" role="alert">@EffectiveErrorText</span>
+    <span id="@ErrorId" class="sui-field__error" role="alert">@EffectiveErrorText</span>
 }
 
 @code {
@@ -39,6 +42,7 @@
     [Parameter] public System.Linq.Expressions.Expression<Func<bool>>? ValueExpression { get; set; }
     private string? EffectiveErrorText => _field.Error;
 
+    private string ErrorId => $"{InputId}-error";
     private readonly string _generatedInputId = $"sui-checkbox-{Guid.NewGuid():N}";
 
     /// <summary>Whether the checkbox is selected.</summary>
@@ -96,6 +100,7 @@
 
     private async Task OnChanged(ChangeEventArgs args)
     {
+        if (Disabled) return;
         var value = args.Value switch
         {
             bool booleanValue => booleanValue,
