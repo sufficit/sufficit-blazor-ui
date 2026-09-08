@@ -31,7 +31,7 @@ As imagens de referência do catálogo precisam ser recapturadas no CI: a remoç
 
 ## Botões suaves e alinhamento
 
-`VariantValue="SUIVariant.Soft"` está disponível para SUIButton, SUILoadingButton e SUIIconButton. Usa fundo tonal opaco derivado da cor e da superfície, texto de maior contraste, peso 500 e `--sui-radius-lg`. Hover/pressionado reforçam o tom; foco, desabilitado e movimento reduzido seguem os contratos existentes. Os valores e padrões de Filled/Outlined/Text foram preservados; Soft não é uma variante anunciada para outros componentes.
+`VariantValue="SUIVariant.Soft"` está disponível para SUIButton, SUILoadingButton e SUIIconButton. Usa fundo tonal opaco derivado da cor e da superfície, texto de maior contraste, peso 500 e `--sui-radius-lg` nos botões com texto. SUIIconButton preserva a geometria configurada por seus modificadores de forma. Hover/pressionado reforçam o tom; foco, desabilitado e movimento reduzido seguem os contratos existentes. Os valores e padrões de Filled/Outlined/Text foram preservados; Soft não é uma variante anunciada para outros componentes.
 
 Os ícones iniciais/finais compartilham o centro vertical do grupo sem o deslocamento antigo de 1px. Esse ajuste substitui a compensação descrita na atividade de 02/09, que se mostrou inadequada na tipografia atual. A vitrine oferece “Suave” no seletor de variantes e usa o tratamento no exemplo de salvar preferências.
 
