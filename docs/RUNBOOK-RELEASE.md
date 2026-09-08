@@ -45,7 +45,7 @@ NuGet.org não permite exclusão permanente por numeração incorreta. Deslistar
 remove a descoberta normal e preserva restauração por versão exata:
 https://learn.microsoft.com/en-us/nuget/nuget-org/policies/deleting-packages
 
-O workflow manual `NuGet legacy version cleanup` é limitado ao pacote
+O workflow manual `maintenance.yml` (`NuGet legacy version cleanup`) é limitado ao pacote
 `Sufficit.Blazor.UI` e às versões `1.27.0`, `1.28.0`, `2.0.0`, `2.1.1`, `2.2.1`.
 Primeiro publique uma substituta no padrão corporativo. Informe `replacement`
 no workflow; `apply=false` apenas consulta, `apply=true` deslista usando
