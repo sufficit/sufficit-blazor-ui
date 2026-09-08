@@ -19,9 +19,9 @@
         <SUISelect T="string" Label="Família tipográfica" Value="@Preference.Font" ValueChanged="SetFont">
             <SUISelectItem Value='@("system")'>Sistema</SUISelectItem><SUISelectItem Value='@("serif")'>Serifada</SUISelectItem><SUISelectItem Value='@("mono")'>Monoespaçada</SUISelectItem>
         </SUISelect>
-        <SUINumericField T="int" Label="Tamanho do texto (px)" Value="@Preference.FontSize" ValueChanged="SetFontSize" Min="14" Max="20" />
-        <SUINumericField T="int" Label="Unidade de espaçamento (px)" Value="@Preference.SpaceUnit" ValueChanged="SetSpace" Min="2" Max="6" />
-        <SUINumericField T="int" Label="Raio das bordas (px)" Value="@Preference.Radius" ValueChanged="SetRadius" Min="0" Max="16" />
+        <SUINumericField T="int" Immediate ChangeOnWheel Label="Tamanho do texto (px)" Value="@Preference.FontSize" ValueChanged="SetFontSize" Min="14" Max="20" />
+        <SUINumericField T="int" Immediate ChangeOnWheel Label="Unidade de espaçamento (px)" Value="@Preference.SpaceUnit" ValueChanged="SetSpace" Min="2" Max="6" />
+        <SUINumericField T="int" Immediate ChangeOnWheel Label="Raio das bordas (px)" Value="@Preference.Radius" ValueChanged="SetRadius" Min="0" Max="16" />
         <SUITextField T="string" Label="Cor de sucesso" Value="@Preference.Build().Palette.Success" ValueChanged="SetSuccess" HelperText="Cor hexadecimal: #166534" ErrorText="@_successError" />
         <SUITextField T="string" Label="Cor de erro" Value="@Preference.Build().Palette.Error" ValueChanged="SetError" HelperText="Cor hexadecimal: #b91c1c" ErrorText="@_errorError" />
         <p>O modo sistema acompanha as mudanças de preferência do dispositivo.</p>
@@ -69,9 +69,9 @@
     private bool _compare;
     private string? _successError, _errorError;
     private Task SetFont(string? value) => ChangeTheme(Preference with { Font = value ?? "system" });
-    private Task SetFontSize(int value) => ChangeTheme(Preference with { FontSize = value });
-    private Task SetSpace(int value) => ChangeTheme(Preference with { SpaceUnit = value });
-    private Task SetRadius(int value) => ChangeTheme(Preference with { Radius = value });
+    private Task SetFontSize(int value) => value is >= 14 and <= 20 ? ChangeTheme(Preference with { FontSize = value }) : Task.CompletedTask;
+    private Task SetSpace(int value) => value is >= 2 and <= 6 ? ChangeTheme(Preference with { SpaceUnit = value }) : Task.CompletedTask;
+    private Task SetRadius(int value) => value is >= 0 and <= 16 ? ChangeTheme(Preference with { Radius = value }) : Task.CompletedTask;
     private Task SetSuccess(string? value) => SetSemantic(value, true);
     private Task SetError(string? value) => SetSemantic(value, false);
     private Task SetSemantic(string? value, bool success)

@@ -114,3 +114,26 @@ obsoletos; o callback legado permanece compatível, mas não recebe token.
 ### Ajuda de SUITextField
 
 O texto de ajuda usa 92% do token `--sui-fs-caption` e o espaçamento do próprio campo, sem margem superior adicional. No tema padrão, isso corresponde a aproximadamente 11 px e 4 px entre textbox e ajuda. O ajuste pertence ao CSS isolado do componente; label, valor, mensagens de erro e associação `aria-describedby` mantêm seus contratos.
+
+### Atualização imediata e roda do mouse
+
+`SUINumericField<T>` aceita `Immediate="true"`, como `SUITextField<T>`: valores
+convertíveis são publicados em `ValueChanged` a cada evento `input`, sem esperar
+blur. O padrão permanece `false` (evento `change`). O blur não repete o callback
+quando Immediate está ativo. Tipos anuláveis aceitam campo vazio; entradas que não
+podem ser convertidas mantêm o último valor e seguem a validação do campo.
+
+`ChangeOnWheel="true"` habilita incremento/decremento pela roda somente no campo
+focado e habilitado. Usa `Min`, `Max` e `Step` nativos; `Step="any"` não incrementa.
+Não captura gestos com Ctrl/Meta (zoom). O padrão é `false`: não instala tratamento
+próprio da roda, preservando o comportamento do navegador. Cada passo publica pelo
+mesmo contrato de eventos, inclusive quando Immediate está desativado.
+
+```razor
+<SUINumericField T="int" Label="Espaçamento" @bind-Value="spacing"
+                 Min="2" Max="6" Immediate ChangeOnWheel />
+```
+
+Immediate não adiciona debounce nem salvamento remoto: a aplicação decide o que
+executar em ValueChanged. O editor de temas publica valores dentro da faixa
+configurada, permitindo digitar valores intermediários sem reescrever o campo.

@@ -3110,7 +3110,7 @@
   {
     "name": "SUINumericField",
     "family": "Formulários",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUINumericField T=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" Min=\"1\" Max=\"10\" />\n\n@code {\n    protected int Count { get; set; } = 3;\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUINumericField T=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" Min=\"1\" Max=\"10\" Immediate ChangeOnWheel />\n\n<p role=\"status\">Tentativas: @Count</p>\n\n@code {\n    protected int Count { get; set; } = 3;\n}\n",
     "parameters": [
       {
         "description": "",
@@ -3204,6 +3204,22 @@
         "description": "",
         "name": "Step",
         "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Publish parsed values on input instead of waiting for change/blur. Defaults to false.",
+        "name": "Immediate",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Use the mouse wheel to step a focused field within Min/Max. Defaults to false; Step=\"any\" does not step.",
+        "name": "ChangeOnWheel",
+        "type": "bool",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
