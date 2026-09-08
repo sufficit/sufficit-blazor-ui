@@ -34,3 +34,12 @@ os demais limites permanecem iguais, abaixo do teto global de 56 KiB.
 Não houve publicação NuGet nem alteração do versionamento local preexistente
 no checkout canônico. Referências: PR #18 / issue #17 e
 [sufficit-ai-genius#625](https://github.com/sufficit/sufficit-ai-genius/pull/625).
+
+## Sincronização da verificação de rolagem (issue #19)
+
+O CI remoto encontrou uma asserção intermitente no SUISelect em Chromium e
+WebKit. Sob atraso controlado de 250 ms em revealActiveOption, os dois casos
+falharam na linha de geometria, embora a rolagem ocorresse depois. O teste
+agora aguarda até cinco segundos pela mesma geometria estrita. Os dois casos
+passaram com o atraso e sem alterar código de produção do seletor. O atraso
+foi removido após a experiência; dez casos de botões e interações passaram.
