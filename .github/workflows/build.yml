@@ -23,6 +23,17 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  publishing-credential:
+    name: Verify publishing credential
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Verify NuGet credential without exposing it
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: test -n "$NUGET_API_KEY" || { echo "NUGET_API_KEY is not configured for this repository" >&2; exit 1; }
+
   css:
     name: CSS bundle and budget
     runs-on: ubuntu-latest
@@ -57,6 +68,9 @@ jobs:
         uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           dotnet-version: "10.0.x"
+
+      - name: Test corporate version contract
+        run: python3 -m unittest discover -s scripts -p "test_*.py"
 
       - name: Restore
         run: dotnet restore src/Sufficit.Blazor.UI.csproj
@@ -111,17 +125,9 @@ jobs:
         shell: bash
         run: |
           if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
-            package_version="${GITHUB_REF_NAME#v}"
+            package_version="$(python3 scripts/release_version.py "$GITHUB_REF_NAME")"
           else
-            package_version="0.0.0-ci.${GITHUB_RUN_NUMBER}"
-          fi
-          if [[ ! "$package_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]; then
-            echo "invalid SemVer package version: $package_version" >&2
-            exit 1
-          fi
-          if [[ "$GITHUB_REF" == refs/tags/v* && "${package_version%%.*}" -lt 2 ]]; then
-            echo "net10-only packages require a v2 or newer tag: $GITHUB_REF_NAME" >&2
-            exit 1
+            package_version="$(python3 scripts/release_version.py)"
           fi
           echo "SUI_PACKAGE_VERSION=$package_version" >> "$GITHUB_ENV"
 
@@ -129,7 +135,7 @@ jobs:
         run: |
           dotnet pack src/Sufficit.Blazor.UI.csproj \
             --no-restore --configuration Release --output artifacts/packages \
-            /p:Version="$SUI_PACKAGE_VERSION" \
+            /p:VersionSuffix="$SUI_PACKAGE_VERSION" \
             /p:ContinuousIntegrationBuild=true
 
       - name: Inspect package and test minimal consumers
@@ -417,7 +423,7 @@ jobs:
   publish:
     name: Publish tagged package
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [css, pack, component-tests, browser-tests, lighthouse]
+    needs: [publishing-credential, css, pack, component-tests, browser-tests, lighthouse]
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
@@ -433,15 +439,7 @@ jobs:
       - name: Validate release tag
         shell: bash
         run: |
-          package_version="${GITHUB_REF_NAME#v}"
-          if [[ ! "$package_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]; then
-            echo "release tag must be vMAJOR.MINOR.PATCH[-prerelease]: $GITHUB_REF_NAME" >&2
-            exit 1
-          fi
-          if [[ "${package_version%%.*}" -lt 2 ]]; then
-            echo "net10-only packages require a v2 or newer tag: $GITHUB_REF_NAME" >&2
-            exit 1
-          fi
+          package_version="$(python3 scripts/release_version.py "$GITHUB_REF_NAME")"
           echo "SUI_PACKAGE_VERSION=$package_version" >> "$GITHUB_ENV"
 
       - name: Restore
@@ -451,14 +449,16 @@ jobs:
         run: |
           dotnet pack src/Sufficit.Blazor.UI.csproj \
             --no-restore --configuration Release --output artifacts/packages \
-            /p:Version="$SUI_PACKAGE_VERSION" \
+            /p:VersionSuffix="$SUI_PACKAGE_VERSION" \
             /p:ContinuousIntegrationBuild=true
 
       - name: Validate exact release artifact
         run: ./scripts/validate-package.sh artifacts/packages/*.nupkg
 
       - name: Publish to NuGet.org
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
           dotnet nuget push artifacts/packages/*.nupkg \
             --source https://api.nuget.org/v3/index.json \
-            --api-key "${{ secrets.NUGET_API_KEY }}"
+            --api-key "$NUGET_API_KEY"

@@ -1,0 +1,37 @@
+name: NuGet legacy version cleanup
+
+on:
+  workflow_dispatch:
+    inputs:
+      replacement:
+        description: "Published replacement in Sufficit format 1.yy.MMdd.HHmm"
+        required: true
+        type: string
+      apply:
+        description: "Unlist the five legacy versions (false only inspects)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nuget-legacy-cleanup
+  cancel-in-progress: false
+
+jobs:
+  unlist:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Inspect or unlist only the approved legacy versions
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          REPLACEMENT: ${{ inputs.replacement }}
+          APPLY: ${{ inputs.apply }}
+        run: |
+          args=(--replacement "$REPLACEMENT")
+          if [[ "$APPLY" == true ]]; then args+=(--apply); fi
+          python3 scripts/unlist_legacy_packages.py "${args[@]}"

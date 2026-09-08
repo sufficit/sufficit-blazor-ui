@@ -2,11 +2,18 @@
 
 Todas as mudanças relevantes deste pacote serão registradas neste arquivo.
 
-O projeto segue [Semantic Versioning](https://semver.org/). Versões publicadas
-são derivadas exclusivamente de tags Git no formato
-`vMAJOR.MINOR.PATCH[-prerelease]`.
+O projeto segue o calendário Sufficit `1.yy.MMdd.HHmm` em UTC, derivado de
+tags Git `v1.yy.MMdd.HHmm`. Entradas SemVer anteriores são histórico; não
+definem a numeração das próximas publicações.
 
 ## [Unreleased]
+
+### Packaging
+
+- Restaurado o padrão de versão do Sufficit.Identity.Core: Debug `1.99.0.0`,
+  Release/Packing `1.yy.MMdd.HHmm` UTC; pacote, assembly e arquivo usam a mesma versão.
+- CI rejeita SemVer legado e datas inválidas; limpeza NuGet limitada às cinco
+  versões com numeração incorreta, preservando restores por versão exata.
 
 ### Added
 

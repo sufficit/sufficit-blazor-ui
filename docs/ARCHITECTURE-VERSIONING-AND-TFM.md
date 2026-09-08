@@ -2,18 +2,26 @@
 
 ## Contrato de versão
 
-O pacote segue SemVer. A tag Git `vMAJOR.MINOR.PATCH[-prerelease]` é a fonte
-única da versão publicada; builds locais usam `0.0.0-local` e builds de CI sem
-tag usam `0.0.0-ci.<run>`.
+A SUI usa o mesmo padrão de `Sufficit.Identity.Core`: **`1.yy.MMdd.HHmm`**,
+com data/hora UTC. Debug usa `1.99.0.0`; Release e Packing capturam o horário
+uma vez. `Version`, `AssemblyVersion` e `FileVersion` permanecem alinhados.
 
-- **Patch:** correção compatível, sem remoção de API ou mudança deliberada de
-  comportamento público.
-- **Minor:** API aditiva e deprecações com substituição executável.
-- **Major:** remoção/renomeação pública, mudança de comportamento incompatível
-  ou retirada de TFM ainda oferecido pela major anterior.
+A tag de publicação é `v1.yy.MMdd.HHmm`. O NuGet remove zeros à esquerda:
+`1.26.0908.0005` aparece como `1.26.908.5`; é a mesma versão. O script
+`python3 scripts/release_version.py` gera o formato normalizado; com argumento,
+valida a data real, o horário e a numeração. `VersionSuffix` fixa o valor no
+MSBuild durante empacotamento/CI, sem reconsultar o relógio entre artefatos.
 
-Pacotes publicados são imutáveis. Uma falha pós-release gera uma nova versão;
-`--skip-duplicate` não faz parte do caminho normal.
+CI sem tag também valida um pacote no formato corporativo, mas não publica.
+`1.99.0.0` e SemVer legado não são versões de release. Não usar `/p:Version`
+isoladamente, pois isso pode divergir da identidade do assembly; usar
+`/p:VersionSuffix=1.yy.MMdd.HHmm`.
+
+Pacotes publicados são imutáveis. Uma correção recebe um novo timestamp UTC;
+`--skip-duplicate` não faz parte do caminho normal. Duas releases no mesmo
+minuto precisam de minutos distintos. A data identifica o build, sem prometer
+compatibilidade pela progressão de major/minor. Mudanças incompatíveis exigem
+changelog, plano de migração e validação nos consumidores.
 
 ## Compatibilidade da linha atual
 
@@ -23,7 +31,7 @@ Pacotes publicados são imutáveis. Uma falha pós-release gera uma nova versão
 - os 25 parâmetros visuais legados continuam presentes com `ObsoleteAttribute`;
 - `SUISelectItem.Value` permanece `object` por desenho e não faz parte da
   remoção v2;
-- APIs aditivas como `SUIFormGrid` podem entrar em minor.
+- APIs aditivas como `SUIFormGrid` são registradas no changelog.
 
 ## Política de framework
 
@@ -33,12 +41,12 @@ Em 2026-08-21, o contrato temporário `net9.0` foi retirado do projeto, CI e
 validador de pacote para eliminar uma matriz duplicada sem consumer de
 produção correspondente.
 
-Essa retirada é incompatível com a série v1 já publicada. Portanto, qualquer
-pacote produzido a partir desta linha deve usar versão `v2.0.0` ou superior; o
-runbook e o changelog impedem uma tag v1 acidental.
+Essa retirada é incompatível com os pacotes históricos que ofereciam net9.0.
+O consumidor deve conferir TFMs e migração antes de atualizar, mesmo com o
+prefixo corporativo `1`. O nome histórico “v2” no plano de migração identifica
+o trabalho de API, não a numeração NuGet.
 
-Adicionar um novo TFM segue o caminho aditivo. Retirar um TFM exige major,
-mesmo quando o runtime já saiu de suporte.
+Adicionar ou retirar TFMs exige validação dos consumidores afetados.
 
 ## API compatibility
 

@@ -1,5 +1,8 @@
 # Plano — Sufficit.Blazor.UI v2
 
+> “v2” é o nome histórico desta migração de API. As publicações seguem o
+> calendário Sufficit `1.yy.MMdd.HHmm`, conforme o runbook de release.
+
 **Status:** Planejada; sem quebra aplicada na série v1  
 **Janela alvo:** preview após validação dos consumers; estável não antes de
 2026-11-11  
@@ -57,7 +60,7 @@ a lista só pode encolher.
 - [x] confirmar novamente que não existe consumer de produção net9;
 - [x] tornar a linha de desenvolvimento net10-only;
 - [x] remover do CI/validador os cenários net9 no mesmo commit da mudança;
-- [ ] lançar prerelease v2 net10-only;
+- [ ] validar pacote local net10-only antes de publicar versão corporativa;
 - [ ] validar a prerelease no canário e nos consumers Identity, Blazor, AI Genius e Background.
 
 ## Checklist de migração de consumer
@@ -67,7 +70,7 @@ a lista só pode encolher.
 3. Procurar no Razor os parâmetros da tabela e converter valores legados/string
    para enums SUI.
 4. Executar testes, smoke de assets e auditoria geométrica de forms.
-5. Instalar `v2.0.0-preview.N`, repetir os gates e registrar diferenças.
+5. Instalar o pacote local candidato, repetir os gates e registrar diferenças.
 6. Atualizar para a stable somente depois do canário aprovado.
 
 Pesquisas de apoio, sempre revisadas em contexto para evitar falsos positivos:

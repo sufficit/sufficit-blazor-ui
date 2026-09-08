@@ -33,7 +33,7 @@ concluído é arquivado em `activities/` com prefixo de timestamp
 - [Vitrine estática e GitHub Pages](RUNBOOK-SHOWCASE-PAGES.md) — estrutura, exemplos,
   publicação, validação em raiz/subpasta e recuperação
 
-- [Release do pacote SUI](RUNBOOK-RELEASE.md) — tag SemVer, gates, publicação,
+- [Release do pacote SUI](RUNBOOK-RELEASE.md) — tag UTC Sufficit, gates, publicação,
   verificação e recuperação
 
 ## Design
@@ -45,7 +45,7 @@ concluído é arquivado em `activities/` com prefixo de timestamp
 ## Arquitetura
 
 - [Versionamento, compatibilidade e TFMs](ARCHITECTURE-VERSIONING-AND-TFM.md) —
-  SemVer, garantias da v1, política de retirada de framework e API baseline
+  calendário Sufficit, compatibilidade, política de retirada de framework e API baseline
 
 ## Trabalho concluído (activities/)
 
