@@ -8,6 +8,14 @@ são derivadas exclusivamente de tags Git no formato
 
 ## [Unreleased]
 
+### Fixed
+
+- Tamanhos de botões e ícones agora reconhecem as classes `small`/`medium`/`large`
+  emitidas pelos componentes; botões de ícone preservam a altura escolhida e o formato quadrado.
+- `SUIChip` implementa o tamanho grande oferecido no playground; medidas são
+  verificadas em navegador, com alvos mínimos de toque preservados.
+
+
 ### Added
 
 - `SUITabs.Vertical` com teclado por orientação e seleção horizontal sempre visível.

@@ -4,6 +4,8 @@ A vitrine executa componentes reais em WebAssembly, com 68 exemplos independente
 
 O playground parametrizado cobre `SUIButton`, `SUIIconButton`, `SUIChip` e `SUITabs`. Os demais componentes continuam com exemplos interativos e código completo; não possuem ainda editor genérico de parâmetros. A tabela de API extrai a descrição XML quando disponível e informa quando não há descrição no código-fonte. No celular usa rolagem local, preservando os nomes dos parâmetros.
 
+Os tamanhos dos botões seguem `ControlHSm`, `ControlHMd` e `ControlHLg` do tema. Na vitrine confortável são 28, 40 e 44 px; botões de ícone permanecem quadrados e o glifo cresce junto. Em telas compactas ou ponteiros de toque, o alvo dos botões permanece com pelo menos 44 px, mesmo no tamanho pequeno. Chips têm alturas 24, 32 e 40 px para pequeno, médio e grande. A biblioteca aceita as classes completas emitidas pelos enums e preserva os aliases `sm`/`md`/`lg` existentes de botões e ícones.
+
 O editor de temas permite paleta, aparência, densidade, fonte, tamanho base, espaçamento, raios e cores de sucesso/erro. Preferências são limitadas a intervalos válidos e persistidas por navegador. A comparação clara/escura usa dois iframes interativos isolados; não cria providers globais concorrentes na mesma árvore. A exportação C# reflete os tokens selecionados. `SUIColorContrast.TryGetRatio` calcula contraste sRGB para cores opacas de seis dígitos; não resolve CSS variables, transparência ou o contraste final de uma página inteira.
 
 ## Versão e consumo

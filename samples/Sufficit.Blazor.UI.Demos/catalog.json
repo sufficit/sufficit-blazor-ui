@@ -807,7 +807,7 @@
         "deprecated": true
       },
       {
-        "description": "Size: \"small\" or \"medium\". Default \"medium\".",
+        "description": "Size: \"small\", \"medium\" or \"large\". Default \"medium\".",
         "name": "Size",
         "type": "object?",
         "default": "Padrão do tipo",
