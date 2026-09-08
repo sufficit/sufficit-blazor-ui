@@ -3403,12 +3403,44 @@
   {
     "name": "SUISwitch",
     "family": "Formulários",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISwitch Label=\"Ativar notificações\" @bind-Value=\"Enabled\" />\n\n@code {\n    protected bool Enabled { get; set; } = true;\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISwitch Label=\"Ativar notificações\" HelperText=\"Receber avisos sobre operações e alterações de estado.\" @bind-Value=\"Enabled\" />\n\n@code {\n    protected bool Enabled { get; set; } = true;\n}\n",
     "parameters": [
       {
         "description": "",
         "name": "ValueExpression",
         "type": "System.Linq.Expressions.Expression<Func<bool>>?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "Id",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Help associated with the checkbox, separate from its accessible name.",
+        "name": "HelperText",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "ErrorText",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "Invalid",
+        "type": "bool",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false

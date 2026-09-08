@@ -18,6 +18,8 @@ são derivadas exclusivamente de tags Git no formato
 
 ### Added
 
+- `SUISwitch.HelperText`, `Id`, `ErrorText` e `Invalid`: ajuda e erros associados ao checkbox, preservando nome acessível, binding e aparência sem ajuda.
+
 - `SUITabs.Vertical` com teclado por orientação e seleção horizontal sempre visível.
 - `SUIColorContrast` para verificar pares de cores opacas.
 - Playground de quatro componentes, composição operacional completa, editor avançado

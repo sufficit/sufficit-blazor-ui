@@ -3,19 +3,37 @@
 
 <label class="@Classname" @attributes="AdditionalAttributes">
     <input type="checkbox" class="sui-switch__input"
+           id="@EffectiveId"
+           aria-labelledby="@(string.IsNullOrWhiteSpace(Label) ? null : LabelId)"
+           aria-describedby="@DescribedBy"
+           aria-invalid="@(HasError ? "true" : null)"
+           aria-errormessage="@(!string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null)"
            checked="@Value"
            @onchange="OnChanged"
            disabled="@Disabled" />
     <span class="sui-switch__track" aria-hidden="true"></span>
-    @if (!string.IsNullOrWhiteSpace(Label))
+    @if (!string.IsNullOrWhiteSpace(HelperText))
     {
-        <span class="sui-switch__label">@Label</span>
+        <span>
+            @if (!string.IsNullOrWhiteSpace(Label))
+            {
+                <span id="@LabelId" class="sui-switch__label">@Label</span>
+            }
+            @if (!string.IsNullOrWhiteSpace(HelperText))
+            {
+                <span id="@HelperId" class="sui-field__helper sui-switch__helper">@HelperText</span>
+            }
+        </span>
+    }
+    else if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <span id="@LabelId" class="sui-switch__label">@Label</span>
     }
 </label>
 
-@if (EffectiveErrorText is not null)
+@if (!string.IsNullOrWhiteSpace(EffectiveErrorText))
 {
-    <span class="sui-field__error" role="alert">@EffectiveErrorText</span>
+    <span id="@ErrorId" class="sui-field__error" role="alert">@EffectiveErrorText</span>
 }
 
 @code {
@@ -26,7 +44,23 @@
     [CascadingParameter] private Microsoft.AspNetCore.Components.Forms.EditContext? FormContext { get; set; }
     private readonly SUIFieldBinding<bool> _field = new();
     [Parameter] public System.Linq.Expressions.Expression<Func<bool>>? ValueExpression { get; set; }
-    private string? EffectiveErrorText => _field.Error;
+    private string? EffectiveErrorText => ErrorText ?? _field.Error;
+    private bool HasError => Invalid || !string.IsNullOrWhiteSpace(EffectiveErrorText);
+    private readonly string _id = $"sui-switch-{Guid.NewGuid():N}";
+    private string EffectiveId => Id ?? _id;
+    private string LabelId => $"{EffectiveId}-label";
+    private string HelperId => $"{EffectiveId}-helper";
+    private string ErrorId => $"{EffectiveId}-error";
+    private string? DescribedBy => string.Join(" ", new[] {
+        string.IsNullOrWhiteSpace(HelperText) ? null : HelperId,
+        string.IsNullOrWhiteSpace(EffectiveErrorText) ? null : ErrorId
+    }.Where(value => value is not null)) is { Length: > 0 } ids ? ids : null;
+
+    [Parameter] public string? Id { get; set; }
+    /// <summary>Help associated with the checkbox, separate from its accessible name.</summary>
+    [Parameter] public string? HelperText { get; set; }
+    [Parameter] public string? ErrorText { get; set; }
+    [Parameter] public bool Invalid { get; set; }
 
     [Parameter]
     public bool Value { get; set; }
@@ -62,6 +96,7 @@
 
     private async Task OnChanged(ChangeEventArgs e)
     {
+        if (Disabled) return;
         await ValueChanged.InvokeAsync(e.Value is true);
         _field.Notify();
     }

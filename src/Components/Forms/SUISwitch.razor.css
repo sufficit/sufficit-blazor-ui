@@ -3,3 +3,6 @@
   outline-offset: 3px;
   border-radius: var(--sui-radius-sm);
 }
+
+.sui-switch__helper { display: block; padding: 0; margin-top: var(--sui-space-1); }
+.sui-switch:has(.sui-switch__helper) { align-items: start; }
