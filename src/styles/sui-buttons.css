@@ -20,7 +20,9 @@
   font-family: var(--sui-font);
   font-size: var(--sui-fs-button);
   font-weight: 500;
-  line-height: 1.35;
+  /* A compact line box keeps the text optically centred inside every control
+     height while preserving readable wrapping for longer action labels. */
+  line-height: 1.3;
   border: 1px solid transparent;
   border-radius: calc(var(--sui-radius) * 1.25);
   cursor: pointer;
