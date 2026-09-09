@@ -7,11 +7,12 @@
   --_chip-fg: var(--sui-text-primary);
   --_chip-bd: transparent;
   --_chip-remove-size: 20px;
+  --_chip-px: var(--sui-space-3);
   display: inline-flex;
   align-items: center;
   gap: var(--sui-space-1);
   height: 32px;
-  padding: 0 var(--sui-space-3);
+  padding: 0 var(--_chip-px);
   font-size: var(--sui-fs-caption);
   font-weight: 600;
   line-height: 1;
@@ -24,8 +25,14 @@
 .sui-chip--small {
   --_chip-remove-size: 18px;
   height: 24px;
-  padding: 0 var(--sui-space-2);
+  --_chip-px: var(--sui-space-2);
   font-size: var(--sui-fs-overline);
+}
+.sui-chip--large {
+  --_chip-remove-size: 24px;
+  height: 40px;
+  --_chip-px: var(--sui-space-4);
+  font-size: var(--sui-fs-body2);
 }
 .sui-chip--removable { padding-inline-end: 3px; }
 .sui-chip--actionable {
@@ -37,7 +44,7 @@
   align-items: center;
   gap: var(--sui-space-1);
   height: 100%;
-  padding: 0 var(--sui-space-3);
+  padding: 0 var(--_chip-px);
   font: inherit;
   color: inherit;
   cursor: pointer;
@@ -45,7 +52,6 @@
   border: 0;
   border-radius: inherit;
 }
-.sui-chip--small .sui-chip__action { padding-inline: var(--sui-space-2); }
 .sui-chip--actionable.sui-chip--removable .sui-chip__action { padding-inline-end: var(--sui-space-1); }
 .sui-chip__action:hover { background: color-mix(in srgb,currentColor 7%, transparent); }
 .sui-chip__action:focus-visible { outline: 2px solid currentColor; outline-offset: -2px; }

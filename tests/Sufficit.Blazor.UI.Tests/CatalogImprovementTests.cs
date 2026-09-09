@@ -78,6 +78,8 @@ public sealed class CatalogImprovementTests
     {
         await using var context = new BunitContext();
         var started = new TaskCompletionSource<CancellationToken>();
+        context.JSInterop.SetupModule("./_content/Sufficit.Blazor.UI/Components/Forms/SUIAutocomplete.razor.js").Mode = JSRuntimeMode.Loose;
+        context.JSInterop.SetupVoid("Blazor._internal.domWrapper.focus", _ => true);
         var cut = context.Render<SUIAutocomplete<string>>(p => p.Add(x => x.DebounceInterval, 0)
             .Add(x => x.SearchFuncAsync, async (_, token) =>
             {

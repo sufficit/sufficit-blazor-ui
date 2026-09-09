@@ -6,6 +6,12 @@
   min-inline-size: 0;
 }
 
+/* Limit the column count while allowing a sidebar/dialog to stack independently of the viewport. */
+.sui-form-grid--stack-mobile {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, max(var(--sui-form-grid-min-width, 14rem),
+    (100% - (var(--sui-form-grid-columns, 2) - 1) * var(--sui-form-grid-gap, var(--sui-space-4))) / var(--sui-form-grid-columns, 2))), 1fr));
+}
+
 .sui-form-grid ::deep > * {
   min-inline-size: 0;
   align-self: start;
@@ -24,7 +30,7 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .sui-form-grid--stack-mobile ::deep :is(.sui-field__label, [data-sui-field-label]) {
+  .sui-form-grid.sui-form-grid--stack-mobile ::deep :is(.sui-field__label, [data-sui-field-label]) {
     min-block-size: auto;
   }
 }

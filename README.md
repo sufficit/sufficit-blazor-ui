@@ -15,9 +15,9 @@ nenhuma biblioteca visual de terceiros nem contém código-fonte vendorizado.
 - Namespace dos componentes: `Sufficit.Blazor.UI.Components`.
 - Namespace de temas: `Sufficit.Blazor.UI.Themes`.
 
-A linha de desenvolvimento atual é `net10.0`-only. Como a retirada de um TFM é
-uma alteração incompatível, o próximo pacote derivado desta linha deve usar a
-major v2. Veja a
+A linha de desenvolvimento atual é `net10.0`-only. A retirada de um TFM exige
+migração explícita dos consumidores. O número do pacote segue o calendário
+Sufficit, sem major/minor de SemVer. Veja a
 [política de versionamento e TFMs](docs/ARCHITECTURE-VERSIONING-AND-TFM.md) e o
 [plano da v2](docs/PLAN-SUI-V2.md).
 
@@ -28,8 +28,9 @@ markup SSR, CSS global/isolation e módulos. As dependências ASP.NET Core usam 
 servicing exatas; o Dependabot mantém a atualização semanal, evitando que dois
 restores do mesmo commit escolham versões diferentes.
 
-Builds locais usam a versão não publicável `0.0.0-local`. Uma release nasce
-somente de tag `vMAJOR.MINOR.PATCH[-prerelease]`; o pacote só é enviado ao
+Debug usa `1.99.0.0`; Release/Packing usam `1.yy.MMdd.HHmm` em UTC, como
+`Sufficit.Identity.Core`. Uma release nasce de uma tag `v1.yy.MMdd.HHmm`;
+o NuGet normaliza zeros à esquerda dos segmentos. O pacote só é enviado ao
 NuGet.org depois dos gates de .NET 10, bUnit, Playwright/axe e validação do
 artefato exato. Veja o [runbook de release](docs/RUNBOOK-RELEASE.md) e o
 [changelog](CHANGELOG.md).
@@ -152,6 +153,8 @@ própria para botões primários preenchidos; quando omitidos, o provider recua
 para `Primary`/`PrimaryContrast` e preserva temas existentes.
 
 ## Vitrine estática
+
+**[Abrir a vitrine publicada](https://sufficit.github.io/sufficit-blazor-ui/)**
 
 A vitrine em `samples/Sufficit.Blazor.UI.Showcase` executa os **68 componentes**
 em Blazor WebAssembly. Inclui busca, exemplos Razor copiáveis, parâmetros
@@ -280,6 +283,7 @@ listas de débito explícitas (`FileSizeBudgetTests.Debt`,
 - [Rollout e rollback dos consumidores](docs/CONSUMER-ROLLOUT.md)
 - [Índice de documentação](docs/README.md)
 - [Skill e convenções SUI](skills/sui-design/SKILL.md)
+- [Sufficit Frontend](skills/sufficit-frontend/SKILL.md) — frontend geral, integração SUI e validação; [instalação e versões](skills/sufficit-frontend/references/installation.md).
 
 A atividade registra a migração para organização por famílias, CSS híbrido,
 módulos JavaScript colocalizados, catálogo executável, testes de componentes,

@@ -6,6 +6,15 @@ public static partial class DemoCatalog
 {
     public static IReadOnlyList<DemoEntry> Entries { get; } = Load();
 
+    public static string WorkspaceSource { get; } = LoadComposition("OperationsWorkspace");
+    public static string InteractionSource { get; } = LoadComposition("InteractionPatterns");
+    private static string LoadComposition(string name)
+    {
+        using var stream = typeof(DemoCatalog).Assembly.GetManifestResourceStream($"Sufficit.Blazor.UI.Demos.Compositions.{name}.razor")!;
+        using var reader = new StreamReader(stream);
+        return reader.ReadToEnd();
+    }
+
     private static IReadOnlyList<DemoEntry> Load()
     {
         using var stream = typeof(DemoCatalog).Assembly.GetManifestResourceStream("Sufficit.Blazor.UI.Demos.catalog.json")!;
@@ -14,7 +23,7 @@ public static partial class DemoCatalog
 }
 
 public sealed record DemoEntry(string Name, string Family, string Source, List<DemoParameter> Parameters);
-public sealed record DemoParameter(string Name, string Type, string Default, bool Required, bool Deprecated);
+public sealed record DemoParameter(string Name, string Type, string Default, bool Required, bool Deprecated, string Description = "");
 
 [System.Text.Json.Serialization.JsonSourceGenerationOptions(PropertyNameCaseInsensitive = true)]
 [System.Text.Json.Serialization.JsonSerializable(typeof(List<DemoEntry>))]

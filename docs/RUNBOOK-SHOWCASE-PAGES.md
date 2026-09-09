@@ -1,5 +1,7 @@
 # Vitrine de componentes e GitHub Pages
 
+Vitrine publicada: https://sufficit.github.io/sufficit-blazor-ui/
+
 ## Estrutura
 
 - `src`: biblioteca NuGet; não referencia os hosts nem os dados demonstrativos.
@@ -123,3 +125,12 @@ Para reverter o site, reverta o commit problemático em `main` e deixe o mesmo
 workflow validar/publicar o código anterior. Não reutilize um artefato sem
 saber com qual `base` ele foi preparado. A publicação da vitrine e a release
 NuGet são fluxos independentes.
+
+## Referências visuais do catálogo Server
+
+Capture os baselines definitivos no runner do GitHub, usando a entrada
+`update-baselines=true` do workflow Build. Fontes do sistema podem alterar
+quebras de linha e a altura da captura local. Depois da recaptura, execute
+um build normal para comparar as imagens; não aumente a tolerância para
+acomodar diferenças de ambiente. Esse fluxo só atualiza as quatro imagens
+de referência e exige inspeção visual das alterações.

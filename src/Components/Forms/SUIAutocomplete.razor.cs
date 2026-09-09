@@ -102,6 +102,7 @@ public partial class SUIAutocomplete<T>
     private bool _open;
     private bool _loading;
     private bool _disposed;
+    private int _focusVersion;
     private int _activeIndex = -1;
 
     private string EffectiveId => string.IsNullOrWhiteSpace(Id) ? _generatedId : Id.Trim();
@@ -163,6 +164,8 @@ public partial class SUIAutocomplete<T>
 
         if (Disabled)
         {
+            CancelPendingSearch();
+            _loading = false;
             _open = false;
         }
     }
@@ -232,6 +235,7 @@ public partial class SUIAutocomplete<T>
 
     private void OnFocus()
     {
+        _focusVersion++;
         if (!Disabled && (_items.Count > 0 || _loading || !string.IsNullOrWhiteSpace(_searchError)))
         {
             _open = true;
@@ -240,7 +244,7 @@ public partial class SUIAutocomplete<T>
 
     private async Task OnKeyDownAsync(KeyboardEventArgs args)
     {
-        if (Disabled)
+        if (Disabled || args.CtrlKey || args.MetaKey || args.AltKey)
         {
             return;
         }
@@ -290,8 +294,9 @@ public partial class SUIAutocomplete<T>
 
     private async Task OnFocusOutAsync(FocusEventArgs _)
     {
+        var version = ++_focusVersion;
         await Task.Delay(120);
-        if (_disposed)
+        if (_disposed || version != _focusVersion)
         {
             return;
         }
@@ -302,6 +307,8 @@ public partial class SUIAutocomplete<T>
 
     private async Task SelectAsync(T item)
     {
+        if (Disabled) return;
+        CancelPendingSearch();
         _query = ToDisplayString(item);
         _observedValue = item;
         _open = false;
@@ -322,6 +329,7 @@ public partial class SUIAutocomplete<T>
         _searchError = null;
         await ValueChanged.InvokeAsync(default);
         _field.Notify();
+        await _inputElement.FocusAsync(preventScroll: true);
     }
 
     private string ToDisplayString(T item)
@@ -341,11 +349,11 @@ public partial class SUIAutocomplete<T>
         _cts = null;
     }
 
-    public ValueTask DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         _field.Dispose();
         _disposed = true;
         CancelPendingSearch();
-        return ValueTask.CompletedTask;
+        await DisconnectAsync();
     }
 }

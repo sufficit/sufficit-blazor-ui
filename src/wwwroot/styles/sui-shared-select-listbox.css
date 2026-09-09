@@ -92,7 +92,7 @@
    overrides behind feature detection so older browsers retain the absolute
    inline fallback declared above. */
 @supports selector(:popover-open) {
-  .sui-select__menu[popover] {
+  .sui-select__menu[popover], .sui-autocomplete__list[popover] {
     position: fixed;
     inset: auto;
     width: var(--sui-select-menu-width, max-content);
@@ -142,8 +142,8 @@
 .sui-select__option--disabled:hover { background: transparent; }
 .sui-select__option[aria-selected="true"] {
   background: var(--sui-color-primary-soft);
-  /* The action shade keeps selected text readable on the soft primary fill. */
-  color: var(--sui-color-primary-action, var(--sui-color-primary));
+  /* Body text stays readable on the soft fill, including dark branded themes. */
+  color: var(--sui-text-primary);
   font-weight: 600;
 }
 .sui-select__items-source { display: none; }

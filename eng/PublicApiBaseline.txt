@@ -91,6 +91,7 @@ B|Sufficit.Blazor.UI.Services.SUIDialogService|System.Object
 B|Sufficit.Blazor.UI.Services.SUISnackbarEntry|System.Object
 B|Sufficit.Blazor.UI.Services.SUISnackbarService|System.Object
 B|Sufficit.Blazor.UI.Themes.DefaultSUITheme|System.Object
+B|Sufficit.Blazor.UI.Themes.SUIColorContrast|System.Object
 B|Sufficit.Blazor.UI.Themes.SUILayout|System.Object
 B|Sufficit.Blazor.UI.Themes.SUIPalette|System.Object
 B|Sufficit.Blazor.UI.Themes.SUIThemeOptions|System.Object
@@ -699,6 +700,8 @@ M|Sufficit.Blazor.UI.Services.SUISnackbarEntry|System.Int32|GetHashCode|()
 M|Sufficit.Blazor.UI.Services.SUISnackbarEntry|System.String|ToString|()
 M|Sufficit.Blazor.UI.Services.SUISnackbarEntry|System.Void|Deconstruct|(out System.Guid,out System.String,out System.String,out System.DateTime)
 M|Sufficit.Blazor.UI.Services.SUISnackbarService|System.Void|Add|(System.String,System.String,System.Int32)
+M|Sufficit.Blazor.UI.Themes.SUIColorContrast|System.Boolean|IsHexColor|(System.String)
+M|Sufficit.Blazor.UI.Themes.SUIColorContrast|System.Boolean|TryGetRatio|(System.String,System.String,out System.Double)
 M|Sufficit.Blazor.UI.Themes.SUILayout|Sufficit.Blazor.UI.Themes.SUILayout|<Clone>$|()
 M|Sufficit.Blazor.UI.Themes.SUILayout|System.Boolean|Equals|(Sufficit.Blazor.UI.Themes.SUILayout)
 M|Sufficit.Blazor.UI.Themes.SUILayout|System.Boolean|Equals|(System.Object)
@@ -1277,6 +1280,7 @@ P|Sufficit.Blazor.UI.Components.SUITableSortLabel<`0:T>|System.Object|InitialDir
 P|Sufficit.Blazor.UI.Components.SUITableSortLabel<`0:T>|System.String|Class|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITabs|Microsoft.AspNetCore.Components.EventCallback<System.Int32>|ActiveIndexChanged|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITabs|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITabs|System.Boolean|Vertical|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITabs|System.Collections.Generic.Dictionary<System.String,System.Object>|AdditionalAttributes|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITabs|System.Int32|ActiveIndex|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITabs|System.String|AriaLabel|[]|get;set;
@@ -1554,6 +1558,7 @@ T|class|Sufficit.Blazor.UI.Services.SUIDialogService
 T|class|Sufficit.Blazor.UI.Services.SUISnackbarEntry
 T|class|Sufficit.Blazor.UI.Services.SUISnackbarService
 T|class|Sufficit.Blazor.UI.Themes.DefaultSUITheme
+T|class|Sufficit.Blazor.UI.Themes.SUIColorContrast
 T|class|Sufficit.Blazor.UI.Themes.SUILayout
 T|class|Sufficit.Blazor.UI.Themes.SUIPalette
 T|class|Sufficit.Blazor.UI.Themes.SUITheme

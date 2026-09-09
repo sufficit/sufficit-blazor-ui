@@ -1,18 +1,14 @@
-/* ------------------------------------------------------------------ *
- * Tabs
- * ------------------------------------------------------------------ */
-
 .sui-tabs { width: 100%; }
 .sui-tabs__list {
   display: flex;
   gap: var(--sui-space-1);
   border-bottom: 1px solid var(--sui-border);
   overflow-x: auto;
-  /* Narrow windows overflow by a few pixels and the visible scrollbar read
-     as a layout bug; the strip stays scrollable (touch/drag/wheel). */
-  scrollbar-width: none;
+  scrollbar-width: thin;
+  scrollbar-color: var(--sui-border-strong) transparent;
 }
-.sui-tabs__list::-webkit-scrollbar { display: none; }
+.sui-tabs__list::-webkit-scrollbar { height: 4px; }
+.sui-tabs__list::-webkit-scrollbar-thumb { background: var(--sui-border-strong); }
 .sui-tab {
   appearance: none;
   border: none;
@@ -44,3 +40,9 @@
 @media (prefers-reduced-motion: reduce) {
   .sui-tab { transition: none; }
 }
+
+.sui-tabs--vertical { display: grid; grid-template-columns: minmax(140px, 180px) minmax(0, 1fr); gap: var(--sui-space-4); align-items: start; }
+.sui-tabs--vertical > .sui-tabs__list { flex-direction: column; border-bottom: 0; border-inline-end: 1px solid var(--sui-border); }
+.sui-tabs--vertical > .sui-tabs__list > .sui-tab { text-align: start; white-space: normal; margin: 0; border-bottom: 0; border-inline-start: 3px solid transparent; }
+.sui-tabs--vertical > .sui-tabs__list > .sui-tab.is-active { color: var(--sui-text-primary); border-inline-start-color: var(--sui-color-primary); background: var(--sui-color-primary-soft); }
+.sui-tabs--vertical > .sui-tabs__panels { min-width: 0; padding-block: 0; }

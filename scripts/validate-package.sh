@@ -24,6 +24,9 @@ if [[ -z "$package_version" ]]; then
   exit 1
 fi
 
+# Reject accidental legacy SemVer/Debug packages before testing or publishing.
+python3 "$(dirname "$0")/release_version.py" "$package_version" >/dev/null
+
 required_entries=(
   "lib/net10.0/Sufficit.Blazor.UI.dll"
   "readme.md"

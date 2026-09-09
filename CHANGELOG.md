@@ -2,13 +2,70 @@
 
 Todas as mudanças relevantes deste pacote serão registradas neste arquivo.
 
-O projeto segue [Semantic Versioning](https://semver.org/). Versões publicadas
-são derivadas exclusivamente de tags Git no formato
-`vMAJOR.MINOR.PATCH[-prerelease]`.
+O projeto segue o calendário Sufficit `1.yy.MMdd.HHmm` em UTC, derivado de
+tags Git `v1.yy.MMdd.HHmm`. Entradas SemVer anteriores são histórico; não
+definem a numeração das próximas publicações.
 
 ## [Unreleased]
 
+### Packaging
+
+- Restaurado o padrão de versão do Sufficit.Identity.Core: Debug `1.99.0.0`,
+  Release/Packing `1.yy.MMdd.HHmm` UTC; pacote, assembly e arquivo usam a mesma versão.
+- CI rejeita SemVer legado e datas inválidas; limpeza NuGet limitada às cinco
+  versões com numeração incorreta, preservando restores por versão exata.
+
 ### Added
+
+- Botões: variante `Soft` com superfície tonal, peso mais leve e raio do tema; disponível em SUIButton, SUILoadingButton e SUIIconButton. Filled/Outlined/Text mantêm seus valores e padrões.
+
+### Fixed
+
+- Select e Autocomplete registram o estado enviado ao JavaScript antes de aguardar
+  o retorno, evitando que chamadas concorrentes suprimam a rolagem da seleção
+  por teclado ou reabram a lista (regressão reproduzida no WebKit).
+
+- IconButton playground no longer offers a misleading “Show icon” toggle; its Add icon, accessible title and copied configuration stay consistent. The toggle remains available for text buttons.
+
+- SUISwitch: o trilho desligado usa `--sui-color-secondary` em vez de `--sui-surface-3`, garantindo contraste mínimo de 3:1 contra a superfície nos dois temas (WCAG 1.4.11); antes o controle quase desaparecia em fundos claros. (#20)
+
+- SUITextField helper text is slightly smaller and sits closer to its input, using component-scoped CSS and the existing caption/spacing tokens.
+
+- Button showcase restores the Sufficit orange and automatically spaces action groups with nested stacks. Filled buttons retain the brand color with a subtle gradient; contrast is checked at both endpoints.
+
+- Large nos botões mantém a tipografia de Medium; SUIButton usa ícone compacto por padrão, independente do alvo, respeitando IconSizeValue explícito. IconButton limita seu glifo a 1,5em.
+- Filled mantém o fundo sólido com peso menor, cantos equilibrados, sombra curta e transições de estado mais discretas. O âmbar de ação da vitrine ficou menos saturado; Soft continua como alternativa.
+
+- Alinhamento: removido o deslocamento vertical artificial dos ícones iniciais/finais dos botões. A vitrine permite comparar Suave e Preenchida e copiar a configuração.
+- SUIButton respeita o alinhamento do conteúdo definido por Style e permite quebra de texto longo sem depender de seletores internos no consumidor.
+
+- Limpeza por teclado devolve foco em TextField/Autocomplete; erros de checkbox
+  referenciam o input e campos inválidos não apontam para mensagens inexistentes.
+- Select e Autocomplete revelam a opção ativa sem rolar a página; Tab sai do menu.
+  Autocomplete usa a camada de popover, preserva Enter do formulário durante seleção
+  e cancela busca quando desabilitado.
+- LoadingButton conserva largura com ícones, informa `aria-busy` e respeita Href.
+  Botões acomodam texto longo; ícones herdam o contraste do texto por padrão.
+- Botões semânticos usam os tokens de contraste de cada cor, inclusive em temas próprios.
+
+- Tamanhos de botões e ícones agora reconhecem as classes `small`/`medium`/`large`
+  emitidas pelos componentes; botões de ícone preservam a altura escolhida e o formato quadrado.
+- `SUIChip` implementa o tamanho grande oferecido no playground; medidas são
+  verificadas em navegador, com alvos mínimos de toque preservados.
+
+
+### Added
+
+- `SUIFormGrid.MinColumnWidth` (14rem): adaptação à largura do painel quando
+  `StackOnMobile=true`; `false` preserva colunas fixas. Exemplos de interação
+  copiáveis na vitrine cobrem painel estreito, listas longas e ações com loading.
+
+- `SUISwitch.HelperText`, `Id`, `ErrorText` e `Invalid`: ajuda e erros associados ao checkbox, preservando nome acessível, binding e aparência sem ajuda.
+
+- `SUITabs.Vertical` com teclado por orientação e seleção horizontal sempre visível.
+- `SUIColorContrast` para verificar pares de cores opacas.
+- Playground de quatro componentes, composição operacional completa, editor avançado
+  com comparação isolada de temas e medição reproduzível do carregamento WASM.
 
 - Vitrine estática Blazor WebAssembly com 68 componentes reais, busca,
   exemplos copiáveis verificados por compilação, API por componente, padrões
@@ -21,6 +78,10 @@ são derivadas exclusivamente de tags Git no formato
 
 ### Changed
 
+- Drawer compacto fechado inerte, foco visível em switches e contraste secundário escuro.
+- Exportações copiadas refletem o código exibido; validação e alterações pendentes
+  da vitrine acompanham o estado real. Documentação mostra a versão compilada.
+
 - Exemplos extraídos para RCL compartilhada pelos hosts Server e WebAssembly.
 - CSS compartilhado dividido por responsabilidade; build também sincroniza
   arquivos de compatibilidade. Budgets existentes preservados.
@@ -31,6 +92,11 @@ são derivadas exclusivamente de tags Git no formato
   traço leve dos ícones de ação, com amostra no grupo de navegação do catálogo.
 
 ### Fixed
+
+- Seletores de tema, paleta e densidade da vitrine usam `SUISelect`, com menu
+  estilizado e navegação por teclado; opção selecionada mantém contraste no escuro.
+- `SUISelect` ignora fechamento por blur antigo quando o foco já voltou ao
+  controle, preservando o menu ao reabrir rapidamente.
 
 - CodeQL init/analyze alinhados na versão 4.37.9 e agrupados no Dependabot
   para evitar atualizações parciais incompatíveis.

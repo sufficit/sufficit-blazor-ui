@@ -16,10 +16,9 @@ public sealed class PerformanceBudgetBrowserTests : PageTest
 {
     private const int RequestBudget = 30;
     private const int DomNodeBudget = 3000;
-    // Responsive drawer states and content-sized choice-card summaries bring
-    // the measured catalog CSS to ~89.3 KiB. Keep less than 3 KiB of explicit
-    // headroom so new component CSS still requires a deliberate review.
-    private const long CssTransferBudget = 92 * 1024;
+    // Includes adaptive form tracks and the autocomplete popup (~92.8 KiB).
+    // Aggregate host + library CSS, without transport compression in this fixture.
+    private const long CssTransferBudget = 94 * 1024;
     private const long TotalTransferBudget = 900 * 1024;
     private const double LargestContentfulPaintBudgetMs = 2500;
     private const double CumulativeLayoutShiftBudget = 0.1;

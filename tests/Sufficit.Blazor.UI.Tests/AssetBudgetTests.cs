@@ -14,10 +14,13 @@ public sealed class AssetBudgetTests
     private const int BundleGzipBudget = 10 * 1024;
     private const int BundleBrotliBudget = 9 * 1024;
     private const int JsModuleRawBudget = 12 * 1024;
-    private const int JsTotalBrotliBudget = 8 * 1024;
+    // Includes autocomplete keyboard interop and opt-in native numeric wheel stepping.
+    // Measured aggregate: 8,896 B Brotli; wheel module is only imported on opt-in.
+    private const int JsTotalBrotliBudget = 9 * 1024;
     // Includes the responsive custom-trailing layout used by choice cards for
     // statuses and summaries without compressing their primary content.
-    private const int IsolatedCssRawBudget = 25 * 1024;
+    // Adaptive form tracks support narrow dialogs independently of the viewport.
+    private const int IsolatedCssRawBudget = 26 * 1024;
 
     [Fact]
     public void GlobalStylesheet_FitsTheTransferBudget()

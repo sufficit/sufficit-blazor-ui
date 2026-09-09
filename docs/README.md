@@ -6,6 +6,8 @@ com prefixo de tipo em maiúsculas e sujeito em kebab-case maiúsculo. Trabalho
 concluído é arquivado em `activities/` com prefixo de timestamp
 `YYYYMMDDHHmm-`.
 
+- [Vitrine: composições, temas e desempenho](USAGE-SHOWCASE-WORKSPACE.md)
+
 ## Convenção de nomes
 
 | Prefixo | Uso |
@@ -31,7 +33,7 @@ concluído é arquivado em `activities/` com prefixo de timestamp
 - [Vitrine estática e GitHub Pages](RUNBOOK-SHOWCASE-PAGES.md) — estrutura, exemplos,
   publicação, validação em raiz/subpasta e recuperação
 
-- [Release do pacote SUI](RUNBOOK-RELEASE.md) — tag SemVer, gates, publicação,
+- [Release do pacote SUI](RUNBOOK-RELEASE.md) — tag UTC Sufficit, gates, publicação,
   verificação e recuperação
 
 ## Design
@@ -43,9 +45,15 @@ concluído é arquivado em `activities/` com prefixo de timestamp
 ## Arquitetura
 
 - [Versionamento, compatibilidade e TFMs](ARCHITECTURE-VERSIONING-AND-TFM.md) —
-  SemVer, garantias da v1, política de retirada de framework e API baseline
+  calendário Sufficit, compatibilidade, política de retirada de framework e API baseline
 
 ## Trabalho concluído (activities/)
+
+- [Seletores SUI na vitrine](activities/202609071907-completed-seletores-sui-vitrine.md) — dropdowns
+  do cabeçalho/editor, contraste de seleção e retorno de foco
+
+- [Publicação da vitrine no GitHub Pages](activities/202609071848-completed-publicacao-vitrine-pages.md) —
+  deploy público, CodeQL alinhado e CI validado nos três navegadores
 
 - [Catálogo estático e temas](activities/202609071829-completed-catalogo-estatico-temas.md) — vitrine WASM,
   GitHub Pages, 68 exemplos executáveis e contratos de componentes

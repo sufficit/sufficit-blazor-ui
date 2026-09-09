@@ -11,6 +11,8 @@ public sealed class ComponentLifecycleTests
     public async Task Autocomplete_DisposeCancelsPendingDebounce()
     {
         var context = new BunitContext();
+        context.JSInterop.SetupModule("./_content/Sufficit.Blazor.UI/Components/Forms/SUIAutocomplete.razor.js").Mode = JSRuntimeMode.Loose;
+        context.JSInterop.SetupVoid("Blazor._internal.domWrapper.focus", _ => true);
         var cut = context.Render<SUIAutocomplete<string>>(parameters => parameters
             .Add(component => component.DebounceInterval, 5_000)
             .Add(component => component.SearchFunc,
@@ -30,6 +32,8 @@ public sealed class ComponentLifecycleTests
     {
         using var context = new BunitContext();
         string? changedValue = "Destino atual";
+        context.JSInterop.SetupModule("./_content/Sufficit.Blazor.UI/Components/Forms/SUIAutocomplete.razor.js").Mode = JSRuntimeMode.Loose;
+        context.JSInterop.SetupVoid("Blazor._internal.domWrapper.focus", _ => true);
         var cut = context.Render<SUIAutocomplete<string>>(parameters => parameters
             .Add(component => component.Value, "Destino atual")
             .Add(component => component.Clearable, true)

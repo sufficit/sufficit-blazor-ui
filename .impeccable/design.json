@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-07T21:29:40.079338+00:00",
+  "generatedAt": "2026-09-08T17:31:54.114Z",
   "title": "Design System: Sufficit.Blazor.UI",
   "extensions": {
     "shadows": [
@@ -44,8 +44,494 @@
       {
         "name": "library-touch-width-max",
         "value": "599.98px"
+      },
+      {
+        "name": "theme-comparison-stack-max",
+        "value": "700px"
       }
-    ]
+    ],
+    "colorMeta": {
+      "library-primary": {
+        "role": "primary",
+        "displayName": "Library primary",
+        "tonalRamp": [
+          "oklch(15% 0.2152 262.9)",
+          "oklch(27% 0.2152 262.9)",
+          "oklch(39% 0.2152 262.9)",
+          "oklch(51% 0.2152 262.9)",
+          "oklch(63% 0.2152 262.9)",
+          "oklch(75% 0.2152 262.9)",
+          "oklch(87% 0.2152 262.9)",
+          "oklch(95% 0.2152 262.9)"
+        ]
+      },
+      "library-primary-dark": {
+        "role": "primary",
+        "displayName": "Library primary dark",
+        "tonalRamp": [
+          "oklch(15% 0.0956 251.8)",
+          "oklch(27% 0.0956 251.8)",
+          "oklch(39% 0.0956 251.8)",
+          "oklch(51% 0.0956 251.8)",
+          "oklch(63% 0.0956 251.8)",
+          "oklch(75% 0.0956 251.8)",
+          "oklch(87% 0.0956 251.8)",
+          "oklch(95% 0.0956 251.8)"
+        ]
+      },
+      "showcase-primary": {
+        "role": "primary",
+        "displayName": "Showcase primary",
+        "tonalRamp": [
+          "oklch(15% 0.1739 38.4)",
+          "oklch(27% 0.1739 38.4)",
+          "oklch(39% 0.1739 38.4)",
+          "oklch(51% 0.1739 38.4)",
+          "oklch(63% 0.1739 38.4)",
+          "oklch(75% 0.1739 38.4)",
+          "oklch(87% 0.1739 38.4)",
+          "oklch(95% 0.1739 38.4)"
+        ]
+      },
+      "showcase-primary-dark": {
+        "role": "primary",
+        "displayName": "Showcase primary dark",
+        "tonalRamp": [
+          "oklch(15% 0.1590 55.9)",
+          "oklch(27% 0.1590 55.9)",
+          "oklch(39% 0.1590 55.9)",
+          "oklch(51% 0.1590 55.9)",
+          "oklch(63% 0.1590 55.9)",
+          "oklch(75% 0.1590 55.9)",
+          "oklch(87% 0.1590 55.9)",
+          "oklch(95% 0.1590 55.9)"
+        ]
+      },
+      "showcase-action": {
+        "role": "primary",
+        "displayName": "Showcase action",
+        "tonalRamp": [
+          "oklch(15% 0.1739 38.4)",
+          "oklch(27% 0.1739 38.4)",
+          "oklch(39% 0.1739 38.4)",
+          "oklch(51% 0.1739 38.4)",
+          "oklch(63% 0.1739 38.4)",
+          "oklch(75% 0.1739 38.4)",
+          "oklch(87% 0.1739 38.4)",
+          "oklch(95% 0.1739 38.4)"
+        ]
+      },
+      "showcase-action-contrast": {
+        "role": "primary",
+        "displayName": "Showcase action contrast",
+        "tonalRamp": [
+          "oklch(15% 0.0158 73.7)",
+          "oklch(27% 0.0158 73.7)",
+          "oklch(39% 0.0158 73.7)",
+          "oklch(51% 0.0158 73.7)",
+          "oklch(63% 0.0158 73.7)",
+          "oklch(75% 0.0158 73.7)",
+          "oklch(87% 0.0158 73.7)",
+          "oklch(95% 0.0158 73.7)"
+        ]
+      },
+      "preset-red": {
+        "role": "primary",
+        "displayName": "Preset red",
+        "tonalRamp": [
+          "oklch(15% 0.1905 27.5)",
+          "oklch(27% 0.1905 27.5)",
+          "oklch(39% 0.1905 27.5)",
+          "oklch(51% 0.1905 27.5)",
+          "oklch(63% 0.1905 27.5)",
+          "oklch(75% 0.1905 27.5)",
+          "oklch(87% 0.1905 27.5)",
+          "oklch(95% 0.1905 27.5)"
+        ]
+      },
+      "preset-red-dark": {
+        "role": "primary",
+        "displayName": "Preset red dark",
+        "tonalRamp": [
+          "oklch(15% 0.1035 19.6)",
+          "oklch(27% 0.1035 19.6)",
+          "oklch(39% 0.1035 19.6)",
+          "oklch(51% 0.1035 19.6)",
+          "oklch(63% 0.1035 19.6)",
+          "oklch(75% 0.1035 19.6)",
+          "oklch(87% 0.1035 19.6)",
+          "oklch(95% 0.1035 19.6)"
+        ]
+      },
+      "primary-soft": {
+        "role": "primary",
+        "displayName": "Primary soft"
+      },
+      "secondary": {
+        "role": "secondary",
+        "displayName": "Secondary",
+        "tonalRamp": [
+          "oklch(15% 0.0407 257.4)",
+          "oklch(27% 0.0407 257.4)",
+          "oklch(39% 0.0407 257.4)",
+          "oklch(51% 0.0407 257.4)",
+          "oklch(63% 0.0407 257.4)",
+          "oklch(75% 0.0407 257.4)",
+          "oklch(87% 0.0407 257.4)",
+          "oklch(95% 0.0407 257.4)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "tonalRamp": [
+          "oklch(15% 0.0000 0.0)",
+          "oklch(27% 0.0000 0.0)",
+          "oklch(39% 0.0000 0.0)",
+          "oklch(51% 0.0000 0.0)",
+          "oklch(63% 0.0000 0.0)",
+          "oklch(75% 0.0000 0.0)",
+          "oklch(87% 0.0000 0.0)",
+          "oklch(95% 0.0000 0.0)"
+        ]
+      },
+      "surface-2": {
+        "role": "neutral",
+        "displayName": "Surface 2",
+        "tonalRamp": [
+          "oklch(15% 0.0069 247.9)",
+          "oklch(27% 0.0069 247.9)",
+          "oklch(39% 0.0069 247.9)",
+          "oklch(51% 0.0069 247.9)",
+          "oklch(63% 0.0069 247.9)",
+          "oklch(75% 0.0069 247.9)",
+          "oklch(87% 0.0069 247.9)",
+          "oklch(95% 0.0069 247.9)"
+        ]
+      },
+      "surface-3": {
+        "role": "neutral",
+        "displayName": "Surface 3",
+        "tonalRamp": [
+          "oklch(15% 0.0126 255.5)",
+          "oklch(27% 0.0126 255.5)",
+          "oklch(39% 0.0126 255.5)",
+          "oklch(51% 0.0126 255.5)",
+          "oklch(63% 0.0126 255.5)",
+          "oklch(75% 0.0126 255.5)",
+          "oklch(87% 0.0126 255.5)",
+          "oklch(95% 0.0126 255.5)"
+        ]
+      },
+      "text-primary": {
+        "role": "primary",
+        "displayName": "Text primary",
+        "tonalRamp": [
+          "oklch(15% 0.0398 265.8)",
+          "oklch(27% 0.0398 265.8)",
+          "oklch(39% 0.0398 265.8)",
+          "oklch(51% 0.0398 265.8)",
+          "oklch(63% 0.0398 265.8)",
+          "oklch(75% 0.0398 265.8)",
+          "oklch(87% 0.0398 265.8)",
+          "oklch(95% 0.0398 265.8)"
+        ]
+      },
+      "text-secondary": {
+        "role": "secondary",
+        "displayName": "Text secondary",
+        "tonalRamp": [
+          "oklch(15% 0.0374 257.3)",
+          "oklch(27% 0.0374 257.3)",
+          "oklch(39% 0.0374 257.3)",
+          "oklch(51% 0.0374 257.3)",
+          "oklch(63% 0.0374 257.3)",
+          "oklch(75% 0.0374 257.3)",
+          "oklch(87% 0.0374 257.3)",
+          "oklch(95% 0.0374 257.3)"
+        ]
+      },
+      "text-disabled": {
+        "role": "neutral",
+        "displayName": "Text disabled",
+        "tonalRamp": [
+          "oklch(15% 0.0351 256.8)",
+          "oklch(27% 0.0351 256.8)",
+          "oklch(39% 0.0351 256.8)",
+          "oklch(51% 0.0351 256.8)",
+          "oklch(63% 0.0351 256.8)",
+          "oklch(75% 0.0351 256.8)",
+          "oklch(87% 0.0351 256.8)",
+          "oklch(95% 0.0351 256.8)"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Border",
+        "tonalRamp": [
+          "oklch(15% 0.0126 255.5)",
+          "oklch(27% 0.0126 255.5)",
+          "oklch(39% 0.0126 255.5)",
+          "oklch(51% 0.0126 255.5)",
+          "oklch(63% 0.0126 255.5)",
+          "oklch(75% 0.0126 255.5)",
+          "oklch(87% 0.0126 255.5)",
+          "oklch(95% 0.0126 255.5)"
+        ]
+      },
+      "border-strong": {
+        "role": "neutral",
+        "displayName": "Border strong",
+        "tonalRamp": [
+          "oklch(15% 0.0198 252.9)",
+          "oklch(27% 0.0198 252.9)",
+          "oklch(39% 0.0198 252.9)",
+          "oklch(51% 0.0198 252.9)",
+          "oklch(63% 0.0198 252.9)",
+          "oklch(75% 0.0198 252.9)",
+          "oklch(87% 0.0198 252.9)",
+          "oklch(95% 0.0198 252.9)"
+        ]
+      },
+      "info": {
+        "role": "tertiary",
+        "displayName": "Info",
+        "tonalRamp": [
+          "oklch(15% 0.1193 242.7)",
+          "oklch(27% 0.1193 242.7)",
+          "oklch(39% 0.1193 242.7)",
+          "oklch(51% 0.1193 242.7)",
+          "oklch(63% 0.1193 242.7)",
+          "oklch(75% 0.1193 242.7)",
+          "oklch(87% 0.1193 242.7)",
+          "oklch(95% 0.1193 242.7)"
+        ]
+      },
+      "success": {
+        "role": "tertiary",
+        "displayName": "Success",
+        "tonalRamp": [
+          "oklch(15% 0.1083 151.3)",
+          "oklch(27% 0.1083 151.3)",
+          "oklch(39% 0.1083 151.3)",
+          "oklch(51% 0.1083 151.3)",
+          "oklch(63% 0.1083 151.3)",
+          "oklch(75% 0.1083 151.3)",
+          "oklch(87% 0.1083 151.3)",
+          "oklch(95% 0.1083 151.3)"
+        ]
+      },
+      "warning": {
+        "role": "tertiary",
+        "displayName": "Warning",
+        "tonalRamp": [
+          "oklch(15% 0.1247 46.2)",
+          "oklch(27% 0.1247 46.2)",
+          "oklch(39% 0.1247 46.2)",
+          "oklch(51% 0.1247 46.2)",
+          "oklch(63% 0.1247 46.2)",
+          "oklch(75% 0.1247 46.2)",
+          "oklch(87% 0.1247 46.2)",
+          "oklch(95% 0.1247 46.2)"
+        ]
+      },
+      "error": {
+        "role": "tertiary",
+        "displayName": "Error",
+        "tonalRamp": [
+          "oklch(15% 0.1905 27.5)",
+          "oklch(27% 0.1905 27.5)",
+          "oklch(39% 0.1905 27.5)",
+          "oklch(51% 0.1905 27.5)",
+          "oklch(63% 0.1905 27.5)",
+          "oklch(75% 0.1905 27.5)",
+          "oklch(87% 0.1905 27.5)",
+          "oklch(95% 0.1905 27.5)"
+        ]
+      },
+      "dark-surface": {
+        "role": "neutral",
+        "displayName": "Dark surface",
+        "tonalRamp": [
+          "oklch(15% 0.0398 265.8)",
+          "oklch(27% 0.0398 265.8)",
+          "oklch(39% 0.0398 265.8)",
+          "oklch(51% 0.0398 265.8)",
+          "oklch(63% 0.0398 265.8)",
+          "oklch(75% 0.0398 265.8)",
+          "oklch(87% 0.0398 265.8)",
+          "oklch(95% 0.0398 265.8)"
+        ]
+      },
+      "dark-surface-2": {
+        "role": "neutral",
+        "displayName": "Dark surface 2",
+        "tonalRamp": [
+          "oklch(15% 0.0368 260.0)",
+          "oklch(27% 0.0368 260.0)",
+          "oklch(39% 0.0368 260.0)",
+          "oklch(51% 0.0368 260.0)",
+          "oklch(63% 0.0368 260.0)",
+          "oklch(75% 0.0368 260.0)",
+          "oklch(87% 0.0368 260.0)",
+          "oklch(95% 0.0368 260.0)"
+        ]
+      },
+      "dark-surface-3": {
+        "role": "neutral",
+        "displayName": "Dark surface 3",
+        "tonalRamp": [
+          "oklch(15% 0.0392 257.3)",
+          "oklch(27% 0.0392 257.3)",
+          "oklch(39% 0.0392 257.3)",
+          "oklch(51% 0.0392 257.3)",
+          "oklch(63% 0.0392 257.3)",
+          "oklch(75% 0.0392 257.3)",
+          "oklch(87% 0.0392 257.3)",
+          "oklch(95% 0.0392 257.3)"
+        ]
+      },
+      "dark-text-primary": {
+        "role": "primary",
+        "displayName": "Dark text primary",
+        "tonalRamp": [
+          "oklch(15% 0.0069 247.9)",
+          "oklch(27% 0.0069 247.9)",
+          "oklch(39% 0.0069 247.9)",
+          "oklch(51% 0.0069 247.9)",
+          "oklch(63% 0.0069 247.9)",
+          "oklch(75% 0.0069 247.9)",
+          "oklch(87% 0.0069 247.9)",
+          "oklch(95% 0.0069 247.9)"
+        ]
+      },
+      "dark-text-secondary": {
+        "role": "secondary",
+        "displayName": "Dark text secondary",
+        "tonalRamp": [
+          "oklch(15% 0.0198 252.9)",
+          "oklch(27% 0.0198 252.9)",
+          "oklch(39% 0.0198 252.9)",
+          "oklch(51% 0.0198 252.9)",
+          "oklch(63% 0.0198 252.9)",
+          "oklch(75% 0.0198 252.9)",
+          "oklch(87% 0.0198 252.9)",
+          "oklch(95% 0.0198 252.9)"
+        ]
+      },
+      "dark-secondary": {
+        "role": "secondary",
+        "displayName": "Dark secondary",
+        "tonalRamp": [
+          "oklch(15% 0.0198 252.9)",
+          "oklch(27% 0.0198 252.9)",
+          "oklch(39% 0.0198 252.9)",
+          "oklch(51% 0.0198 252.9)",
+          "oklch(63% 0.0198 252.9)",
+          "oklch(75% 0.0198 252.9)",
+          "oklch(87% 0.0198 252.9)",
+          "oklch(95% 0.0198 252.9)"
+        ]
+      },
+      "dark-secondary-contrast": {
+        "role": "secondary",
+        "displayName": "Dark secondary contrast",
+        "tonalRamp": [
+          "oklch(15% 0.0398 265.8)",
+          "oklch(27% 0.0398 265.8)",
+          "oklch(39% 0.0398 265.8)",
+          "oklch(51% 0.0398 265.8)",
+          "oklch(63% 0.0398 265.8)",
+          "oklch(75% 0.0398 265.8)",
+          "oklch(87% 0.0398 265.8)",
+          "oklch(95% 0.0398 265.8)"
+        ]
+      },
+      "dark-border": {
+        "role": "neutral",
+        "displayName": "Dark border",
+        "tonalRamp": [
+          "oklch(15% 0.0392 257.3)",
+          "oklch(27% 0.0392 257.3)",
+          "oklch(39% 0.0392 257.3)",
+          "oklch(51% 0.0392 257.3)",
+          "oklch(63% 0.0392 257.3)",
+          "oklch(75% 0.0392 257.3)",
+          "oklch(87% 0.0392 257.3)",
+          "oklch(95% 0.0392 257.3)"
+        ]
+      },
+      "dark-border-strong": {
+        "role": "neutral",
+        "displayName": "Dark border strong",
+        "tonalRamp": [
+          "oklch(15% 0.0407 257.4)",
+          "oklch(27% 0.0407 257.4)",
+          "oklch(39% 0.0407 257.4)",
+          "oklch(51% 0.0407 257.4)",
+          "oklch(63% 0.0407 257.4)",
+          "oklch(75% 0.0407 257.4)",
+          "oklch(87% 0.0407 257.4)",
+          "oklch(95% 0.0407 257.4)"
+        ]
+      },
+      "dark-info": {
+        "role": "tertiary",
+        "displayName": "Dark info",
+        "tonalRamp": [
+          "oklch(15% 0.1013 230.3)",
+          "oklch(27% 0.1013 230.3)",
+          "oklch(39% 0.1013 230.3)",
+          "oklch(51% 0.1013 230.3)",
+          "oklch(63% 0.1013 230.3)",
+          "oklch(75% 0.1013 230.3)",
+          "oklch(87% 0.1013 230.3)",
+          "oklch(95% 0.1013 230.3)"
+        ]
+      },
+      "dark-success": {
+        "role": "tertiary",
+        "displayName": "Dark success",
+        "tonalRamp": [
+          "oklch(15% 0.1821 151.7)",
+          "oklch(27% 0.1821 151.7)",
+          "oklch(39% 0.1821 151.7)",
+          "oklch(51% 0.1821 151.7)",
+          "oklch(63% 0.1821 151.7)",
+          "oklch(75% 0.1821 151.7)",
+          "oklch(87% 0.1821 151.7)",
+          "oklch(95% 0.1821 151.7)"
+        ]
+      },
+      "dark-warning": {
+        "role": "tertiary",
+        "displayName": "Dark warning",
+        "tonalRamp": [
+          "oklch(15% 0.1644 84.4)",
+          "oklch(27% 0.1644 84.4)",
+          "oklch(39% 0.1644 84.4)",
+          "oklch(51% 0.1644 84.4)",
+          "oklch(63% 0.1644 84.4)",
+          "oklch(75% 0.1644 84.4)",
+          "oklch(87% 0.1644 84.4)",
+          "oklch(95% 0.1644 84.4)"
+        ]
+      },
+      "dark-error": {
+        "role": "tertiary",
+        "displayName": "Dark error",
+        "tonalRamp": [
+          "oklch(15% 0.1035 19.6)",
+          "oklch(27% 0.1035 19.6)",
+          "oklch(39% 0.1035 19.6)",
+          "oklch(51% 0.1035 19.6)",
+          "oklch(63% 0.1035 19.6)",
+          "oklch(75% 0.1035 19.6)",
+          "oklch(87% 0.1035 19.6)",
+          "oklch(95% 0.1035 19.6)"
+        ]
+      }
+    }
   },
   "components": [
     {
@@ -53,24 +539,38 @@
       "kind": "button",
       "refersTo": "button-primary",
       "description": "Variante real de SUIButton vinculada ao tema ativo.",
-      "html": "<button class=\"ds-button\">Salvar alterações</button>",
-      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;gap:var(--sui-space-2);height:var(--sui-control-h-md);padding:0 var(--sui-control-px-md);font-family:var(--sui-font);font-size:var(--sui-fs-button);font-weight:600;line-height:1;border:1px solid transparent;border-radius:var(--sui-radius);cursor:pointer;transition:background var(--sui-transition),border-color var(--sui-transition),color var(--sui-transition),box-shadow var(--sui-transition)}.ds-button:focus-visible{outline:2px solid var(--sui-color-primary);outline-offset:2px}.ds-button:disabled{cursor:not-allowed;opacity:.55;box-shadow:none}@media(pointer:coarse),(max-width:599.98px){.ds-button{height:max(var(--sui-control-h-md),44px)}}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}.ds-button{background:var(--sui-color-primary-action);color:var(--sui-color-primary-action-contrast);border-color:var(--sui-color-primary)}.ds-button:not(:disabled):hover{background:color-mix(in srgb,var(--sui-color-primary-action) 90%,black)}.ds-button:not(:disabled):active{background:color-mix(in srgb,var(--sui-color-primary-action) 82%,black)}"
+      "html": "<button class=\"ds-button ds-button--color-primary ds-button--filled\">Salvar alterações</button>",
+      "css": ".ds-button {\n  --_btn-h: var(--sui-control-h-md);\n  --_btn-px: var(--sui-control-px-md);\n  --_btn-color: var(--sui-color-primary);\n  --_btn-contrast: var(--sui-color-primary-contrast);\n  --_btn-action: var(--_btn-color);\n  --_btn-action-contrast: var(--_btn-contrast);\n\n  position: relative;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: var(--sui-space-2);\n  min-height: var(--_btn-h);\n  padding: var(--sui-space-1) var(--_btn-px);\n  font-family: var(--sui-font);\n  font-size: var(--sui-fs-button);\n  font-weight: 500;\n  line-height: 1.35;\n  border: 1px solid transparent;\n  border-radius: calc(var(--sui-radius) * 1.25);\n  cursor: pointer;\n  user-select: none;\n  text-decoration: none;\n  color: var(--_btn-color);\n  background: transparent;\n  transition: background var(--sui-transition), border-color var(--sui-transition),\n              color var(--sui-transition), box-shadow var(--sui-transition);\n  -webkit-tap-highlight-color: transparent;\n}\n.ds-button:focus-visible {\n  outline: 2px solid var(--_btn-color);\n  outline-offset: 2px;\n}\n.ds-button:is(:disabled,[aria-disabled=\"true\"]) {\n  cursor: not-allowed;\n  opacity: .55;\n  box-shadow: none;\n}\n.ds-button--color-primary   {\n  --_btn-color: var(--sui-color-primary);\n  --_btn-contrast: var(--sui-color-primary-contrast);\n  --_btn-action: var(--sui-color-primary-action, var(--sui-color-primary));\n  --_btn-action-contrast: var(--sui-color-primary-action-contrast, var(--sui-color-primary-contrast));\n}\n.ds-button--filled {\n  background: linear-gradient(#0000, #0001) var(--_btn-action);\n  color: var(--_btn-action-contrast);\n  border-color: color-mix(in srgb,var(--_btn-action) 90%,var(--_btn-action-contrast));\n  box-shadow: var(--sui-shadow-1);\n}\n.ds-button--filled:not(:disabled,[aria-disabled=\"true\"]):hover {\n  background-color: color-mix(in srgb,var(--_btn-action) 94%,black);\n}\n.ds-button--filled:not(:disabled,[aria-disabled=\"true\"]):active {\n  background-color: color-mix(in srgb,var(--_btn-action) 88%,black);\n}\n\n@media(pointer:coarse),(max-width:599.98px){.ds-button{min-height:max(var(--_btn-h),44px)}.ds-button--icon{width:max(var(--_btn-h),44px)}}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}"
     },
     {
       "name": "Botão contornado",
       "kind": "button",
       "refersTo": "button-outlined",
       "description": "Variante real de SUIButton vinculada ao tema ativo.",
-      "html": "<button class=\"ds-button\">Salvar alterações</button>",
-      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;gap:var(--sui-space-2);height:var(--sui-control-h-md);padding:0 var(--sui-control-px-md);font-family:var(--sui-font);font-size:var(--sui-fs-button);font-weight:600;line-height:1;border:1px solid transparent;border-radius:var(--sui-radius);cursor:pointer;transition:background var(--sui-transition),border-color var(--sui-transition),color var(--sui-transition),box-shadow var(--sui-transition)}.ds-button:focus-visible{outline:2px solid var(--sui-color-primary);outline-offset:2px}.ds-button:disabled{cursor:not-allowed;opacity:.55;box-shadow:none}@media(pointer:coarse),(max-width:599.98px){.ds-button{height:max(var(--sui-control-h-md),44px)}}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}.ds-button{background:transparent;color:var(--sui-color-primary);border-color:color-mix(in srgb,var(--sui-color-primary) 45%,var(--sui-border))}.ds-button:not(:disabled):hover{background:color-mix(in srgb,var(--sui-color-primary) 8%,transparent)}"
+      "html": "<button class=\"ds-button ds-button--color-primary ds-button--outlined\">Salvar alterações</button>",
+      "css": ".ds-button {\n  --_btn-h: var(--sui-control-h-md);\n  --_btn-px: var(--sui-control-px-md);\n  --_btn-color: var(--sui-color-primary);\n  --_btn-contrast: var(--sui-color-primary-contrast);\n  --_btn-action: var(--_btn-color);\n  --_btn-action-contrast: var(--_btn-contrast);\n\n  position: relative;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: var(--sui-space-2);\n  min-height: var(--_btn-h);\n  padding: var(--sui-space-1) var(--_btn-px);\n  font-family: var(--sui-font);\n  font-size: var(--sui-fs-button);\n  font-weight: 500;\n  line-height: 1.35;\n  border: 1px solid transparent;\n  border-radius: calc(var(--sui-radius) * 1.25);\n  cursor: pointer;\n  user-select: none;\n  text-decoration: none;\n  color: var(--_btn-color);\n  background: transparent;\n  transition: background var(--sui-transition), border-color var(--sui-transition),\n              color var(--sui-transition), box-shadow var(--sui-transition);\n  -webkit-tap-highlight-color: transparent;\n}\n.ds-button:focus-visible {\n  outline: 2px solid var(--_btn-color);\n  outline-offset: 2px;\n}\n.ds-button:is(:disabled,[aria-disabled=\"true\"]) {\n  cursor: not-allowed;\n  opacity: .55;\n  box-shadow: none;\n}\n.ds-button--color-primary   {\n  --_btn-color: var(--sui-color-primary);\n  --_btn-contrast: var(--sui-color-primary-contrast);\n  --_btn-action: var(--sui-color-primary-action, var(--sui-color-primary));\n  --_btn-action-contrast: var(--sui-color-primary-action-contrast, var(--sui-color-primary-contrast));\n}\n.ds-button--outlined {\n  border-color: color-mix(in srgb,var(--_btn-color) 30%,var(--sui-border));\n}:is(.ds-button--outlined,.ds-button--text):not(:disabled,[aria-disabled=\"true\"]):is(:hover,:active) {\n  background: color-mix(in srgb,var(--_btn-color) var(--_btn-tint,8%),transparent);\n}\n\n:is(.ds-button--outlined,.ds-button--text):not(:disabled,[aria-disabled=\"true\"]):active {\n  --_btn-tint: 14%;\n}\n\n\n\n@media(pointer:coarse),(max-width:599.98px){.ds-button{min-height:max(var(--_btn-h),44px)}.ds-button--icon{width:max(var(--_btn-h),44px)}}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}"
     },
     {
       "name": "Botão textual",
       "kind": "button",
       "refersTo": "button-text",
       "description": "Variante real de SUIButton vinculada ao tema ativo.",
-      "html": "<button class=\"ds-button\">Salvar alterações</button>",
-      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;gap:var(--sui-space-2);height:var(--sui-control-h-md);padding:0 var(--sui-control-px-md);font-family:var(--sui-font);font-size:var(--sui-fs-button);font-weight:600;line-height:1;border:1px solid transparent;border-radius:var(--sui-radius);cursor:pointer;transition:background var(--sui-transition),border-color var(--sui-transition),color var(--sui-transition),box-shadow var(--sui-transition)}.ds-button:focus-visible{outline:2px solid var(--sui-color-primary);outline-offset:2px}.ds-button:disabled{cursor:not-allowed;opacity:.55;box-shadow:none}@media(pointer:coarse),(max-width:599.98px){.ds-button{height:max(var(--sui-control-h-md),44px)}}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}.ds-button{background:transparent;color:var(--sui-color-primary)}.ds-button:not(:disabled):hover{background:color-mix(in srgb,var(--sui-color-primary) 8%,transparent)}"
+      "html": "<button class=\"ds-button ds-button--color-primary ds-button--text\">Salvar alterações</button>",
+      "css": ".ds-button {\n  --_btn-h: var(--sui-control-h-md);\n  --_btn-px: var(--sui-control-px-md);\n  --_btn-color: var(--sui-color-primary);\n  --_btn-contrast: var(--sui-color-primary-contrast);\n  --_btn-action: var(--_btn-color);\n  --_btn-action-contrast: var(--_btn-contrast);\n\n  position: relative;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: var(--sui-space-2);\n  min-height: var(--_btn-h);\n  padding: var(--sui-space-1) var(--_btn-px);\n  font-family: var(--sui-font);\n  font-size: var(--sui-fs-button);\n  font-weight: 500;\n  line-height: 1.35;\n  border: 1px solid transparent;\n  border-radius: calc(var(--sui-radius) * 1.25);\n  cursor: pointer;\n  user-select: none;\n  text-decoration: none;\n  color: var(--_btn-color);\n  background: transparent;\n  transition: background var(--sui-transition), border-color var(--sui-transition),\n              color var(--sui-transition), box-shadow var(--sui-transition);\n  -webkit-tap-highlight-color: transparent;\n}\n.ds-button:focus-visible {\n  outline: 2px solid var(--_btn-color);\n  outline-offset: 2px;\n}\n.ds-button:is(:disabled,[aria-disabled=\"true\"]) {\n  cursor: not-allowed;\n  opacity: .55;\n  box-shadow: none;\n}\n.ds-button--color-primary   {\n  --_btn-color: var(--sui-color-primary);\n  --_btn-contrast: var(--sui-color-primary-contrast);\n  --_btn-action: var(--sui-color-primary-action, var(--sui-color-primary));\n  --_btn-action-contrast: var(--sui-color-primary-action-contrast, var(--sui-color-primary-contrast));\n}\n:is(.ds-button--outlined,.ds-button--text):not(:disabled,[aria-disabled=\"true\"]):is(:hover,:active) {\n  background: color-mix(in srgb,var(--_btn-color) var(--_btn-tint,8%),transparent);\n}\n\n:is(.ds-button--outlined,.ds-button--text):not(:disabled,[aria-disabled=\"true\"]):active {\n  --_btn-tint: 14%;\n}\n\n@media(pointer:coarse),(max-width:599.98px){.ds-button{min-height:max(var(--_btn-h),44px)}.ds-button--icon{width:max(var(--_btn-h),44px)}}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}"
+    },
+    {
+      "name": "Botão suave",
+      "kind": "button",
+      "description": "SUIButton Soft: fundo tonal 18%, hover 22% e pressionado 26%, seguindo o tema.",
+      "html": "<button class=\"ds-button ds-button--color-primary ds-button--soft\">Salvar alterações</button>",
+      "css": ".ds-button {\n  --_btn-h: var(--sui-control-h-md);\n  --_btn-px: var(--sui-control-px-md);\n  --_btn-color: var(--sui-color-primary);\n  --_btn-contrast: var(--sui-color-primary-contrast);\n  --_btn-action: var(--_btn-color);\n  --_btn-action-contrast: var(--_btn-contrast);\n\n  position: relative;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: var(--sui-space-2);\n  min-height: var(--_btn-h);\n  padding: var(--sui-space-1) var(--_btn-px);\n  font-family: var(--sui-font);\n  font-size: var(--sui-fs-button);\n  font-weight: 500;\n  line-height: 1.35;\n  border: 1px solid transparent;\n  border-radius: calc(var(--sui-radius) * 1.25);\n  cursor: pointer;\n  user-select: none;\n  text-decoration: none;\n  color: var(--_btn-color);\n  background: transparent;\n  transition: background var(--sui-transition), border-color var(--sui-transition),\n              color var(--sui-transition), box-shadow var(--sui-transition);\n  -webkit-tap-highlight-color: transparent;\n}\n.ds-button:focus-visible {\n  outline: 2px solid var(--_btn-color);\n  outline-offset: 2px;\n}\n.ds-button:is(:disabled,[aria-disabled=\"true\"]) {\n  cursor: not-allowed;\n  opacity: .55;\n  box-shadow: none;\n}\n.ds-button--color-primary   {\n  --_btn-color: var(--sui-color-primary);\n  --_btn-contrast: var(--sui-color-primary-contrast);\n  --_btn-action: var(--sui-color-primary-action, var(--sui-color-primary));\n  --_btn-action-contrast: var(--sui-color-primary-action-contrast, var(--sui-color-primary-contrast));\n}\n.ds-button--soft {\n  --_btn-tint: 18%;\n  background: color-mix(in srgb,var(--_btn-color) var(--_btn-tint),var(--sui-surface));\n  color: color-mix(in srgb,var(--_btn-color) 70%,var(--sui-text-primary));\n  border-color: color-mix(in srgb,var(--_btn-color) 20%,transparent);\n}\n.ds-button--soft:not(:disabled,[aria-disabled=\"true\"]):hover{--_btn-tint:22%}.ds-button--soft:not(:disabled,[aria-disabled=\"true\"]):active{--_btn-tint:26%}\n\n@media(pointer:coarse),(max-width:599.98px){.ds-button{min-height:max(var(--_btn-h),44px)}.ds-button--icon{width:max(var(--_btn-h),44px)}}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}"
+    },
+    {
+      "name": "Botão de ícone",
+      "kind": "button",
+      "description": "Ação primária de criar item; mesmo raio e estados do botão preenchido. O padrão neutro da API continua disponível.",
+      "html": "<button class=\"ds-button ds-button--color-primary ds-button--filled ds-button--icon\" aria-label=\"Criar item\" title=\"Criar item\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg></button>",
+      "css": ".ds-button {\n  --_btn-h: var(--sui-control-h-md);\n  --_btn-px: var(--sui-control-px-md);\n  --_btn-color: var(--sui-color-primary);\n  --_btn-contrast: var(--sui-color-primary-contrast);\n  --_btn-action: var(--_btn-color);\n  --_btn-action-contrast: var(--_btn-contrast);\n\n  position: relative;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: var(--sui-space-2);\n  min-height: var(--_btn-h);\n  padding: var(--sui-space-1) var(--_btn-px);\n  font-family: var(--sui-font);\n  font-size: var(--sui-fs-button);\n  font-weight: 500;\n  line-height: 1.35;\n  border: 1px solid transparent;\n  border-radius: calc(var(--sui-radius) * 1.25);\n  cursor: pointer;\n  user-select: none;\n  text-decoration: none;\n  color: var(--_btn-color);\n  background: transparent;\n  transition: background var(--sui-transition), border-color var(--sui-transition),\n              color var(--sui-transition), box-shadow var(--sui-transition);\n  -webkit-tap-highlight-color: transparent;\n}\n.ds-button:focus-visible {\n  outline: 2px solid var(--_btn-color);\n  outline-offset: 2px;\n}\n.ds-button:is(:disabled,[aria-disabled=\"true\"]) {\n  cursor: not-allowed;\n  opacity: .55;\n  box-shadow: none;\n}\n.ds-button--color-primary   {\n  --_btn-color: var(--sui-color-primary);\n  --_btn-contrast: var(--sui-color-primary-contrast);\n  --_btn-action: var(--sui-color-primary-action, var(--sui-color-primary));\n  --_btn-action-contrast: var(--sui-color-primary-action-contrast, var(--sui-color-primary-contrast));\n}\n.ds-button--filled {\n  background: linear-gradient(#0000, #0001) var(--_btn-action);\n  color: var(--_btn-action-contrast);\n  border-color: color-mix(in srgb,var(--_btn-action) 90%,var(--_btn-action-contrast));\n  box-shadow: var(--sui-shadow-1);\n}\n.ds-button--filled:not(:disabled,[aria-disabled=\"true\"]):hover {\n  background-color: color-mix(in srgb,var(--_btn-action) 94%,black);\n}\n.ds-button--filled:not(:disabled,[aria-disabled=\"true\"]):active {\n  background-color: color-mix(in srgb,var(--_btn-action) 88%,black);\n}\n.ds-button--icon {\n  width: var(--_btn-h);\n  padding: 0;\n  gap: 0;\n}\n.ds-button--icon svg{width:1.5em;height:1.5em}\n@media(pointer:coarse),(max-width:599.98px){.ds-button{min-height:max(var(--_btn-h),44px)}.ds-button--icon{width:max(var(--_btn-h),44px)}}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}"
     },
     {
       "name": "Campo de texto",
@@ -102,12 +602,19 @@
       "refersTo": "navigation-active",
       "description": "Atalho atual e atalho disponível no índice da vitrine.",
       "html": "<nav class=\"ds-nav\" aria-label=\"Documentação\"><a href=\"#visao-geral\" aria-current=\"page\">Visão geral</a><a href=\"#temas\">Temas e densidade</a></nav>",
-      "css": ".ds-nav{font-family:var(--sui-font)}.ds-nav a{display:block;padding:.4rem .65rem;min-height:36px;font-size:.8rem;color:var(--sui-text-secondary);text-decoration:none;border-radius:5px}.ds-nav a:hover{background:var(--sui-surface-2);color:var(--sui-text-primary)}.ds-nav a[aria-current=page]{color:var(--sui-text-primary);background:var(--sui-color-primary-soft);font-weight:650}.ds-nav a:focus-visible{outline:2px solid var(--sui-color-primary);outline-offset:3px}@media(max-width:640px){.ds-nav a{min-height:44px;display:flex;align-items:center}}"
+      "css": ".ds-nav{font-family:var(--sui-font)}.ds-nav a{display:flex;align-items:center;padding:.4rem .65rem;min-height:36px;font-size:.8rem;color:var(--sui-text-secondary);text-decoration:none;border-radius:5px}.ds-nav a:hover{background:var(--sui-surface-2);color:var(--sui-text-primary)}.ds-nav a[aria-current=page]{color:var(--sui-text-primary);background:var(--sui-color-primary-soft);font-weight:650}.ds-nav a:focus-visible{outline:2px solid var(--sui-color-primary);outline-offset:3px}@media(max-width:640px){.ds-nav a{min-height:44px;display:flex;align-items:center}}"
+    },
+    {
+      "name": "Abas verticais",
+      "kind": "nav",
+      "description": "Lista de tarefas com seleção tonal e borda inicial; amostra visual da orientação vertical.",
+      "html": "<div class=\"ds-tabs\"><div class=\"ds-tabs-list\" role=\"tablist\" aria-label=\"Seções\" aria-orientation=\"vertical\"><button class=\"ds-tab\" role=\"tab\" aria-selected=\"true\">Resumo</button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"false\" tabindex=\"-1\">Configurações</button></div><div class=\"ds-tabs-panel\">Informações principais do item.</div></div>",
+      "css": ".ds-tabs{display:grid;grid-template-columns:minmax(140px,180px) minmax(0,1fr);gap:var(--sui-space-4);align-items:start;color:var(--sui-text-primary);font-family:var(--sui-font)}.ds-tabs-list{display:flex;flex-direction:column;gap:var(--sui-space-1);border-inline-end:1px solid var(--sui-border)}.ds-tab{background:transparent;border:0;border-inline-start:3px solid transparent;padding:var(--sui-space-3) var(--sui-space-4);font-family:var(--sui-font);font-size:var(--sui-fs-body2);font-weight:600;text-align:start;color:var(--sui-text-secondary);cursor:pointer;transition:color var(--sui-transition),border-color var(--sui-transition)}.ds-tab:hover{color:var(--sui-text-primary)}.ds-tab[aria-selected=true]{color:var(--sui-text-primary);border-inline-start-color:var(--sui-color-primary);background:var(--sui-color-primary-soft)}.ds-tab:focus-visible{outline:2px solid var(--sui-color-primary);outline-offset:-2px}.ds-tabs-panel{min-width:0}@media(pointer:coarse),(max-width:599.98px){.ds-tab{min-height:44px}}@media(prefers-reduced-motion:reduce){.ds-tab{transition:none}}"
     }
   ],
   "narrative": {
     "northStar": "Bancada de componentes",
-    "overview": "Descrição inferida da implementação, sem representar uma nova decisão de marca aprovada pelo usuário: uma interface de documentação sóbria, legível e operacional, em que os próprios controles demonstram o sistema. Acentos quentes pontuam ações e navegação; superfícies neutras, divisórias finas e títulos fortes organizam o conteúdo.\n\nEste documento captura o código e as imagens revisadas em 7 de setembro de 2026. A biblioteca mantém o tema padrão azul. A vitrine aplica um tema âmbar próprio e oferece presets azul e vermelho, modos claro, escuro e sistema, e densidades confortável e compacta. Os tokens de componentes no frontmatter representam a vitrine âmbar clara e confortável; os tokens com prefixo `library` ou `dark` identificam explicitamente outros contextos. A composição editorial da vitrine não é uma obrigação para aplicações consumidoras.",
+    "overview": "Descrição inferida da implementação, sem representar uma nova decisão de marca aprovada pelo usuário: uma interface de documentação sóbria, legível e operacional, em que os próprios controles demonstram o sistema. Acentos quentes pontuam ações e navegação; superfícies neutras, divisórias finas e títulos fortes organizam o conteúdo.\n\nEste documento registra o sistema presente no código da biblioteca e da vitrine. A biblioteca mantém o tema padrão azul. A vitrine aplica um tema âmbar próprio e oferece presets azul e vermelho, modos claro, escuro e sistema, e densidades confortável e compacta. Os tokens de componentes no frontmatter representam a vitrine âmbar clara e confortável; os tokens com prefixo `library` ou `dark` identificam explicitamente outros contextos. A composição editorial da vitrine não é uma obrigação para aplicações consumidoras.",
     "keyCharacteristics": [
       "Tipografia de sistema, sem dependência de fontes externas.",
       "Contraste e hierarquia por cor, peso e espaçamento.",
@@ -117,7 +624,7 @@
     "rules": [
       {
         "name": "The Tema Global Rule.",
-        "body": "Consumir as variáveis `--sui-*` em superfícies novas. `SUIThemeProvider` publica valores em `:root` e `.sui-root[data-sui-theme]`, incluindo `color-scheme`; portais ligados ao body recebem a mesma paleta. O contrato atual é global: providers aninhados não constituem temas locais isolados.",
+        "body": "Consumir as variáveis `--sui-*` em superfícies novas. `SUIThemeProvider` publica valores em `:root` e `.sui-root[data-sui-theme]`, incluindo `color-scheme`; portais ligados ao body recebem a mesma paleta. O contrato atual é global: providers aninhados não constituem temas locais isolados. A comparação clara/escura usa documentos em iframes separados para obter isolamento real.",
         "section": "colors"
       }
     ],

@@ -10,7 +10,7 @@
     }
 
     <div class="sui-autocomplete__control">
-        <input id="@EffectiveId"
+        <input @ref="_inputElement" id="@EffectiveId"
                class="sui-field__input"
                type="text"
                role="combobox"
@@ -60,9 +60,10 @@
 
     <span id="@StatusId" class="sui-sr-only" role="status" aria-live="polite">@StatusMessage</span>
 
-    <ul id="@ListId"
+    <ul @ref="_listElement" popover="manual" id="@ListId"
         class="sui-autocomplete__list"
         role="listbox"
+        tabindex="-1"
         aria-labelledby="@LabelledBy"
         hidden="@(!_open)">
         @if (_loading)

@@ -2,9 +2,28 @@
 <p class="lead">Experimente cor, contraste e densidade em toda a vitrine. A preferência fica salva neste navegador.</p>
 <div class="theme-workbench">
     <section class="theme-controls" aria-label="Configurar tema">
-        <label>Paleta de demonstração<select value="@Preference.Brand" @onchange="SetBrand"><option value="amber">Sufficit · Âmbar</option><option value="blue">Azul</option><option value="red">Vermelho</option></select></label>
-        <label>Aparência<select value="@Preference.Mode" @onchange="SetMode"><option value="system">Acompanhar sistema</option><option value="light">Claro</option><option value="dark">Escuro</option></select></label>
-        <label>Densidade<select value="@Preference.Density" @onchange="SetDensity"><option value="comfortable">Confortável</option><option value="compact">Compacta</option></select></label>
+        <SUISelect T="string" Label="Paleta de demonstração" Value="@Preference.Brand" ValueChanged="SetBrand">
+            <SUISelectItem Value='@("amber")'>Sufficit · Âmbar</SUISelectItem>
+            <SUISelectItem Value='@("blue")'>Azul</SUISelectItem>
+            <SUISelectItem Value='@("red")'>Vermelho</SUISelectItem>
+        </SUISelect>
+        <SUISelect T="string" Label="Aparência" Value="@Preference.Mode" ValueChanged="SetMode">
+            <SUISelectItem Value='@("system")'>Acompanhar sistema</SUISelectItem>
+            <SUISelectItem Value='@("light")'>Claro</SUISelectItem>
+            <SUISelectItem Value='@("dark")'>Escuro</SUISelectItem>
+        </SUISelect>
+        <SUISelect T="string" Label="Densidade" Value="@Preference.Density" ValueChanged="SetDensity">
+            <SUISelectItem Value='@("comfortable")'>Confortável</SUISelectItem>
+            <SUISelectItem Value='@("compact")'>Compacta</SUISelectItem>
+        </SUISelect>
+        <SUISelect T="string" Label="Família tipográfica" Value="@Preference.Font" ValueChanged="SetFont">
+            <SUISelectItem Value='@("system")'>Sistema</SUISelectItem><SUISelectItem Value='@("serif")'>Serifada</SUISelectItem><SUISelectItem Value='@("mono")'>Monoespaçada</SUISelectItem>
+        </SUISelect>
+        <SUINumericField T="int" Immediate ChangeOnWheel Label="Tamanho do texto (px)" Value="@Preference.FontSize" ValueChanged="SetFontSize" Min="14" Max="20" />
+        <SUINumericField T="int" Immediate ChangeOnWheel Label="Unidade de espaçamento (px)" Value="@Preference.SpaceUnit" ValueChanged="SetSpace" Min="2" Max="6" />
+        <SUINumericField T="int" Immediate ChangeOnWheel Label="Raio das bordas (px)" Value="@Preference.Radius" ValueChanged="SetRadius" Min="0" Max="16" />
+        <SUITextField T="string" Label="Cor de sucesso" Value="@Preference.Build().Palette.Success" ValueChanged="SetSuccess" HelperText="Cor hexadecimal: #166534" ErrorText="@_successError" />
+        <SUITextField T="string" Label="Cor de erro" Value="@Preference.Build().Palette.Error" ValueChanged="SetError" HelperText="Cor hexadecimal: #b91c1c" ErrorText="@_errorError" />
         <p>O modo sistema acompanha as mudanças de preferência do dispositivo.</p>
     </section>
     <section class="theme-sample" aria-label="Prévia do tema">
@@ -15,6 +34,24 @@
         <SUIAlert ToneValue="SUITone.Info">Você pode alterar o tema sem perder os valores preenchidos.</SUIAlert>
     </section>
 </div>
+<section aria-label="Verificação de contraste">
+    <h2>Contraste das combinações</h2>
+    <p>Razão calculada para cores opacas. Texto comum precisa de pelo menos 4,5:1; isso não substitui a revisão da tela completa.</p>
+    <ul class="contrast-checks">
+        @foreach (var pair in ContrastPairs)
+        {
+            <li><strong>@pair.Name</strong><span>@pair.Ratio.ToString("0.00"):1 · @(pair.Ratio >= 4.5 ? "Atende AA para texto" : "Ajustar contraste")</span></li>
+        }
+    </ul>
+</section>
+<section aria-label="Comparar aparências">
+    <h2>Claro e escuro, lado a lado</h2>
+    <SUISwitch Label="Abrir comparação interativa" @bind-Value="_compare" />
+    @if (_compare)
+    {
+        <div class="theme-comparison"><iframe title="Prévia interativa do tema claro" src="@PreviewUrl("light")"></iframe><iframe title="Prévia interativa do tema escuro" src="@PreviewUrl("dark")"></iframe></div>
+    }
+</section>
 <h2>Tokens em uso</h2>
 <div class="swatches">
     @foreach (var token in Tokens)
@@ -22,18 +59,44 @@
         <div><span class="swatch" style="background:@token.Value" aria-hidden="true"></span><strong>@token.Name</strong><code>@token.Value</code></div>
     }
 </div>
-<section class="source-panel"><div class="source-heading"><h2>Usar este tema</h2><SUICopyToClipboard Text="Export" Title="Configuração de tema"><SUIButton VariantValue="SUIVariant.Text">Copiar C#</SUIButton></SUICopyToClipboard></div><pre tabindex="0"><code>@Export</code></pre></section>
+<section class="source-panel"><div class="source-heading"><h2>Usar este tema</h2><SUICopyToClipboard Text="@Export" Title="Configuração de tema"><SUIButton VariantValue="SUIVariant.Text">Copiar C#</SUIButton></SUICopyToClipboard></div><pre tabindex="0"><code>@Export</code></pre></section>
 <p>Instale um provider na raiz e configure os hosts de diálogo e snackbar dentro dele. O controle claro/escuro/sistema pertence à aplicação; o código abaixo exporta a aparência atualmente exibida.</p>
 
 @code {
     [CascadingParameter] public ThemePreference Preference { get; set; } = default!;
     [CascadingParameter] public Func<ThemePreference, Task> ChangeTheme { get; set; } = default!;
     [Inject] private ISUISnackbar Snackbar { get; set; } = default!;
+    private bool _compare;
+    private string? _successError, _errorError;
+    private Task SetFont(string? value) => ChangeTheme(Preference with { Font = value ?? "system" });
+    private Task SetFontSize(int value) => value is >= 14 and <= 20 ? ChangeTheme(Preference with { FontSize = value }) : Task.CompletedTask;
+    private Task SetSpace(int value) => value is >= 2 and <= 6 ? ChangeTheme(Preference with { SpaceUnit = value }) : Task.CompletedTask;
+    private Task SetRadius(int value) => value is >= 0 and <= 16 ? ChangeTheme(Preference with { Radius = value }) : Task.CompletedTask;
+    private Task SetSuccess(string? value) => SetSemantic(value, true);
+    private Task SetError(string? value) => SetSemantic(value, false);
+    private Task SetSemantic(string? value, bool success)
+    {
+        var error = SUIColorContrast.IsHexColor(value) ? null : "Use # seguido de seis dígitos hexadecimais.";
+        if (success) _successError = error; else _errorError = error;
+        return error is not null ? Task.CompletedTask : ChangeTheme(success ? Preference with { Success = value } : Preference with { Error = value });
+    }
+    private string PreviewUrl(string mode) => $"?preview={mode}&brand={Preference.Brand}&density={Preference.Density}&font={Preference.Font}&fontSize={Preference.FontSize}&spaceUnit={Preference.SpaceUnit}&radius={Preference.Radius}&success={Uri.EscapeDataString(Preference.Success ?? "")}&error={Uri.EscapeDataString(Preference.Error ?? "")}";
+    private IEnumerable<(string Name, double Ratio)> ContrastPairs
+    {
+        get
+        {
+            var p = Preference.Build().Palette;
+            foreach (var pair in new[] { ("Texto principal", p.TextPrimary, p.Surface), ("Texto secundário", p.TextSecondary, p.Surface), ("Ação primária", p.PrimaryActionContrast!, p.PrimaryAction!), ("Sucesso", p.SuccessContrast, p.Success), ("Erro", p.ErrorContrast, p.Error) })
+            {
+                if (SUIColorContrast.TryGetRatio(pair.Item2, pair.Item3, out var ratio)) yield return (pair.Item1, ratio);
+            }
+        }
+    }
     private string? _name = "Operação Sudeste";
     private bool _enabled = true;
-    private Task SetBrand(ChangeEventArgs args) => ChangeTheme(Preference with { Brand = args.Value!.ToString()! });
-    private Task SetMode(ChangeEventArgs args) => ChangeTheme(Preference with { Mode = args.Value!.ToString()! });
-    private Task SetDensity(ChangeEventArgs args) => ChangeTheme(Preference with { Density = args.Value!.ToString()! });
+    private Task SetBrand(string? brand) => ChangeTheme(Preference with { Brand = brand ?? "amber" });
+    private Task SetMode(string? mode) => ChangeTheme(Preference with { Mode = mode ?? "system" });
+    private Task SetDensity(string? density) => ChangeTheme(Preference with { Density = density ?? "comfortable" });
     private void ShowSuccess() => Snackbar.Success("Preferências de demonstração salvas.");
     private (string Name, string Value)[] Tokens => [
         ("Primária", Preference.Build().Palette.Primary), ("Ação", Preference.Build().Palette.PrimaryAction!),
@@ -58,8 +121,22 @@
                         PrimaryContrast = "{{theme.Palette.PrimaryContrast}}",
                         PrimaryAction = "{{theme.Palette.PrimaryAction}}",
                         PrimaryActionContrast = "{{theme.Palette.PrimaryActionContrast}}",
+                        Success = "{{theme.Palette.Success}}", SuccessContrast = "{{theme.Palette.SuccessContrast}}",
+                        Error = "{{theme.Palette.Error}}", ErrorContrast = "{{theme.Palette.ErrorContrast}}",
                     },
-                    Layout = preset.Layout with { ControlHMd = "{{theme.Layout.ControlHMd}}" },
+                    Typography = preset.Typography with
+                    {
+                        FontFamily = "{{theme.Typography.FontFamily.Replace("\"", "\\\"")}}",
+                        FsBody1 = "{{theme.Typography.FsBody1}}", FsBody2 = "{{theme.Typography.FsBody2}}",
+                        FsBody = "{{theme.Typography.FsBody}}", FsButton = "{{theme.Typography.FsButton}}",
+                    },
+                    Layout = preset.Layout with
+                    {
+                        ControlHMd = "{{theme.Layout.ControlHMd}}",
+                        Radius = "{{theme.Layout.Radius}}", RadiusLg = "{{theme.Layout.RadiusLg}}",
+                        Space1 = "{{theme.Layout.Space1}}", Space2 = "{{theme.Layout.Space2}}", Space3 = "{{theme.Layout.Space3}}",
+                        Space4 = "{{theme.Layout.Space4}}", Space5 = "{{theme.Layout.Space5}}", Space6 = "{{theme.Layout.Space6}}",
+                    },
                 };
                 builder.Services.AddSufficitUI(options => options.Theme = theme);
                 """;

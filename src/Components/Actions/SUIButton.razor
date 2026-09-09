@@ -20,7 +20,7 @@
 @if (isAnchor)
 {
     <a @ref="_elementReference" class="@cls" style="@Style" href="@Href" target="@Target" rel="@GetRel()"
-       aria-disabled="@isDisabled" @onclick="OnClickHandler" @onclick:preventDefault="@isDisabled"
+       aria-busy="@(IsLoading ? "true" : null)" aria-disabled="@isDisabled" @onclick="OnClickHandler" @onclick:preventDefault="@isDisabled"
        @attributes="UserAttributes">
         @RenderBody()
     </a>
@@ -28,7 +28,7 @@
 else
 {
     <button @ref="_elementReference" type="@SUIClassBuilder.Slug(EffectiveButtonType)" class="@cls" style="@Style"
-            disabled="@isDisabled" @onclick="OnClickHandler" @attributes="UserAttributes">
+            aria-busy="@(IsLoading ? "true" : null)" disabled="@isDisabled" @onclick="OnClickHandler" @attributes="UserAttributes">
         @RenderBody()
     </button>
 }
@@ -178,10 +178,10 @@ else
 
 #pragma warning disable CS0618
     private object EffectiveColor => ColorValue ?? Color;
-    private object EffectiveIconColor => IconColorValue ?? IconColor ?? EffectiveColor;
+    private object EffectiveIconColor => IconColorValue ?? IconColor ?? SUIColor.Inherit;
     private object EffectiveVariant => VariantValue ?? Variant;
     private object EffectiveSize => SizeValue ?? Size;
-    private object EffectiveIconSize => IconSizeValue ?? IconSize ?? EffectiveSize;
+    private object EffectiveIconSize => IconSizeValue ?? IconSize ?? SUISize.Small;
     private object EffectiveButtonType => ButtonTypeValue ?? ButtonType;
 #pragma warning restore CS0618
 }

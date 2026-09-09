@@ -1,3 +1,5 @@
 @inherits DemoBase
 
-<SUINumericField T="int" Label="Tentativas" @bind-Value="Count" Min="1" Max="10" />
+<SUINumericField T="int" Label="Tentativas" @bind-Value="Count" Min="1" Max="10" Immediate ChangeOnWheel />
+
+<p role="status">Tentativas: @Count</p>

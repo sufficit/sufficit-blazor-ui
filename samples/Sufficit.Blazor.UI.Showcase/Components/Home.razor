@@ -57,6 +57,11 @@
                 }
             </section>
         }
+        <aside class="catalog-version" aria-label="Versão documentada">
+            <strong>@CatalogBuildInfo.Label</strong>
+            <p>@(CatalogBuildInfo.IsDevelopment ? "Este catálogo acompanha o código em desenvolvimento; parâmetros novos podem ainda não estar no NuGet." : "Exemplos e parâmetros foram compilados com esta versão da biblioteca.")</p>
+            <a href="@CatalogBuildInfo.SourceUrl">Ver código desta compilação</a>
+        </aside>
         <footer class="document-footer">Sufficit.Blazor.UI · .NET 10 <a href="https://github.com/sufficit/sufficit-blazor-ui/blob/main/CHANGELOG.md">Histórico de versões</a></footer>
     </main>
 </div>

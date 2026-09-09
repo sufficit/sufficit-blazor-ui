@@ -9,6 +9,7 @@ public sealed class TextFieldAccessibilityTests
     public void ClearableAdornmentHasAccessibleActionAndClearsValue()
     {
         using var context = new BunitContext();
+        context.JSInterop.SetupVoid("Blazor._internal.domWrapper.focus", _ => true);
         string? changed = "unchanged";
         var cut = context.Render<SUITextField<string>>(parameters => parameters
             .Add(component => component.Value, "provider")

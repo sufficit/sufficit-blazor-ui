@@ -1,0 +1,54 @@
+@using Sufficit.Blazor.UI.Components
+@using Sufficit.Blazor.UI.Themes
+
+<SUIThemeProvider Theme="@(_dark ? SUITheme.Dark : SUITheme.Light)">
+    <section data-interaction-ready="@(_ready ? "true" : "false")" id="interaction-patterns" style="padding:var(--sui-space-4);background:var(--sui-surface);color:var(--sui-text-primary)">
+        <h2>Formulários e ações em espaços pequenos</h2>
+        <p>Dados de demonstração. Compare a disposição, edite os campos e navegue pelas opções com o teclado.</p>
+        <SUIButton OnClick="() => _dark = !_dark" VariantValue="SUIVariant.Outlined">Alternar tema dos exemplos</SUIButton>
+        <SUIStack Spacing="4" Style="margin-top:var(--sui-space-4)">
+            <div style="width:100%;max-width:340px" data-testid="narrow-form">
+                <SUIFormGrid>
+                    <SUITextField T="string" Label="Nome para exibição" @bind-Value="_name" Clearable Immediate />
+                    <SUINumericField T="int" Label="Tentativas antes de interromper" @bind-Value="_attempts" HelperText="De 1 a 10 tentativas." Min="1" Max="10" />
+                </SUIFormGrid>
+            </div>
+            <form @onsubmit="() => _submits++" @onsubmit:preventDefault style="max-width:340px;overflow:hidden;padding:4px" data-testid="clipped-form">
+                <SUIStack Spacing="3">
+                <SUIAutocomplete T="string" Label="Localizar destino" @bind-Value="_destination" SearchFunc="Search" DebounceInterval="0" MaxItems="30" Clearable />
+                <SUIStack Row Wrap Spacing="2">
+                <SUIButton ButtonTypeValue="SUIButtonType.Submit" VariantValue="SUIVariant.Outlined">Confirmar destino</SUIButton>
+                <span role="status">Confirmações: @_submits</span>
+                </SUIStack>
+                </SUIStack>
+            </form>
+            <div style="max-width:340px">
+                <SUISelect T="string" Label="Destino da operação" @bind-Value="_selected">
+                    @foreach (var option in _options) { <SUISelectItem Value="@option">@option</SUISelectItem> }
+                </SUISelect>
+                <SUIButton VariantValue="SUIVariant.Text">Depois do seletor</SUIButton>
+            </div>
+            <SUIStack Row Wrap>
+                <SUILoadingButton data-testid="loading-action" StartIcon="@SUIIcons.Save" EndIcon="@SUIIcons.ChevronRight" IsLoading="_busy" OnClick="() => _busy = true">Salvar preferências</SUILoadingButton>
+                <SUIButton VariantValue="SUIVariant.Text" OnClick="() => _busy = false">Reiniciar demonstração</SUIButton>
+                <SUILoadingButton Href="#interaction-patterns">Voltar ao início dos exemplos</SUILoadingButton>
+            </SUIStack>
+            <div style="--sui-color-info:#dff6ff;--sui-color-info-contrast:#102030">
+                <SUIButton data-testid="semantic-action" ColorValue="SUIColor.Info" StartIcon="@SUIIcons.Add">Ação com contraste próprio</SUIButton>
+            </div>
+            <div style="max-width:180px">
+                <SUIButton data-testid="long-action" FullWidth StartIcon="@SUIIcons.Save">Salvar todas as preferências desta configuração</SUIButton>
+            </div>
+        </SUIStack>
+    </section>
+</SUIThemeProvider>
+
+@code {
+    private bool _dark, _busy, _ready;
+    protected override void OnAfterRender(bool firstRender) { if (firstRender) { _ready = true; StateHasChanged(); } }
+    private string? _name = "Equipe Sudeste", _destination, _selected;
+    private int _attempts = 3, _submits;
+    protected override void OnInitialized() => _selected = _options[0];
+    private readonly string[] _options = Enumerable.Range(1, 30).Select(i => $"Destino {i:00} · operação de demonstração").ToArray();
+    private Task<IEnumerable<string>> Search(string query) => Task.FromResult(_options.Where(value => value.Contains(query, StringComparison.OrdinalIgnoreCase)));
+}

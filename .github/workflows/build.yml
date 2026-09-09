@@ -4,6 +4,10 @@ name: Build
 on:
   workflow_dispatch:
     inputs:
+      verify-publishing-auth:
+        description: "Verify NuGet Trusted Publishing login without publishing a package"
+        type: boolean
+        default: false
       update-baselines:
         description: "Recapture the committed visual baselines (chromium only)"
         type: boolean
@@ -23,8 +27,37 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  publishing-authentication:
+    name: Verify NuGet Trusted Publishing
+    if: >
+      github.event_name == 'workflow_dispatch'
+      && inputs.verify-publishing-auth
+      && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Verify NuGet policy creator is configured
+        env:
+          NUGET_USER: ${{ vars.NUGET_USER }}
+        run: |
+          test -n "$NUGET_USER" || { echo "Set Actions variable NUGET_USER to the NuGet username that created the trust policy (not the package owner)." >&2; exit 1; }
+      - name: Authenticate with NuGet using GitHub OIDC
+        id: login
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
+        with:
+          user: ${{ vars.NUGET_USER }}
+      - name: Verify temporary credential was issued
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+        run: test -n "$NUGET_API_KEY"
+
   css:
     name: CSS bundle and budget
+    if: github.event_name != 'workflow_dispatch' || !inputs.verify-publishing-auth
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -57,6 +90,9 @@ jobs:
         uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           dotnet-version: "10.0.x"
+
+      - name: Test corporate version contract
+        run: python3 -m unittest discover -s scripts -p "test_*.py"
 
       - name: Restore
         run: dotnet restore src/Sufficit.Blazor.UI.csproj
@@ -111,17 +147,9 @@ jobs:
         shell: bash
         run: |
           if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
-            package_version="${GITHUB_REF_NAME#v}"
+            package_version="$(python3 scripts/release_version.py "$GITHUB_REF_NAME")"
           else
-            package_version="0.0.0-ci.${GITHUB_RUN_NUMBER}"
-          fi
-          if [[ ! "$package_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]; then
-            echo "invalid SemVer package version: $package_version" >&2
-            exit 1
-          fi
-          if [[ "$GITHUB_REF" == refs/tags/v* && "${package_version%%.*}" -lt 2 ]]; then
-            echo "net10-only packages require a v2 or newer tag: $GITHUB_REF_NAME" >&2
-            exit 1
+            package_version="$(python3 scripts/release_version.py)"
           fi
           echo "SUI_PACKAGE_VERSION=$package_version" >> "$GITHUB_ENV"
 
@@ -129,7 +157,7 @@ jobs:
         run: |
           dotnet pack src/Sufficit.Blazor.UI.csproj \
             --no-restore --configuration Release --output artifacts/packages \
-            /p:Version="$SUI_PACKAGE_VERSION" \
+            /p:VersionSuffix="$SUI_PACKAGE_VERSION" \
             /p:ContinuousIntegrationBuild=true
 
       - name: Inspect package and test minimal consumers
@@ -419,9 +447,18 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     needs: [css, pack, component-tests, browser-tests, lighthouse]
     runs-on: ubuntu-latest
+    environment: production
     timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
+      - name: Verify NuGet policy creator is configured
+        env:
+          NUGET_USER: ${{ vars.NUGET_USER }}
+        run: |
+          test -n "$NUGET_USER" || { echo "Set Actions variable NUGET_USER to the NuGet username that created the trust policy (not the package owner)." >&2; exit 1; }
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
@@ -433,15 +470,7 @@ jobs:
       - name: Validate release tag
         shell: bash
         run: |
-          package_version="${GITHUB_REF_NAME#v}"
-          if [[ ! "$package_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]; then
-            echo "release tag must be vMAJOR.MINOR.PATCH[-prerelease]: $GITHUB_REF_NAME" >&2
-            exit 1
-          fi
-          if [[ "${package_version%%.*}" -lt 2 ]]; then
-            echo "net10-only packages require a v2 or newer tag: $GITHUB_REF_NAME" >&2
-            exit 1
-          fi
+          package_version="$(python3 scripts/release_version.py "$GITHUB_REF_NAME")"
           echo "SUI_PACKAGE_VERSION=$package_version" >> "$GITHUB_ENV"
 
       - name: Restore
@@ -451,14 +480,23 @@ jobs:
         run: |
           dotnet pack src/Sufficit.Blazor.UI.csproj \
             --no-restore --configuration Release --output artifacts/packages \
-            /p:Version="$SUI_PACKAGE_VERSION" \
+            /p:VersionSuffix="$SUI_PACKAGE_VERSION" \
             /p:ContinuousIntegrationBuild=true
 
       - name: Validate exact release artifact
         run: ./scripts/validate-package.sh artifacts/packages/*.nupkg
 
+      # Request the short-lived credential after validation, immediately before push.
+      - name: Authenticate with NuGet using GitHub OIDC
+        id: login
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
+        with:
+          user: ${{ vars.NUGET_USER }}
+
       - name: Publish to NuGet.org
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
         run: |
           dotnet nuget push artifacts/packages/*.nupkg \
             --source https://api.nuget.org/v3/index.json \
-            --api-key "${{ secrets.NUGET_API_KEY }}"
+            --api-key "$NUGET_API_KEY"

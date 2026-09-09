@@ -1,0 +1,68 @@
+@if (Supported)
+{
+    <section class="playground" aria-label="Configurar demonstração">
+        <h2>Ajuste e experimente</h2>
+        @if (Name is "SUIButton" or "SUIIconButton") { <p>O tamanho grande aumenta o espaço de interação, mantendo o conteúdo proporcional.</p> }
+        <div class="playground-controls">
+            @if (Name == "SUITabs")
+            {
+                <SUISwitch Label="Navegação vertical" @bind-Value="_vertical" />
+            }
+            else
+            {
+                <SUISelect T="SUISize" Label="Tamanho da demonstração" @bind-Value="_size">
+                    <SUISelectItem Value="SUISize.Small">Pequeno</SUISelectItem><SUISelectItem Value="SUISize.Medium">Médio</SUISelectItem><SUISelectItem Value="SUISize.Large">Grande</SUISelectItem>
+                </SUISelect>
+                <SUISelect T="SUIVariant" Label="Variante da demonstração" @bind-Value="_variant">
+                    @if (Name is "SUIButton" or "SUIIconButton") { <SUISelectItem Value="SUIVariant.Soft">Suave</SUISelectItem> }
+                    <SUISelectItem Value="SUIVariant.Filled">Preenchida</SUISelectItem><SUISelectItem Value="SUIVariant.Outlined">Contorno</SUISelectItem><SUISelectItem Value="SUIVariant.Text">Texto</SUISelectItem>
+                </SUISelect>
+                @if (Name is "SUIButton" or "SUIIconButton")
+                {
+                    <SUISwitch Label="Desabilitado" @bind-Value="_disabled" />
+                    @if (Name == "SUIButton") { <SUISwitch Label="Mostrar ícone" @bind-Value="_icon" /> }
+                }
+            }
+        </div>
+        <div class="playground-result">
+            @switch (Name)
+            {
+                case "SUIButton":
+                    <SUIButton SizeValue="_size" VariantValue="_variant" Disabled="_disabled" StartIcon="@(_icon ? SUIIcons.Add : null)" OnClick="() => _clicks++">Criar item</SUIButton>
+                    <p role="status">Ações realizadas: @_clicks</p>
+                    break;
+                case "SUIIconButton":
+                    <SUIIconButton ColorValue="SUIColor.Primary" SizeValue="_size" VariantValue="_variant" Disabled="_disabled" Icon="@SUIIcons.Add" Title="Criar item" OnClick="() => _clicks++" />
+                    <p role="status">Ações realizadas: @_clicks</p>
+                    break;
+                case "SUIChip":
+                    <SUIChip SizeValue="_size" VariantValue="_variant" ColorValue="SUIColor.Primary">Em andamento</SUIChip>
+                    break;
+                case "SUITabs":
+                    <SUITabs Vertical="_vertical" AriaLabel="Demonstração de orientação">
+                        <SUITabPanel Text="Resumo">Informações principais do item.</SUITabPanel>
+                        <SUITabPanel Text="Configurações">Preferências e opções de edição.</SUITabPanel>
+                        <SUITabPanel Text="Atividade">Histórico das ações realizadas.</SUITabPanel>
+                    </SUITabs>
+                    break;
+            }
+        </div>
+        <div class="source-panel"><div class="source-actions"><SUICopyToClipboard Text="@Source"><SUIButton VariantValue="SUIVariant.Text">Copiar configuração</SUIButton></SUICopyToClipboard></div><pre tabindex="0"><code>@Source</code></pre></div>
+    </section>
+}
+@code {
+    [Parameter] public string Name { get; set; } = "";
+    private bool Supported => Name is "SUIButton" or "SUIIconButton" or "SUIChip" or "SUITabs";
+    private SUISize _size = SUISize.Medium;
+    private SUIVariant _variant = SUIVariant.Filled;
+    private bool _disabled, _vertical;
+    private bool _icon = true;
+    private int _clicks;
+    private string Source => Name switch
+    {
+        "SUITabs" => $"<SUITabs Vertical=\"{_vertical.ToString().ToLowerInvariant()}\" AriaLabel=\"Seções do item\">\n    <SUITabPanel Text=\"Resumo\">Informações principais.</SUITabPanel>\n    <SUITabPanel Text=\"Configurações\">Preferências.</SUITabPanel>\n    <SUITabPanel Text=\"Atividade\">Histórico.</SUITabPanel>\n</SUITabs>",
+        "SUIChip" => $"<SUIChip SizeValue=\"SUISize.{_size}\" VariantValue=\"SUIVariant.{_variant}\" ColorValue=\"SUIColor.Primary\">Em andamento</SUIChip>",
+        "SUIIconButton" => $"<SUIIconButton ColorValue=\"SUIColor.Primary\" SizeValue=\"SUISize.{_size}\" VariantValue=\"SUIVariant.{_variant}\" Disabled=\"{_disabled.ToString().ToLowerInvariant()}\" Icon=\"@SUIIcons.Add\" Title=\"Criar item\" />",
+        _ => $"<SUIButton SizeValue=\"SUISize.{_size}\" VariantValue=\"SUIVariant.{_variant}\" Disabled=\"{_disabled.ToString().ToLowerInvariant()}\"{(_icon ? " StartIcon=\"@SUIIcons.Add\"" : "")}>Criar item</SUIButton>"
+    };
+}

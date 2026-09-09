@@ -46,7 +46,7 @@
     [Parameter, Obsolete("Use ColorValue. The object bridge will be removed in v2.0.0.")]
     public object? Color { get; set; } = SUIColor.Default;
 
-    /// <summary>Size: "small" or "medium". Default "medium".</summary>
+    /// <summary>Size: "small", "medium" or "large". Default "medium".</summary>
     [Parameter, Obsolete("Use SizeValue. The object bridge will be removed in v2.0.0.")]
     public object? Size { get; set; }
 
@@ -101,8 +101,9 @@
             .Build();
 
     private bool IsSmall => SUIClassBuilder.Slug(EffectiveSize) == "small";
-    private int LeadingIconSize => IsSmall ? 12 : 14;
-    private int RemoveIconSize => IsSmall ? 10 : 12;
+    private bool IsLarge => SUIClassBuilder.Slug(EffectiveSize) == "large";
+    private int LeadingIconSize => IsSmall ? 12 : IsLarge ? 18 : 14;
+    private int RemoveIconSize => IsSmall ? 10 : IsLarge ? 16 : 12;
 
     private Task ClickAsync() => OnClick.InvokeAsync();
     private Task RemoveAsync() => OnRemove.InvokeAsync();

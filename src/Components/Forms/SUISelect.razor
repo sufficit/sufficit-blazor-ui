@@ -7,7 +7,7 @@
 @inject IJSRuntime JS
 
 <CascadingValue Value="(ISUISelectRegistry)this" IsFixed="true">
-    <div class="@Classname" @onfocusout="OnFocusOutAsync">
+    <div class="@Classname" @onfocusin="() => { _focusVersion++; }" @onfocusout="OnFocusOutAsync">
         @if (!string.IsNullOrWhiteSpace(Label))
         {
             <label id="@LabelId" class="sui-field__label" for="@EffectiveId">@Label</label>
@@ -50,6 +50,7 @@
                      id="@MenuId"
                      class="@MenuClass"
                      role="listbox"
+                     tabindex="-1"
                      aria-labelledby="@LabelledBy"
                      popover="manual"
                      style="@MenuStyle">
@@ -60,6 +61,7 @@
                                 id="@OptionId(index)"
                                 class="@OptionClass(index)"
                                 role="option"
+                                tabindex="-1"
                                 aria-selected="@(IsSelected(item) ? "true" : "false")"
                                 aria-disabled="@(item.Disabled ? "true" : "false")"
                                 disabled="@item.Disabled"

@@ -1,0 +1,7 @@
+<h1>Preferências</h1><p>Prévia isolada · dados de demonstração.</p>
+<SUITextField T="string" Label="Nome da operação" @bind-Value="_name" />
+<SUISelect T="string" Label="Região" @bind-Value="_region"><SUISelectItem Value='@("sudeste")'>Sudeste</SUISelectItem><SUISelectItem Value='@("sul")'>Sul</SUISelectItem></SUISelect>
+<SUICheckbox Label="Notificar a equipe" @bind-Value="_notify" />
+<SUIButton OnClick="() => _saved = true">Salvar preferências</SUIButton>
+@if (_saved) { <SUIAlert ToneValue="SUITone.Success">Preferências de demonstração salvas.</SUIAlert> }
+@code { private string? _name = "Operação Sudeste", _region = "sudeste"; private bool _notify = true, _saved; }

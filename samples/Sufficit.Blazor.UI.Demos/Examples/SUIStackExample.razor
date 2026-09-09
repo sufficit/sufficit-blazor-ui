@@ -1,6 +1,27 @@
 @inherits DemoBase
 
 <SUIStack Row Wrap Spacing="4">
-<SUIButton OnClick="Notify">Salvar</SUIButton>
-<SUIButton VariantValue="SUIVariant.Outlined" OnClick="Reset">Cancelar</SUIButton>
+    <SUIButton OnClick="Notify">Salvar</SUIButton>
+    <SUIButton VariantValue="SUIVariant.Outlined" OnClick="Reset">Cancelar</SUIButton>
 </SUIStack>
+
+<p>Em barras com campos rotulados, alinhe as ações à base dos controles e permita quebra de linha.</p>
+<div data-testid="field-actions-toolbar">
+    <SUIStack Row Wrap AlignItems="End" Spacing="3">
+        <div style="flex:1 1 16rem;min-width:0">
+            <SUITextField T="string" Label="Buscar no console" Id="stack-console-search"
+                          Placeholder="Ferramenta, arquivo ou texto" Immediate="true" @bind-Value="_search" />
+        </div>
+        <SUIButton VariantValue="SUIVariant.Outlined" OnClick="TogglePause"
+                   aria-pressed="@(_paused ? "true" : "false")">
+            @(_paused ? "Retomar exibição" : "Pausar exibição")
+        </SUIButton>
+    </SUIStack>
+    <p role="status">@(_paused ? "Exibição pausada" : "Exibição em tempo real")@(!string.IsNullOrEmpty(_search) ? $" · Filtro: {_search}" : "")</p>
+</div>
+
+@code {
+    private string? _search;
+    private bool _paused;
+    private void TogglePause() => _paused = !_paused;
+}

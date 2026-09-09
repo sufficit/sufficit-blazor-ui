@@ -13,11 +13,13 @@
   pointer-events: none;
 }
 .sui-autocomplete__list {
+  --sui-select-menu-width: var(--sui-select-trigger-width);
+  color: var(--sui-text-primary);
   position: absolute;
   top: 100%; inset-inline: 0;
   z-index: var(--sui-z-dropdown, 1000);
   list-style: none;
-  margin: 4px 0 0;
+  margin: 0;
   padding: var(--sui-space-1);
   background: var(--sui-surface);
   border: 1px solid var(--sui-border);
@@ -31,6 +33,7 @@
   border-radius: var(--sui-radius-sm);
   cursor: pointer;
   font-size: var(--sui-fs-body2);
+  overflow-wrap: anywhere;
 }
 .sui-autocomplete__option:hover,
 .sui-autocomplete__option--active { background: var(--sui-surface-2); }
