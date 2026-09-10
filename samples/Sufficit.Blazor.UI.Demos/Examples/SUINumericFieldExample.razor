@@ -3,3 +3,25 @@
 <SUINumericField T="int" Label="Tentativas" @bind-Value="Count" Min="1" Max="10" Immediate ChangeOnWheel />
 
 <p role="status">Tentativas: @Count</p>
+
+<SUIFormGrid Columns="2" Spacing="3">
+    <SUISwitch Label="Permitir rolagem no valor" @bind-Value="AllowWheel" />
+    <SUISwitch Label="Permitir setas no valor" @bind-Value="AllowArrows" />
+    <SUISelect T="decimal" Label="Incremento do mouse e das setas" @bind-Value="WheelIncrement">
+        <SUISelectItem Value="@(0.01m)">R$ 0,01</SUISelectItem>
+        <SUISelectItem Value="@(1m)">R$ 1,00</SUISelectItem>
+        <SUISelectItem Value="@(10m)">R$ 10,00</SUISelectItem>
+    </SUISelect>
+    <SUINumericField T="decimal" Label="Prévia monetária" Min="50" Max="2500" Step="0.01"
+                     ChangeOnWheel="@AllowWheel" WheelStep="@WheelIncrement" Immediate @bind-Value="Amount"
+                     ChangeOnArrowKeys="@AllowArrows" ArrowKeyStep="@WheelIncrement"
+                     SpinnerStep="@WheelIncrement"
+                     HelperText="As setinhas clicáveis sempre usam o salto. Roda e teclado são opcionais; a digitação de centavos continua livre." />
+</SUIFormGrid>
+
+@code {
+    private bool AllowWheel;
+    private bool AllowArrows = true;
+    private decimal WheelIncrement = 1m;
+    private decimal Amount = 360.37m;
+}

@@ -918,7 +918,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack Row>\n<SUIIcon Name=\"check\" />\n<SUIIcon Name=\"calendar\" />\n<SUIIcon Name=\"clock\" />\n</SUIStack>\n",
     "parameters": [
       {
-        "description": "Icon name. See the switch above for the available keys (dashboard, users, key, shield, scope, palette, workflow, audit, chart, settings, menu, x, bell, search, eye-off, arrow-right, arrow-left, plus, external, volume, phone, inbox, alert, check, clock, database, lock, code, browser, device, server, terminal, info, calendar, chevron-left, chevron-right, chevron-down, refresh, trash, edit, pix, credit-card, receipt, barcode).",
+        "description": "Icon name. See the switch above for the available keys (dashboard, users, key, shield, scope, palette, workflow, audit, chart, settings, menu, x, bell, search, eye-off, arrow-right, arrow-left, plus, external, volume, phone, inbox, alert, check, clock, database, lock, code, browser, device, server, terminal, info, calendar, chevron-left, chevron-right, chevron-down, chevron-up, refresh, trash, edit, pix, credit-card, receipt, barcode).",
         "name": "Name",
         "type": "string",
         "default": "string.Empty",
@@ -3110,7 +3110,7 @@
   {
     "name": "SUINumericField",
     "family": "Formulários",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUINumericField T=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" Min=\"1\" Max=\"10\" Immediate ChangeOnWheel />\n\n<p role=\"status\">Tentativas: @Count</p>\n\n@code {\n    protected int Count { get; set; } = 3;\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUINumericField T=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" Min=\"1\" Max=\"10\" Immediate ChangeOnWheel />\n\n<p role=\"status\">Tentativas: @Count</p>\n\n<SUIFormGrid Columns=\"2\" Spacing=\"3\">\n    <SUISwitch Label=\"Permitir rolagem no valor\" @bind-Value=\"AllowWheel\" />\n    <SUISwitch Label=\"Permitir setas no valor\" @bind-Value=\"AllowArrows\" />\n    <SUISelect T=\"decimal\" Label=\"Incremento do mouse e das setas\" @bind-Value=\"WheelIncrement\">\n        <SUISelectItem Value=\"@(0.01m)\">R$ 0,01</SUISelectItem>\n        <SUISelectItem Value=\"@(1m)\">R$ 1,00</SUISelectItem>\n        <SUISelectItem Value=\"@(10m)\">R$ 10,00</SUISelectItem>\n    </SUISelect>\n    <SUINumericField T=\"decimal\" Label=\"Prévia monetária\" Min=\"50\" Max=\"2500\" Step=\"0.01\"\n                     ChangeOnWheel=\"@AllowWheel\" WheelStep=\"@WheelIncrement\" Immediate @bind-Value=\"Amount\"\n                     ChangeOnArrowKeys=\"@AllowArrows\" ArrowKeyStep=\"@WheelIncrement\"\n                     SpinnerStep=\"@WheelIncrement\"\n                     HelperText=\"As setinhas clicáveis sempre usam o salto. Roda e teclado são opcionais; a digitação de centavos continua livre.\" />\n</SUIFormGrid>\n\n@code {\n    private bool AllowWheel;\n    private bool AllowArrows = true;\n    private decimal WheelIncrement = 1m;\n    private decimal Amount = 360.37m;\n}\n\n@code {\n    protected int Count { get; set; } = 3;\n    protected int Step { get; set; } = 1;\n}\n",
     "parameters": [
       {
         "description": "",
@@ -3221,6 +3221,54 @@
         "name": "ChangeOnWheel",
         "type": "bool",
         "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional wheel-only increment, independent of Step/keyboard input. When supplied, disabled ChangeOnWheel also suppresses native wheel changes. Both directions use this magnitude.",
+        "name": "WheelStep",
+        "type": "decimal?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Allow ArrowUp/ArrowDown to change the value. Defaults to true; other keys and typing are unaffected.",
+        "name": "ChangeOnArrowKeys",
+        "type": "bool",
+        "default": "true",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional arrow-key increment, independent of Step validation. Pass the same value as WheelStep for a shared increment.",
+        "name": "ArrowKeyStep",
+        "type": "decimal?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional increment for clickable arrow buttons, independent of wheel/keyboard switches and Step validation. Null preserves native browser spinners. Both directions preserve decimals.",
+        "name": "SpinnerStep",
+        "type": "decimal?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Accessible label for the increase button.",
+        "name": "IncreaseText",
+        "type": "string",
+        "default": "\"Aumentar valor\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Accessible label for the decrease button.",
+        "name": "DecreaseText",
+        "type": "string",
+        "default": "\"Diminuir valor\"",
         "required": false,
         "deprecated": false
       },
