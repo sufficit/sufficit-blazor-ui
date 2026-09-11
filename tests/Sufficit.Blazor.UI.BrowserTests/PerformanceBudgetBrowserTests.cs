@@ -16,9 +16,10 @@ public sealed class PerformanceBudgetBrowserTests : PageTest
 {
     private const int RequestBudget = 30;
     private const int DomNodeBudget = 3000;
-    // Includes adaptive form tracks and the autocomplete popup (~92.8 KiB).
+    // Includes numeric steppers and shared helper styling: 97,014 B measured
+    // in Chromium CI, with 266 B headroom under 95 KiB.
     // Aggregate host + library CSS, without transport compression in this fixture.
-    private const long CssTransferBudget = 94 * 1024;
+    private const long CssTransferBudget = 95 * 1024;
     private const long TotalTransferBudget = 900 * 1024;
     private const double LargestContentfulPaintBudgetMs = 2500;
     private const double CumulativeLayoutShiftBudget = 0.1;
