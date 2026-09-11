@@ -24,7 +24,7 @@ resolvido, cada correção feita aqui não chega a quem a pediu.
 | Testes e gates | 8 | 605 bUnit + 106 testes de navegador em 3 engines + Lighthouse; perde ponto por 22 componentes sem bUnit e por budgets sem folga que geram falha intermitente |
 | Distribuição e versionamento | 4 | Versão calendário é menor que 1.28.0/2.2.1 listadas; `1.*` e `2.*` resolvem pacotes obsoletos; deslistagem bloqueada por credencial |
 | Documentação | 7 | Muita documentação e boa convenção de nomes, mas README lista 51 de 67 componentes e `docs/components` não cobre 36 |
-| Higiene de repositório | 6 | 16 worktrees e 15 ramos já integrados em `main` ainda vivos; alteração de CSS não commitada; mensagens `[Obsolete]` apontam para uma "v2.0.0" que já foi publicada com outro significado |
+| Higiene de repositório | 6 | 16 worktrees e 15 ramos já integrados em `main` ainda vivos (removidos em 2026-09-11); alteração de CSS não commitada; mensagens `[Obsolete]` apontam para uma "v2.0.0" que já foi publicada com outro significado |
 | Empacotamento | 6 | Sem XML docs, sem símbolos/SourceLink, `PackageIconUrl` obsoleto; versão exata e determinística são pontos positivos |
 
 ## Estado verificado
@@ -97,9 +97,22 @@ deslistagem via `maintenance.yml` recebeu HTTP 403 (chave sem permissão
 *Unlist*) e que nenhuma das cinco foi deslistada. Confirmado hoje na API de
 registro do NuGet: as cinco continuam `listed=true`.
 
-Consequência: a linha `1.26.*` nunca vence `1.28.0` até 2028, e a linha `2.*`
+Consequência: a linha `1.26.*` nunca vence `1.28.0` até 2029, e a linha `2.*`
 nunca receberá nada. Isso não é um débito de documentação; é uma quebra
 silenciosa da entrega para nove projetos.
+
+**Deslistar não resolve o range flutuante.** Verificado em 2026-09-11 com
+`dotnet restore` (SDK 10) contra pacotes públicos cuja versão mais alta de
+uma linha está deslistada: `Dapper` `1.*` resolveu `1.60.9` (unlisted),
+`MediatR` `8.*` resolveu `8.2.0` (unlisted), `Refit` `6.*` resolveu `6.5.1`
+(unlisted). A política do NuGet.org confirma: "unlisted packages may still be
+discovered in package restore using floating versions". NuGet.org não apaga
+versões a pedido do dono fora de violação de política. Portanto `1.*` só
+volta a funcionar quando a versão calendário ultrapassar `1.28.0` (ano 2029),
+quando o esquema mudar, ou se o suporte do NuGet aceitar apagar as cinco.
+
+Em 2026-09-11 as tags Git `v1.27.0`, `v1.28.0`, `v2.0.0`, `v2.1.1`, `v2.2.0`
+e `v2.2.1` foram removidas do repositório; o CI já rejeita tags SemVer.
 
 ### Altos
 
@@ -186,65 +199,77 @@ conclusão para virar `PLAN-` ou `activities/` depois.
 
 ### P0 — Distribuição (resolver antes de qualquer outra publicação)
 
-1. **Deslistar as cinco versões SemVer legadas.** Obter chave NuGet com escopo
-   *Unlist* para `Sufficit.Blazor.UI` (ou executar pela conta proprietária) e
-   rodar `maintenance.yml` com `replacement=1.26.908.2020` e `apply=true`.
-   Gate: API de registro devolve `listed=false` para `1.27.0`, `1.28.0`,
-   `2.0.0`, `2.1.1`, `2.2.1`; os doze pacotes calendário permanecem listados.
-   Pacotes deslistados continuam restauráveis por versão exata, então quem tem
-   lock file não quebra.
-2. **Abandonar range flutuante nos consumidores.** Deslistar corrige `1.*`,
-   mas `2.*` e `[…,2.0.0)` continuam presos. Trocar todos os consumidores para
-   versão exata (como Identity e Fleet já fazem), de preferência via
-   `Directory.Packages.props`, e deixar o Dependabot de cada repositório
-   propor o bump. Gate: nenhum `.csproj` em `/mnt/sufficit` com `1.*`, `2.*`
-   ou range aberto para `Sufficit.Blazor.UI`; Genius, AI, Blazor, Background,
-   Network Control, Services Run e Cloud Mobile Google Accounts compilando e
-   testados com `1.26.9xx`.
-3. **Corrigir o README.** Substituir o exemplo `Version="1.*"` pela versão
-   exata mais recente e uma frase explicando por que range flutuante não serve
-   com versão calendário. Gate: README e `docs/CONSUMER-ROLLOUT.md` alinhados.
+1. **Escolher como `1.*` volta a resolver o pacote certo.** Decisão do dono
+   do pacote, porque deslistar não basta (ver C1). Alternativas:
+   - **(a) range anual** `1.26.*` nos consumidores agora, `1.27.*` em janeiro
+     de 2027, `1.28.*` em 2028 e `1.*` de 2029 em diante. Mantém o esquema
+     corporativo; custa uma edição por ano em cada consumidor.
+   - **(b) pedido ao suporte do NuGet** para apagar `1.27.0`, `1.28.0`,
+     `2.0.0`, `2.1.1` e `2.2.1` como publicação acidental. Sem garantia; se
+     aceito, `1.*` funciona sem mais nada.
+   - **(c) mudar o esquema** deste pacote para algo que ordene acima de
+     `1.28.0` dentro do major 1 (por exemplo `1.yyMM.dd.HHmm`). Resolve para
+     sempre, mas descola do padrão `1.yy.MMdd.HHmm` compartilhado com
+     `Sufficit.Identity.Core`.
+   Recomendação: (a) imediatamente e (b) em paralelo; (c) só se o dono aceitar
+   dois esquemas na organização.
+2. **Deslistar as cinco versões SemVer legadas mesmo assim.** Tira da busca,
+   impede adoção nova e deixa claro no catálogo qual linha é a viva. Exige
+   chave com escopo *Unlist* em `NUGET_API_KEY` (a chave OIDC do Trusted
+   Publishing só tem escopo de push). Gate: `listed=false` nas cinco; os doze
+   pacotes calendário continuam listados.
+3. **Migrar todos os consumidores para a linha 1.x.** Genius (`2.*`), AI Web
+   (`2.2.1`) e Cloud Mobile Google Accounts (`[…,2.0.0)`) passam para o range
+   escolhido no item 1; Blazor, Background, Network Control e Services Run
+   ajustam de `1.*` para o mesmo range; Identity e Fleet podem manter versão
+   exata ou aderir. Gate: nenhum `.csproj` em `/mnt/sufficit` referencia `2.*`
+   ou `2.2.1`; cada consumidor compila e passa nos próprios testes com
+   `1.26.9xx`.
+4. **Corrigir o README.** Trocar o exemplo `Version="1.*"` pelo range
+   escolhido e explicar em uma frase por que `1.*` puro não serve até 2029.
+   Gate: README, `docs/CONSUMER-ROLLOUT.md` e o runbook de release alinhados.
 
 ### P1 — Higiene e sinais confiáveis
 
-4. **Limpar worktrees e ramos integrados.** `git worktree remove` nas 16
-   árvores (preservando `PLAN-sufficit-versioning.md` movido para
-   `docs/activities/` quando o item 1 fechar) e `git branch -D` nos 15 ramos
-   com `0 ahead`. Adicionar ao `RUNBOOK-RELEASE.md` o passo "remover worktree
-   ao integrar". Gate: `git worktree list` só com `main`; `.worktrees/` vazio.
-5. **Reescrever as mensagens `[Obsolete]`.** Trocar "will be removed in
+5. **Limpar worktrees e ramos integrados.** Feito em 2026-09-11 (commit
+   `553e441`): 16 worktrees e 15 ramos removidos, plano de versionamento
+   arquivado em `docs/activities/`, `Directory.Build.props` e
+   `Directory.Packages.props` vazios na raiz isolam o build de um checkout
+   irmão do Identity. Falta o passo "remover worktree ao integrar" no
+   `RUNBOOK-RELEASE.md`.
+6. **Reescrever as mensagens `[Obsolete]`.** Trocar "will be removed in
    v2.0.0" por uma data-alvo do calendário Sufficit ("removida a partir de
    1.26.11xx") e renomear `PLAN-SUI-V2.md` para `PLAN-API-CLEANUP.md`, com o
    plano contendo só o pendente. Gate: nenhum texto "v2.0.0" em `src/`;
    `PublicApiBaseline.txt` regenerado com review.
-6. **Dar folga mínima aos budgets.** Definir regra explícita: teto = valor
+7. **Dar folga mínima aos budgets.** Definir regra explícita: teto = valor
    medido × 1,03 arredondado para KiB, ratchet apenas para baixo em commit
    dedicado. Registrar o valor medido no teste junto com o teto. Gate: os
    quatro testes de orçamento com folga ≥ 3 % e nenhuma falha intermitente em
    dez execuções consecutivas do CI.
-7. **Commitar ou descartar** a alteração pendente do autocomplete (B1) após
+8. **Commitar ou descartar** a alteração pendente do autocomplete (B1) após
    confirmar visualmente o ícone no Showcase. Gate: `git status` limpo.
 
 ### P2 — Documentação e cobertura
 
-8. **Gerar a tabela do README a partir do código.** Estender
+9. **Gerar a tabela do README a partir do código.** Estender
    `scripts/generate-catalog.py` (já existe) para emitir a tabela de famílias e
    adicionar teste que compara README com `src/Components`. Gate: teste
    `ReadmeCatalog_MatchesComponents` verde; contagem "67" derivada, não
    digitada.
-9. **Cobrir os 36 componentes ausentes em `docs/components`.** Um arquivo por
+10. **Cobrir os 36 componentes ausentes em `docs/components`.** Um arquivo por
    família já existe; faltam as seções. Priorizar layout (`SUILayout`,
    `SUIAppBar`, `SUIDrawer`, `SUIGrid`, `SUIContainer`) porque são os que todo
    consumidor novo usa primeiro. Gate: teste de convenção que exige menção de
    cada componente público em `docs/components`.
-10. **bUnit mínimo para os 22 componentes sem teste.** Um teste de contrato
+11. **bUnit mínimo para os 22 componentes sem teste.** Um teste de contrato
     por componente: renderiza, encaminha atributos, aplica classe e, quando há
     ARIA, expõe o papel. Reaproveitar o padrão dos testes existentes. Gate:
     teste de convenção que falha para componente público sem arquivo de teste.
 
 ### P3 — Empacotamento e hardening
 
-11. **Metadados de pacote.** Adicionar `GenerateDocumentationFile`,
+12. **Metadados de pacote.** Adicionar `GenerateDocumentationFile`,
     `IncludeSymbols` + `SymbolPackageFormat=snupkg`, `PublishRepositoryUrl`,
     `EmbedUntrackedSources`, `ContinuousIntegrationBuild` condicionado a
     `GITHUB_ACTIONS`, e trocar `PackageIconUrl` por apenas `PackageIcon`.
@@ -252,16 +277,16 @@ conclusão para virar `PLAN-` ou `activities/` depois.
     `validate-package.sh` verifica `lib/net10.0/Sufficit.Blazor.UI.xml` e o
     símbolo; `dotnet build` continua com zero avisos (os `/// <summary>`
     faltantes viram CS1591 e precisam ser escritos ou suprimidos com critério).
-12. **Suporte a CSP no `SUIThemeProvider`.** Aceitar parâmetro `Nonce` que é
+13. **Suporte a CSP no `SUIThemeProvider`.** Aceitar parâmetro `Nonce` que é
     emitido no `<style>` e documentar a alternativa de publicar os tokens por
     `style` attribute no wrapper para quem bloqueia `style-src` inline.
     Gate: teste bUnit que verifica o atributo `nonce`; exemplo no Showcase.
-13. **Alinhar dependências.** Aceitar o bump para `10.0.12` e unificar
+14. **Alinhar dependências.** Aceitar o bump para `10.0.12` e unificar
     `Microsoft.NET.Test.Sdk` nos dois projetos de teste. Gate: CI verde.
 
 ### P4 — Evolução da API (depois do P0 e P1)
 
-14. **Executar o plano de limpeza de API** (antigo "v2"): remover as 23 pontes
+15. **Executar o plano de limpeza de API** (antigo "v2"): remover as 23 pontes
     `object` e 2 `string`, renomear `NavAccordionScope`, `SUIItem.xs..xl` e
     `SUIAlert.CloseIconClicked`, esvaziar `LegacyParameterNames`. Só depois de
     todos os consumidores compilarem sem `CS0618` na versão exata. Gate: os
@@ -272,11 +297,11 @@ conclusão para virar `PLAN-` ou `activities/` depois.
 
 | Bloco | Esforço | Dependência |
 | --- | --- | --- |
-| P0 (itens 1–3) | 1 dia, mais espera pela credencial NuGet | credencial com *Unlist* |
-| P1 (itens 4–7) | meio dia | nenhuma |
-| P2 (itens 8–10) | 2 a 3 dias | nenhuma |
-| P3 (itens 11–13) | 1 dia | item 11 pode gerar CS1591 em volume |
-| P4 (item 14) | 2 dias mais canário nos consumidores | P0 concluído |
+| P0 (itens 1–4) | 1 dia após a decisão do item 1; item 2 espera chave com *Unlist* | decisão do dono do pacote |
+| P1 (itens 5–8) | meio dia (item 5 já feito) | nenhuma |
+| P2 (itens 9–11) | 2 a 3 dias | nenhuma |
+| P3 (itens 12–14) | 1 dia | item 12 pode gerar CS1591 em volume |
+| P4 (item 15) | 2 dias mais canário nos consumidores | P0 concluído |
 
 ## Método
 
