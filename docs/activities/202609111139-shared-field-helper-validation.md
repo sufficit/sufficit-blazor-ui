@@ -57,5 +57,6 @@ Referências:
 - https://github.com/sufficit/sufficit-blazor-ui/commit/900f42d27844146a24c83d0e8f38133320773324
 - https://github.com/sufficit/sufficit-blazor-ui/actions/runs/34611340632
 
-O plano `PLAN-shared-field-help.md` foi mantido por haver publicação pendente.
+O bloqueio foi posteriormente resolvido e a vitrine publicada; ver
+[registro de conclusão](202609111805-shared-field-helper-published.md).
 Servidor local temporário encerrado pelo PID inspecionado.
