@@ -27,6 +27,8 @@ definem a numeração das próximas publicações.
 
 ### Fixed
 
+- SUIAutocomplete: o adorno (ícone de busca/loading) usa `display: flex`, para a caixa deslocada por `translateY(-50%)` ter a altura do glifo e não da linha de texto; o ícone fica centralizado no campo.
+
 - Select e Autocomplete registram o estado enviado ao JavaScript antes de aguardar
   o retorno, evitando que chamadas concorrentes suprimam a rolagem da seleção
   por teclado ou reabram a lista (regressão reproduzida no WebKit).

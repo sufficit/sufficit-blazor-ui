@@ -5,6 +5,7 @@
 .sui-autocomplete { position: relative; }
 .sui-autocomplete__control { position: relative; }
 .sui-autocomplete__adornment {
+  display: flex;
   position: absolute;
   right: var(--sui-space-3);
   top: 50%;
