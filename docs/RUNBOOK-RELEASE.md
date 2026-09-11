@@ -93,6 +93,14 @@ ordena acima de todas as legadas e `2.*` resolve sempre o calendário mais
 recente. Os pacotes `1.26.*` publicados em agosto/setembro de 2026 ficam como
 histórico. Não apague caches locais para simular remoção remota.
 
+## Higiene após integrar
+
+Toda worktree criada em `.worktrees/` para uma entrega deve ser removida
+assim que o ramo entrar em `main` (`git worktree remove .worktrees/<nome>` e
+`git branch -D <ramo>`). Worktree órfã carrega `bin/`, `obj/` e
+`node_modules/` próprios e esconde arquivos não rastreados; em 2026-09-11
+foram encontradas 16 já integradas.
+
 ## Falha e recuperação
 
 Não reutilize versões já publicadas. Corrija e gere outro timestamp; releases

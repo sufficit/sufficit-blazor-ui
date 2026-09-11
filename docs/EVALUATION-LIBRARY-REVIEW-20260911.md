@@ -217,6 +217,14 @@ conclusão para virar `PLAN-` ou `activities/` depois.
    `2.yy.MMdd.HHmm`.** Mantém o formato corporativo, ordena acima de `2.2.1` e
    `2.*` resolve sempre o calendário. Aplicado no csproj, `release_version.py`,
    testes, workflows e docs; consumidores migram para `Version="2.*"`.
+   Primeira release da linha: tag `v2.26.911.2250`, todos os gates verdes
+   (CSS, .NET 10, pack, bUnit, Chromium/Firefox/WebKit, Lighthouse, publish).
+   Consumidores atualizados para `2.*` no mesmo dia: sufficit-blazor (client e
+   server), sufficit-background, sufficit-network-control, sufficit-services-run,
+   sufficit-ai/web, sufficit-fleet, sufficit-cloud-mobile-google-accounts
+   (ramo de feature; `main` desse repositório usa só `ProjectReference`) e
+   sufficit-identity (`Directory.Packages.props` + lock files). Genius já
+   estava em `2.*`.
 2. **Deslistar as cinco versões SemVer legadas mesmo assim.** Tira da busca,
    impede adoção nova e deixa claro no catálogo qual linha é a viva. Exige
    chave com escopo *Unlist* em `NUGET_API_KEY` (a chave OIDC do Trusted
