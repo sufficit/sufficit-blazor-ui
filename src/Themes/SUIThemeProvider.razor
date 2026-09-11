@@ -6,7 +6,7 @@
     <div class="@WrapperClass" data-sui-theme="@(ActiveTheme.IsDark ? "dark" : "light")">
         @ChildContent
     </div>
-    <style>@((MarkupString)ToCssVars(ActiveTheme))</style>
+    <style nonce="@Nonce">@((MarkupString)ToCssVars(ActiveTheme))</style>
 </CascadingValue>
 
 @code {
@@ -19,6 +19,15 @@
 
     [Parameter]
     public string? Class { get; set; }
+
+    /// <summary>
+    /// CSP nonce copied onto the inline <c>&lt;style&gt;</c> that publishes the
+    /// theme tokens. Set it when the host serves
+    /// <c>Content-Security-Policy: style-src 'self' 'nonce-…'</c>; without it a
+    /// strict policy blocks the tokens and every component wears the fallback.
+    /// </summary>
+    [Parameter]
+    public string? Nonce { get; set; }
 
     private ISUITheme? _resolved;
 

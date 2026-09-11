@@ -37,7 +37,7 @@ resolvido, cada correção feita aqui não chega a quem a pediu.
 | CI `main` (Build, Component showcase, CodeQL) | verde no último push (`2a32690`) |
 | Alertas Dependabot abertos | 0 |
 | PRs e issues abertos | 0 e 0 |
-| Componentes `.razor` em `src/Components` | 67 (README e `FRONTEND-REVIEW` dizem 68) |
+| Componentes `.razor` em `src/Components` | 67, mais `SUIThemeProvider` em `src/Themes` (68 no README) |
 | Módulos JavaScript colocalizados | 10 |
 | Linhas autorais (`.cs`, `.razor`, `.css`, `.js`, sem `wwwroot`) | 12.822 |
 | Tipos com pontes `[Obsolete]` | 10 componentes |
@@ -148,7 +148,8 @@ README omite 16 componentes: `SUIAvatar`, `SUICardActions`, `SUICardContent`,
 `SUIPendingChangesBar`, `SUIProgressCircular`, `SUIProgressSteps`,
 `SUISection`, `SUITableSortLabel`. `docs/components` não menciona 36 dos 67
 (layout inteiro, cards, timeline, tabs, toasts, dialogs de decisão, filtros,
-progress). README e `FRONTEND-REVIEW` falam em 68 componentes; há 67.
+progress). Os "68 componentes" do README incluem o `SUIThemeProvider`, que
+vive em `src/Themes`; a contagem está certa, apenas a tabela está incompleta.
 
 **M2. 22 componentes sem nenhum teste bUnit.** `SUISwitchButton`, `SUIGrid`,
 `SUIContainer`, `SUISpacer`, `SUIAppBar`, `SUILink`, `SUIList`, `SUIListItem`,

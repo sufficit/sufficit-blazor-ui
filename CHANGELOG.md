@@ -10,6 +10,11 @@ definem a numeração das próximas publicações.
 
 ### Packaging
 
+- Pacote inclui `Sufficit.Blazor.UI.xml` (IntelliSense), publica símbolos `.snupkg` com Source Link (`PublishRepositoryUrl`, `EmbedUntrackedSources`) e deixa de usar `PackageIconUrl`, obsoleto. `CS1591` fica suprimido até todos os membros públicos terem summary.
+- Mensagens `[Obsolete]` das pontes não prometem mais "v2.0.0": apontam para `docs/PLAN-API-CLEANUP.md` (antigo `PLAN-SUI-V2.md`).
+- Budgets de assets seguem a regra "medido × 1,03, arredondado para 256 B": JS Brotli 9,75 KiB, CSS isolation 27,75 KiB, gzip do bundle 10,25 KiB, transferência de CSS no catálogo 98 KiB; valores medidos registrados ao lado de cada teto.
+- ASP.NET Core Components `10.0.12`; `Microsoft.NET.Test.Sdk` unificado em `17.14.1`.
+
 - Linha de versão movida para o major 2: Debug `2.99.0.0`, Release/Packing
   `2.yy.MMdd.HHmm` UTC. As SemVer `1.27.0`, `1.28.0`, `2.0.0`, `2.1.1` e `2.2.1`
   foram publicadas por engano, o NuGet.org não as apaga e `dotnet restore`
@@ -23,9 +28,15 @@ definem a numeração das próximas publicações.
 
 ### Added
 
+- `SUIThemeProvider.Nonce`: copiado para o `<style>` inline que publica os tokens, para hosts com `Content-Security-Policy: style-src` estrita. Sem o parâmetro nada muda.
+- Testes de contrato de render (bUnit) para os 22 componentes que não tinham nenhum, e `ReadmeCatalogTests`, que mantém a tabela de famílias do README igual a `src/Components`.
+- `docs/components` passa a mencionar os 16 componentes que faltavam (CopyToClipboard, Avatar, TableSortLabel, TableEmpty, Td, ProgressCircular, SkeletonLoader, PendingChangesBar, ProgressSteps, CardActions, ConfirmDialog, DecisionDialog, SnackbarHost, FilterTree, FilterScope, TabPanel).
+
 - Botões: variante `Soft` com superfície tonal, peso mais leve e raio do tema; disponível em SUIButton, SUILoadingButton e SUIIconButton. Filled/Outlined/Text mantêm seus valores e padrões.
 
 ### Fixed
+
+- SUINavGroup e SUINavLink: `aria-disabled` era ligado a um `bool` e saía como `aria-disabled=""`; agora emite `"true"` quando desabilitado e omite o atributo caso contrário (tecnologia assistiva ignora o token vazio).
 
 - SUIAutocomplete: o adorno (ícone de busca/loading) usa `display: flex`, para a caixa deslocada por `translateY(-50%)` ter a altura do glifo e não da linha de texto; o ícone fica centralizado no campo.
 

@@ -28,7 +28,7 @@ public sealed class NamingConventionTests
     [
         "ServiceCollectionExtensions",
         "DefaultSUITheme",
-        // Debt: renaming is a public API break, scheduled for v2 (docs/PLAN-SUI-V2.md).
+        // Debt: renaming is a public API break, scheduled for the API cleanup release (docs/PLAN-API-CLEANUP.md).
         "NavAccordionScope",
     ];
 

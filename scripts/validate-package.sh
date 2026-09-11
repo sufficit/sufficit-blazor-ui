@@ -29,6 +29,7 @@ python3 "$(dirname "$0")/release_version.py" "$package_version" >/dev/null
 
 required_entries=(
   "lib/net10.0/Sufficit.Blazor.UI.dll"
+  "lib/net10.0/Sufficit.Blazor.UI.xml"
   "readme.md"
   "icon.png"
   "staticwebassets/sufficit-ui.css"
@@ -73,7 +74,7 @@ dotnet nuget add source "$package_dir" \
 
 for framework in net10.0; do
   consumer_dir="$validation_root/$framework"
-  aspnet_version="10.0.11"
+  aspnet_version="10.0.12"
 
   dotnet new razorclasslib --framework "$framework" --output "$consumer_dir" --no-restore >/dev/null
   # The installed SDK template can lag behind the servicing floor required by

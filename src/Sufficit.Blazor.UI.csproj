@@ -43,12 +43,22 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/sufficit/sufficit-blazor-ui</RepositoryUrl>
     <PackageProjectUrl>https://github.com/sufficit/sufficit-blazor-ui</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/sufficit/sufficit-blazor-ui/main/icon.png</PackageIconUrl>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageIcon>icon.png</PackageIcon>
     <EnablePackageValidation>true</EnablePackageValidation>
+    <!-- Consumer tooling: XML docs feed IntelliSense, the .snupkg and Source
+         Link let a consumer step into component code. CS1591 stays off until
+         every public member carries a summary; missing summaries are tracked
+         as debt, not hidden by the warning. -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <ItemGroup Label="Sufficit Pacote NUGET Itens">
@@ -63,8 +73,8 @@
     <!-- The SUI components are plain Blazor: they need only the Razor SDK
          component base packages. Exact servicing versions make restore
          reproducible; Dependabot owns the regular update cadence. -->
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.11" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.12" />
   </ItemGroup>
 
   <ItemGroup>

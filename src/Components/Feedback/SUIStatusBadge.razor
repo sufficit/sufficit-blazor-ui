@@ -14,7 +14,7 @@
     /// <c>"warning"</c>, <c>"danger"</c>, <c>"info"</c>. Kept as a string so
     /// consumers can compute it at runtime without enum conversion.
     /// </summary>
-    [Parameter, Obsolete("Use ToneValue. The string bridge will be removed in v2.0.0.")]
+    [Parameter, Obsolete("Use ToneValue. The string bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
     public string Tone { get; set; } = "neutral";
 
     [Parameter]

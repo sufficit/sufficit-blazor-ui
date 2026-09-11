@@ -70,16 +70,16 @@ else
     [Parameter]
     public bool Disabled { get; set; }
 
-    [Parameter, Obsolete("Use VariantValue. The object bridge will be removed in v2.0.0.")]
+    [Parameter, Obsolete("Use VariantValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
     public object Variant { get; set; } = SUIVariant.Filled;
 
-    [Parameter, Obsolete("Use ColorValue. The object bridge will be removed in v2.0.0.")]
+    [Parameter, Obsolete("Use ColorValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
     public object Color { get; set; } = SUIColor.Primary;
 
-    [Parameter, Obsolete("Use ButtonTypeValue. The object bridge will be removed in v2.0.0.")]
+    [Parameter, Obsolete("Use ButtonTypeValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
     public object ButtonType { get; set; } = SUIButtonType.Button;
 
-    [Parameter, Obsolete("Use SizeValue. The object bridge will be removed in v2.0.0.")]
+    [Parameter, Obsolete("Use SizeValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
     public object Size { get; set; } = SUISize.Medium;
 
     [Parameter] public SUIVariant? VariantValue { get; set; }

@@ -72,7 +72,7 @@
     public string? Label { get; set; }
 
     /// <summary>Color when on: "primary" (default), "success", etc.</summary>
-    [Parameter, Obsolete("Use ColorValue. The object bridge will be removed in v2.0.0.")]
+    [Parameter, Obsolete("Use ColorValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
     public object? Color { get; set; } = SUIColor.Primary;
 
     [Parameter]

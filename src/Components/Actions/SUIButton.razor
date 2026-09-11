@@ -45,22 +45,22 @@ else
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
 
-    [Parameter, Obsolete("Use ColorValue. The object bridge will be removed in v2.0.0.")]
+    [Parameter, Obsolete("Use ColorValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
     public object Color { get; set; } = SUIColor.Primary;
 
-    [Parameter, Obsolete("Use IconColorValue. The object bridge will be removed in v2.0.0.")]
+    [Parameter, Obsolete("Use IconColorValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
     public object? IconColor { get; set; }
 
-    [Parameter, Obsolete("Use VariantValue. The object bridge will be removed in v2.0.0.")]
+    [Parameter, Obsolete("Use VariantValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
     public object Variant { get; set; } = SUIVariant.Filled;
 
-    [Parameter, Obsolete("Use SizeValue. The object bridge will be removed in v2.0.0.")]
+    [Parameter, Obsolete("Use SizeValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
     public object Size { get; set; } = SUISize.Medium;
 
-    [Parameter, Obsolete("Use IconSizeValue. The object bridge will be removed in v2.0.0.")]
+    [Parameter, Obsolete("Use IconSizeValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
     public object? IconSize { get; set; }
 
-    [Parameter, Obsolete("Use ButtonTypeValue. The object bridge will be removed in v2.0.0.")]
+    [Parameter, Obsolete("Use ButtonTypeValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
     public object ButtonType { get; set; } = SUIButtonType.Button;
 
     [Parameter] public SUIColor? ColorValue { get; set; }

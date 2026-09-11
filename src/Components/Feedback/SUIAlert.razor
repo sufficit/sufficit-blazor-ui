@@ -30,7 +30,7 @@
     /// <summary>Alert tone. Accepts a lowercase string ("info", "success",
     /// "warning", "danger", "error") for compatibility, defaulting to "info".
     /// "error" is mapped to the danger style.</summary>
-    [Parameter, Obsolete("Use ToneValue. The string bridge will be removed in v2.0.0.")]
+    [Parameter, Obsolete("Use ToneValue. The string bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
     public string Severity { get; set; } = "info";
 
     [Parameter]

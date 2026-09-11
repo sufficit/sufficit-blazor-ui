@@ -5653,6 +5653,14 @@
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
+      },
+      {
+        "description": "CSP nonce copied onto the inline <style> that publishes the theme tokens. Set it when the host serves Content-Security-Policy: style-src 'self' 'nonce-…'; without it a strict policy blocks the tokens and every component wears the fallback.",
+        "name": "Nonce",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
       }
     ]
   }

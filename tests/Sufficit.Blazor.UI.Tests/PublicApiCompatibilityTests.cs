@@ -46,7 +46,7 @@ public sealed class PublicApiCompatibilityTests
             Assert.Equal(typedType, replacement.PropertyType);
             Assert.NotNull(obsolete);
             Assert.Contains(replacementName, obsolete!.Message, StringComparison.Ordinal);
-            Assert.Contains("v2.0.0", obsolete.Message, StringComparison.Ordinal);
+            Assert.Contains("PLAN-API-CLEANUP", obsolete.Message, StringComparison.Ordinal);
         }
 
         Assert.Null(typeof(SUISelectItem).GetProperty(nameof(SUISelectItem.Value))!
@@ -68,7 +68,7 @@ public sealed class PublicApiCompatibilityTests
             Assert.Equal(typeof(SUITone?), replacement.PropertyType);
             Assert.NotNull(obsolete);
             Assert.Contains(replacementName, obsolete!.Message, StringComparison.Ordinal);
-            Assert.Contains("v2.0.0", obsolete.Message, StringComparison.Ordinal);
+            Assert.Contains("PLAN-API-CLEANUP", obsolete.Message, StringComparison.Ordinal);
         }
     }
 

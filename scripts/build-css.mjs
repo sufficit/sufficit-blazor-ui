@@ -19,11 +19,11 @@ const budgets = {
   // mobile-table presentation. The package-level ceiling remains 56 KiB.
   // Button label flex/alignment adds 60 B raw; wrapping uses the existing root policy.
   // Shared pressed feedback and tonal border; compressed budget remains below 10 KiB.
-  raw: 54_800,
-  gzip: 10_100,
-  // Includes the global overflow guard and the accessible removable-chip
-  // contract used by shared filtering surfaces.
-  brotli: 8_850,
+  // Headroom rule: measured × 1.03 rounded up (see AssetBudgetTests). Measured
+  // 2026-09-11: raw 54,751 / gzip 10,098 / brotli 8,840 B.
+  raw: 56_400,
+  gzip: 10_400,
+  brotli: 9_110,
 };
 
 const result = bundle({

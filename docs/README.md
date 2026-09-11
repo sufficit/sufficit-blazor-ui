@@ -22,8 +22,11 @@ concluído é arquivado em `activities/` com prefixo de timestamp
 
 ## Planos ativos (trabalho pendente)
 
-- [Sufficit.Blazor.UI v2](PLAN-SUI-V2.md) — remoção das pontes obsoletas,
-  integração com `EditContext`, net10-only e gates dos consumers
+- [Limpeza da API pública](PLAN-API-CLEANUP.md) — remoção das 25 pontes
+  obsoletas e três renomes congelados; só depois de todos os consumers
+  compilarem sem `CS0618`
+- [Acompanhamento da avaliação de 2026-09-11](PLAN-LIBRARY-REVIEW-FOLLOWUP.md) —
+  deslistagem no NuGet (bloqueada por credencial) e summaries XML faltantes
 - [Adoção dos componentes `SUI*`](PLAN-CONSUMER-MIGRATION.md) —
   adoção básica concluída nos consumers; permanecem verificações visuais,
   runtime WASM e navegação Management explicitamente listadas no plano

@@ -43,15 +43,15 @@
 @code {
     /// <summary>Chip color. Lowercase string: "default", "primary", "secondary",
     /// "success", "warning", "error", "info". Default "default".</summary>
-    [Parameter, Obsolete("Use ColorValue. The object bridge will be removed in v2.0.0.")]
+    [Parameter, Obsolete("Use ColorValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
     public object? Color { get; set; } = SUIColor.Default;
 
     /// <summary>Size: "small", "medium" or "large". Default "medium".</summary>
-    [Parameter, Obsolete("Use SizeValue. The object bridge will be removed in v2.0.0.")]
+    [Parameter, Obsolete("Use SizeValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
     public object? Size { get; set; }
 
     /// <summary>Variant: "filled", "outlined", "text". Default "filled".</summary>
-    [Parameter, Obsolete("Use VariantValue. The object bridge will be removed in v2.0.0.")]
+    [Parameter, Obsolete("Use VariantValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
     public object? Variant { get; set; } = SUIVariant.Filled;
 
     [Parameter] public SUIColor? ColorValue { get; set; }

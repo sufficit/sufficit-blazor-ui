@@ -10,20 +10,22 @@ namespace Sufficit.Blazor.UI.Tests;
 /// </summary>
 public sealed class AssetBudgetTests
 {
-    private const int BundleRawBudget = 56 * 1024;
-    private const int BundleGzipBudget = 10 * 1024;
-    private const int BundleBrotliBudget = 9 * 1024;
+    // Headroom rule (2026-09-11): a ceiling is the measured value × 1.03,
+    // rounded up to the next 256 B. Less than that turned every unrelated
+    // commit into a budget failure (three CI failures on 10–11/09 with nothing
+    // over budget in the change itself). Ceilings ratchet DOWN in a dedicated
+    // commit when a measurement drops; they go up only with a justification
+    // in the commit that adds the bytes. Measured values are recorded beside
+    // each constant so the next reader can see the real headroom.
+    private const int BundleRawBudget = 56 * 1024;            // measured 54,751 B
+    private const int BundleGzipBudget = 10 * 1024 + 256;     // measured 10,098 B
+    private const int BundleBrotliBudget = 9 * 1024;          // measured  8,840 B
     private const int JsModuleRawBudget = 12 * 1024;
-    // Includes the independent numeric wheel/arrow/spinner increments added in
-    // 1ebc3ae. Aggregate: 9,495 B Brotli; allow 233 B of headroom (9.5 KiB).
-    // Numeric interop remains opt-in; this ceiling measures every module together.
-    private const int JsTotalBrotliBudget = 9 * 1024 + 512;
-    // Includes the responsive custom-trailing layout used by choice cards for
-    // statuses and summaries without compressing their primary content.
-    // Includes responsive numeric steppers added in 1ebc3ae and adaptive form
-    // tracks. Shared helpers remove TextField's override: 27,372 B total,
-    // leaving 276 B of headroom under the 27 KiB source/parse ceiling.
-    private const int IsolatedCssRawBudget = 27 * 1024;
+    // Every colocated module together, Brotli. Numeric interop remains opt-in;
+    // this ceiling measures all of them at once.
+    private const int JsTotalBrotliBudget = 9 * 1024 + 768;   // measured  9,495 B
+    // Raw bytes of every .razor.css (source/parse cost of CSS isolation).
+    private const int IsolatedCssRawBudget = 27 * 1024 + 768; // measured 27,372 B
 
     [Fact]
     public void GlobalStylesheet_FitsTheTransferBudget()

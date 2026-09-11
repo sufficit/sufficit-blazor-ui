@@ -100,4 +100,25 @@ public sealed class ThemeProviderTests
             = Sufficit.Blazor.UI.Themes.SUILayout.Default;
         public bool IsDark => true;
     }
+
+    [Fact]
+    public void Nonce_IsCopiedOntoTheInlineStyle_SoStrictCspAcceptsTheTokens()
+    {
+        using var context = new BunitContext();
+        var cut = context.Render<SUIThemeProvider>(parameters => parameters
+            .Add(component => component.Theme, TestTheme.Dark)
+            .Add(component => component.Nonce, "r4nd0m"));
+
+        Assert.Equal("r4nd0m", cut.Find("style").GetAttribute("nonce"));
+    }
+
+    [Fact]
+    public void WithoutNonce_TheInlineStyleHasNoNonceAttribute()
+    {
+        using var context = new BunitContext();
+        var cut = context.Render<SUIThemeProvider>(parameters => parameters
+            .Add(component => component.Theme, TestTheme.Dark));
+
+        Assert.False(cut.Find("style").HasAttribute("nonce"));
+    }
 }

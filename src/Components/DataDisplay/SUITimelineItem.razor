@@ -37,15 +37,15 @@
 
 @code {
     /// <summary>Marker color: "default", "primary", "success", "warning", "error", "info".</summary>
-    [Parameter, Obsolete("Use ColorValue. The object bridge will be removed in v2.0.0.")]
+    [Parameter, Obsolete("Use ColorValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
     public object? Color { get; set; } = SUIColor.Primary;
 
     /// <summary>"small" or "medium". Default "small".</summary>
-    [Parameter, Obsolete("Use SizeValue. The object bridge will be removed in v2.0.0.")]
+    [Parameter, Obsolete("Use SizeValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
     public object? Size { get; set; } = SUISize.Small;
 
     /// <summary>"filled" or "outlined". Default "filled".</summary>
-    [Parameter, Obsolete("Use VariantValue. The object bridge will be removed in v2.0.0.")]
+    [Parameter, Obsolete("Use VariantValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
     public object? Variant { get; set; } = SUIVariant.Filled;
 
     [Parameter] public SUIColor? ColorValue { get; set; }
