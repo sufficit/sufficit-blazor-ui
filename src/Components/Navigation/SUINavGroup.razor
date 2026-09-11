@@ -56,7 +56,7 @@ else
 {
 <nav @attributes="UserAttributes"
      class="@Classname"
-     aria-disabled="@_navigationContext.Disabled"
+     aria-disabled="@(_navigationContext.Disabled ? "true" : null)"
      style="@Style"
      aria-label="@Title">
     <button @onclick="ExpandedToggleAsync"

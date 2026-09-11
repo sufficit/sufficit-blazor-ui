@@ -5,7 +5,7 @@
 <div @attributes="UserAttributes"
      class="@Classname"
      style="@Style"
-     aria-disabled="@IsDisabled">
+     aria-disabled="@(IsDisabled ? "true" : null)">
     @if (RailTooltip is not null)
     {
         <SUITooltip Text="@RailTooltip"
@@ -151,7 +151,7 @@
                class="@ForceLoadLinkClassname"
                @attributes="Attributes"
                aria-label="@RailTooltip"
-               aria-disabled="@IsDisabled"
+               aria-disabled="@(IsDisabled ? "true" : null)"
                @onclick:preventDefault="true"
                @onclick="HandleNavigation">
                 @RenderContent()
