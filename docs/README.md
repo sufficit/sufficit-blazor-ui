@@ -56,6 +56,9 @@ concluído é arquivado em `activities/` com prefixo de timestamp
 
 ## Trabalho concluído (activities/)
 
+- [Versionamento Sufficit e limpeza do catálogo NuGet](activities/202609081807-sufficit-versioning-plan.md) —
+  plano recuperado da worktree; padrão 1.yy.MMdd.HHmm, OIDC e deslistagem pendente
+
 - [Seletores SUI na vitrine](activities/202609071907-completed-seletores-sui-vitrine.md) — dropdowns
   do cabeçalho/editor, contraste de seleção e retorno de foco
 

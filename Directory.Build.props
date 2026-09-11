@@ -1,0 +1,4 @@
+<Project>
+  <!-- Isolated build boundary: do not inherit Identity's props through its
+       sibling-worktree symlink. The SUI source revision itself is unchanged. -->
+</Project>
