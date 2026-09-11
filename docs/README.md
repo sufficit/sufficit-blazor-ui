@@ -28,6 +28,13 @@ concluído é arquivado em `activities/` com prefixo de timestamp
   adoção básica concluída nos consumers; permanecem verificações visuais,
   runtime WASM e navegação Management explicitamente listadas no plano
 
+## Avaliações
+
+- [Revisão da biblioteca — 2026-09-11](EVALUATION-LIBRARY-REVIEW-20260911.md) —
+  nota por área, achados verificados (versão calendário perde para SemVer
+  legado listado, worktrees órfãos, budgets sem folga, docs e bUnit
+  incompletos) e roadmap P0–P4 de atualizações
+
 ## Runbooks
 
 - [Vitrine estática e GitHub Pages](RUNBOOK-SHOWCASE-PAGES.md) — estrutura, exemplos,
