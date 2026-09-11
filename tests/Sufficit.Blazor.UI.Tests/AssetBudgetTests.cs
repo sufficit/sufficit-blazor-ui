@@ -14,13 +14,16 @@ public sealed class AssetBudgetTests
     private const int BundleGzipBudget = 10 * 1024;
     private const int BundleBrotliBudget = 9 * 1024;
     private const int JsModuleRawBudget = 12 * 1024;
-    // Includes autocomplete keyboard interop and opt-in native numeric wheel stepping.
-    // Measured aggregate: 8,896 B Brotli; wheel module is only imported on opt-in.
-    private const int JsTotalBrotliBudget = 9 * 1024;
+    // Includes the independent numeric wheel/arrow/spinner increments added in
+    // 1ebc3ae. Aggregate: 9,495 B Brotli; allow 233 B of headroom (9.5 KiB).
+    // Numeric interop remains opt-in; this ceiling measures every module together.
+    private const int JsTotalBrotliBudget = 9 * 1024 + 512;
     // Includes the responsive custom-trailing layout used by choice cards for
     // statuses and summaries without compressing their primary content.
-    // Adaptive form tracks support narrow dialogs independently of the viewport.
-    private const int IsolatedCssRawBudget = 26 * 1024;
+    // Includes responsive numeric steppers added in 1ebc3ae and adaptive form
+    // tracks. Shared helpers remove TextField's override: 27,372 B total,
+    // leaving 276 B of headroom under the 27 KiB source/parse ceiling.
+    private const int IsolatedCssRawBudget = 27 * 1024;
 
     [Fact]
     public void GlobalStylesheet_FitsTheTransferBudget()
