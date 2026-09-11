@@ -28,8 +28,12 @@ markup SSR, CSS global/isolation e módulos. As dependências ASP.NET Core usam 
 servicing exatas; o Dependabot mantém a atualização semanal, evitando que dois
 restores do mesmo commit escolham versões diferentes.
 
-Debug usa `1.99.0.0`; Release/Packing usam `1.yy.MMdd.HHmm` em UTC, como
-`Sufficit.Identity.Core`. Uma release nasce de uma tag `v1.yy.MMdd.HHmm`;
+Debug usa `2.99.0.0`; Release/Packing usam `2.yy.MMdd.HHmm` em UTC, o mesmo
+formato de calendário de `Sufficit.Identity.Core` com major 2. O major 2 é
+deliberado: as versões SemVer `1.27.0`, `1.28.0`, `2.0.0`, `2.1.1` e `2.2.1`
+foram publicadas por engano em agosto de 2026, o NuGet.org não as apaga e
+qualquer `1.yy` ficaria abaixo delas em um range flutuante. Uma release nasce
+de uma tag `v2.yy.MMdd.HHmm`;
 o NuGet normaliza zeros à esquerda dos segmentos. O pacote só é enviado ao
 NuGet.org depois dos gates de .NET 10, bUnit, Playwright/axe e validação do
 artefato exato. Veja o [runbook de release](docs/RUNBOOK-RELEASE.md) e o
@@ -45,7 +49,7 @@ permanece como débito explícito do rollout de consumidores.
 Por pacote:
 
 ```xml
-<PackageReference Include="Sufficit.Blazor.UI" Version="1.*" />
+<PackageReference Include="Sufficit.Blazor.UI" Version="2.*" />
 ```
 
 Durante desenvolvimento conjunto, um consumidor também pode apontar para

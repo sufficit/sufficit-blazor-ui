@@ -4,7 +4,7 @@
 
 - worktree limpa e commit alvo presente em `main`;
 - `CHANGELOG.md` atualizado e migrações incompatíveis documentadas;
-- versão no padrão Sufficit `1.yy.MMdd.HHmm` UTC, como Identity.Core;
+- versão no padrão Sufficit `2.yy.MMdd.HHmm` UTC (formato do Identity.Core, major 2);
 - política Trusted Publishing no NuGet para `sufficit/sufficit-blazor-ui`,
   arquivo `build.yml`, environment `production`, autorizando publicar novas versões
   de `Sufficit.Blazor.UI`;
@@ -60,9 +60,9 @@ Referência: https://learn.microsoft.com/en-us/nuget/nuget-org/trusted-publishin
 4. Confira a versão publicada e atualize os consumidores com uma versão exata
    e seus lockfiles. O prefixo `1` não implica suporte aos TFMs históricos.
 
-Debug permanece `1.99.0.0`. Release/Packing locais usam o relógio UTC; builds
+Debug permanece `2.99.0.0`. Release/Packing locais usam o relógio UTC; builds
 CI sem tag validam um pacote com timestamp sem publicá-lo. O NuGet normaliza
-zeros: `1.26.0908.0005` equivale a `1.26.908.5`. Não há sufixo prerelease neste
+zeros: `2.26.0908.0005` equivale a `2.26.908.5`. Não há sufixo prerelease neste
 contrato; validar antes da publicação com pacote local.
 
 ## Verificação
@@ -86,9 +86,12 @@ no workflow; `apply=false` apenas consulta, `apply=true` deslista usando
 não listada. Depois confira `listed=false` no catálogo NuGet, considerando o
 atraso de indexação. Versões corporativas anteriores não entram na operação.
 
-Versões `2.*` históricas ordenam acima de `1.yy...`, mesmo deslistadas em alguns
-restores flutuantes. Migre referências `2.*` e pins antigos para a versão exata
-corporativa publicada. Não apague caches locais para simular remoção remota.
+Deslistar não afeta ranges flutuantes: `dotnet restore` resolve versões não
+listadas quando são as mais altas do range (verificado em 2026-09-11 com
+pacotes públicos). Por isso a linha corporativa usa major 2: `2.yy.MMdd.HHmm`
+ordena acima de todas as legadas e `2.*` resolve sempre o calendário mais
+recente. Os pacotes `1.26.*` publicados em agosto/setembro de 2026 ficam como
+histórico. Não apague caches locais para simular remoção remota.
 
 ## Falha e recuperação
 

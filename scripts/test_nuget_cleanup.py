@@ -9,7 +9,7 @@ import unlist_legacy_packages as cleanup
 
 class NuGetCleanupTests(unittest.TestCase):
     def test_reads_inline_registration_without_waiting_for_version_leaf(self):
-        metadata = {"version": "1.26.908.1200", "listed": True}
+        metadata = {"version": "2.26.911.1200", "listed": True}
         index = {"items": [{"items": [{"catalogEntry": metadata}]}]}
         with patch.object(cleanup, "get_json", return_value=index) as request:
             self.assertEqual(metadata, cleanup.catalog(metadata["version"]))
@@ -23,7 +23,7 @@ class NuGetCleanupTests(unittest.TestCase):
             self.assertEqual(metadata, cleanup.catalog(metadata["version"]))
 
     def run_cleanup(self, apply=False, listed=True, key="test-key"):
-        args = ["cleanup", "--replacement", "1.26.908.1200"]
+        args = ["cleanup", "--replacement", "2.26.911.1200"]
         if apply:
             args.append("--apply")
         with patch("sys.argv", args), patch.dict(os.environ, {"NUGET_API_KEY": key}), \

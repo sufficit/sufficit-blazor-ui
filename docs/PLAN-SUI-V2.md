@@ -1,7 +1,7 @@
 # Plano — Sufficit.Blazor.UI v2
 
 > “v2” é o nome histórico desta migração de API. As publicações seguem o
-> calendário Sufficit `1.yy.MMdd.HHmm`, conforme o runbook de release.
+> calendário Sufficit `2.yy.MMdd.HHmm`, conforme o runbook de release.
 
 **Status:** Planejada; sem quebra aplicada na série v1  
 **Janela alvo:** preview após validação dos consumers; estável não antes de

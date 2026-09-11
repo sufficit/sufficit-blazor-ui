@@ -10,6 +10,12 @@ definem a numeração das próximas publicações.
 
 ### Packaging
 
+- Linha de versão movida para o major 2: Debug `2.99.0.0`, Release/Packing
+  `2.yy.MMdd.HHmm` UTC. As SemVer `1.27.0`, `1.28.0`, `2.0.0`, `2.1.1` e `2.2.1`
+  foram publicadas por engano, o NuGet.org não as apaga e `dotnet restore`
+  resolve versões não listadas em ranges flutuantes; `1.yy` nunca venceria.
+  Consumidores devem referenciar `Version="2.*"`. Tags Git das versões legadas
+  removidas.
 - Restaurado o padrão de versão do Sufficit.Identity.Core: Debug `1.99.0.0`,
   Release/Packing `1.yy.MMdd.HHmm` UTC; pacote, assembly e arquivo usam a mesma versão.
 - CI rejeita SemVer legado e datas inválidas; limpeza NuGet limitada às cinco

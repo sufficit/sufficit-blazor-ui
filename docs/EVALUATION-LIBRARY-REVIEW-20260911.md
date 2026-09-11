@@ -213,6 +213,10 @@ conclusão para virar `PLAN-` ou `activities/` depois.
      `Sufficit.Identity.Core`.
    Recomendação: (a) imediatamente e (b) em paralelo; (c) só se o dono aceitar
    dois esquemas na organização.
+   **Decisão (2026-09-11, dono do pacote): variante de (c) com major 2,
+   `2.yy.MMdd.HHmm`.** Mantém o formato corporativo, ordena acima de `2.2.1` e
+   `2.*` resolve sempre o calendário. Aplicado no csproj, `release_version.py`,
+   testes, workflows e docs; consumidores migram para `Version="2.*"`.
 2. **Deslistar as cinco versões SemVer legadas mesmo assim.** Tira da busca,
    impede adoção nova e deixa claro no catálogo qual linha é a viva. Exige
    chave com escopo *Unlist* em `NUGET_API_KEY` (a chave OIDC do Trusted

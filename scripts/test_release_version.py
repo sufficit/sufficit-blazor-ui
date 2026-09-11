@@ -6,28 +6,29 @@ from release_version import generate, normalize
 
 class ReleaseVersionTests(unittest.TestCase):
     def test_normalizes_msbuild_and_nuget_versions(self):
-        for value in ("1.26.0908.0005", "v1.26.908.5", "1.26.908.5"):
+        for value in ("2.26.0908.0005", "v2.26.908.5", "2.26.908.5"):
             with self.subTest(value=value):
-                self.assertEqual("1.26.908.5", normalize(value))
+                self.assertEqual("2.26.908.5", normalize(value))
 
     def test_rejects_legacy_versions_and_debug_sentinel(self):
         for value in ("1.27.0", "1.28.0", "2.0.0", "2.1.1", "2.2.1",
-                      "1.99.0.0", "0.0.0-local", "1.26.908.1200-preview.1"):
+                      "1.26.908.2020", "1.99.0.0", "2.99.0.0", "0.0.0-local",
+                      "2.26.908.1200-preview.1", "2.6.908.1200"):
             with self.subTest(value=value), self.assertRaises(ValueError):
                 normalize(value)
 
     def test_rejects_impossible_dates_and_times(self):
-        for value in ("1.26.229.1200", "1.26.431.1200", "1.26.1301.0",
-                      "1.26.908.2400", "1.26.908.1260", "1.26.908.9999"):
+        for value in ("2.26.229.1200", "2.26.431.1200", "2.26.1301.0",
+                      "2.26.908.2400", "2.26.908.1260", "2.26.908.9999"):
             with self.subTest(value=value), self.assertRaises(ValueError):
                 normalize(value)
 
     def test_accepts_leap_day_and_midnight(self):
-        self.assertEqual("1.24.229.0", normalize("v1.24.0229.0000"))
+        self.assertEqual("2.24.229.0", normalize("v2.24.0229.0000"))
 
     def test_converts_to_utc_across_year_boundary(self):
         local = datetime(2026, 12, 31, 23, 5, tzinfo=timezone(timedelta(hours=-3)))
-        self.assertEqual("1.27.101.205", generate(local))
+        self.assertEqual("2.27.101.205", generate(local))
 
     def test_requires_timezone(self):
         with self.assertRaises(ValueError):
