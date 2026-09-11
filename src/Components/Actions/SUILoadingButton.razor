@@ -70,18 +70,6 @@ else
     [Parameter]
     public bool Disabled { get; set; }
 
-    [Parameter, Obsolete("Use VariantValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
-    public object Variant { get; set; } = SUIVariant.Filled;
-
-    [Parameter, Obsolete("Use ColorValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
-    public object Color { get; set; } = SUIColor.Primary;
-
-    [Parameter, Obsolete("Use ButtonTypeValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
-    public object ButtonType { get; set; } = SUIButtonType.Button;
-
-    [Parameter, Obsolete("Use SizeValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
-    public object Size { get; set; } = SUISize.Medium;
-
     [Parameter] public SUIVariant? VariantValue { get; set; }
     [Parameter] public SUIColor? ColorValue { get; set; }
     [Parameter] public SUIButtonType? ButtonTypeValue { get; set; }
@@ -138,10 +126,8 @@ else
             ? Task.CompletedTask
             : OnClick.InvokeAsync(args);
 
-#pragma warning disable CS0618
-    private object EffectiveVariant => VariantValue ?? Variant;
-    private object EffectiveColor => ColorValue ?? Color;
-    private object EffectiveButtonType => ButtonTypeValue ?? ButtonType;
-    private object EffectiveSize => SizeValue ?? Size;
-#pragma warning restore CS0618
+    private SUIVariant EffectiveVariant => VariantValue ?? SUIVariant.Filled;
+    private SUIColor EffectiveColor => ColorValue ?? SUIColor.Primary;
+    private SUIButtonType EffectiveButtonType => ButtonTypeValue ?? SUIButtonType.Button;
+    private SUISize EffectiveSize => SizeValue ?? SUISize.Medium;
 }

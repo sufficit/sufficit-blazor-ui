@@ -12,10 +12,6 @@
     [Parameter]
     public double Value { get; set; }
 
-    /// <summary>Color: "primary", "success", "warning", "error", "info". Default "primary".</summary>
-    [Parameter, Obsolete("Use ColorValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
-    public object? Color { get; set; } = SUIColor.Primary;
-
     [Parameter]
     public SUIColor? ColorValue { get; set; }
 
@@ -47,7 +43,5 @@
     private string ProgressStyle
         => $"--sui-progress-scale:{(ClampedValue / 100).ToString("0.####", CultureInfo.InvariantCulture)}";
 
-#pragma warning disable CS0618
-    private object EffectiveColor => ColorValue ?? Color ?? SUIColor.Primary;
-#pragma warning restore CS0618
+    private SUIColor EffectiveColor => ColorValue ?? SUIColor.Primary;
 }

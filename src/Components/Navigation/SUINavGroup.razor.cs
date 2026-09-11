@@ -203,11 +203,11 @@ namespace Sufficit.Blazor.UI.Components
         // ---------------------------------------------------------------------
 
         [CascadingParameter]
-        private NavAccordionScope? ParentAccordionScope { get; set; }
+        private SUINavAccordionScope? ParentAccordionScope { get; set; }
 
-        private readonly NavAccordionScope _childAccordionScope = new();
+        private readonly SUINavAccordionScope _childAccordionScope = new();
 
-        protected NavAccordionScope? ChildAccordionScope
+        protected SUINavAccordionScope? ChildAccordionScope
             => ParentAccordionScope is not null ? _childAccordionScope : null;
 
         internal void CollapseFromScope()
@@ -386,7 +386,7 @@ namespace Sufficit.Blazor.UI.Components
     /// Coordinates exclusive accordion behaviour among sibling <see cref="SUINavGroup"/>
     /// at one nesting level: expanding a group collapses the others.
     /// </summary>
-    public sealed class NavAccordionScope
+    public sealed class SUINavAccordionScope
     {
         private readonly List<SUINavGroup> _members = new();
 

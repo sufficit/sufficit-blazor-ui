@@ -36,18 +36,6 @@
 </li>
 
 @code {
-    /// <summary>Marker color: "default", "primary", "success", "warning", "error", "info".</summary>
-    [Parameter, Obsolete("Use ColorValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
-    public object? Color { get; set; } = SUIColor.Primary;
-
-    /// <summary>"small" or "medium". Default "small".</summary>
-    [Parameter, Obsolete("Use SizeValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
-    public object? Size { get; set; } = SUISize.Small;
-
-    /// <summary>"filled" or "outlined". Default "filled".</summary>
-    [Parameter, Obsolete("Use VariantValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
-    public object? Variant { get; set; } = SUIVariant.Filled;
-
     [Parameter] public SUIColor? ColorValue { get; set; }
     [Parameter] public SUISize? SizeValue { get; set; }
     [Parameter] public SUIVariant? VariantValue { get; set; }
@@ -77,9 +65,8 @@
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
-#pragma warning disable CS0618
-    private string ToneSlug => SUIClassBuilder.Slug(ColorValue ?? Color ?? SUIColor.Primary);
-    private string VariantSlug => SUIClassBuilder.Slug(VariantValue ?? Variant ?? SUIVariant.Filled);
+    private string ToneSlug => SUIClassBuilder.Slug(ColorValue ?? SUIColor.Primary);
+    private string VariantSlug => SUIClassBuilder.Slug(VariantValue ?? SUIVariant.Filled);
 
     /// <summary>
     /// Size slug shared by the item and its marker. The marker previously got
@@ -88,12 +75,11 @@
     /// marker's own centring rule (which assumes the base size) left it sitting
     /// below the text.
     /// </summary>
-    private string SizeSlug => SUIClassBuilder.Slug(SizeValue ?? Size ?? SUISize.Small);
+    private string SizeSlug => SUIClassBuilder.Slug(SizeValue ?? SUISize.Small);
 
     private string Classname
         => SUIClassBuilder.Default("sui-timeline__item")
             .AddClass($"sui-timeline__item--{SizeSlug}")
             .AddClass(Class)
             .Build();
-#pragma warning restore CS0618
 }

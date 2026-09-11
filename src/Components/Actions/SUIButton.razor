@@ -45,24 +45,6 @@ else
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
 
-    [Parameter, Obsolete("Use ColorValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
-    public object Color { get; set; } = SUIColor.Primary;
-
-    [Parameter, Obsolete("Use IconColorValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
-    public object? IconColor { get; set; }
-
-    [Parameter, Obsolete("Use VariantValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
-    public object Variant { get; set; } = SUIVariant.Filled;
-
-    [Parameter, Obsolete("Use SizeValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
-    public object Size { get; set; } = SUISize.Medium;
-
-    [Parameter, Obsolete("Use IconSizeValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
-    public object? IconSize { get; set; }
-
-    [Parameter, Obsolete("Use ButtonTypeValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
-    public object ButtonType { get; set; } = SUIButtonType.Button;
-
     [Parameter] public SUIColor? ColorValue { get; set; }
     [Parameter] public SUIColor? IconColorValue { get; set; }
     [Parameter] public SUIVariant? VariantValue { get; set; }
@@ -176,12 +158,10 @@ else
 
     public void Dispose() { }
 
-#pragma warning disable CS0618
-    private object EffectiveColor => ColorValue ?? Color;
-    private object EffectiveIconColor => IconColorValue ?? IconColor ?? SUIColor.Inherit;
-    private object EffectiveVariant => VariantValue ?? Variant;
-    private object EffectiveSize => SizeValue ?? Size;
-    private object EffectiveIconSize => IconSizeValue ?? IconSize ?? SUISize.Small;
-    private object EffectiveButtonType => ButtonTypeValue ?? ButtonType;
-#pragma warning restore CS0618
+    private SUIColor EffectiveColor => ColorValue ?? SUIColor.Primary;
+    private SUIColor EffectiveIconColor => IconColorValue ?? SUIColor.Inherit;
+    private SUIVariant EffectiveVariant => VariantValue ?? SUIVariant.Filled;
+    private SUISize EffectiveSize => SizeValue ?? SUISize.Medium;
+    private SUISize EffectiveIconSize => IconSizeValue ?? SUISize.Small;
+    private SUIButtonType EffectiveButtonType => ButtonTypeValue ?? SUIButtonType.Button;
 }

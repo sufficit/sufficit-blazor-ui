@@ -52,21 +52,6 @@ else
     [Parameter]
     public string? Title { get; set; }
 
-    [Parameter, Obsolete("Use ColorValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
-    public object Color { get; set; } = SUIColor.Default;
-
-    [Parameter, Obsolete("Use SizeValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
-    public object Size { get; set; } = SUISize.Medium;
-
-    [Parameter, Obsolete("Use VariantValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
-    public object Variant { get; set; } = SUIVariant.Text;
-
-    [Parameter, Obsolete("Use EdgeValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
-    public object Edge { get; set; } = SUIEdge.False;
-
-    [Parameter, Obsolete("Use ButtonTypeValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
-    public object ButtonType { get; set; } = SUIButtonType.Button;
-
     [Parameter] public SUIColor? ColorValue { get; set; }
     [Parameter] public SUISize? SizeValue { get; set; }
     [Parameter] public SUIVariant? VariantValue { get; set; }
@@ -151,11 +136,9 @@ else
 
     public void Dispose() { }
 
-#pragma warning disable CS0618
-    private object EffectiveColor => ColorValue ?? Color;
-    private object EffectiveSize => SizeValue ?? Size;
-    private object EffectiveVariant => VariantValue ?? Variant;
-    private object EffectiveEdge => EdgeValue ?? Edge;
-    private object EffectiveButtonType => ButtonTypeValue ?? ButtonType;
-#pragma warning restore CS0618
+    private SUIColor EffectiveColor => ColorValue ?? SUIColor.Default;
+    private SUISize EffectiveSize => SizeValue ?? SUISize.Medium;
+    private SUIVariant EffectiveVariant => VariantValue ?? SUIVariant.Text;
+    private SUIEdge EffectiveEdge => EdgeValue ?? SUIEdge.False;
+    private SUIButtonType EffectiveButtonType => ButtonTypeValue ?? SUIButtonType.Button;
 }

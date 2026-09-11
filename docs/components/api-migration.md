@@ -1,12 +1,9 @@
 # Migração da API tipada
 
-O inventário encontrou 24 parâmetros públicos `object` (a estimativa inicial
-era 25): 15 em Buttons, seis em Chip/TimelineItem, um em Progress, um em Switch
-e `SUISelectItem.Value`.
+As pontes `object`/`string` foram **removidas** na release de limpeza da API
+(2026-09-11, linha `2.26.911.x`). Só os parâmetros tipados existem:
 
-Os 23 parâmetros visuais têm alternativas enum tipadas:
-
-| Ponte antiga | Alternativa |
+| Ponte removida | Parâmetro atual |
 | --- | --- |
 | `Color`, `IconColor` | `ColorValue`, `IconColorValue` (`SUIColor`) |
 | `Variant` | `VariantValue` (`SUIVariant`) |
@@ -15,11 +12,31 @@ Os 23 parâmetros visuais têm alternativas enum tipadas:
 | `Edge` | `EdgeValue` (`SUIEdge`) |
 | Alert `Severity`, Badge `Tone` | `ToneValue` (`SUITone`) |
 
-As pontes têm `ObsoleteAttribute` com substituição e remoção em v2.0.0, mas
-continuam com a mesma assinatura binária nesta major. Valor tipado vence quando
-ambos são fornecidos. `SUISelectItem.Value` permanece `object` de propósito: o
-item Razor é não genérico e registra seu valor no `SUISelect<T>` pai, que faz a
-comparação no tipo `T`.
+Componentes afetados: `SUIButton`, `SUIIconButton`, `SUILoadingButton`,
+`SUIChip`, `SUITimelineItem`, `SUIProgressLinear`, `SUISwitch`, `SUICheckbox`,
+`SUIAlert`, `SUIStatusBadge`. Os padrões visuais não mudaram: um `SUIButton`
+sem `ColorValue` continua `Primary`, um `SUIIconButton` sem `VariantValue`
+continua `Text`, um `SUIAlert` sem `ToneValue` continua `Info`.
+
+Mapeamento dos valores string antigos para `SUITone`: `"success"` →
+`SUITone.Success`, `"warning"` → `SUITone.Warning`, `"danger"` e `"error"` →
+`SUITone.Danger`, `"info"` → `SUITone.Info`, qualquer outro → `SUITone.Neutral`.
+Quando o tom chega como string de uma API, converta no consumidor (uma função
+`SUITone Parse(string)` de cinco linhas) e mantenha a string para as classes
+CSS próprias.
+
+Busca para localizar call sites antigos (revisar em contexto):
+
+```bash
+rg -n '<SUI(Button|IconButton|LoadingButton|Chip|TimelineItem|ProgressLinear|Switch|Checkbox|Alert|StatusBadge)\b[^>]*\s(Color|IconColor|Variant|Size|IconSize|ButtonType|Edge|Severity|Tone)=' --glob '*.razor'
+```
+
+`SUISelectItem.Value` permanece `object` de propósito: o item Razor é não
+genérico e registra seu valor no `SUISelect<T>` pai, que faz a comparação no
+tipo `T`.
+
+`SUIAlert.CloseIconClicked` tem sucessor `OnClose`; o nome antigo continua como
+encaminhador `[Obsolete]` (os dois disparam) até a próxima limpeza.
 
 Adapters para bibliotecas visuais de terceiros não entram nos componentes-base;
 se ainda necessários, devem ficar num pacote/camada legada separado.

@@ -12,7 +12,7 @@
     </div>
     @if (ShowCloseIcon)
     {
-        <button type="button" class="sui-alert__close" aria-label="Fechar" @onclick="OnClose">
+        <button type="button" class="sui-alert__close" aria-label="Fechar" @onclick="HandleCloseAsync">
             <SUIIcon Name="x" Size="18" />
         </button>
     }
@@ -27,19 +27,17 @@
    2. Promover tudo não promove nada. Reserve para o que interrompe o
       trabalho de quem lê: reinicia, derruba a sessão, apaga, cobra. *@
 @code {
-    /// <summary>Alert tone. Accepts a lowercase string ("info", "success",
-    /// "warning", "danger", "error") for compatibility, defaulting to "info".
-    /// "error" is mapped to the danger style.</summary>
-    [Parameter, Obsolete("Use ToneValue. The string bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
-    public string Severity { get; set; } = "info";
-
     [Parameter]
     public SUITone? ToneValue { get; set; }
 
     [Parameter]
     public bool ShowCloseIcon { get; set; }
 
+    /// <summary>Raised when the close icon is activated.</summary>
     [Parameter]
+    public EventCallback OnClose { get; set; }
+
+    [Parameter, Obsolete("Use OnClose. Kept for existing call sites; both callbacks fire.")]
     public EventCallback CloseIconClicked { get; set; }
 
     /// <summary>Optional icon name (resolved by SUIIcon). When null, no icon
@@ -63,19 +61,18 @@
     {
         get
         {
-            // "error" and "danger" both map to the danger style.
-#pragma warning disable CS0618
-            var legacyTone = Severity.Equals("error", StringComparison.OrdinalIgnoreCase)
-                ? "danger" : Severity.ToLowerInvariant();
-#pragma warning restore CS0618
-            var tone = ToneValue is { } typedTone
-                ? SUIClassBuilder.Slug(typedTone)
-                : legacyTone;
+            var tone = SUIClassBuilder.Slug(ToneValue ?? SUITone.Info);
             return SUIClassBuilder.Default($"sui-alert sui-alert--{tone}")
                 .AddClass(Class)
                 .Build();
         }
     }
 
-    private Task OnClose() => CloseIconClicked.InvokeAsync();
+#pragma warning disable CS0618 // both callbacks fire until CloseIconClicked is removed
+    private async Task HandleCloseAsync()
+    {
+        await OnClose.InvokeAsync();
+        await CloseIconClicked.InvokeAsync();
+    }
+#pragma warning restore CS0618
 }

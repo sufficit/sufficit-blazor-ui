@@ -28,13 +28,14 @@ public sealed class NamingConventionTests
     [
         "ServiceCollectionExtensions",
         "DefaultSUITheme",
-        // Debt: renaming is a public API break, scheduled for the API cleanup release (docs/PLAN-API-CLEANUP.md).
-        "NavAccordionScope",
     ];
 
     /// <summary>
     /// Parameters whose names shipped before the convention was enforced.
-    /// Renaming them breaks Razor call sites, so they are frozen until v2.
+    /// Renaming them breaks Razor call sites. SUIItem's breakpoints cannot get an
+    /// additive PascalCase twin either: Razor matches component attributes
+    /// case-insensitively, so xs and Xs would be ambiguous. CloseIconClicked has
+    /// its typed successor (OnClose) and stays only as an obsolete forwarder.
     /// </summary>
     private static readonly string[] LegacyParameterNames =
     [

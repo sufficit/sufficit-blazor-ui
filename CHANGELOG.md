@@ -8,6 +8,25 @@ definem a numeração das próximas publicações.
 
 ## [Unreleased]
 
+### Removed (breaking)
+
+- As 26 pontes `object`/`string` marcadas `[Obsolete]` foram removidas:
+  `Color`, `IconColor`, `Variant`, `Size`, `IconSize`, `ButtonType`, `Edge`
+  em `SUIButton`, `SUIIconButton`, `SUILoadingButton`, `SUIChip`,
+  `SUITimelineItem`, `SUIProgressLinear`, `SUISwitch`, `SUICheckbox`;
+  `SUIAlert.Severity` e `SUIStatusBadge.Tone`. Use os parâmetros tipados
+  (`ColorValue`, `VariantValue`, `SizeValue`, `ButtonTypeValue`, `EdgeValue`,
+  `IconColorValue`, `IconSizeValue`, `ToneValue`). Padrões visuais inalterados.
+  Última versão com as pontes: `2.26.911.2323`. Guia em
+  `docs/components/api-migration.md`.
+- `NavAccordionScope` renomeado para `SUINavAccordionScope` (tipo interno ao
+  `SUINavGroup`; nenhum consumidor conhecido o referenciava).
+
+### Changed
+
+- `SUIAlert`: novo `OnClose`; `CloseIconClicked` continua como encaminhador
+  `[Obsolete]` e os dois callbacks disparam.
+
 ### Packaging
 
 - Pacote inclui `Sufficit.Blazor.UI.xml` (IntelliSense), publica símbolos `.snupkg` com Source Link (`PublishRepositoryUrl`, `EmbedUntrackedSources`) e deixa de usar `PackageIconUrl`, obsoleto. `CS1591` fica suprimido até todos os membros públicos terem summary.

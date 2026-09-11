@@ -41,19 +41,6 @@
 </span>
 
 @code {
-    /// <summary>Chip color. Lowercase string: "default", "primary", "secondary",
-    /// "success", "warning", "error", "info". Default "default".</summary>
-    [Parameter, Obsolete("Use ColorValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
-    public object? Color { get; set; } = SUIColor.Default;
-
-    /// <summary>Size: "small", "medium" or "large". Default "medium".</summary>
-    [Parameter, Obsolete("Use SizeValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
-    public object? Size { get; set; }
-
-    /// <summary>Variant: "filled", "outlined", "text". Default "filled".</summary>
-    [Parameter, Obsolete("Use VariantValue. The object bridge is scheduled for removal in the API cleanup release (docs/PLAN-API-CLEANUP.md).")]
-    public object? Variant { get; set; } = SUIVariant.Filled;
-
     [Parameter] public SUIColor? ColorValue { get; set; }
     [Parameter] public SUISize? SizeValue { get; set; }
     [Parameter] public SUIVariant? VariantValue { get; set; }
@@ -108,9 +95,7 @@
     private Task ClickAsync() => OnClick.InvokeAsync();
     private Task RemoveAsync() => OnRemove.InvokeAsync();
 
-#pragma warning disable CS0618
-    private object EffectiveColor => ColorValue ?? Color ?? SUIColor.Default;
-    private object? EffectiveSize => SizeValue ?? Size;
-    private object EffectiveVariant => VariantValue ?? Variant ?? SUIVariant.Filled;
-#pragma warning restore CS0618
+    private SUIColor EffectiveColor => ColorValue ?? SUIColor.Default;
+    private SUISize? EffectiveSize => SizeValue;
+    private SUIVariant EffectiveVariant => VariantValue ?? SUIVariant.Filled;
 }

@@ -22,54 +22,6 @@
       },
       {
         "description": "",
-        "name": "Color",
-        "type": "object",
-        "default": "SUIColor.Primary",
-        "required": false,
-        "deprecated": true
-      },
-      {
-        "description": "",
-        "name": "IconColor",
-        "type": "object?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": true
-      },
-      {
-        "description": "",
-        "name": "Variant",
-        "type": "object",
-        "default": "SUIVariant.Filled",
-        "required": false,
-        "deprecated": true
-      },
-      {
-        "description": "",
-        "name": "Size",
-        "type": "object",
-        "default": "SUISize.Medium",
-        "required": false,
-        "deprecated": true
-      },
-      {
-        "description": "",
-        "name": "IconSize",
-        "type": "object?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": true
-      },
-      {
-        "description": "",
-        "name": "ButtonType",
-        "type": "object",
-        "default": "SUIButtonType.Button",
-        "required": false,
-        "deprecated": true
-      },
-      {
-        "description": "",
         "name": "ColorValue",
         "type": "SUIColor?",
         "default": "Padrão do tipo",
@@ -332,46 +284,6 @@
       },
       {
         "description": "",
-        "name": "Color",
-        "type": "object",
-        "default": "SUIColor.Default",
-        "required": false,
-        "deprecated": true
-      },
-      {
-        "description": "",
-        "name": "Size",
-        "type": "object",
-        "default": "SUISize.Medium",
-        "required": false,
-        "deprecated": true
-      },
-      {
-        "description": "",
-        "name": "Variant",
-        "type": "object",
-        "default": "SUIVariant.Text",
-        "required": false,
-        "deprecated": true
-      },
-      {
-        "description": "",
-        "name": "Edge",
-        "type": "object",
-        "default": "SUIEdge.False",
-        "required": false,
-        "deprecated": true
-      },
-      {
-        "description": "",
-        "name": "ButtonType",
-        "type": "object",
-        "default": "SUIButtonType.Button",
-        "required": false,
-        "deprecated": true
-      },
-      {
-        "description": "",
         "name": "ColorValue",
         "type": "SUIColor?",
         "default": "Padrão do tipo",
@@ -567,38 +479,6 @@
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "Variant",
-        "type": "object",
-        "default": "SUIVariant.Filled",
-        "required": false,
-        "deprecated": true
-      },
-      {
-        "description": "",
-        "name": "Color",
-        "type": "object",
-        "default": "SUIColor.Primary",
-        "required": false,
-        "deprecated": true
-      },
-      {
-        "description": "",
-        "name": "ButtonType",
-        "type": "object",
-        "default": "SUIButtonType.Button",
-        "required": false,
-        "deprecated": true
-      },
-      {
-        "description": "",
-        "name": "Size",
-        "type": "object",
-        "default": "SUISize.Medium",
-        "required": false,
-        "deprecated": true
       },
       {
         "description": "",
@@ -798,30 +678,6 @@
     "family": "Dados",
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack Row Wrap>\n<SUIChip ColorValue=\"SUIColor.Primary\">Produção</SUIChip>\n<SUIChip VariantValue=\"SUIVariant.Outlined\">Manutenção</SUIChip>\n</SUIStack>\n",
     "parameters": [
-      {
-        "description": "Chip color. Lowercase string: \"default\", \"primary\", \"secondary\", \"success\", \"warning\", \"error\", \"info\". Default \"default\".",
-        "name": "Color",
-        "type": "object?",
-        "default": "SUIColor.Default",
-        "required": false,
-        "deprecated": true
-      },
-      {
-        "description": "Size: \"small\", \"medium\" or \"large\". Default \"medium\".",
-        "name": "Size",
-        "type": "object?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": true
-      },
-      {
-        "description": "Variant: \"filled\", \"outlined\", \"text\". Default \"filled\".",
-        "name": "Variant",
-        "type": "object?",
-        "default": "SUIVariant.Filled",
-        "required": false,
-        "deprecated": true
-      },
       {
         "description": "",
         "name": "ColorValue",
@@ -1586,30 +1442,6 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITimeline>\n<SUITimelineItem Title=\"Configuração criada\" Description=\"Primeira versão disponível.\" />\n<SUITimelineItem Title=\"Revisão concluída\" Description=\"Pronto para ativar.\" />\n</SUITimeline>\n",
     "parameters": [
       {
-        "description": "Marker color: \"default\", \"primary\", \"success\", \"warning\", \"error\", \"info\".",
-        "name": "Color",
-        "type": "object?",
-        "default": "SUIColor.Primary",
-        "required": false,
-        "deprecated": true
-      },
-      {
-        "description": "\"small\" or \"medium\". Default \"small\".",
-        "name": "Size",
-        "type": "object?",
-        "default": "SUISize.Small",
-        "required": false,
-        "deprecated": true
-      },
-      {
-        "description": "\"filled\" or \"outlined\". Default \"filled\".",
-        "name": "Variant",
-        "type": "object?",
-        "default": "SUIVariant.Filled",
-        "required": false,
-        "deprecated": true
-      },
-      {
         "description": "",
         "name": "ColorValue",
         "type": "SUIColor?",
@@ -1697,14 +1529,6 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIAlert ToneValue=\"SUITone.Info\">As alterações serão aplicadas após salvar.</SUIAlert>\n",
     "parameters": [
       {
-        "description": "Alert tone. Accepts a lowercase string (\"info\", \"success\", \"warning\", \"danger\", \"error\") for compatibility, defaulting to \"info\". \"error\" is mapped to the danger style.",
-        "name": "Severity",
-        "type": "string",
-        "default": "\"info\"",
-        "required": false,
-        "deprecated": true
-      },
-      {
         "description": "",
         "name": "ToneValue",
         "type": "SUITone?",
@@ -1721,12 +1545,20 @@
         "deprecated": false
       },
       {
+        "description": "Raised when the close icon is activated.",
+        "name": "OnClose",
+        "type": "EventCallback",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "",
         "name": "CloseIconClicked",
         "type": "EventCallback",
         "default": "Padrão do tipo",
         "required": false,
-        "deprecated": false
+        "deprecated": true
       },
       {
         "description": "Optional icon name (resolved by SUIIcon). When null, no icon is shown unless the tone implies one.",
@@ -2037,14 +1869,6 @@
         "deprecated": false
       },
       {
-        "description": "Color: \"primary\", \"success\", \"warning\", \"error\", \"info\". Default \"primary\".",
-        "name": "Color",
-        "type": "object?",
-        "default": "SUIColor.Primary",
-        "required": false,
-        "deprecated": true
-      },
-      {
         "description": "",
         "name": "ColorValue",
         "type": "SUIColor?",
@@ -2144,14 +1968,6 @@
     "family": "Feedback",
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStatusBadge ToneValue=\"SUITone.Success\">Ativo</SUIStatusBadge>\n",
     "parameters": [
-      {
-        "description": "Badge tone as a lowercase string: \"neutral\", \"success\", \"warning\", \"danger\", \"info\". Kept as a string so consumers can compute it at runtime without enum conversion.",
-        "name": "Tone",
-        "type": "string",
-        "default": "\"neutral\"",
-        "required": false,
-        "deprecated": true
-      },
       {
         "description": "",
         "name": "ToneValue",
@@ -2667,14 +2483,6 @@
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "Color",
-        "type": "object",
-        "default": "SUIColor.Primary",
-        "required": false,
-        "deprecated": true
       },
       {
         "description": "",
@@ -3540,14 +3348,6 @@
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
-      },
-      {
-        "description": "Color when on: \"primary\" (default), \"success\", etc.",
-        "name": "Color",
-        "type": "object?",
-        "default": "SUIColor.Primary",
-        "required": false,
-        "deprecated": true
       },
       {
         "description": "",

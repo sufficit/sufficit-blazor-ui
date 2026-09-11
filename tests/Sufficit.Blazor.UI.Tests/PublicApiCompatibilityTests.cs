@@ -1,4 +1,5 @@
 using System.Reflection;
+using Microsoft.AspNetCore.Components;
 using Sufficit.Blazor.UI.Components;
 
 namespace Sufficit.Blazor.UI.Tests;
@@ -6,9 +7,12 @@ namespace Sufficit.Blazor.UI.Tests;
 public sealed class PublicApiCompatibilityTests
 {
     [Fact]
-    public void VisualObjectBridges_AreDeprecatedAndHaveTypedReplacements()
+    public void VisualObjectBridges_AreGoneAndOnlyTypedParametersRemain()
     {
-        var bridges = new (Type Component, string Legacy, string Replacement, Type Typed)[]
+        // The object/string bridges were removed in the API cleanup release
+        // (2026-09-11). Each typed replacement must exist; the legacy name must
+        // not come back under any type.
+        var replacements = new (Type Component, string Legacy, string Replacement, Type Typed)[]
         {
             (typeof(SUIButton), "Color", "ColorValue", typeof(SUIColor?)),
             (typeof(SUIButton), "IconColor", "IconColorValue", typeof(SUIColor?)),
@@ -33,43 +37,37 @@ public sealed class PublicApiCompatibilityTests
             (typeof(SUITimelineItem), "Variant", "VariantValue", typeof(SUIVariant?)),
             (typeof(SUIProgressLinear), "Color", "ColorValue", typeof(SUIColor?)),
             (typeof(SUISwitch), "Color", "ColorValue", typeof(SUIColor?)),
+            (typeof(SUICheckbox), "Color", "ColorValue", typeof(SUIColor?)),
+            (typeof(SUIAlert), "Severity", "ToneValue", typeof(SUITone?)),
+            (typeof(SUIStatusBadge), "Tone", "ToneValue", typeof(SUITone?)),
         };
+        Assert.Equal(26, replacements.Length);
 
-        Assert.Equal(23, bridges.Length);
-        foreach (var (component, legacyName, replacementName, typedType) in bridges)
+        foreach (var (component, legacyName, replacementName, typedType) in replacements)
         {
-            var legacy = component.GetProperty(legacyName)!;
-            var replacement = component.GetProperty(replacementName)!;
-            var obsolete = legacy.GetCustomAttribute<ObsoleteAttribute>();
-
-            Assert.Equal(typeof(object), Nullable.GetUnderlyingType(legacy.PropertyType) ?? legacy.PropertyType);
-            Assert.Equal(typedType, replacement.PropertyType);
-            Assert.NotNull(obsolete);
-            Assert.Contains(replacementName, obsolete!.Message, StringComparison.Ordinal);
-            Assert.Contains("PLAN-API-CLEANUP", obsolete.Message, StringComparison.Ordinal);
+            Assert.Null(component.GetProperty(legacyName));
+            var replacement = component.GetProperty(replacementName);
+            Assert.NotNull(replacement);
+            Assert.Equal(typedType, replacement!.PropertyType);
+            Assert.NotNull(replacement.GetCustomAttribute<ParameterAttribute>());
         }
 
+        // The item value is intentionally untyped: the non-generic item hands it
+        // to SUISelect<T>, which compares in T.
         Assert.Null(typeof(SUISelectItem).GetProperty(nameof(SUISelectItem.Value))!
             .GetCustomAttribute<ObsoleteAttribute>());
+    }
 
-        var toneBridges = new (Type Component, string Legacy, string Replacement)[]
-        {
-            (typeof(SUIAlert), "Severity", "ToneValue"),
-            (typeof(SUIStatusBadge), "Tone", "ToneValue"),
-        };
+    [Fact]
+    public void AlertClose_HasTypedSuccessorAndObsoleteForwarder()
+    {
+        var onClose = typeof(SUIAlert).GetProperty("OnClose")!;
+        var legacy = typeof(SUIAlert).GetProperty("CloseIconClicked")!;
 
-        foreach (var (component, legacyName, replacementName) in toneBridges)
-        {
-            var legacy = component.GetProperty(legacyName)!;
-            var replacement = component.GetProperty(replacementName)!;
-            var obsolete = legacy.GetCustomAttribute<ObsoleteAttribute>();
-
-            Assert.Equal(typeof(string), legacy.PropertyType);
-            Assert.Equal(typeof(SUITone?), replacement.PropertyType);
-            Assert.NotNull(obsolete);
-            Assert.Contains(replacementName, obsolete!.Message, StringComparison.Ordinal);
-            Assert.Contains("PLAN-API-CLEANUP", obsolete.Message, StringComparison.Ordinal);
-        }
+        Assert.Equal(typeof(EventCallback), onClose.PropertyType);
+        Assert.Null(onClose.GetCustomAttribute<ObsoleteAttribute>());
+        Assert.NotNull(legacy.GetCustomAttribute<ObsoleteAttribute>());
+        Assert.Contains("OnClose", legacy.GetCustomAttribute<ObsoleteAttribute>()!.Message, StringComparison.Ordinal);
     }
 
     [Fact]
