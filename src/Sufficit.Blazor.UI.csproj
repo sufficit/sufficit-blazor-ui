@@ -50,8 +50,9 @@
     <EnablePackageValidation>true</EnablePackageValidation>
     <!-- Consumer tooling: XML docs feed IntelliSense, the .snupkg and Source
          Link let a consumer step into component code. CS1591 stays off until
-         every public member carries a summary; missing summaries are tracked
-         as debt, not hidden by the warning. -->
+         every public member carries a summary: 320 members in 31 types lack
+         one (2026-09-11; mostly .razor.cs partials, enums and theme records).
+         Tracked in docs/PLAN-LIBRARY-REVIEW-FOLLOWUP.md, not hidden for good. -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <IncludeSymbols>true</IncludeSymbols>

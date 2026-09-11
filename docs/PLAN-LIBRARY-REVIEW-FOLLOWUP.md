@@ -8,5 +8,5 @@ desta lista.
 | # | Item | Estado |
 | --- | --- | --- |
 | P0.2 | Deslistar `1.27.0`, `1.28.0`, `2.0.0`, `2.1.1`, `2.2.1` no NuGet | bloqueado: exige `NUGET_API_KEY` com escopo *Unlist*; rodar `maintenance.yml` com a última versão `2.yy.MMdd.HHmm` publicada em `replacement` e `apply=true` |
-| P3.12b | Escrever `/// <summary>` em todos os membros públicos e retirar `CS1591` do `NoWarn` | pendente; o XML já é publicado, só falta o texto |
+| P3.12b | Escrever `/// <summary>` em todos os membros públicos e retirar `CS1591` do `NoWarn` | pendente: 320 membros em 31 tipos (medido com `-p:NoWarn=` em 2026-09-11); os maiores são `SUINavGroup` (39), `SUIAutocomplete<T>` (32), `SUITypography` (29), `SUIDateField` (24), `SUILayout` (22), `SUIDrawer` (21). Atenção ao teto de 450 linhas dos `.razor.cs`: `SUIDateField.razor.cs` (448) e `SUINavGroup.razor.cs` (409) precisam ser divididos antes |
 | P4.15 | Limpeza da API pública | ver [PLAN-API-CLEANUP.md](PLAN-API-CLEANUP.md) |
