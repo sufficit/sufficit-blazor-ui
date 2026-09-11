@@ -39,3 +39,19 @@ Os tokens semânticos de contraste são usados nas notificações preenchidas.
 O provider é global: instâncias simultâneas com temas diferentes disputam os
 mesmos tokens. Claro/escuro/sistema e persistência pertencem ao host. A vitrine
 implementa essa política em `ShowcaseTheme.cs` e `wwwroot/theme.js`.
+
+## Content Security Policy
+
+O provider publica os tokens em um `<style>` inline. Um host com
+`Content-Security-Policy: style-src 'self'` bloqueia esse bloco e todos os
+componentes caem no fallback claro azul. Passe o nonce da resposta pelo
+parâmetro `Nonce`:
+
+```razor
+<SUIThemeProvider Theme="Theme" Nonce="@CspNonce">
+    <Routes />
+</SUIThemeProvider>
+```
+
+O mesmo valor precisa estar na diretiva `style-src 'nonce-…'` do cabeçalho.
+Sem `Nonce`, o atributo não é emitido e o comportamento anterior é mantido.

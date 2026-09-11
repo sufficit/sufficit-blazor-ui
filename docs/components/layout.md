@@ -15,3 +15,8 @@ Use outro valor da escala de 0 a 6 quando a densidade da seção exigir; reserve
 Drawer permanente participa do fluxo em desktop. Drawer temporário usa eixo
 lógico, funciona em RTL e ocupa o nível `--sui-z-drawer`. Tokens de spacing,
 raio e elevação vêm do tema; não replique números de z-index no consumer.
+
+`SUICardActions` é o rodapé de ações de `SUICard`, depois de `SUICardContent`:
+um `div` com a classe `sui-card__actions`, sem semântica própria, que recebe
+os botões. `AlignEnd` alinha as ações ao fim da linha em vez do início;
+atributos não mapeados vão para a raiz.

@@ -33,3 +33,18 @@ Filled mantém preenchimento opaco com gradiente discreto: peso 500, raio 1,25×
 Agrupe ações em `<SUIStack Row Wrap>`: o contêiner distribui o espaço entre botões e quebra linhas conforme a largura disponível. Para vários grupos, use uma pilha externa `<SUIStack Spacing="4">`; assim o espaço entre grupos permanece independente do número de botões ou linhas. O exemplo copiável de SUIButton demonstra essa composição, inclusive com rótulo longo. Evite margens individuais nos botões.
 
 Filled usa gradiente vertical discreto derivado da cor de ação do tema; hover e active mantêm esse acabamento. A paleta Sufficit da vitrine recupera o laranja `#c2410c`.
+
+## Copiar para a área de transferência
+
+`SUICopyToClipboard` coloca `Text` (obrigatório) na área de transferência e
+avisa pelo `ISUISnackbar`: sucesso com `SuccessMessage` ou "`Title` copiado
+para a área de transferência."; falha com `ErrorMessage` (padrão "Erro ao
+copiar") seguido da primeira linha do motivo. Sem `ChildContent`, renderiza um
+`SUIIconButton` pequeno cujo nome acessível é `AriaLabel` ou "Copiar `Title`".
+Com `ChildContent`, o wrapper é um `span` semanticamente transparente, sem
+role nem tabindex; o clique sobe do filho, e o acesso por teclado é
+responsabilidade dele — envolva um botão real. `FullWidth` estica o wrapper.
+O componente importa seu próprio módulo ES sob demanda: usa
+`navigator.clipboard` em contexto seguro e cai para `textarea` +
+`execCommand("copy")` fora dele. O aviso só aparece se houver um
+`SUISnackbarHost` na raiz.

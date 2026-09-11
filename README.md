@@ -19,7 +19,7 @@ A linha de desenvolvimento atual é `net10.0`-only. A retirada de um TFM exige
 migração explícita dos consumidores. O número do pacote segue o calendário
 Sufficit, sem major/minor de SemVer. Veja a
 [política de versionamento e TFMs](docs/ARCHITECTURE-VERSIONING-AND-TFM.md) e o
-[plano da v2](docs/PLAN-SUI-V2.md).
+[plano de limpeza da API](docs/PLAN-API-CLEANUP.md).
 
 O CI compila `net10.0` com warnings tratados como erros, gera o `.nupkg`,
 inspeciona seus assets e instala o pacote em uma RCL e uma Blazor Web App
@@ -137,6 +137,10 @@ paleta. `ISUITheme.IsDark` seleciona o esquema; a paleta continua pertencendo
 ao tema consumidor. Sem configuração, `DefaultSUITheme` fornece o fallback
 claro azul.
 
+Hosts com `Content-Security-Policy` estrita passam o nonce da resposta em
+`<SUIThemeProvider Nonce="…">`; ele é copiado para o `<style>` inline que
+publica os tokens. Veja o [contrato do provider](docs/components/theme-provider.md).
+
 Use `SUITheme.Light` e `SUITheme.Dark` como presets completos e `with` para
 personalizar paleta, tipografia e layout. Alterar apenas `IsDark` não recalcula
 as cores de um tema arbitrário. `InfoContrast`, `SuccessContrast`,
@@ -182,17 +186,19 @@ A referência por família, contratos de forms e páginas de Select, Tooltip,
 NavGroup, Dialog e ThemeProvider ficam em
 [`docs/components`](docs/components/README.md).
 
-Todos os componentes públicos usam o prefixo `SUI`.
+Todos os componentes públicos usam o prefixo `SUI`. A tabela abaixo é
+derivada de `src/Components/<Família>/` e conferida por
+`ReadmeCatalogTests`; `SUIThemeProvider` vive em `src/Themes`.
 
 | Família | Componentes |
 | --- | --- |
-| Ações | `SUIButton`, `SUIIconButton`, `SUILoadingButton`, `SUILink` |
-| Formulários | `SUIAutocomplete`, `SUIChoiceCard<TValue>`, `SUIFormGrid`, `SUINumericField`, `SUISelect<T>`, `SUISelectItem`, `SUISwitch`, `SUISwitchButton`, `SUITextField` |
-| Layout | `SUIAppBar`, `SUICard`, `SUIContainer`, `SUIDivider`, `SUIDrawer`, `SUIGrid`, `SUILayout`, `SUIPageHeader`, `SUISpacer`, `SUIStack` |
-| Navegação | `SUIItem`, `SUIList`, `SUIListItem`, `SUINavGroup`, `SUINavLink`, `SUITabPanel`, `SUITabs` |
-| Exibição de dados | `SUIChip`, `SUIIcon`, `SUIStatusBadge`, `SUITable`, `SUITableEmpty`, `SUITd`, `SUIText`, `SUITh`, `SUITimeline`, `SUITimelineItem` |
-| Feedback | `SUIAlert`, `SUIEmptyState`, `SUIProgressLinear`, `SUISkeletonLoader`, `SUIStatusBanner`, `SUIToast` |
-| Overlays | `SUIConfirmDialog`, `SUIDialogHost`, `SUISnackbarHost`, `SUITooltip` |
+| Ações | `SUIButton`, `SUICopyToClipboard`, `SUIIconButton`, `SUILink`, `SUILoadingButton` |
+| Formulários | `SUIAutocomplete`, `SUICheckbox`, `SUIChoiceCard`, `SUIDateField`, `SUIFormGrid`, `SUINumericField`, `SUISelect`, `SUISelectItem`, `SUISwitch`, `SUISwitchButton`, `SUITextField` |
+| Layout | `SUIAppBar`, `SUICard`, `SUICardActions`, `SUICardContent`, `SUICardHeader`, `SUIContainer`, `SUIDivider`, `SUIDrawer`, `SUIGrid`, `SUIItem`, `SUILayout`, `SUIPageHeader`, `SUISection`, `SUISpacer`, `SUIStack` |
+| Navegação | `SUIFilterScope`, `SUIFilterTree`, `SUINavGroup`, `SUINavLink`, `SUIProgressSteps`, `SUITabPanel`, `SUITabs` |
+| Exibição de dados | `SUIAvatar`, `SUIChip`, `SUIIcon`, `SUIList`, `SUIListItem`, `SUIPagination`, `SUIStat`, `SUITable`, `SUITableEmpty`, `SUITableSortLabel`, `SUITd`, `SUIText`, `SUITh`, `SUITimeline`, `SUITimelineItem` |
+| Feedback | `SUIAlert`, `SUIEmptyState`, `SUIPendingChangesBar`, `SUIProgressCircular`, `SUIProgressLinear`, `SUISkeletonLoader`, `SUISnackbarHost`, `SUIStatusBadge`, `SUIStatusBanner`, `SUIToast` |
+| Overlays | `SUIConfirmDialog`, `SUIDecisionDialog`, `SUIDialogHost`, `SUITooltip` |
 
 Enums como `SUIColor`, `SUIVariant`, `SUISize`, `SUIButtonType`, `SUIEdge`,
 `SUITypo`, `SUIAlign`, `SUIOrigin` e `SUITone` evitam dependência de tipos
