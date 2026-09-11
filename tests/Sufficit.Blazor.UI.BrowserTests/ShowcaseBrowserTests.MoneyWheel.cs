@@ -137,6 +137,6 @@ public sealed partial class ShowcaseBrowserTests
         await Expect(input).ToHaveValueAsync("360.37");
         await input.EvaluateAsync("e => e.disabled = false");
         Assert.That(await Page.EvaluateAsync<bool>("document.documentElement.scrollWidth <= innerWidth"), Is.True);
-        await Page.Locator(".component-preview").ScreenshotAsync(new() { Path = $"/mnt/workspaces/sufficit/tmp/bankslip-spinner-{width}.png" });
+        await Page.Locator(".component-preview").ScreenshotAsync(new() { Path = Path.Combine(TestContext.CurrentContext.WorkDirectory, "artifacts", $"numeric-spinner-{width}.png") });
     }
 }
