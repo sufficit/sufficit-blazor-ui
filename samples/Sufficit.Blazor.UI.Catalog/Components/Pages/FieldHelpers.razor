@@ -1,0 +1,32 @@
+@page "/fixtures/field-helpers"
+
+<PageTitle>Texto auxiliar dos campos | Catálogo SUI</PageTitle>
+<SUIThemeProvider Class="catalog-theme-root" Theme="@(Dark ? SUITheme.Dark : SUITheme.Light)">
+    <main class="catalog" data-helper-ready="@(_ready ? "true" : "false")">
+        <h1>Texto auxiliar compartilhado</h1>
+        <SUIFormGrid Columns="2">
+            <SUITextField T="string" Label="Referência" HelperText="@Help" Value='@("Ramal 100")' />
+            <SUISelect T="string" Label="Tipo de serviço" HelperText="@Help" Value='@("ramal")'>
+                <SUISelectItem Value='@("ramal")'>Ramais adicionais</SUISelectItem>
+            </SUISelect>
+            <SUIAutocomplete T="string" Label="Busca" HelperText="@Help" />
+            <SUINumericField T="int" Label="Quantidade" HelperText="@Help" Value="2" />
+            <SUIDateField Label="Data" HelperText="@Help" />
+            <SUITextField T="string" Label="Observações" HelperText="@Help" Multiline />
+        </SUIFormGrid>
+    </main>
+</SUIThemeProvider>
+
+@code {
+    [SupplyParameterFromQuery] public bool Dark { get; set; }
+    private const string Help = "Use a identificação operacional do serviço para facilitar a consulta pela equipe.";
+    private bool _ready;
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _ready = true;
+            StateHasChanged();
+        }
+    }
+}

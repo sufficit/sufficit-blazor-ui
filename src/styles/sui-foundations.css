@@ -253,10 +253,10 @@
   box-shadow: 0 0 0 3px var(--sui-color-primary-soft);
 }
 .sui-field__input:disabled { background: var(--sui-surface-2); color: var(--sui-text-disabled); cursor: not-allowed; }
-/* margin-top desfaz a simetria; a cor NÃO muda — contraste de texto de apoio
-   é piso de acessibilidade, não alavanca de hierarquia. O erro interrompe e
-   por isso é o único que sobe de peso. */
-.sui-field__helper { margin-top: var(--sui-space-2); padding-left: var(--sui-space-3); font-size: var(--sui-fs-caption); font-style: italic; color: var(--sui-text-secondary); }
+/* Shared helper rhythm: the field gap supplies separation from the control.
+   Keep all field helpers together here; applications can override this class.
+   Error messages retain their separate visual emphasis. */
+.sui-field__helper { margin-top: 0; padding-left: var(--sui-space-3); font-size: calc(var(--sui-fs-caption) * .92); font-style: italic; color: var(--sui-text-secondary); }
 .sui-field__error { margin-top: var(--sui-space-1); padding-left: var(--sui-space-3); font-size: var(--sui-fs-caption); font-weight: 600; color: var(--sui-color-error); }
 .sui-field__input[aria-invalid="true"],
 .sui-select__trigger[aria-invalid="true"] { border-color: var(--sui-color-error); }

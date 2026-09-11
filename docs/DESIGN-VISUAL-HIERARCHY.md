@@ -125,7 +125,7 @@ A ordem certa dentro da caixa:
 | --- | --- | --- |
 | **Valor** | domina | `--sui-fs-field`, peso 500, cor **primária** — o rótulo é secundário |
 | **Rótulo** | identifica | `--sui-fs-caption`, peso 500, secundária, caixa **baixa** |
-| **Dica** | opcional | `--sui-fs-caption`, **itálico**, secundária, afastada e recuada para a margem do texto |
+| **Dica** | opcional | 92% de `--sui-fs-caption`, **itálico**, secundária, próxima do controle e recuada para a margem do texto |
 
 Duas decisões que costumam ser tentadas e estão erradas:
 
@@ -234,3 +234,26 @@ Duas checagens que pegam quase tudo, e nenhuma delas precisa de ferramenta:
 - `SUITone.Warning` sinaliza interrupção; `SUITone.Danger`, perda.
 - Os tokens `--sui-fs-*` já formam uma escala. O erro comum não é a falta de
   tokens: é usar quatro deles vizinhos no mesmo bloco.
+
+## Contrato compartilhado do texto auxiliar
+
+TextField (incluindo Multiline), Select, Autocomplete, NumericField e DateField
+usam `.sui-field__helper` em `src/styles/sui-foundations.css`. Não criar
+exceções por tipo de campo em CSS isolation: o padrão deve evoluir junto.
+O helper usa 92% do token caption (11,04px no tema padrão), margem superior
+zero e o gap do campo (`--sui-space-1`, 4px). Cor, itálico, recuo e associação
+`aria-describedby` permanecem comuns. Mensagens de erro têm regra própria.
+
+A aplicação pode personalizar todos os helpers numa única regra carregada
+após a SUI, sem alterar a biblioteca, ou restringir a regra à Class de um campo:
+
+```css
+.meu-formulario .sui-field__helper {
+  font-size: 14px;
+  margin-top: 6px; /* soma-se ao gap do campo */
+}
+```
+
+Para modificar os tokens do tema, `--sui-fs-caption` controla a escala e
+`--sui-space-1` controla o gap compartilhado do campo (incluindo o label).
+As diferenças de composição de switches e erros não são gaps de inputs.
