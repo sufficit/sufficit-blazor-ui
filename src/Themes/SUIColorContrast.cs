@@ -5,6 +5,10 @@ namespace Sufficit.Blazor.UI.Themes;
 /// <summary>WCAG contrast for opaque six-digit sRGB colors. CSS expressions require browser resolution first.</summary>
 public static class SUIColorContrast
 {
+    /// <summary>
+    /// Computes the WCAG 2 contrast ratio (1 to 21) between two <c>#rrggbb</c> colors.
+    /// Returns false, with <paramref name="ratio"/> set to 0, when either value is not a six-digit hex color.
+    /// </summary>
     public static bool TryGetRatio(string? foreground, string? background, out double ratio)
     {
         ratio = 0;
@@ -13,6 +17,7 @@ public static class SUIColorContrast
         return true;
     }
 
+    /// <summary>Whether <paramref name="value"/> is an opaque six-digit hex color (<c>#rrggbb</c>); shorthand, alpha and CSS functions are rejected.</summary>
     public static bool IsHexColor(string? value)
         => value is { Length: 7 } && value[0] == '#'
             && int.TryParse(value.AsSpan(1), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out _);

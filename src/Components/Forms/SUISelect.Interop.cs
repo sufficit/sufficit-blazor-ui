@@ -5,6 +5,7 @@ namespace Sufficit.Blazor.UI.Components;
 public partial class SUISelect<T>
 {
     private int _lastRevealedIndex = -1;
+    /// <summary>Once items exist: loads the browser module, connects key handling on the trigger, opens or closes the top-layer menu only on transitions and reveals the active option.</summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (_items.Count == 0)
@@ -52,6 +53,7 @@ public partial class SUISelect<T>
         if (!_open) _lastRevealedIndex = -1;
     }
 
+    /// <summary>Releases the form binding, the trigger key handling and the browser module.</summary>
     public async ValueTask DisposeAsync()
     {
         _field.Dispose();

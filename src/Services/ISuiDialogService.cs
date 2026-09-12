@@ -31,7 +31,9 @@ public sealed class SUIDialogReference
 {
     private readonly TaskCompletionSource<object?> _tcs = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
+    /// <summary>Unique id of this dialog instance, matched by the host to the <see cref="SUIDialogRequest"/>.</summary>
     public Guid Id { get; } = Guid.NewGuid();
+    /// <summary>Completes with the value passed to <see cref="Complete"/> when the dialog closes; null when dismissed without a result.</summary>
     public Task<object?> Result => _tcs.Task;
 
     /// <summary>Closes the dialog with a result. Idempotent.</summary>

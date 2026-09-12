@@ -4,91 +4,121 @@ using Sufficit.Blazor.UI.Utilities;
 
 namespace Sufficit.Blazor.UI.Components;
 
+/// <summary>Combobox with a debounced asynchronous search: typing calls <see cref="SearchFunc"/> or <see cref="SearchFuncAsync"/> and the results open in a top-layer listbox navigable with the arrow keys, Home/End, Enter and Escape.</summary>
+/// <typeparam name="T">Item type returned by the search.</typeparam>
 public partial class SUIAutocomplete<T>
 {
     [CascadingParameter] private Microsoft.AspNetCore.Components.Forms.EditContext? FormContext { get; set; }
     private readonly SUIFieldBinding<T?> _field = new();
+    /// <summary>Field expression used to bind validation messages from the surrounding <c>EditContext</c>.</summary>
     [Parameter] public System.Linq.Expressions.Expression<Func<T?>>? ValueExpression { get; set; }
     private string? EffectiveErrorText => ErrorText ?? _field.Error;
 
+    /// <summary>Selected item, or default when nothing is chosen.</summary>
     [Parameter]
     public T? Value { get; set; }
 
+    /// <summary>Raised on selection, on clear and when the text is emptied; enables <c>@bind-Value</c>.</summary>
     [Parameter]
     public EventCallback<T?> ValueChanged { get; set; }
 
+    /// <summary>Search callback without cancellation. Ignored when <see cref="SearchFuncAsync"/> is set.</summary>
     [Parameter]
     public Func<string, Task<IEnumerable<T>>>? SearchFunc { get; set; }
 
+    /// <summary>Search callback whose token is cancelled when the user keeps typing; preferred over <see cref="SearchFunc"/>.</summary>
     [Parameter]
     public Func<string, CancellationToken, Task<IEnumerable<T>>>? SearchFuncAsync { get; set; }
 
+    /// <summary>Formats an item for the input text and the default option text. Falls back to <c>ToString()</c>.</summary>
     [Parameter]
     public Func<T, string>? ToStringFunc { get; set; }
 
+    /// <summary>Visible label; also names the input and the listbox.</summary>
     [Parameter]
     public string? Label { get; set; }
 
+    /// <summary>Placeholder of the text input.</summary>
     [Parameter]
     public string? Placeholder { get; set; }
 
+    /// <summary>Helper text rendered under the field and linked through <c>aria-describedby</c>.</summary>
     [Parameter]
     public string? HelperText { get; set; }
 
+    /// <summary>Explicit error message; takes precedence over validation messages from the form.</summary>
     [Parameter]
     public string? ErrorText { get; set; }
 
+    /// <summary>Forces the invalid state (<c>aria-invalid</c>) without an error message.</summary>
     [Parameter]
     public bool Invalid { get; set; }
 
+    /// <summary>Id of the input; generated when omitted.</summary>
     [Parameter]
     public string? Id { get; set; }
 
+    /// <summary>Extra element ids prepended to the input's <c>aria-describedby</c>.</summary>
     [Parameter]
     public string? AriaDescribedBy { get; set; }
 
+    /// <summary>Optional SUI icon rendered inside the input at the inline end.</summary>
     [Parameter]
     public string? AdornmentIcon { get; set; }
 
+    /// <summary>Minimum query length before a search runs. Default 0.</summary>
     [Parameter]
     public int MinCharacters { get; set; }
 
+    /// <summary>Maximum number of results shown. Default 20.</summary>
     [Parameter]
     public int MaxItems { get; set; } = 20;
 
+    /// <summary>Milliseconds to wait after the last keystroke before searching. Default 300.</summary>
     [Parameter]
     public int DebounceInterval { get; set; } = 300;
 
+    /// <summary>Disables the input, cancels a pending search and closes the list.</summary>
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>Shows a clear button while the input has text or a value.</summary>
     [Parameter]
     public bool Clearable { get; set; }
 
+    /// <summary>Accessible label and tooltip of the clear button.</summary>
     [Parameter]
     public string ClearText { get; set; } = "Limpar seleção";
 
+    /// <summary>Text listed and announced while a search is running.</summary>
     [Parameter]
     public string LoadingText { get; set; } = "Carregando resultados…";
 
+    /// <summary>Text shown when the search returns nothing; overridden by <see cref="NoItemsTemplate"/>.</summary>
     [Parameter]
     public string NoItemsText { get; set; } = "Nenhum resultado encontrado.";
 
+    /// <summary>Text shown when the search callback throws.</summary>
     [Parameter]
     public string SearchErrorText { get; set; } = "Não foi possível carregar os resultados.";
 
+    /// <summary>Accepted for markup compatibility; the component does not render nested content.</summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>Custom markup for each option; defaults to the <see cref="ToStringFunc"/> text.</summary>
     [Parameter]
     public RenderFragment<T>? ItemTemplate { get; set; }
 
+    /// <summary>Custom markup for the empty-result row.</summary>
     [Parameter]
     public RenderFragment? NoItemsTemplate { get; set; }
 
+    /// <summary>Additional CSS class for the root element.</summary>
     [Parameter]
     public string? Class { get; set; }
 
+    /// <summary>Unmatched attributes forwarded to the root element.</summary>
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object?> UserAttributes { get; set; } = new();
 
@@ -152,6 +182,7 @@ public partial class SUIAutocomplete<T>
             .AddClass(_open ? "sui-autocomplete--open" : null)
             .Build();
 
+    /// <summary>Wires form validation, mirrors an externally changed <see cref="Value"/> into the input text and closes the list when disabled.</summary>
     protected override void OnParametersSet()
     {
         _field.Configure(FormContext, ValueExpression, () => _ = InvokeAsync(StateHasChanged));
@@ -349,6 +380,7 @@ public partial class SUIAutocomplete<T>
         _cts = null;
     }
 
+    /// <summary>Releases the form binding, cancels a pending search and disconnects the browser module.</summary>
     public async ValueTask DisposeAsync()
     {
         _field.Dispose();

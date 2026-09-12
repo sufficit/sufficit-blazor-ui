@@ -36,7 +36,7 @@ definem a numeração das próximas publicações.
 
 ### Packaging
 
-- Pacote inclui `Sufficit.Blazor.UI.xml` (IntelliSense), publica símbolos `.snupkg` com Source Link (`PublishRepositoryUrl`, `EmbedUntrackedSources`) e deixa de usar `PackageIconUrl`, obsoleto. `CS1591` fica suprimido até todos os membros públicos terem summary.
+- Pacote inclui `Sufficit.Blazor.UI.xml` (IntelliSense), publica símbolos `.snupkg` com Source Link (`PublishRepositoryUrl`, `EmbedUntrackedSources`) e deixa de usar `PackageIconUrl`, obsoleto. Todos os 320 membros públicos que faltavam receberam `<summary>` (tokens de tema com o `--sui-*` que alimentam, enums com o efeito real, parâmetros com padrões e ARIA); `CS1591` passa a valer com warnings como erro. `SUIDateField.Calendar.cs` e `SUINavGroup.Rail.cs` nascem de divisões mecânicas para respeitar o teto de 450 linhas.
 - Mensagens `[Obsolete]` das pontes não prometem mais "v2.0.0": apontam para `docs/PLAN-API-CLEANUP.md` (antigo `PLAN-SUI-V2.md`).
 - Budgets de assets seguem a regra "medido × 1,03, arredondado para 256 B": JS Brotli 9,75 KiB, CSS isolation 27,75 KiB, gzip do bundle 10,25 KiB, transferência de CSS no catálogo 98 KiB; valores medidos registrados ao lado de cada teto.
 - ASP.NET Core Components `10.0.12`; `Microsoft.NET.Test.Sdk` unificado em `17.14.1`.

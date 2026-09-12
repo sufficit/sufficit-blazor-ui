@@ -6,40 +6,53 @@ using Sufficit.Blazor.UI.Utilities;
 
 namespace Sufficit.Blazor.UI.Components;
 
+/// <summary>Single-select combobox built from nested <see cref="SUISelectItem"/> options; the listbox opens in the top layer and supports the arrow keys, Home/End, Enter/Space and Escape.</summary>
+/// <typeparam name="T">Value type; item values are converted to it, with <see cref="Guid"/> parsed from text.</typeparam>
 public partial class SUISelect<T>
 {
     [CascadingParameter] private Microsoft.AspNetCore.Components.Forms.EditContext? FormContext { get; set; }
     private readonly SUIFieldBinding<T?> _field = new();
+    /// <summary>Field expression used to bind validation messages from the surrounding <c>EditContext</c>.</summary>
     [Parameter] public System.Linq.Expressions.Expression<Func<T?>>? ValueExpression { get; set; }
     private string? EffectiveErrorText => ErrorText ?? _field.Error;
 
+    /// <summary>Selected value, matched against each item's <c>Value</c>; when null, an item marked <c>Selected</c> is shown.</summary>
     [Parameter]
     public T? Value { get; set; }
 
+    /// <summary>Raised when an enabled option is chosen; enables <c>@bind-Value</c>.</summary>
     [Parameter]
     public EventCallback<T?> ValueChanged { get; set; }
 
+    /// <summary>Visible label; also names the trigger and the listbox.</summary>
     [Parameter]
     public string? Label { get; set; }
 
+    /// <summary>Text shown in the trigger while no item matches <see cref="Value"/>.</summary>
     [Parameter]
     public string? Placeholder { get; set; }
 
+    /// <summary>Helper text rendered under the field and linked through <c>aria-describedby</c>.</summary>
     [Parameter]
     public string? HelperText { get; set; }
 
+    /// <summary>Explicit error message; takes precedence over validation messages from the form.</summary>
     [Parameter]
     public string? ErrorText { get; set; }
 
+    /// <summary>Forces the invalid state (<c>aria-invalid</c>) without an error message.</summary>
     [Parameter]
     public bool Invalid { get; set; }
 
+    /// <summary>Id of the trigger button; generated when omitted.</summary>
     [Parameter]
     public string? Id { get; set; }
 
+    /// <summary>Extra element ids prepended to the trigger's <c>aria-describedby</c>.</summary>
     [Parameter]
     public string? AriaDescribedBy { get; set; }
 
+    /// <summary>Disables the trigger and closes an open menu.</summary>
     [Parameter]
     public bool Disabled { get; set; }
 
@@ -57,12 +70,15 @@ public partial class SUISelect<T>
     [Parameter]
     public string? MenuMaxWidth { get; set; }
 
+    /// <summary>Additional CSS class for the root element.</summary>
     [Parameter]
     public string? Class { get; set; }
 
+    /// <summary>The <see cref="SUISelectItem"/> options; rendered hidden so they can register with the select.</summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>Unmatched attributes forwarded to the trigger button.</summary>
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object?> UserAttributes { get; set; } = new();
 
@@ -167,6 +183,7 @@ public partial class SUISelect<T>
         }
     }
 
+    /// <summary>Wires form validation and closes the menu when disabled.</summary>
     protected override void OnParametersSet()
     {
         _field.Configure(FormContext, ValueExpression, () => _ = InvokeAsync(StateHasChanged));

@@ -16,6 +16,10 @@ public sealed class SUIDialogService : ISUIDialogService
     private readonly Queue<SUIDialogRequest> _pendingRequests = new();
     private Action<SUIDialogRequest>? _onShow;
 
+    /// <summary>
+    /// Raised when a dialog is requested; <c>SUIDialogHost</c> subscribes. Requests made
+    /// before any subscriber exists are queued and replayed to the first subscriber.
+    /// </summary>
     public event Action<SUIDialogRequest>? OnShow
     {
         add
@@ -45,6 +49,7 @@ public sealed class SUIDialogService : ISUIDialogService
         }
     }
 
+    /// <inheritdoc />
     public Task<SUIDialogReference> ShowAsync<T>(string title, IDictionary<string, object?>? parameters = null)
         where T : ComponentBase
     {
@@ -67,6 +72,7 @@ public sealed class SUIDialogService : ISUIDialogService
         return Task.FromResult(reference);
     }
 
+    /// <inheritdoc />
     public async Task<bool> ConfirmAsync(string title, string message)
     {
         var parameters = new Dictionary<string, object?>

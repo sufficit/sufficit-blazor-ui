@@ -11,6 +11,7 @@ public sealed class SUIClassBuilder
 {
     private readonly List<string> _classes = new();
 
+    /// <summary>Creates a builder, optionally seeded with a base class such as <c>"sui-field"</c>.</summary>
     public static SUIClassBuilder Default(string? initial = null)
     {
         var builder = new SUIClassBuilder();
@@ -43,9 +44,11 @@ public sealed class SUIClassBuilder
     public SUIClassBuilder Add(string? value)
         => AddClass(value);
 
+    /// <summary>Returns the accumulated classes joined by a single space.</summary>
     public string Build()
         => string.Join(' ', _classes).Trim();
 
+    /// <inheritdoc cref="Build"/>
     public override string ToString() => Build();
 
     /// <summary>

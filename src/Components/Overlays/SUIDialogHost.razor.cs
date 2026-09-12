@@ -4,6 +4,12 @@ using Sufficit.Blazor.UI.Services;
 
 namespace Sufficit.Blazor.UI.Components;
 
+/// <summary>
+/// Renders the dialog requested through <c>ISUIDialogService</c> as a modal
+/// (<c>role="dialog"</c>, <c>aria-modal</c>, <c>aria-labelledby</c>) with a backdrop,
+/// focus trap, Escape dismissal and focus restore handled by <c>SUIDialogHost.razor.js</c>.
+/// Only one dialog is shown at a time; a new request completes the previous one with <c>null</c>.
+/// </summary>
 public partial class SUIDialogHost
 {
     private SUIDialogRequest? _current;
@@ -17,9 +23,11 @@ public partial class SUIDialogHost
 
     private string TitleId => $"sui-dialog-{_current?.Id:N}-title";
 
+    /// <summary>Subscribes to <c>ISUIDialogService.OnShow</c>.</summary>
     protected override void OnInitialized()
         => DialogService.OnShow += OnShow;
 
+    /// <summary>Loads the JS module, connects focus tracking once and opens the current request's dialog if it is not open yet.</summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (_disposed)
@@ -99,6 +107,7 @@ public partial class SUIDialogHost
         await CloseRequestAsync(current);
     }
 
+    /// <summary>Called from JS on Escape; completes the current dialog with a <c>null</c> result.</summary>
     [JSInvokable]
     public Task DismissFromKeyboardAsync() => DismissAsync();
 
@@ -124,6 +133,7 @@ public partial class SUIDialogHost
         }
     }
 
+    /// <summary>Unsubscribes, completes any open dialog with <c>null</c> and releases the JS module.</summary>
     public async ValueTask DisposeAsync()
     {
         if (_disposed)

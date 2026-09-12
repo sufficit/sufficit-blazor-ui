@@ -23,6 +23,7 @@ namespace Sufficit.Blazor.UI.Components
         private bool _railInteropConnected;
         private bool _navigationSubscribed;
 
+        /// <summary>Subscribes to the rail flyout coordinator and to navigation changes, and joins the parent accordion scope.</summary>
         protected override void OnInitialized()
         {
             UpdateNavigationContext();
@@ -36,6 +37,7 @@ namespace Sufficit.Blazor.UI.Components
             ParentAccordionScope?.Register(this);
         }
 
+        /// <summary>Adopts <see cref="Expanded"/> only when the parent supplies a new value, so a rerender does not undo the user's last click.</summary>
         protected override void OnParametersSet()
         {
             // Expanded can be supplied as a one-way route expression (the common
@@ -52,6 +54,7 @@ namespace Sufficit.Blazor.UI.Components
             UpdateNavigationContext();
         }
 
+        /// <summary>Root rail groups only: connects the browser flyout helper on first use and re-clamps the panel to the viewport after every render.</summary>
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (!IsRootRail)
@@ -68,6 +71,7 @@ namespace Sufficit.Blazor.UI.Components
             await module.InvokeVoidAsync("updateRailFlyout", _flyoutElement);
         }
 
+        /// <summary>Unsubscribes from the coordinator, navigation and accordion scope, cancels a pending flyout close and releases the browser module.</summary>
         public async ValueTask DisposeAsync()
         {
             if (_railCoordinatorSubscribed)
@@ -111,6 +115,7 @@ namespace Sufficit.Blazor.UI.Components
         // Styling helpers.
         // ---------------------------------------------------------------------
 
+        /// <summary>Root CSS classes: root/nested, expanded, disabled and the user <see cref="Class"/>.</summary>
         protected string Classname =>
             SUIClassBuilder.Default("sui-nav-group")
                 .AddClass("sui-nav-group--nested", ParentNavigationContext is not null)
@@ -120,6 +125,7 @@ namespace Sufficit.Blazor.UI.Components
                 .AddClass("sui-nav-group--disabled", _isDisabled)
                 .Build();
 
+        /// <summary>CSS classes of the toggle button, including <see cref="HeaderClass"/>.</summary>
         protected string ButtonClassname =>
             SUIClassBuilder.Default("sui-nav-link")
                 .AddClass("sui-nav-group__toggle")
@@ -128,17 +134,20 @@ namespace Sufficit.Blazor.UI.Components
                 .AddClass(HeaderClass)
                 .Build();
 
+        /// <summary>CSS classes of the leading icon; adds a colour class unless <see cref="IconColor"/> is Default.</summary>
         protected string IconClassname =>
             SUIClassBuilder.Default("sui-icon sui-nav-link__icon")
                 .AddClass($"sui-color-{IconColor.ToString().ToLowerInvariant()}", IconColor != SUIColor.Default)
                 .Build();
 
+        /// <summary>CSS classes of the expand chevron; marked expanded only while open and enabled.</summary>
         protected string ExpandIconClassname =>
             SUIClassBuilder.Default("sui-icon sui-nav-link__expand")
                 .AddClass("is-expanded", IsExpanded && !_isDisabled)
                 .AddClass("is-disabled", IsExpanded && _isDisabled)
                 .Build();
 
+        /// <summary>-1 while this group or an ancestor is disabled or collapsed, so hidden toggles leave the Tab order; otherwise 0.</summary>
         protected int ButtonTabIndex
             => _isDisabled || ParentNavigationContext is { Disabled: true } or { Expanded: false } ? -1 : 0;
 
@@ -149,23 +158,41 @@ namespace Sufficit.Blazor.UI.Components
         [CascadingParameter]
         private SUINavigationContext? ParentNavigationContext { get; set; }
 
+        /// <summary>Additional CSS class applied to the toggle button.</summary>
         [Parameter] public string? HeaderClass { get; set; }
+        /// <summary>Custom markup for the title area; replaces <see cref="Title"/> and <see cref="SubTitle"/>.</summary>
         [Parameter] public RenderFragment? TitleContent { get; set; }
+        /// <summary>Custom markup for the leading icon; replaces <see cref="Icon"/> and the initials avatar.</summary>
         [Parameter] public RenderFragment? IconContent { get; set; }
+        /// <summary>Group title; also the accessible label of the nav and, in rail mode, of the trigger and flyout.</summary>
         [Parameter] public string? Title { get; set; }
+        /// <summary>Optional secondary line rendered under the title.</summary>
         [Parameter] public string? SubTitle { get; set; }
+        /// <summary>Inline SVG markup for the leading icon. Without it (and without <see cref="IconContent"/>) an avatar with the title initials is shown.</summary>
         [Parameter] public string? Icon { get; set; }
+        /// <summary>Semantic colour of the leading icon or initials avatar. Default <see cref="SUIColor.Default"/>.</summary>
         [Parameter] public SUIColor IconColor { get; set; } = SUIColor.Default;
+        /// <summary>Disables the toggle; nested links and groups inherit the disabled state through the cascade.</summary>
         [Parameter] public bool Disabled { get; set; }
+        /// <summary>Kept for API compatibility; the standalone markup renders no ripple effect. Default true.</summary>
         [Parameter] public bool Ripple { get; set; } = true;
+        /// <summary>Initial or bound expanded state. One-way values and <c>@bind-Expanded</c> both work; user clicks keep a local state until the parent supplies a different value.</summary>
         [Parameter] public bool Expanded { get; set; }
+        /// <summary>Hides the expand chevron on the toggle.</summary>
         [Parameter] public bool HideExpandIcon { get; set; }
+        /// <summary>Optional max-height in pixels for the collapsible children area.</summary>
         [Parameter] public int? MaxHeight { get; set; }
+        /// <summary>Inline SVG markup for the expand chevron. Default <see cref="SUIIcons.ArrowDropDown"/>.</summary>
         [Parameter] public string ExpandIcon { get; set; } = SUIIcons.ArrowDropDown;
+        /// <summary>Nested navigation links and groups.</summary>
         [Parameter] public RenderFragment? ChildContent { get; set; }
+        /// <summary>Raised when the user toggles the group; enables <c>@bind-Expanded</c>.</summary>
         [Parameter] public EventCallback<bool> ExpandedChanged { get; set; }
+        /// <summary>Additional CSS class for the root element.</summary>
         [Parameter] public string? Class { get; set; }
+        /// <summary>Inline style for the root <c>nav</c> element (non-rail mode).</summary>
         [Parameter] public string? Style { get; set; }
+        /// <summary>Unmatched attributes forwarded to the root <c>nav</c> element (non-rail mode).</summary>
         [Parameter(CaptureUnmatchedValues = true)]
         public Dictionary<string, object?> UserAttributes { get; set; } = new();
 
@@ -176,6 +203,7 @@ namespace Sufficit.Blazor.UI.Components
         private bool _isDisabled;
         private bool _isExpanded;
 
+        /// <summary>Current expanded state, including local toggles not yet reflected by the parent.</summary>
         protected bool IsExpanded => _expandedState;
 
         private async Task ExpandedToggleAsync()
@@ -207,6 +235,7 @@ namespace Sufficit.Blazor.UI.Components
 
         private readonly SUINavAccordionScope _childAccordionScope = new();
 
+        /// <summary>Accordion scope cascaded to nested groups; non-null only when this group is itself inside a scope, which confines exclusivity to rail flyouts.</summary>
         protected SUINavAccordionScope? ChildAccordionScope
             => ParentAccordionScope is not null ? _childAccordionScope : null;
 
@@ -219,143 +248,6 @@ namespace Sufficit.Blazor.UI.Components
             UpdateNavigationContext();
             InvokeAsync(StateHasChanged);
         }
-
-        // ---------------------------------------------------------------------
-        // Rail mode (Sufficit) — top-level groups become a rail icon whose
-        // children open in a floating flyout. CSS is the fallback; the shared
-        // browser helper clamps the panel to the viewport when it reaches an edge.
-        // ---------------------------------------------------------------------
-
-        [CascadingParameter(Name = "SufficitRailMode")]
-        public bool RailMode { get; set; }
-
-        [Inject]
-        private IJSRuntime JS { get; set; } = default!;
-
-        [Inject]
-        private NavigationManager Navigation { get; set; } = default!;
-
-        protected bool IsRootRail => RailMode && ParentNavigationContext is null;
-
-        private bool _flyoutOpen;
-        private bool _pointerWithinRail;
-        private bool _pointerWithinFlyout;
-        private ElementReference _flyoutElement;
-        private Task<IJSObjectReference>? _jsModuleTask;
-        private CancellationTokenSource? _flyoutCloseCts;
-        // The pointer needs time to cross the intentional gap between the
-        // fixed rail and the floating panel, including diagonal movement.
-        private const int FlyoutCloseDelayMilliseconds = 900;
-
-        private static event Action<SUINavGroup>? RailFlyoutOpened;
-        private bool _railCoordinatorSubscribed;
-
-        protected SUINavigationContext RailFlyoutContext
-            => _navigationContext with { Expanded = true };
-
-        protected void OpenFlyout()
-        {
-            _flyoutCloseCts?.Cancel();
-            _flyoutOpen = true;
-            RailFlyoutOpened?.Invoke(this);
-        }
-
-        protected void EnterRail()
-        {
-            _pointerWithinRail = true;
-            OpenFlyout();
-        }
-
-        protected void LeaveRail()
-        {
-            _pointerWithinRail = false;
-            ScheduleCloseFlyout();
-        }
-
-        protected void EnterFlyout()
-        {
-            _pointerWithinFlyout = true;
-            OpenFlyout();
-        }
-
-        protected void LeaveFlyout()
-        {
-            _pointerWithinFlyout = false;
-            ScheduleCloseFlyout();
-        }
-
-        private void OnAnotherRailFlyoutOpened(SUINavGroup opener)
-        {
-            if (ReferenceEquals(opener, this) || !_flyoutOpen)
-                return;
-
-            _flyoutCloseCts?.Cancel();
-            _pointerWithinRail = false;
-            _pointerWithinFlyout = false;
-            _flyoutOpen = false;
-            InvokeAsync(StateHasChanged);
-        }
-
-        private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs args)
-        {
-            if (!IsRootRail || !_flyoutOpen)
-                return;
-
-            _flyoutCloseCts?.Cancel();
-            _pointerWithinRail = false;
-            _pointerWithinFlyout = false;
-            _flyoutOpen = false;
-            _ = InvokeAsync(StateHasChanged);
-        }
-
-        protected void ToggleFlyout()
-        {
-            if (_flyoutOpen)
-            {
-                _flyoutCloseCts?.Cancel();
-                _pointerWithinRail = false;
-                _pointerWithinFlyout = false;
-                _flyoutOpen = false;
-            }
-            else OpenFlyout();
-        }
-
-        protected void ScheduleCloseFlyout()
-        {
-            _flyoutCloseCts?.Cancel();
-            _flyoutCloseCts = new CancellationTokenSource();
-            var token = _flyoutCloseCts.Token;
-            _ = InvokeAsync(async () =>
-            {
-                try { await Task.Delay(FlyoutCloseDelayMilliseconds, token); }
-                catch (TaskCanceledException) { return; }
-                if (token.IsCancellationRequested) return;
-                if (_pointerWithinRail || _pointerWithinFlyout) return;
-                if (await IsRailInteractionActiveAsync()) return;
-                _flyoutOpen = false;
-                StateHasChanged();
-            });
-        }
-
-        private async Task<bool> IsRailInteractionActiveAsync()
-        {
-            try
-            {
-                var module = await GetJsModuleAsync();
-                return await module.InvokeAsync<bool>(
-                    "isRailInteractionActive",
-                    _flyoutElement);
-            }
-            catch (Exception ex) when (ex is JSException or JSDisconnectedException or InvalidOperationException)
-            {
-                return false;
-            }
-        }
-
-        private Task<IJSObjectReference> GetJsModuleAsync()
-            => _jsModuleTask ??= JS.InvokeAsync<IJSObjectReference>(
-                "import",
-                "./_content/Sufficit.Blazor.UI/Components/Navigation/SUINavGroup.razor.js").AsTask();
 
         private void UpdateNavigationContext()
         {
@@ -390,15 +282,18 @@ namespace Sufficit.Blazor.UI.Components
     {
         private readonly List<SUINavGroup> _members = new();
 
+        /// <summary>Adds a group to the scope; registering twice is a no-op.</summary>
         public void Register(SUINavGroup group)
         {
             if (!_members.Contains(group))
                 _members.Add(group);
         }
 
+        /// <summary>Removes a group from the scope.</summary>
         public void Unregister(SUINavGroup group)
             => _members.Remove(group);
 
+        /// <summary>Collapses every registered group other than <paramref name="opener"/>.</summary>
         public void NotifyExpanded(SUINavGroup opener)
         {
             foreach (var member in _members)

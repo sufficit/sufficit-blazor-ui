@@ -2182,7 +2182,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIAutocomplete T=\"string\" Label=\"Cidade\" SearchFuncAsync=\"Search\" MinCharacters=\"1\" Placeholder=\"Digite para buscar\" Clearable />\n\n@code {\n    protected string[] Cities { get; } = [\"São Paulo\", \"Rio de Janeiro\", \"Curitiba\", \"Porto Alegre\"];\n    protected async Task<IEnumerable<string>> Search(string text, CancellationToken token)\n    {\n        await Task.Delay(150, token);\n        return Cities.Where(city => city.Contains(text, StringComparison.OrdinalIgnoreCase));\n    }\n}\n",
     "parameters": [
       {
-        "description": "",
+        "description": "Field expression used to bind validation messages from the surrounding EditContext.",
         "name": "ValueExpression",
         "type": "System.Linq.Expressions.Expression<Func<T?>>?",
         "default": "Padrão do tipo",
@@ -2190,7 +2190,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Selected item, or default when nothing is chosen.",
         "name": "Value",
         "type": "T?",
         "default": "Padrão do tipo",
@@ -2198,7 +2198,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Raised on selection, on clear and when the text is emptied; enables @bind-Value.",
         "name": "ValueChanged",
         "type": "EventCallback<T?>",
         "default": "Padrão do tipo",
@@ -2206,7 +2206,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Search callback without cancellation. Ignored when SearchFuncAsync is set.",
         "name": "SearchFunc",
         "type": "Func<string, Task<IEnumerable<T>>>?",
         "default": "Padrão do tipo",
@@ -2214,7 +2214,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Search callback whose token is cancelled when the user keeps typing; preferred over SearchFunc.",
         "name": "SearchFuncAsync",
         "type": "Func<string, CancellationToken, Task<IEnumerable<T>>>?",
         "default": "Padrão do tipo",
@@ -2222,7 +2222,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Formats an item for the input text and the default option text. Falls back to ToString().",
         "name": "ToStringFunc",
         "type": "Func<T, string>?",
         "default": "Padrão do tipo",
@@ -2230,7 +2230,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Visible label; also names the input and the listbox.",
         "name": "Label",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2238,7 +2238,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Placeholder of the text input.",
         "name": "Placeholder",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2246,7 +2246,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Helper text rendered under the field and linked through aria-describedby.",
         "name": "HelperText",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2254,7 +2254,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Explicit error message; takes precedence over validation messages from the form.",
         "name": "ErrorText",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2262,7 +2262,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Forces the invalid state (aria-invalid) without an error message.",
         "name": "Invalid",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -2270,7 +2270,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Id of the input; generated when omitted.",
         "name": "Id",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2278,7 +2278,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Extra element ids prepended to the input's aria-describedby.",
         "name": "AriaDescribedBy",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2286,7 +2286,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional SUI icon rendered inside the input at the inline end.",
         "name": "AdornmentIcon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2294,7 +2294,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Minimum query length before a search runs. Default 0.",
         "name": "MinCharacters",
         "type": "int",
         "default": "Padrão do tipo",
@@ -2302,7 +2302,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Maximum number of results shown. Default 20.",
         "name": "MaxItems",
         "type": "int",
         "default": "20",
@@ -2310,7 +2310,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Milliseconds to wait after the last keystroke before searching. Default 300.",
         "name": "DebounceInterval",
         "type": "int",
         "default": "300",
@@ -2318,7 +2318,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Disables the input, cancels a pending search and closes the list.",
         "name": "Disabled",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -2326,7 +2326,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Shows a clear button while the input has text or a value.",
         "name": "Clearable",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -2334,7 +2334,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Accessible label and tooltip of the clear button.",
         "name": "ClearText",
         "type": "string",
         "default": "\"Limpar seleção\"",
@@ -2342,7 +2342,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Text listed and announced while a search is running.",
         "name": "LoadingText",
         "type": "string",
         "default": "\"Carregando resultados…\"",
@@ -2350,7 +2350,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Text shown when the search returns nothing; overridden by NoItemsTemplate.",
         "name": "NoItemsText",
         "type": "string",
         "default": "\"Nenhum resultado encontrado.\"",
@@ -2358,7 +2358,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Text shown when the search callback throws.",
         "name": "SearchErrorText",
         "type": "string",
         "default": "\"Não foi possível carregar os resultados.\"",
@@ -2366,7 +2366,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Accepted for markup compatibility; the component does not render nested content.",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -2374,7 +2374,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Custom markup for each option; defaults to the ToStringFunc text.",
         "name": "ItemTemplate",
         "type": "RenderFragment<T>?",
         "default": "Padrão do tipo",
@@ -2382,7 +2382,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Custom markup for the empty-result row.",
         "name": "NoItemsTemplate",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -2390,7 +2390,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Additional CSS class for the root element.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2398,7 +2398,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Unmatched attributes forwarded to the root element.",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -2675,7 +2675,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIDateField Label=\"Data de início\" @bind-Value=\"Date\" />\n\n@code {\n    protected DateOnly? Date { get; set; } = new DateOnly(2026, 9, 7);\n}\n",
     "parameters": [
       {
-        "description": "",
+        "description": "Selected date, or null when empty.",
         "name": "Value",
         "type": "DateOnly?",
         "default": "Padrão do tipo",
@@ -2683,7 +2683,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Raised when a day is picked, Today is pressed or the value is cleared; enables @bind-Value.",
         "name": "ValueChanged",
         "type": "EventCallback<DateOnly?>",
         "default": "Padrão do tipo",
@@ -2691,7 +2691,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Field expression used to bind validation messages from the surrounding EditContext.",
         "name": "ValueExpression",
         "type": "Expression<Func<DateOnly?>>?",
         "default": "Padrão do tipo",
@@ -2699,7 +2699,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Visible label; also names the trigger and the calendar dialog for assistive technology.",
         "name": "Label",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2707,7 +2707,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Text shown while no date is selected. Defaults to dd/mm/aaaa for Portuguese cultures and mm/dd/yyyy otherwise.",
         "name": "Placeholder",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2715,7 +2715,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Helper text rendered under the field and linked through aria-describedby.",
         "name": "HelperText",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2723,7 +2723,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Explicit error message; takes precedence over validation messages from the form.",
         "name": "ErrorText",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2731,7 +2731,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Forces the invalid state (aria-invalid) without an error message.",
         "name": "Invalid",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -2739,7 +2739,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Marks the trigger aria-required and disables the Clear action.",
         "name": "Required",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -2747,7 +2747,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Disables the trigger and every day, and closes an open calendar.",
         "name": "Disabled",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -2755,7 +2755,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Earliest selectable date; earlier days are disabled and month navigation stops before them.",
         "name": "Min",
         "type": "DateOnly?",
         "default": "Padrão do tipo",
@@ -2763,7 +2763,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Latest selectable date; later days are disabled and month navigation stops after them.",
         "name": "Max",
         "type": "DateOnly?",
         "default": "Padrão do tipo",
@@ -2771,7 +2771,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Culture for date formatting, weekday names, first day of week and text direction. Defaults to CultureInfo.CurrentUICulture.",
         "name": "Culture",
         "type": "CultureInfo?",
         "default": "Padrão do tipo",
@@ -2779,7 +2779,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Id of the trigger button; generated when omitted.",
         "name": "Id",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2787,7 +2787,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "When set, renders a hidden input with the ISO date (yyyy-MM-dd) for plain form posts.",
         "name": "Name",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2795,7 +2795,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Additional CSS class for the root element.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2803,7 +2803,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Accessible name of the trigger when no Label is given. Defaults to a localized \"Choose date\".",
         "name": "AriaLabel",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2811,7 +2811,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Extra element ids prepended to the trigger's aria-describedby.",
         "name": "AriaDescribedBy",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2819,7 +2819,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Unmatched attributes forwarded to the trigger button.",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -3104,7 +3104,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISelect T=\"string\" Label=\"Região\" HelperText=\"Região atendida pela equipe.\" @bind-Value=\"Region\">\n<SUISelectItem Value='@(\"sul\")'>Sul</SUISelectItem>\n<SUISelectItem Value='@(\"sudeste\")'>Sudeste</SUISelectItem>\n</SUISelect>\n\n@code {\n    protected string? Region { get; set; } = \"sul\";\n}\n",
     "parameters": [
       {
-        "description": "",
+        "description": "Field expression used to bind validation messages from the surrounding EditContext.",
         "name": "ValueExpression",
         "type": "System.Linq.Expressions.Expression<Func<T?>>?",
         "default": "Padrão do tipo",
@@ -3112,7 +3112,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Selected value, matched against each item's Value; when null, an item marked Selected is shown.",
         "name": "Value",
         "type": "T?",
         "default": "Padrão do tipo",
@@ -3120,7 +3120,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Raised when an enabled option is chosen; enables @bind-Value.",
         "name": "ValueChanged",
         "type": "EventCallback<T?>",
         "default": "Padrão do tipo",
@@ -3128,7 +3128,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Visible label; also names the trigger and the listbox.",
         "name": "Label",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3136,7 +3136,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Text shown in the trigger while no item matches Value.",
         "name": "Placeholder",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3144,7 +3144,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Helper text rendered under the field and linked through aria-describedby.",
         "name": "HelperText",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3152,7 +3152,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Explicit error message; takes precedence over validation messages from the form.",
         "name": "ErrorText",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3160,7 +3160,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Forces the invalid state (aria-invalid) without an error message.",
         "name": "Invalid",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3168,7 +3168,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Id of the trigger button; generated when omitted.",
         "name": "Id",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3176,7 +3176,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Extra element ids prepended to the trigger's aria-describedby.",
         "name": "AriaDescribedBy",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3184,7 +3184,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Disables the trigger and closes an open menu.",
         "name": "Disabled",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3208,7 +3208,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Additional CSS class for the root element.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3216,7 +3216,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "The SUISelectItem options; rendered hidden so they can register with the select.",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -3224,7 +3224,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Unmatched attributes forwarded to the trigger button.",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -3940,7 +3940,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIDrawer Open Width=\"15rem\">\n<SUIList>\n<SUINavLink Title=\"Visão geral\" Href=\"#overview\" />\n<SUINavLink Title=\"Configurações\" Href=\"#settings\" />\n</SUIList>\n</SUIDrawer>\n\n@code {\n    protected bool Open { get; set; } = true;\n}\n",
     "parameters": [
       {
-        "description": "",
+        "description": "Whether the drawer is open (adds sui-drawer--open). Bindable through OpenChanged.",
         "name": "Open",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3948,7 +3948,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Raised when the drawer opens or closes itself: close button, backdrop, Escape, navigation or responsive auto-management.",
         "name": "OpenChanged",
         "type": "EventCallback<bool>",
         "default": "Padrão do tipo",
@@ -4004,7 +4004,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Renders a backdrop behind a compact open drawer. Default true.",
         "name": "ShowBackdrop",
         "type": "bool",
         "default": "true",
@@ -4012,7 +4012,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Closes the drawer when the backdrop is clicked. Default true.",
         "name": "CloseOnBackdropClick",
         "type": "bool",
         "default": "true",
@@ -4020,7 +4020,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Shows the compact header with Title and a close button. Default true.",
         "name": "ShowCloseButton",
         "type": "bool",
         "default": "true",
@@ -4028,7 +4028,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Heading shown in the compact header next to the close button.",
         "name": "Title",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4036,7 +4036,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Accessible title of the compact close button. Default \"Fechar navegação\".",
         "name": "CloseLabel",
         "type": "string",
         "default": "\"Fechar navegação\"",
@@ -4044,7 +4044,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "aria-label of the aside element. Default \"Navegação principal\".",
         "name": "AriaLabel",
         "type": "string",
         "default": "\"Navegação principal\"",
@@ -4052,7 +4052,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "id attribute of the aside element.",
         "name": "Id",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4060,7 +4060,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Raised when a responsive drawer is first measured or crosses ResponsiveBreakpoint (true = compact).",
         "name": "CompactChanged",
         "type": "EventCallback<bool>",
         "default": "Padrão do tipo",
@@ -4068,7 +4068,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Shadow level 1-3 (sui-drawer--e1..e3); out-of-range values fall back to 1.",
         "name": "Elevation",
         "type": "int",
         "default": "1",
@@ -4076,7 +4076,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Additional CSS classes appended to the aside.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4084,7 +4084,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Inline style appended after the --sui-drawer-width custom property.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4092,7 +4092,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Drawer body, rendered inside sui-drawer__content.",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -4100,7 +4100,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Unmatched attributes forwarded to the aside element.",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -4529,7 +4529,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUINavGroup Title=\"Configurações\" Expanded>\n<SUINavLink Title=\"Preferências\" Href=\"#preferences\" />\n<SUINavLink Title=\"Auditoria\" Href=\"#audit\" />\n</SUINavGroup>\n",
     "parameters": [
       {
-        "description": "",
+        "description": "Additional CSS class applied to the toggle button.",
         "name": "HeaderClass",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4537,7 +4537,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Custom markup for the title area; replaces Title and SubTitle.",
         "name": "TitleContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -4545,7 +4545,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Custom markup for the leading icon; replaces Icon and the initials avatar.",
         "name": "IconContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -4553,7 +4553,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Group title; also the accessible label of the nav and, in rail mode, of the trigger and flyout.",
         "name": "Title",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4561,7 +4561,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional secondary line rendered under the title.",
         "name": "SubTitle",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4569,7 +4569,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Inline SVG markup for the leading icon. Without it (and without IconContent) an avatar with the title initials is shown.",
         "name": "Icon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4577,7 +4577,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Semantic colour of the leading icon or initials avatar. Default SUIColor.Default.",
         "name": "IconColor",
         "type": "SUIColor",
         "default": "SUIColor.Default",
@@ -4585,7 +4585,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Disables the toggle; nested links and groups inherit the disabled state through the cascade.",
         "name": "Disabled",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -4593,7 +4593,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Kept for API compatibility; the standalone markup renders no ripple effect. Default true.",
         "name": "Ripple",
         "type": "bool",
         "default": "true",
@@ -4601,7 +4601,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Initial or bound expanded state. One-way values and @bind-Expanded both work; user clicks keep a local state until the parent supplies a different value.",
         "name": "Expanded",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -4609,7 +4609,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Hides the expand chevron on the toggle.",
         "name": "HideExpandIcon",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -4617,7 +4617,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional max-height in pixels for the collapsible children area.",
         "name": "MaxHeight",
         "type": "int?",
         "default": "Padrão do tipo",
@@ -4625,7 +4625,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Inline SVG markup for the expand chevron. Default SUIIcons.ArrowDropDown.",
         "name": "ExpandIcon",
         "type": "string",
         "default": "SUIIcons.ArrowDropDown",
@@ -4633,7 +4633,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Nested navigation links and groups.",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -4641,7 +4641,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Raised when the user toggles the group; enables @bind-Expanded.",
         "name": "ExpandedChanged",
         "type": "EventCallback<bool>",
         "default": "Padrão do tipo",
@@ -4649,7 +4649,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Additional CSS class for the root element.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4657,7 +4657,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Inline style for the root nav element (non-rail mode).",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4665,7 +4665,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Unmatched attributes forwarded to the root nav element (non-rail mode).",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",

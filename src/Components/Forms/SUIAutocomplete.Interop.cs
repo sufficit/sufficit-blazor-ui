@@ -11,6 +11,7 @@ public partial class SUIAutocomplete<T>
     private bool _interopOpen;
     private int _lastRevealedIndex = -1;
 
+    /// <summary>Loads the browser module once, opens or closes the top-layer list only on transitions and scrolls the active option into view.</summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (_disposed) return;

@@ -5,6 +5,12 @@ using Sufficit.Blazor.UI.Utilities;
 
 namespace Sufficit.Blazor.UI.Components;
 
+/// <summary>
+/// Side navigation panel. Permanent drawers stay in the layout flow; temporary and
+/// compact responsive drawers become a modal (<c>role="dialog"</c>, <c>aria-modal</c>,
+/// <c>inert</c> while closed) with a backdrop, Escape dismissal and focus trapping
+/// handled by <c>SUIDrawer.razor.js</c>.
+/// </summary>
 public partial class SUIDrawer
 {
     private ElementReference _drawerElement;
@@ -15,7 +21,9 @@ public partial class SUIDrawer
     private bool _responsiveReady;
     private bool _disposed;
 
+    /// <summary>Whether the drawer is open (adds <c>sui-drawer--open</c>). Bindable through <see cref="OpenChanged"/>.</summary>
     [Parameter] public bool Open { get; set; }
+    /// <summary>Raised when the drawer opens or closes itself: close button, backdrop, Escape, navigation or responsive auto-management.</summary>
     [Parameter] public EventCallback<bool> OpenChanged { get; set; }
 
     /// <summary>
@@ -39,22 +47,36 @@ public partial class SUIDrawer
     /// <summary>Closes the compact drawer after Blazor navigation completes.</summary>
     [Parameter] public bool CloseOnNavigate { get; set; }
 
+    /// <summary>Renders a backdrop behind a compact open drawer. Default <c>true</c>.</summary>
     [Parameter] public bool ShowBackdrop { get; set; } = true;
+    /// <summary>Closes the drawer when the backdrop is clicked. Default <c>true</c>.</summary>
     [Parameter] public bool CloseOnBackdropClick { get; set; } = true;
+    /// <summary>Shows the compact header with <see cref="Title"/> and a close button. Default <c>true</c>.</summary>
     [Parameter] public bool ShowCloseButton { get; set; } = true;
+    /// <summary>Heading shown in the compact header next to the close button.</summary>
     [Parameter] public string? Title { get; set; }
+    /// <summary>Accessible title of the compact close button. Default "Fechar navegação".</summary>
     [Parameter] public string CloseLabel { get; set; } = "Fechar navegação";
+    /// <summary><c>aria-label</c> of the <c>aside</c> element. Default "Navegação principal".</summary>
     [Parameter] public string AriaLabel { get; set; } = "Navegação principal";
+    /// <summary><c>id</c> attribute of the <c>aside</c> element.</summary>
     [Parameter] public string? Id { get; set; }
+    /// <summary>Raised when a responsive drawer is first measured or crosses <see cref="ResponsiveBreakpoint"/> (<c>true</c> = compact).</summary>
     [Parameter] public EventCallback<bool> CompactChanged { get; set; }
+    /// <summary>Shadow level 1-3 (<c>sui-drawer--e1</c>..<c>e3</c>); out-of-range values fall back to 1.</summary>
     [Parameter] public int Elevation { get; set; } = 1;
+    /// <summary>Additional CSS classes appended to the <c>aside</c>.</summary>
     [Parameter] public string? Class { get; set; }
+    /// <summary>Inline style appended after the <c>--sui-drawer-width</c> custom property.</summary>
     [Parameter] public string? Style { get; set; }
+    /// <summary>Drawer body, rendered inside <c>sui-drawer__content</c>.</summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>Unmatched attributes forwarded to the <c>aside</c> element.</summary>
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
+    /// <summary>Seeds the compact state from the variant and subscribes to navigation changes.</summary>
     protected override void OnInitialized()
     {
         _isCompact = IsTemporary;
@@ -62,6 +84,7 @@ public partial class SUIDrawer
         Navigation.LocationChanged += OnLocationChanged;
     }
 
+    /// <summary>For temporary/responsive drawers, loads the JS module on first render and syncs the open state with it.</summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (_disposed || (!IsResponsive && !IsTemporary))
@@ -80,6 +103,7 @@ public partial class SUIDrawer
             await _interop.InvokeVoidAsync("setOpen", Open, _isCompact, FullScreenOnCompact);
     }
 
+    /// <summary>Called from JS when the viewport crosses the breakpoint; raises <see cref="CompactChanged"/> and, with <see cref="AutoManageResponsiveOpen"/>, opens or closes the drawer.</summary>
     [JSInvokable]
     public async Task SetCompactStateAsync(bool compact)
     {
@@ -99,6 +123,7 @@ public partial class SUIDrawer
             await InvokeAsync(StateHasChanged);
     }
 
+    /// <summary>Called from JS when Escape is pressed inside a compact open drawer.</summary>
     [JSInvokable]
     public Task CloseFromKeyboardAsync() => SetOpenAsync(false);
 
@@ -125,6 +150,7 @@ public partial class SUIDrawer
         _ = InvokeAsync(() => SetOpenAsync(false));
     }
 
+    /// <summary>Unsubscribes from navigation and releases the JS interop; safe when the circuit is already gone.</summary>
     public async ValueTask DisposeAsync()
     {
         if (_disposed)

@@ -3,12 +3,18 @@ namespace Sufficit.Blazor.UI.Themes;
 /// <summary>Immutable theme configuration with ready-to-use light and dark presets.</summary>
 public sealed record SUITheme : ISUITheme
 {
+    /// <summary>Color tokens; defaults to <see cref="SUIPalette.Default"/>.</summary>
     public SUIPalette Palette { get; init; } = SUIPalette.Default;
+    /// <summary>Typography tokens; defaults to <see cref="SUITypography.Default"/>.</summary>
     public SUITypography Typography { get; init; } = SUITypography.Default;
+    /// <summary>Shape, spacing, elevation and motion tokens; defaults to <see cref="SUILayout.Default"/>.</summary>
     public SUILayout Layout { get; init; } = SUILayout.Default;
+    /// <summary>Whether dark-mode tokens should apply. Default false.</summary>
     public bool IsDark { get; init; }
 
+    /// <summary>Light preset: all default tokens, <see cref="IsDark"/> false.</summary>
     public static SUITheme Light { get; } = new();
+    /// <summary>Dark preset: slate surfaces, light text and lightened semantic colors with dark contrast foregrounds.</summary>
     public static SUITheme Dark { get; } = new()
     {
         IsDark = true,

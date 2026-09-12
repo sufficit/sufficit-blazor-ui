@@ -15,8 +15,11 @@ namespace Sufficit.Blazor.UI.Themes;
 /// </summary>
 public interface ISUITheme
 {
+    /// <summary>Color tokens, emitted as <c>--sui-color-*</c>, <c>--sui-surface*</c>, <c>--sui-text-*</c> and <c>--sui-border*</c>.</summary>
     SUIPalette Palette { get; }
+    /// <summary>Typography tokens, emitted as <c>--sui-font*</c>, <c>--sui-fs-*</c>, <c>--sui-lh-*</c> and <c>--sui-ls-*</c>.</summary>
     SUITypography Typography { get; }
+    /// <summary>Shape, spacing, elevation, motion and control-size tokens, emitted as <c>--sui-radius*</c>, <c>--sui-space-*</c>, <c>--sui-shadow-*</c>, <c>--sui-transition*</c> and <c>--sui-control-*</c>.</summary>
     SUILayout Layout { get; }
 
     /// <summary>Whether dark-mode tokens should apply.</summary>
