@@ -32,14 +32,11 @@ public sealed class NamingConventionTests
 
     /// <summary>
     /// Parameters whose names shipped before the convention was enforced.
-    /// Renaming them breaks Razor call sites. SUIItem's breakpoints cannot get an
-    /// additive PascalCase twin either: Razor matches component attributes
-    /// case-insensitively, so xs and Xs would be ambiguous. CloseIconClicked has
-    /// its typed successor (OnClose) and stays only as an obsolete forwarder.
+    /// Renaming them breaks Razor call sites. CloseIconClicked has its successor
+    /// (OnClose) and stays only as an obsolete forwarder until consumers move.
     /// </summary>
     private static readonly string[] LegacyParameterNames =
     [
-        "SUIItem.xs", "SUIItem.sm", "SUIItem.md", "SUIItem.lg", "SUIItem.xl",
         "SUIAlert.CloseIconClicked",
     ];
 

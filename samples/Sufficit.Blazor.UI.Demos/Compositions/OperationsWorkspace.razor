@@ -32,8 +32,8 @@
         <SUITabs AriaLabel="Áreas da operação demonstrativa">
             <SUITabPanel Text="Resumo">
                 <SUIGrid>
-                    <SUIItem xs="12" sm="6"><SUISection Title="Serviços"><SUIText Typo="SUITypo.h4">@_items.Count</SUIText><SUIText Typo="SUITypo.body2">cadastrados na operação</SUIText></SUISection></SUIItem>
-                    <SUIItem xs="12" sm="6"><SUISection Title="Disponibilidade"><SUIText Typo="SUITypo.h4">@_items.Count(i => i.Enabled)</SUIText><SUIText Typo="SUITypo.body2">habilitados para uso</SUIText></SUISection></SUIItem>
+                    <SUIItem Xs="12" Sm="6"><SUISection Title="Serviços"><SUIText Typo="SUITypo.h4">@_items.Count</SUIText><SUIText Typo="SUITypo.body2">cadastrados na operação</SUIText></SUISection></SUIItem>
+                    <SUIItem Xs="12" Sm="6"><SUISection Title="Disponibilidade"><SUIText Typo="SUITypo.h4">@_items.Count(i => i.Enabled)</SUIText><SUIText Typo="SUITypo.body2">habilitados para uso</SUIText></SUISection></SUIItem>
                 </SUIGrid>
                 <SUIAlert ToneValue="SUITone.Info">Abra Serviços para filtrar e editar. Preferências concentra os ajustes da equipe.</SUIAlert>
             </SUITabPanel>

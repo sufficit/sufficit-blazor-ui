@@ -19,6 +19,12 @@ definem a numeração das próximas publicações.
   `IconColorValue`, `IconSizeValue`, `ToneValue`). Padrões visuais inalterados.
   Última versão com as pontes: `2.26.911.2323`. Guia em
   `docs/components/api-migration.md`.
+- `SUIItem`: `xs`, `sm`, `md`, `lg`, `xl` renomeados para `Xs`, `Sm`, `Md`,
+  `Lg`, `Xl` (parâmetros Blazor são PascalCase). Rename duro, sem período de
+  transição: o Razor casa atributos de componente sem distinguir maiúsculas,
+  então o nome antigo não pode coexistir como obsoleto. Troca mecânica:
+  `rg -l '<SUIItem\b' --glob '*.razor' | xargs sed -i -E 's/(<SUIItem\b[^>]*\s)(xs|sm|md|lg|xl)=/\1\u\2=/g'`
+  (repetir até não haver ocorrência).
 - `NavAccordionScope` renomeado para `SUINavAccordionScope` (tipo interno ao
   `SUINavGroup`; nenhum consumidor conhecido o referenciava).
 

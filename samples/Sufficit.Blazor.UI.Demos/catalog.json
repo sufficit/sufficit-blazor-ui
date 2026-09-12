@@ -4120,7 +4120,7 @@
   {
     "name": "SUIGrid",
     "family": "Layout",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIGrid>\n<SUIItem xs=\"12\" md=\"6\">\n<SUITextField T=\"string\" Label=\"Nome\" @bind-Value=\"Text\" />\n</SUIItem>\n<SUIItem xs=\"12\" md=\"6\">\n<SUINumericField T=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" />\n</SUIItem>\n</SUIGrid>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected int Count { get; set; } = 3;\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIGrid>\n<SUIItem Xs=\"12\" Md=\"6\">\n<SUITextField T=\"string\" Label=\"Nome\" @bind-Value=\"Text\" />\n</SUIItem>\n<SUIItem Xs=\"12\" Md=\"6\">\n<SUINumericField T=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" />\n</SUIItem>\n</SUIGrid>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected int Count { get; set; } = 3;\n}\n",
     "parameters": [
       {
         "description": "",
@@ -4151,43 +4151,43 @@
   {
     "name": "SUIItem",
     "family": "Layout",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIGrid>\n<SUIItem xs=\"12\" md=\"6\">\n<SUITextField T=\"string\" Label=\"Nome\" @bind-Value=\"Text\" />\n</SUIItem>\n<SUIItem xs=\"12\" md=\"6\">\n<SUINumericField T=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" />\n</SUIItem>\n</SUIGrid>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected int Count { get; set; } = 3;\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIGrid>\n<SUIItem Xs=\"12\" Md=\"6\">\n<SUITextField T=\"string\" Label=\"Nome\" @bind-Value=\"Text\" />\n</SUIItem>\n<SUIItem Xs=\"12\" Md=\"6\">\n<SUINumericField T=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" />\n</SUIItem>\n</SUIGrid>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected int Count { get; set; } = 3;\n}\n",
     "parameters": [
       {
-        "description": "Columns at the smallest breakpoint (xs). Default 12.",
-        "name": "xs",
+        "description": "Columns (1–12) at the smallest breakpoint. Default 12.",
+        "name": "Xs",
         "type": "int",
         "default": "12",
         "required": false,
         "deprecated": false
       },
       {
-        "description": "",
-        "name": "sm",
+        "description": "Columns from the sm breakpoint up; inherits Xs when null.",
+        "name": "Sm",
         "type": "int?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
       },
       {
-        "description": "",
-        "name": "md",
+        "description": "Columns from the md breakpoint up.",
+        "name": "Md",
         "type": "int?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
       },
       {
-        "description": "",
-        "name": "lg",
+        "description": "Columns from the lg breakpoint up.",
+        "name": "Lg",
         "type": "int?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
       },
       {
-        "description": "",
-        "name": "xl",
+        "description": "Columns from the xl breakpoint up.",
+        "name": "Xl",
         "type": "int?",
         "default": "Padrão do tipo",
         "required": false,
