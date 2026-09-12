@@ -35,8 +35,8 @@ rg -n '<SUI(Button|IconButton|LoadingButton|Chip|TimelineItem|ProgressLinear|Swi
 genérico e registra seu valor no `SUISelect<T>` pai, que faz a comparação no
 tipo `T`.
 
-`SUIAlert.CloseIconClicked` tem sucessor `OnClose`; o nome antigo continua como
-encaminhador `[Obsolete]` (os dois disparam) até a próxima limpeza.
+`SUIAlert.CloseIconClicked` foi substituído por `OnClose`. `SUIItem` usa
+`Xs`, `Sm`, `Md`, `Lg`, `Xl` (antes minúsculos).
 
 Adapters para bibliotecas visuais de terceiros não entram nos componentes-base;
 se ainda necessários, devem ficar num pacote/camada legada separado.

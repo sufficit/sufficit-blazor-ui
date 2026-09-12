@@ -37,9 +37,6 @@
     [Parameter]
     public EventCallback OnClose { get; set; }
 
-    [Parameter, Obsolete("Use OnClose. Kept for existing call sites; both callbacks fire.")]
-    public EventCallback CloseIconClicked { get; set; }
-
     /// <summary>Optional icon name (resolved by SUIIcon). When null, no icon
     /// is shown unless the tone implies one.</summary>
     [Parameter]
@@ -68,11 +65,5 @@
         }
     }
 
-#pragma warning disable CS0618 // both callbacks fire until CloseIconClicked is removed
-    private async Task HandleCloseAsync()
-    {
-        await OnClose.InvokeAsync();
-        await CloseIconClicked.InvokeAsync();
-    }
-#pragma warning restore CS0618
+    private Task HandleCloseAsync() => OnClose.InvokeAsync();
 }

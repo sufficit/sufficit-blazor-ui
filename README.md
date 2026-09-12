@@ -19,7 +19,7 @@ A linha de desenvolvimento atual é `net10.0`-only. A retirada de um TFM exige
 migração explícita dos consumidores. O número do pacote segue o calendário
 Sufficit, sem major/minor de SemVer. Veja a
 [política de versionamento e TFMs](docs/ARCHITECTURE-VERSIONING-AND-TFM.md) e o
-[plano de limpeza da API](docs/PLAN-API-CLEANUP.md).
+[registro da limpeza da API](docs/activities/202609120330-completed-api-cleanup.md).
 
 O CI compila `net10.0` com warnings tratados como erros, gera o `.nupkg`,
 inspeciona seus assets e instala o pacote em uma RCL e uma Blazor Web App

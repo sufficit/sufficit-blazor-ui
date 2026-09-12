@@ -37,7 +37,6 @@ public sealed class NamingConventionTests
     /// </summary>
     private static readonly string[] LegacyParameterNames =
     [
-        "SUIAlert.CloseIconClicked",
     ];
 
     private static readonly string[] ComponentCategories =

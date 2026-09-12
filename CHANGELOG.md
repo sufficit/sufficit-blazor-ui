@@ -30,8 +30,9 @@ definem a numeração das próximas publicações.
 
 ### Changed
 
-- `SUIAlert`: novo `OnClose`; `CloseIconClicked` continua como encaminhador
-  `[Obsolete]` e os dois callbacks disparam.
+- `SUIAlert`: `OnClose` substitui `CloseIconClicked`. O nome antigo foi
+  publicado como encaminhador obsoleto em `2.26.911.2356` e removido na
+  release seguinte, depois que todos os consumidores conhecidos migraram.
 
 ### Packaging
 

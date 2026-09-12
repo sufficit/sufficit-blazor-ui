@@ -733,7 +733,6 @@ M|Sufficit.Blazor.UI.Utilities.SUIClassBuilder|Sufficit.Blazor.UI.Utilities.SUIC
 M|Sufficit.Blazor.UI.Utilities.SUIClassBuilder|System.String|Build|()
 M|Sufficit.Blazor.UI.Utilities.SUIClassBuilder|System.String|Slug|(System.Object)
 M|Sufficit.Blazor.UI.Utilities.SUIClassBuilder|System.String|ToString|()
-P|Sufficit.Blazor.UI.Components.SUIAlert|Microsoft.AspNetCore.Components.EventCallback|CloseIconClicked|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIAlert|Microsoft.AspNetCore.Components.EventCallback|OnClose|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIAlert|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIAlert|System.Boolean|ShowCloseIcon|[]|get;set;

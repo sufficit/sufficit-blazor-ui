@@ -22,9 +22,6 @@ concluído é arquivado em `activities/` com prefixo de timestamp
 
 ## Planos ativos (trabalho pendente)
 
-- [Limpeza da API pública](PLAN-API-CLEANUP.md) — pontes removidas em
-  2026-09-11; restam o rename duro de `SUIItem.xs..xl` e a remoção do
-  encaminhador `CloseIconClicked`
 - [Acompanhamento da avaliação de 2026-09-11](PLAN-LIBRARY-REVIEW-FOLLOWUP.md) —
   deslistagem no NuGet (bloqueada por credencial) e summaries XML faltantes
 - [Adoção dos componentes `SUI*`](PLAN-CONSUMER-MIGRATION.md) —
@@ -59,6 +56,9 @@ concluído é arquivado em `activities/` com prefixo de timestamp
 
 ## Trabalho concluído (activities/)
 
+- [Limpeza da API pública](activities/202609120330-completed-api-cleanup.md) —
+  26 pontes removidas, `SUIItem` em PascalCase, `SUIAlert.OnClose`,
+  consumidores migrados em lockstep (2026-09-11/12)
 - [Versionamento Sufficit e limpeza do catálogo NuGet](activities/202609081807-sufficit-versioning-plan.md) —
   plano recuperado da worktree; padrão 1.yy.MMdd.HHmm, OIDC e deslistagem pendente
 

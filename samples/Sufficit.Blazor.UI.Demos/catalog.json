@@ -1553,14 +1553,6 @@
         "deprecated": false
       },
       {
-        "description": "",
-        "name": "CloseIconClicked",
-        "type": "EventCallback",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": true
-      },
-      {
         "description": "Optional icon name (resolved by SUIIcon). When null, no icon is shown unless the tone implies one.",
         "name": "Icon",
         "type": "string?",

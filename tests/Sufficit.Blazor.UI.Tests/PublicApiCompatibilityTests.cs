@@ -59,15 +59,13 @@ public sealed class PublicApiCompatibilityTests
     }
 
     [Fact]
-    public void AlertClose_HasTypedSuccessorAndObsoleteForwarder()
+    public void AlertClose_IsOnCloseOnly()
     {
         var onClose = typeof(SUIAlert).GetProperty("OnClose")!;
-        var legacy = typeof(SUIAlert).GetProperty("CloseIconClicked")!;
 
         Assert.Equal(typeof(EventCallback), onClose.PropertyType);
         Assert.Null(onClose.GetCustomAttribute<ObsoleteAttribute>());
-        Assert.NotNull(legacy.GetCustomAttribute<ObsoleteAttribute>());
-        Assert.Contains("OnClose", legacy.GetCustomAttribute<ObsoleteAttribute>()!.Message, StringComparison.Ordinal);
+        Assert.Null(typeof(SUIAlert).GetProperty("CloseIconClicked"));
     }
 
     [Fact]
