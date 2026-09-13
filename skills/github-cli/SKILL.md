@@ -1,6 +1,6 @@
 ---
 name: github-cli
-description: Opera repositórios GitHub com a ferramenta estruturada github_cli do Sufficit AI Genius. Use para consultar ou alterar issues, pull requests, revisões, releases, workflows e Actions, chamar a API com gh ou baixar anexos encontrados em conversas do GitHub.
+description: Opera repositórios e CI GitHub com a ferramenta estruturada github_cli do Sufficit AI Genius. Use para consultar ou alterar issues, pull requests e revisões, diagnosticar ou acompanhar workflows e Actions, chamar a API com gh, operar releases ou baixar anexos.
 ---
 
 # GitHub CLI
@@ -39,6 +39,8 @@ formatação e evita interpretação acidental do texto.
   [references/issues-and-pull-requests.md](references/issues-and-pull-requests.md).
 - Para Actions, releases, paginação e chamadas REST/GraphQL, leia
   [references/actions-and-api.md](references/actions-and-api.md).
+- Para diagnosticar, reexecutar ou acompanhar o CI da Sufficit, leia
+  [references/sufficit-ci.md](references/sufficit-ci.md).
 - Quando houver imagem, vídeo, documento ou outro arquivo anexado, leia
   [references/attachments.md](references/attachments.md).
 
