@@ -293,7 +293,7 @@ listas de débito explícitas (`FileSizeBudgetTests.Debt`,
 - [Rollout e rollback dos consumidores](docs/CONSUMER-ROLLOUT.md)
 - [Índice de documentação](docs/README.md)
 - [Skill e convenções SUI](skills/sui-design/SKILL.md)
-- [Sufficit Frontend](skills/sufficit-frontend/SKILL.md) — frontend geral, integração SUI e validação; [instalação e versões](skills/sufficit-frontend/references/installation.md).
+- [Sufficit Frontend](https://github.com/sufficit/sufficit-ai-skills/tree/main/skills/sufficit/sufficit-frontend) — frontend geral, integração SUI e validação, distribuído pelo catálogo público de skills.
 
 A atividade registra a migração para organização por famílias, CSS híbrido,
 módulos JavaScript colocalizados, catálogo executável, testes de componentes,
