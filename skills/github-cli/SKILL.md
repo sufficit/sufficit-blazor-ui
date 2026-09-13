@@ -12,6 +12,9 @@ Não execute `gh auth`, não peça token e não grave credenciais em arquivo ou 
 
 Se a ferramenta informar que a conta não está conectada, oriente o usuário a abrir
 **Extensões → Integrações → GitHub** no Genius. Não tente outra conta ou credencial.
+Se `github_cli` não estiver disponível, esta versão do Genius ainda não oferece a execução
+segura do `gh`: use as ferramentas da integração GitHub MCP quando elas cobrirem a operação
+ou oriente a atualização do Genius. Nunca contorne a ausência passando um token ao shell.
 
 ## Fluxo básico
 

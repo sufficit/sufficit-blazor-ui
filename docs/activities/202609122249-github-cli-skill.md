@@ -14,6 +14,7 @@ The public Genius skill catalog contained only `sufficit-frontend` from this rep
 - Added on-demand references for issues and pull requests, Actions and API calls, releases and workflow artifacts, and GitHub issue attachments.
 - Added package metadata, UI metadata, card, and MIT-0 license at version `1.0.0`.
 - Kept access tokens out of the package. The skill requires the host's `github_cli` and `github_attachment_download` tools and directs disconnected users to the Genius integration screen.
+- Documented a GitHub MCP fallback for older Genius versions while explicitly forbidding token injection into a general shell.
 
 ## Validation
 
