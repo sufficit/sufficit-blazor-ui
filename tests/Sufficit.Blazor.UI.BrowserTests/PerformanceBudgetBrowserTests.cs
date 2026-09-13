@@ -19,7 +19,10 @@ public sealed class PerformanceBudgetBrowserTests : PageTest
     // Includes numeric steppers and shared helper styling: 97,014 B measured
     // in Chromium CI, with 266 B headroom under 95 KiB.
     // Aggregate host + library CSS, without transport compression in this fixture.
-    private const long CssTransferBudget = 98 * 1024; // measured 97,014 B in Chromium CI; 3 % headroom rule, see AssetBudgetTests
+    // Raised 2026-09-13 for SUISlidingTabs (isolated pill-track CSS joins the
+    // scoped bundle) — measured 102,549 B in Chromium; measured × 1.03 rounded
+    // up to the next KiB (3 % headroom rule, see AssetBudgetTests).
+    private const long CssTransferBudget = 104 * 1024; // measured 102,549 B in Chromium CI
     private const long TotalTransferBudget = 900 * 1024;
     private const double LargestContentfulPaintBudgetMs = 2500;
     private const double CumulativeLayoutShiftBudget = 0.1;

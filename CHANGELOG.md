@@ -54,6 +54,7 @@ definem a numeração das próximas publicações.
 
 ### Added
 
+- `SUISlidingTabs` + `SUISlidingTabPanel`: navegação por abas com trilha pill e indicador deslizante (bezier de overshoot), ícones por aba com "pop" no estado ativo, painel com entrada fade/slide, `ColorValue`, `FullWidth`, `Center`, `IconOnly`, aba `Disabled` e o mesmo contrato de teclado/acessibilidade do `SUITabs`. Ícones colapsam em telas estreitas/toque; `prefers-reduced-motion` desliga as animações. Tetos de asset ajustados com justificativa (CSS isolado e módulo JS).
 - `SUIThemeProvider.Nonce`: copiado para o `<style>` inline que publica os tokens, para hosts com `Content-Security-Policy: style-src` estrita. Sem o parâmetro nada muda.
 - Testes de contrato de render (bUnit) para os 22 componentes que não tinham nenhum, e `ReadmeCatalogTests`, que mantém a tabela de famílias do README igual a `src/Components`.
 - `docs/components` passa a mencionar os 16 componentes que faltavam (CopyToClipboard, Avatar, TableSortLabel, TableEmpty, Td, ProgressCircular, SkeletonLoader, PendingChangesBar, ProgressSteps, CardActions, ConfirmDialog, DecisionDialog, SnackbarHost, FilterTree, FilterScope, TabPanel).

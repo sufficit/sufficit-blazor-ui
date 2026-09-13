@@ -22,10 +22,14 @@ public sealed class AssetBudgetTests
     private const int BundleBrotliBudget = 9 * 1024;          // measured  8,840 B
     private const int JsModuleRawBudget = 12 * 1024;
     // Every colocated module together, Brotli. Numeric interop remains opt-in;
-    // this ceiling measures all of them at once.
-    private const int JsTotalBrotliBudget = 9 * 1024 + 768;   // measured  9,495 B
+    // this ceiling measures all of them at once. Raised 2026-09-13 for the
+    // SUISlidingTabs indicator module (position + resize/font repositioning).
+    private const int JsTotalBrotliBudget = 10 * 1024 + 512;  // measured 10,079 B
     // Raw bytes of every .razor.css (source/parse cost of CSS isolation).
-    private const int IsolatedCssRawBudget = 27 * 1024 + 768; // measured 27,372 B
+    // Raised 2026-09-13 for SUISlidingTabs (pill track + sliding indicator,
+    // micro-interactions, responsive collapse, reduced-motion) — measured
+    // 32,217 B; headroom rule keeps ~3% slack.
+    private const int IsolatedCssRawBudget = 32 * 1024 + 512; // measured 32,217 B
 
     [Fact]
     public void GlobalStylesheet_FitsTheTransferBudget()

@@ -65,6 +65,8 @@ public static partial class DemoCatalog
         "SUINavGroup" => typeof(Examples.SUINavGroupExample),
         "SUINavLink" => typeof(Examples.SUINavLinkExample),
         "SUIProgressSteps" => typeof(Examples.SUIProgressStepsExample),
+        "SUISlidingTabPanel" => typeof(Examples.SUISlidingTabPanelExample),
+        "SUISlidingTabs" => typeof(Examples.SUISlidingTabsExample),
         "SUITabPanel" => typeof(Examples.SUITabPanelExample),
         "SUITabs" => typeof(Examples.SUITabsExample),
         "SUIConfirmDialog" => typeof(Examples.SUIConfirmDialogExample),

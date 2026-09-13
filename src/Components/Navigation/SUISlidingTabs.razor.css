@@ -1,0 +1,137 @@
+.sui-sliding-tabs { width: 100%; }
+
+/* Track container: scrolls horizontally only when the tabs overflow, keeping
+   the indicator shadow visible vertically. */
+.sui-sliding-tabs__scroller {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.sui-sliding-tabs__scroller::-webkit-scrollbar { display: none; }
+
+/* The pill-shaped track that hosts the tabs and the sliding indicator. */
+.sui-sliding-tabs__track {
+  position: relative;
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  align-items: center;
+  gap: var(--sui-space-1);
+  padding: 5px;
+  border: 1px solid var(--sui-border);
+  border-radius: var(--sui-radius-full);
+  background: var(--sui-surface-2);
+}
+.sui-sliding-tabs--center .sui-sliding-tabs__track { margin-inline: auto; }
+.sui-sliding-tabs--full-width .sui-sliding-tabs__track { width: 100%; }
+
+/* Accent modifiers drive the active tab color. */
+.sui-sliding-tabs--primary { --sui-sliding-tabs-accent: var(--sui-color-primary); }
+.sui-sliding-tabs--secondary { --sui-sliding-tabs-accent: var(--sui-color-secondary); }
+.sui-sliding-tabs--info { --sui-sliding-tabs-accent: var(--sui-color-info); }
+.sui-sliding-tabs--success { --sui-sliding-tabs-accent: var(--sui-color-success); }
+.sui-sliding-tabs--warning { --sui-sliding-tabs-accent: var(--sui-color-warning); }
+.sui-sliding-tabs--error { --sui-sliding-tabs-accent: var(--sui-color-error); }
+.sui-sliding-tabs--dark { --sui-sliding-tabs-accent: var(--sui-color-dark); }
+
+/* Sliding indicator: positioned by the JS module (left/width), animated by
+   this transition. Overshoot bezier gives the springy "premium" feel. */
+.sui-sliding-tabs__indicator {
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  left: 0;
+  width: 0;
+  z-index: 0;
+  border-radius: var(--sui-radius-full);
+  background: var(--sui-surface);
+  box-shadow: var(--sui-shadow-2);
+  pointer-events: none;
+}
+.sui-sliding-tabs__track.is-positioned .sui-sliding-tabs__indicator {
+  transition:
+    left 380ms cubic-bezier(.3, 1.3, .3, 1),
+    width 380ms cubic-bezier(.3, 1.3, .3, 1);
+}
+
+.sui-sliding-tab {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sui-space-2);
+  min-height: var(--sui-control-h-md);
+  padding: var(--sui-space-2) var(--sui-space-4);
+  border-radius: var(--sui-radius-full);
+  font-family: var(--sui-font);
+  font-size: var(--sui-fs-button);
+  font-weight: 600;
+  color: var(--sui-text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color var(--sui-transition), transform var(--sui-transition);
+}
+.sui-sliding-tabs--full-width .sui-sliding-tab { flex: 1 1 0; }
+
+.sui-sliding-tab:hover { color: var(--sui-text-primary); }
+.sui-sliding-tab:hover .sui-sliding-tab__icon { transform: translateY(-1px) scale(1.06); }
+.sui-sliding-tab:active { transform: scale(.97); }
+
+.sui-sliding-tab:focus-visible {
+  outline: 2px solid var(--sui-sliding-tabs-accent, var(--sui-color-primary));
+  outline-offset: 2px;
+}
+
+.sui-sliding-tab[disabled] {
+  color: var(--sui-text-disabled);
+  cursor: not-allowed;
+}
+.sui-sliding-tab[disabled]:active { transform: none; }
+
+.sui-sliding-tab.is-active { color: var(--sui-sliding-tabs-accent, var(--sui-color-primary)); }
+
+.sui-sliding-tab__icon {
+  display: inline-flex;
+  transition: transform var(--sui-transition-slow);
+}
+.sui-sliding-tab.is-active .sui-sliding-tab__icon {
+  animation: sui-sliding-tab-pop 320ms cubic-bezier(.3, 1.3, .3, 1);
+}
+@keyframes sui-sliding-tab-pop {
+  0% { transform: scale(.8); }
+  55% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+.sui-sliding-tab__label { display: inline; }
+.sui-sliding-tabs--icon-only .sui-sliding-tab__label { display: none; }
+.sui-sliding-tabs--icon-only .sui-sliding-tab { padding-inline: var(--sui-space-3); }
+
+/* Panels slide in subtly every time the active tab changes. */
+.sui-sliding-tabs__panels { padding-top: var(--sui-space-4); }
+.sui-sliding-tab-panel {
+  animation: sui-sliding-panel-in 240ms cubic-bezier(.4, 0, .2, 1);
+  overflow-wrap: anywhere;
+}
+@keyframes sui-sliding-panel-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 599.98px), (pointer: coarse) {
+  /* Touch and narrow screens collapse to icon-only tabs with a 44px target;
+     the full label stays available as each button's aria-label. */
+  .sui-sliding-tab__label { display: none; }
+  .sui-sliding-tab { min-height: 44px; padding-inline: var(--sui-space-3); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sui-sliding-tabs__track.is-positioned .sui-sliding-tabs__indicator { transition: none; }
+  .sui-sliding-tab,
+  .sui-sliding-tab__icon { transition: none; }
+  .sui-sliding-tab.is-active .sui-sliding-tab__icon { animation: none; }
+  .sui-sliding-tab-panel { animation: none; }
+}

@@ -1,0 +1,32 @@
+@namespace Sufficit.Blazor.UI.Components
+@implements IDisposable
+
+@* Sliding tab panel: registers with the parent SUISlidingTabs (cascaded) on
+   init. Its own template renders nothing; the parent shows the active panel's
+   ChildContent next to the sliding track. *@
+
+@code {
+    [CascadingParameter]
+    private SUISlidingTabs? _parent { get; set; }
+
+    /// <summary>Tab label (also the button's accessible name when icon-only).</summary>
+    [Parameter, EditorRequired]
+    public string Text { get; set; } = string.Empty;
+
+    /// <summary>Optional icon: an <see cref="SUIIcon"/> switch key (e.g. <c>"search"</c>)
+    /// or trusted SVG markup from <see cref="SUIIcons"/> constants.</summary>
+    [Parameter] public string? Icon { get; set; }
+
+    /// <summary>Blocks activation of this tab.</summary>
+    [Parameter] public bool Disabled { get; set; }
+
+    /// <summary>Optional CSS class applied to the panel container.</summary>
+    [Parameter] public string? Class { get; set; }
+
+    /// <summary>Content shown while this panel is the active tab.</summary>
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    protected override void OnInitialized() => _parent?.Register(this);
+
+    public void Dispose() => _parent?.Unregister(this);
+}

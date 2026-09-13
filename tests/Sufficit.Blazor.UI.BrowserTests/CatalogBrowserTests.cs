@@ -362,7 +362,9 @@ public sealed partial class CatalogBrowserTests : PageTest
     [Test]
     public async Task Tabs_UseAssociatedPanelsRovingTabindexAndArrowKeys()
     {
-        var tabs = Page.GetByRole(AriaRole.Tab);
+        // Scoped to the classic SUITabs demo: the page also renders a
+        // SUISlidingTabs demo, and an unscoped [role=tab] matches both.
+        var tabs = Page.Locator(".sui-tabs [role='tab']");
         await Expect(tabs).ToHaveCountAsync(3);
         var first = tabs.Nth(0);
         var second = tabs.Nth(1);
@@ -382,7 +384,7 @@ public sealed partial class CatalogBrowserTests : PageTest
         await Expect(second).ToHaveAttributeAsync("aria-selected", "true");
         await Expect(second).ToHaveAttributeAsync("tabindex", "0");
         await Expect(first).ToHaveAttributeAsync("tabindex", "-1");
-        await Expect(Page.GetByRole(AriaRole.Tabpanel)).ToContainTextAsync("Konfigurationseinstellungen");
+        await Expect(Page.Locator(".sui-tabs [role='tabpanel']")).ToContainTextAsync("Konfigurationseinstellungen");
 
         await Page.Keyboard.PressAsync("End");
         await Expect(tabs.Nth(2)).ToBeFocusedAsync();

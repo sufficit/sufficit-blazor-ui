@@ -1,4 +1,5 @@
 using Bunit;
+using Microsoft.AspNetCore.Components;
 using Sufficit.Blazor.UI.Components;
 
 namespace Sufficit.Blazor.UI.Tests;
@@ -104,5 +105,61 @@ public sealed class RenderContractNavigationTests
 
         Assert.Equal("true", cut.Find("button.sui-rail-trigger").GetAttribute("aria-expanded"));
         Assert.False(cut.Find(".sui-rail-flyout").HasAttribute("hidden"));
+    }
+
+    [Fact]
+    public void SlidingTabs_RenderPillTrackWithIndicatorAndForwardAttributes()
+    {
+        using var context = new BunitContext();
+        context.JSInterop.Mode = JSRuntimeMode.Loose;
+        var cut = context.Render<SUISlidingTabs>(parameters => parameters
+            .Add(component => component.Id, "sliding")
+            .Add(component => component.AriaLabel, "Vistas")
+            .Add(component => component.ColorValue, SUIColor.Primary)
+            .AddUnmatched("data-test", "sliding-tabs")
+            .AddChildContent(builder =>
+            {
+                builder.OpenComponent<SUISlidingTabPanel>(0);
+                builder.AddAttribute(1, nameof(SUISlidingTabPanel.Text), "Início");
+                builder.AddAttribute(2, nameof(SUISlidingTabPanel.Icon), "dashboard");
+                builder.AddAttribute(3, nameof(SUISlidingTabPanel.ChildContent),
+                    (RenderFragment)(content => content.AddContent(0, "Resumo")));
+                builder.CloseComponent();
+                builder.OpenComponent<SUISlidingTabPanel>(4);
+                builder.AddAttribute(5, nameof(SUISlidingTabPanel.Text), "Busca");
+                builder.AddAttribute(6, nameof(SUISlidingTabPanel.ChildContent),
+                    (RenderFragment)(content => content.AddContent(0, "Resultados")));
+                builder.CloseComponent();
+                builder.OpenComponent<SUISlidingTabPanel>(7);
+                builder.AddAttribute(8, nameof(SUISlidingTabPanel.Text), "Bloqueada");
+                builder.AddAttribute(9, nameof(SUISlidingTabPanel.Disabled), true);
+                builder.CloseComponent();
+            }));
+
+        cut.WaitForAssertion(() => Assert.Equal(3, cut.FindAll("[role=tab]").Count));
+        var root = cut.Find(".sui-sliding-tabs");
+        Assert.True(root.ClassList.Contains("sui-sliding-tabs--primary"));
+        Assert.Equal("sliding-tabs", root.GetAttribute("data-test"));
+        Assert.NotNull(cut.Find(".sui-sliding-tabs__indicator"));
+
+        var tabs = cut.FindAll("[role=tab]");
+        Assert.Equal("Vistas", cut.Find("[role=tablist]").GetAttribute("aria-label"));
+        Assert.Equal("0", tabs[0].GetAttribute("tabindex"));
+        Assert.Equal("-1", tabs[1].GetAttribute("tabindex"));
+        Assert.True(tabs[2].HasAttribute("disabled"));
+        Assert.NotNull(cut.Find("[role=tab] .sui-sliding-tab__icon svg"));
+
+        var panel = cut.Find("[role=tabpanel]");
+        Assert.Equal(panel.Id, tabs[0].GetAttribute("aria-controls"));
+        Assert.Equal(tabs[0].Id, panel.GetAttribute("aria-labelledby"));
+        Assert.Contains("Resumo", panel.TextContent);
+
+        tabs[1].Click();
+        cut.WaitForAssertion(() => Assert.Contains("Resultados", cut.Find("[role=tabpanel]").TextContent));
+        Assert.True(cut.FindAll("[role=tab]")[1].ClassList.Contains("is-active"));
+
+        // A disabled tab keeps the current selection: activation is a no-op.
+        cut.FindAll("[role=tab]")[2].Click();
+        Assert.True(cut.FindAll("[role=tab]")[1].ClassList.Contains("is-active"));
     }
 }

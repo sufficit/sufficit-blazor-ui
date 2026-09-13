@@ -12,6 +12,19 @@ scroll nativo dessas teclas e é descartado com o componente. Veja
 rótulo da aba. Seu template não renderiza nada; o pai instancia os painéis num
 contêiner `hidden` e exibe o `ChildContent` do painel ativo no `tabpanel`.
 
+`SUISlidingTabs` + `SUISlidingTabPanel` é a variante com micro-interações: a
+trilha pill flutua num `surface-2` e um indicador desliza até a aba ativa com
+bezier de overshoot (mola). Cada painel aceita `Icon` (chave do `SUIIcon` ou
+markup de `SUIIcons`); o ícone ativo recebe um "pop" e o painel entra com
+fade/slide curto. `ColorValue` muda o realce, `FullWidth` distribui as abas,
+`Center` centraliza a trilha e `IconOnly` colapsa os rótulos (telas estreitas
+ou toque fazem isso via CSS, mantendo o `aria-label` do botão). O teclado segue
+o mesmo contrato do `SUITabs` (roving tabindex, setas, Home/End) e painéis
+`Disabled` não são ativáveis. O módulo colocalizado posiciona o indicador por
+`offsetLeft/offsetWidth` (ResizeObserver + `document.fonts.ready`) e reposiciona
+sem animação no primeiro paint, resize e troca de fonte; `prefers-reduced-motion`
+desliga transições e animações.
+
 `SUIProgressSteps` é um `nav` (`AriaLabel`, padrão "Progresso da configuração")
 com uma `ol` de botões. `Steps` traz os rótulos, `ActiveIndex` é clampado à
 coleção e `ActiveIndexChanged` publica a seleção; sem esse callback nenhuma

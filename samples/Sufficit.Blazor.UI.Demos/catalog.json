@@ -5057,6 +5057,148 @@
     ]
   },
   {
+    "name": "SUISlidingTabPanel",
+    "family": "Navegação",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISlidingTabs>\n<SUISlidingTabPanel Text=\"Visão geral\" Icon=\"chart\">\n<SUIText>Informações principais.</SUIText>\n</SUISlidingTabPanel>\n<SUISlidingTabPanel Text=\"Detalhes\" Icon=\"audit\">\n<SUIText>Configurações complementares.</SUIText>\n</SUISlidingTabPanel>\n</SUISlidingTabs>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n}\n",
+    "parameters": [
+      {
+        "description": "Tab label (also the button's accessible name when icon-only).",
+        "name": "Text",
+        "type": "string",
+        "default": "string.Empty",
+        "required": true,
+        "deprecated": false
+      },
+      {
+        "description": "Optional icon: an SUIIcon switch key (e.g. \"search\") or trusted SVG markup from SUIIcons constants.",
+        "name": "Icon",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Blocks activation of this tab.",
+        "name": "Disabled",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional CSS class applied to the panel container.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Content shown while this panel is the active tab.",
+        "name": "ChildContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      }
+    ]
+  },
+  {
+    "name": "SUISlidingTabs",
+    "family": "Navegação",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISlidingTabs AriaLabel=\"Seções da operação\">\n<SUISlidingTabPanel Text=\"Início\" Icon=\"dashboard\">\n<SUIText>Resumo do dia.</SUIText>\n</SUISlidingTabPanel>\n<SUISlidingTabPanel Text=\"Busca\" Icon=\"search\">\n<SUIText>Resultados e filtros salvos.</SUIText>\n</SUISlidingTabPanel>\n<SUISlidingTabPanel Text=\"Fluxos\" Icon=\"workflow\">\n<SUIText>Automações ativas.</SUIText>\n</SUISlidingTabPanel>\n</SUISlidingTabs>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n}\n",
+    "parameters": [
+      {
+        "description": "Accent color of the active tab and its pop animation.",
+        "name": "ColorValue",
+        "type": "SUIColor",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Stretch the track to 100% width; tabs share the space equally.",
+        "name": "FullWidth",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Center the track when it is narrower than its container.",
+        "name": "Center",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Always render icons only (labels collapse to aria-label); small screens do this automatically via CSS.",
+        "name": "IconOnly",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Accessible name for the tab list.",
+        "name": "AriaLabel",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional CSS class applied to the root element.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Stable id prefix used to associate tabs and panels.",
+        "name": "Id",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "The SUISlidingTabPanel children that become tabs.",
+        "name": "ChildContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Two-way bound active panel index.",
+        "name": "ActiveIndex",
+        "type": "int",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "ActiveIndexChanged",
+        "type": "EventCallback<int>",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": false
+      }
+    ]
+  },
+  {
     "name": "SUITabPanel",
     "family": "Navegação",
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITabs>\n<SUITabPanel Text=\"Visão geral\">\n<SUIText>Informações principais.</SUIText>\n</SUITabPanel>\n<SUITabPanel Text=\"Detalhes\">\n<SUIText>Configurações complementares.</SUIText>\n</SUITabPanel>\n</SUITabs>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n}\n",
