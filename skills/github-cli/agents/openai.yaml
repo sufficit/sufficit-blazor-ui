@@ -1,0 +1,4 @@
+interface:
+  display_name: "GitHub CLI"
+  short_description: "Opera GitHub com gh e anexos"
+  default_prompt: "Use gh para tratar este trabalho no GitHub."
