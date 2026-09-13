@@ -1,4 +1,4 @@
 interface:
   display_name: "GitHub CLI"
-  short_description: "Opera GitHub com gh e anexos"
-  default_prompt: "Use gh para tratar este trabalho no GitHub."
+  short_description: "Opera GitHub e diagnostica CI com gh"
+  default_prompt: "Use gh para tratar este trabalho no GitHub e diagnosticar o CI sem pedir logs que você consegue consultar."

@@ -4,6 +4,7 @@
 
 Use `run list` para descobrir execuções e `run view` para identificar o job e a etapa que
 falharam. Busque logs somente quando forem necessários; resuma a causa e o trecho relevante.
+Nunca peça ao usuário para copiar o log enquanto a conta conectada puder obtê-lo pelo GitHub.
 
 ```json
 ["run", "list", "--repo", "owner/repo", "--limit", "10", "--json", "databaseId,workflowName,status,conclusion,headBranch,headSha,url,createdAt"]
@@ -16,6 +17,20 @@ falharam. Busque logs somente quando forem necessários; resuma a causa e o trec
 ```json
 ["run", "view", "123456", "--repo", "owner/repo", "--log-failed"]
 ```
+
+Se o resumo não trouxer o erro, liste os jobs para obter o `databaseId` e consulte o job:
+
+```json
+["run", "view", "123456", "--repo", "owner/repo", "--json", "jobs", "--jq", ".jobs[] | {id: .databaseId, name, status, conclusion, steps}"]
+```
+
+```json
+["run", "view", "123456", "--repo", "owner/repo", "--job", "987654", "--log-failed"]
+```
+
+Quando o workflow publicar resultados, descubra e baixe somente o artefato relevante com
+`run download`. Se logs continuarem indisponíveis, informe qual chamada falhou e qual permissão
+está ausente; solicitar uma cópia manual é o último recurso.
 
 Antes de `run rerun`, verifique se a falha parece transitória ou se o código/configuração já
 mudou. Não repita indefinidamente. Disparos com `workflow run` e cancelamentos são alterações
