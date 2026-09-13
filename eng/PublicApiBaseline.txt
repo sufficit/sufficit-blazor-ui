@@ -817,6 +817,7 @@ P|Sufficit.Blazor.UI.Components.SUICardHeader|Microsoft.AspNetCore.Components.Re
 P|Sufficit.Blazor.UI.Components.SUICardHeader|Microsoft.AspNetCore.Components.RenderFragment|CardHeaderAvatar|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICardHeader|Microsoft.AspNetCore.Components.RenderFragment|CardHeaderContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICardHeader|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUICardHeader|Microsoft.AspNetCore.Components.RenderFragment|MetaContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICardHeader|Microsoft.AspNetCore.Components.RenderFragment|Meta|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICardHeader|System.Collections.Generic.Dictionary<System.String,System.Object>|Attributes|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICardHeader|System.String|Class|[]|get;set;

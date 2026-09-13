@@ -33,9 +33,9 @@
         @ChildContent
     }
 
-    @if (Meta is not null)
+    @if ((Meta ?? MetaContent) is not null)
     {
-        <div class="sui-card__header-meta">@Meta</div>
+        <div class="sui-card__header-meta">@(Meta ?? MetaContent)</div>
     }
 
     @if (Actions is not null || CardHeaderActions is not null)
@@ -76,6 +76,13 @@
     /// <summary>Optional metadata placed between the heading and actions.</summary>
     [Parameter]
     public RenderFragment? Meta { get; set; }
+    /// <summary>
+    /// Same slot as <see cref="Meta"/> under a name Razor can parse. Markup that
+    /// writes &lt;Meta&gt; is read as the void HTML meta element and leaves the
+    /// card unbalanced; write &lt;MetaContent&gt; instead.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? MetaContent { get; set; }
 
     /// <summary>Optional actions aligned to the end of the header.</summary>
     [Parameter]

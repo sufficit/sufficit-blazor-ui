@@ -774,7 +774,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack Row>\n<SUIIcon Name=\"check\" />\n<SUIIcon Name=\"calendar\" />\n<SUIIcon Name=\"clock\" />\n</SUIStack>\n",
     "parameters": [
       {
-        "description": "Icon name. See the switch above for the available keys (dashboard, users, key, shield, scope, palette, workflow, audit, chart, settings, menu, x, bell, search, eye-off, arrow-right, arrow-left, plus, external, volume, phone, inbox, alert, check, clock, database, lock, code, browser, device, server, terminal, info, calendar, chevron-left, chevron-right, chevron-down, chevron-up, refresh, trash, edit, pix, credit-card, receipt, barcode).",
+        "description": "Icon name. See the switch above for the available keys (dashboard, users, key, shield, scope, palette, workflow, audit, chart, settings, menu, x, bell, search, eye-off, arrow-right, arrow-left, plus, external, volume, phone, inbox, alert, check, clock, database, lock, code, browser, device, server, terminal, info, calendar, chevron-left, chevron-right, chevron-down, chevron-up, refresh, trash, edit, pix, credit-card, receipt, barcode). Also accepts the SVG markup held by SUIIcons constants; only library-defined, trusted markup belongs here.",
         "name": "Name",
         "type": "string",
         "default": "string.Empty",
@@ -3841,6 +3841,14 @@
       {
         "description": "Optional metadata placed between the heading and actions.",
         "name": "Meta",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Same slot as Meta under a name Razor can parse. Markup that writes <Meta> is read as the void HTML meta element and leaves the card unbalanced; write <MetaContent> instead.",
+        "name": "MetaContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
         "required": false,
