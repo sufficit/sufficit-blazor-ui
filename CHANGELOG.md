@@ -63,6 +63,7 @@ definem a numeração das próximas publicações.
 
 ### Fixed
 
+- Vitrine publicada travada na versão anterior: `ShowcaseBrowserTests` esperava um número fixo de componentes (68) e bloqueou o deploy do Pages ao adicionar o 69º/70º. A suíte agora deriva as páginas esperadas do próprio `catalog.json` (copiado junto à suíte), então adicionar componente nunca exige editar contagem; o runbook da vitrine documenta a regra de que todo componente novo precisa estar na página gerada.
 - SUINavGroup e SUINavLink: `aria-disabled` era ligado a um `bool` e saía como `aria-disabled=""`; agora emite `"true"` quando desabilitado e omite o atributo caso contrário (tecnologia assistiva ignora o token vazio).
 
 - SUIAutocomplete: o adorno (ícone de busca/loading) usa `display: flex`, para a caixa deslocada por `translateY(-50%)` ter a altura do glifo e não da linha de texto; o ícone fica centralizado no campo.

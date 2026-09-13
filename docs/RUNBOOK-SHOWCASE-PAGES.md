@@ -69,6 +69,15 @@ produção é chamada pelos exemplos.
 
 ## Manter a documentação executável
 
+Regra para todo componente novo: **ele precisa estar na vitrine publicada.** A
+página é gerada a partir de `catalog.json` (`DemoCatalog.Entries`) — item da
+navegação, página executável e parâmetros documentados vêm do catálogo
+regenerado. A suíte `ShowcaseBrowserTests` deriva a contagem esperada do
+`catalog.json` copiado junto à suíte e visita cada página, então não existe
+número fixo para editar: esquecer o exemplo executável ou a regeneração do
+catálogo falha em `generate-catalog.py --check` no CI antes de qualquer
+publicação, nunca em produção.
+
 Para adicionar um componente, crie `Examples/<Nome>Example.razor` na RCL de
 Demos e execute:
 

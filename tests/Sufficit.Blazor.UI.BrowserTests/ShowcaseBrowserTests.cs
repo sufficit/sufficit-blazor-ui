@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Deque.AxeCore.Commons;
 using Deque.AxeCore.Playwright;
 using Microsoft.Playwright;
@@ -35,7 +36,18 @@ public sealed partial class ShowcaseBrowserTests : PageTest
         Page.PageError += (_, error) => errors.Add(error);
         Page.Console += (_, message) => { if (message.Type == "error") errors.Add(message.Text); };
         var links = await Page.Locator(".component-index a").EvaluateAllAsync<string[]>("links => links.map(link => link.href)");
-        Assert.That(links, Has.Length.EqualTo(68));
+        // The showcase is generated from catalog.json (DemoCatalog.Entries), so
+        // the expected pages come from the same file copied next to this suite.
+        // Adding a component must never require editing a hardcoded number
+        // here: regenerate the catalog and commit it — generate-catalog.py
+        // --check in CI blocks a publish that forgot.
+        using var catalog = JsonDocument.Parse(
+            await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "catalog.json")));
+        var expected = catalog.RootElement.EnumerateArray()
+            .Select(entry => entry.GetProperty("name").GetString()!).ToArray();
+        var published = links.Select(link => new Uri(link).Query).ToArray();
+        Assert.That(published, Is.EquivalentTo(expected.Select(name => $"?component={name}")),
+            "Every cataloged component must have an executable showcase page.");
         foreach (var link in links)
         {
             await Page.GotoAsync(link);

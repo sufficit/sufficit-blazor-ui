@@ -29,6 +29,9 @@
     <Content Include="..\..\docs\baselines\catalog\*.png"
              Link="baselines\catalog\%(Filename)%(Extension)"
              CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\samples\Sufficit.Blazor.UI.Demos\catalog.json"
+             Link="catalog.json"
+             CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>
