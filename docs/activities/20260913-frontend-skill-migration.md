@@ -22,4 +22,7 @@ o pacote já publicado no catálogo do Genius e confundia sua origem canônica.
 O catálogo público foi consultado após a publicação: contém 151 entradas, uma
 única origem física `sufficit/sufficit-ai-skills` e a entrada
 `sufficit-frontend` no caminho central esperado. A suíte do repositório confirma
-que a remoção não afeta a biblioteca, a vitrine ou seus testes.
+que a remoção não afeta a biblioteca: os 668 testes de unidade passaram. A
+execução genérica também tentou os testes Playwright sem iniciar a vitrine e
+falhou somente com `ERR_CONNECTION_REFUSED` em `127.0.0.1:5180`; essa execução
+não indicou falha funcional do pacote.
