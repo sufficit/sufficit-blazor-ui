@@ -11,8 +11,10 @@ não deve ter o Blazor UI como origem canônica.
 A pasta `skills/github-cli` foi removida depois que o pacote completo passou
 para `sufficit/sufficit-ai-genius`. O catálogo público foi atualizado primeiro
 para apontar para a nova revisão imutável, evitando interromper novas
-instalações. `skills/sufficit-frontend` e `skills/sui-design` permanecem neste
-repositório porque tratam diretamente da biblioteca e do frontend Sufficit.
+instalações. Naquele momento, `skills/sufficit-frontend` e `skills/sui-design`
+permaneceram neste repositório. A migração posterior da skill geral de frontend
+para o catálogo público central está registrada em
+[20260913-frontend-skill-migration.md](20260913-frontend-skill-migration.md).
 
 Os relatórios históricos das entregas originais foram preservados como registro
 do que ocorreu; este documento representa a localização vigente.
