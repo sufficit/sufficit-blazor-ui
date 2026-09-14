@@ -2,8 +2,14 @@
 .sui-tabs__list {
   display: flex;
   gap: var(--sui-space-1);
-  border-bottom: 1px solid var(--sui-border);
+  /* The divider is an inset shadow, not a real border: the active tab's 2px
+     indicator must paint over it, and doing that with a negative margin would
+     push the buttons 1px past this box's content edge. Since overflow-x is
+     auto, the y axis computes to auto too, and that 1px of vertical overflow
+     is enough for the browser to show a bogus vertical scrollbar. */
+  box-shadow: inset 0 -1px 0 var(--sui-border);
   overflow-x: auto;
+  overflow-y: hidden;
   scrollbar-width: thin;
   scrollbar-color: var(--sui-border-strong) transparent;
 }
@@ -20,7 +26,6 @@
   color: var(--sui-text-secondary);
   cursor: pointer;
   border-bottom: 2px solid transparent;
-  margin-bottom: -1px;
   transition: color var(--sui-transition), border-color var(--sui-transition);
   white-space: nowrap;
 }
@@ -42,7 +47,14 @@
 }
 
 .sui-tabs--vertical { display: grid; grid-template-columns: minmax(140px, 180px) minmax(0, 1fr); gap: var(--sui-space-4); align-items: start; }
-.sui-tabs--vertical > .sui-tabs__list { flex-direction: column; border-bottom: 0; border-inline-end: 1px solid var(--sui-border); }
-.sui-tabs--vertical > .sui-tabs__list > .sui-tab { text-align: start; white-space: normal; margin: 0; border-bottom: 0; border-inline-start: 3px solid transparent; }
+.sui-tabs--vertical > .sui-tabs__list {
+  flex-direction: column;
+  /* Stacked tabs never scroll sideways: drop the horizontal divider/overflow
+     set up for the horizontal variant and let the column grow naturally. */
+  box-shadow: none;
+  border-inline-end: 1px solid var(--sui-border);
+  overflow: visible;
+}
+.sui-tabs--vertical > .sui-tabs__list > .sui-tab { text-align: start; white-space: normal; border-bottom: 0; border-inline-start: 3px solid transparent; }
 .sui-tabs--vertical > .sui-tabs__list > .sui-tab.is-active { color: var(--sui-text-primary); border-inline-start-color: var(--sui-color-primary); background: var(--sui-color-primary-soft); }
 .sui-tabs--vertical > .sui-tabs__panels { min-width: 0; padding-block: 0; }
