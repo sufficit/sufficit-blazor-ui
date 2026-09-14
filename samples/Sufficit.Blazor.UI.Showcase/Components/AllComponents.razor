@@ -1,0 +1,79 @@
+@*
+    Single-screen conference view: every catalogued component rendered at once,
+    in one continuous document, the way the final test screenshot shows them.
+
+    The list is NOT hand-written. It is projected from DemoCatalog.Entries —
+    the same catalog.json that drives the per-component pages and that
+    scripts/generate-catalog.py --check keeps in sync with the library. A new
+    component therefore appears here automatically; nobody can add a component
+    and forget to put it on the conference screen.
+*@
+
+<PageTitle>Todos os componentes — Sufficit.Blazor.UI</PageTitle>
+
+<div class="all-components" data-all-components-ready data-component-count="@DemoCatalog.Entries.Count">
+    <h1>Todos os componentes<br />em uma tela.</h1>
+    <p class="lead">
+        @DemoCatalog.Entries.Count componentes renderizados de uma vez, na ordem do catálogo,
+        para conferência visual rápida — o mesmo conjunto capturado na imagem final dos testes.
+        Use o tema no topo da página para conferir claro, escuro e densidade.
+    </p>
+
+    <nav class="all-components__jump" aria-label="Famílias de componentes">
+        @foreach (var family in Families)
+        {
+            <a href="@($"?view=all#{Slug(family.Key)}")">@family.Key <span>@family.Count()</span></a>
+        }
+    </nav>
+
+    @foreach (var family in Families)
+    {
+        <section class="all-components__family" id="@Slug(family.Key)" aria-labelledby="@($"{Slug(family.Key)}-title")">
+            <h2 id="@($"{Slug(family.Key)}-title")">@family.Key <span>@family.Count()</span></h2>
+            <div class="all-components__grid">
+                @foreach (var entry in family)
+                {
+                    <article class="all-components__item" aria-labelledby="@($"{Slug(entry.Name)}-name")">
+                        <header>
+                            <h3 id="@($"{Slug(entry.Name)}-name")">@entry.Name</h3>
+                            <a href="@($"?component={entry.Name}")">Abrir <span aria-hidden="true">↗</span></a>
+                        </header>
+                        @* Each example owns its state, so key by name to keep the
+                           instances stable when the page re-renders. *@
+                        <div class="all-components__preview">
+                            <DynamicComponent @key="entry.Name" Type="DemoCatalog.ExampleType(entry.Name)" />
+                        </div>
+                    </article>
+                }
+            </div>
+        </section>
+    }
+</div>
+
+@code {
+    private static IEnumerable<IGrouping<string, DemoEntry>> Families
+        => DemoCatalog.Entries.GroupBy(entry => entry.Family);
+
+    /// <summary>
+    /// Anchor-safe id for a family or component name. Family names are accented
+    /// Portuguese ("Ações", "Navegação"); a raw name in the fragment would have
+    /// to be percent-encoded to round-trip through the query-string router.
+    /// </summary>
+    private static string Slug(string value)
+    {
+        var normalized = value.Normalize(System.Text.NormalizationForm.FormD);
+        var builder = new System.Text.StringBuilder(normalized.Length);
+        foreach (var character in normalized)
+        {
+            if (System.Globalization.CharUnicodeInfo.GetUnicodeCategory(character)
+                == System.Globalization.UnicodeCategory.NonSpacingMark)
+            {
+                continue;
+            }
+
+            builder.Append(char.IsLetterOrDigit(character) ? char.ToLowerInvariant(character) : '-');
+        }
+
+        return builder.ToString().Trim('-');
+    }
+}
