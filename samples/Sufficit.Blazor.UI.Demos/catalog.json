@@ -450,6 +450,14 @@
     "parameters": [
       {
         "description": "",
+        "name": "ButtonTypeValue",
+        "type": "SUIButtonType?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -458,32 +466,8 @@
       },
       {
         "description": "",
-        "name": "OnClick",
-        "type": "EventCallback<MouseEventArgs>",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "IsLoading",
-        "type": "bool",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "Disabled",
-        "type": "bool",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "VariantValue",
-        "type": "SUIVariant?",
+        "name": "Class",
+        "type": "string?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -498,16 +482,16 @@
       },
       {
         "description": "",
-        "name": "ButtonTypeValue",
-        "type": "SUIButtonType?",
+        "name": "Disabled",
+        "type": "bool",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
       },
       {
         "description": "",
-        "name": "SizeValue",
-        "type": "SUISize?",
+        "name": "EndIcon",
+        "type": "string?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -522,16 +506,24 @@
       },
       {
         "description": "",
-        "name": "StartIcon",
+        "name": "Href",
         "type": "string?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
       },
       {
+        "description": "Reage ao clique antes da resposta do servidor: o botão é marcado na fase de captura do clique e o spinner assume quando IsLoading chega.",
+        "name": "InstantFeedback",
+        "type": "bool",
+        "default": "true",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "",
-        "name": "EndIcon",
-        "type": "string?",
+        "name": "IsLoading",
+        "type": "bool",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -540,6 +532,22 @@
         "description": "Custom loading indicator: inner SVG content (paths). Null = the default 3/4 arc, a stroke-based glyph with no arrowhead so the rotation always reads as forward motion.",
         "name": "LoadingIcon",
         "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "OnClick",
+        "type": "EventCallback<MouseEventArgs>",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "SizeValue",
+        "type": "SUISize?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -554,23 +562,7 @@
       },
       {
         "description": "",
-        "name": "Href",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "Target",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "Class",
+        "name": "StartIcon",
         "type": "string?",
         "default": "Padrão do tipo",
         "required": false,
@@ -586,9 +578,25 @@
       },
       {
         "description": "",
+        "name": "Target",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "VariantValue",
+        "type": "SUIVariant?",
+        "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
       }
