@@ -2461,6 +2461,14 @@
         "deprecated": false
       },
       {
+        "description": "What the browser submits for this box when it is checked inside a plain HTML form. Not the checked state — that is Value. Unset keeps the HTML default, which submits \"on\".",
+        "name": "FormValue",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "Optional stable input id. A unique id is generated when omitted.",
         "name": "Id",
         "type": "string?",

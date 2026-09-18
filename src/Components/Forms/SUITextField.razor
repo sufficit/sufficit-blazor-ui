@@ -10,7 +10,8 @@
     }
     @if (Multiline)
     {
-        <textarea class="sui-field__input sui-field__input--multiline"
+        <textarea @ref="_inputElement"
+                  class="sui-field__input sui-field__input--multiline"
                   id="@EffectiveId"
                   rows="@EffectiveRows"
                   style="height:auto;min-height:108px;padding:var(--sui-space-3);resize:vertical"
@@ -187,6 +188,18 @@
 
     private Task OnInput(ChangeEventArgs e)
         => Immediate ? SetValue(e.Value) : Task.CompletedTask;
+
+    /// <summary>
+    /// Moves keyboard focus to this field's control, in either mode.
+    /// </summary>
+    /// <remarks>
+    /// An editor that appears in response to an action has to take focus when
+    /// it appears, and only the caller knows when that was. The component
+    /// already focuses its own input when the clear action runs; this is the
+    /// same handle, made available to the page — as <c>SUIButton</c> does.
+    /// </remarks>
+    public ValueTask FocusAsync(bool preventScroll = false)
+        => _inputElement.FocusAsync(preventScroll);
 
     private async Task ClearAsync()
     {
