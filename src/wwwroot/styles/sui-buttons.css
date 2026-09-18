@@ -106,11 +106,8 @@
 
 /* Pressed, before the server answered. Set by SUILoadingButton.razor.js in the
    capture phase of the click, so the button reacts without waiting for the
-   circuit; IsLoading replaces it with the real spinner when it arrives. */
-.sui-btn--pending {
-  cursor: progress;
-  pointer-events: none;
-}
+   circuit; IsLoading then replaces it with the real spinner. */
+.sui-btn--pending { cursor: progress; pointer-events: none; }
 .sui-btn--pending::after {
   content: "";
   position: absolute;
@@ -120,8 +117,8 @@
   border: 2px solid currentColor;
   border-top-color: transparent;
   border-radius: 50%;
-  opacity: 0.7;
-  animation: sui-btn-pending-spin 0.7s linear infinite;
+  opacity: .7;
+  animation: sui-btn-pending-spin .7s linear infinite;
 }
 @keyframes sui-btn-pending-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) {
