@@ -16,11 +16,13 @@
            aria-describedby="@(!string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null)"
            aria-errormessage="@(!string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null)"
            @onchange="OnChanged" />
+    @* The tick is always in the markup and revealed by :checked, so the box
+       shows the state the browser already has. Rendering it from Value made
+       the control depend on a re-render: under static server rendering that
+       never comes, and the box stayed empty however many times it was
+       clicked. *@
     <span class="sui-checkbox__box" aria-hidden="true">
-        @if (Value)
-        {
-            <SUIIcon Name="check" Size="16" />
-        }
+        <SUIIcon Name="check" Size="16" />
     </span>
     @if (!string.IsNullOrWhiteSpace(Label))
     {

@@ -38,9 +38,23 @@
   transition: background var(--sui-transition), border-color var(--sui-transition), box-shadow var(--sui-transition);
 }
 
-.sui-checkbox--checked .sui-checkbox__box {
+/* Driven by :checked so the box answers the click itself. The modifier class
+   is kept alongside it: consumers style it, and it still reflects the bound
+   value once a re-render arrives. */
+.sui-checkbox__box svg {
+  opacity: 0;
+  transition: opacity var(--sui-transition);
+}
+
+.sui-checkbox--checked .sui-checkbox__box,
+.sui-checkbox__input:checked + .sui-checkbox__box {
   background: var(--sui-color-primary);
   border-color: var(--sui-color-primary);
+}
+
+.sui-checkbox--checked .sui-checkbox__box svg,
+.sui-checkbox__input:checked + .sui-checkbox__box svg {
+  opacity: 1;
 }
 
 .sui-checkbox__label {
@@ -69,7 +83,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sui-checkbox__box {
+  .sui-checkbox__box,
+  .sui-checkbox__box svg {
     transition: none;
   }
 }

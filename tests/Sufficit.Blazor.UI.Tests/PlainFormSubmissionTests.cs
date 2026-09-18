@@ -39,6 +39,20 @@ public sealed class PlainFormSubmissionTests
     }
 
     [Fact]
+    public void CheckboxShowsItsTickWithoutWaitingForARerender()
+    {
+        using var context = new BunitContext();
+
+        // Under static server rendering there is no re-render to wait for, and
+        // two of the three checkboxes this library has to serve live there.
+        // The tick has to be in the markup, revealed by :checked.
+        var cut = context.Render<SUICheckbox>(p => p.Add(x => x.Name, "RememberMe"));
+
+        Assert.NotNull(cut.Find(".sui-checkbox__box svg"));
+        Assert.DoesNotContain("sui-checkbox--checked", cut.Find("label").ClassName);
+    }
+
+    [Fact]
     public void ChoiceCardSubmitsTheOptionItAlreadyRepresents()
     {
         using var context = new BunitContext();
