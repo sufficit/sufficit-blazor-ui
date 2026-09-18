@@ -16,9 +16,17 @@ public sealed class FieldActionsBrowserTests : PageTest
         var toolbar = Page.GetByTestId("field-actions-toolbar");
         var input = toolbar.GetByLabel("Buscar no console");
         var button = toolbar.GetByRole(AriaRole.Button, new() { Name = "Pausar exibição" });
+        // Both boxes are measured, so both have to be laid out first. Waiting
+        // only for the input left BoundingBoxAsync free to answer null for the
+        // button, and the null-forgiving operator turned that into a
+        // NullReferenceException one line later — intermittently, on WebKit,
+        // where it has now failed two releases.
         await Expect(input).ToBeVisibleAsync();
-        var fieldBox = (await input.BoundingBoxAsync())!;
-        var buttonBox = (await button.BoundingBoxAsync())!;
+        await Expect(button).ToBeVisibleAsync();
+        var fieldBox = await input.BoundingBoxAsync();
+        var buttonBox = await button.BoundingBoxAsync();
+        Assert.That(fieldBox, Is.Not.Null, "The field reported no layout box.");
+        Assert.That(buttonBox, Is.Not.Null, "The action reported no layout box.");
         if (width > 600)
         {
             Assert.That(buttonBox.Y + buttonBox.Height,
