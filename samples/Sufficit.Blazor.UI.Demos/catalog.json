@@ -450,88 +450,8 @@
     "parameters": [
       {
         "description": "",
-        "name": "ButtonTypeValue",
-        "type": "SUIButtonType?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "Class",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "ColorValue",
-        "type": "SUIColor?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "Disabled",
-        "type": "bool",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "EndIcon",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "FullWidth",
-        "type": "bool",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "Href",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "Reage ao clique antes da resposta do servidor: o botão é marcado na fase de captura do clique e o spinner assume quando IsLoading chega.",
-        "name": "InstantFeedback",
-        "type": "bool",
-        "default": "true",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "IsLoading",
-        "type": "bool",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "Custom loading indicator: inner SVG content (paths). Null = the default 3/4 arc, a stroke-based glyph with no arrowhead so the rotation always reads as forward motion.",
-        "name": "LoadingIcon",
-        "type": "string?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -546,8 +466,88 @@
       },
       {
         "description": "",
+        "name": "IsLoading",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "InstantFeedback",
+        "type": "bool",
+        "default": "true",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "Disabled",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "VariantValue",
+        "type": "SUIVariant?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "ColorValue",
+        "type": "SUIColor?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "ButtonTypeValue",
+        "type": "SUIButtonType?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
         "name": "SizeValue",
         "type": "SUISize?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "FullWidth",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "StartIcon",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "EndIcon",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Custom loading indicator: inner SVG content (paths). Null = the default 3/4 arc, a stroke-based glyph with no arrowhead so the rotation always reads as forward motion.",
+        "name": "LoadingIcon",
+        "type": "string?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -562,15 +562,7 @@
       },
       {
         "description": "",
-        "name": "StartIcon",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "Style",
+        "name": "Href",
         "type": "string?",
         "default": "Padrão do tipo",
         "required": false,
@@ -586,17 +578,25 @@
       },
       {
         "description": "",
-        "name": "UserAttributes",
-        "type": "Dictionary<string, object?>",
-        "default": "new()",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
       },
       {
         "description": "",
-        "name": "VariantValue",
-        "type": "SUIVariant?",
+        "name": "Style",
+        "type": "string?",
         "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "UserAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
         "required": false,
         "deprecated": false
       }
@@ -2461,7 +2461,7 @@
         "deprecated": false
       },
       {
-        "description": "What the browser submits for this box when it is checked inside a plain HTML form. Not the checked state — that is Value. Unset keeps the HTML default, which submits \"on\".",
+        "description": "What the browser submits for this box when it is checked inside a plain HTML form — not the checked state, which is Value. A checkbox with no value attribute submits the literal \"on\", which an endpoint parsing a boolean cannot read; set this to the token the receiver expects, usually \"true\". Left unset the HTML default is kept, so existing forms are unaffected. An unchecked box submits nothing at all, so the receiver has to read an absent field as false.",
         "name": "FormValue",
         "type": "string?",
         "default": "Padrão do tipo",

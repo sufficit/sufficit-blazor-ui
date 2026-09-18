@@ -66,18 +66,13 @@
 
     /// <summary>
     /// What the browser submits for this box when it is checked inside a plain
-    /// HTML form.
+    /// HTML form — not the checked state, which is <see cref="Value"/>. A
+    /// checkbox with no value attribute submits the literal "on", which an
+    /// endpoint parsing a boolean cannot read; set this to the token the
+    /// receiver expects, usually "true". Left unset the HTML default is kept,
+    /// so existing forms are unaffected. An unchecked box submits nothing at
+    /// all, so the receiver has to read an absent field as false.
     /// </summary>
-    /// <remarks>
-    /// Not to be confused with <see cref="Value"/>, which is the checked state.
-    /// A checkbox with no value attribute submits the literal <c>on</c>, and an
-    /// endpoint that parses a boolean cannot read that. Set this to the token
-    /// the receiver expects — usually <c>"true"</c>. Left unset, the component
-    /// keeps the HTML default, so existing forms are unaffected.
-    ///
-    /// Unchecked boxes submit nothing at all: that is HTML, not this component,
-    /// and a receiver has to read an absent field as false.
-    /// </remarks>
     [Parameter]
     public string? FormValue { get; set; }
 
