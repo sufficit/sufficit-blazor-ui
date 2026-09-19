@@ -8,6 +8,17 @@ definem a numeração das próximas publicações.
 
 ## [Unreleased]
 
+### Added
+
+- `ISUIToast`/`SUIToastService` + `SUIToastHost`: notificações assertivas
+  transitórias (`role="alert"`) empilhadas no canto inferior direito, com
+  variantes de tom (info/sucesso/aviso/erro), duração configurável, botão de
+  ação opcional (`Add(message, severity, durationMs, actionLabel, onAction)`)
+  e limite de 3 visíveis. Complementa o `ISUISnackbar` (polite, centralizado):
+  erros que exigem atenção usam toast; confirmações comuns continuam no
+  snackbar. Registrado em `AddSufficitUI`; renderize `<SUIToastHost />` no
+  app shell junto aos demais hosts.
+
 ### Removed (breaking)
 
 - As 26 pontes `object`/`string` marcadas `[Obsolete]` foram removidas:

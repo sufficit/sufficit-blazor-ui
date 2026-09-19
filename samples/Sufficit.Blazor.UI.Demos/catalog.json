@@ -2201,6 +2201,12 @@
     ]
   },
   {
+    "name": "SUIToastHost",
+    "family": "Feedback",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIButton OnClick=\"Alert\">Disparar toast</SUIButton>\n<p>O host de toasts está instalado na raiz desta vitrine.</p>\n\n@code {\n    [Inject] protected ISUIToast Toast { get; set; } = default!;\n    protected void Alert() => Toast.Add(\"Não foi possível concluir a operação.\", \"danger\", actionLabel: \"Tentar de novo\", onAction: () => Toast.Info(\"Nova tentativa iniciada.\"));\n}\n",
+    "parameters": []
+  },
+  {
     "name": "SUIAutocomplete",
     "family": "Formulários",
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIAutocomplete T=\"string\" Label=\"Cidade\" SearchFuncAsync=\"Search\" MinCharacters=\"1\" Placeholder=\"Digite para buscar\" Clearable />\n\n@code {\n    protected string[] Cities { get; } = [\"São Paulo\", \"Rio de Janeiro\", \"Curitiba\", \"Porto Alegre\"];\n    protected async Task<IEnumerable<string>> Search(string text, CancellationToken token)\n    {\n        await Task.Delay(150, token);\n        return Cities.Where(city => city.Contains(text, StringComparison.OrdinalIgnoreCase));\n    }\n}\n",

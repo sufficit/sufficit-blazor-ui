@@ -34,6 +34,7 @@ public static partial class DemoCatalog
         "SUIStatusBadge" => typeof(Examples.SUIStatusBadgeExample),
         "SUIStatusBanner" => typeof(Examples.SUIStatusBannerExample),
         "SUIToast" => typeof(Examples.SUIToastExample),
+        "SUIToastHost" => typeof(Examples.SUIToastHostExample),
         "SUIAutocomplete" => typeof(Examples.SUIAutocompleteExample),
         "SUICheckbox" => typeof(Examples.SUICheckboxExample),
         "SUIChoiceCard" => typeof(Examples.SUIChoiceCardExample),

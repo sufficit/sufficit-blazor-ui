@@ -7,6 +7,7 @@
   inset-inline-end: 16px;
   inset-block-end: max(16px, env(safe-area-inset-bottom, 0px));
   z-index: var(--sui-z-toast, 1500);
+  --_t: var(--sui-color-error);
   display: flex;
   align-items: flex-start;
   gap: var(--sui-space-3);
@@ -20,9 +21,15 @@
   font-family: var(--sui-font);
   animation: sui-toast-in 220ms cubic-bezier(.22, 1, .36, 1) both;
 }
-.sui-toast--error {
-  border-color: color-mix(in srgb,var(--sui-color-error) 38%,var(--sui-border));
+.sui-toast--error,
+.sui-toast--info,
+.sui-toast--success,
+.sui-toast--warning {
+  border-color: color-mix(in srgb,var(--_t) 38%,var(--sui-border));
 }
+.sui-toast--info { --_t: var(--sui-color-info); }
+.sui-toast--success { --_t: var(--sui-color-success); }
+.sui-toast--warning { --_t: var(--sui-color-warning); }
 .sui-toast__icon {
   display: grid;
   place-items: center;
@@ -30,8 +37,8 @@
   width: 28px;
   height: 28px;
   border-radius: var(--sui-radius-full);
-  background: color-mix(in srgb,var(--sui-color-error) 12%,transparent);
-  color: var(--sui-color-error);
+  background: color-mix(in srgb,var(--_t) 12%,transparent);
+  color: var(--_t);
   font-size: 16px;
 }
 .sui-toast__content {
@@ -51,6 +58,17 @@
   text-decoration: none;
 }
 .sui-toast__reload:hover { text-decoration: underline; }
+.sui-toast__action {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--sui-color-primary);
+  font: inherit;
+  font-size: var(--sui-fs-button);
+  font-weight: 600;
+  cursor: pointer;
+}
+.sui-toast__action:hover { text-decoration: underline; }
 .sui-toast__dismiss {
   display: grid;
   place-items: center;
@@ -73,6 +91,23 @@
 #blazor-error-ui.sui-toast--global-error { display: none; }
 #blazor-error-ui.sui-toast--global-error[style*="display: block"] { display: flex; }
 
+/* SUIToastHost stack: owns the viewport slot; hosted toasts flow as rows. */
+.sui-toast-host {
+  position: fixed;
+  inset-inline-end: 16px;
+  inset-block-end: max(16px, env(safe-area-inset-bottom, 0px));
+  z-index: var(--sui-z-toast, 1500);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sui-space-2);
+  width: min(420px, calc(100vw - 32px));
+}
+.sui-toast-host .sui-toast {
+  position: relative;
+  inset-inline-end: auto;
+  inset-block-end: auto;
+}
+
 @keyframes sui-toast-in {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
@@ -82,6 +117,10 @@
   .sui-toast {
     inset-inline: 12px;
     inset-block-end: max(12px, env(safe-area-inset-bottom, 0px));
+    width: auto;
+  }
+  .sui-toast-host {
+    inset-inline: 12px;
     width: auto;
   }
 }

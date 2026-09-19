@@ -7,6 +7,7 @@ namespace Sufficit.Blazor.UI.Demos;
 public abstract class DemoBase : ComponentBase
 {
     [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;
+    [Inject] protected ISUIToast Toast { get; set; } = default!;
     [Inject] protected ISUIDialogService Dialogs { get; set; } = default!;
     protected string? Text { get; set; } = "Operação Sudeste";
     protected int Count { get; set; } = 3;
@@ -21,6 +22,7 @@ public abstract class DemoBase : ComponentBase
     protected string[] Cities { get; } = ["São Paulo", "Rio de Janeiro", "Curitiba", "Porto Alegre"];
     protected string[] Rows { get; } = ["Telefonia", "Provisionamento", "Atendimento"];
     protected void Notify() => Snackbar.Success("Exemplo executado com sucesso.");
+    protected void Alert() => Toast.Add("Não foi possível concluir a operação.", "danger", actionLabel: "Tentar de novo", onAction: () => Toast.Info("Nova tentativa iniciada."));
     protected void Reset() { Text = "Operação Sudeste"; Snackbar.Info("Alterações descartadas."); }
     protected async Task Confirm() => Snackbar.Info(await Dialogs.ConfirmAsync("Confirmar alteração", "Aplicar a configuração de demonstração?") ? "Confirmado." : "Cancelado.");
     protected async Task Decide()
