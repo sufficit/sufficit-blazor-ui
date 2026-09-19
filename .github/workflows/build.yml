@@ -18,9 +18,11 @@ on:
   pull_request:
 
 permissions:
-  # write is needed by the baseline-refresh path in browser-tests, which commits
-  # the recaptured screenshots back to the branch. Every other job only reads.
-  contents: write
+  # Read-only by default. Every job here restores npm and NuGet packages and
+  # installs browsers, so a compromised dependency would run with whatever this
+  # token carries. The one job that needs to write (baseline-refresh) requests
+  # it at job level instead, and opens a pull request rather than pushing.
+  contents: read
 
 concurrency:
   group: build-${{ github.ref }}
@@ -178,6 +180,16 @@ jobs:
         with:
           dotnet-version: "10.0.x"
 
+      # These two ran only in pages.yml, which does not trigger on tags, so a
+      # release could ship with a stale catalog or with documented examples that
+      # no longer compile. Publishing depends on this job, so checking here gates
+      # the tag too.
+      - name: Check generated catalog is current
+        run: python3 scripts/generate-catalog.py --check
+
+      - name: Check catalog examples still compile
+        run: python3 scripts/check-catalog-examples.py
+
       - name: Test bUnit contracts
         run: |
           set -o pipefail
@@ -304,25 +316,23 @@ jobs:
         env:
           BROWSER: ${{ matrix.browser }}
 
-      - name: Commit regenerated baselines
+      - name: Upload regenerated baselines
         # Only on an explicit manual run with update-baselines, and only from
         # chromium, which is the engine the committed screenshots are captured
-        # with (the test ignores itself on the others).
+        # with (the test ignores itself on the others). This job holds a
+        # read-only token on purpose: the screenshots travel to baseline-refresh
+        # as an artifact, and that job opens a pull request with them. Pushing
+        # straight to the branch made the visual gate's own ground truth change
+        # without review.
         if: >
           github.event_name == 'workflow_dispatch'
           && github.event.inputs.update-baselines == 'true'
           && matrix.browser == 'chromium'
-        run: |
-          set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/baselines/catalog
-          if git diff --cached --quiet; then
-            echo "Baselines already current."
-            exit 0
-          fi
-          git commit -m "chore(baselines): recapture catalog visual baselines"
-          git push
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: recaptured-baselines
+          if-no-files-found: error
+          path: docs/baselines/catalog
 
       - name: Surface failing assertions
         # Test artifacts land in storage that is not reachable from every
@@ -366,6 +376,57 @@ jobs:
             artifacts/visual/${{ matrix.browser }}
             catalog.log
             catalog-subpath.log
+
+  baseline-refresh:
+    name: Open baseline refresh pull request
+    # The only job in this workflow that writes. It installs nothing and runs no
+    # third-party code beyond the two pinned actions below, so the write token is
+    # not exposed to a restored dependency.
+    needs: browser-tests
+    if: >
+      github.event_name == 'workflow_dispatch'
+      && github.event.inputs.update-baselines == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Download recaptured baselines
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          name: recaptured-baselines
+          path: docs/baselines/catalog
+
+      - name: Open pull request with the recaptured baselines
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/baselines/catalog
+          if git diff --cached --quiet; then
+            echo "Baselines already current; nothing to review."
+            exit 0
+          fi
+          branch="baselines/recapture-${GITHUB_RUN_ID}"
+          git checkout -b "$branch"
+          git commit -m "chore(baselines): recapture catalog visual baselines"
+          git push origin "$branch"
+          gh pr create \
+            --base "$GITHUB_REF_NAME" \
+            --head "$branch" \
+            --title "chore(baselines): recapture catalog visual baselines" \
+            --body "Recaptured by run [\`${GITHUB_RUN_ID}\`](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}) from chromium.
+
+          Review the image diff before merging: these screenshots are what the
+          visual gate compares against, so anything accepted here becomes the
+          definition of correct."
 
   lighthouse:
     name: Lighthouse performance gate
@@ -422,7 +483,10 @@ jobs:
           mkdir -p artifacts/lighthouse
           CHROME_PATH="$(find "$HOME/.cache/ms-playwright" -maxdepth 3 -name chrome -type f | head -1)"
           export CHROME_PATH
-          npx --yes lighthouse@12 "$SUI_CATALOG_URL" \
+          # Pinned exactly: "lighthouse@12" resolved to whatever the registry
+          # served that minute, so the gate's own tooling could change without a
+          # commit, and a compromised release would run here unreviewed.
+          npx --yes lighthouse@12.8.2 "$SUI_CATALOG_URL" \
             --preset=desktop \
             --quiet \
             --output=json \
@@ -471,7 +535,22 @@ jobs:
         shell: bash
         run: |
           package_version="$(python3 scripts/release_version.py "$GITHUB_REF_NAME")"
+          release_channel="$(python3 scripts/release_version.py --channel "$GITHUB_REF_NAME")"
           echo "SUI_PACKAGE_VERSION=$package_version" >> "$GITHUB_ENV"
+          echo "SUI_RELEASE_CHANNEL=$release_channel" >> "$GITHUB_ENV"
+          # A labelled tag (2.yy.MMdd.HHmm-rc.1) publishes as a NuGet
+          # pre-release, which floating "2.*" consumers do not resolve; a bare
+          # tag reaches every one of them on their next restore. Say which is
+          # happening, because the two are one character apart in the tag name.
+          {
+            echo "### Publishing \`$package_version\`"
+            echo
+            if [[ "$release_channel" == "prerelease" ]]; then
+              echo "Channel: **pre-release**. Consumers pinned to \`2.*\` will not receive it."
+            else
+              echo "Channel: **stable**. Every consumer pinned to \`2.*\` receives this on their next restore."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Restore
         run: dotnet restore src/Sufficit.Blazor.UI.csproj

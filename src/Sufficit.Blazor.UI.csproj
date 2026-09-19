@@ -21,8 +21,13 @@
          range. 2.yy.MMdd.HHmm orders above every legacy version. Capture the
          clock once; CI passes VersionSuffix to pin every artifact to the tag. -->
     <VersionSuffix Condition=" '$(Configuration)' != 'Debug' And '$(VersionSuffix)' == '' ">2.$([System.DateTime]::UtcNow.ToString('yy.MMdd.HHmm'))</VersionSuffix>
+    <!-- The package version may carry a SemVer pre-release label (2.yy.MMdd.HHmm-rc.1),
+         but AssemblyVersion and FileVersion accept digits only and the compiler
+         rejects the labelled string outright (CS7034/CS7035). Strip the label for
+         the assembly identity and keep the full value for the package. -->
+    <SuiAssemblyVersion Condition=" '$(VersionSuffix)' != '' ">$([System.Text.RegularExpressions.Regex]::Replace('$(VersionSuffix)', '-.*$', ''))</SuiAssemblyVersion>
     <AssemblyVersion Condition=" '$(VersionSuffix)' == '' ">2.99.0.0</AssemblyVersion>
-    <AssemblyVersion Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</AssemblyVersion>
+    <AssemblyVersion Condition=" '$(VersionSuffix)' != '' ">$(SuiAssemblyVersion)</AssemblyVersion>
     <Version Condition=" '$(VersionSuffix)' == '' ">2.99.0.0</Version>
     <Version Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</Version>
     <FileVersion>$(AssemblyVersion)</FileVersion>
@@ -48,6 +53,13 @@
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageIcon>icon.png</PackageIcon>
     <EnablePackageValidation>true</EnablePackageValidation>
+    <!-- Without a baseline version this validated only that the package is
+         self-consistent, which for a single-TFM package is close to validating
+         nothing: a member could disappear between releases and pack stayed
+         green. Pointing it at the last published version makes pack download
+         that package and fail on a binary break. Bump it when a release goes
+         out; leaving it behind only widens the comparison window. -->
+    <PackageValidationBaselineVersion Condition=" '$(PackageValidationBaselineVersion)' == '' ">2.26.918.1935</PackageValidationBaselineVersion>
     <!-- Consumer tooling: XML docs feed IntelliSense, the .snupkg and Source
          Link let a consumer step into component code. Every public member
          carries a summary; with warnings as errors, CS1591 keeps it that way. -->

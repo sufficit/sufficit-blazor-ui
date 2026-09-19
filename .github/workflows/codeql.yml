@@ -22,15 +22,27 @@ concurrency:
 
 jobs:
   analyze:
-    name: Analyze C#
+    name: Analyze ${{ matrix.language }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - language: csharp
+            build-mode: manual
+          # The package ships twelve .razor.js interop modules plus the showcase
+          # theme script. They touch the DOM, popovers and the clipboard, and
+          # were the only shipped code no analysis ever looked at.
+          - language: javascript-typescript
+            build-mode: none
 
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Setup .NET
+        if: matrix.language == 'csharp'
         uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           dotnet-version: "10.0.x"
@@ -38,10 +50,11 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@cdf488f595d80d6e07e03d4674febd5ab45fa938 # v4.37.9
         with:
-          languages: csharp
-          build-mode: manual
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
 
       - name: Build
+        if: matrix.language == 'csharp'
         run: |
           dotnet restore src/Sufficit.Blazor.UI.csproj
           dotnet build src/Sufficit.Blazor.UI.csproj --no-restore --configuration Release -warnaserror
@@ -49,4 +62,4 @@ jobs:
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@cdf488f595d80d6e07e03d4674febd5ab45fa938 # v4.37.9
         with:
-          category: "/language:csharp"
+          category: "/language:${{ matrix.language }}"
