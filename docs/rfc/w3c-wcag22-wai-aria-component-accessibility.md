@@ -1,7 +1,7 @@
 # W3C WCAG 2.2 (A/AA) + WAI-ARIA 1.2 — component accessibility
 
-**Status:** 🟡 partial — strong ARIA/keyboard implementation and CI-enforced WCAG 2.2 AA sweeps; interactive tables now follow the grid/row-focus pattern and sortable headers emit `aria-sort`. One low gap remains: icon-only buttons still rely on the consumer for their accessible name.
-**Last reviewed:** 2026-09-19T18:01Z · working tree over `3e152ec` (fix pass for the 16:56Z findings)
+**Status:** ✅ compliant — strong ARIA/keyboard implementation and CI-enforced WCAG 2.2 AA sweeps; interactive tables follow the grid/row-focus pattern and sortable headers emit `aria-sort`. The icon-button accessible name stays a documented consumer contract (see *Intentional divergences*).
+**Last reviewed:** 2026-09-19T19:37Z · working tree over `e1b1391`
 **Project role:** component library consumed by Blazor apps (SSR + interactive). Accessibility is the library's contractual surface, enforced in CI.
 
 ## What the standard requires
@@ -32,14 +32,13 @@ Only the requirements that touch a UI component library:
 
 ## Gaps
 
-| Priority | Gap | Concrete impact | Recommendation |
-|---|---|---|---|
-| 🔵 | Icon-only path depends on consumer-provided `Title`/`AriaLabel` (`src/Components/Actions/SUIIconButton.razor:26`, `:34`) | Missing parameter yields an unnamed button (axe catches it in samples, not in consumer apps) | Make the accessible name `[EditorRequired]`-style enforced, or emit a default label from the icon name |
+None open. The icon-only accessible name, the last 🔵 of the 16:56Z review, is now a documented contract rather than a gap — see *Intentional divergences*.
 
-Searches performed for claimed absences: `EditorRequired` on icon-button name params under `src/Components/Actions/` (none); `role="button"` on `tr` in `src/**/*.razor` (none after this pass).
+Searches performed for claimed absences: `role="button"` on `tr` in `src/**/*.razor` (none after this pass).
 
 ## Intentional divergences
 
+- `SUIIconButton.Title` is nullable, not `[EditorRequired]`: the accessible name may legitimately come from an `aria-label`/`aria-labelledby` attribute or from visible `ChildContent` text, which the component cannot inspect. The contract — an icon-only button MUST get a name from one of the three, `Title` preferred — is documented on the parameter (`src/Components/Actions/SUIIconButton.razor:53`–`:64`) and in the generated catalog; `Title` renders as `aria-label` on both the button and anchor forms (`:26`, `:34`). Consumer apps that omit all three still ship an unnamed button (SC 4.1.2); only the catalog's axe sweep catches it.
 - `SUICopyToClipboard` with `ChildContent` renders a click-only `<span>` (no role/tabindex) — keyboard access is deliberately the child's job, documented in `src/Components/Actions/SUICopyToClipboard.razor:10`–`:12`. The default path (own icon button, accessible name at `:88`–`:90`) is the compliant one.
 
 ## Revision history
@@ -47,6 +46,7 @@ Searches performed for claimed absences: `EditorRequired` on icon-button name pa
 | Reviewed (UTC) | Commit | Summary of changes |
 |---|---|---|
 | 2026-09-19T16:56Z | `9cbc7ea` | Initial analysis (regenerate mode) |
+| 2026-09-19T19:37Z | `e1b1391` + doc | Icon-button accessible name reclassified as a documented contract (inline XML doc on `Title`); status → compliant |
 | 2026-09-19T18:01Z | `3e152ec` + fix | Resolved 🔶 `tr[role=button]` (grid + row focus) and 🔵 missing `aria-sort` (SUITh ← SUITableSortLabel); autocomplete line citations refreshed |
 
 ## References

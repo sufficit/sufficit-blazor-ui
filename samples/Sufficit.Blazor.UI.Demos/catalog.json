@@ -267,7 +267,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "SUI icon name or inline SVG drawn by the button. Decorative: it carries no accessible name.",
         "name": "Icon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -275,7 +275,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Accessible name, rendered as aria-label. An icon-only button has no text for assistive technology to read, so it MUST receive a name from one of: this parameter (preferred, e.g. Title=\"Excluir pedido\"), an explicit aria-label/aria-labelledby attribute, or visible text in ChildContent. It stays nullable because the last two are valid sources the component cannot see; leaving all three empty yields an unnamed button (WCAG 2.2 SC 4.1.2), which axe reports in the catalog but nothing catches in a consumer app.",
         "name": "Title",
         "type": "string?",
         "default": "Padrão do tipo",

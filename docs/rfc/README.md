@@ -1,6 +1,6 @@
 # Standards adherence review — index
 
-**Last review:** 2026-09-19T18:01Z · working tree over `3e152ec` (mode: fix pass — the six ranked findings of the 16:56Z review at `9cbc7ea` were fixed in code and the affected documents revised; `AGENTS.md` in this folder is the process file and is not part of the review).
+**Last review:** 2026-09-19T19:37Z · `e1b1391` + doc (fix pass at 18:01Z resolved the six ranked findings of the 16:56Z review at `9cbc7ea`; at 19:37Z the icon-button name became a documented contract; `AGENTS.md` in this folder is the process file and is not part of the review).
 
 Every changed claim was re-verified against the code in this run; unit tests (bUnit) and Chromium browser tests (axe WCAG 2.2 AA sweeps + grid keyboard) pass.
 
@@ -9,11 +9,7 @@ Every changed claim was re-verified against the code in this run; unit tests (bU
 
 ## Highest-risk findings
 
-No 🔴 or 🔶 findings. Open:
-
-| # | Priority | Finding | Document |
-|---|---|---|---|
-| 1 | 🔵 | `SUIIconButton` icon-only path relies on the consumer for its accessible name (`Title`/`AriaLabel`) | [w3c-wcag22-wai-aria-component-accessibility.md](w3c-wcag22-wai-aria-component-accessibility.md) |
+No open findings. The icon-button accessible name (last open 🔵) became a documented contract at 19:37Z — see *Intentional divergences*.
 
 Resolved in the 18:01Z fix pass (were #1–#6 at 16:56Z):
 
@@ -32,7 +28,7 @@ Resolved in the 18:01Z fix pass (were #1–#6 at 16:56Z):
 
 | Document | Standard | Status |
 |---|---|---|
-| [w3c-wcag22-wai-aria-component-accessibility.md](w3c-wcag22-wai-aria-component-accessibility.md) | W3C WCAG 2.2 (A/AA) + WAI-ARIA 1.2 | 🟡 partial (one 🔵 open) |
+| [w3c-wcag22-wai-aria-component-accessibility.md](w3c-wcag22-wai-aria-component-accessibility.md) | W3C WCAG 2.2 (A/AA) + WAI-ARIA 1.2 | ✅ compliant |
 
 ### Web platform — HTML and browser APIs
 
@@ -74,6 +70,7 @@ All searches below ran over `src/`, `samples/`, `tests/`, `scripts/`, `eng/`, `.
 
 ## Intentional divergences (preserved across documents)
 
+- `SUIIconButton.Title` stays nullable: the name may come from `aria-label`/`aria-labelledby` or visible text; the obligation is documented inline on the parameter (accessibility doc).
 - `SUICopyToClipboard` with `ChildContent` renders a click-only `<span>` — keyboard access is the child's job (accessibility + clipboard docs).
 - Modal dialogs use `div[role=dialog]` with a manual focus trap instead of `<dialog>`/`showModal()`, so dialog content stays in Blazor's render tree (HTML doc).
 - Menus degrade to inline (non-top-layer) rendering when the Popover API is missing — deliberate progressive enhancement (HTML doc).
