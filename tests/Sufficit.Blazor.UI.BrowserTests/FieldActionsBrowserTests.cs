@@ -16,17 +16,16 @@ public sealed class FieldActionsBrowserTests : PageTest
         var toolbar = Page.GetByTestId("field-actions-toolbar");
         var input = toolbar.GetByLabel("Buscar no console");
         var button = toolbar.GetByRole(AriaRole.Button, new() { Name = "Pausar exibição" });
-        // Both boxes are measured, so both have to be laid out first. Waiting
-        // only for the input left BoundingBoxAsync free to answer null for the
-        // button, and the null-forgiving operator turned that into a
-        // NullReferenceException one line later — intermittently, on WebKit,
-        // where it has now failed two releases.
+        // Both boxes are measured, so both have to be laid out first. Waiting for
+        // visibility is necessary but not sufficient: the circuit can re-render
+        // and replace the element between the assertion and the measurement, and
+        // a single read then answers null. That failed on WebKit while Chromium
+        // and Firefox passed, and passed on re-run with no code change, so the
+        // reads poll until the box has area.
         await Expect(input).ToBeVisibleAsync();
         await Expect(button).ToBeVisibleAsync();
-        var fieldBox = await input.BoundingBoxAsync();
-        var buttonBox = await button.BoundingBoxAsync();
-        Assert.That(fieldBox, Is.Not.Null, "The field reported no layout box.");
-        Assert.That(buttonBox, Is.Not.Null, "The action reported no layout box.");
+        var fieldBox = await input.RequireBoundingBoxAsync("The field");
+        var buttonBox = await button.RequireBoundingBoxAsync("The action");
         if (width > 600)
         {
             Assert.That(buttonBox.Y + buttonBox.Height,
