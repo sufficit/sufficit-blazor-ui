@@ -4,18 +4,17 @@ name: Build
 on:
   workflow_dispatch:
     inputs:
-      verify-publishing-auth:
-        description: "Verify NuGet Trusted Publishing login without publishing a package"
-        type: boolean
-        default: false
       update-baselines:
         description: "Recapture the committed visual baselines (chromium only)"
         type: boolean
         default: false
+  # Tags are handled by publish.yml, which reuses these gates through
+  # workflow_call and then pushes. Listening for tags here too would run every
+  # gate twice for one release.
   push:
     branches: [main]
-    tags: ["v*"]
   pull_request:
+  workflow_call:
 
 permissions:
   # Read-only by default. Every job here restores npm and NuGet packages and
@@ -29,37 +28,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  publishing-authentication:
-    name: Verify NuGet Trusted Publishing
-    if: >
-      github.event_name == 'workflow_dispatch'
-      && inputs.verify-publishing-auth
-      && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    environment: production
-    timeout-minutes: 5
-    permissions:
-      contents: read
-      id-token: write
-    steps:
-      - name: Verify NuGet policy creator is configured
-        env:
-          NUGET_USER: ${{ vars.NUGET_USER }}
-        run: |
-          test -n "$NUGET_USER" || { echo "Set Actions variable NUGET_USER to the NuGet username that created the trust policy (not the package owner)." >&2; exit 1; }
-      - name: Authenticate with NuGet using GitHub OIDC
-        id: login
-        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
-        with:
-          user: ${{ vars.NUGET_USER }}
-      - name: Verify temporary credential was issued
-        env:
-          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
-        run: test -n "$NUGET_API_KEY"
-
   css:
     name: CSS bundle and budget
-    if: github.event_name != 'workflow_dispatch' || !inputs.verify-publishing-auth
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -506,76 +476,3 @@ jobs:
             artifacts/lighthouse/report.json
             catalog.log
 
-  publish:
-    name: Publish tagged package
-    if: startsWith(github.ref, 'refs/tags/v')
-    needs: [css, pack, component-tests, browser-tests, lighthouse]
-    runs-on: ubuntu-latest
-    environment: production
-    timeout-minutes: 20
-    permissions:
-      contents: read
-      id-token: write
-
-    steps:
-      - name: Verify NuGet policy creator is configured
-        env:
-          NUGET_USER: ${{ vars.NUGET_USER }}
-        run: |
-          test -n "$NUGET_USER" || { echo "Set Actions variable NUGET_USER to the NuGet username that created the trust policy (not the package owner)." >&2; exit 1; }
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
-        with:
-          dotnet-version: "10.0.x"
-
-      - name: Validate release tag
-        shell: bash
-        run: |
-          package_version="$(python3 scripts/release_version.py "$GITHUB_REF_NAME")"
-          release_channel="$(python3 scripts/release_version.py --channel "$GITHUB_REF_NAME")"
-          echo "SUI_PACKAGE_VERSION=$package_version" >> "$GITHUB_ENV"
-          echo "SUI_RELEASE_CHANNEL=$release_channel" >> "$GITHUB_ENV"
-          # A labelled tag (2.yy.MMdd.HHmm-rc.1) publishes as a NuGet
-          # pre-release, which floating "2.*" consumers do not resolve; a bare
-          # tag reaches every one of them on their next restore. Say which is
-          # happening, because the two are one character apart in the tag name.
-          {
-            echo "### Publishing \`$package_version\`"
-            echo
-            if [[ "$release_channel" == "prerelease" ]]; then
-              echo "Channel: **pre-release**. Consumers pinned to \`2.*\` will not receive it."
-            else
-              echo "Channel: **stable**. Every consumer pinned to \`2.*\` receives this on their next restore."
-            fi
-          } >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Restore
-        run: dotnet restore src/Sufficit.Blazor.UI.csproj
-
-      - name: Pack exact release artifact
-        run: |
-          dotnet pack src/Sufficit.Blazor.UI.csproj \
-            --no-restore --configuration Release --output artifacts/packages \
-            /p:VersionSuffix="$SUI_PACKAGE_VERSION" \
-            /p:ContinuousIntegrationBuild=true
-
-      - name: Validate exact release artifact
-        run: ./scripts/validate-package.sh artifacts/packages/*.nupkg
-
-      # Request the short-lived credential after validation, immediately before push.
-      - name: Authenticate with NuGet using GitHub OIDC
-        id: login
-        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
-        with:
-          user: ${{ vars.NUGET_USER }}
-
-      - name: Publish to NuGet.org
-        env:
-          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
-        run: |
-          dotnet nuget push artifacts/packages/*.nupkg \
-            --source https://api.nuget.org/v3/index.json \
-            --api-key "$NUGET_API_KEY"

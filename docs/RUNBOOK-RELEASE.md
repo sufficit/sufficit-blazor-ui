@@ -26,14 +26,22 @@ o workflow falha explicitamente antes de solicitar a credencial. A política dev
 
 - Repository Owner: `sufficit`;
 - Repository: `sufficit-blazor-ui`;
-- Workflow File: `build.yml`;
-- Environment: `production` (também configurado nos jobs de login e publicação).
+- Workflow File: `publish.yml`;
+- Environment: `production` (também configurado nos jobs de login e publicação);
+- Escopos: *Push new packages and package versions* **e** *Unlist or relist
+  package versions* (o job de limpeza usa a mesma credencial).
+
+O NuGet valida o arquivo de workflow **onde o token OIDC é gerado**, não quem
+disparou a execução. Por isso todo job que chama `NuGet/login` fica em
+`publish.yml`; os gates moram em `build.yml` e são reusados via `workflow_call`.
+Um job de login declarado no workflow reusável reportaria `build.yml` e falharia
+com `HTTP 401 Workflow mismatch`.
 
 Para validar somente a troca OIDC, sem gerar/publicar pacote adicional:
 
 ```bash
-gh workflow run build.yml --repo sufficit/sufficit-blazor-ui --ref main \
-  -f verify-publishing-auth=true
+gh workflow run publish.yml --repo sufficit/sufficit-blazor-ui --ref main \
+  -f verify-auth=true
 ```
 
 A execução manual com essa opção não roda os demais gates nem publica pacotes.
@@ -78,13 +86,23 @@ NuGet.org não permite exclusão permanente por numeração incorreta. Deslistar
 remove a descoberta normal e preserva restauração por versão exata:
 https://learn.microsoft.com/en-us/nuget/nuget-org/policies/deleting-packages
 
-O workflow manual `maintenance.yml` (`NuGet legacy version cleanup`) é limitado ao pacote
+O job manual `unlist-legacy`, em `publish.yml`, é limitado ao pacote
 `Sufficit.Blazor.UI` e às versões `1.27.0`, `1.28.0`, `2.0.0`, `2.1.1`, `2.2.1`.
-Primeiro publique uma substituta no padrão corporativo. Informe `replacement`
-no workflow; `apply=false` apenas consulta, `apply=true` deslista usando
-`NUGET_API_KEY` com permissão de unlist. O script rejeita substituta ausente ou
-não listada. Depois confira `listed=false` no catálogo NuGet, considerando o
-atraso de indexação. Versões corporativas anteriores não entram na operação.
+Primeiro publique uma substituta no padrão corporativo. Informe `replacement`;
+`apply=false` apenas consulta, `apply=true` deslista. A credencial é a mesma
+credencial OIDC de curta duração da publicação — a política de Trusted
+Publishing precisa incluir o escopo *Unlist or relist package versions*, senão
+o `DELETE` responde `HTTP 403`. Não há `NUGET_API_KEY` de vida longa no
+repositório.
+
+```bash
+gh workflow run publish.yml --repo sufficit/sufficit-blazor-ui --ref main \
+  -f unlist-legacy=true -f replacement=<2.yy.MMdd.HHmm> -f apply=false
+```
+
+O script rejeita substituta ausente ou não listada. Depois confira
+`listed=false` no catálogo NuGet, considerando o atraso de indexação. Versões
+corporativas anteriores não entram na operação.
 
 Deslistar não afeta ranges flutuantes: `dotnet restore` resolve versões não
 listadas quando são as mais altas do range (verificado em 2026-09-11 com
