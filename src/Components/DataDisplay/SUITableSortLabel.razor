@@ -3,8 +3,8 @@
 
 @* Rendered as a button, not a clickable th: sorting is an action, and without
    button semantics it is unreachable by keyboard and silent to screen readers.
-   aria-sort belongs on the th, so the consumer sets it there — this component
-   exposes SortDirection so that value is easy to derive. *@
+   aria-sort belongs on the th: inside a SUITh the label reports its direction
+   there; under a raw th the consumer sets aria-sort from SortDirection. *@
 <button type="button" class="@Classname" @onclick="ToggleAsync" @attributes="AdditionalAttributes">
     <span class="sui-sort-label__text">@ChildContent</span>
     <span class="sui-sort-label__icon" aria-hidden="true">
@@ -59,6 +59,12 @@
 
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
+
+    [CascadingParameter]
+    private SUITh? Header { get; set; }
+
+    protected override void OnParametersSet()
+        => Header?.ReportSort(SortDirection);
 
     private string Classname
         => SUIClassBuilder.Default("sui-sort-label")

@@ -4,6 +4,8 @@
 <label class="@Classname" @attributes="AdditionalAttributes">
     <input type="checkbox" class="sui-switch__input"
            id="@EffectiveId"
+           name="@Name"
+           value="@FormValue"
            aria-labelledby="@(string.IsNullOrWhiteSpace(Label) ? null : LabelId)"
            aria-describedby="@DescribedBy"
            aria-invalid="@(HasError ? "true" : null)"
@@ -57,6 +59,10 @@
     }.Where(value => value is not null)) is { Length: > 0 } ids ? ids : null;
 
     [Parameter] public string? Id { get; set; }
+    /// <summary>Optional form field name, so the switch takes part in a plain HTML form post.</summary>
+    [Parameter] public string? Name { get; set; }
+    /// <summary>Token submitted while on (HTML default "on"); an off switch submits nothing.</summary>
+    [Parameter] public string? FormValue { get; set; }
     /// <summary>Help associated with the checkbox, separate from its accessible name.</summary>
     [Parameter] public string? HelperText { get; set; }
     [Parameter] public string? ErrorText { get; set; }

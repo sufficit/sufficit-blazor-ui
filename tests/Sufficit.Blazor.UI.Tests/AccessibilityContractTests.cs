@@ -230,7 +230,7 @@ public sealed class AccessibilityContractTests
     }
 
     [Fact]
-    public void Table_UsesScopedHeadersFullEmptyColspanAndKeyboardRows()
+    public void Table_UsesScopedHeadersFullEmptyColspanAndGridRows()
     {
         using var context = new BunitContext();
         var header = context.Render<SUITh>(parameters => parameters.AddChildContent("Serviço"));
@@ -243,9 +243,10 @@ public sealed class AccessibilityContractTests
                 (RenderFragment)(builder => builder.AddContent(0, "Sem registros"))));
         Assert.Equal("3", empty.Find("tbody td").GetAttribute("colspan"));
 
+        context.JSInterop.Mode = JSRuntimeMode.Loose;
         var clicks = 0;
         var interactive = context.Render<SUITable<string>>(parameters => parameters
-            .Add(component => component.Items, ["API"])
+            .Add(component => component.Items, ["API", "SIP"])
             .Add(component => component.RowTemplate,
                 item => builder =>
                 {
@@ -253,14 +254,26 @@ public sealed class AccessibilityContractTests
                     builder.AddContent(1, item);
                     builder.CloseElement();
                 })
+            .Add(component => component.RowAriaLabelFunc, item => $"Abrir {item}")
             .Add(component => component.OnRowClick, _ => clicks++));
-        var row = interactive.Find("tbody tr");
 
-        Assert.Equal("button", row.GetAttribute("role"));
-        Assert.Equal("0", row.GetAttribute("tabindex"));
-        row.KeyDown(new KeyboardEventArgs { Key = "Enter" });
-        row.KeyDown(new KeyboardEventArgs { Key = " " });
-        Assert.Equal(2, clicks);
+        // Grid with row focus (not tr[role=button]); one row in the tab order.
+        Assert.Equal("grid", interactive.Find("table").GetAttribute("role"));
+        var rows = interactive.FindAll("tbody tr");
+        Assert.All(rows, row => Assert.Null(row.GetAttribute("role")));
+        Assert.Equal("0", rows[0].GetAttribute("tabindex"));
+        Assert.Equal("-1", rows[1].GetAttribute("tabindex"));
+        Assert.Equal("Abrir SIP", rows[1].GetAttribute("aria-label"));
+
+        rows[1].Focus();
+        rows = interactive.FindAll("tbody tr");
+        Assert.Equal("-1", rows[0].GetAttribute("tabindex"));
+        Assert.Equal("0", rows[1].GetAttribute("tabindex"));
+
+        rows[1].Click();
+        Assert.Equal(1, clicks);
+        interactive.WaitForAssertion(() => Assert.Single(context.JSInterop.Invocations,
+            call => call.Identifier == "import" && call.Arguments[0] is string path && path.EndsWith("SUITable.razor.js")));
     }
 
     [Fact]

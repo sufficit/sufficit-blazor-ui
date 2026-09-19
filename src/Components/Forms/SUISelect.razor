@@ -75,6 +75,13 @@
             }
         </div>
 
+        @* The trigger is a button, which submits nothing: a plain HTML form
+           only sees the selection through this proxy. *@
+        @if (!string.IsNullOrWhiteSpace(Name))
+        {
+            <input type="hidden" name="@Name" value="@FormValue" disabled="@Disabled" />
+        }
+
         @if (!string.IsNullOrWhiteSpace(HelperText))
         {
             <span id="@HelperId" class="sui-field__helper">@HelperText</span>

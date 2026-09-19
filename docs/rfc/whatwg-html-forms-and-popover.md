@@ -1,7 +1,7 @@
 # WHATWG HTML — form participation and the Popover API
 
-**Status:** 🟡 partial — native form controls and the Popover API are used correctly with graceful fallbacks, but form participation (name/value submission) is only first-class on three of the form components.
-**Last reviewed:** 2026-09-19T16:56Z · commit `9cbc7ea`
+**Status:** ✅ compliant — native form controls and the Popover API are used correctly with graceful fallbacks, and every value-bearing form component takes `Name` first-class and submits an invariant token.
+**Last reviewed:** 2026-09-19T18:01Z · working tree over `3e152ec` (fix pass for the 16:56Z findings)
 **Project role:** rendering library — emits HTML form controls and consumes browser APIs; never handles form data server-side (hosts do).
 
 ## What the standard requires
@@ -18,9 +18,15 @@ Only the requirements that touch this project:
 - Native form controls that submit:
   - checkbox — `src/Components/Forms/SUICheckbox.razor:6`–`:13` (`id`, `name="@Name"`, `type=checkbox`, `value="@FormValue"`, `checked`), `Name` parameter at `:65`;
   - choice card — `src/Components/Forms/SUIChoiceCard.razor:12` (`name="@Name"`), `Name` parameter at `:101`;
-  - date field — hidden proxy input `src/Components/Forms/SUIDateField.razor:38` (`<input type="hidden" name="@Name" value="@FormValue" disabled="@Disabled">`), `Name` parameter `src/Components/Forms/SUIDateField.razor.cs:75`, `FormValue` ISO at `:147`.
+  - date field — hidden proxy input `src/Components/Forms/SUIDateField.razor:38` (`<input type="hidden" name="@Name" value="@FormValue" disabled="@Disabled">`), `Name` parameter `src/Components/Forms/SUIDateField.razor.cs:75`, `FormValue` ISO at `:147`;
+  - text field — `name="@Name"` on both the textarea and the input (`src/Components/Forms/SUITextField.razor:16`, `:34`), `Name` parameter `:120`;
+  - numeric field — `name="@Name"` `src/Components/Forms/SUINumericField.razor:16`, `Name` parameter `:123`;
+  - select — the trigger is a `button` (submits nothing), so a hidden proxy input is rendered when `Name` is set: `src/Components/Forms/SUISelect.razor:82`; value from the bound `Value` or the item marked `Selected` (`src/Components/Forms/SUISelect.razor.cs:134`–`:135`), `Name`/`ToFormValueFunc` at `:64`/`:68`;
+  - autocomplete — the text box holds display text, so the chosen value goes through a hidden proxy input `src/Components/Forms/SUIAutocomplete.razor:36`; `Name`/`ToFormValueFunc` at `src/Components/Forms/SUIAutocomplete.razor.cs:66`/`:70` (a `name` attribute no longer lands on the root `div` via attribute forwarding);
+  - switch — native checkbox with `name="@Name"`/`value="@FormValue"` like `SUICheckbox` (`src/Components/Forms/SUISwitch.razor:7`–`:8`), parameters at `:63`/`:65`;
+  - tokens are culture-invariant — `src/Utilities/SUIFormValue.cs:14`–`:26` (ISO dates, `true`/`false`, `Convert.ToString(…, InvariantCulture)`), verified in `tests/Sufficit.Blazor.UI.Tests/PlainFormSubmissionTests.cs` (`SelectSubmitsItsValueThroughAHiddenProxy` under a `pt-BR` culture, `AutocompleteSubmitsTheChosenValueNotTheDisplayText`, `TextNumericAndSwitchFieldsTakeANameFirstClass`).
 - Popover API, top layer:
-  - `popover="manual"` on the Select menu `src/Components/Forms/SUISelect.razor:55`, the Autocomplete list `src/Components/Forms/SUIAutocomplete.razor:63`, the DateField calendar `src/Components/Forms/SUIDateField.razor:49`;
+  - `popover="manual"` on the Select menu `src/Components/Forms/SUISelect.razor:55`, the Autocomplete list `src/Components/Forms/SUIAutocomplete.razor:69`, the DateField calendar `src/Components/Forms/SUIDateField.razor:49`;
   - feature detection before use — `src/Components/Forms/SUISelect.razor.js:96` (`typeof menu.showPopover !== 'function'` → early return, menu still opens as an inline positioned element via its `--open` class), `showPopover()` wrapped in `try/catch` with a warning `:101`–`:107`, `hidePopover()` guarded `:147`–`:148`;
   - `:popover-open` probe guarded by `try/catch` `src/Components/Forms/SUISelect.razor.js:6`–`:10` (same guard in `src/Components/Forms/SUIDateField.razor.js:6`–`:10`);
   - viewport-aware placement while in the top layer `src/Components/Forms/SUISelect.razor.js:12`–`:44` (and `src/Components/Forms/SUIDateField.razor.js:29`–`:58`), RTL-aware `:30`–`:35`.
@@ -28,12 +34,9 @@ Only the requirements that touch this project:
 
 ## Gaps
 
-| Priority | Gap | Concrete impact | Recommendation |
-|---|---|---|---|
-| 🔵 | `SUITextField` (`src/Components/Forms/SUITextField.razor:31`–`:44`) and `SUINumericField` (`src/Components/Forms/SUINumericField.razor:14`–`:27`) have no `Name` parameter; `name` reaches the input only via unmatched-attribute forwarding (`SUITextField.razor:153`, `SUINumericField.razor:162`) | Inconsistent authoring: three components take `Name` first-class, two others need `name="…" @attributes` knowledge; plain-HTML posts from those fields depend on the consumer remembering the escape hatch | Add a `Name` parameter mirroring `SUIDateField`/`SUICheckbox`/`SUIChoiceCard`, or document the forwarding pattern for every form component |
-| 🔵 | `SUISelect` and `SUIAutocomplete` render no proxy input, so their selected value is invisible to plain HTML form posts | Server-side form binding (`Request.Form`) cannot see the selection without JS/Blazor interactivity | Follow the `SUIDateField` hidden-input pattern when `Name` is set |
+None open. The two 🔵 gaps of the 16:56Z review (no first-class `Name` on text/numeric fields; no proxy input on select/autocomplete) are resolved — see the form-control list above.
 
-Searches performed for claimed absences: `type="hidden"` in `*.razor` under `src/Components` (only `SUIDateField.razor:38`); `public string? Name` in `src/Components/Forms` (only `SUIDateField.razor.cs:75`, `SUIChoiceCard.razor:101`, `SUICheckbox.razor:65`).
+Searches performed: `type="hidden"` in `*.razor` under `src/Components` (`SUIDateField.razor:38`, `SUISelect.razor:82`, `SUIAutocomplete.razor:36`); `public string? Name` in `src/Components/Forms` (checkbox, choice card, date field, text field, numeric field, select, autocomplete, switch).
 
 ## Intentional divergences
 
@@ -46,6 +49,7 @@ Searches performed for claimed absences: `type="hidden"` in `*.razor` under `src
 | Reviewed (UTC) | Commit | Summary of changes |
 |---|---|---|
 | 2026-09-19T16:56Z | `9cbc7ea` | Initial analysis (regenerate mode) |
+| 2026-09-19T18:01Z | `3e152ec` + fix | `Name` on text/numeric fields; hidden proxy inputs on select/autocomplete with invariant tokens; `Name`/`FormValue` on switch; status → compliant |
 
 ## References
 

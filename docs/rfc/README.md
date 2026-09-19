@@ -1,24 +1,30 @@
 # Standards adherence review — index
 
-**Last review:** 2026-09-19T16:56Z · commit `9cbc7ea` (mode: regenerate — first run in this repository; `AGENTS.md` in this folder is the process file and is not part of the review).
+**Last review:** 2026-09-19T18:01Z · working tree over `3e152ec` (mode: fix pass — the six ranked findings of the 16:56Z review at `9cbc7ea` were fixed in code and the affected documents revised; `AGENTS.md` in this folder is the process file and is not part of the review).
 
-Reviewers ran serially in one agent (no sub-agents available in this environment); every claim was re-verified against the working tree in this run.
+Every changed claim was re-verified against the code in this run; unit tests (bUnit) and Chromium browser tests (axe WCAG 2.2 AA sweeps + grid keyboard) pass.
 
 **Status legend:** ✅ compliant · 🟡 partial · 🔴 missing · ⚪ partially not applicable
 **Priority legend:** 🔴 high (security, data loss, broken clients) · 🔶 medium (interoperability, reliability) · 🔵 low (polish, future-proofing)
 
 ## Highest-risk findings
 
-No 🔴 findings. Ranked findings, highest first:
+No 🔴 or 🔶 findings. Open:
 
 | # | Priority | Finding | Document |
 |---|---|---|---|
-| 1 | 🔶 | `SUITable` interactive rows use `tr[role=button]`, an ARIA-incompatible role/element combination announced inconsistently by screen readers | [w3c-wcag22-wai-aria-component-accessibility.md](w3c-wcag22-wai-aria-component-accessibility.md) |
-| 2 | 🔵 | `SUITextField`/`SUINumericField` take no `Name`; plain-HTML form posts depend on attribute-forwarding knowledge | [whatwg-html-forms-and-popover.md](whatwg-html-forms-and-popover.md) |
-| 3 | 🔵 | `SUISelect`/`SUIAutocomplete` selected value is invisible to plain HTML form posts (no hidden proxy input) | [whatwg-html-forms-and-popover.md](whatwg-html-forms-and-popover.md) |
-| 4 | 🔵 | `aria-sort` is never emitted by the library; sortable tables depend on the consumer remembering a code comment | [w3c-wcag22-wai-aria-component-accessibility.md](w3c-wcag22-wai-aria-component-accessibility.md) |
-| 5 | 🔵 | Clipboard fallback depends on deprecated `document.execCommand("copy")` | [whatwg-clipboard-apis.md](whatwg-clipboard-apis.md) |
-| 6 | 🔵 | `SUILink` does not default `rel` for `Target="_blank"`, unlike `SUIButton`/`SUIIconButton` | [rfc-2397-3986-uri-and-data-url-handling.md](rfc-2397-3986-uri-and-data-url-handling.md) |
+| 1 | 🔵 | `SUIIconButton` icon-only path relies on the consumer for its accessible name (`Title`/`AriaLabel`) | [w3c-wcag22-wai-aria-component-accessibility.md](w3c-wcag22-wai-aria-component-accessibility.md) |
+
+Resolved in the 18:01Z fix pass (were #1–#6 at 16:56Z):
+
+| Was | Finding | Resolution |
+|---|---|---|
+| 🔶 | `SUITable` interactive rows used `tr[role=button]` | `role=grid` with row focus, roving `tabindex`, arrow/Home/End/Enter/Space in a target-aware module, optional `RowAriaLabelFunc` |
+| 🔵 | `SUITextField`/`SUINumericField` took no `Name` | First-class `Name` (also added to `SUISwitch`, with `FormValue`) |
+| 🔵 | `SUISelect`/`SUIAutocomplete` selection invisible to plain posts | Hidden proxy input when `Name` is set; invariant token, `ToFormValueFunc` override |
+| 🔵 | `aria-sort` never emitted | `SUITh` renders `aria-sort`, fed by the nested `SUITableSortLabel` or an explicit `SortDirection` |
+| 🔵 | Clipboard fallback on deprecated `execCommand` | Kept for plain HTTP, feature-detected, explicit "HTTPS" reason when unavailable |
+| 🔵 | `SUILink` had no default `rel` for new tabs | `noopener noreferrer` default when `Target` is set and `Rel` is not |
 
 ## Documents by domain
 
@@ -26,14 +32,14 @@ No 🔴 findings. Ranked findings, highest first:
 
 | Document | Standard | Status |
 |---|---|---|
-| [w3c-wcag22-wai-aria-component-accessibility.md](w3c-wcag22-wai-aria-component-accessibility.md) | W3C WCAG 2.2 (A/AA) + WAI-ARIA 1.2 | 🟡 partial |
+| [w3c-wcag22-wai-aria-component-accessibility.md](w3c-wcag22-wai-aria-component-accessibility.md) | W3C WCAG 2.2 (A/AA) + WAI-ARIA 1.2 | 🟡 partial (one 🔵 open) |
 
 ### Web platform — HTML and browser APIs
 
 | Document | Standard | Status |
 |---|---|---|
-| [whatwg-html-forms-and-popover.md](whatwg-html-forms-and-popover.md) | WHATWG HTML — form participation, Popover API | 🟡 partial |
-| [whatwg-clipboard-apis.md](whatwg-clipboard-apis.md) | WHATWG Clipboard API | 🟡 partial |
+| [whatwg-html-forms-and-popover.md](whatwg-html-forms-and-popover.md) | WHATWG HTML — form participation, Popover API | ✅ compliant |
+| [whatwg-clipboard-apis.md](whatwg-clipboard-apis.md) | WHATWG Clipboard API | ✅ compliant |
 
 ### Web platform — security
 
@@ -47,7 +53,7 @@ No 🔴 findings. Ranked findings, highest first:
 |---|---|---|
 | [rfc-9562-guid-identifiers.md](rfc-9562-guid-identifiers.md) | RFC 9562 (UUIDs) | ✅ compliant |
 | [rfc-3339-date-field-form-value.md](rfc-3339-date-field-form-value.md) | RFC 3339 (date representation) | ✅ compliant |
-| [rfc-2397-3986-uri-and-data-url-handling.md](rfc-2397-3986-uri-and-data-url-handling.md) | RFC 3986 (URIs) + RFC 2397 (data: URLs) | 🟡 partial |
+| [rfc-2397-3986-uri-and-data-url-handling.md](rfc-2397-3986-uri-and-data-url-handling.md) | RFC 3986 (URIs) + RFC 2397 (data: URLs) | ✅ compliant |
 
 ## Evaluated without document
 
@@ -63,6 +69,7 @@ All searches below ran over `src/`, `samples/`, `tests/`, `scripts/`, `eng/`, `.
 ## Out-of-scope findings
 
 - `src/Components/DataDisplay/SUIIconMarkup.cs` was an untracked file in the working tree during this review (not part of commit `9cbc7ea`) and was therefore excluded from the analysis. It was subsequently committed by another session as `84c3a07` (inline-SVG validation); it has not yet been reviewed against these standards — cover it in the next revision.
+- The visual baseline test `Catalog_MatchesCommittedVisualBaselines` fails locally (catalog-light-desktop 1440×5380 expected, 1440×5398 rendered) on an unmodified `3e152ec` checkout as well — environment/fonts, not these changes; CI is the reference.
 - No other code defects were noticed during verification (the theme-CSS injection hardening in `SUIThemeCssWriter.cs` was re-read and holds).
 
 ## Intentional divergences (preserved across documents)
@@ -70,6 +77,7 @@ All searches below ran over `src/`, `samples/`, `tests/`, `scripts/`, `eng/`, `.
 - `SUICopyToClipboard` with `ChildContent` renders a click-only `<span>` — keyboard access is the child's job (accessibility + clipboard docs).
 - Modal dialogs use `div[role=dialog]` with a manual focus trap instead of `<dialog>`/`showModal()`, so dialog content stays in Blazor's render tree (HTML doc).
 - Menus degrade to inline (non-top-layer) rendering when the Popover API is missing — deliberate progressive enhancement (HTML doc).
+- The clipboard fallback keeps deprecated `document.execCommand("copy")` for plain-HTTP hosts, feature-detected (clipboard doc).
 - DOM ids use the compact `Guid…:N` form rather than RFC 9562's hyphenated canonical string (UUID doc).
 - Human-visible/announced dates are culture-aware while machine values stay ISO `yyyy-MM-dd` (RFC 3339 doc).
 - `SUILink` never rewrites or re-encodes `Href` (RFC 3986 doc).

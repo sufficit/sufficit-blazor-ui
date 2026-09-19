@@ -1073,9 +1073,17 @@
         "deprecated": false
       },
       {
-        "description": "Called when a row is clicked (item passed).",
+        "description": "Called when a row is clicked or activated with Enter/Space (item passed). Setting it turns the table into a grid: one row is in the tab order and arrow keys, Home and End move between rows.",
         "name": "OnRowClick",
         "type": "EventCallback<T>",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional accessible name for an interactive row, e.g. \"Abrir pedido 42\". Without it the row is announced by its cell contents.",
+        "name": "RowAriaLabelFunc",
+        "type": "Func<T, string?>?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -1384,6 +1392,14 @@
         "name": "Scope",
         "type": "string",
         "default": "\"col\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Sort state announced through aria-sort. Leave unset when the header holds a SUITableSortLabel{T}: the label reports its own state.",
+        "name": "SortDirection",
+        "type": "SUISortDirection?",
+        "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
       },
@@ -2286,6 +2302,22 @@
         "deprecated": false
       },
       {
+        "description": "Form field name. When set, the chosen value is also rendered as a hidden input so a plain HTML form post carries it (the text box holds display text).",
+        "name": "Name",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Converts the chosen value into the submitted token; defaults to its invariant-culture text.",
+        "name": "ToFormValueFunc",
+        "type": "Func<T, string>?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "Extra element ids prepended to the input's aria-describedby.",
         "name": "AriaDescribedBy",
         "type": "string?",
@@ -3001,6 +3033,14 @@
         "deprecated": false
       },
       {
+        "description": "Form field name, so the value takes part in a plain HTML form post.",
+        "name": "Name",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "",
         "name": "Min",
         "type": "T?",
@@ -3208,6 +3248,22 @@
         "deprecated": false
       },
       {
+        "description": "Form field name. When set, the selection is also rendered as a hidden input so a plain HTML form post carries it.",
+        "name": "Name",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Converts the value into the submitted token; defaults to its invariant-culture text.",
+        "name": "ToFormValueFunc",
+        "type": "Func<T, string>?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "Optional CSS width for the open menu. When omitted, the menu sizes itself to its content while preserving the trigger width as its minimum.",
         "name": "MenuWidth",
         "type": "string?",
@@ -3304,6 +3360,22 @@
       {
         "description": "",
         "name": "Id",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional form field name, so the switch takes part in a plain HTML form post.",
+        "name": "Name",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Token submitted while on (HTML default \"on\"); an off switch submits nothing.",
+        "name": "FormValue",
         "type": "string?",
         "default": "Padrão do tipo",
         "required": false,
@@ -3510,6 +3582,14 @@
       {
         "description": "",
         "name": "AriaDescribedBy",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Form field name, so the value takes part in a plain HTML form post.",
+        "name": "Name",
         "type": "string?",
         "default": "Padrão do tipo",
         "required": false,

@@ -1,7 +1,7 @@
 # WHATWG Clipboard API — SUICopyToClipboard
 
-**Status:** 🟡 partial — the async Clipboard API is the primary path with a guarded legacy fallback and surfaced errors; the fallback relies on deprecated `document.execCommand`.
-**Last reviewed:** 2026-09-19T16:56Z · commit `9cbc7ea`
+**Status:** ✅ compliant — the async Clipboard API is the primary path; the legacy fallback for non-secure contexts is feature-detected and, once a browser drops `execCommand`, fails with an explicit "HTTPS required" reason instead of an opaque error.
+**Last reviewed:** 2026-09-19T18:01Z · working tree over `3e152ec` (fix pass for the 16:56Z findings)
 **Project role:** clipboard writer only (copy to clipboard); no paste/read path exists.
 
 ## What the standard requires
@@ -15,27 +15,28 @@ Only the requirements that touch this project:
 ## Where the project complies
 
 - Primary path gated on availability and secure context — `src/Components/Actions/SUICopyToClipboard.razor.js:2`–`:3` (`if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(text)`).
-- Legacy fallback for non-secure contexts — `src/Components/Actions/SUICopyToClipboard.razor.js:7`–`:21` (offscreen `textarea`, `select()`, `document.execCommand("copy")` with a thrown error on `false`, cleanup in `finally` via `area.remove()`).
-- Failures surfaced, not swallowed — `src/Components/Actions/SUICopyToClipboard.razor:104`–`:111` (`catch (Exception ex)` → error toast; exception message trimmed to the first line and 160 chars so interop stack traces never reach the UI).
-- Module lifecycle — lazily imported per instance (`import` call at `src/Components/Actions/SUICopyToClipboard.razor:96`), disposed with the circuit-gone case handled at `:124` (`JSDisconnectedException`).
+- Legacy fallback for non-secure contexts, feature-detected — `src/Components/Actions/SUICopyToClipboard.razor.js:7`–`:9` throws "este navegador só copia em páginas HTTPS" when `document.execCommand` is gone; otherwise `:11`–`:24` (offscreen `textarea`, `select()`, `document.execCommand("copy")` with a thrown error on `false`, cleanup in `finally` via `area.remove()`). Rationale recorded beside the catch, `src/Components/Actions/SUICopyToClipboard.razor:106`–`:108`.
+- Failures surfaced, not swallowed — `src/Components/Actions/SUICopyToClipboard.razor:104`–`:115` (`catch (Exception ex)` → error toast; exception message trimmed to the first line and 160 chars so interop stack traces never reach the UI).
+- Module lifecycle — lazily imported per instance (`import` call at `src/Components/Actions/SUICopyToClipboard.razor:96`), disposed with the circuit-gone case handled at `:127` (`JSDisconnectedException`).
 
 ## Gaps
 
 | Priority | Gap | Concrete impact | Recommendation |
 |---|---|---|---|
-| 🔵 | The fallback path depends on deprecated `document.execCommand("copy")` (`src/Components/Actions/SUICopyToClipboard.razor.js:15`) | Browsers may remove `execCommand`; on plain HTTP the copy button degrades to an error toast when that happens | Keep the fallback but track removal timelines; alternatively accept secure-context-only copying and turn the fallback into an explicit "use HTTPS" message |
+| — | None open. The deprecated `execCommand` fallback is kept deliberately (plain-HTTP intranet hosts still use it) but is now feature-detected with an explicit HTTPS message — see *Intentional divergences*. | — | Re-check when a target browser announces `execCommand` removal. |
 
 Searches performed for claimed absences: `navigator.clipboard` in `*.js` under `src/` (single occurrence, `SUICopyToClipboard.razor.js`); no `readText`/`read()` anywhere in `src/` (read path intentionally absent).
 
 ## Intentional divergences
 
-- None beyond the documented fallback above.
+- The `document.execCommand("copy")` fallback (deprecated) stays for non-secure contexts; its removal degrades to a clear "HTTPS required" toast, not to a silent or opaque failure.
 
 ## Revision history
 
 | Reviewed (UTC) | Commit | Summary of changes |
 |---|---|---|
 | 2026-09-19T16:56Z | `9cbc7ea` | Initial analysis (regenerate mode) |
+| 2026-09-19T18:01Z | `3e152ec` + fix | `execCommand` feature detection with explicit HTTPS reason; status → compliant |
 
 ## References
 

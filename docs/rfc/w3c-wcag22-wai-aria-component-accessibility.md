@@ -1,7 +1,7 @@
 # W3C WCAG 2.2 (A/AA) + WAI-ARIA 1.2 — component accessibility
 
-**Status:** 🟡 partial — the library ships a strong ARIA/keyboard implementation and CI-enforced WCAG 2.2 AA sweeps, but one data-table pattern (`tr[role=button]`) is outside the ARIA role taxonomy.
-**Last reviewed:** 2026-09-19T16:56Z · commit `9cbc7ea`
+**Status:** 🟡 partial — strong ARIA/keyboard implementation and CI-enforced WCAG 2.2 AA sweeps; interactive tables now follow the grid/row-focus pattern and sortable headers emit `aria-sort`. One low gap remains: icon-only buttons still rely on the consumer for their accessible name.
+**Last reviewed:** 2026-09-19T18:01Z · working tree over `3e152ec` (fix pass for the 16:56Z findings)
 **Project role:** component library consumed by Blazor apps (SSR + interactive). Accessibility is the library's contractual surface, enforced in CI.
 
 ## What the standard requires
@@ -19,24 +19,24 @@ Only the requirements that touch a UI component library:
 - Focus visibility beyond axe — `AccessibilityBrowserTests.cs:60` (`KeyboardFocus_IsAlwaysVisibleOnInteractiveElements`); text spacing `:116`–`:127`; heading order `:141`–`:149`.
 - Reflow/zoom/RTL/targets — 200% zoom without horizontal overflow `tests/Sufficit.Blazor.UI.BrowserTests/CatalogBrowserTests.cs:646`–`:647`; RTL at 320px `:651`–`:655`; 44px touch targets `:682`–`:689`; forced-colors emulation asserted `:743`.
 - Combobox pattern (Select) — `src/Components/Forms/SUISelect.razor:21`–`:29` (`role=combobox`, `aria-haspopup=listbox`, `aria-expanded`, `aria-controls`, `aria-activedescendant`), listbox/option `:52`–`:63`; keyboard `ArrowUp/Down/Home/End/Enter/Space/Escape` `src/Components/Forms/SUISelect.razor.js:69`, listener `:73`.
-- Combobox pattern (Autocomplete) — `src/Components/Forms/SUIAutocomplete.razor:16`–`:25` (`role=combobox`, `aria-autocomplete=list`, invalid/errormessage), status live region `:61`, listbox/option/presentation `:65`–`:98`; keys `src/Components/Forms/SUIAutocomplete.razor.js:9`–`:10`.
+- Combobox pattern (Autocomplete) — `src/Components/Forms/SUIAutocomplete.razor:16`–`:25` (`role=combobox`, `aria-autocomplete=list`, invalid/errormessage), status live region `:67`, listbox/option/presentation `:69`–`:104`; keys `src/Components/Forms/SUIAutocomplete.razor.js:9`–`:10`.
 - Dialog (non-modal calendar) — `src/Components/Forms/SUIDateField.razor:13`–`:32` (trigger `button type=button`, `aria-haspopup=dialog`, `aria-expanded`, `aria-controls`), `:41`–`:51` (`role=dialog`, `aria-modal=false`, `lang`/`dir` from effective culture), month announced `:57`, `role=grid`/`row`/`columnheader`/`gridcell`, `aria-selected`, `aria-current=date`, ISO `data-sui-date` `:65`–`:85`; keyboard: open on Enter/Space/ArrowDown, Escape, arrows, Home/End, PageUp/PageDown `src/Components/Forms/SUIDateField.razor.cs:246`–`:303`.
 - Dialog (modal) + focus trap — `src/Components/Overlays/SUIDialogHost.razor:14`–`:17` (`role=dialog`, `aria-modal=true`, `aria-labelledby`, `tabindex=-1`); focus trap with Tab wrap and Escape `src/Components/Overlays/SUIDialogHost.razor.js:26` (focusableElements), `:72` (Escape), `:79`–`:98` (Tab cycling), `:102` (capture listener), initial focus `:113`–`:114`; browser-verified trap `CatalogBrowserTests.cs:530` (`Dialog_TrapsForwardAndBackwardTab`) and Escape `:357`.
 - Tabs — `src/Components/Navigation/SUITabs.razor:8` (tablist), `:17`–`:22` (tab, `aria-selected`, `aria-controls`, roving `tabindex` 0/−1), `:32`–`:36` (tabpanel `tabindex=0`); arrow/Home/End keys `src/Components/Navigation/SUITabs.razor.js:7`.
 - Tooltip pattern — portal element `role=tooltip` `src/Components/Overlays/SUITooltip.razor.js:37`, `aria-hidden` toggling `:38`/`:227`, `aria-describedby` add/remove on the anchor `:149`–`:165`, shown on `focusin` `:270`, content set via `textContent` (no `innerHTML`) `:226`.
 - Live regions — assertive toast `src/Components/Feedback/SUIToast.razor:4` (`role=alert aria-live=assertive`), alert `src/Components/Feedback/SUIAlert.razor:3`, status `src/Components/Feedback/SUIStatusBanner.razor:7`, snackbar `src/Components/Feedback/SUISnackbarHost.razor:9`, polite pending-changes `src/Components/Feedback/SUIPendingChangesBar.razor:13`.
 - Progressbars — `src/Components/Feedback/SUIProgressLinear.razor:4`, `src/Components/Feedback/SUIProgressCircular.razor:8` (`role=progressbar` + valuemin/valuenow-valuemax family).
+- Interactive table rows (grid pattern, row focus) — with `OnRowClick` the table takes `role=grid` (`src/Components/DataDisplay/SUITable.razor:19`); rows keep their implicit `row` role, carry a roving `tabindex` 0/−1 that follows focus (`:47`, `:49`) and an optional accessible name (`RowAriaLabelFunc`, `:46`, `:124`). Keys live in a lazily imported module (`:173`) that only reacts when the row itself is the event target, so controls inside a row keep their keys: Enter/Space activate, ArrowUp/Down/Home/End move focus, browser defaults cancelled (`src/Components/DataDisplay/SUITable.razor.js:9`–`:12`). Verified in bUnit (`tests/Sufficit.Blazor.UI.Tests/AccessibilityContractTests.cs`, `Table_UsesScopedHeadersFullEmptyColspanAndGridRows`) and in Chromium (`tests/Sufficit.Blazor.UI.BrowserTests/TableGridBrowserTests.cs`); read-only tables load no script (`tests/Sufficit.Blazor.UI.Tests/StandardsDefaultsTests.cs`, `Table_WithoutRowClick_StaysAPlainTableAndLoadsNoScript`).
+- Sortable headers announce state — `SUITh` renders `aria-sort` (`src/Components/DataDisplay/SUITh.razor:3`) from an explicit `SortDirection` (`:18`) or from the nested `SUITableSortLabel`, which reports its direction to the enclosing header through a cascade (`src/Components/DataDisplay/SUITableSortLabel.razor:67`, `SUITh.razor:39`). Default markup is compliant without the consumer repeating the direction; covered by `StandardsDefaultsTests.cs` (`SortLabelInsideAHeaderPutsAriaSortOnTheHeader`).
 - Reduced motion — `src/styles/sui-portals.css:108`, `src/styles/sui-shared-skeleton.css:23`, `src/styles/sui-shared-navigation-links-groups-collapse-and-desktop-rail-flyouts-3.css:24`, `src/styles/sui-checkbox.css:85` (all `@media (prefers-reduced-motion: reduce)`).
 
 ## Gaps
 
 | Priority | Gap | Concrete impact | Recommendation |
 |---|---|---|---|
-| 🔶 | Interactive table rows are `<tr role="button" tabindex="0">` (`src/Components/DataDisplay/SUITable.razor:38`–`:41`; keyboard handled in `SUITable.razor.cs:140`) | `role=button` on a `tr` is not an ARIA-allowed role/element combination; screen readers may announce the row inconsistently, and 4.1.2 (name/role/value) relies on non-standard mapping | Render the action as a real button (e.g. first cell) or adopt the `role=grid` + row-activation pattern used by SUIDateField; keep `aria-label` for the action |
-| 🔵 | `aria-sort` never emitted by the library; consumers must set it on the `<th>` themselves (`src/Components/DataDisplay/SUITableSortLabel.razor:6`) | Sortable tables announce state only when the consumer remembers the comment | Offer an optional `SortLabel`→`SUITh` integration (or a `SUISortHeader` that renders the `th` with `aria-sort`), so the default path is compliant |
 | 🔵 | Icon-only path depends on consumer-provided `Title`/`AriaLabel` (`src/Components/Actions/SUIIconButton.razor:26`, `:34`) | Missing parameter yields an unnamed button (axe catches it in samples, not in consumer apps) | Make the accessible name `[EditorRequired]`-style enforced, or emit a default label from the icon name |
 
-Searches performed for claimed absences: `aria-sort` in `*.razor`, `*.cs` under `src/`; `EditorRequired` on icon-button name params under `src/Components/Actions/`.
+Searches performed for claimed absences: `EditorRequired` on icon-button name params under `src/Components/Actions/` (none); `role="button"` on `tr` in `src/**/*.razor` (none after this pass).
 
 ## Intentional divergences
 
@@ -47,6 +47,7 @@ Searches performed for claimed absences: `aria-sort` in `*.razor`, `*.cs` under 
 | Reviewed (UTC) | Commit | Summary of changes |
 |---|---|---|
 | 2026-09-19T16:56Z | `9cbc7ea` | Initial analysis (regenerate mode) |
+| 2026-09-19T18:01Z | `3e152ec` + fix | Resolved 🔶 `tr[role=button]` (grid + row focus) and 🔵 missing `aria-sort` (SUITh ← SUITableSortLabel); autocomplete line citations refreshed |
 
 ## References
 

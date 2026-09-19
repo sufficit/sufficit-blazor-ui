@@ -58,6 +58,17 @@ public partial class SUIAutocomplete<T>
     [Parameter]
     public string? Id { get; set; }
 
+    /// <summary>
+    /// Form field name. When set, the chosen value is also rendered as a hidden
+    /// input so a plain HTML form post carries it (the text box holds display text).
+    /// </summary>
+    [Parameter]
+    public string? Name { get; set; }
+
+    /// <summary>Converts the chosen value into the submitted token; defaults to its invariant-culture text.</summary>
+    [Parameter]
+    public Func<T, string>? ToFormValueFunc { get; set; }
+
     /// <summary>Extra element ids prepended to the input's <c>aria-describedby</c>.</summary>
     [Parameter]
     public string? AriaDescribedBy { get; set; }

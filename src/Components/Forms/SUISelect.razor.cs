@@ -57,6 +57,17 @@ public partial class SUISelect<T>
     public bool Disabled { get; set; }
 
     /// <summary>
+    /// Form field name. When set, the selection is also rendered as a hidden
+    /// input so a plain HTML form post carries it.
+    /// </summary>
+    [Parameter]
+    public string? Name { get; set; }
+
+    /// <summary>Converts the value into the submitted token; defaults to its invariant-culture text.</summary>
+    [Parameter]
+    public Func<T, string>? ToFormValueFunc { get; set; }
+
+    /// <summary>
     /// Optional CSS width for the open menu. When omitted, the menu sizes itself
     /// to its content while preserving the trigger width as its minimum.
     /// </summary>
@@ -119,6 +130,9 @@ public partial class SUISelect<T>
             return string.IsNullOrWhiteSpace(value) ? null : value;
         }
     }
+
+    private string? FormValue
+        => Value is not null ? SUIFormValue.Format(Value, ToFormValueFunc) : SUIFormValue.Format(SelectedItem?.Value);
 
     private bool ShowPlaceholder => !string.IsNullOrWhiteSpace(Placeholder);
 

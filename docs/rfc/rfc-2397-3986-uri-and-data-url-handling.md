@@ -1,7 +1,7 @@
 # RFC 3986 + RFC 2397 — URI handling and data: URLs
 
-**Status:** 🟡 partial — the library is a passive URI emitter (consumer-supplied `href`/`target`/`rel`) with safe defaults on anchor-buttons but not on `SUILink`; the only `data:` URL in the repository is an intentional empty favicon.
-**Last reviewed:** 2026-09-19T16:56Z · commit `9cbc7ea`
+**Status:** ✅ compliant — the library is a passive URI emitter (consumer-supplied `href`/`target`/`rel`) with the same safe new-tab `rel` default on anchor-buttons and `SUILink`; the only `data:` URL in the repository is an intentional empty favicon.
+**Last reviewed:** 2026-09-19T18:01Z · working tree over `3e152ec` (fix pass for the 16:56Z findings)
 
 ## What the standard requires
 
@@ -14,14 +14,15 @@ Only the requirements that touch this project:
 
 - `data:` URL usage is minimal and intentional — empty favicon to suppress the browser's default 404/console error: `samples/Sufficit.Blazor.UI.Catalog/Components/App.razor:13` (rationale in the comment at `:11`–`:12`) and `samples/Sufficit.Blazor.UI.Showcase/wwwroot/index.html:9`. No base64 payloads, no inline media.
 - Anchor-buttons default `rel` for new tabs — external/new-tab anchors get `noopener noreferrer` without consumer opt-in: `src/Components/Actions/SUIButton.razor:92`–`:94`, `src/Components/Actions/SUIIconButton.razor:90`.
-- `SUILink` passes consumer values through untouched — `href="@Href" target="@Target" rel="@Rel"` `src/Components/Actions/SUILink.razor:3` (parameters `:8`–`:16`); the library never rewrites or re-encodes URIs.
+- `SUILink` defaults `rel` like the anchor-buttons — `rel="@EffectiveRel"` `src/Components/Actions/SUILink.razor:3`, `noopener noreferrer` when `Target` is set and not `_self` and `Rel` is unset (`:28`–`:31`); an explicit `Rel` always wins. Covered by `tests/Sufficit.Blazor.UI.Tests/StandardsDefaultsTests.cs` (`LinkDefaultsRelLikeTheAnchorButtons`).
+- `SUILink` passes `Href`/`Target` through untouched (`src/Components/Actions/SUILink.razor:3`); the library never rewrites or re-encodes URIs.
 - The only URLs the library itself constructs are static asset paths for JS module imports, e.g. `./_content/Sufficit.Blazor.UI/Components/Actions/SUICopyToClipboard.razor.js` `src/Components/Actions/SUICopyToClipboard.razor:96` — constant strings, no user input.
 
 ## Gaps
 
 | Priority | Gap | Concrete impact | Recommendation |
 |---|---|---|---|
-| 🔵 | `SUILink` does not default `rel` when `Target` opens a new tab, unlike `SUIButton`/`SUIIconButton` (`src/Components/Actions/SUILink.razor:3` vs `SUIButton.razor:92`–`:94`) | A consumer setting `Target="_blank"` on `SUILink` silently loses the reverse-tabnabbing protection the button family gets for free | Mirror the anchor-button default (`noopener noreferrer` when `Target` is `_blank`/new-window and `Rel` is unset) |
+| — | None open. The 16:56Z `SUILink` `rel` gap is resolved (see above). | — | — |
 
 Searches performed for claimed absences: `System.Uri`, `UriBuilder`, `EscapeUriString`, `EscapeDataString`, `UrlEncoder`, `QueryString` in `*.cs`, `*.js` under `src/` (none); `encodeURIComponent`/`decodeURIComponent` in `src/Components/**/*.js` (none); `data:` in `*.cs`, `*.js`, `*.razor`, `*.html` under `src/`+`samples/` (only the two favicons above).
 
@@ -34,6 +35,7 @@ Searches performed for claimed absences: `System.Uri`, `UriBuilder`, `EscapeUriS
 | Reviewed (UTC) | Commit | Summary of changes |
 |---|---|---|
 | 2026-09-19T16:56Z | `9cbc7ea` | Initial analysis (regenerate mode) |
+| 2026-09-19T18:01Z | `3e152ec` + fix | `SUILink` new-tab `rel` default; status → compliant |
 
 ## References
 

@@ -544,7 +544,7 @@ public sealed partial class CatalogBrowserTests : PageTest
     }
 
     [Test]
-    public async Task Table_UsesScopedHeadersFullEmptyColspanAndKeyboardRows()
+    public async Task Table_UsesScopedHeadersFullEmptyColspanAndGridRows()
     {
         var dataSection = Page.Locator("#data");
         var headers = dataSection.Locator(".sui-table").Nth(0).Locator("thead th");
@@ -556,7 +556,7 @@ public sealed partial class CatalogBrowserTests : PageTest
             .ToHaveAttributeAsync("colspan", "3");
 
         var row = dataSection.Locator(".sui-table").Nth(0).Locator("tbody tr").Nth(0);
-        await Expect(row).ToHaveAttributeAsync("role", "button");
+        await Expect(dataSection.Locator(".sui-table").Nth(0)).ToHaveAttributeAsync("role", "grid");
         await Expect(row).ToHaveAttributeAsync("tabindex", "0");
         await row.FocusAsync();
         await Page.Keyboard.PressAsync("Enter");

@@ -13,6 +13,7 @@
         <textarea @ref="_inputElement"
                   class="sui-field__input sui-field__input--multiline"
                   id="@EffectiveId"
+                  name="@Name"
                   rows="@EffectiveRows"
                   style="height:auto;min-height:108px;padding:var(--sui-space-3);resize:vertical"
                   @onchange="OnChanged"
@@ -30,6 +31,7 @@
         <div class="sui-text-field__control" style="position:relative">
             <input @ref="_inputElement" class="sui-field__input"
                    id="@EffectiveId"
+                   name="@Name"
                    type="@InputType"
                    value="@Value"
                    style="@InputPaddingStyle"
@@ -112,6 +114,10 @@
 
     [Parameter]
     public string? AriaDescribedBy { get; set; }
+
+    /// <summary>Form field name, so the value takes part in a plain HTML form post.</summary>
+    [Parameter]
+    public string? Name { get; set; }
 
     /// <summary>HTML input type. Default "text".</summary>
     [Parameter]
