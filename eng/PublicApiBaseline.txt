@@ -96,6 +96,7 @@ B|Sufficit.Blazor.UI.Themes.DefaultSUITheme|System.Object
 B|Sufficit.Blazor.UI.Themes.SUIColorContrast|System.Object
 B|Sufficit.Blazor.UI.Themes.SUILayout|System.Object
 B|Sufficit.Blazor.UI.Themes.SUIPalette|System.Object
+B|Sufficit.Blazor.UI.Themes.SUIThemeCssWriter|System.Object
 B|Sufficit.Blazor.UI.Themes.SUIThemeOptions|System.Object
 B|Sufficit.Blazor.UI.Themes.SUIThemeProvider|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Themes.SUITheme|System.Object
@@ -345,6 +346,7 @@ F|Sufficit.Blazor.UI.Components.SUIVariant|Sufficit.Blazor.UI.Components.SUIVari
 F|Sufficit.Blazor.UI.Components.SUIVariant|Sufficit.Blazor.UI.Components.SUIVariant|Soft
 F|Sufficit.Blazor.UI.Components.SUIVariant|Sufficit.Blazor.UI.Components.SUIVariant|Text
 F|Sufficit.Blazor.UI.Components.SUIVariant|System.Int32|value__
+F|Sufficit.Blazor.UI.Themes.SUIThemeCssWriter|System.String|TokenSelector
 F|Sufficit.Blazor.UI.Themes.SUIThemeProvider|System.String|TokenSelector
 I|Sufficit.Blazor.UI.Components.SUIAlert|Microsoft.AspNetCore.Components.IComponent
 I|Sufficit.Blazor.UI.Components.SUIAlert|Microsoft.AspNetCore.Components.IHandleAfterRender
@@ -732,6 +734,8 @@ M|Sufficit.Blazor.UI.Themes.SUIPalette|System.Boolean|Equals|(Sufficit.Blazor.UI
 M|Sufficit.Blazor.UI.Themes.SUIPalette|System.Boolean|Equals|(System.Object)
 M|Sufficit.Blazor.UI.Themes.SUIPalette|System.Int32|GetHashCode|()
 M|Sufficit.Blazor.UI.Themes.SUIPalette|System.String|ToString|()
+M|Sufficit.Blazor.UI.Themes.SUIThemeCssWriter|System.Boolean|IsSafeValue|(System.String)
+M|Sufficit.Blazor.UI.Themes.SUIThemeCssWriter|System.String|Write|(Sufficit.Blazor.UI.Themes.ISUITheme)
 M|Sufficit.Blazor.UI.Themes.SUITheme|Sufficit.Blazor.UI.Themes.SUITheme|<Clone>$|()
 M|Sufficit.Blazor.UI.Themes.SUITheme|System.Boolean|Equals|(Sufficit.Blazor.UI.Themes.SUITheme)
 M|Sufficit.Blazor.UI.Themes.SUITheme|System.Boolean|Equals|(System.Object)
@@ -1591,6 +1595,7 @@ T|class|Sufficit.Blazor.UI.Themes.SUIColorContrast
 T|class|Sufficit.Blazor.UI.Themes.SUILayout
 T|class|Sufficit.Blazor.UI.Themes.SUIPalette
 T|class|Sufficit.Blazor.UI.Themes.SUITheme
+T|class|Sufficit.Blazor.UI.Themes.SUIThemeCssWriter
 T|class|Sufficit.Blazor.UI.Themes.SUIThemeOptions
 T|class|Sufficit.Blazor.UI.Themes.SUIThemeProvider
 T|class|Sufficit.Blazor.UI.Themes.SUITypography
