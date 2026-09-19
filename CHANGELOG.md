@@ -18,6 +18,16 @@ definem a numeração das próximas publicações.
   erros que exigem atenção usam toast; confirmações comuns continuam no
   snackbar. Registrado em `AddSufficitUI`; renderize `<SUIToastHost />` no
   app shell junto aos demais hosts.
+- Participação em formulário HTML simples: `Name` em `SUITextField`,
+  `SUINumericField` e `SUISwitch` (este também com `FormValue`, como o
+  `SUICheckbox`). `SUISelect` e `SUIAutocomplete` ganham `Name` e
+  `ToFormValueFunc`: com `Name`, renderizam um `<input type="hidden">` com o
+  valor escolhido em formato invariante (`1.5`, datas ISO), já que o gatilho
+  do select é um botão e a caixa do autocomplete guarda texto de exibição.
+- `SUITh.SortDirection` e `aria-sort` automático: um `SUITableSortLabel`
+  dentro de um `SUITh` informa a direção ao cabeçalho, sem o consumidor
+  repetir o valor.
+- `SUITable.RowAriaLabelFunc`: nome acessível opcional por linha clicável.
 
 ### Removed (breaking)
 
@@ -44,6 +54,21 @@ definem a numeração das próximas publicações.
 - `SUIAlert`: `OnClose` substitui `CloseIconClicked`. O nome antigo foi
   publicado como encaminhador obsoleto em `2.26.911.2356` e removido na
   release seguinte, depois que todos os consumidores conhecidos migraram.
+- `SUITable` com `OnRowClick`: linhas deixam de ser `tr[role=button]`
+  (papel inválido para linha de tabela) e a tabela vira `role="grid"` com
+  foco por linha. Só uma linha fica na ordem do Tab; setas, Home e End
+  movem entre linhas; Enter/Espaço ativam. Teclas pressionadas num controle
+  dentro da linha não ativam mais a linha, e Espaço não rola a página.
+  Testes que procuravam `tr[role=button]` precisam procurar
+  `table[role=grid] tbody tr`.
+- `SUILink`: `rel="noopener noreferrer"` por padrão quando `Target` abre
+  outra aba e `Rel` não foi informado, como já faziam `SUIButton` e
+  `SUIIconButton`.
+- `SUICopyToClipboard`: em página HTTP sem `document.execCommand`, o erro
+  agora diz que a cópia exige HTTPS em vez de uma mensagem opaca.
+- `SUIIconButton.Title`: contrato do nome acessível documentado no
+  parâmetro (obrigatório para botão só com ícone, via `Title`,
+  `aria-label`/`aria-labelledby` ou texto visível).
 
 ### Packaging
 
