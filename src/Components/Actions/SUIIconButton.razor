@@ -118,14 +118,14 @@ else
         {
             <span class="sui-overlay sui-overlay--light">
                 <span class="sui-progress-circular sui-progress-circular--sm sui-color-@SUIClassBuilder.Slug(EffectiveColor)">
-                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)SUIIcons.ProgressCircular)</svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@SUIIconMarkup.Render(SUIIcons.ProgressCircular)</svg>
                 </span>
             </span>
         }
         if (!string.IsNullOrEmpty(Icon))
         {
             <span class="sui-icon sui-icon--@SUIClassBuilder.Slug(EffectiveSize)">
-                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)Icon)</svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@SUIIconMarkup.Render(Icon)</svg>
             </span>
         }
         else

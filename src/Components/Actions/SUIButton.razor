@@ -135,7 +135,7 @@ else
         {
             <span class="sui-overlay sui-overlay--light">
                 <span class="sui-progress-circular sui-progress-circular--sm sui-color-@iconColorSlug">
-                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)SUIIcons.ProgressCircular)</svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@SUIIconMarkup.Render(SUIIcons.ProgressCircular)</svg>
                 </span>
             </span>
         }
@@ -143,14 +143,14 @@ else
             @if (!string.IsNullOrWhiteSpace(StartIcon))
             {
                 <span class="sui-icon @iconSizeClass sui-btn__icon sui-color-@iconColorSlug">
-                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)StartIcon)</svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@SUIIconMarkup.Render(StartIcon)</svg>
                 </span>
             }
             @ChildContent
             @if (!string.IsNullOrWhiteSpace(EndIcon))
             {
                 <span class="sui-icon @iconSizeClass sui-btn__icon sui-color-@iconColorSlug">
-                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)EndIcon)</svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@SUIIconMarkup.Render(EndIcon)</svg>
                 </span>
             }
         </span>

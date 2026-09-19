@@ -16,7 +16,7 @@
     {
         @if (LoadingIcon is { Length: > 0 } custom)
         {
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)custom)</svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@SUIIconMarkup.Render(custom)</svg>
         }
         else
         {

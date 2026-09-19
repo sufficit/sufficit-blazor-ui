@@ -51,12 +51,12 @@ else
         <span class="sui-btn__label" style="@(IsLoading ? "opacity:0" : null)">
             @if (!string.IsNullOrEmpty(StartIcon))
             {
-                <span class="sui-icon sui-icon--sm sui-btn__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)StartIcon)</svg></span>
+                <span class="sui-icon sui-icon--sm sui-btn__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@SUIIconMarkup.Render(StartIcon)</svg></span>
             }
             @ChildContent
             @if (!string.IsNullOrEmpty(EndIcon))
             {
-                <span class="sui-icon sui-icon--sm sui-btn__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)EndIcon)</svg></span>
+                <span class="sui-icon sui-icon--sm sui-btn__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@SUIIconMarkup.Render(EndIcon)</svg></span>
             }
         </span>
     </text>;
@@ -121,9 +121,16 @@ else
     /// rounded cap — the same artwork family as the determinate progress ring,
     /// so indeterminate and determinate no longer look like strangers.
     /// </summary>
-    private MarkupString SpinnerSvg => LoadingIcon is { Length: > 0 } custom
-        ? (MarkupString)$"<svg viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\">{custom}</svg>"
-        : (MarkupString)"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M12 2.75A9.25 9.25 0 1 0 21.25 12\"/></svg>";
+    /// <remarks>
+    /// A custom icon is validated before it is interpolated. This one built the
+    /// whole element by string concatenation, so an unchecked LoadingIcon could
+    /// close the svg and continue with markup of its own choosing rather than
+    /// merely drawing inside it.
+    /// </remarks>
+    private MarkupString SpinnerSvg
+        => LoadingIcon is { Length: > 0 } custom && SUIIconMarkup.IsSafe(custom)
+            ? (MarkupString)$"<svg viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\">{custom}</svg>"
+            : (MarkupString)"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M12 2.75A9.25 9.25 0 1 0 21.25 12\"/></svg>";
 
     [Parameter]
     public string? Href { get; set; }

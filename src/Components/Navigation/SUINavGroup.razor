@@ -83,7 +83,7 @@ else
         @if (!HideExpandIcon)
         {
             <span class="@ExpandIconClassname">
-                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)ExpandIcon)</svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@SUIIconMarkup.Render(ExpandIcon)</svg>
             </span>
         }
     </button>
@@ -121,7 +121,7 @@ else
         else if (!string.IsNullOrEmpty(Icon))
         {
             <span class="@IconClassname">
-                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)Icon)</svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@SUIIconMarkup.Render(Icon)</svg>
             </span>
         }
         else

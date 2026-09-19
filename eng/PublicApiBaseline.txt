@@ -30,6 +30,7 @@ B|Sufficit.Blazor.UI.Components.SUIFilterTree|Microsoft.AspNetCore.Components.Co
 B|Sufficit.Blazor.UI.Components.SUIFormGrid|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIGrid|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIIconButton|Microsoft.AspNetCore.Components.ComponentBase
+B|Sufficit.Blazor.UI.Components.SUIIconMarkup|System.Object
 B|Sufficit.Blazor.UI.Components.SUIIcons|System.Object
 B|Sufficit.Blazor.UI.Components.SUIIcon|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIItem|Microsoft.AspNetCore.Components.ComponentBase
@@ -673,6 +674,9 @@ M|Sufficit.Blazor.UI.Components.SUIFilterContext|System.String|ToString|()
 M|Sufficit.Blazor.UI.Components.SUIFilterContext|System.Void|Deconstruct|(out System.String)
 M|Sufficit.Blazor.UI.Components.SUIFilterTree|System.Void|Dispose|()
 M|Sufficit.Blazor.UI.Components.SUIIconButton|System.Void|Dispose|()
+M|Sufficit.Blazor.UI.Components.SUIIconMarkup|Microsoft.AspNetCore.Components.MarkupString|Render|(System.String)
+M|Sufficit.Blazor.UI.Components.SUIIconMarkup|System.Boolean|IsMarkup|(System.String)
+M|Sufficit.Blazor.UI.Components.SUIIconMarkup|System.Boolean|IsSafe|(System.String)
 M|Sufficit.Blazor.UI.Components.SUILoadingButton|System.Threading.Tasks.ValueTask|DisposeAsync|()
 M|Sufficit.Blazor.UI.Components.SUINavAccordionScope|System.Void|NotifyExpanded|(Sufficit.Blazor.UI.Components.SUINavGroup)
 M|Sufficit.Blazor.UI.Components.SUINavAccordionScope|System.Void|Register|(Sufficit.Blazor.UI.Components.SUINavGroup)
@@ -1539,6 +1543,7 @@ T|class|Sufficit.Blazor.UI.Components.SUIFormGrid
 T|class|Sufficit.Blazor.UI.Components.SUIGrid
 T|class|Sufficit.Blazor.UI.Components.SUIIcon
 T|class|Sufficit.Blazor.UI.Components.SUIIconButton
+T|class|Sufficit.Blazor.UI.Components.SUIIconMarkup
 T|class|Sufficit.Blazor.UI.Components.SUIIcons
 T|class|Sufficit.Blazor.UI.Components.SUIItem
 T|class|Sufficit.Blazor.UI.Components.SUILayout
