@@ -20,7 +20,11 @@ const budgets = {
   // Button label flex/alignment adds 60 B raw; wrapping uses the existing root policy.
   // Shared pressed feedback and tonal border; compressed budget remains below 10 KiB.
   // Headroom rule: measured × 1.03 rounded up (see AssetBudgetTests). Measured
-  // 2026-09-11: raw 54,751 / gzip 10,098 / brotli 8,840 B.
+  // 2026-09-18 (toast host stack + tone variants + action button): raw 56,202 /
+  // gzip 10,336 / brotli 9,009 B. Raw headroom is now 198 B (0.35%); next
+  // addition that crosses the measured×1.03 line must ratchet the ceiling in a
+  // dedicated change or shave bytes elsewhere. The package-level ceiling
+  // remains 56 KiB (57,344 B) in AssetBudgetTests.
   raw: 56_400,
   gzip: 10_400,
   brotli: 9_110,

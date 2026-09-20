@@ -1,0 +1,101 @@
+@namespace Sufficit.Blazor.UI.Components
+@using Sufficit.Blazor.UI.Services
+@implements IDisposable
+@inject ISUIToast Toast
+
+<div class="sui-toast-host">
+    @foreach (var entry in _entries)
+    {
+        var current = entry;
+        <SUIToast Color="@ColorFor(current.Severity)"
+                  Icon="@IconFor(current.Severity)"
+                  OnDismiss="() => Dismiss(current.Id)">
+            <span class="sui-toast__message">@current.Message</span>
+            @if (!string.IsNullOrEmpty(current.ActionLabel))
+            {
+                <div class="sui-toast__actions">
+                    <button type="button" class="sui-toast__action" @onclick="() => InvokeActionAsync(current)">
+                        @current.ActionLabel
+                    </button>
+                </div>
+            }
+        </SUIToast>
+    }
+</div>
+
+@code {
+    // Toasts are more intrusive than snackbars, so the visible stack is shorter.
+    private const int MaxVisible = 3;
+
+    private readonly List<SUIToastEntry> _entries = new();
+
+    protected override void OnInitialized()
+        => Toast.OnEnqueue += Enqueue;
+
+    private readonly CancellationTokenSource _lifetime = new();
+    private bool _disposed;
+
+    private void Enqueue(SUIToastEntry entry) => _ = EnqueueAsync(entry);
+
+    private async Task EnqueueAsync(SUIToastEntry entry)
+    {
+        if (_disposed) return;
+        var token = _lifetime.Token;
+        try
+        {
+            await InvokeAsync(() =>
+            {
+                if (_disposed) return;
+                if (_entries.Count >= MaxVisible) _entries.RemoveAt(0);
+                _entries.Add(entry);
+                StateHasChanged();
+            });
+            var remaining = entry.ExpiresAt - DateTime.UtcNow;
+            if (remaining > TimeSpan.Zero) await Task.Delay(remaining, token);
+            await InvokeAsync(() => Dismiss(entry.Id));
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested) { }
+    }
+
+    private void Dismiss(Guid id)
+    {
+        if (_disposed) return;
+        _entries.RemoveAll(entry => entry.Id == id);
+        StateHasChanged();
+    }
+
+    private async Task InvokeActionAsync(SUIToastEntry entry)
+    {
+        try
+        {
+            entry.OnAction?.Invoke();
+        }
+        finally
+        {
+            await InvokeAsync(() => Dismiss(entry.Id));
+        }
+    }
+
+    private static SUIColor ColorFor(string severity) => severity switch
+    {
+        "success" => SUIColor.Success,
+        "warning" => SUIColor.Warning,
+        "danger" => SUIColor.Error,
+        _ => SUIColor.Info,
+    };
+
+    private static string IconFor(string severity) => severity switch
+    {
+        "success" => "✓",
+        "info" => "ⓘ",
+        _ => "⚠",
+    };
+
+    public void Dispose()
+    {
+        _disposed = true;
+        Toast.OnEnqueue -= Enqueue;
+        _lifetime.Cancel();
+        _lifetime.Dispose();
+    }
+}

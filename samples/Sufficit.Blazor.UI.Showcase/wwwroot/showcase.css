@@ -131,3 +131,35 @@ pre code { font-size: inherit; }
 @media (max-width: 700px) { .theme-comparison { grid-template-columns: 1fr; } }
 
 .api-scroll code { overflow-wrap: normal; word-break: normal; }
+
+/* Single-screen conference view (?view=all): every catalogued component at once. */
+.all-components { min-width: 0; }
+.all-components > h1 { margin-bottom: 1rem; }
+.all-components__jump { display: flex; flex-wrap: wrap; gap: .4rem; position: sticky; top: 76px; z-index: 50; margin-block: 2rem 1rem; padding-block: .6rem; background: var(--sui-surface); border-block: 1px solid var(--sui-border); }
+.all-components__jump a { display: inline-flex; align-items: center; gap: .45rem; min-height: 44px; padding-inline: .75rem; font-size: .82rem; color: var(--sui-text-primary); text-decoration: none; white-space: nowrap; border-radius: 6px; }
+.all-components__jump a:hover { background: var(--sui-surface-2); }
+.all-components__jump a > span, .all-components__family h2 > span { font-size: .72rem; font-variant-numeric: tabular-nums; color: var(--sui-text-secondary); }
+.all-components__family { padding-block: 2rem 1rem; border-top: 1px solid var(--sui-border); scroll-margin-top: 140px; }
+.all-components__family h2 { display: flex; align-items: baseline; gap: .6rem; margin: 0 0 1.25rem; }
+.all-components__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); gap: 1.25rem; align-items: start; }
+.all-components__item { display: grid; grid-template-rows: auto 1fr; min-width: 0; border: 1px solid var(--sui-border); border-radius: 12px; overflow: hidden; }
+.all-components__item > header { display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .7rem 1rem; border-bottom: 1px solid var(--sui-border); background: var(--sui-surface-2); }
+.all-components__item h3 { margin: 0; font-size: .86rem; overflow-wrap: anywhere; }
+.all-components__item > header a { display: inline-flex; align-items: center; gap: .3rem; min-height: 44px; font-size: .76rem; color: var(--sui-text-secondary); text-decoration: none; white-space: nowrap; }
+.all-components__item > header a:hover { color: var(--sui-color-primary); }
+/* Previews render live components, including ones that would otherwise escape
+   their card: the drawer is fixed/full-height and the pending-changes bar is a
+   fixed viewport overlay. Containing them here keeps every component visible in
+   the same screenshot instead of stacked over the page. */
+.all-components__preview { min-width: 0; padding: 1.25rem; overflow-x: auto; }
+.all-components__preview > .sui-root { min-width: 0; }
+.all-components__preview .sui-drawer { position: static; height: auto; min-height: 6rem; max-width: 100%; }
+.all-components__preview .sui-layout { min-height: 0; }
+.all-components__preview .sui-pending-changes-bar { position: static; width: 100%; transform: none; box-shadow: none; }
+.all-components__preview .sui-toast { position: static; width: 100%; box-shadow: none; animation: none; }
+.all-components__preview .sui-appbar { position: static; }
+@media (max-width: 900px) { .all-components__jump { top: 0; } }
+@media (max-width: 640px) {
+ .all-components__preview { padding: 1rem; }
+ .all-components__family { scroll-margin-top: 5rem; }
+}

@@ -4,6 +4,10 @@ export async function copyText(text) {
     return;
   }
 
+  if (typeof document.execCommand !== "function") {
+    throw new Error("este navegador só copia em páginas HTTPS");
+  }
+
   const area = document.createElement("textarea");
   area.value = text;
   area.style.position = "fixed";

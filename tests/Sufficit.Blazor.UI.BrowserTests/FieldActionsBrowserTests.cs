@@ -16,9 +16,16 @@ public sealed class FieldActionsBrowserTests : PageTest
         var toolbar = Page.GetByTestId("field-actions-toolbar");
         var input = toolbar.GetByLabel("Buscar no console");
         var button = toolbar.GetByRole(AriaRole.Button, new() { Name = "Pausar exibição" });
+        // Both boxes are measured, so both have to be laid out first. Waiting for
+        // visibility is necessary but not sufficient: the circuit can re-render
+        // and replace the element between the assertion and the measurement, and
+        // a single read then answers null. That failed on WebKit while Chromium
+        // and Firefox passed, and passed on re-run with no code change, so the
+        // reads poll until the box has area.
         await Expect(input).ToBeVisibleAsync();
-        var fieldBox = (await input.BoundingBoxAsync())!;
-        var buttonBox = (await button.BoundingBoxAsync())!;
+        await Expect(button).ToBeVisibleAsync();
+        var fieldBox = await input.RequireBoundingBoxAsync("The field");
+        var buttonBox = await button.RequireBoundingBoxAsync("The action");
         if (width > 600)
         {
             Assert.That(buttonBox.Y + buttonBox.Height,

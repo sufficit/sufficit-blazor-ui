@@ -1,14 +1,22 @@
 @namespace Sufficit.Blazor.UI.Components
 @typeparam T
+@implements IAsyncDisposable
+@inject IJSRuntime JS
 
-@{ var rows = Items as IReadOnlyList<T> ?? Items?.ToArray() ?? Array.Empty<T>(); }
+@{
+    var rows = Items as IReadOnlyList<T> ?? Items?.ToArray() ?? Array.Empty<T>();
+    var activeRow = Math.Clamp(_activeRow, 0, Math.Max(0, rows.Count - 1));
+}
 
-<div class="@WrapperClass" aria-busy="@(Loading ? "true" : "false")">
+<div @ref="_wrapperElement" class="@WrapperClass" aria-busy="@(Loading ? "true" : "false")">
     @if (Loading)
     {
         <SUIProgressLinear Indeterminate="true" Class="sui-table__progress" />
     }
-    <table class="@Classname" @attributes="AdditionalAttributes">
+    @* Clickable rows make this a grid: a row is an allowed focus target there
+       (ARIA 1.2 row), unlike tr[role=button], which is not a valid role for a
+       table row and makes any control inside it an illegal nested one. *@
+    <table class="@Classname" role="@(OnRowClick.HasDelegate ? "grid" : null)" @attributes="AdditionalAttributes">
         @if (HeaderContent is not null)
         {
             <thead>
@@ -35,10 +43,10 @@
                     {
                         <tr @key="@(RowKey?.Invoke(item) ?? (object?)item ?? index)" class="@GetRowClass(item, index, interactive: true)"
                             style="@RowStyleFunc?.Invoke(item, index)"
-                            role="button"
-                            tabindex="0"
+                            aria-label="@RowAriaLabelFunc?.Invoke(item)"
+                            tabindex="@(index == activeRow ? 0 : -1)"
                             @onclick="() => OnRowItemClick(item)"
-                            @onkeydown="args => OnRowKeyDown(args, item)">
+                            @onfocus="() => _activeRow = index">
                             @RowTemplate?.Invoke(item)
                         </tr>
                     }
@@ -100,9 +108,20 @@
     [Parameter]
     public int ColumnCount { get; set; } = 1;
 
-    /// <summary>Called when a row is clicked (item passed).</summary>
+    /// <summary>
+    /// Called when a row is clicked or activated with Enter/Space (item passed).
+    /// Setting it turns the table into a grid: one row is in the tab order and
+    /// arrow keys, Home and End move between rows.
+    /// </summary>
     [Parameter]
     public EventCallback<T> OnRowClick { get; set; }
+
+    /// <summary>
+    /// Optional accessible name for an interactive row, e.g. "Abrir pedido 42".
+    /// Without it the row is announced by its cell contents.
+    /// </summary>
+    [Parameter]
+    public Func<T, string?>? RowAriaLabelFunc { get; set; }
 
     [Parameter]
     public RenderFragment? HeaderContent { get; set; }
@@ -137,10 +156,38 @@
 
     private Task OnRowItemClick(T item) => OnRowClick.InvokeAsync(item);
 
-    private Task OnRowKeyDown(KeyboardEventArgs args, T item)
-        => args.Key is "Enter" or " " or "Spacebar"
-            ? OnRowItemClick(item)
-            : Task.CompletedTask;
+    private ElementReference _wrapperElement;
+    private IJSObjectReference? _module;
+    private IJSObjectReference? _interop;
+    // The row in the tab order (roving tabindex); follows focus.
+    private int _activeRow;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // Row keys live in the module: it sees the event target, so a key
+        // pressed on a control inside a row never activates the row itself.
+        // A read-only table never loads it.
+        if (_module is not null || !OnRowClick.HasDelegate)
+            return;
+        _module = await JS.InvokeAsync<IJSObjectReference>(
+            "import", "./_content/Sufficit.Blazor.UI/Components/DataDisplay/SUITable.razor.js");
+        _interop = await _module.InvokeAsync<IJSObjectReference>("initialize", _wrapperElement);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            if (_interop is not null)
+                await _interop.InvokeVoidAsync("dispose");
+            if (_module is not null)
+                await _module.DisposeAsync();
+        }
+        catch (Exception ex) when (ex is JSException or JSDisconnectedException or InvalidOperationException)
+        {
+            // The browser circuit may already be gone during disposal.
+        }
+    }
 
     private int EffectiveColumnCount => Math.Max(1, ColumnCount);
 

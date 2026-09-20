@@ -267,7 +267,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "SUI icon name or inline SVG drawn by the button. Decorative: it carries no accessible name.",
         "name": "Icon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -275,7 +275,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Accessible name, rendered as aria-label. An icon-only button has no text for assistive technology to read, so it MUST receive a name from one of: this parameter (preferred, e.g. Title=\"Excluir pedido\"), an explicit aria-label/aria-labelledby attribute, or visible text in ChildContent. It stays nullable because the last two are valid sources the component cannot see; leaving all three empty yields an unnamed button (WCAG 2.2 SC 4.1.2), which axe reports in the catalog but nothing catches in a consumer app.",
         "name": "Title",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -469,6 +469,14 @@
         "name": "IsLoading",
         "type": "bool",
         "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "InstantFeedback",
+        "type": "bool",
+        "default": "true",
         "required": false,
         "deprecated": false
       },
@@ -1065,9 +1073,17 @@
         "deprecated": false
       },
       {
-        "description": "Called when a row is clicked (item passed).",
+        "description": "Called when a row is clicked or activated with Enter/Space (item passed). Setting it turns the table into a grid: one row is in the tab order and arrow keys, Home and End move between rows.",
         "name": "OnRowClick",
         "type": "EventCallback<T>",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional accessible name for an interactive row, e.g. \"Abrir pedido 42\". Without it the row is announced by its cell contents.",
+        "name": "RowAriaLabelFunc",
+        "type": "Func<T, string?>?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -1376,6 +1392,14 @@
         "name": "Scope",
         "type": "string",
         "default": "\"col\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Sort state announced through aria-sort. Leave unset when the header holds a SUITableSortLabel{T}: the label reports its own state.",
+        "name": "SortDirection",
+        "type": "SUISortDirection?",
+        "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
       },
@@ -2177,6 +2201,12 @@
     ]
   },
   {
+    "name": "SUIToastHost",
+    "family": "Feedback",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIButton OnClick=\"Alert\">Disparar toast</SUIButton>\n<p>O host de toasts está instalado na raiz desta vitrine.</p>\n\n@code {\n    [Inject] protected ISUIToast Toast { get; set; } = default!;\n    protected void Alert() => Toast.Add(\"Não foi possível concluir a operação.\", \"danger\", actionLabel: \"Tentar de novo\", onAction: () => Toast.Info(\"Nova tentativa iniciada.\"));\n}\n",
+    "parameters": []
+  },
+  {
     "name": "SUIAutocomplete",
     "family": "Formulários",
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIAutocomplete T=\"string\" Label=\"Cidade\" SearchFuncAsync=\"Search\" MinCharacters=\"1\" Placeholder=\"Digite para buscar\" Clearable />\n\n@code {\n    protected string[] Cities { get; } = [\"São Paulo\", \"Rio de Janeiro\", \"Curitiba\", \"Porto Alegre\"];\n    protected async Task<IEnumerable<string>> Search(string text, CancellationToken token)\n    {\n        await Task.Delay(150, token);\n        return Cities.Where(city => city.Contains(text, StringComparison.OrdinalIgnoreCase));\n    }\n}\n",
@@ -2273,6 +2303,22 @@
         "description": "Id of the input; generated when omitted.",
         "name": "Id",
         "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Form field name. When set, the chosen value is also rendered as a hidden input so a plain HTML form post carries it (the text box holds display text).",
+        "name": "Name",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Converts the chosen value into the submitted token; defaults to its invariant-culture text.",
+        "name": "ToFormValueFunc",
+        "type": "Func<T, string>?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -2447,6 +2493,14 @@
       {
         "description": "Optional form field name.",
         "name": "Name",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "What the browser submits for this box when it is checked inside a plain HTML form — not the checked state, which is Value. A checkbox with no value attribute submits the literal \"on\", which an endpoint parsing a boolean cannot read; set this to the token the receiver expects, usually \"true\". Left unset the HTML default is kept, so existing forms are unaffected. An unchecked box submits nothing at all, so the receiver has to read an absent field as false.",
+        "name": "FormValue",
         "type": "string?",
         "default": "Padrão do tipo",
         "required": false,
@@ -2985,6 +3039,14 @@
         "deprecated": false
       },
       {
+        "description": "Form field name, so the value takes part in a plain HTML form post.",
+        "name": "Name",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "",
         "name": "Min",
         "type": "T?",
@@ -3192,6 +3254,22 @@
         "deprecated": false
       },
       {
+        "description": "Form field name. When set, the selection is also rendered as a hidden input so a plain HTML form post carries it.",
+        "name": "Name",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Converts the value into the submitted token; defaults to its invariant-culture text.",
+        "name": "ToFormValueFunc",
+        "type": "Func<T, string>?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "Optional CSS width for the open menu. When omitted, the menu sizes itself to its content while preserving the trigger width as its minimum.",
         "name": "MenuWidth",
         "type": "string?",
@@ -3288,6 +3366,22 @@
       {
         "description": "",
         "name": "Id",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional form field name, so the switch takes part in a plain HTML form post.",
+        "name": "Name",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Token submitted while on (HTML default \"on\"); an off switch submits nothing.",
+        "name": "FormValue",
         "type": "string?",
         "default": "Padrão do tipo",
         "required": false,
@@ -3494,6 +3588,14 @@
       {
         "description": "",
         "name": "AriaDescribedBy",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Form field name, so the value takes part in a plain HTML form post.",
+        "name": "Name",
         "type": "string?",
         "default": "Padrão do tipo",
         "required": false,
@@ -3914,6 +4016,14 @@
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched attributes (id, data-*, aria-*, style, ...) forwarded to the root div. Without this, any such attribute throws InvalidOperationException at render time — a page-level crash in the consumer.",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
         "required": false,
         "deprecated": false
       }

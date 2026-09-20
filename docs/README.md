@@ -54,6 +54,14 @@ concluído é arquivado em `activities/` com prefixo de timestamp
 - [Versionamento, compatibilidade e TFMs](ARCHITECTURE-VERSIONING-AND-TFM.md) —
   calendário Sufficit, compatibilidade, política de retirada de framework e API baseline
 
+## Padrões (rfc/)
+
+- [Revisão de aderência a padrões — 2026-09-19](rfc/) — um documento por
+  padrão aplicável (WCAG 2.2/ARIA, HTML/Popover, Clipboard, CSP3, RFCs
+  9562/3339/3986/2397) com evidências do código, gaps priorizados e
+  justificativas dos padrões avaliados sem documento; processo regenerável em
+  `rfc/AGENTS.md`
+
 ## Trabalho concluído (activities/)
 
 - [Limpeza da API pública](activities/202609120330-completed-api-cleanup.md) —

@@ -1,4 +1,21 @@
 <Project>
   <!-- Isolated build boundary: do not inherit Identity's props through its
        sibling-worktree symlink. The SUI source revision itself is unchanged. -->
+
+  <PropertyGroup Label="Build gates">
+    <!-- This was enforced only as -warnaserror on the CI command lines, so a
+         local `dotnet build` accepted missing XML docs and nullability warnings
+         and the author found out only after pushing. Declaring it here makes the
+         local build fail the same way CI does, which is the point of a gate.
+
+         The analyzer set stays at the SDK default deliberately. Raising it to
+         latest-recommended surfaces six findings in src/ that are design
+         decisions, not cleanups: CA1716 wants ISUISnackbar.Error renamed (a
+         public API break), CA1822 wants SUIDateField.Today made static (the
+         opposite of injecting TimeProvider), and CA1816 wants SuppressFinalize
+         in components that have no finalizer. Raise the level together with
+         those decisions, not ahead of them. -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+  </PropertyGroup>
 </Project>

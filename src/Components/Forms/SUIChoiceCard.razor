@@ -4,12 +4,14 @@
 @using Microsoft.AspNetCore.Components
 @using Microsoft.AspNetCore.Components.Web
 @using Sufficit.Blazor.UI.Utilities
+@using System.Globalization
 
 <label class="@ClassName" style="@StyleValue" @attributes="AdditionalAttributes">
     <input class="sui-choice-card__input"
            id="@InputId"
            name="@Name"
            type="radio"
+           value="@FormValue"
            checked="@IsSelected"
            disabled="@Disabled"
            aria-label="@AriaLabel"
@@ -59,6 +61,20 @@
     private string? EffectiveErrorText => _field.Error;
 
     private readonly string _generatedInputId = $"sui-choice-{Guid.NewGuid():N}";
+
+    /// <summary>
+    /// What the browser submits for this option inside a plain HTML form.
+    /// </summary>
+    /// <remarks>
+    /// The card already knows what it is worth — that is <see cref="Value"/> —
+    /// it simply was not telling the form. Without a value attribute every
+    /// option in a group submits the literal <c>on</c>, which says that a
+    /// choice was made but not which one. Rendered invariantly so the token on
+    /// the wire does not follow the reader's culture.
+    /// </remarks>
+    private string? FormValue => Value is null
+        ? null
+        : Convert.ToString(Value, CultureInfo.InvariantCulture);
 
     /// <summary>Value represented by this option.</summary>
     [Parameter, EditorRequired]

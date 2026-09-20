@@ -2,7 +2,7 @@
 
 <div class="@GetClassName()">
     <span class="sui-icon sui-icon--lg sui-table-empty__icon">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)Icon)</svg>
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@SUIIconMarkup.Render(Icon)</svg>
     </span>
 
     <div class="sui-text sui-text--@TitleTypo.ToString() sui-text--secondary sui-table-empty__title">@Title</div>

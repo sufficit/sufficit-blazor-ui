@@ -1,3 +1,4 @@
+using System.Text;
 using System.Reflection;
 using Microsoft.AspNetCore.Components;
 using Sufficit.Blazor.UI.Components;
@@ -69,7 +70,7 @@ public sealed class PublicApiCompatibilityTests
     }
 
     [Fact]
-    public void PublicApi_DoesNotRemoveTrackedSignatures()
+    public void PublicApi_MatchesTheReviewedBaseline()
     {
         var baselinePath = Path.Combine(FindRepositoryRoot(), "eng", "PublicApiBaseline.txt");
         var current = CapturePublicApi();
@@ -86,11 +87,38 @@ public sealed class PublicApiCompatibilityTests
         var baseline = File.ReadAllLines(baselinePath)
             .Where(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith('#'))
             .ToHashSet(StringComparer.Ordinal);
-        var removed = baseline.Except(current, StringComparer.Ordinal).Order().ToArray();
 
-        Assert.True(removed.Length == 0,
-            "Public API signatures were removed or changed:" + Environment.NewLine
-            + string.Join(Environment.NewLine, removed));
+        var removed = baseline.Except(current, StringComparer.Ordinal).Order().ToArray();
+        // Additions are checked too. Comparing in one direction only meant a new
+        // public member shipped without anyone updating the baseline, so the file
+        // drifted stale and stopped describing the surface it is supposed to
+        // guard. Every parameter here is something consumers can bind to and that
+        // the library then owns, so adding one deserves the same review as
+        // removing one.
+        var added = current.Except(baseline, StringComparer.Ordinal).Order().ToArray();
+
+        var report = new StringBuilder();
+        if (removed.Length > 0)
+        {
+            report.AppendLine("Public API signatures were removed or changed:");
+            foreach (var signature in removed) report.AppendLine("  - " + signature);
+        }
+
+        if (added.Length > 0)
+        {
+            report.AppendLine("Public API signatures were added:");
+            foreach (var signature in added) report.AppendLine("  + " + signature);
+        }
+
+        if (report.Length > 0)
+        {
+            report.AppendLine();
+            report.AppendLine("If every change above is intentional, re-run with SUI_UPDATE_PUBLIC_API=1 "
+                + "and commit the regenerated eng/PublicApiBaseline.txt in the same change, so the new "
+                + "surface is reviewed alongside the code that introduced it.");
+        }
+
+        Assert.True(report.Length == 0, report.ToString());
     }
 
     private static SortedSet<string> CapturePublicApi()

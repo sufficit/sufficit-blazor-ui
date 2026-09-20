@@ -17,14 +17,16 @@ public sealed class AssetBudgetTests
     // commit when a measurement drops; they go up only with a justification
     // in the commit that adds the bytes. Measured values are recorded beside
     // each constant so the next reader can see the real headroom.
-    private const int BundleRawBudget = 56 * 1024;            // measured 54,751 B
-    private const int BundleGzipBudget = 10 * 1024 + 256;     // measured 10,098 B
-    private const int BundleBrotliBudget = 9 * 1024;          // measured  8,840 B
+    private const int BundleRawBudget = 56 * 1024;            // measured 56,202 B (2026-09-18, SUIToastHost stack + tone variants + action button)
+    private const int BundleGzipBudget = 10 * 1024 + 256;     // measured 10,336 B (2026-09-18)
+    private const int BundleBrotliBudget = 9 * 1024;          // measured  9,009 B (2026-09-18)
     private const int JsModuleRawBudget = 12 * 1024;
     // Every colocated module together, Brotli. Numeric interop remains opt-in;
     // this ceiling measures all of them at once. Raised 2026-09-13 for the
     // SUISlidingTabs indicator module (position + resize/font repositioning).
-    private const int JsTotalBrotliBudget = 10 * 1024 + 512;  // measured 10,079 B
+    // Raised 2026-09-19 for the SUITable grid-row keyboard module (WAI-ARIA
+    // row focus replacing tr[role=button]) and the clipboard HTTPS message.
+    private const int JsTotalBrotliBudget = 11 * 1024 + 256;  // measured 11,063 B
     // Raw bytes of every .razor.css (source/parse cost of CSS isolation).
     // Raised 2026-09-13 for SUISlidingTabs (pill track + sliding indicator,
     // micro-interactions, responsive collapse, reduced-motion) — measured

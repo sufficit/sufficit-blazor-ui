@@ -28,6 +28,27 @@ updates:
     commit-message:
       prefix: "chore(deps)"
 
+  # The test and sample projects were outside every ecosystem entry, so bUnit,
+  # NUnit, Playwright and the test SDK aged silently while /src stayed current.
+  # They gate every release, so stale test tooling is a release risk, not just
+  # housekeeping.
+  - package-ecosystem: nuget
+    directories:
+      - "/tests/Sufficit.Blazor.UI.Tests"
+      - "/tests/Sufficit.Blazor.UI.BrowserTests"
+      - "/samples/Sufficit.Blazor.UI.Catalog"
+      - "/samples/Sufficit.Blazor.UI.Demos"
+      - "/samples/Sufficit.Blazor.UI.Showcase"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: America/Sao_Paulo
+    open-pull-requests-limit: 3
+    labels: [dependencies, tests]
+    commit-message:
+      prefix: "chore(deps)"
+
   - package-ecosystem: github-actions
     groups:
       codeql:

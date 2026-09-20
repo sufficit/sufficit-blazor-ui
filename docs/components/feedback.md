@@ -1,7 +1,7 @@
 # Feedback
 
 Inclui Alert, EmptyState, ProgressLinear, Skeleton, Snackbar, StatusBanner,
-StatusBadge e Toast.
+StatusBadge, Toast e ToastHost.
 
 **Quando usar Alert é uma decisão de hierarquia, não de estilo.** Um aviso que
 só muda a cor do texto não é aviso: ele some na varredura e não existe para quem
@@ -38,3 +38,16 @@ desabilita os dois.
 `aria-live="polite"`/`aria-atomic`, cada entrada como `role="status"` com botão
 "Fechar". Guarda no máximo cinco entradas, descartando a mais antiga, e remove
 cada uma ao vencer `durationMs` (padrão 4000).
+
+`SUIToastHost` segue o mesmo contrato de instalação (uma instância na raiz,
+`AddSufficitUI()` registrado), mas para notificações **assertivas**: cada
+entrada é um `SUIToast` com `role="alert"`/`aria-live="assertive"`, reservado a
+desfechos que exigem atenção imediata — falhas, sobretudo; o restante continua
+no snackbar polite. Ele assina `ISUIToast.OnEnqueue`: `Add`, `Info`, `Success`,
+`Warning` e `Error` (severidade `error` normalizada para `danger`; as demais
+são postas em minúsculas). Ícone por tom: `✓` sucesso, `ⓘ` info, `⚠` para
+warning/danger. Toast é mais intrusivo que snackbar, então a pilha é menor:
+máximo três entradas, descartando a mais antiga, cada uma removida ao vencer
+`durationMs` (padrão 6000). `ActionLabel`/`OnAction` (parâmetros de `Add`)
+renderizam um botão de ação — ex. "Tentar de novo" — e o toast fecha após
+invocar o callback.

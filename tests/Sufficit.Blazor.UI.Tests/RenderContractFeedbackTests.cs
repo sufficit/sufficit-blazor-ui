@@ -78,6 +78,65 @@ public sealed class RenderContractFeedbackTests
     }
 
     [Fact]
+    public void ToastHost_RendersAssertiveToastsWithToneAndAction()
+    {
+        using var context = new BunitContext();
+        context.Services.AddSufficitUI();
+        var cut = context.Render<SUIToastHost>();
+
+        Assert.Empty(cut.FindAll(".sui-toast"));
+
+        var actionInvoked = false;
+        context.Services.GetRequiredService<ISUIToast>().Add(
+            "Falha ao salvar", "error", actionLabel: "Tentar de novo", onAction: () => actionInvoked = true);
+
+        cut.WaitForAssertion(() =>
+        {
+            var toast = cut.Find(".sui-toast");
+            Assert.Equal("alert", toast.GetAttribute("role"));
+            Assert.True(toast.ClassList.Contains("sui-toast--error"));
+            Assert.Equal("Falha ao salvar", cut.Find(".sui-toast__message").TextContent);
+            Assert.Equal("Tentar de novo", cut.Find(".sui-toast__action").TextContent);
+            Assert.Equal("Fechar", cut.Find(".sui-toast__dismiss").GetAttribute("aria-label"));
+        });
+
+        cut.Find(".sui-toast__action").Click();
+        Assert.True(actionInvoked);
+        cut.WaitForAssertion(() => Assert.Empty(cut.FindAll(".sui-toast")));
+    }
+
+    [Fact]
+    public void ToastHost_AutoDismissesAfterDuration()
+    {
+        using var context = new BunitContext();
+        context.Services.AddSufficitUI();
+        var cut = context.Render<SUIToastHost>();
+
+        context.Services.GetRequiredService<ISUIToast>().Add("Processando", durationMs: 50);
+
+        cut.WaitForAssertion(() => Assert.Single(cut.FindAll(".sui-toast")), TimeSpan.FromSeconds(5));
+        cut.WaitForAssertion(() => Assert.Empty(cut.FindAll(".sui-toast")), TimeSpan.FromSeconds(5));
+    }
+
+    [Fact]
+    public void ToastService_NormalizesErrorSeverityToDangerAndFiresEnqueue()
+    {
+        using var context = new BunitContext();
+        context.Services.AddSufficitUI();
+        var service = context.Services.GetRequiredService<ISUIToast>();
+
+        SUIToastEntry? enqueued = null;
+        service.OnEnqueue += entry => enqueued = entry;
+
+        service.Add("falhou", "Error", actionLabel: "Repetir");
+        Assert.NotNull(enqueued);
+        Assert.Equal("danger", enqueued!.Severity);
+        Assert.Equal("falhou", enqueued.Message);
+        Assert.Equal("Repetir", enqueued.ActionLabel);
+        Assert.True(enqueued.ExpiresAt > DateTime.UtcNow);
+    }
+
+    [Fact]
     public void ProgressCircular_DeterminateExposesProgressbarValuesAndForwardsAttributes()
     {
         using var context = new BunitContext();

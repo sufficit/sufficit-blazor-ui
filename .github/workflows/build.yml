@@ -4,60 +4,32 @@ name: Build
 on:
   workflow_dispatch:
     inputs:
-      verify-publishing-auth:
-        description: "Verify NuGet Trusted Publishing login without publishing a package"
-        type: boolean
-        default: false
       update-baselines:
         description: "Recapture the committed visual baselines (chromium only)"
         type: boolean
         default: false
+  # Tags are handled by publish.yml, which reuses these gates through
+  # workflow_call and then pushes. Listening for tags here too would run every
+  # gate twice for one release.
   push:
     branches: [main]
-    tags: ["v*"]
   pull_request:
+  workflow_call:
 
 permissions:
-  # write is needed by the baseline-refresh path in browser-tests, which commits
-  # the recaptured screenshots back to the branch. Every other job only reads.
-  contents: write
+  # Read-only by default. Every job here restores npm and NuGet packages and
+  # installs browsers, so a compromised dependency would run with whatever this
+  # token carries. The one job that needs to write (baseline-refresh) requests
+  # it at job level instead, and opens a pull request rather than pushing.
+  contents: read
 
 concurrency:
   group: build-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  publishing-authentication:
-    name: Verify NuGet Trusted Publishing
-    if: >
-      github.event_name == 'workflow_dispatch'
-      && inputs.verify-publishing-auth
-      && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    environment: production
-    timeout-minutes: 5
-    permissions:
-      contents: read
-      id-token: write
-    steps:
-      - name: Verify NuGet policy creator is configured
-        env:
-          NUGET_USER: ${{ vars.NUGET_USER }}
-        run: |
-          test -n "$NUGET_USER" || { echo "Set Actions variable NUGET_USER to the NuGet username that created the trust policy (not the package owner)." >&2; exit 1; }
-      - name: Authenticate with NuGet using GitHub OIDC
-        id: login
-        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
-        with:
-          user: ${{ vars.NUGET_USER }}
-      - name: Verify temporary credential was issued
-        env:
-          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
-        run: test -n "$NUGET_API_KEY"
-
   css:
     name: CSS bundle and budget
-    if: github.event_name != 'workflow_dispatch' || !inputs.verify-publishing-auth
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -177,6 +149,16 @@ jobs:
         uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           dotnet-version: "10.0.x"
+
+      # These two ran only in pages.yml, which does not trigger on tags, so a
+      # release could ship with a stale catalog or with documented examples that
+      # no longer compile. Publishing depends on this job, so checking here gates
+      # the tag too.
+      - name: Check generated catalog is current
+        run: python3 scripts/generate-catalog.py --check
+
+      - name: Check catalog examples still compile
+        run: python3 scripts/check-catalog-examples.py
 
       - name: Test bUnit contracts
         run: |
@@ -304,25 +286,23 @@ jobs:
         env:
           BROWSER: ${{ matrix.browser }}
 
-      - name: Commit regenerated baselines
+      - name: Upload regenerated baselines
         # Only on an explicit manual run with update-baselines, and only from
         # chromium, which is the engine the committed screenshots are captured
-        # with (the test ignores itself on the others).
+        # with (the test ignores itself on the others). This job holds a
+        # read-only token on purpose: the screenshots travel to baseline-refresh
+        # as an artifact, and that job opens a pull request with them. Pushing
+        # straight to the branch made the visual gate's own ground truth change
+        # without review.
         if: >
           github.event_name == 'workflow_dispatch'
           && github.event.inputs.update-baselines == 'true'
           && matrix.browser == 'chromium'
-        run: |
-          set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/baselines/catalog
-          if git diff --cached --quiet; then
-            echo "Baselines already current."
-            exit 0
-          fi
-          git commit -m "chore(baselines): recapture catalog visual baselines"
-          git push
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: recaptured-baselines
+          if-no-files-found: error
+          path: docs/baselines/catalog
 
       - name: Surface failing assertions
         # Test artifacts land in storage that is not reachable from every
@@ -366,6 +346,57 @@ jobs:
             artifacts/visual/${{ matrix.browser }}
             catalog.log
             catalog-subpath.log
+
+  baseline-refresh:
+    name: Open baseline refresh pull request
+    # The only job in this workflow that writes. It installs nothing and runs no
+    # third-party code beyond the two pinned actions below, so the write token is
+    # not exposed to a restored dependency.
+    needs: browser-tests
+    if: >
+      github.event_name == 'workflow_dispatch'
+      && github.event.inputs.update-baselines == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Download recaptured baselines
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: recaptured-baselines
+          path: docs/baselines/catalog
+
+      - name: Open pull request with the recaptured baselines
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/baselines/catalog
+          if git diff --cached --quiet; then
+            echo "Baselines already current; nothing to review."
+            exit 0
+          fi
+          branch="baselines/recapture-${GITHUB_RUN_ID}"
+          git checkout -b "$branch"
+          git commit -m "chore(baselines): recapture catalog visual baselines"
+          git push origin "$branch"
+          gh pr create \
+            --base "$GITHUB_REF_NAME" \
+            --head "$branch" \
+            --title "chore(baselines): recapture catalog visual baselines" \
+            --body "Recaptured by run [\`${GITHUB_RUN_ID}\`](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}) from chromium.
+
+          Review the image diff before merging: these screenshots are what the
+          visual gate compares against, so anything accepted here becomes the
+          definition of correct."
 
   lighthouse:
     name: Lighthouse performance gate
@@ -422,7 +453,10 @@ jobs:
           mkdir -p artifacts/lighthouse
           CHROME_PATH="$(find "$HOME/.cache/ms-playwright" -maxdepth 3 -name chrome -type f | head -1)"
           export CHROME_PATH
-          npx --yes lighthouse@12 "$SUI_CATALOG_URL" \
+          # Pinned exactly: "lighthouse@12" resolved to whatever the registry
+          # served that minute, so the gate's own tooling could change without a
+          # commit, and a compromised release would run here unreviewed.
+          npx --yes lighthouse@12.8.2 "$SUI_CATALOG_URL" \
             --preset=desktop \
             --quiet \
             --output=json \
@@ -442,61 +476,3 @@ jobs:
             artifacts/lighthouse/report.json
             catalog.log
 
-  publish:
-    name: Publish tagged package
-    if: startsWith(github.ref, 'refs/tags/v')
-    needs: [css, pack, component-tests, browser-tests, lighthouse]
-    runs-on: ubuntu-latest
-    environment: production
-    timeout-minutes: 20
-    permissions:
-      contents: read
-      id-token: write
-
-    steps:
-      - name: Verify NuGet policy creator is configured
-        env:
-          NUGET_USER: ${{ vars.NUGET_USER }}
-        run: |
-          test -n "$NUGET_USER" || { echo "Set Actions variable NUGET_USER to the NuGet username that created the trust policy (not the package owner)." >&2; exit 1; }
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
-        with:
-          dotnet-version: "10.0.x"
-
-      - name: Validate release tag
-        shell: bash
-        run: |
-          package_version="$(python3 scripts/release_version.py "$GITHUB_REF_NAME")"
-          echo "SUI_PACKAGE_VERSION=$package_version" >> "$GITHUB_ENV"
-
-      - name: Restore
-        run: dotnet restore src/Sufficit.Blazor.UI.csproj
-
-      - name: Pack exact release artifact
-        run: |
-          dotnet pack src/Sufficit.Blazor.UI.csproj \
-            --no-restore --configuration Release --output artifacts/packages \
-            /p:VersionSuffix="$SUI_PACKAGE_VERSION" \
-            /p:ContinuousIntegrationBuild=true
-
-      - name: Validate exact release artifact
-        run: ./scripts/validate-package.sh artifacts/packages/*.nupkg
-
-      # Request the short-lived credential after validation, immediately before push.
-      - name: Authenticate with NuGet using GitHub OIDC
-        id: login
-        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
-        with:
-          user: ${{ vars.NUGET_USER }}
-
-      - name: Publish to NuGet.org
-        env:
-          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
-        run: |
-          dotnet nuget push artifacts/packages/*.nupkg \
-            --source https://api.nuget.org/v3/index.json \
-            --api-key "$NUGET_API_KEY"

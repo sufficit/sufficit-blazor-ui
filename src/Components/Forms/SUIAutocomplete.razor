@@ -29,6 +29,12 @@
                @onkeydown="OnKeyDownAsync"
                placeholder="@Placeholder"
                disabled="@Disabled" />
+        @* The text box holds display text, not the chosen value; a plain HTML
+           form only sees the selection through this proxy. *@
+        @if (!string.IsNullOrWhiteSpace(Name))
+        {
+            <input type="hidden" name="@Name" value="@SUIFormValue.Format(_observedValue, ToFormValueFunc)" disabled="@Disabled" />
+        }
         @if (CanClear)
         {
             <button type="button"

@@ -33,13 +33,22 @@ required_entries=(
   "readme.md"
   "icon.png"
   "staticwebassets/sufficit-ui.css"
-  "staticwebassets/Components/Forms/SUIDateField.razor.js"
-  "staticwebassets/Components/Forms/SUISelect.razor.js"
-  "staticwebassets/Components/Navigation/SUINavGroup.razor.js"
-  "staticwebassets/Components/Navigation/SUITabs.razor.js"
-  "staticwebassets/Components/Overlays/SUIDialogHost.razor.js"
-  "staticwebassets/Components/Overlays/SUITooltip.razor.js"
 )
+
+# Every collocated interop module must ship. This list used to be hand-written
+# and named six of the twelve modules, so dropping one of the other six from the
+# package would have passed validation and broken the component at runtime in
+# the consumer. Derive it from the sources instead, so a new module is covered
+# the day it is written.
+repo_root="$(cd "$(dirname "$0")/.." && pwd)"
+while IFS= read -r module; do
+  required_entries+=("staticwebassets/${module#"$repo_root/src/"}")
+done < <(find "$repo_root/src" -name '*.razor.js' -type f | sort)
+
+if (( ${#required_entries[@]} < 6 )); then
+  echo "no interop modules discovered under src/; check the source layout" >&2
+  exit 1
+fi
 
 for entry in "${required_entries[@]}"; do
   if ! grep -Fxq "$entry" <<<"$entries"; then
@@ -72,9 +81,25 @@ dotnet nuget add source "$package_dir" \
   --name sui-local \
   --configfile "$validation_root/nuget.config" >/dev/null
 
+# Read the servicing floor the package actually declares instead of repeating it
+# here. The hardcoded copy meant that the next Dependabot bump of
+# Microsoft.AspNetCore.Components turned this script red until someone edited it
+# by hand, because the synthetic consumer asked for an older version than the
+# package requires and NuGet refused the downgrade.
+aspnet_version="$(unzip -p "$package_path" "$nuspec_entry" \
+  | sed -n 's:.*<dependency id="Microsoft.AspNetCore.Components.Web" version="\([^"]*\)".*:\1:p' \
+  | head -n 1)"
+aspnet_version="${aspnet_version#[\[(]}"
+aspnet_version="${aspnet_version%%[],)]*}"
+aspnet_version="${aspnet_version%%,*}"
+
+if [[ -z "$aspnet_version" ]]; then
+  echo "unable to read the Microsoft.AspNetCore.Components.Web dependency version from $nuspec_entry" >&2
+  exit 1
+fi
+
 for framework in net10.0; do
   consumer_dir="$validation_root/$framework"
-  aspnet_version="10.0.12"
 
   dotnet new razorclasslib --framework "$framework" --output "$consumer_dir" --no-restore >/dev/null
   # The installed SDK template can lag behind the servicing floor required by

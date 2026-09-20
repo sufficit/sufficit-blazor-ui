@@ -1,6 +1,6 @@
 @namespace Sufficit.Blazor.UI.Components
 
-<th class="@Class" scope="@Scope" @attributes="UserAttributes">@ChildContent</th>
+<th class="@Class" scope="@Scope" aria-sort="@AriaSort" @attributes="UserAttributes"><CascadingValue Value="this" IsFixed="true">@ChildContent</CascadingValue></th>
 
 @code {
     [Parameter]
@@ -10,9 +10,37 @@
     [Parameter]
     public string Scope { get; set; } = "col";
 
+    /// <summary>
+    /// Sort state announced through <c>aria-sort</c>. Leave unset when the header
+    /// holds a <see cref="SUITableSortLabel{T}"/>: the label reports its own state.
+    /// </summary>
+    [Parameter]
+    public SUISortDirection? SortDirection { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object?> UserAttributes { get; set; } = new();
+
+    private SUISortDirection? _reported;
+
+    private string? AriaSort => (SortDirection ?? _reported) switch
+    {
+        SUISortDirection.Ascending => "ascending",
+        SUISortDirection.Descending => "descending",
+        SUISortDirection.None => "none",
+        _ => null,
+    };
+
+    // aria-sort belongs on the th, but the state lives in the sort label nested
+    // inside it; the label reports here so the default markup is compliant
+    // without the consumer repeating the direction on the header.
+    internal void ReportSort(SUISortDirection direction)
+    {
+        if (_reported == direction)
+            return;
+        _reported = direction;
+        StateHasChanged();
+    }
 }

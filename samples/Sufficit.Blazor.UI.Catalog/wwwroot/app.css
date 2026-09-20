@@ -110,11 +110,21 @@ button, input, select, textarea { font: inherit; }
     padding: 1rem;
 }
 
+/* Explicit line-height: with "normal", a line box grows to the metrics of the
+   fallback fonts drawing the CJK, emoji and Arabic glyphs below. Those fonts
+   differ per machine, so the page height (and the full-page visual baseline)
+   depended on which Noto/DejaVu happened to be installed, not on SUI. */
 .catalog__stress p {
     margin: var(--sui-space-2) 0 0;
+    line-height: 1.5;
     max-width: 70ch;
     overflow-wrap: anywhere;
 }
+
+/* The Arabic sentence wraps to one or two lines depending on how wide the
+   installed Arabic font is (Noto Sans Arabic: two at 390px; Nastaliq: one).
+   Reserving two lines keeps the section height independent of that font. */
+.catalog__stress p[dir="rtl"] { min-block-size: 2lh; }
 
 .catalog__stress h2 + p { margin-block-start: var(--sui-space-5); }
 

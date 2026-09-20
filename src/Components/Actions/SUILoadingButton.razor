@@ -1,6 +1,9 @@
 @* Loading Button — async operation pattern. *@
 @namespace Sufficit.Blazor.UI.Components
 @using Sufficit.Blazor.UI.Utilities
+@using Microsoft.JSInterop
+@implements IAsyncDisposable
+@inject IJSRuntime JS
 
 @{
     bool isAnchor = !string.IsNullOrWhiteSpace(Href);
@@ -21,6 +24,7 @@
 {
     <a class="@cls" style="@Style" href="@Href" target="@Target"
        aria-disabled="@IsAriaDisabled" aria-busy="@(IsLoading ? "true" : null)"
+       data-sui-instant-busy="@(InstantFeedback ? "" : null)"
        @onclick="HandleClickAsync" @onclick:preventDefault="@IsAriaDisabled"
        @attributes="UserAttributes">
         @Body(spinClass)
@@ -31,6 +35,7 @@ else
     <button type="@SUIClassBuilder.Slug(EffectiveButtonType)" class="@cls" style="@Style"
             disabled="@(Disabled || IsLoading)" aria-disabled="@IsAriaDisabled"
             aria-busy="@(IsLoading ? "true" : null)"
+            data-sui-instant-busy="@(InstantFeedback ? "" : null)"
             @onclick="HandleClickAsync" @attributes="UserAttributes">
         @Body(spinClass)
     </button>
@@ -46,12 +51,12 @@ else
         <span class="sui-btn__label" style="@(IsLoading ? "opacity:0" : null)">
             @if (!string.IsNullOrEmpty(StartIcon))
             {
-                <span class="sui-icon sui-icon--sm sui-btn__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)StartIcon)</svg></span>
+                <span class="sui-icon sui-icon--sm sui-btn__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@SUIIconMarkup.Render(StartIcon)</svg></span>
             }
             @ChildContent
             @if (!string.IsNullOrEmpty(EndIcon))
             {
-                <span class="sui-icon sui-icon--sm sui-btn__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@((MarkupString)EndIcon)</svg></span>
+                <span class="sui-icon sui-icon--sm sui-btn__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@SUIIconMarkup.Render(EndIcon)</svg></span>
             }
         </span>
     </text>;
@@ -66,6 +71,20 @@ else
 
     [Parameter]
     public bool IsLoading { get; set; }
+
+    /// <summary>
+    /// Whether the button reacts to the press before the server answers.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="IsLoading"/> comes from the parent, so it can only arrive
+    /// after a round trip — long enough on a slow link to read as a click that
+    /// did nothing. With this on (the default), a script marks the button in
+    /// the capture phase of the click and the spinner takes over when
+    /// <see cref="IsLoading"/> arrives. Turn it off for a button whose click
+    /// legitimately does nothing visible.
+    /// </remarks>
+    [Parameter]
+    public bool InstantFeedback { get; set; } = true;
 
     [Parameter]
     public bool Disabled { get; set; }
@@ -102,9 +121,16 @@ else
     /// rounded cap — the same artwork family as the determinate progress ring,
     /// so indeterminate and determinate no longer look like strangers.
     /// </summary>
-    private MarkupString SpinnerSvg => LoadingIcon is { Length: > 0 } custom
-        ? (MarkupString)$"<svg viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\">{custom}</svg>"
-        : (MarkupString)"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M12 2.75A9.25 9.25 0 1 0 21.25 12\"/></svg>";
+    /// <remarks>
+    /// A custom icon is validated before it is interpolated. This one built the
+    /// whole element by string concatenation, so an unchecked LoadingIcon could
+    /// close the svg and continue with markup of its own choosing rather than
+    /// merely drawing inside it.
+    /// </remarks>
+    private MarkupString SpinnerSvg
+        => LoadingIcon is { Length: > 0 } custom && SUIIconMarkup.IsSafe(custom)
+            ? (MarkupString)$"<svg viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\">{custom}</svg>"
+            : (MarkupString)"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M12 2.75A9.25 9.25 0 1 0 21.25 12\"/></svg>";
 
     [Parameter]
     public string? Href { get; set; }
@@ -120,6 +146,46 @@ else
 
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object?> UserAttributes { get; set; } = new();
+
+    private IJSObjectReference? _module;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender || !InstantFeedback)
+        {
+            return;
+        }
+
+        try
+        {
+            _module ??= await JS.InvokeAsync<IJSObjectReference>(
+                "import",
+                "./_content/Sufficit.Blazor.UI/Components/Actions/SUILoadingButton.razor.js");
+            await _module.InvokeVoidAsync("register");
+        }
+        catch (Exception exception) when (exception is not OperationCanceledException)
+        {
+            // The press feedback is a courtesy: a button that cannot load it —
+            // prerendering, a disconnected circuit, a test host without JS —
+            // still behaves exactly as it did before.
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_module is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await _module.DisposeAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+        }
+    }
 
     private Task HandleClickAsync(MouseEventArgs args)
         => (IsLoading || Disabled || !OnClick.HasDelegate)

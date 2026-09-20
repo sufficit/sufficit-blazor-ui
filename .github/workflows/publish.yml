@@ -1,0 +1,233 @@
+name: Publish
+
+# Everything that authenticates against NuGet.org lives here, and only here.
+#
+# NuGet Trusted Publishing validates the workflow file in which the OIDC token
+# is actually minted, so the trust policy names THIS file (publish.yml). Jobs
+# that call NuGet/login must therefore be declared in this workflow: a job
+# defined in a reusable workflow reports that other file and the token exchange
+# fails with HTTP 401 "Workflow mismatch". The build gates stay in build.yml and
+# are reused from here through workflow_call.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      verify-auth:
+        description: "Verify Trusted Publishing login without publishing anything"
+        type: boolean
+        default: false
+      unlist-legacy:
+        description: "Run the one-time legacy version cleanup"
+        type: boolean
+        default: false
+      replacement:
+        description: "Legacy cleanup: published replacement in Sufficit format 2.yy.MMdd.HHmm"
+        required: false
+        type: string
+      apply:
+        description: "Legacy cleanup: unlist for real (false only inspects)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  # Never cancel a publish in flight: a half-pushed release is worse than a
+  # queued one.
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  verify-auth:
+    name: Verify NuGet Trusted Publishing
+    if: >
+      github.event_name == 'workflow_dispatch'
+      && inputs.verify-auth
+      && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Verify NuGet policy creator is configured
+        env:
+          NUGET_USER: ${{ vars.NUGET_USER }}
+        run: |
+          test -n "$NUGET_USER" || { echo "Set Actions variable NUGET_USER to the NuGet username that created the trust policy (not the package owner)." >&2; exit 1; }
+      - name: Authenticate with NuGet using GitHub OIDC
+        id: login
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
+        with:
+          user: ${{ vars.NUGET_USER }}
+      - name: Verify temporary credential was issued
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+        run: test -n "$NUGET_API_KEY"
+
+  gates:
+    name: Release gates
+    # The same gates every push to main runs. A tag publishes only what they
+    # already accepted; they are not duplicated here.
+    if: startsWith(github.ref, 'refs/tags/v')
+    uses: ./.github/workflows/build.yml
+    permissions:
+      # A called workflow cannot hold more than the caller grants it, and
+      # build.yml declares one write job (baseline-refresh, which opens a pull
+      # request). It never runs on a tag — its `if` requires workflow_dispatch —
+      # but the ceiling has to cover it so the release is not gambled on how
+      # Actions validates a skipped job. The publish job below stays read-only.
+      contents: write
+      pull-requests: write
+
+  publish:
+    name: Publish tagged package
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: gates
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Verify NuGet policy creator is configured
+        env:
+          NUGET_USER: ${{ vars.NUGET_USER }}
+        run: |
+          test -n "$NUGET_USER" || { echo "Set Actions variable NUGET_USER to the NuGet username that created the trust policy (not the package owner)." >&2; exit 1; }
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Validate release tag
+        shell: bash
+        run: |
+          package_version="$(python3 scripts/release_version.py "$GITHUB_REF_NAME")"
+          release_channel="$(python3 scripts/release_version.py --channel "$GITHUB_REF_NAME")"
+          echo "SUI_PACKAGE_VERSION=$package_version" >> "$GITHUB_ENV"
+          echo "SUI_RELEASE_CHANNEL=$release_channel" >> "$GITHUB_ENV"
+          # A labelled tag (2.yy.MMdd.HHmm-rc.1) publishes as a NuGet
+          # pre-release, which floating "2.*" consumers do not resolve; a bare
+          # tag reaches every one of them on their next restore. Say which is
+          # happening, because the two are one character apart in the tag name.
+          {
+            echo "### Publishing \`$package_version\`"
+            echo
+            if [[ "$release_channel" == "prerelease" ]]; then
+              echo "Channel: **pre-release**. Consumers pinned to \`2.*\` will not receive it."
+            else
+              echo "Channel: **stable**. Every consumer pinned to \`2.*\` receives this on their next restore."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Restore
+        run: dotnet restore src/Sufficit.Blazor.UI.csproj
+
+      - name: Pack exact release artifact
+        run: |
+          dotnet pack src/Sufficit.Blazor.UI.csproj \
+            --no-restore --configuration Release --output artifacts/packages \
+            /p:VersionSuffix="$SUI_PACKAGE_VERSION" \
+            /p:ContinuousIntegrationBuild=true
+
+      - name: Validate exact release artifact
+        run: ./scripts/validate-package.sh artifacts/packages/*.nupkg
+
+      # Request the short-lived credential after validation, immediately before push.
+      - name: Authenticate with NuGet using GitHub OIDC
+        id: login
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
+        with:
+          user: ${{ vars.NUGET_USER }}
+
+      - name: Publish to NuGet.org
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+        run: |
+          dotnet nuget push artifacts/packages/*.nupkg \
+            --source https://api.nuget.org/v3/index.json \
+            --api-key "$NUGET_API_KEY"
+
+  unlist-legacy:
+    name: Unlist legacy versions
+    # One-time, bounded cleanup. It lives here because unlisting needs the same
+    # Trusted Publishing credential as pushing, and the trust policy is bound to
+    # this workflow file. The trust policy must also carry the "Unlist or relist
+    # package versions" scope; a push-only policy mints a credential that fails
+    # the DELETE with HTTP 403.
+    if: >
+      github.event_name == 'workflow_dispatch'
+      && inputs.unlist-legacy
+      && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Verify inputs
+        env:
+          NUGET_USER: ${{ vars.NUGET_USER }}
+          REPLACEMENT: ${{ inputs.replacement }}
+        run: |
+          test -n "$NUGET_USER" || { echo "Set Actions variable NUGET_USER to the NuGet username that created the trust policy (not the package owner)." >&2; exit 1; }
+          test -n "$REPLACEMENT" || { echo "Provide the published replacement version (2.yy.MMdd.HHmm) that consumers should move to." >&2; exit 1; }
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Authenticate with NuGet using GitHub OIDC
+        id: login
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
+        with:
+          user: ${{ vars.NUGET_USER }}
+
+      - name: Probe credential permissions (non-mutating)
+        # NuGet answers the unlist DELETE with the same generic 403 whether
+        # the policy lacks the unlist scope or its glob pattern matches no
+        # package, and the two need opposite fixes. Two probes that cannot
+        # change anything separate them:
+        #   DELETE of a version that does not exist -> 404 proves the minted
+        #     key carries the unlist action (the request passed the action
+        #     filter and only failed the package lookup), so a generic 403 on
+        #     the real DELETE then means the glob matches no package; a 403
+        #     here means the key has no unlist scope at all.
+        #   GET verifykey -> 200 only when the key's scopes cover push for the
+        #     exact package id; any 4xx body is printed for diagnosis.
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+        run: |
+          probe() {
+            method="$1"; url="$2"
+            code="$(curl --silent --show-error \
+              --output probe-body.txt --write-out '%{http_code}' \
+              --request "$method" \
+              --header "X-NuGet-ApiKey: $NUGET_API_KEY" \
+              "$url")"
+            body="$(head -c 400 probe-body.txt)"
+            echo "$method $url"
+            echo "  -> HTTP $code"
+            echo "  body: ${body:-<empty>}"
+          }
+          probe DELETE "https://www.nuget.org/api/v2/package/Sufficit.Blazor.UI/0.0.1"
+          probe GET "https://www.nuget.org/api/v2/verifykey/Sufficit.Blazor.UI/2.26.919.1826"
+
+      - name: Inspect or unlist only the approved legacy versions
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+          REPLACEMENT: ${{ inputs.replacement }}
+          APPLY: ${{ inputs.apply }}
+        run: |
+          args=(--replacement "$REPLACEMENT")
+          if [[ "$APPLY" == true ]]; then args+=(--apply); fi
+          python3 scripts/unlist_legacy_packages.py "${args[@]}"

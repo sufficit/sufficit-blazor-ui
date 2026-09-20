@@ -5,6 +5,7 @@ import argparse
 import gzip
 import json
 import os
+import urllib.error
 import urllib.request
 
 from release_version import normalize
@@ -56,8 +57,22 @@ def main():
         request = urllib.request.Request(
             f"https://www.nuget.org/api/v2/package/{PACKAGE}/{version}",
             headers={"X-NuGet-ApiKey": key}, method="DELETE")
-        with urllib.request.urlopen(request, timeout=60) as response:
-            print(f"Unlist accepted for {version}: HTTP {response.status}", flush=True)
+        try:
+            with urllib.request.urlopen(request, timeout=60) as response:
+                print(f"Unlist accepted for {version}: HTTP {response.status}", flush=True)
+        except urllib.error.HTTPError as error:
+            # urllib's default message for a 403 is the same generic sentence
+            # whether the credential lacks the unlist scope or its glob pattern
+            # matches no package, and the two need opposite fixes. NuGet returns
+            # the distinguishing detail in the response body, which urlopen
+            # discards unless it is read here.
+            body = error.read().decode("utf-8", "replace").strip()
+            print(f"Unlist refused for {version}: HTTP {error.code}", flush=True)
+            if body:
+                print(f"NuGet said: {body}", flush=True)
+            raise SystemExit(
+                f"Stopped at {version}; earlier versions in the list were already "
+                "unlisted and the rest were left untouched.")
     print("Verify listed=false after NuGet indexing completes. Exact restores remain available.")
 
 

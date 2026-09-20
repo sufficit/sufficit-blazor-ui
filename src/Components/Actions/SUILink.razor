@@ -1,6 +1,6 @@
 @namespace Sufficit.Blazor.UI.Components
 
-<a class="@Classname" href="@Href" target="@Target" rel="@Rel" @attributes="UserAttributes">
+<a class="@Classname" href="@Href" target="@Target" rel="@EffectiveRel" @attributes="UserAttributes">
     @ChildContent
 </a>
 
@@ -22,6 +22,13 @@
 
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object?> UserAttributes { get; set; } = new();
+
+    // Same default as the anchor-buttons: a new-tab link must not hand the
+    // opened page a window.opener handle back to this one (reverse tabnabbing).
+    private string? EffectiveRel
+        => !string.IsNullOrWhiteSpace(Rel) ? Rel
+            : !string.IsNullOrWhiteSpace(Target) && Target != "_self" ? "noopener noreferrer"
+            : null;
 
     private string Classname
         => SUIClassBuilder.Default("sui-link")

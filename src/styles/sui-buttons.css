@@ -104,6 +104,27 @@
 .sui-btn--full-width { width: 100%; }
 .sui-btn--loading { cursor: progress; }
 
+/* Pressed, before the server answered. Set by SUILoadingButton.razor.js in the
+   capture phase of the click, so the button reacts without waiting for the
+   circuit; IsLoading then replaces it with the real spinner. */
+.sui-btn--pending { cursor: progress; pointer-events: none; }
+.sui-btn--pending::after {
+  content: "";
+  position: absolute;
+  inset-inline-end: var(--sui-space-2);
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  opacity: .7;
+  animation: sui-btn-pending-spin .7s linear infinite;
+}
+@keyframes sui-btn-pending-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .sui-btn--pending::after { animation-duration: 2.4s; }
+}
+
 .sui-btn__label {
   display: flex;
   flex: 1 1 auto;
