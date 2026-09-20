@@ -4018,6 +4018,14 @@
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
+      },
+      {
+        "description": "Unmatched attributes (id, data-*, aria-*, style, ...) forwarded to the root div.",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": false
       }
     ]
   },

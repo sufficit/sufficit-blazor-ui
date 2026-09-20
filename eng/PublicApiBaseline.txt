@@ -931,6 +931,7 @@ P|Sufficit.Blazor.UI.Components.SUIChoiceCard<`0:TValue>|`0:TValue|SelectedValue
 P|Sufficit.Blazor.UI.Components.SUIChoiceCard<`0:TValue>|`0:TValue|Value|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIConfirmDialog|System.String|Message|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIContainer|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIContainer|System.Collections.Generic.Dictionary<System.String,System.Object>|AdditionalAttributes|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIContainer|System.String|Class|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIContainer|System.String|MaxWidth|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICopyToClipboard|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;

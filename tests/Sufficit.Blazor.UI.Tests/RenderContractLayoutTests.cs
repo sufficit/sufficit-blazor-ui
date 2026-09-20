@@ -5,8 +5,9 @@ namespace Sufficit.Blazor.UI.Tests;
 
 /// <summary>
 /// Minimal render contracts for the layout primitives: root element, base class
-/// and the modifier classes derived from their few parameters. None of these
-/// capture unmatched attributes, so no forwarding assertion applies.
+/// and the modifier classes derived from their few parameters. SUIContainer
+/// forwards unmatched attributes to its root element; the other primitives do
+/// not capture them, so no forwarding assertion applies there.
 /// </summary>
 public sealed class RenderContractLayoutTests
 {
@@ -57,6 +58,22 @@ public sealed class RenderContractLayoutTests
         var root = cut.Find(".sui-container");
         Assert.True(root.ClassList.Contains("sui-container--sm"));
         Assert.True(root.ClassList.Contains("probe"));
+    }
+
+    [Fact]
+    public void Container_ForwardsUnmatchedAttributesToRoot()
+    {
+        // Regression: a consumer page passed id="..." and Blazor threw
+        // InvalidOperationException at render time, crashing the whole page.
+        using var context = new BunitContext();
+        var cut = context.Render<SUIContainer>(parameters => parameters
+            .AddUnmatched("id", "providers-container")
+            .AddUnmatched("data-probe", "1"));
+
+        var root = cut.Find("div.sui-container");
+        Assert.Equal("providers-container", root.GetAttribute("id"));
+        Assert.Equal("1", root.GetAttribute("data-probe"));
+        Assert.True(root.ClassList.Contains("sui-container--lg"));
     }
 
     [Fact]
