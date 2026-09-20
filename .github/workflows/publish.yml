@@ -192,6 +192,23 @@ jobs:
         with:
           user: ${{ vars.NUGET_USER }}
 
+      - name: Probe credential permissions (non-mutating)
+        # NuGet answers the unlist DELETE, a non-matching glob pattern and a
+        # missing unlist scope all with the same generic 403 sentence. GET
+        # verifykey answers 200 only when the minted key's scopes cover push
+        # for this exact package id, so the pair of status codes separates the
+        # two cases: verifykey 403 + DELETE 403 = policy glob/scopes not saved
+        # as intended; verifykey 200 + DELETE 403 = glob fine, unlist scope
+        # missing on the policy.
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+        run: |
+          code="$(curl --silent --output /dev/null --write-out '%{http_code}' \
+            --request GET \
+            --header "X-NuGet-ApiKey: $NUGET_API_KEY" \
+            "https://www.nuget.org/api/v2/verifykey/Sufficit.Blazor.UI/2.26.919.1826")"
+          echo "verifykey HTTP $code (200 = glob + push scope OK on this key)"
+
       - name: Inspect or unlist only the approved legacy versions
         env:
           NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
