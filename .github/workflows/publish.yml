@@ -193,21 +193,34 @@ jobs:
           user: ${{ vars.NUGET_USER }}
 
       - name: Probe credential permissions (non-mutating)
-        # NuGet answers the unlist DELETE, a non-matching glob pattern and a
-        # missing unlist scope all with the same generic 403 sentence. GET
-        # verifykey answers 200 only when the minted key's scopes cover push
-        # for this exact package id, so the pair of status codes separates the
-        # two cases: verifykey 403 + DELETE 403 = policy glob/scopes not saved
-        # as intended; verifykey 200 + DELETE 403 = glob fine, unlist scope
-        # missing on the policy.
+        # NuGet answers the unlist DELETE with the same generic 403 whether
+        # the policy lacks the unlist scope or its glob pattern matches no
+        # package, and the two need opposite fixes. Two probes that cannot
+        # change anything separate them:
+        #   DELETE of a version that does not exist -> 404 proves the minted
+        #     key carries the unlist action (the request passed the action
+        #     filter and only failed the package lookup), so a generic 403 on
+        #     the real DELETE then means the glob matches no package; a 403
+        #     here means the key has no unlist scope at all.
+        #   GET verifykey -> 200 only when the key's scopes cover push for the
+        #     exact package id; any 4xx body is printed for diagnosis.
         env:
           NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
         run: |
-          code="$(curl --silent --output /dev/null --write-out '%{http_code}' \
-            --request GET \
-            --header "X-NuGet-ApiKey: $NUGET_API_KEY" \
-            "https://www.nuget.org/api/v2/verifykey/Sufficit.Blazor.UI/2.26.919.1826")"
-          echo "verifykey HTTP $code (200 = glob + push scope OK on this key)"
+          probe() {
+            method="$1"; url="$2"
+            code="$(curl --silent --show-error \
+              --output probe-body.txt --write-out '%{http_code}' \
+              --request "$method" \
+              --header "X-NuGet-ApiKey: $NUGET_API_KEY" \
+              "$url")"
+            body="$(head -c 400 probe-body.txt)"
+            echo "$method $url"
+            echo "  -> HTTP $code"
+            echo "  body: ${body:-<empty>}"
+          }
+          probe DELETE "https://www.nuget.org/api/v2/package/Sufficit.Blazor.UI/0.0.1"
+          probe GET "https://www.nuget.org/api/v2/verifykey/Sufficit.Blazor.UI/2.26.919.1826"
 
       - name: Inspect or unlist only the approved legacy versions
         env:
