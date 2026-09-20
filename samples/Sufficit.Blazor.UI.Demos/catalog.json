@@ -4020,7 +4020,7 @@
         "deprecated": false
       },
       {
-        "description": "Unmatched attributes (id, data-*, aria-*, style, ...) forwarded to the root div.",
+        "description": "Unmatched attributes (id, data-*, aria-*, style, ...) forwarded to the root div. Without this, any such attribute throws InvalidOperationException at render time — a page-level crash in the consumer.",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
