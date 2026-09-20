@@ -804,6 +804,14 @@
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": false
       }
     ]
   },
@@ -833,6 +841,14 @@
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
         "required": false,
         "deprecated": false
       }
@@ -4316,6 +4332,14 @@
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
         "required": false,
         "deprecated": false
       }

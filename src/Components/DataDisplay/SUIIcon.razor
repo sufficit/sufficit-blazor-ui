@@ -11,7 +11,8 @@
          viewBox="0 0 24 24"
          fill="currentColor"
          aria-hidden="true"
-         focusable="false">@SUIIconMarkup.Render(Name)</svg>
+         focusable="false"
+         @attributes="AdditionalAttributes">@SUIIconMarkup.Render(Name)</svg>
 }
 else
 {
@@ -25,7 +26,8 @@ else
          stroke-linecap="round"
          stroke-linejoin="round"
          aria-hidden="true"
-         focusable="false">
+         focusable="false"
+         @attributes="AdditionalAttributes">
         @switch (Name)
         {
             case "dashboard":
@@ -124,6 +126,15 @@ else
     /// <summary>Optional CSS class applied to the root &lt;svg&gt;.</summary>
     [Parameter]
     public string? CssClass { get; set; }
+
+    /// <summary>
+    /// Catch-all for unmatched attributes, applied to the root &lt;svg&gt;. Icon
+    /// sizing belongs in <see cref="Size"/>; keeping this catch-all prevents
+    /// consumer markup written against the framework-style API surface from
+    /// crashing on parameters this component does not model.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
     private bool IsMarkup => Name.TrimStart().StartsWith('<');
 }

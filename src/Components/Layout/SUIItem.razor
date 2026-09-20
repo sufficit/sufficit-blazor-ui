@@ -1,6 +1,6 @@
 @namespace Sufficit.Blazor.UI.Components
 
-<div class="@Classname">
+<div class="@Classname" @attributes="AdditionalAttributes">
     @ChildContent
 </div>
 
@@ -30,6 +30,14 @@
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Catch-all for unmatched attributes (for example <c>Style</c>), applied to the
+    /// root element. Keeps consumer markup written against the framework-style API
+    /// surface from crashing on parameters this component does not model.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
     private string Classname
         => SUIClassBuilder.Default("sui-item")
