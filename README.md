@@ -164,7 +164,7 @@ para `Primary`/`PrimaryContrast` e preserva temas existentes.
 
 **[Abrir a vitrine publicada](https://sufficit.github.io/sufficit-blazor-ui/)**
 
-A vitrine em `samples/Sufficit.Blazor.UI.Showcase` executa os **71 componentes**
+A vitrine em `samples/Sufficit.Blazor.UI.Showcase` executa os **72 componentes**
 em Blazor WebAssembly. Inclui busca, exemplos Razor copiáveis, parâmetros
 públicos, composições e editor de temas claro/escuro/sistema com persistência,
 três paletas, duas densidades e exportação C#. Todos os dados são locais.
@@ -198,7 +198,7 @@ derivada de `src/Components/<Família>/` e conferida por
 | Navegação | `SUIFilterScope`, `SUIFilterTree`, `SUINavGroup`, `SUINavLink`, `SUIProgressSteps`, `SUISlidingTabPanel`, `SUISlidingTabs`, `SUITabPanel`, `SUITabs` |
 | Exibição de dados | `SUIAvatar`, `SUIChip`, `SUIIcon`, `SUIList`, `SUIListItem`, `SUIPagination`, `SUIStat`, `SUITable`, `SUITableEmpty`, `SUITableSortLabel`, `SUITd`, `SUIText`, `SUITh`, `SUITimeline`, `SUITimelineItem` |
 | Feedback | `SUIAlert`, `SUIEmptyState`, `SUIPendingChangesBar`, `SUIProgressCircular`, `SUIProgressLinear`, `SUISkeletonLoader`, `SUISnackbarHost`, `SUIStatusBadge`, `SUIStatusBanner`, `SUIToast`, `SUIToastHost` |
-| Overlays | `SUIConfirmDialog`, `SUIDecisionDialog`, `SUIDialogHost`, `SUITooltip` |
+| Overlays | `SUIConfirmDialog`, `SUIDecisionDialog`, `SUIDialogHost`, `SUIPopover`, `SUITooltip` |
 
 Enums como `SUIColor`, `SUIVariant`, `SUISize`, `SUIButtonType`, `SUIEdge`,
 `SUITypo`, `SUIAlign`, `SUIOrigin` e `SUITone` evitam dependência de tipos

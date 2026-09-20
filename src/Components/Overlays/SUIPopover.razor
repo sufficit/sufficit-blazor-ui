@@ -1,0 +1,139 @@
+@namespace Sufficit.Blazor.UI.Components
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+<span @ref="_anchorElement"
+      @attributes="UserAttributes"
+      class="@Classname"
+      style="@Style"
+      aria-describedby="@(Disabled ? null : PanelId)">
+    @ChildContent
+</span>
+
+@if (!Disabled && Content is not null)
+{
+    <div @ref="_panelElement"
+         id="@PanelId"
+         class="@PanelClassname"
+         role="tooltip"
+         aria-hidden="true"
+         data-sui-popover-placement="@PlacementValue"
+         data-sui-popover-arrow="@(ShowArrow ? "true" : "false")"
+         style="@PanelInlineStyle">
+        @Content
+    </div>
+}
+
+@code {
+    /// <summary>Anchor content the popover attaches to.</summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>Rich content rendered on the floating surface.</summary>
+    [Parameter]
+    public RenderFragment? Content { get; set; }
+
+    /// <summary>Preferred side. The runtime flips it when the viewport has no room.</summary>
+    [Parameter]
+    public SUITooltipPlacement Placement { get; set; } = SUITooltipPlacement.Top;
+
+    /// <summary>Disables the popover without removing the anchor content.</summary>
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    /// <summary>Distance in pixels between the anchor and the panel.</summary>
+    [Parameter]
+    public int Offset { get; set; } = 10;
+
+    /// <summary>Delay in milliseconds before the panel appears.</summary>
+    [Parameter]
+    public int ShowDelay { get; set; } = 140;
+
+    /// <summary>Delay in milliseconds before the panel disappears.</summary>
+    [Parameter]
+    public int HideDelay { get; set; } = 160;
+
+    /// <summary>Maximum panel width in pixels.</summary>
+    [Parameter]
+    public int MaxWidth { get; set; } = 340;
+
+    /// <summary>Whether the directional arrow is rendered.</summary>
+    [Parameter]
+    public bool ShowArrow { get; set; } = true;
+
+    /// <summary>Additional classes applied to the floating panel.</summary>
+    [Parameter]
+    public string? PanelClass { get; set; }
+
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> UserAttributes { get; set; } = new();
+
+    private string PanelId { get; } = "sui-popover-" + Guid.NewGuid().ToString("N");
+
+    private IJSObjectReference? _module;
+    private ElementReference _anchorElement;
+    private ElementReference _panelElement;
+    private bool _connected;
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-popover-anchor")
+            .AddClass(Class)
+            .Build();
+
+    private string PanelClassname
+        => SUIClassBuilder.Default("sui-popover")
+            .AddClass(PanelClass)
+            .Build();
+
+    private string PlacementValue => Placement.ToString().ToLowerInvariant();
+
+    private string PanelInlineStyle => $"max-width:{Math.Clamp(MaxWidth, 120, 1_200)}px;";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender || Disabled || Content is null)
+        {
+            return;
+        }
+
+        _module = await JS.InvokeAsync<IJSObjectReference>(
+            "import",
+            "./_content/Sufficit.Blazor.UI/Components/Overlays/SUIPopover.razor.js");
+        await _module.InvokeVoidAsync(
+            "connectPopover",
+            _anchorElement,
+            _panelElement,
+            new
+            {
+                placement = PlacementValue,
+                offset = Math.Clamp(Offset, 0, 80),
+                showDelay = Math.Clamp(ShowDelay, 0, 5_000),
+                hideDelay = Math.Clamp(HideDelay, 0, 5_000)
+            });
+        _connected = true;
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_module is null)
+        {
+            return;
+        }
+
+        try
+        {
+            if (_connected)
+            {
+                await _module.InvokeVoidAsync("disconnectPopover", _anchorElement);
+            }
+            await _module.DisposeAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+            // The browser document owns the delegated listeners and is already gone.
+        }
+    }
+}

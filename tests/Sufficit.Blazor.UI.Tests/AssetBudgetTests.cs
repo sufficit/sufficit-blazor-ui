@@ -26,12 +26,16 @@ public sealed class AssetBudgetTests
     // SUISlidingTabs indicator module (position + resize/font repositioning).
     // Raised 2026-09-19 for the SUITable grid-row keyboard module (WAI-ARIA
     // row focus replacing tr[role=button]) and the clipboard HTTPS message.
-    private const int JsTotalBrotliBudget = 11 * 1024 + 256;  // measured 11,063 B
+    // Raised 2026-09-20 for the SUIPopover module (hover-intent delays, focus,
+    // Escape, fixed positioning with viewport flip) — measured 12,387 B.
+    private const int JsTotalBrotliBudget = 12 * 1024 + 512;  // measured 12,387 B
     // Raw bytes of every .razor.css (source/parse cost of CSS isolation).
     // Raised 2026-09-13 for SUISlidingTabs (pill track + sliding indicator,
     // micro-interactions, responsive collapse, reduced-motion) — measured
     // 32,217 B; headroom rule keeps ~3% slack.
-    private const int IsolatedCssRawBudget = 32 * 1024 + 512; // measured 32,217 B
+    // Raised 2026-09-20 for SUIPopover (dark floating surface, per-placement
+    // arrows, open state, reduced-motion) — measured 34,491 B.
+    private const int IsolatedCssRawBudget = 34 * 1024 + 1024; // measured 34,491 B
 
     [Fact]
     public void GlobalStylesheet_FitsTheTransferBudget()

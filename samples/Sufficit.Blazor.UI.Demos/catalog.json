@@ -5702,6 +5702,117 @@
     ]
   },
   {
+    "name": "SUIPopover",
+    "family": "Overlays",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIPopover Placement=\"SUITooltipPlacement.Top\">\n    <ChildContent>\n        <SUIIconButton Icon=\"@SUIIcons.Info\" Title=\"Uso\" OnClick=\"Notify\" />\n    </ChildContent>\n    <Content>\n        <SUIText Typo=\"SUITypo.caption\">Uso das janelas por família de modelo.</SUIText>\n    </Content>\n</SUIPopover>\n\n<p>Passe o ponteiro ou foque a âncora para abrir o painel.</p>\n",
+    "parameters": [
+      {
+        "description": "Conteúdo da âncora ao qual o popover se ancora.",
+        "name": "ChildContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Conteúdo rico renderizado na superfície flutuante.",
+        "name": "Content",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Lado preferido; o runtime vira quando não há espaço na janela.",
+        "name": "Placement",
+        "type": "SUITooltipPlacement",
+        "default": "SUITooltipPlacement.Top",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Desativa o popover sem remover o conteúdo da âncora.",
+        "name": "Disabled",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Distância em pixels entre a âncora e o painel.",
+        "name": "Offset",
+        "type": "int",
+        "default": "10",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Atraso em milissegundos antes de o painel aparecer.",
+        "name": "ShowDelay",
+        "type": "int",
+        "default": "140",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Atraso em milissegundos antes de o painel desaparecer.",
+        "name": "HideDelay",
+        "type": "int",
+        "default": "160",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Largura máxima do painel em pixels.",
+        "name": "MaxWidth",
+        "type": "int",
+        "default": "340",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Se a seta direcional é renderizada.",
+        "name": "ShowArrow",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Classes adicionais aplicadas ao painel flutuante.",
+        "name": "PanelClass",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Atributos não casados aplicados à âncora.",
+        "name": "UserAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": false
+      }
+    ]
+  },
+  {
     "name": "SUIThemeProvider",
     "family": "Temas",
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIText>Use o painel de tema da vitrine para experimentar os tokens nos componentes reais.</SUIText>\n<SUIButton OnClick=\"Notify\">Testar contraste do tema</SUIButton>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",

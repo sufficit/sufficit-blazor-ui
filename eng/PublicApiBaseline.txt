@@ -48,6 +48,7 @@ B|Sufficit.Blazor.UI.Components.SUIOrigin|System.Enum
 B|Sufficit.Blazor.UI.Components.SUIPageHeader|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIPagination|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIPendingChangesBar|Microsoft.AspNetCore.Components.ComponentBase
+B|Sufficit.Blazor.UI.Components.SUIPopover|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIProgressCircular|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIProgressLinear|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIProgressSteps|Microsoft.AspNetCore.Components.ComponentBase
@@ -149,6 +150,7 @@ C|Sufficit.Blazor.UI.Components.SUINumericField<`0:T>|()
 C|Sufficit.Blazor.UI.Components.SUIPageHeader|()
 C|Sufficit.Blazor.UI.Components.SUIPagination|()
 C|Sufficit.Blazor.UI.Components.SUIPendingChangesBar|()
+C|Sufficit.Blazor.UI.Components.SUIPopover|()
 C|Sufficit.Blazor.UI.Components.SUIProgressCircular|()
 C|Sufficit.Blazor.UI.Components.SUIProgressLinear|()
 C|Sufficit.Blazor.UI.Components.SUIProgressSteps|()
@@ -510,6 +512,10 @@ I|Sufficit.Blazor.UI.Components.SUIPagination|Microsoft.AspNetCore.Components.IH
 I|Sufficit.Blazor.UI.Components.SUIPendingChangesBar|Microsoft.AspNetCore.Components.IComponent
 I|Sufficit.Blazor.UI.Components.SUIPendingChangesBar|Microsoft.AspNetCore.Components.IHandleAfterRender
 I|Sufficit.Blazor.UI.Components.SUIPendingChangesBar|Microsoft.AspNetCore.Components.IHandleEvent
+I|Sufficit.Blazor.UI.Components.SUIPopover|Microsoft.AspNetCore.Components.IComponent
+I|Sufficit.Blazor.UI.Components.SUIPopover|Microsoft.AspNetCore.Components.IHandleAfterRender
+I|Sufficit.Blazor.UI.Components.SUIPopover|Microsoft.AspNetCore.Components.IHandleEvent
+I|Sufficit.Blazor.UI.Components.SUIPopover|System.IAsyncDisposable
 I|Sufficit.Blazor.UI.Components.SUIProgressCircular|Microsoft.AspNetCore.Components.IComponent
 I|Sufficit.Blazor.UI.Components.SUIProgressCircular|Microsoft.AspNetCore.Components.IHandleAfterRender
 I|Sufficit.Blazor.UI.Components.SUIProgressCircular|Microsoft.AspNetCore.Components.IHandleEvent
@@ -705,6 +711,7 @@ M|Sufficit.Blazor.UI.Components.SUINavigationContext|System.String|ToString|()
 M|Sufficit.Blazor.UI.Components.SUINumericField<`0:T>|System.Threading.Tasks.Task|SetParametersAsync|(Microsoft.AspNetCore.Components.ParameterView)
 M|Sufficit.Blazor.UI.Components.SUINumericField<`0:T>|System.Threading.Tasks.ValueTask|DisposeAsync|()
 M|Sufficit.Blazor.UI.Components.SUINumericField<`0:T>|System.Void|Dispose|()
+M|Sufficit.Blazor.UI.Components.SUIPopover|System.Threading.Tasks.ValueTask|DisposeAsync|()
 M|Sufficit.Blazor.UI.Components.SUISelect<`0:T>|System.Threading.Tasks.ValueTask|DisposeAsync|()
 M|Sufficit.Blazor.UI.Components.SUISelectItem|System.Void|Dispose|()
 M|Sufficit.Blazor.UI.Components.SUISlidingTabPanel|System.Void|Dispose|()
@@ -1195,6 +1202,19 @@ P|Sufficit.Blazor.UI.Components.SUIPendingChangesBar|System.String|Description|[
 P|Sufficit.Blazor.UI.Components.SUIPendingChangesBar|System.String|SaveText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIPendingChangesBar|System.String|Style|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIPendingChangesBar|System.String|Title|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIPopover|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIPopover|Microsoft.AspNetCore.Components.RenderFragment|Content|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIPopover|Sufficit.Blazor.UI.Components.SUITooltipPlacement|Placement|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIPopover|System.Boolean|Disabled|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIPopover|System.Boolean|ShowArrow|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIPopover|System.Collections.Generic.Dictionary<System.String,System.Object>|UserAttributes|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIPopover|System.Int32|HideDelay|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIPopover|System.Int32|MaxWidth|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIPopover|System.Int32|Offset|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIPopover|System.Int32|ShowDelay|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIPopover|System.String|Class|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIPopover|System.String|PanelClass|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIPopover|System.String|Style|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIProgressCircular|Sufficit.Blazor.UI.Components.SUISpinDirection|SpinDirection|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIProgressCircular|System.Boolean|Indeterminate|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIProgressCircular|System.Collections.Generic.Dictionary<System.String,System.Object>|AdditionalAttributes|[]|get;set;
@@ -1608,6 +1628,7 @@ T|class|Sufficit.Blazor.UI.Components.SUINumericField<`0:T>
 T|class|Sufficit.Blazor.UI.Components.SUIPageHeader
 T|class|Sufficit.Blazor.UI.Components.SUIPagination
 T|class|Sufficit.Blazor.UI.Components.SUIPendingChangesBar
+T|class|Sufficit.Blazor.UI.Components.SUIPopover
 T|class|Sufficit.Blazor.UI.Components.SUIProgressCircular
 T|class|Sufficit.Blazor.UI.Components.SUIProgressLinear
 T|class|Sufficit.Blazor.UI.Components.SUIProgressSteps
