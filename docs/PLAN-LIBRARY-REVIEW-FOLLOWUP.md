@@ -10,7 +10,7 @@ lista.
 | --- | --- | --- |
 | P0.2 | Deslistar `1.27.0`, `1.28.0`, `2.0.0`, `2.1.1`, `2.2.1` no NuGet | bloqueado na política do NuGet, não mais no repositório — ver abaixo |
 
-## P0.2 — estado em 2026-09-19
+## P0.2 — estado em 2026-09-20
 
 A operação deixou de depender de `NUGET_API_KEY` de vida longa: o job
 `unlist-legacy` em `publish.yml` usa a mesma credencial OIDC de curta duração
@@ -23,25 +23,38 @@ O que já está verificado:
 - a inspeção `apply=false` roda e confirma as cinco versões ainda em
   `listed=true`, sem emitir `DELETE`
   (run [`35476436871`](https://github.com/sufficit/sufficit-blazor-ui/actions/runs/35476436871));
-- com `apply=true` o `DELETE` é recusado com `HTTP 403 ... does not have
-  permission to access the specified package`
-  (run [`35476476714`](https://github.com/sufficit/sufficit-blazor-ui/actions/runs/35476476714));
+- após a correção do glob em 2026-09-20, todo `apply=true` continua recusado
+  com o mesmo `HTTP 403` genérico
+  (runs [`35478999337`](https://github.com/sufficit/sufficit-blazor-ui/actions/runs/35478999337),
+  [`35479099495`](https://github.com/sufficit/sufficit-blazor-ui/actions/runs/35479099495),
+  [`35479658809`](https://github.com/sufficit/sufficit-blazor-ui/actions/runs/35479658809));
   nenhuma versão foi alterada.
 
-Causa: na política de Trusted Publishing, o campo *Glob Patterns and Packages*
-está preenchido com `sufficit-blazor-ui`, que é o nome do **repositório**. O
-`PackageId` publicado é `Sufficit.Blazor.UI` (`src/Sufficit.Blazor.UI.csproj`).
-O glob não casa nenhum pacote, então a credencial é emitida e depois recusada.
+Diagnóstico fechado com sondas não-mutantes embutidas no job `unlist-legacy`
+(run [`35479658809`](https://github.com/sufficit/sufficit-blazor-ui/actions/runs/35479658809)),
+validado contra o código-fonte do NuGet Gallery:
 
-Ação pendente, na interface do nuget.org (não há como fazer pelo repositório):
-ajustar *Glob Patterns and Packages* para `Sufficit.Blazor.UI` (ou `Sufficit.*`),
-mantendo *Workflow File* `publish.yml` e os escopos *Push new packages and
-package versions* e *Unlist or relist package versions*.
+- `DELETE /api/v2/package/Sufficit.Blazor.UI/0.0.1` — versão que não existe no
+  catálogo (28 versões, `0.0.1` ausente) — respondeu **403** com a mensagem do
+  filtro de autorização (`ApiKeyNotAuthorized`). No controller, o filtro
+  `ApiScopeRequired(PackageUnlist)` roda **antes** da busca do pacote: se a
+  credencial tivesse qualquer escopo com a ação de unlist, a resposta seria
+  **404** (pacote inexistente). Logo, a credencial mintada **não carrega a ação
+  de unlist em escopo algum**.
+- `GET /api/v2/verifykey/Sufficit.Blazor.UI/2.26.919.1826` respondeu **400**
+  (rejeição anterior à avaliação de escopos), não 403: o filtro
+  `ApiScopeRequired(PackageVerify, PackagePush, PackagePushVersion)` passou,
+  ou seja, a credencial **tem** escopo de push.
 
-O mesmo glob governa o escopo de push: enquanto não for corrigido, **a próxima
-tag de release também falha** com `403` no `dotnet nuget push`.
+Conclusão: a política está salva com o escopo *Push*, mas **sem** o escopo
+*Unlist or relist package versions* marcado. O NuGet responde os dois problemas
+com a mesma frase genérica, o que só foi separável com as sondas acima.
 
-Depois de corrigir, executar e conferir `listed=false` no catálogo:
+Ação pendente, apenas na interface do nuget.org: editar a política `publish.yml`
+→ seção *Select Scopes* → marcar **Unlist or relist package versions** →
+salvar. O glob corrigido para `Sufficit.Blazor.UI` permanece como está.
+
+Depois de marcado, executar e conferir `listed=false` no catálogo:
 
 ```bash
 gh workflow run publish.yml --repo sufficit/sufficit-blazor-ui --ref main \
