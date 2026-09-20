@@ -56,7 +56,7 @@ concluído é arquivado em `activities/` com prefixo de timestamp
 
 ## Padrões (rfc/)
 
-- [Revisão de aderência a padrões — 2026-09-19](rfc/README.md) — análise por
+- [Revisão de aderência a padrões — 2026-09-19](rfc/) — um documento por
   padrão aplicável (WCAG 2.2/ARIA, HTML/Popover, Clipboard, CSP3, RFCs
   9562/3339/3986/2397) com evidências do código, gaps priorizados e
   justificativas dos padrões avaliados sem documento; processo regenerável em
