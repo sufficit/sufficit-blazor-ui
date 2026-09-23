@@ -1,0 +1,12 @@
+@inherits DemoBase
+
+<SUIPopover Placement="SUITooltipPlacement.Right">
+    <ChildContent>
+        <SUILink Href="#">Detalhes da operação</SUILink>
+    </ChildContent>
+    <Content>
+        <strong>@Text</strong>
+        <p>Rota ativa em @Count regiões, com atendimento 24 horas.</p>
+        <SUIButton OnClick="Notify">Confirmar</SUIButton>
+    </Content>
+</SUIPopover>
