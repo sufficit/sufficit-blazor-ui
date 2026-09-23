@@ -4509,6 +4509,22 @@
         "deprecated": false
       },
       {
+        "description": "Glues this section to the previous attached one: no gap between them and a flat seam (no rounded corners, single shared border), so a run of attached sections reads as one block with internal divisions. They remain separate sections for assistive technology and for their own headers.",
+        "name": "Attached",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Spacing token index (0-6) separating this section from the previous one. Defaults to 4 (16px) so stacked sections never touch by accident; use 0 to remove the gap. Ignored while Attached is set.",
+        "name": "Gap",
+        "type": "int?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "",
         "name": "Elevation",
         "type": "int",
@@ -4519,6 +4535,14 @@
       {
         "description": "",
         "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Additional inline declarations, appended after the generated gap variable.",
+        "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
         "required": false,

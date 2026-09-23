@@ -1245,12 +1245,15 @@ P|Sufficit.Blazor.UI.Components.SUIProgressSteps|System.String|PendingStatusLabe
 P|Sufficit.Blazor.UI.Components.SUIProgressSteps|System.String|Style|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|Microsoft.AspNetCore.Components.RenderFragment|Actions|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUISection|System.Boolean|Attached|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|System.Collections.Generic.Dictionary<System.String,System.Object>|AdditionalAttributes|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|System.Int32|ContentSpacing|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|System.Int32|Elevation|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUISection|System.Nullable<System.Int32>|Gap|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|System.String|Class|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|System.String|Description|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|System.String|Icon|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUISection|System.String|Style|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|System.String|Title|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:T>|Microsoft.AspNetCore.Components.EventCallback<`0:T>|ValueChanged|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:T>|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
