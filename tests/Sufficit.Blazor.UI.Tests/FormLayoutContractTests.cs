@@ -45,6 +45,82 @@ public sealed class FormLayoutContractTests
     }
 
     [Fact]
+    public void Section_LeavesTheDefaultRhythmToTheStylesheet()
+    {
+        using var context = new BunitContext();
+        var cut = context.Render<SUISection>(parameters => parameters
+            .Add(component => component.Title, "Filtros")
+            .AddChildContent("Conteúdo"));
+
+        var root = cut.Find(".sui-section");
+
+        // No inline override: stacked sections must be separated by the
+        // stylesheet default, without every page asking for a margin.
+        Assert.DoesNotContain("sui-section--attached", root.ClassList);
+        Assert.True(string.IsNullOrEmpty(root.GetAttribute("style")));
+    }
+
+    [Theory]
+    [InlineData(2, "--sui-section-gap:var(--sui-space-2);")]
+    [InlineData(0, "--sui-section-gap:0;")]
+    public void Section_OverridesTheGapOnRequest(int gap, string expected)
+    {
+        using var context = new BunitContext();
+        var cut = context.Render<SUISection>(parameters => parameters
+            .Add(component => component.Title, "Filtros")
+            .Add(component => component.Gap, gap)
+            .Add(component => component.Style, "--consumer-probe:1;")
+            .AddChildContent("Conteúdo"));
+
+        var style = cut.Find(".sui-section").GetAttribute("style");
+
+        Assert.Contains(expected, style);
+        Assert.Contains("--consumer-probe:1;", style);
+    }
+
+    [Fact]
+    public void Section_AttachedGluesItselfToThePreviousSection()
+    {
+        using var context = new BunitContext();
+        var cut = context.Render<SUISection>(parameters => parameters
+            .Add(component => component.Title, "Transferências")
+            .Add(component => component.Attached, true)
+            .AddChildContent("Conteúdo"));
+
+        var root = cut.Find(".sui-section");
+
+        Assert.Contains("sui-section--attached", root.ClassList);
+        // Attached means glued: the gap is zero by definition, so the stylesheet
+        // only has to flatten the seam.
+        Assert.Contains("--sui-section-gap:0;", root.GetAttribute("style"));
+    }
+
+    [Fact]
+    public void SectionStylesheet_SeparatesStackedSectionsAndFlattensAttachedSeams()
+    {
+        var css = Compact(File.ReadAllText(
+            Path.Combine(RepositoryLayout.WebRoot, "sufficit-ui.css")));
+
+        // Default rhythm, overridable per section through the variable.
+        Assert.Contains(
+            ".sui-section+.sui-section{margin-block-start:var(--sui-section-gap,var(--sui-space-4))}",
+            css);
+
+        // The seam: bottom corners of the previous card and top corners of the
+        // attached one go flat, and the shared border is drawn only once.
+        Assert.Contains(".sui-section:has(+.sui-section--attached)>.sui-card{", css);
+        Assert.Contains(".sui-section+.sui-section--attached>.sui-card{", css);
+        Assert.Contains("border-block-start:0", css);
+
+        // A stack around the sections already spaces them through its gap;
+        // keeping the margin as well would double the breathing room.
+        Assert.Contains(".sui-stack>.sui-section+.sui-section{margin-block-start:0}", css);
+    }
+
+    private static string Compact(string css)
+        => string.Concat(css.Where(character => !char.IsWhiteSpace(character)));
+
+    [Fact]
     public void ChoiceCard_OnlyReservesTracksForRenderedContent()
     {
         using var context = new BunitContext();

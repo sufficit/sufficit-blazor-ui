@@ -73,6 +73,7 @@ public static partial class DemoCatalog
         "SUIConfirmDialog" => typeof(Examples.SUIConfirmDialogExample),
         "SUIDecisionDialog" => typeof(Examples.SUIDecisionDialogExample),
         "SUIDialogHost" => typeof(Examples.SUIDialogHostExample),
+        "SUIPopover" => typeof(Examples.SUIPopoverExample),
         "SUITooltip" => typeof(Examples.SUITooltipExample),
         "SUIThemeProvider" => typeof(Examples.SUIThemeProviderExample),
         _ => throw new ArgumentOutOfRangeException(nameof(name)),
