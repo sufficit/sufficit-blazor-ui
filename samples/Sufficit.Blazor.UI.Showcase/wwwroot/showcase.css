@@ -157,6 +157,9 @@ pre code { font-size: inherit; }
 .all-components__preview .sui-layout { min-height: 0; }
 .all-components__preview .sui-pending-changes-bar { position: static; width: 100%; transform: none; box-shadow: none; }
 .all-components__preview .sui-toast { position: static; width: 100%; box-shadow: none; animation: none; }
+/* Keep the closed popover's fixed panel inside its preview; it returns to
+   viewport positioning when opened through the live component page. */
+.all-components__preview .sui-popover:not(.sui-popover--open) { position: static; height: 0; padding: 0; border: 0; }
 .all-components__preview .sui-appbar { position: static; }
 @media (max-width: 900px) { .all-components__jump { top: 0; } }
 @media (max-width: 640px) {

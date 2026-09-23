@@ -25,9 +25,15 @@ const budgets = {
   // addition that crosses the measured×1.03 line must ratchet the ceiling in a
   // dedicated change or shave bytes elsewhere. The package-level ceiling
   // remains 56 KiB (57,344 B) in AssetBudgetTests.
-  raw: 56_400,
-  gzip: 10_400,
-  brotli: 9_110,
+  // Raised 2026-09-23 for the SUISection rhythm (default gap between stacked
+  // sections + attached seam): the element carried no style at all, so every
+  // page had to re-add its own margin and forgetting it left cards touching.
+  // Cost +310 B raw / +80 B gzip / +80 B brotli; measured 56,512 / 10,416 /
+  // 9,089 B. Kept under the AssetBudgetTests ceilings (57,344 / 10,496 / 9,216)
+  // so this script still fails before CI does.
+  raw: 56_768,
+  gzip: 10_464,
+  brotli: 9_152,
 };
 
 const result = bundle({

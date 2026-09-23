@@ -28,6 +28,15 @@ definem a numeração das próximas publicações.
   dentro de um `SUITh` informa a direção ao cabeçalho, sem o consumidor
   repetir o valor.
 - `SUITable.RowAriaLabelFunc`: nome acessível opcional por linha clicável.
+- `SUISection` ganha ritmo vertical próprio: seções empilhadas agora se separam
+  por `--sui-space-4` (16px) sem a página pedir margem. `Gap` (0–6) ajusta o
+  valor por seção — `Gap="0"` remove o respiro — e `Style` permite declarações
+  adicionais. Dentro de um `SUIStack` a margem é suprimida, já que o `gap` da
+  pilha é quem manda, evitando espaçamento dobrado.
+- `SUISection.Attached`: gruda a seção na anterior formando um bloco contínuo
+  com divisões internas — sem respiro e com a emenda reta (cantos sem curva e
+  uma única borda compartilhada). Continuam sendo seções distintas para
+  tecnologia assistiva, cada uma com seu próprio cabeçalho.
 
 ### Removed (breaking)
 
