@@ -806,7 +806,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Catch-all for unmatched attributes, applied to the root <svg>. Icon sizing belongs in Size; keeping this catch-all prevents consumer markup written against the framework-style API surface from crashing on parameters this component does not model.",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -845,7 +845,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Catch-all for unmatched attributes (for example Style), applied to the root element. Keeps consumer markup written against the framework-style API surface from crashing on parameters this component does not model.",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -3530,7 +3530,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITextField T=\"string\" Label=\"Nome público\" @bind-Value=\"Text\" HelperText=\"Nome exibido aos usuários.\" Clearable />\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n}\n",
     "parameters": [
       {
-        "description": "",
+        "description": "Current value, or the type default when empty.",
         "name": "Value",
         "type": "T?",
         "default": "Padrão do tipo",
@@ -3538,7 +3538,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Raised when the user commits a value; enables @bind-Value.",
         "name": "ValueChanged",
         "type": "EventCallback<T?>",
         "default": "Padrão do tipo",
@@ -3546,7 +3546,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Field expression used to bind validation messages from the surrounding EditContext.",
         "name": "ValueExpression",
         "type": "Expression<Func<T?>>?",
         "default": "Padrão do tipo",
@@ -3554,7 +3554,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Visible label, rendered above the control and bound to it for assistive technology.",
         "name": "Label",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3562,7 +3562,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Hint shown inside the empty control.",
         "name": "Placeholder",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3570,7 +3570,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Static helper text rendered below the control.",
         "name": "HelperText",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3578,7 +3578,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Explicit validation message; overrides any message from the EditContext.",
         "name": "ErrorText",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3586,7 +3586,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Marks the field as invalid regardless of validation state.",
         "name": "Invalid",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3594,7 +3594,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Explicit DOM id; one is generated when omitted.",
         "name": "Id",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3602,7 +3602,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Extra element ids announced alongside this field's own helper and error texts.",
         "name": "AriaDescribedBy",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3642,7 +3642,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Maximum number of characters accepted by the control.",
         "name": "MaxLength",
         "type": "int?",
         "default": "Padrão do tipo",
@@ -3650,7 +3650,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Updates the bound value on every keystroke instead of on change.",
         "name": "Immediate",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3658,7 +3658,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Disables the control.",
         "name": "Disabled",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3690,7 +3690,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Additional css classes appended to the field's root element.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3698,7 +3698,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Any other attributes are splatted onto the underlying input or textarea.",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -4336,7 +4336,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Catch-all for unmatched attributes (for example Style), applied to the root element. Keeps consumer markup written against the framework-style API surface from crashing on parameters this component does not model.",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -4509,6 +4509,22 @@
         "deprecated": false
       },
       {
+        "description": "Glues this section to the previous attached one: no gap between them and a flat seam (no rounded corners, single shared border), so a run of attached sections reads as one block with internal divisions. They remain separate sections for assistive technology and for their own headers.",
+        "name": "Attached",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Spacing token index (0-6) separating this section from the previous one. Defaults to 4 (16px) so stacked sections never touch by accident; use 0 to remove the gap. Ignored while Attached is set.",
+        "name": "Gap",
+        "type": "int?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "",
         "name": "Elevation",
         "type": "int",
@@ -4519,6 +4535,14 @@
       {
         "description": "",
         "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Additional inline declarations, appended after the generated gap variable.",
+        "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
         "required": false,
@@ -5519,6 +5543,117 @@
     "parameters": []
   },
   {
+    "name": "SUIPopover",
+    "family": "Overlays",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIPopover Placement=\"SUITooltipPlacement.Right\">\n    <ChildContent>\n        <SUILink Href=\"#\">Detalhes da operação</SUILink>\n    </ChildContent>\n    <Content>\n        <strong>@Text</strong>\n        <p>Rota ativa em @Count regiões, com atendimento 24 horas.</p>\n        <SUIButton OnClick=\"Notify\">Confirmar</SUIButton>\n    </Content>\n</SUIPopover>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected int Count { get; set; } = 3;\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
+    "parameters": [
+      {
+        "description": "Anchor content the popover attaches to.",
+        "name": "ChildContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Rich content rendered on the floating surface.",
+        "name": "Content",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Preferred side. The runtime flips it when the viewport has no room.",
+        "name": "Placement",
+        "type": "SUITooltipPlacement",
+        "default": "SUITooltipPlacement.Top",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Disables the popover without removing the anchor content.",
+        "name": "Disabled",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Distance in pixels between the anchor and the panel.",
+        "name": "Offset",
+        "type": "int",
+        "default": "10",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Delay in milliseconds before the panel appears.",
+        "name": "ShowDelay",
+        "type": "int",
+        "default": "140",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Delay in milliseconds before the panel disappears.",
+        "name": "HideDelay",
+        "type": "int",
+        "default": "160",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Maximum panel width in pixels.",
+        "name": "MaxWidth",
+        "type": "int",
+        "default": "340",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Whether the directional arrow is rendered.",
+        "name": "ShowArrow",
+        "type": "bool",
+        "default": "true",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Additional classes applied to the floating panel.",
+        "name": "PanelClass",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "UserAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": false
+      }
+    ]
+  },
+  {
     "name": "SUITooltip",
     "family": "Overlays",
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITooltip Text=\"Atualizar dados de demonstração\">\n<SUIIconButton Icon=\"@SUIIcons.Restart\" Title=\"Atualizar\" OnClick=\"Notify\" />\n</SUITooltip>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
@@ -5693,117 +5828,6 @@
       },
       {
         "description": "",
-        "name": "UserAttributes",
-        "type": "Dictionary<string, object?>",
-        "default": "new()",
-        "required": false,
-        "deprecated": false
-      }
-    ]
-  },
-  {
-    "name": "SUIPopover",
-    "family": "Overlays",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIPopover Placement=\"SUITooltipPlacement.Top\">\n    <ChildContent>\n        <SUIIconButton Icon=\"@SUIIcons.Info\" Title=\"Uso\" OnClick=\"Notify\" />\n    </ChildContent>\n    <Content>\n        <SUIText Typo=\"SUITypo.caption\">Uso das janelas por família de modelo.</SUIText>\n    </Content>\n</SUIPopover>\n\n<p>Passe o ponteiro ou foque a âncora para abrir o painel.</p>\n",
-    "parameters": [
-      {
-        "description": "Conteúdo da âncora ao qual o popover se ancora.",
-        "name": "ChildContent",
-        "type": "RenderFragment?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "Conteúdo rico renderizado na superfície flutuante.",
-        "name": "Content",
-        "type": "RenderFragment?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "Lado preferido; o runtime vira quando não há espaço na janela.",
-        "name": "Placement",
-        "type": "SUITooltipPlacement",
-        "default": "SUITooltipPlacement.Top",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "Desativa o popover sem remover o conteúdo da âncora.",
-        "name": "Disabled",
-        "type": "bool",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "Distância em pixels entre a âncora e o painel.",
-        "name": "Offset",
-        "type": "int",
-        "default": "10",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "Atraso em milissegundos antes de o painel aparecer.",
-        "name": "ShowDelay",
-        "type": "int",
-        "default": "140",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "Atraso em milissegundos antes de o painel desaparecer.",
-        "name": "HideDelay",
-        "type": "int",
-        "default": "160",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "Largura máxima do painel em pixels.",
-        "name": "MaxWidth",
-        "type": "int",
-        "default": "340",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "Se a seta direcional é renderizada.",
-        "name": "ShowArrow",
-        "type": "bool",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "Classes adicionais aplicadas ao painel flutuante.",
-        "name": "PanelClass",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "Class",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "Style",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "Atributos não casados aplicados à âncora.",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",

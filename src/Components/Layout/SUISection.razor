@@ -1,6 +1,6 @@
 @namespace Sufficit.Blazor.UI.Components
 
-<section class="@Classname" @attributes="AdditionalAttributes">
+<section class="@Classname" style="@StyleValue" @attributes="AdditionalAttributes">
     <SUICard Elevation="@Elevation">
         <SUICardHeader Icon="@Icon" Title="@Title" Description="@Description">
             <Actions>@Actions</Actions>
@@ -30,10 +30,52 @@
     /// </summary>
     [Parameter] public int ContentSpacing { get; set; } = 4;
 
+    /// <summary>
+    /// Glues this section to the previous attached one: no gap between them and a
+    /// flat seam (no rounded corners, single shared border), so a run of attached
+    /// sections reads as one block with internal divisions. They remain separate
+    /// sections for assistive technology and for their own headers.
+    /// </summary>
+    [Parameter] public bool Attached { get; set; }
+
+    /// <summary>
+    /// Spacing token index (0-6) separating this section from the previous one.
+    /// Defaults to 4 (16px) so stacked sections never touch by accident; use 0 to
+    /// remove the gap. Ignored while <see cref="Attached"/> is set.
+    /// </summary>
+    [Parameter] public int? Gap { get; set; }
+
     [Parameter] public int Elevation { get; set; }
     [Parameter] public string? Class { get; set; }
+
+    /// <summary>Additional inline declarations, appended after the generated gap variable.</summary>
+    [Parameter] public string? Style { get; set; }
+
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
-    private string Classname => SUIClassBuilder.Default("sui-section").AddClass(Class).Build();
+    private string Classname
+        => SUIClassBuilder.Default("sui-section")
+            .AddClass("sui-section--attached", Attached)
+            .AddClass(Class)
+            .Build();
+
+    private string? StyleValue
+    {
+        get
+        {
+            // Attached means glued to the previous section, so the gap is zero by
+            // definition; emitting it here keeps the stylesheet to the seam rules.
+            // space-0 does not exist in the scale: a requested 0 means "no gap".
+            var gap = Attached || Gap is 0
+                ? "--sui-section-gap:0;"
+                : Gap.HasValue
+                    ? $"--sui-section-gap:var(--sui-space-{Math.Clamp(Gap.Value, 1, 6)});"
+                    : null;
+
+            var combined = gap + Style;
+            return string.IsNullOrWhiteSpace(combined) ? null : combined;
+        }
+    }
+
     private int EffectiveContentSpacing => Math.Clamp(ContentSpacing, 0, 6);
 }
