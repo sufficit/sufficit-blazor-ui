@@ -1,6 +1,5 @@
 @implements IDisposable
 @namespace Sufficit.Blazor.UI.Components
-@using System.Linq.Expressions
 @typeparam T
 
 <div class="@Classname">
@@ -33,7 +32,7 @@
                    id="@EffectiveId"
                    name="@Name"
                    type="@InputType"
-                   value="@Value"
+                   value="@(InputValue)"
                    style="@InputPaddingStyle"
                    @onchange="OnChanged"
                    @oninput="OnInput"
@@ -75,153 +74,3 @@
         <span id="@ErrorId" class="sui-field__error" style="min-height:1.3em">@EffectiveErrorText</span>
     }
 </div>
-
-@code {
-    public void Dispose() => _field.Dispose();
-
-    protected override void OnParametersSet() => _field.Configure(FormContext, ValueExpression, () => _ = InvokeAsync(StateHasChanged));
-
-    [CascadingParameter] private Microsoft.AspNetCore.Components.Forms.EditContext? FormContext { get; set; }
-    private readonly SUIFieldBinding<T?> _field = new();
-    private string? EffectiveErrorText => ErrorText ?? _field.Error;
-
-    [Parameter]
-    public T? Value { get; set; }
-
-    [Parameter]
-    public EventCallback<T?> ValueChanged { get; set; }
-
-    [Parameter]
-    public Expression<Func<T?>>? ValueExpression { get; set; }
-
-    [Parameter]
-    public string? Label { get; set; }
-
-    [Parameter]
-    public string? Placeholder { get; set; }
-
-    [Parameter]
-    public string? HelperText { get; set; }
-
-    [Parameter]
-    public string? ErrorText { get; set; }
-
-    [Parameter]
-    public bool Invalid { get; set; }
-
-    [Parameter]
-    public string? Id { get; set; }
-
-    [Parameter]
-    public string? AriaDescribedBy { get; set; }
-
-    /// <summary>Form field name, so the value takes part in a plain HTML form post.</summary>
-    [Parameter]
-    public string? Name { get; set; }
-
-    /// <summary>HTML input type. Default "text".</summary>
-    [Parameter]
-    public string InputType { get; set; } = "text";
-
-    /// <summary>Renders a resizable textarea while preserving the same field contract.</summary>
-    [Parameter]
-    public bool Multiline { get; set; }
-
-    /// <summary>Initial number of visible rows when <see cref="Multiline"/> is enabled.</summary>
-    [Parameter]
-    public int Rows { get; set; } = 4;
-
-    [Parameter]
-    public int? MaxLength { get; set; }
-
-    [Parameter]
-    public bool Immediate { get; set; }
-
-    [Parameter]
-    public bool Disabled { get; set; }
-
-    /// <summary>Optional SUI icon rendered inside the input at the inline end.</summary>
-    [Parameter]
-    public string? AdornmentIcon { get; set; }
-
-    /// <summary>Shows an accessible clear action while the field contains a value.</summary>
-    [Parameter]
-    public bool Clearable { get; set; }
-
-    /// <summary>Accessible label and tooltip used by the clear action.</summary>
-    [Parameter]
-    public string ClearText { get; set; } = "Limpar campo";
-
-    [Parameter]
-    public string? Class { get; set; }
-
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object?> UserAttributes { get; set; } = new();
-
-    private ElementReference _inputElement;
-    private readonly string _generatedId = $"sui-text-field-{Guid.NewGuid():N}";
-    private string EffectiveId => string.IsNullOrWhiteSpace(Id) ? _generatedId : Id;
-    private int EffectiveRows => Math.Clamp(Rows, 2, 20);
-    private string HelperId => $"{EffectiveId}-helper";
-    private string ErrorId => $"{EffectiveId}-error";
-    private bool HasError => Invalid || !string.IsNullOrWhiteSpace(EffectiveErrorText);
-    private bool CanClear
-        => Clearable && !Disabled && !string.IsNullOrEmpty(Value?.ToString());
-    private string? InputPaddingStyle
-        => CanClear && !string.IsNullOrWhiteSpace(AdornmentIcon)
-            ? "padding-inline-end:5rem"
-            : CanClear || !string.IsNullOrWhiteSpace(AdornmentIcon)
-                ? "padding-inline-end:3rem"
-                : null;
-    private string AdornmentStyle
-        => $"position:absolute;inset-block-start:50%;inset-inline-end:{(CanClear ? "2.75rem" : "var(--sui-space-3)")};color:var(--sui-text-secondary);pointer-events:none;transform:translateY(-50%)";
-    private string? DescribedBy
-        => string.Join(' ', new[]
-            {
-                AriaDescribedBy,
-                string.IsNullOrWhiteSpace(HelperText) ? null : HelperId,
-                string.IsNullOrWhiteSpace(EffectiveErrorText) ? null : ErrorId,
-            }
-            .Where(value => !string.IsNullOrWhiteSpace(value)));
-
-    private string Classname
-        => SUIClassBuilder.Default("sui-field")
-            .AddClass(Class)
-            .Build();
-
-    private Task OnChanged(ChangeEventArgs e)
-        => Immediate ? Task.CompletedTask : SetValue(e.Value);
-
-    private Task OnInput(ChangeEventArgs e)
-        => Immediate ? SetValue(e.Value) : Task.CompletedTask;
-
-    /// <summary>
-    /// Moves keyboard focus to this field's control, in either mode.
-    /// </summary>
-    /// <remarks>
-    /// An editor that appears in response to an action has to take focus when
-    /// it appears, and only the caller knows when that was. The component
-    /// already focuses its own input when the clear action runs; this is the
-    /// same handle, made available to the page — as <c>SUIButton</c> does.
-    /// </remarks>
-    public ValueTask FocusAsync(bool preventScroll = false)
-        => _inputElement.FocusAsync(preventScroll);
-
-    private async Task ClearAsync()
-    {
-        await ValueChanged.InvokeAsync(default);
-        _field.Notify();
-        await _inputElement.FocusAsync(preventScroll: true);
-    }
-
-    private async Task SetValue(object? raw)
-    {
-        if (!BindConverter.TryConvertTo<T>(raw, System.Globalization.CultureInfo.CurrentCulture, out var converted))
-        {
-            _field.Notify("Informe um valor válido.");
-            return;
-        }
-        await ValueChanged.InvokeAsync(converted);
-        _field.Notify();
-    }
-}
