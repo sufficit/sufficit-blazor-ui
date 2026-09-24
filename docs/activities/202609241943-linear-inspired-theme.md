@@ -13,6 +13,7 @@ Salvar como preset reutilizável do Sufficit.Blazor.UI a direção visual aprova
 - Adicionados `SUITheme.LinearInspiredLight` e `LinearInspiredDark`, opt-in, com paletas próprias, superfícies neutras e sombras contidas.
 - Adicionados `SUIPalette.Focus` e `SUILayout.FocusShadow`, publicados como `--sui-focus-color` e `--sui-focus-shadow`. O fallback mantém exatamente o comportamento visual anterior dos temas existentes.
 - Campos, seletores e checkboxes passaram a consumir os tokens de foco. No novo preset, o campo tem 2 px visuais de contorno e nenhum halo externo; os demais controles preservam indicador de teclado.
+- Sem provider, os estilos recuam diretamente ao primário vigente do documento. Isso mantém o fallback escuro correto mesmo quando `.theme-dark` é aninhado.
 - Atualizados `DESIGN.md`, [contrato do tema](../THEME-LINEAR-INSPIRED.md), guia do provider, bundle e cópias de compatibilidade.
 - Os SVGs do Genius permanecem próprios; não foram substituídos por ícones do Linear.
 
@@ -24,7 +25,7 @@ Salvar como preset reutilizável do Sufficit.Blazor.UI a direção visual aprova
 
 ## Validação
 
-- `npm run build:css` e `npm run check:css`: passaram; bundle 56.618 B bruto / 10.444 B gzip / 9.118 B Brotli, dentro do orçamento do repositório.
+- `npm run build:css` e `npm run check:css`: passaram; bundle 56.711 B bruto / 10.455 B gzip / 9.109 B Brotli, dentro do orçamento do repositório.
 - `dotnet test tests/Sufficit.Blazor.UI.Tests/Sufficit.Blazor.UI.Tests.csproj`: 895 testes passaram. Baseline da API pública foi atualizado para os quatro membros novos.
 - Prévia renderizada com o CSS real nos modos [claro](/mnt/workspaces/sufficit/tmp/sui-theme-preview/light.png) e [escuro](/mnt/workspaces/sufficit/tmp/sui-theme-preview/dark.png).
 - O pacote local do Genius foi publicado com o projeto SUI desta árvore; o CSS instalado tem o mesmo hash do bundle fonte.

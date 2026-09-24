@@ -70,9 +70,9 @@
 }
 
 .sui-checkbox__input:focus-visible + .sui-checkbox__box {
-  outline: 2px solid var(--sui-focus-color);
+  outline: 2px solid var(--sui-focus-color, var(--sui-color-primary));
   outline-offset: 2px;
-  box-shadow: var(--sui-focus-shadow);
+  box-shadow: var(--sui-focus-shadow, 0 0 0 3px var(--sui-color-primary-soft));
 }
 
 @media (pointer: coarse), (max-width: 599.98px) {
