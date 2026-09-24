@@ -30,4 +30,46 @@ public sealed record SUITheme : ISUITheme
             WarningContrast = "#0f172a", ErrorContrast = "#0f172a",
         },
     };
+
+    /// <summary>Quiet light preset inspired by Linear's restrained structure; opt-in.</summary>
+    public static SUITheme LinearInspiredLight { get; } = Light with
+    {
+        Palette = Light.Palette with
+        {
+            Primary = "#495f7d", PrimaryContrast = "#ffffff",
+            PrimaryAction = "#35435a", PrimaryActionContrast = "#ffffff",
+            Surface = "#ffffff", Surface2 = "#f6f7f8", Surface3 = "#e9ebee",
+            TextPrimary = "#202630", TextSecondary = "#555e6b",
+            Border = "#e3e6ea", BorderStrong = "#cdd3da",
+            Focus = "oklch(55% .055 262)",
+        },
+        Layout = Light.Layout with
+        {
+            FocusShadow = "inset 0 0 0 1px var(--sui-focus-color)",
+            Shadow1 = "0 1px 2px rgba(20,25,35,.035)",
+            Shadow2 = "0 4px 10px rgba(20,25,35,.06)",
+            Shadow3 = "0 12px 24px rgba(20,25,35,.1)",
+        },
+    };
+
+    /// <summary>Dark companion to <see cref="LinearInspiredLight"/>; opt-in.</summary>
+    public static SUITheme LinearInspiredDark { get; } = Dark with
+    {
+        Palette = Dark.Palette with
+        {
+            Primary = "#aebbd0", PrimaryContrast = "#17202d",
+            PrimaryAction = "#c7d0df", PrimaryActionContrast = "#17202d",
+            Surface = "#1f2329", Surface2 = "#191d23", Surface3 = "#2c323a",
+            TextPrimary = "#f0f2f5", TextSecondary = "#b9c0c9",
+            Border = "#343b45", BorderStrong = "#4b5460",
+            Focus = "oklch(72% .06 262)",
+        },
+        Layout = Dark.Layout with
+        {
+            FocusShadow = "inset 0 0 0 1px var(--sui-focus-color)",
+            Shadow1 = "0 1px 2px rgba(0,0,0,.15)",
+            Shadow2 = "0 4px 10px rgba(0,0,0,.2)",
+            Shadow3 = "0 12px 24px rgba(0,0,0,.35)",
+        },
+    };
 }

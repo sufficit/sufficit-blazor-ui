@@ -118,7 +118,11 @@ public sealed class ThemeInjectionTests
     {
         // If a default ever fails validation the writer would silently fall back
         // to it anyway, so this is the test that keeps the guard honest.
-        foreach (var theme in new ISUITheme[] { DefaultSUITheme.Instance, SUITheme.Light, SUITheme.Dark })
+        foreach (var theme in new ISUITheme[]
+        {
+            DefaultSUITheme.Instance, SUITheme.Light, SUITheme.Dark,
+            SUITheme.LinearInspiredLight, SUITheme.LinearInspiredDark,
+        })
         {
             var css = SUIThemeCssWriter.Write(theme);
             Assert.Equal(1, css.Count(character => character == '{'));

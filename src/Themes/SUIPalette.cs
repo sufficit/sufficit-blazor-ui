@@ -79,6 +79,9 @@ public sealed record SUIPalette
     /// <summary>Stronger border for hovered inputs and emphasized outlines; feeds <c>--sui-border-strong</c>.</summary>
     public string BorderStrong { get; init; } = "#cbd5e1";
 
+    /// <summary>Focus indicator color; defaults to the primary accent for compatibility.</summary>
+    public string Focus { get; init; } = "var(--sui-color-primary)";
+
     /// <summary>Modal/scrim overlay color.</summary>
     public string Overlay { get; init; } = "rgba(15, 23, 42, .45)";
 

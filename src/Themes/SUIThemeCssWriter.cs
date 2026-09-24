@@ -141,6 +141,7 @@ public static class SUIThemeCssWriter
         Append(css, "--sui-text-disabled", palette.TextDisabled, fallbackPalette.TextDisabled);
         Append(css, "--sui-border", palette.Border, fallbackPalette.Border);
         Append(css, "--sui-border-strong", palette.BorderStrong, fallbackPalette.BorderStrong);
+        Append(css, "--sui-focus-color", palette.Focus, fallbackPalette.Focus);
         Append(css, "--sui-overlay", palette.Overlay, fallbackPalette.Overlay);
 
         Append(css, "--sui-font", typography.FontFamily, fallbackTypography.FontFamily);
@@ -186,6 +187,7 @@ public static class SUIThemeCssWriter
         Append(css, "--sui-shadow-1", layout.Shadow1, fallbackLayout.Shadow1);
         Append(css, "--sui-shadow-2", layout.Shadow2, fallbackLayout.Shadow2);
         Append(css, "--sui-shadow-3", layout.Shadow3, fallbackLayout.Shadow3);
+        Append(css, "--sui-focus-shadow", layout.FocusShadow, fallbackLayout.FocusShadow);
         Append(css, "--sui-transition", layout.Transition, fallbackLayout.Transition);
         Append(css, "--sui-transition-slow", layout.TransitionSlow, fallbackLayout.TransitionSlow);
         Append(css, "--sui-control-h-sm", layout.ControlHSm, fallbackLayout.ControlHSm);

@@ -55,6 +55,28 @@ public sealed class ThemeProviderTests
         Assert.Contains("--sui-color-primary-action-contrast:#fff7ed;", css, StringComparison.Ordinal);
     }
 
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void LinearInspiredPreset_ProvidesQuietFocusWithoutChangingTheDefaultTheme(bool dark)
+    {
+        using var context = new BunitContext();
+        var theme = dark ? SUITheme.LinearInspiredDark : SUITheme.LinearInspiredLight;
+        var cut = context.Render<SUIThemeProvider>(parameters => parameters
+            .Add(component => component.Theme, theme));
+
+        var css = cut.Find("style").TextContent;
+        Assert.Contains($"--sui-focus-color:{theme.Palette.Focus};", css, StringComparison.Ordinal);
+        Assert.Contains("--sui-focus-shadow:inset 0 0 0 1px var(--sui-focus-color);", css, StringComparison.Ordinal);
+        Assert.Contains($"--sui-color-primary-action:{theme.Palette.PrimaryAction};", css, StringComparison.Ordinal);
+        Assert.Equal(dark ? "dark" : "light", cut.Find(".sui-root").GetAttribute("data-sui-theme"));
+
+        Assert.True(SUIColorContrast.TryGetRatio(
+            theme.Palette.PrimaryActionContrast!, theme.Palette.PrimaryAction!, out var actionContrast));
+        Assert.True(actionContrast >= 4.5, $"Action contrast: {actionContrast}");
+        Assert.Equal("0 0 0 3px var(--sui-color-primary-soft)", SUITheme.Light.Layout.FocusShadow);
+    }
+
     [Fact]
     public void ThemeParameterChange_UpdatesCascadeAndCssTokens()
     {

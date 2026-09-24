@@ -32,8 +32,8 @@
 .sui-select__trigger:hover { background: var(--sui-surface-2); }
 .sui-select__trigger:focus-visible {
   outline: none;
-  border-color: var(--sui-color-primary);
-  box-shadow: 0 0 0 3px var(--sui-color-primary-soft);
+  border-color: var(--sui-focus-color);
+  box-shadow: var(--sui-focus-shadow);
 }
 .sui-select__trigger:disabled {
   background: var(--sui-surface-2);

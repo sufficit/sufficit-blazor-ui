@@ -40,6 +40,9 @@ public sealed record SUILayout
     /// <summary>Highest elevation shadow (dialogs, popovers); feeds <c>--sui-shadow-3</c>.</summary>
     public string Shadow3 { get; init; } = "0 12px 28px rgba(15,23,42,.14)";
 
+    /// <summary>Focus shadow for fields and selectors; defaults to the existing outer ring.</summary>
+    public string FocusShadow { get; init; } = "0 0 0 3px var(--sui-color-primary-soft)";
+
     // motion
     /// <summary>Default transition duration and easing for hover/focus changes; feeds <c>--sui-transition</c>. Default 160ms.</summary>
     public string Transition { get; init; } = "160ms cubic-bezier(.4, 0, .2, 1)";

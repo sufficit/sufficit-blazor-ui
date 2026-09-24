@@ -141,6 +141,8 @@ Descrição inferida da implementação, sem representar uma nova decisão de ma
 
 Este documento registra o sistema presente no código da biblioteca e da vitrine. A biblioteca mantém o tema padrão azul. A vitrine aplica um tema âmbar próprio e oferece presets azul e vermelho, modos claro, escuro e sistema, e densidades confortável e compacta. Os tokens de componentes no frontmatter representam a vitrine âmbar clara e confortável; os tokens com prefixo `library` ou `dark` identificam explicitamente outros contextos. A composição editorial da vitrine não é uma obrigação para aplicações consumidoras.
 
+O preset opt-in `LinearInspiredLight`/`LinearInspiredDark` oferece outra direção para aplicações consumidoras: separadores suaves, superfícies neutras, sombra contida e foco de campo como contorno de 2 px visuais sem halo externo. A ação preenchida conserva cor e contraste próprios. O [contrato do tema](docs/THEME-LINEAR-INSPIRED.md) registra valores, referência e uso; ele não altera o padrão da biblioteca nem os presets da vitrine.
+
 **Key Characteristics:**
 
 - Tipografia de sistema, sem dependência de fontes externas.

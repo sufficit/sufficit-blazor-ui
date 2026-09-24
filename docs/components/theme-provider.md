@@ -36,6 +36,11 @@ recuam para `Primary`/`PrimaryContrast`.
 Os tokens semânticos de contraste são usados nas notificações preenchidas.
 `PrimarySoft` acompanha `--sui-color-primary`, sem fixar uma cor de marca.
 
+`SUITheme.LinearInspiredLight` e `SUITheme.LinearInspiredDark` são presets
+opcionais de estrutura mais discreta. Eles separam cor de foco e de ação com
+`SUIPalette.Focus`/`PrimaryAction` e substituem o halo de campos pelo
+`SUILayout.FocusShadow` interno. [Contrato visual e uso](../THEME-LINEAR-INSPIRED.md).
+
 O provider é global: instâncias simultâneas com temas diferentes disputam os
 mesmos tokens. Claro/escuro/sistema e persistência pertencem ao host. A vitrine
 implementa essa política em `ShowcaseTheme.cs` e `wwwroot/theme.js`.
