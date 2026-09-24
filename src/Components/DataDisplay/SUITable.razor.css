@@ -25,6 +25,13 @@
 }
 .sui-table--dense ::deep thead th,
 .sui-table--dense ::deep tbody td { padding: var(--sui-space-2); }
+/* The empty state owns the whole row: it is centred on the table, never
+   squeezed into the width of the first column. */
+.sui-table__empty-cell {
+  width: 100%;
+  text-align: center;
+  vertical-align: middle;
+}
 .sui-table--hover .sui-table__row:hover { background: var(--sui-surface-2); }
 .sui-table__row { cursor: inherit; }
 .sui-table__row--interactive { cursor: pointer; }

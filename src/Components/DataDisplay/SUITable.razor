@@ -29,7 +29,7 @@
                 @if (NoRecordsContent is not null)
                 {
                     <tr class="sui-table__empty-row">
-                        <td colspan="@EffectiveColumnCount">@NoRecordsContent</td>
+                        <td class="sui-table__empty-cell" colspan="@EffectiveColumnCount">@NoRecordsContent</td>
                     </tr>
                 }
             }
@@ -102,11 +102,13 @@
     public Func<T, int, string?>? RowStyleFunc { get; set; }
 
     /// <summary>
-    /// Number of data columns. Used by the no-records cell so its
-    /// <c>colspan</c> covers the full table.
+    /// Number of data columns, used by the no-records cell so its
+    /// <c>colspan</c> covers the full table. Left unset (0) the cell spans a
+    /// column count no table reaches, which is what a browser needs to make it
+    /// fill the row: a short colspan pins the empty state to the first column.
     /// </summary>
     [Parameter]
-    public int ColumnCount { get; set; } = 1;
+    public int ColumnCount { get; set; }
 
     /// <summary>
     /// Called when a row is clicked or activated with Enter/Space (item passed).
@@ -189,7 +191,11 @@
         }
     }
 
-    private int EffectiveColumnCount => Math.Max(1, ColumnCount);
+    // 1000 is the maximum colspan the HTML spec allows, so an unset ColumnCount
+    // still spans every column of any real table instead of just the first one.
+    private const int FullRowColumnSpan = 1000;
+
+    private int EffectiveColumnCount => ColumnCount > 0 ? ColumnCount : FullRowColumnSpan;
 
     private string GetRowClass(T item, int index, bool interactive = false)
         => SUIClassBuilder.Default("sui-table__row")
