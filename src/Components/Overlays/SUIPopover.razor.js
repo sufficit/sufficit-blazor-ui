@@ -1,7 +1,7 @@
 // Rich popover: hover/focus surface for arbitrary content. Unlike the text tooltip
 // (one shared element fed by data attributes), each SUIPopover owns its panel element
-// because Blazor renders the content. Positioning is fixed, so no clipping ancestor
-// between the anchor and the viewport can cut the panel off.
+// because Blazor renders the content. Interactive panels use the browser's
+// top layer so overflow and transformed ancestors cannot clip them.
 
 const instances = new WeakMap();
 
@@ -43,6 +43,7 @@ function coordinates(side, anchorRect, width, height, gap) {
 export function connectPopover(anchor, panel, options) {
     const state = {
         open: false,
+        pinned: false,
         showTimer: 0,
         hideTimer: 0,
         listeners: [],
@@ -53,6 +54,9 @@ export function connectPopover(anchor, panel, options) {
     const gap = options?.offset ?? 10;
     const sides = sidesFor(options?.placement);
     const margin = 8;
+    // Only interactive panels need the top layer. Leave all other popovers intact.
+    const useTopLayer = options?.clickToToggle && typeof panel.showPopover === 'function';
+    if (useTopLayer) panel.setAttribute('popover', 'manual');
 
     const on = (target, type, handler, opts) => {
         target.addEventListener(type, handler, opts);
@@ -73,6 +77,11 @@ export function connectPopover(anchor, panel, options) {
 
     function place() {
         const anchorRect = anchor.getBoundingClientRect();
+        if (useTopLayer) {
+            panel.style.right = 'auto';
+            panel.style.bottom = 'auto';
+            panel.style.margin = '0';
+        }
         panel.style.left = '0px';
         panel.style.top = '0px';
         const width = panel.offsetWidth;
@@ -105,6 +114,7 @@ export function connectPopover(anchor, panel, options) {
             return;
         }
         state.open = true;
+        if (useTopLayer && !panel.matches(':popover-open')) panel.showPopover();
         panel.classList.add('sui-popover--open');
         panel.setAttribute('aria-hidden', 'false');
         place();
@@ -117,11 +127,13 @@ export function connectPopover(anchor, panel, options) {
             return;
         }
         state.open = false;
+        state.pinned = false;
         clearTimeout(state.showTimer);
         clearTimeout(state.hideTimer);
         offViewport();
         panel.classList.remove('sui-popover--open');
         panel.setAttribute('aria-hidden', 'true');
+        if (useTopLayer && panel.matches(':popover-open')) panel.hidePopover();
     }
 
     function scheduleShow() {
@@ -133,6 +145,7 @@ export function connectPopover(anchor, panel, options) {
     }
 
     function scheduleHide() {
+        if (state.pinned) return;
         clearTimeout(state.showTimer);
         if (state.open) {
             clearTimeout(state.hideTimer);
@@ -141,9 +154,29 @@ export function connectPopover(anchor, panel, options) {
     }
 
     function onKeyDown(event) {
-        if (event.key === 'Escape') {
-            hide();
-        }
+        if (event.key === 'Escape') hide();
+    }
+
+    state.cleanup = () => {
+        clearTimeout(state.showTimer);
+        clearTimeout(state.hideTimer);
+        offViewport();
+        if (useTopLayer && panel.matches(':popover-open')) panel.hidePopover();
+    };
+
+    if (options?.clickToToggle) {
+        on(anchor, 'click', () => {
+            clearTimeout(state.showTimer);
+            clearTimeout(state.hideTimer);
+            if (state.pinned) hide();
+            else {
+                state.pinned = true;
+                show();
+            }
+        });
+        on(document, 'pointerdown', (event) => {
+            if (state.pinned && !anchor.contains(event.target) && !panel.contains(event.target)) hide();
+        });
     }
 
     on(anchor, 'mouseenter', scheduleShow);
@@ -166,6 +199,7 @@ export function disconnectPopover(anchor) {
         target.removeEventListener(type, handler, opts);
     }
     state.listeners = [];
+    state.cleanup();
     state.open = false;
     instances.delete(anchor);
 }

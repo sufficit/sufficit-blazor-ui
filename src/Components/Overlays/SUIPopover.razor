@@ -61,6 +61,10 @@
     [Parameter]
     public bool ShowArrow { get; set; } = true;
 
+    /// <summary>Allow the anchor to toggle the panel on click or touch.</summary>
+    [Parameter]
+    public bool ClickToToggle { get; set; }
+
     /// <summary>Additional classes applied to the floating panel.</summary>
     [Parameter]
     public string? PanelClass { get; set; }
@@ -111,7 +115,8 @@
                 placement = PlacementValue,
                 offset = Math.Clamp(Offset, 0, 80),
                 showDelay = Math.Clamp(ShowDelay, 0, 5_000),
-                hideDelay = Math.Clamp(HideDelay, 0, 5_000)
+                hideDelay = Math.Clamp(HideDelay, 0, 5_000),
+                clickToToggle = ClickToToggle
             });
         _connected = true;
     }
