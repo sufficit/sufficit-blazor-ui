@@ -81,6 +81,7 @@
     private ElementReference _anchorElement;
     private ElementReference _panelElement;
     private bool _connected;
+    private bool _disposed;
 
     private string Classname
         => SUIClassBuilder.Default("sui-popover-anchor")
@@ -106,7 +107,11 @@
         _module = await JS.InvokeAsync<IJSObjectReference>(
             "import",
             "./_content/Sufficit.Blazor.UI/Components/Overlays/SUIPopover.razor.js");
-        await _module.InvokeVoidAsync(
+        if (_disposed)
+        {
+            return;
+        }
+        _connected = await _module.InvokeAsync<bool>(
             "connectPopover",
             _anchorElement,
             _panelElement,
@@ -118,11 +123,11 @@
                 hideDelay = Math.Clamp(HideDelay, 0, 5_000),
                 clickToToggle = ClickToToggle
             });
-        _connected = true;
     }
 
     public async ValueTask DisposeAsync()
     {
+        _disposed = true;
         if (_module is null)
         {
             return;

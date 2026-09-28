@@ -41,6 +41,12 @@ function coordinates(side, anchorRect, width, height, gap) {
 }
 
 export function connectPopover(anchor, panel, options) {
+    // Blazor resolves element references to null when the row re-rendered or was
+    // removed while the module was loading. There is nothing to attach to then.
+    if (!(anchor instanceof Element) || !(panel instanceof Element)) {
+        return false;
+    }
+    disconnectPopover(anchor);
     const state = {
         open: false,
         pinned: false,
@@ -188,10 +194,11 @@ export function connectPopover(anchor, panel, options) {
     on(panel, 'mouseenter', () => clearTimeout(state.hideTimer));
     on(panel, 'mouseleave', scheduleHide);
     on(document, 'keydown', onKeyDown);
+    return true;
 }
 
 export function disconnectPopover(anchor) {
-    const state = instances.get(anchor);
+    const state = anchor instanceof Element ? instances.get(anchor) : undefined;
     if (!state) {
         return;
     }
