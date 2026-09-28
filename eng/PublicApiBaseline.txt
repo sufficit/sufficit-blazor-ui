@@ -1205,6 +1205,7 @@ P|Sufficit.Blazor.UI.Components.SUIPendingChangesBar|System.String|Title|[]|get;
 P|Sufficit.Blazor.UI.Components.SUIPopover|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIPopover|Microsoft.AspNetCore.Components.RenderFragment|Content|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIPopover|Sufficit.Blazor.UI.Components.SUITooltipPlacement|Placement|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIPopover|System.Boolean|ClickToToggle|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIPopover|System.Boolean|Disabled|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIPopover|System.Boolean|ShowArrow|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIPopover|System.Collections.Generic.Dictionary<System.String,System.Object>|UserAttributes|[]|get;set;
