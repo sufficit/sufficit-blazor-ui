@@ -112,9 +112,12 @@ public sealed class FormLayoutContractTests
         Assert.Contains(".sui-section+.sui-section--attached>.sui-card{", css);
         Assert.Contains("border-block-start:0", css);
 
-        // A stack around the sections already spaces them through its gap;
-        // keeping the margin as well would double the breathing room.
-        Assert.Contains(".sui-stack>.sui-section+.sui-section{margin-block-start:0}", css);
+        // A stack, a grid or a page's own .sui-sections container already spaces
+        // the sections through its gap: in a stack the margin would double the
+        // breathing room, side by side it would push later columns down.
+        Assert.Contains(
+            ":is(.sui-stack,.sui-grid,.sui-sections)>.sui-section+.sui-section{margin-block-start:0}",
+            css);
     }
 
     private static string Compact(string css)

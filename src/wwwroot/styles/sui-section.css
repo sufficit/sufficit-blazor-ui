@@ -14,9 +14,12 @@
   margin-block-start: var(--sui-section-gap, var(--sui-space-4));
 }
 
-/* Inside a stack the gap already owns the rhythm; adding the margin on top of
-   it would double the breathing room wherever a page wraps sections in one. */
-.sui-stack > .sui-section + .sui-section {
+/* Inside a layout container the gap already owns the rhythm. In a stack the
+   margin would double the breathing room; in a grid or a row the sections sit
+   side by side, so the margin would push every later column down and break
+   the top alignment. .sui-sections marks a page's own grid/flex container
+   that spaces its sections through gap. */
+:is(.sui-stack, .sui-grid, .sui-sections) > .sui-section + .sui-section {
   margin-block-start: 0;
 }
 
