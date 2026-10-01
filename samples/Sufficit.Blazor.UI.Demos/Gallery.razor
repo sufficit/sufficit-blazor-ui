@@ -157,16 +157,19 @@
                 <SUIStatusBadge ToneValue="SUITone.Success" Icon="check">Saudável</SUIStatusBadge>
                 <SUIStatusBadge ToneValue="SUITone.Danger" Icon="alert">Incidente</SUIStatusBadge>
             </SUIStack>
+            <!-- Typography block must stay FIRST: CatalogBrowserTests reads
+                 typeInnerGaps from the first .catalog__type-sample's children
+                 and asserts the headline→body→mono rhythm (3 nodes). -->
+            <div class="catalog__type-sample">
+                <SUIText Typo="SUITypo.headline">Tipografia operacional</SUIText>
+                <SUIText Typo="SUITypo.body">IDs e métricas permanecem legíveis sem virar decoração.</SUIText>
+                <SUIText Typo="SUITypo.mono">worker/eveo-apps-01 · 99,98%</SUIText>
+            </div>
             <div class="catalog__type-sample">
                 <SUIStack Row Wrap AlignItems="Center">
                     <SUIDateTime Value="new DateTime(2026, 9, 7)" />
                     <SUIDateTime Value="new DateTime(2026, 9, 7, 14, 30, 0)" Format="dd/MM/yyyy HH:mm" />
                 </SUIStack>
-            </div>
-            <div class="catalog__type-sample">
-                <SUIText Typo="SUITypo.headline">Tipografia operacional</SUIText>
-                <SUIText Typo="SUITypo.body">IDs e métricas permanecem legíveis sem virar decoração.</SUIText>
-                <SUIText Typo="SUITypo.mono">worker/eveo-apps-01 · 99,98%</SUIText>
             </div>
 
             <SUITable T="CatalogRow" Items="_rows" ColumnCount="3" Hover Dense OnRowClick="SelectRow">
