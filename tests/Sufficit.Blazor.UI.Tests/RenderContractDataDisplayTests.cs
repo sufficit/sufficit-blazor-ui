@@ -12,6 +12,61 @@ namespace Sufficit.Blazor.UI.Tests;
 public sealed class RenderContractDataDisplayTests
 {
     [Fact]
+    public void DateTime_WrapsEachTokenInNonBreakingSpan()
+    {
+        using var context = new BunitContext();
+        var cut = context.Render<SUIDateTime>(parameters => parameters
+            .Add(component => component.Value, new DateTime(2026, 9, 7, 14, 30, 0))
+            .Add(component => component.Format, "dd/MM/yyyy HH:mm")
+            .Add(component => component.Class, "probe"));
+
+        var root = cut.Find("span.sui-datetime");
+        Assert.True(root.ClassList.Contains("probe"));
+        // Each whitespace-separated token (date, time) is its own nowrap span,
+        // while the space between them stays a soft-wrap opportunity.
+        var tokens = cut.FindAll("span.sui-datetime__token");
+        Assert.Equal(2, tokens.Count);
+        Assert.Equal("07/09/2026", tokens[0].TextContent);
+        Assert.Equal("14:30", tokens[1].TextContent);
+    }
+
+    [Fact]
+    public void DateTime_SingleTokenForDateOnlyFormat()
+    {
+        using var context = new BunitContext();
+        var cut = context.Render<SUIDateTime>(parameters => parameters
+            .Add(component => component.Value, new DateTime(2026, 9, 7)));
+
+        var tokens = cut.FindAll("span.sui-datetime__token");
+        Assert.Single(tokens);
+        Assert.Equal("07/09/2026", tokens[0].TextContent);
+    }
+
+    [Fact]
+    public void DateTime_RendersNothingWhenValueIsNull()
+    {
+        using var context = new BunitContext();
+        var cut = context.Render<SUIDateTime>();
+
+        Assert.Empty(cut.FindAll("span.sui-datetime__token"));
+        Assert.Equal(string.Empty, cut.Find("span.sui-datetime").TextContent);
+    }
+
+    [Fact]
+    public void DateTime_HtmlEncodesLiteralTokens()
+    {
+        using var context = new BunitContext();
+        var cut = context.Render<SUIDateTime>(parameters => parameters
+            .Add(component => component.Value, new DateTime(2026, 9, 7))
+            .Add(component => component.Format, "'<b>' dd/MM/yyyy"));
+
+        var tokens = cut.FindAll("span.sui-datetime__token");
+        Assert.Equal("<b>", tokens[0].TextContent);
+        // Encoded as text, never parsed as markup by the browser.
+        Assert.DoesNotContain("<b>", cut.Markup);
+    }
+
+    [Fact]
     public void List_RendersUnorderedListWithDenseModifier()
     {
         using var context = new BunitContext();

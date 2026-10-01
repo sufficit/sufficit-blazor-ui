@@ -17,6 +17,7 @@ B|Sufficit.Blazor.UI.Components.SUIConfirmDialog|Microsoft.AspNetCore.Components
 B|Sufficit.Blazor.UI.Components.SUIContainer|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUICopyToClipboard|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIDateField|Microsoft.AspNetCore.Components.ComponentBase
+B|Sufficit.Blazor.UI.Components.SUIDateTime|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIDecisionDialog|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIDialogHost|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIDivider|Microsoft.AspNetCore.Components.ComponentBase
@@ -124,6 +125,7 @@ C|Sufficit.Blazor.UI.Components.SUIConfirmDialog|()
 C|Sufficit.Blazor.UI.Components.SUIContainer|()
 C|Sufficit.Blazor.UI.Components.SUICopyToClipboard|()
 C|Sufficit.Blazor.UI.Components.SUIDateField|()
+C|Sufficit.Blazor.UI.Components.SUIDateTime|()
 C|Sufficit.Blazor.UI.Components.SUIDecisionDialog|()
 C|Sufficit.Blazor.UI.Components.SUIDialogHost|()
 C|Sufficit.Blazor.UI.Components.SUIDivider|()
@@ -425,6 +427,9 @@ I|Sufficit.Blazor.UI.Components.SUIDateField|Microsoft.AspNetCore.Components.ICo
 I|Sufficit.Blazor.UI.Components.SUIDateField|Microsoft.AspNetCore.Components.IHandleAfterRender
 I|Sufficit.Blazor.UI.Components.SUIDateField|Microsoft.AspNetCore.Components.IHandleEvent
 I|Sufficit.Blazor.UI.Components.SUIDateField|System.IAsyncDisposable
+I|Sufficit.Blazor.UI.Components.SUIDateTime|Microsoft.AspNetCore.Components.IComponent
+I|Sufficit.Blazor.UI.Components.SUIDateTime|Microsoft.AspNetCore.Components.IHandleAfterRender
+I|Sufficit.Blazor.UI.Components.SUIDateTime|Microsoft.AspNetCore.Components.IHandleEvent
 I|Sufficit.Blazor.UI.Components.SUIDecisionDialog|Microsoft.AspNetCore.Components.IComponent
 I|Sufficit.Blazor.UI.Components.SUIDecisionDialog|Microsoft.AspNetCore.Components.IHandleAfterRender
 I|Sufficit.Blazor.UI.Components.SUIDecisionDialog|Microsoft.AspNetCore.Components.IHandleEvent
@@ -970,6 +975,10 @@ P|Sufficit.Blazor.UI.Components.SUIDateField|System.String|Id|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDateField|System.String|Label|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDateField|System.String|Name|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDateField|System.String|Placeholder|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIDateTime|System.Collections.Generic.Dictionary<System.String,System.Object>|AdditionalAttributes|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIDateTime|System.Nullable<System.DateTime>|Value|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIDateTime|System.String|Class|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIDateTime|System.String|Format|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDecisionDialog|Sufficit.Blazor.UI.Components.SUIColor|PrimaryColor|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDecisionDialog|Sufficit.Blazor.UI.Components.SUIColor|SecondaryColor|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDecisionDialog|System.String|CancelText|[]|get;set;
@@ -1607,6 +1616,7 @@ T|class|Sufficit.Blazor.UI.Components.SUIConfirmDialog
 T|class|Sufficit.Blazor.UI.Components.SUIContainer
 T|class|Sufficit.Blazor.UI.Components.SUICopyToClipboard
 T|class|Sufficit.Blazor.UI.Components.SUIDateField
+T|class|Sufficit.Blazor.UI.Components.SUIDateTime
 T|class|Sufficit.Blazor.UI.Components.SUIDecisionDialog
 T|class|Sufficit.Blazor.UI.Components.SUIDialogHost
 T|class|Sufficit.Blazor.UI.Components.SUIDivider

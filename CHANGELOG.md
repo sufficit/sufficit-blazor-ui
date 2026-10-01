@@ -10,6 +10,16 @@ definem a numeração das próximas publicações.
 
 ### Added
 
+- Componente `SUIDateTime` (DataDisplay): `<span>` que formata `DateTime?` com
+  `Format` (padrão `dd/MM/yyyy`, aceita qualquer string de formato do .NET),
+  renderiza vazio quando `null` e aplica a classe `sui-datetime` por padrão.
+  Cada token do texto formatado (a data, a hora, uma palavra literal) é
+  envolto em `.sui-datetime__token` com `white-space: nowrap` sem
+  `!important`: uma data ou uma hora nunca é quebrada ao meio, mas o espaço
+  entre data e hora segue sendo um ponto de quebra válido (`07/09/2026` em
+  cima, `14:30` embaixo), mesmo dentro de tabelas com `word-break: break-all`.
+  Sobrescrevível via `Class` ou atributos extras.
+
 - `ISUIToast`/`SUIToastService` + `SUIToastHost`: notificações assertivas
   transitórias (`role="alert"`) empilhadas no canto inferior direito, com
   variantes de tom (info/sucesso/aviso/erro), duração configurável, botão de

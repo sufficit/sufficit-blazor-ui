@@ -11,6 +11,7 @@ public static partial class DemoCatalog
         "SUILoadingButton" => typeof(Examples.SUILoadingButtonExample),
         "SUIAvatar" => typeof(Examples.SUIAvatarExample),
         "SUIChip" => typeof(Examples.SUIChipExample),
+        "SUIDateTime" => typeof(Examples.SUIDateTimeExample),
         "SUIIcon" => typeof(Examples.SUIIconExample),
         "SUIList" => typeof(Examples.SUIListExample),
         "SUIListItem" => typeof(Examples.SUIListItemExample),

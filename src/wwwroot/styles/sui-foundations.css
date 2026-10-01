@@ -193,6 +193,14 @@
 .sui-ml-2 { margin-left: var(--sui-space-2); }
 .sui-mt-2 { margin-top: var(--sui-space-2); }
 
+/* Date/time wrapping policy: each .sui-datetime__token (the date, the time, a
+   word) never breaks internally, while the spaces between tokens keep their
+   normal soft-wrap opportunities — "07/09/2026 14:30" may wrap at the
+   date/time boundary, but a date or a time is never split in half, even
+   inside tables that use word-break: break-all. Single-class specificity and
+   no !important, so applications can still override per element. */
+.sui-datetime__token { white-space: nowrap; }
+
 /* ------------------------------------------------------------------ *
  * Icon
  * ------------------------------------------------------------------ */

@@ -1,0 +1,39 @@
+@namespace Sufficit.Blazor.UI.Components
+
+<span class="@Classname" @attributes="AdditionalAttributes">@Content</span>
+
+@code {
+    /// <summary>Date/time value rendered with <see cref="Format"/>. Renders nothing when null.</summary>
+    [Parameter]
+    public DateTime? Value { get; set; }
+
+    /// <summary>.NET format string applied to <see cref="Value"/>. Defaults to the short Brazilian date format.</summary>
+    [Parameter]
+    public string Format { get; set; } = "dd/MM/yyyy";
+
+    /// <summary>Extra classes appended after <c>sui-datetime</c>.</summary>
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
+
+    private string? Formatted => Value?.ToString(Format);
+
+    // Wrapping policy: each whitespace-separated token (the date, the time, a
+    // word of a long literal format) is wrapped in a .sui-datetime__token span
+    // that never breaks internally, while the spaces between tokens keep their
+    // normal soft-wrap opportunities. "07/09/2026 14:30" may therefore wrap
+    // with the date on one line and the time on the next, but a date or a time
+    // is never split in half, even inside tables that use word-break: break-all.
+    private MarkupString Content => Formatted is { } text
+        ? new MarkupString(string.Join(" ",
+            text.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries)
+                .Select(token => $"<span class=\"sui-datetime__token\">{System.Net.WebUtility.HtmlEncode(token)}</span>")))
+        : new MarkupString(string.Empty);
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-datetime")
+            .AddClass(Class)
+            .Build();
+}

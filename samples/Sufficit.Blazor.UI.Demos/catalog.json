@@ -777,6 +777,45 @@
     ]
   },
   {
+    "name": "SUIDateTime",
+    "family": "Dados",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack Row Wrap AlignItems=\"Center\">\n<SUIDateTime Value=\"new DateTime(2026, 9, 7)\" />\n<SUIDateTime Value=\"new DateTime(2026, 9, 7, 14, 30, 0)\" Format=\"dd/MM/yyyy HH:mm\" />\n<SUIDateTime Value=\"null\" />\n</SUIStack>\n",
+    "parameters": [
+      {
+        "description": "Date/time value rendered with Format. Renders nothing when null.",
+        "name": "Value",
+        "type": "DateTime?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": ".NET format string applied to Value. Defaults to the short Brazilian date format.",
+        "name": "Format",
+        "type": "string",
+        "default": "\"dd/MM/yyyy\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Extra classes appended after sui-datetime.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": false
+      }
+    ]
+  },
+  {
     "name": "SUIIcon",
     "family": "Dados",
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack Row>\n<SUIIcon Name=\"check\" />\n<SUIIcon Name=\"calendar\" />\n<SUIIcon Name=\"clock\" />\n</SUIStack>\n",
