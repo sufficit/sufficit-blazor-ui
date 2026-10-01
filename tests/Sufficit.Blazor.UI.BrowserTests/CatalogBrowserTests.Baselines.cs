@@ -44,8 +44,7 @@ public sealed partial class CatalogBrowserTests
             await Expect(Page.Locator("[data-catalog-ready]")).ToBeVisibleAsync();
             if (scenario.Dark)
             {
-                await Page.Locator("[data-testid='theme-toggle']").ClickAsync();
-                await Expect(Page.Locator("[data-catalog-ready]")).ToHaveAttributeAsync("data-theme", "dark");
+                await Page.SwitchToDarkThemeAsync();
             }
 
             await Page.EvaluateAsync("document.fonts.ready");

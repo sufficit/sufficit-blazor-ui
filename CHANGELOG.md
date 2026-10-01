@@ -10,6 +10,16 @@ definem a numeração das próximas publicações.
 
 ### Added
 
+- `ThemeSwitch` (testes de navegador): helper que espera o catálogo estar sob o
+  circuito interativo antes de agir. A vitrine é HTML estático pré-renderizado que
+  o circuito `InteractiveServer` substitui ao conectar; um clique despachado
+  antes dessa troca cai no toggle pré-renderizado sem handler e se perde, e a
+  página permanece no tema claro — assim falhou o `Axe_MobileDark` só no WebKit
+  (run 36931168454), com o mesmo código passando em Chromium/Firefox e no rerun.
+  O Gallery agora publica `data-interactive` espelhando `RendererInfo.IsInteractive`
+  (também presente no HTML pré-renderizado, como `"false"`), e os testes de
+  acessibilidade, tema, baselines e ações com teclado esperam nele. Sem custo em
+  runtime: é um atributo calculado a partir do próprio renderizador.
 - Componente `SUIDateTime` (DataDisplay): `<span>` que formata `DateTime?` com
   `Format` (padrão `dd/MM/yyyy`, aceita qualquer string de formato do .NET),
   renderiza vazio quando `null` e aplica a classe `sui-datetime` por padrão.
@@ -118,6 +128,17 @@ definem a numeração das próximas publicações.
 
 ### Fixed
 
+- `SUITable` interativa registrou o módulo de teclado duas vezes quando o
+  primeiro render interativo do circuito chegava enquanto o `import` do módulo
+  ainda estava em curso: o guard antigo (`_module is not null`) só fechava
+  depois do primeiro `await`, então duas `initialize` concorrentes penduravam
+  dois listeners de `keydown` e um único Enter ativava a linha duas vezes —
+  dois snackbars idênticos e `strict mode violation` no
+  `Table_UsesScopedHeadersFullEmptyColspanAndGridRows` (WebKit). O guard agora
+  é um flag `bool` virado antes do primeiro `await`, portanto o Enter ativa a
+  linha exatamente uma vez. Latente desde o primeiro dia do componente; só
+  virou determinístico quando o sinal `data-interactive` fez os testes
+  pararem de perder a primeira interação.
 - Vitrine publicada travada na versão anterior: `ShowcaseBrowserTests` esperava um número fixo de componentes (68) e bloqueou o deploy do Pages ao adicionar o 69º/70º. A suíte agora deriva as páginas esperadas do próprio `catalog.json` (copiado junto à suíte), então adicionar componente nunca exige editar contagem; o runbook da vitrine documenta a regra de que todo componente novo precisa estar na página gerada.
 - SUINavGroup e SUINavLink: `aria-disabled` era ligado a um `bool` e saía como `aria-disabled=""`; agora emite `"true"` quando desabilitado e omite o atributo caso contrário (tecnologia assistiva ignora o token vazio).
 

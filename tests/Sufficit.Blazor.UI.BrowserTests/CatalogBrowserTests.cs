@@ -27,8 +27,7 @@ public sealed partial class CatalogBrowserTests : PageTest
     [Test]
     public async Task CatalogDarkTheme_HasNoSeriousOrCriticalAxeViolations()
     {
-        await Page.Locator("[data-testid='theme-toggle']").ClickAsync();
-        await Expect(Page.Locator("[data-catalog-ready]")).ToHaveAttributeAsync("data-theme", "dark");
+        await Page.SwitchToDarkThemeAsync();
         await Page.WaitForTimeoutAsync(400);
         await AssertNoBlockingAxeViolationsAsync();
     }
@@ -566,9 +565,8 @@ public sealed partial class CatalogBrowserTests : PageTest
     [Test]
     public async Task ThemeToggle_UpdatesGlobalColorScheme()
     {
-        await Page.Locator("[data-testid='theme-toggle']").ClickAsync();
+        await Page.SwitchToDarkThemeAsync();
 
-        await Expect(Page.Locator("[data-catalog-ready]")).ToHaveAttributeAsync("data-theme", "dark");
         var colorScheme = await Page.EvaluateAsync<string>("getComputedStyle(document.documentElement).colorScheme");
         Assert.That(colorScheme, Does.Contain("dark"));
     }
@@ -629,7 +627,7 @@ public sealed partial class CatalogBrowserTests : PageTest
 
             if (theme == "light")
             {
-                await Page.Locator("[data-testid='theme-toggle']").ClickAsync();
+                await Page.SwitchToDarkThemeAsync();
             }
         }
     }

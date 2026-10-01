@@ -5,7 +5,11 @@
 <PageTitle>Catálogo SUI</PageTitle>
 
 <SUIThemeProvider Theme="@ActiveTheme" Class="catalog-theme-root">
-    <main class="catalog" data-catalog-ready data-theme="@(_dark ? "dark" : "light")">
+    @* data-interactive mirrors RendererInfo.IsInteractive: "false" on the prerendered
+       static HTML, "true" from the circuit's very first interactive render. Browser
+       tests gate their theme-toggle clicks on it: a click on the prerendered markup
+       the InteractiveServer circuit is about to replace is lost. *@
+    <main class="catalog" data-catalog-ready data-theme="@(_dark ? "dark" : "light")" data-interactive="@(RendererInfo.IsInteractive ? "true" : "false")">
         <header class="catalog__header">
             <SUIPageHeader Title="Catálogo SUI"
                            Description="Estados reais, teclado, temas e conteúdo extremo dos componentes compartilhados."

@@ -24,6 +24,10 @@ public sealed class AccessibilityBrowserTests : PageTest
     {
         await Page.GotoAsync(BaseUrl, new PageGotoOptions { WaitUntil = WaitUntilState.NetworkIdle });
         await Expect(Page.Locator("[data-catalog-ready]")).ToBeVisibleAsync();
+        // The prerendered markup has no event handlers; waits that only check
+        // visibility can pass on it and then lose every interaction to the
+        // circuit's first re-render. See ThemeSwitch for the full rationale.
+        await Page.WaitForInteractiveCatalogAsync();
     }
 
     [TestCase(375, 812, false, TestName = "Axe_MobileLight")]
@@ -34,8 +38,7 @@ public sealed class AccessibilityBrowserTests : PageTest
         await Page.SetViewportSizeAsync(width, height);
         if (dark)
         {
-            await Page.Locator("[data-testid='theme-toggle']").ClickAsync();
-            await Expect(Page.Locator("[data-catalog-ready]")).ToHaveAttributeAsync("data-theme", "dark");
+            await Page.SwitchToDarkThemeAsync();
         }
 
         await Page.WaitForTimeoutAsync(400);

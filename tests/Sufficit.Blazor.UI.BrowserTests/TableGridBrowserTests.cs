@@ -18,6 +18,8 @@ public sealed class TableGridBrowserTests : PageTest
     {
         await Page.GotoAsync(BaseUrl, new PageGotoOptions { WaitUntil = WaitUntilState.NetworkIdle });
         await Expect(Page.Locator("[data-catalog-ready]")).ToBeVisibleAsync();
+        // The arrows below must reach live row handlers, not prerendered markup.
+        await Page.WaitForInteractiveCatalogAsync();
 
         var rows = Page.Locator("table[role=grid] tbody tr.sui-table__row--interactive");
         Assert.That(await rows.CountAsync(), Is.GreaterThan(1));
