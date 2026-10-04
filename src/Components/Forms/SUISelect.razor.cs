@@ -81,16 +81,13 @@ public partial class SUISelect<T>
     [Parameter]
     public string? MenuMaxWidth { get; set; }
 
-    /// <summary>Additional CSS class for the root element.</summary>
-    [Parameter]
-    public string? Class { get; set; }
 
     /// <summary>The <see cref="SUISelectItem"/> options; rendered hidden so they can register with the select.</summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>Unmatched attributes forwarded to the trigger button.</summary>
-    [Parameter(CaptureUnmatchedValues = true)]
+    /// <summary>Legacy alias for <see cref="SUIComponentBase.AdditionalAttributes"/>; forwarded to the trigger button.</summary>
+    [Parameter, Obsolete("Use AdditionalAttributes instead; this alias will be removed in the next breaking release.")]
     public Dictionary<string, object?> UserAttributes { get; set; } = new();
 
     private readonly List<SUISelectItem> _items = new();
@@ -200,6 +197,9 @@ public partial class SUISelect<T>
     /// <summary>Wires form validation and closes the menu when disabled.</summary>
     protected override void OnParametersSet()
     {
+#pragma warning disable CS0618 // deliberate bridge for the obsolete parameter
+        MergeLegacyAttributes(UserAttributes);
+#pragma warning restore CS0618
         _field.Configure(FormContext, ValueExpression, () => _ = InvokeAsync(StateHasChanged));
         if (Disabled)
         {

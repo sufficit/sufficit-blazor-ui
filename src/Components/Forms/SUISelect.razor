@@ -1,13 +1,14 @@
 @using System.Globalization
 @using Microsoft.AspNetCore.Components.Web
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 @typeparam T
 @implements ISUISelectRegistry
 @implements IAsyncDisposable
 @inject IJSRuntime JS
 
 <CascadingValue Value="(ISUISelectRegistry)this" IsFixed="true">
-    <div class="@Classname" @onfocusin="() => { _focusVersion++; }" @onfocusout="OnFocusOutAsync">
+    <div class="@Classname" style="@Style" @onfocusin="() => { _focusVersion++; }" @onfocusout="OnFocusOutAsync">
         @if (!string.IsNullOrWhiteSpace(Label))
         {
             <label id="@LabelId" class="sui-field__label" for="@EffectiveId">@Label</label>
@@ -30,7 +31,7 @@
                     disabled="@Disabled"
                     @onclick="Toggle"
                     @onkeydown="OnKeyDown"
-                    @attributes="UserAttributes">
+                    @attributes="AdditionalAttributes">
                 <span class="sui-select__value">
                     @if (SelectedItem is { } selected)
                     {

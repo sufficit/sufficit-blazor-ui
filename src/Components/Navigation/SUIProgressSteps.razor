@@ -1,4 +1,5 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 @using Sufficit.Blazor.UI.Utilities
 
 <nav class="@ClassName" style="@InlineStyle" aria-label="@AriaLabel" @attributes="AdditionalAttributes">
@@ -66,14 +67,8 @@
     [Parameter]
     public string PendingStatusLabel { get; set; } = "não iniciada";
 
-    [Parameter]
-    public string? Class { get; set; }
 
-    [Parameter]
-    public string? Style { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
     private int EffectiveActiveIndex
         => Steps.Count == 0 ? 0 : Math.Clamp(ActiveIndex, 0, Steps.Count - 1);

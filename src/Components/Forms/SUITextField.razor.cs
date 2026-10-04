@@ -99,12 +99,9 @@ public partial class SUITextField<T>
     [Parameter]
     public string ClearText { get; set; } = "Limpar campo";
 
-    /// <summary>Additional css classes appended to the field's root element.</summary>
-    [Parameter]
-    public string? Class { get; set; }
 
-    /// <summary>Any other attributes are splatted onto the underlying input or textarea.</summary>
-    [Parameter(CaptureUnmatchedValues = true)]
+    /// <summary>Legacy alias for <see cref="SUIComponentBase.AdditionalAttributes"/>; splatted onto the input or textarea.</summary>
+    [Parameter, Obsolete("Use AdditionalAttributes instead; this alias will be removed in the next breaking release.")]
     public Dictionary<string, object?> UserAttributes { get; set; } = new();
 
     private ElementReference _inputElement;
@@ -166,7 +163,13 @@ public partial class SUITextField<T>
     public void Dispose() => _field.Dispose();
 
     /// <inheritdoc />
-    protected override void OnParametersSet() => _field.Configure(FormContext, ValueExpression, () => _ = InvokeAsync(StateHasChanged));
+    protected override void OnParametersSet()
+    {
+#pragma warning disable CS0618 // deliberate bridge for the obsolete parameter
+        MergeLegacyAttributes(UserAttributes);
+#pragma warning restore CS0618
+        _field.Configure(FormContext, ValueExpression, () => _ = InvokeAsync(StateHasChanged));
+    }
 
     /// <summary>
     /// Moves keyboard focus to this field's control, in either mode.

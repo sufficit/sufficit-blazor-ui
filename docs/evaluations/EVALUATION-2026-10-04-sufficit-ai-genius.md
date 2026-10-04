@@ -19,7 +19,13 @@
 > para classes com guarda CSP, aliases `--sm/--md/--lg` marcados legados e marcação interna
 > migrada para nomes canônicos (910 testes; atividade:
 > `docs/activities/20261004-design-consolidation-parity-inline-aliases.md`).
-> Próximo: P1/P2 (`SUIComponentBase`).
+> ✅ **P1/P2 iniciado e validado** — `SUIComponentBase` fino, 8 componentes pilotos
+> (incluindo `SUISelect<T>` e `SUITextField<T>`), aliases `UserAttributes` obsoletos
+> nos 3 migrados, guarda contra novos aliases e gerador de catálogo atualizado;
+> baseline público revisado (924 testes; atividade:
+> `docs/activities/20261004-design-consolidation-component-base.md`).
+> Próximo: P4 (feedback tipado), depois F1/F4/L4. A migração dos demais
+> componentes para a base permanece progressiva.
 
 **Avaliador:** Sufficit AI Genius (sessão autônoma)
 **Commit de referência:** `2101904` (main)

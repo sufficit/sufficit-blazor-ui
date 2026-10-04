@@ -1,8 +1,9 @@
 @implements IDisposable
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 @typeparam T
 
-<div class="@Classname">
+<div class="@Classname" style="@Style">
     @if (!string.IsNullOrWhiteSpace(Label))
     {
         <label class="sui-field__label" for="@EffectiveId">@Label</label>
@@ -22,7 +23,7 @@
                   aria-describedby="@DescribedBy"
                   aria-invalid="@(HasError ? "true" : null)"
                   aria-errormessage="@(!string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null)"
-                  @attributes="UserAttributes">@Value</textarea>
+                  @attributes="AdditionalAttributes">@Value</textarea>
     }
     else
     {
@@ -40,7 +41,7 @@
                    aria-describedby="@DescribedBy"
                    aria-invalid="@(HasError ? "true" : null)"
                    aria-errormessage="@(!string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null)"
-                   @attributes="UserAttributes" />
+                   @attributes="AdditionalAttributes" />
             @if (CanClear)
             {
                 <button type="button"

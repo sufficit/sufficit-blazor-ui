@@ -1,4 +1,5 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
 <section class="@Classname" style="@StyleValue" @attributes="AdditionalAttributes">
     <SUICard Elevation="@Elevation">
@@ -46,12 +47,9 @@
     [Parameter] public int? Gap { get; set; }
 
     [Parameter] public int Elevation { get; set; }
-    [Parameter] public string? Class { get; set; }
 
     /// <summary>Additional inline declarations, appended after the generated gap variable.</summary>
-    [Parameter] public string? Style { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
     private string Classname
         => SUIClassBuilder.Default("sui-section")

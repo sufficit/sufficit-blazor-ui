@@ -85,6 +85,28 @@ public sealed class NamingConventionTests
     }
 
     [Fact]
+    public void LegacyUserAttributes_DoesNotGrowBeyondTheFrozenList()
+    {
+        // In the migration window we keep old public aliases source-compatible.
+        // Every new component must use AdditionalAttributes; this frozen set
+        // shrinks as components move to SUIComponentBase.
+        string[] frozen =
+        [
+            "SUIAutocomplete", "SUIButton", "SUIDateField", "SUIIconButton",
+            "SUILink", "SUILoadingButton", "SUINavGroup", "SUINavLink",
+            "SUINumericField", "SUIPopover", "SUISelect", "SUIStatusBanner",
+            "SUITd", "SUITextField", "SUITh", "SUITooltip", "SUIToast",
+        ];
+
+        var actual = ComponentTypes()
+            .Where(type => type.GetProperty("UserAttributes", BindingFlags.Public | BindingFlags.Instance) is not null)
+            .Select(type => type.Name.Split('`')[0])
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+        Assert.Equal(frozen.Order(StringComparer.Ordinal), actual);
+    }
+
+    [Fact]
     public void ComponentParameters_ArePublicPascalCaseProperties()
     {
         var offenders = new List<string>();
