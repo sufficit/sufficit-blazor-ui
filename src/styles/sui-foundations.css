@@ -66,6 +66,7 @@
   /* shape */
   --sui-radius-sm: 4px;
   --sui-radius:    8px;
+  --sui-radius-control: calc(var(--sui-radius) * 1.25);
   --sui-radius-lg: 14px;
   --sui-radius-full: 9999px;
 
@@ -91,9 +92,19 @@
   --sui-z-toast: 1500;
   --sui-z-tooltip: 1600;
 
-  /* motion */
-  --sui-transition: 160ms cubic-bezier(.4, 0, .2, 1);
-  --sui-transition-slow: 280ms cubic-bezier(.4, 0, .2, 1);
+  /* motion — duration and easing are separable so signature movements can
+     borrow the vocabulary without inventing literals. Loops (spinners,
+     shimmer) keep their own periods: they are progress, not transitions. */
+  --sui-dur-fast: 120ms;
+  --sui-dur:      160ms;
+  --sui-dur-slow: 280ms;
+  --sui-ease:       cubic-bezier(.4, 0, .2, 1);
+  --sui-ease-enter: cubic-bezier(.16, 1, .3, 1);
+  --sui-transition:      var(--sui-dur) var(--sui-ease);
+  --sui-transition-slow: var(--sui-dur-slow) var(--sui-ease);
+  /* Legacy hook kept alive: the drawer visibility delay and consumer apps
+     read the duration alone. Aliased to the atomic token. */
+  --sui-transition-duration: var(--sui-dur);
 
   /* typography */
   --sui-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -136,6 +147,10 @@
   --sui-control-px-sm: 10px;
   --sui-control-px-md: 14px;
   --sui-control-px-lg: 18px;
+  /* Shared navigation hit area: 48px already used by the collapsed rail.
+     Nested navigation is denser but must remain at least 40px tall. */
+  --sui-nav-item-h: 48px;
+  --sui-nav-item-h-nested: 40px;
 
   color-scheme: light;
 }

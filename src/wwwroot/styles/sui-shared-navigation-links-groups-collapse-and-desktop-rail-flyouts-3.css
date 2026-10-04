@@ -17,7 +17,7 @@
 @media (max-width: 599.98px) {
   button.sui-nav-link,
   .sui-nav-link__row {
-    min-height: 48px;
+    min-height: var(--sui-nav-item-h);
   }
 }
 

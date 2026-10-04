@@ -11,7 +11,7 @@
   justify-content: center;
   padding: var(--sui-space-4);
   background: var(--sui-overlay);
-  animation: sui-dialog-in 160ms ease;
+  animation: sui-dialog-in var(--sui-dur) var(--sui-ease);
 }
 .sui-dialog {
   position: relative;

@@ -61,7 +61,7 @@
   transform: translateX(-100%); visibility: hidden; pointer-events: none;
   transition:
     transform var(--sui-transition),
-    visibility 0s linear var(--sui-transition-duration, 200ms);
+    visibility 0s linear var(--sui-transition-duration, var(--sui-dur));
 }
 .sui-drawer--temporary.sui-drawer--ready,
 .sui-drawer--responsive.sui-drawer--ready { visibility: visible; }

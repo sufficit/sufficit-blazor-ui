@@ -209,6 +209,63 @@ public sealed class StyleContractTests
     }
 
     [Fact]
+    public void MotionDurations_Easings_AndControlShape_ComeFromTokens()
+    {
+        var foundations = File.ReadAllText(Path.Combine(RepositoryLayout.Styles, "sui-foundations.css"));
+        Assert.Contains("--sui-dur-fast: 120ms;", foundations);
+        Assert.Contains("--sui-dur:      160ms;", foundations);
+        Assert.Contains("--sui-ease:", foundations);
+        Assert.Contains("--sui-ease-enter:", foundations);
+        Assert.Contains("--sui-radius-control: calc(var(--sui-radius) * 1.25);", foundations);
+        Assert.Contains("--sui-nav-item-h: 48px;", foundations);
+        Assert.Contains("--sui-nav-item-h-nested: 40px;", foundations);
+
+        var buttons = File.ReadAllText(Path.Combine(RepositoryLayout.Styles, "sui-buttons.css"));
+        Assert.Contains("border-radius: var(--sui-radius-control);", buttons);
+
+        // Loops (spinners, shimmer) and the one documented signature movement
+        // keep literal periods: they are progress or identity, not transitions.
+        var allowed = new Dictionary<string, HashSet<string>>(StringComparer.Ordinal)
+        {
+            ["src/styles/sui-foundations.css"] = ["2.4s", ".01ms"], // reduced-motion policy
+            ["src/styles/sui-shared-skeleton.css"] = ["1.4s"],
+            ["src/styles/sui-buttons.css"] = [".7s"],
+            ["src/styles/sui-progress-circular.css"] = ["1.4s"],
+            ["src/Components/Navigation/SUISlidingTabs.razor.css"] = ["380ms", "320ms"],
+        };
+
+        var offenders = new List<string>();
+        foreach (var file in RepositoryLayout.Files(RepositoryLayout.Src, "*.css"))
+        {
+            var relative = RepositoryLayout.Relative(file);
+            if (relative.StartsWith("src/wwwroot/", StringComparison.Ordinal))
+                continue; // generated bundle
+
+            allowed.TryGetValue(relative, out var permitted);
+            foreach (var line in File.ReadAllLines(file))
+            {
+                var trimmed = line.Trim();
+                if (!Regex.IsMatch(trimmed, @"^(transition|animation)(-[a-z]+)?:", RegexOptions.IgnoreCase))
+                    continue;
+
+                foreach (Match match in Regex.Matches(trimmed, @"(?<![\w-])(\d*\.?\d+)(ms|s)\b"))
+                {
+                    if (match.Value is "0s")
+                        continue; // no-op visibility delay
+
+                    if (permitted is not null && permitted.Contains(match.Value))
+                        continue;
+
+                    offenders.Add($"{relative}: {trimmed}");
+                    break;
+                }
+            }
+        }
+
+        Assert.Empty(offenders);
+    }
+
+    [Fact]
     public void Foundations_HonourReducedMotionAndForcedColors()
     {
         var authored = string.Concat(RepositoryLayout.Files(RepositoryLayout.Styles, "*.css")

@@ -10,7 +10,11 @@
 > (exceção: spinner pendente); 11 blocos periféricos removidos; contrato de estilo
 > reforçado (903 testes passaram; atividade:
 > `docs/activities/20261004-design-consolidation-reduced-motion.md`).
-> Próximo: V4/V5/V7 (motion tokens, raio de controle, nav no sistema).
+> ✅ **V4/V5/V7 concluídos** — tokens `--sui-dur-*`/`--sui-ease-*` decompostos,
+> `--sui-radius-control` e `--sui-nav-item-h*`; nav na escala de espaçamento; contrato
+> proíbe durações literais fora das exceções documentadas (904 testes; atividade:
+> `docs/activities/20261004-design-consolidation-motion-nav-radius.md`).
+> Próximo: V6/L2/P5 (paridade dark, guarda de estilo inline, alias de ícone).
 
 **Avaliador:** Sufficit AI Genius (sessão autônoma)
 **Commit de referência:** `2101904` (main)

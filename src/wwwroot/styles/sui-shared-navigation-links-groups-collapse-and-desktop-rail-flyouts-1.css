@@ -29,9 +29,9 @@ button.sui-nav-link,
   gap: var(--sui-space-3);
   width: 100%;
   min-width: 0;
-  min-height: 50px;
+  min-height: var(--sui-nav-item-h);
   margin: 0;
-  padding: 11px 14px;
+  padding: var(--sui-space-3) var(--sui-space-4);
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -111,10 +111,10 @@ button.sui-nav-link:disabled,
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  min-width: 48px;
-  height: 48px;
-  min-height: 48px;
+  width: var(--sui-nav-item-h);
+  min-width: var(--sui-nav-item-h);
+  height: var(--sui-nav-item-h);
+  min-height: var(--sui-nav-item-h);
   margin: 2px auto;
   padding: 0;
 }
@@ -125,10 +125,10 @@ button.sui-nav-link:disabled,
   grid-template-columns: 20px;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  min-width: 48px;
-  height: 48px;
-  min-height: 48px;
+  width: var(--sui-nav-item-h);
+  min-width: var(--sui-nav-item-h);
+  height: var(--sui-nav-item-h);
+  min-height: var(--sui-nav-item-h);
   padding: 0;
 }
 
@@ -145,9 +145,9 @@ button.sui-nav-link:disabled,
 }
 
 .sui-nav-link--rail > .sui-tooltip-anchor {
-  width: 48px;
-  height: 48px;
-  flex: 0 0 48px;
+  width: var(--sui-nav-item-h);
+  height: var(--sui-nav-item-h);
+  flex: 0 0 var(--sui-nav-item-h);
 }
 
 .sui-nav-link__title {

@@ -113,7 +113,7 @@
 /* Panels slide in subtly every time the active tab changes. */
 .sui-sliding-tabs__panels { padding-top: var(--sui-space-4); }
 .sui-sliding-tab-panel {
-  animation: sui-sliding-panel-in 240ms cubic-bezier(.4, 0, .2, 1);
+  animation: sui-sliding-panel-in var(--sui-dur-slow) var(--sui-ease);
   overflow-wrap: anywhere;
 }
 @keyframes sui-sliding-panel-in {
