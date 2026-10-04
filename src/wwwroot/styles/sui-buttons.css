@@ -121,10 +121,6 @@
   animation: sui-btn-pending-spin .7s linear infinite;
 }
 @keyframes sui-btn-pending-spin { to { transform: rotate(360deg); } }
-@media (prefers-reduced-motion: reduce) {
-  .sui-btn--pending::after { animation-duration: 2.4s; }
-}
-
 .sui-btn__label {
   display: flex;
   flex: 1 1 auto;

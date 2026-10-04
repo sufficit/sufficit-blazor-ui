@@ -21,14 +21,6 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .sui-collapse,
-  .sui-nav-link__expand,
-  .sui-rail-trigger,
-  .sui-rail-flyout-inner {
-    transition: none;
-  }
-}
 .sui-avatar--outlined {
   background: transparent;
   border: 1px solid var(--sui-border-strong);

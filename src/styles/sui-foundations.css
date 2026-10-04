@@ -305,10 +305,27 @@
   .sui-field__input { height: 44px; }
 }
 
+/* Central reduced-motion policy. One point of control for every SUI surface:
+   - .sui-root * covers app content under the theme provider;
+   - [class*="sui-"] covers components rendered without the provider (there
+     is no .sui-root wrapper to lean on) and surfaces portaled to
+     document.body (tooltips), which always carry a sui- class.
+   Forcing these declarations is deliberate: scoped component CSS loads
+   later and must not restore motion for users who asked for less of it. */
 @media (prefers-reduced-motion: reduce) {
-  .sui-btn,
-  .sui-field__input {
-    transition: none;
+  .sui-root *, .sui-root *::before, .sui-root *::after,
+  [class*="sui-"], [class*="sui-"]::before, [class*="sui-"]::after,
+  [class*="sui-"] *, [class*="sui-"] *::before, [class*="sui-"] *::after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+  /* Deliberate exception: a pending spinner is progress feedback, not
+     decoration — it keeps moving, just calm. Later in source + equal
+     specificity, and !important restores both declarations it needs. */
+  .sui-btn--pending::after {
+    animation-duration: 2.4s !important;
+    animation-iteration-count: infinite !important;
   }
 }
 

@@ -42,10 +42,6 @@
   .sui-tab { min-height: 44px; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .sui-tab { transition: none; }
-}
-
 .sui-tabs--vertical { display: grid; grid-template-columns: minmax(140px, 180px) minmax(0, 1fr); gap: var(--sui-space-4); align-items: start; }
 .sui-tabs--vertical > .sui-tabs__list {
   flex-direction: column;

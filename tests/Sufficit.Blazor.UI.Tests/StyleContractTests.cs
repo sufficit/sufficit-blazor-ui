@@ -115,14 +115,46 @@ public sealed class StyleContractTests
     [MemberData(nameof(Stylesheets))]
     public void Stylesheet_DoesNotForceRulesWithImportant(string relativePath)
     {
-        var offenders = File.ReadAllLines(Path.Combine(RepositoryLayout.Root, relativePath))
+        // Strip comments first: prose mentioning !important is not a rule.
+        var authored = Regex.Replace(
+            File.ReadAllText(Path.Combine(RepositoryLayout.Root, relativePath)),
+            @"/\*.*?\*/",
+            string.Empty,
+            RegexOptions.Singleline);
+
+        var offenders = authored.Split('\n')
             .Where(line => line.Contains("!important", StringComparison.Ordinal))
+            .Where(line => !IsCentralReducedMotionPolicy(relativePath, line))
             .Select(line => line.Trim())
             .ToArray();
 
         Assert.True(offenders.Length <= 1,
             $"{relativePath} relies on !important more than the single documented exception:{Environment.NewLine}"
             + string.Join(Environment.NewLine, offenders));
+    }
+
+    /// <summary>
+    /// The central prefers-reduced-motion policy in foundations is the one
+    /// sanctioned use of <c>!important</c>: scoped component CSS loads later
+    /// and must not restore motion for users who asked for less of it. Only
+    /// duration/iteration-count declarations qualify — anything else still
+    /// counts as an offender.
+    /// </summary>
+    private static bool IsCentralReducedMotionPolicy(string relativePath, string line) =>
+        relativePath.EndsWith("sui-foundations.css", StringComparison.Ordinal)
+        && Regex.IsMatch(line, @"^\s*(?:transition|animation)-(?:duration|iteration-count):[^;]*!important");
+
+    [Fact]
+    public void ReducedMotion_IsCentralizedInFoundations()
+    {
+        var offenders = RepositoryLayout.Files(RepositoryLayout.Src, "*.css")
+            .Where(path => !RepositoryLayout.Relative(path).StartsWith("src/wwwroot/", StringComparison.Ordinal))
+            .Where(path => !path.EndsWith("sui-foundations.css", StringComparison.Ordinal))
+            .Where(path => File.ReadAllText(path).Contains("prefers-reduced-motion", StringComparison.Ordinal))
+            .Select(RepositoryLayout.Relative)
+            .ToArray();
+
+        Assert.Empty(offenders);
     }
 
     [Theory]

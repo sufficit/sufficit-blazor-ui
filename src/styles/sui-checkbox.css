@@ -82,13 +82,6 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .sui-checkbox__box,
-  .sui-checkbox__box svg {
-    transition: none;
-  }
-}
-
 @media (forced-colors: active) {
   .sui-checkbox__box {
     border: 1px solid CanvasText;

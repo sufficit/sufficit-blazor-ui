@@ -59,21 +59,3 @@
     justify-content: center;
   }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .sui-progress-circular,
-  .sui-snackbar,
-  .sui-dialog-overlay {
-    animation: none;
-  }
-
-  .sui-drawer--temporary,
-  .sui-drawer--responsive,
-  .sui-progress-linear__bar,
-  .sui-select__trigger,
-  .sui-select__indicator,
-  .sui-switch__track,
-  .sui-switch__track::after {
-    transition: none;
-  }
-}

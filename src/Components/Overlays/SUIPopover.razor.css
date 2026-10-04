@@ -62,9 +62,3 @@
     transform: translateX(-50%);
     border-bottom-color: var(--sui-popover-background, rgba(17, 24, 39, 0.95));
 }
-
-@media (prefers-reduced-motion: reduce) {
-    .sui-popover {
-        transition: none;
-    }
-}

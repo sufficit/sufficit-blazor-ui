@@ -127,11 +127,3 @@
   .sui-sliding-tab__label { display: none; }
   .sui-sliding-tab { min-height: 44px; padding-inline: var(--sui-space-3); }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .sui-sliding-tabs__track.is-positioned .sui-sliding-tabs__indicator { transition: none; }
-  .sui-sliding-tab,
-  .sui-sliding-tab__icon { transition: none; }
-  .sui-sliding-tab.is-active .sui-sliding-tab__icon { animation: none; }
-  .sui-sliding-tab-panel { animation: none; }
-}

@@ -104,7 +104,3 @@
 .sui-tooltip--no-arrow::before {
   display: none;
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .sui-tooltip { transition: none; }
-}

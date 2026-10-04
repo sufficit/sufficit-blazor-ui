@@ -6,7 +6,11 @@
 > (commit `7d7d0f7`; nota de atividade: `docs/activities/20261004-design-consolidation-state-tints.md`).
 > ✅ **V2 concluído** — tokens de foco/offset externo e interno aplicados; 902 testes
 > unitários passaram (atividade: `docs/activities/20261004-design-consolidation-focus.md`).
-> Próximo: V3 (movimento reduzido).
+> ✅ **V3 concluído** — política central de movimento reduzido em foundations
+> (exceção: spinner pendente); 11 blocos periféricos removidos; contrato de estilo
+> reforçado (903 testes passaram; atividade:
+> `docs/activities/20261004-design-consolidation-reduced-motion.md`).
+> Próximo: V4/V5/V7 (motion tokens, raio de controle, nav no sistema).
 
 **Avaliador:** Sufficit AI Genius (sessão autônoma)
 **Commit de referência:** `2101904` (main)
