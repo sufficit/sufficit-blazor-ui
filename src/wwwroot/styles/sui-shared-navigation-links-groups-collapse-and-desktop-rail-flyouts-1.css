@@ -52,7 +52,7 @@ button.sui-nav-link,
 
 button.sui-nav-link:hover:not(:disabled),
 .sui-nav-link__row:hover:not(.is-disabled) {
-  background: color-mix(in srgb,var(--sui-color-primary) 7%,transparent);
+  background: var(--sui-state-hover);
 }
 
 button.sui-nav-link:focus-visible,
@@ -64,7 +64,7 @@ button.sui-nav-link:focus-visible,
 
 .sui-nav-link__row.active,
 .sui-nav-link__row[aria-current="page"] {
-  background: color-mix(in srgb,var(--sui-color-primary) 11%,transparent);
+  background: var(--sui-state-selected);
   box-shadow: inset 2px 0 0 var(--sui-color-primary);
   color: var(--sui-color-primary);
   font-weight: 600;

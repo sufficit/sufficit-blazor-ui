@@ -101,7 +101,7 @@
 
 .sui-rail-trigger:hover,
 .sui-rail-trigger.is-open {
-  background: color-mix(in srgb,var(--sui-color-primary) 12%,transparent);
+  background: var(--sui-state-selected);
   color: var(--sui-color-primary);
 }
 

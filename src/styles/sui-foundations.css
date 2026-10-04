@@ -18,7 +18,9 @@
   --sui-color-primary-contrast:#ffffff;
   --sui-color-primary-action: var(--sui-color-primary);
   --sui-color-primary-action-contrast:var(--sui-color-primary-contrast);
-  --sui-color-primary-soft:   color-mix(in srgb,var(--sui-color-primary) 14%,transparent);
+  /* Compat alias: the historical 14% "soft" is the selected state of the
+     tint scale above. New styles must consume --sui-state-* directly. */
+  --sui-color-primary-soft:   var(--sui-state-selected);
   --sui-color-secondary:      #64748b;
   --sui-color-secondary-contrast:#fff;
   --sui-color-info:           #0369a1;
@@ -31,6 +33,16 @@
   --sui-color-error-contrast: #fff;
   --sui-color-dark:           #1e293b;
   --sui-color-light:          #f8fafc;
+
+  /* interaction states — single tint scale for every hover/selected/pressed
+     surface. Deriving every state from these four keeps the "feel" of the
+     system adjustable in one place; components must not pick their own
+     color-mix percentages. Percentages were consolidated from the values
+     previously scattered across modules (7/11/14% nav, 8/12% buttons). */
+  --sui-state-hover:    color-mix(in srgb, var(--sui-color-primary) 8%,  transparent);
+  --sui-state-selected: color-mix(in srgb, var(--sui-color-primary) 12%, transparent);
+  --sui-state-pressed:  color-mix(in srgb, var(--sui-color-primary) 16%, transparent);
+  --sui-state-soft:     color-mix(in srgb, var(--sui-color-primary) 20%, transparent);
 
   /* surface / text */
   --sui-surface:              #ffffff;
@@ -125,7 +137,7 @@
 .theme-dark {
   --sui-color-primary: #93c5fd;
   --sui-color-primary-contrast: #0f172a;
-  --sui-color-primary-soft: color-mix(in srgb,var(--sui-color-primary) 14%,transparent);
+  --sui-color-primary-soft: var(--sui-state-selected);
   --sui-color-info: #7dd3fc;
   --sui-color-success: #4ade80;
   --sui-color-warning: #fbbf24;
