@@ -19,8 +19,8 @@
   cursor: pointer;
 }
 .sui-sort-label:focus-visible {
-  outline: 2px solid var(--sui-color-primary);
-  outline-offset: 2px;
+  outline: var(--sui-focus-ring);
+  outline-offset: var(--sui-focus-offset);
   border-radius: var(--sui-radius-sm);
 }
 .sui-sort-label__icon {

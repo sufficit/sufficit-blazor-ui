@@ -36,7 +36,7 @@
 }
 .sui-btn:focus-visible {
   outline: 2px solid var(--_btn-color);
-  outline-offset: 2px;
+  outline-offset: var(--sui-focus-offset);
 }
 .sui-btn:is(:disabled,[aria-disabled="true"]) {
   cursor: not-allowed;

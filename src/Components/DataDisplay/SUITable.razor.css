@@ -36,6 +36,6 @@
 .sui-table__row { cursor: inherit; }
 .sui-table__row--interactive { cursor: pointer; }
 .sui-table__row--interactive:focus-visible {
-  outline: 2px solid var(--sui-color-primary);
-  outline-offset: -2px;
+  outline: var(--sui-focus-ring);
+  outline-offset: var(--sui-focus-offset-inset);
 }

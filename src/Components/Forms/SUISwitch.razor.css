@@ -1,6 +1,6 @@
 .sui-switch:has(.sui-switch__input:focus-visible) {
-  outline: 2px solid var(--sui-color-primary);
-  outline-offset: 3px;
+  outline: var(--sui-focus-ring);
+  outline-offset: var(--sui-focus-offset);
   border-radius: var(--sui-radius-sm);
 }
 

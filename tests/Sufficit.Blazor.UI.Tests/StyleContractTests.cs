@@ -156,6 +156,27 @@ public sealed class StyleContractTests
     }
 
     [Fact]
+    public void FocusRing_UsesSharedTokensAcrossAuthoredStyles()
+    {
+        var foundations = File.ReadAllText(Path.Combine(RepositoryLayout.Styles, "sui-foundations.css"));
+        Assert.Contains("--sui-focus-ring: 2px solid var(--sui-focus-color, var(--sui-color-primary));", foundations);
+        Assert.Contains("--sui-focus-offset: 2px;", foundations);
+
+        var styles = RepositoryLayout.Files(RepositoryLayout.Src, "*.css")
+            .Where(path => !RepositoryLayout.Relative(path).StartsWith("src/wwwroot/", StringComparison.Ordinal))
+            .ToArray();
+        Assert.Contains(styles, path => File.ReadAllText(path).Contains("outline: var(--sui-focus-ring)", StringComparison.Ordinal)
+            && !path.EndsWith("sui-foundations.css", StringComparison.Ordinal));
+
+        var offenders = styles.SelectMany(path => File.ReadAllLines(path)
+                .Select((line, index) => (path, line, index)))
+            .Where(entry => Regex.IsMatch(entry.line, @"outline-offset:\s*(?:1px|3px)\s*;"))
+            .Select(entry => $"{RepositoryLayout.Relative(entry.path)}:{entry.index + 1}")
+            .ToArray();
+        Assert.Empty(offenders);
+    }
+
+    [Fact]
     public void Foundations_HonourReducedMotionAndForcedColors()
     {
         var authored = string.Concat(RepositoryLayout.Files(RepositoryLayout.Styles, "*.css")

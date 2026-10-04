@@ -44,6 +44,14 @@
   --sui-state-pressed:  color-mix(in srgb, var(--sui-color-primary) 16%, transparent);
   --sui-state-soft:     color-mix(in srgb, var(--sui-color-primary) 20%, transparent);
 
+  /* Keyboard focus: outline follows the palette's focus color; inset rings
+     are explicit exceptions for controls clipped inside their own bounds. */
+  --sui-focus-ring: 2px solid var(--sui-focus-color, var(--sui-color-primary));
+  --sui-focus-offset: 2px;
+  /* Inset ring for surfaces clipped inside their own bounds (table cells,
+     tab strips, numeric steppers): the outline must not bleed outside. */
+  --sui-focus-offset-inset: -2px;
+
   /* surface / text */
   --sui-surface:              #ffffff;
   --sui-surface-2:            #f1f5f9;

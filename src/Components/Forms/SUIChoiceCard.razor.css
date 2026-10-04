@@ -48,7 +48,7 @@
 
 .sui-choice-card:has(.sui-choice-card__input:focus-visible) {
   outline: 3px solid color-mix(in srgb, var(--_choice-accent) 30%, transparent);
-  outline-offset: 3px;
+  outline-offset: var(--sui-focus-offset);
 }
 
 .sui-choice-card.is-disabled,

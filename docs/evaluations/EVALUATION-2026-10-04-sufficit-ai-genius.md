@@ -4,7 +4,9 @@
 > `work/design-consolidation` (worktree `../sufficit-blazor-ui-consolidacao`).
 > ✅ **V1 concluído** — escala `--sui-state-*` criada e consumida
 > (commit `7d7d0f7`; nota de atividade: `docs/activities/20261004-design-consolidation-state-tints.md`).
-> Próximo: V2 (tokens de foco).
+> ✅ **V2 concluído** — tokens de foco/offset externo e interno aplicados; 902 testes
+> unitários passaram (atividade: `docs/activities/20261004-design-consolidation-focus.md`).
+> Próximo: V3 (movimento reduzido).
 
 **Avaliador:** Sufficit AI Genius (sessão autônoma)
 **Commit de referência:** `2101904` (main)

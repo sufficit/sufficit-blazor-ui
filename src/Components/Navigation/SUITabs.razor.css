@@ -31,8 +31,8 @@
 }
 .sui-tab:hover { color: var(--sui-text-primary); }
 .sui-tab:focus-visible {
-  outline: 2px solid var(--sui-color-primary);
-  outline-offset: -2px;
+  outline: var(--sui-focus-ring);
+  outline-offset: var(--sui-focus-offset-inset);
 }
 .sui-tab.is-active { color: var(--sui-color-primary); border-bottom-color: var(--sui-color-primary); }
 .sui-tabs__panels { padding: var(--sui-space-4) 0; }

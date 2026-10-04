@@ -29,6 +29,6 @@
 .sui-list--dense .sui-list__button { padding: var(--sui-space-1) var(--sui-space-2); }
 .sui-list__button:hover { background: var(--sui-surface-2); }
 .sui-list__button:focus-visible {
-  outline: 2px solid var(--sui-color-primary);
-  outline-offset: 2px;
+  outline: var(--sui-focus-ring);
+  outline-offset: var(--sui-focus-offset);
 }
