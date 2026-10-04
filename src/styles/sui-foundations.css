@@ -161,6 +161,8 @@
   --sui-color-primary: #93c5fd;
   --sui-color-primary-contrast: #0f172a;
   --sui-color-primary-soft: var(--sui-state-selected);
+  --sui-color-secondary: #cbd5e1;
+  --sui-color-secondary-contrast: #0f172a;
   --sui-color-info: #7dd3fc;
   --sui-color-success: #4ade80;
   --sui-color-warning: #fbbf24;
@@ -251,6 +253,10 @@
   flex: 0 0 auto;
 }
 .sui-icon svg { width: 100%; height: 100%; display: block; }
+/* Size aliases: --small/--medium/--large are canonical (they match SUISize);
+   the --sm/--md/--lg forms are legacy consumer surface. Internal markup must
+   use the long names — DesignTokenContractTests enforces it. Remove the short
+   aliases in the next breaking window. */
 .sui-icon--sm, .sui-icon--small { width: 1.25em; height: 1.25em; }
 .sui-icon--md, .sui-icon--medium { width: 1.5em;  height: 1.5em; }
 .sui-icon--lg, .sui-icon--large { width: 2em;    height: 2em; }
@@ -296,11 +302,48 @@
   box-shadow: var(--sui-focus-shadow, 0 0 0 3px var(--sui-color-primary-soft));
 }
 .sui-field__input:disabled { background: var(--sui-surface-2); color: var(--sui-text-disabled); cursor: not-allowed; }
+.sui-field__input--multiline { height: auto; min-height: 108px; padding: var(--sui-space-3); resize: vertical; }
+/* Text field geometry: the control wrapper is the positioning context for
+   the clear button and adornment icons; the clear button overlays the
+   trailing edge. Previously shipped as inline style attributes, which a
+   strict CSP page would strip. */
+.sui-text-field__control { position: relative; }
+.sui-text-field__input--pad-trailing { padding-inline-end: 3rem; }
+.sui-text-field__input--pad-clear    { padding-inline-end: 5rem; }
+.sui-text-field__adornment {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: var(--sui-space-3);
+  color: var(--sui-text-secondary);
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+.sui-text-field__adornment--with-clear { inset-inline-end: 2.75rem; }
+.sui-text-field__clear {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 100%;
+  padding: 0;
+  color: var(--sui-text-secondary);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
 /* Shared helper rhythm: the field gap supplies separation from the control.
    Keep all field helpers together here; applications can override this class.
    Error messages retain their separate visual emphasis. */
 .sui-field__helper { margin-top: 0; padding-left: var(--sui-space-3); font-size: calc(var(--sui-fs-caption) * .92); font-style: italic; color: var(--sui-text-secondary); }
 .sui-field__error { margin-top: var(--sui-space-1); padding-left: var(--sui-space-3); font-size: var(--sui-fs-caption); font-weight: 600; color: var(--sui-color-error); }
+/* Reserved height keeps the field footprint stable when the error slot is
+   mounted before any text arrives (form-context fields mount the span empty).
+   Was an inline style attribute, which strict-CSP pages strip. */
+.sui-field__error--reserve { min-height: 1.3em; }
 .sui-field__input[aria-invalid="true"],
 .sui-select__trigger[aria-invalid="true"] { border-color: var(--sui-color-error); }
 .sui-sr-only {

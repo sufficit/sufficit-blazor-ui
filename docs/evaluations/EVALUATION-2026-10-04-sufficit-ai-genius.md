@@ -14,7 +14,12 @@
 > `--sui-radius-control` e `--sui-nav-item-h*`; nav na escala de espaçamento; contrato
 > proíbe durações literais fora das exceções documentadas (904 testes; atividade:
 > `docs/activities/20261004-design-consolidation-motion-nav-radius.md`).
-> Próximo: V6/L2/P5 (paridade dark, guarda de estilo inline, alias de ícone).
+> ✅ **V6/L2/P5 concluídos** — teste de paridade `ThemeParityTests` (achou e corrigiu
+> divergência real no `--sui-color-secondary` dark), 12 estilos inline estáticos migrados
+> para classes com guarda CSP, aliases `--sm/--md/--lg` marcados legados e marcação interna
+> migrada para nomes canônicos (910 testes; atividade:
+> `docs/activities/20261004-design-consolidation-parity-inline-aliases.md`).
+> Próximo: P1/P2 (`SUIComponentBase`).
 
 **Avaliador:** Sufficit AI Genius (sessão autônoma)
 **Commit de referência:** `2101904` (main)

@@ -19,9 +19,9 @@ public sealed class AssetBudgetTests
     // each constant so the next reader can see the real headroom.
     // Raised 2026-10-01 for the .sui-datetime__token nowrap rule (each date/time
     // token never breaks internally; the spaces between tokens stay wrappable).
-    private const int BundleRawBudget = 58_624;               // measured 56,780 B (2026-10-01)
-    private const int BundleGzipBudget = 11_008;              // measured 10,480 B (2026-10-01)
-    private const int BundleBrotliBudget = 9_472;             // measured  9,128 B (2026-10-01)
+    private const int BundleRawBudget = 60_928;               // measured 58,993 B (2026-10-04)
+    private const int BundleGzipBudget = 11_264;              // measured 10,848 B (2026-10-04)
+    private const int BundleBrotliBudget = 9_984;             // measured  9,476 B (2026-10-04)
     private const int JsModuleRawBudget = 12 * 1024;
     // Every colocated module together, Brotli. Numeric interop remains opt-in;
     // this ceiling measures all of them at once. Raised 2026-09-13 for the

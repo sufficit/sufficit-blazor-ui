@@ -46,7 +46,7 @@
     }
     @if (FormContext is not null || !string.IsNullOrWhiteSpace(EffectiveErrorText))
     {
-        <span id="@ErrorId" class="sui-field__error" style="min-height:1.3em">@EffectiveErrorText</span>
+        <span id="@ErrorId" class="sui-field__error sui-field__error--reserve">@EffectiveErrorText</span>
     }
 </div>
 

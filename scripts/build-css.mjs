@@ -36,9 +36,14 @@ const budgets = {
   // keep their soft-wrap opportunities): measured 56,780 / 10,480 / 9,128 B,
   // within the budgets below and under the AssetBudgetTests ceilings
   // (58,624 / 11,008 / 9,472), so this script still fails before CI does.
-  raw: 58_368,
-  gzip: 10_752,
-  brotli: 9_472,
+  // Ratcheted 2026-10-04 for the design-consolidation stages: state tints,
+  // focus/motion/nav tokens and the L2 inline-style -> class migration
+  // (strict-CSP safe; component markup shrinks as CSS grows). Measured
+  // 58,993 / 10,848 / 9,476 B. Kept under the AssetBudgetTests ceilings
+  // (60,928 / 11,264 / 9,984) so this script still fails before CI does.
+  raw: 59_136,
+  gzip: 11_008,
+  brotli: 9_728,
 };
 
 const result = bundle({

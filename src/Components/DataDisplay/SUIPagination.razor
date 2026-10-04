@@ -1,13 +1,11 @@
 @namespace Sufficit.Blazor.UI.Components
 
-<nav class="@Classname"
-     style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--sui-space-3);padding-block-start:var(--sui-space-3)"
-     aria-label="@AriaLabel">
+<nav class="@Classname" aria-label="@AriaLabel">
     <SUIText Typo="SUITypo.caption" Color="SUIColor.Default" aria-live="polite">
         @RangeLabel
     </SUIText>
 
-    <div class="sui-pagination__controls" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:var(--sui-space-2)">
+    <div class="sui-pagination__controls">
         @if (PageSizeOptions is { Count: > 0 })
         {
             <SUISelect T="int"

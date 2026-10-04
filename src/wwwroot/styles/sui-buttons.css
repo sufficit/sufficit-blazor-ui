@@ -45,6 +45,9 @@
 }
 
 /* sizes */
+/* sizes: --small/--large canonical (SUISize); --sm/--lg legacy aliases for
+   consumers only. DesignTokenContractTests bans the short forms in internal
+   markup; remove them in the next breaking window. */
 .sui-btn--sm, .sui-btn--small { --_btn-h: var(--sui-control-h-sm); --_btn-px: var(--sui-control-px-sm); font-size: var(--sui-fs-caption); }
 /* Medium uses the base control tokens; Large adds space, not larger type. */
 .sui-btn--lg, .sui-btn--large { --_btn-h: var(--sui-control-h-lg); --_btn-px: var(--sui-control-px-lg); }

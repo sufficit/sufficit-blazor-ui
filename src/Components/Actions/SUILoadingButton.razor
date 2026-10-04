@@ -51,12 +51,12 @@ else
         <span class="sui-btn__label" style="@(IsLoading ? "opacity:0" : null)">
             @if (!string.IsNullOrEmpty(StartIcon))
             {
-                <span class="sui-icon sui-icon--sm sui-btn__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@SUIIconMarkup.Render(StartIcon)</svg></span>
+                <span class="sui-icon sui-icon--small sui-btn__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@SUIIconMarkup.Render(StartIcon)</svg></span>
             }
             @ChildContent
             @if (!string.IsNullOrEmpty(EndIcon))
             {
-                <span class="sui-icon sui-icon--sm sui-btn__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@SUIIconMarkup.Render(EndIcon)</svg></span>
+                <span class="sui-icon sui-icon--small sui-btn__icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@SUIIconMarkup.Render(EndIcon)</svg></span>
             }
         </span>
     </text>;

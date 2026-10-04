@@ -2,17 +2,15 @@
 @using Sufficit.Blazor.UI.Utilities
 
 <nav class="@ClassName" style="@InlineStyle" aria-label="@AriaLabel" @attributes="AdditionalAttributes">
-    <ol class="sui-stack sui-stack--row sui-stack--wrap"
-        style="margin:0;padding:0;gap:var(--sui-space-2);list-style:none">
+    <ol class="sui-stack sui-stack--row sui-stack--wrap sui-progress-steps__list">
         @for (var index = 0; index < Steps.Count; index++)
         {
             var stepIndex = index;
             var state = StateFor(stepIndex);
             var canSelect = CanSelect(stepIndex);
 
-            <li class="sui-spacer is-@state" style="flex:1 1 8rem">
-                <button class="sui-btn sui-btn--text sui-btn--sm sui-btn--full-width sui-stack sui-stack--ai-center @ButtonColorClass(state)"
-                        style="height:auto;min-height:var(--sui-control-h-md);padding:var(--sui-space-2)"
+            <li class="sui-spacer sui-progress-steps__item is-@state">
+                <button class="sui-btn sui-btn--text sui-btn--small sui-btn--full-width sui-stack sui-stack--ai-center sui-progress-steps__step @ButtonColorClass(state)"
                         type="button"
                         disabled="@(!canSelect)"
                         aria-current="@(stepIndex == EffectiveActiveIndex ? "step" : null)"

@@ -3,3 +3,55 @@
  * Foundations and body-level portals live in their own source files. The
  * public entrypoint is generated and minified by scripts/build-css.mjs.
  */
+
+/* ------------------------------------------------------------------ *
+ * Pagination
+ * ------------------------------------------------------------------ */
+
+.sui-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sui-space-3);
+  padding-block-start: var(--sui-space-3);
+}
+.sui-pagination__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--sui-space-2);
+}
+
+/* ------------------------------------------------------------------ *
+ * Stat
+ * ------------------------------------------------------------------ */
+
+.sui-stat {
+  display: flex;
+  min-block-size: 6.4rem;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sui-space-3);
+  padding: var(--sui-space-4);
+}
+
+/* ------------------------------------------------------------------ *
+ * Progress steps
+ * ------------------------------------------------------------------ */
+
+.sui-progress-steps__list {
+  margin: 0;
+  padding: 0;
+  gap: var(--sui-space-2);
+  list-style: none;
+}
+/* li + class beats the later .sui-spacer { flex: 1 1 0 } in cascade order. */
+li.sui-progress-steps__item { flex: 1 1 8rem; }
+.sui-progress-steps__step {
+  height: auto;
+  min-height: var(--sui-control-h-md);
+  padding: var(--sui-space-2);
+}
+

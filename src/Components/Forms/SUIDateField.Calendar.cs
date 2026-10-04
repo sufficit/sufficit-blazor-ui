@@ -73,7 +73,7 @@ public partial class SUIDateField
     }
 
     private string DayClass(DateOnly date)
-        => SUIClassBuilder.Default("sui-btn sui-btn--icon sui-btn--sm sui-btn--text sui-btn--color-default sui-date-field__day")
+        => SUIClassBuilder.Default("sui-btn sui-btn--icon sui-btn--small sui-btn--text sui-btn--color-default sui-date-field__day")
             .AddClass(date.Month != _displayMonth.Month || date.Year != _displayMonth.Year
                 ? "sui-date-field__day--outside" : null)
             .AddClass(Value == date ? "sui-date-field__day--selected" : null)

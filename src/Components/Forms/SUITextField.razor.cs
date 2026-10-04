@@ -116,14 +116,12 @@ public partial class SUITextField<T>
     private bool HasError => Invalid || !string.IsNullOrWhiteSpace(EffectiveErrorText);
     private bool CanClear
         => Clearable && !Disabled && !string.IsNullOrEmpty(Value?.ToString());
-    private string? InputPaddingStyle
+    private string InputClassname
         => CanClear && !string.IsNullOrWhiteSpace(AdornmentIcon)
-            ? "padding-inline-end:5rem"
+            ? "sui-field__input sui-text-field__input--pad-clear"
             : CanClear || !string.IsNullOrWhiteSpace(AdornmentIcon)
-                ? "padding-inline-end:3rem"
-                : null;
-    private string AdornmentStyle
-        => $"position:absolute;inset-block-start:50%;inset-inline-end:{(CanClear ? "2.75rem" : "var(--sui-space-3)")};color:var(--sui-text-secondary);pointer-events:none;transform:translateY(-50%)";
+                ? "sui-field__input sui-text-field__input--pad-trailing"
+                : "sui-field__input";
 
     /// <summary>
     ///     Number and range inputs speak the dot-decimal form only, whatever the
