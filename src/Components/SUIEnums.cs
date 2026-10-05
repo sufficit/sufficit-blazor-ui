@@ -97,7 +97,17 @@ public enum SUIEdge
 }
 
 /// <summary>
-/// Typography scale.
+/// Typography scale. Two families coexist by decision (see
+/// <c>docs/DESIGN-TYPOGRAPHY-RAMP.md</c>): the semantic operational ramp
+/// (<see cref="display"/>, <see cref="headline"/>, <see cref="title"/>,
+/// <see cref="body"/>, <see cref="label"/>, <see cref="mono"/>) is the direction
+/// for new operational screens, because each role is themeable and carries its
+/// own line height; the Material-style scale (<c>h1</c>–<c>h6</c>, subtitles,
+/// <c>body1</c>/<c>body2</c>, <c>button</c>, <c>caption</c>, <c>overline</c>)
+/// stays supported and is not obsolete before the next major release.
+/// The two are not mechanically interchangeable: sizes differ, and only the
+/// <c>h1</c>–<c>h6</c> members render a native heading under
+/// <see cref="SUITextTag.Auto"/>.
 /// </summary>
 public enum SUITypo
 {
@@ -127,17 +137,17 @@ public enum SUITypo
     caption,
     /// <summary>Uppercase micro-label (<c>--sui-fs-overline</c>, weight 600, .08em tracking).</summary>
     overline,
-    /// <summary>Primary page title in dense operational products.</summary>
+    /// <summary>Semantic role: primary page title in dense operational products (<c>--sui-fs-display</c>, weight 700, 1.55–2.25rem). Nearest Material steps: h2/h3. Renders a <c>div</c> under Auto; set <see cref="SUITextTag"/> for a heading.</summary>
     display,
-    /// <summary>Dominant status or diagnostic title.</summary>
+    /// <summary>Semantic role: dominant status or diagnostic title (<c>--sui-fs-headline</c>, weight 700, 1.28rem). Nearest Material steps: h4/h5; used by SUIStatusBanner.</summary>
     headline,
-    /// <summary>Surface and section title.</summary>
+    /// <summary>Semantic role: surface and section title (<c>--sui-fs-title</c>, weight 700). Same size as h6/subtitle1 (1rem), bolder.</summary>
     title,
-    /// <summary>Compact operational body copy.</summary>
+    /// <summary>Semantic role: compact operational body copy (<c>--sui-fs-body</c>, weight 400). Same size as body2 (.875rem).</summary>
     body,
-    /// <summary>Control, table and metadata label.</summary>
+    /// <summary>Semantic role: control, table and metadata label (<c>--sui-fs-label</c>, weight 500). Same size as caption (.75rem).</summary>
     label,
-    /// <summary>Structured identifiers, schedules and code-like values.</summary>
+    /// <summary>Semantic role: structured identifiers, schedules and code-like values (<c>--sui-fs-mono</c>, monospace family). No Material counterpart.</summary>
     mono,
 }
 

@@ -48,6 +48,10 @@ concluído é arquivado em `activities/` com prefixo de timestamp
 - [Hierarquia visual: em que ordem a tela é lida](DESIGN-VISUAL-HIERARCHY.md) —
   papéis de leitura e a escala de cada um, por que cor sozinha não cria
   hierarquia, razão mínima perceptível, e onde a consequência de uma ação mora
+- [Rampa tipográfica: duas famílias, uma direção](DESIGN-TYPOGRAPHY-RAMP.md) —
+  decisão F3: papéis semânticos são a direção para telas operacionais novas, a
+  família Material segue suportada até a próxima major, e o mapeamento por
+  vizinho mais próximo entre as duas
 
 ## Arquitetura
 

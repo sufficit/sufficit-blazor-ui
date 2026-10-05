@@ -115,6 +115,13 @@ definem a numeração das próximas publicações.
 
 ### Changed
 
+- Rampa tipográfica (F3): decisão registrada em
+  `docs/DESIGN-TYPOGRAPHY-RAMP.md`. Os seis papéis semânticos de `SUITypo`
+  (`display`, `headline`, `title`, `body`, `label`, `mono`) são a direção para
+  telas operacionais novas — tematizáveis por `SUITypography` — e a família
+  Material (`h1`–`h6`, `body1/2`, …) segue suportada, sem `[Obsolete]`, até a
+  janela de quebra da próxima major. Só documentação e contrato de teste
+  (`TypographyRampContractTests`): nenhum membro, tamanho ou comportamento mudou.
 - Migração final: `SUIDrawer` para `SUIComponentBase` (code-behind +
   interop JS de focus trap) — com ele, **todos os 72 componentes de
   `src/Components/` herdam da base única**; `SUIThemeProvider`

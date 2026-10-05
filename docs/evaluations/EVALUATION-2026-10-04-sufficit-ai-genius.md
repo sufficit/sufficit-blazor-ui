@@ -58,6 +58,13 @@
 > code-behind (943 testes; atividade:
 > `docs/activities/20261005-table-virtualization-f2.md`).
 >
+> ✅ **F3 concluído (2026-10-05)** — decisão de produto registrada: papéis
+> semânticos como direção, família Material suportada até a próxima major
+> (sem `[Obsolete]` antes disso), mapeamento por vizinho mais próximo e regra de
+> `Tag` explícita para heading nativo; XML docs do `SUITypo` e
+> `TypographyRampContractTests` travam a decisão (949 testes; atividade:
+> `docs/activities/20261005-typography-ramp-f3.md`).
+>
 > ℹ️ **Correção pós-merge (2026-10-05):** a política V3 como `.01ms`
 > falhava o contrato hover×pressed e o teste de motion no navegador
 > (valor pré-mudança lido no mesmo frame). Corrigida para
