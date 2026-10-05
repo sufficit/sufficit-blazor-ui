@@ -10,6 +10,22 @@ definem a numeração das próximas publicações.
 
 ### Added
 
+- Densidade sistêmica em cascata: token `--sui-density-scale` (1 = confortável,
+  ~0,85 = compacta) publicado pelo tema (`SUILayout.DensityScale`) e em `:root`;
+  alturas e paddings de controle (`--sui-control-h-*`/`--sui-control-px-*`)
+  passam a derivar via `calc()` tanto no CSS quanto nos defaults do modelo.
+  Um app inteiro (ou qualquer subárvore) aperta de forma coerente sem
+  parâmetros por componente; áreas de toque de navegação seguem literais
+  (48/40px) por serem piso de acessibilidade.
+- `SUILayout.ZDropdown/ZSticky/ZDrawer/ZBackdrop/ZModal/ZToast/ZTooltip` e
+  `SUITypography.FsField`: tokens que existiam só no CSS autoral agora fazem
+  parte do modelo de tema e são publicados pelo `SUIThemeCssWriter` —
+  consumidores com tipografia própria ou ordem de empilhamento própria
+  conseguem tematizá-los.
+- `.editorconfig` na raiz (convenções que o código já segue, agora explícitas)
+  e `scripts/README.md` (papel de cada runtime: Node para pipeline CSS,
+  Python para catálogo/release).
+
 - `ThemeSwitch` (testes de navegador): helper que espera o catálogo estar sob o
   circuito interativo antes de agir. A vitrine é HTML estático pré-renderizado que
   o circuito `InteractiveServer` substitui ao conectar; um clique despachado

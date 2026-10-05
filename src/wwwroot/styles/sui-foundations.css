@@ -140,13 +140,17 @@
   --sui-lh-mono: 1.4;
   --sui-ls-display: -.025em;
 
-  /* control sizing */
-  --sui-control-h-sm: 28px;
-  --sui-control-h-md: 36px;
-  --sui-control-h-lg: 44px;
-  --sui-control-px-sm: 10px;
-  --sui-control-px-md: 14px;
-  --sui-control-px-lg: 18px;
+  /* control sizing — density is a cascading token, not a per-component
+     parameter: heights and paddings derive from --sui-density-scale so a
+     whole app can tighten coherently (1 = comfortable, ~.8 = compact).
+     Nav hit areas stay literal: 48/40px are accessibility floors. */
+  --sui-density-scale: 1;
+  --sui-control-h-sm: calc(28px * var(--sui-density-scale));
+  --sui-control-h-md: calc(36px * var(--sui-density-scale));
+  --sui-control-h-lg: calc(44px * var(--sui-density-scale));
+  --sui-control-px-sm: calc(10px * var(--sui-density-scale));
+  --sui-control-px-md: calc(14px * var(--sui-density-scale));
+  --sui-control-px-lg: calc(18px * var(--sui-density-scale));
   /* Shared navigation hit area: 48px already used by the collapsed rail.
      Nested navigation is denser but must remain at least 40px tall. */
   --sui-nav-item-h: 48px;

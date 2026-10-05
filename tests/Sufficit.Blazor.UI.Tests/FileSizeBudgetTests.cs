@@ -92,11 +92,11 @@ public sealed class FileSizeBudgetTests
         var bundle = Path.Combine(RepositoryLayout.WebRoot, "sufficit-ui.css");
         var bytes = new FileInfo(bundle).Length;
 
-        // Headroom rule (see AssetBudgetTests): measured 57,400 B (2026-10-04)
-        // after the V4/V5/V7 token consolidation (motion duration/easing split,
-        // control radius token, nav sizing on the shared scale) — the byte cost
-        // of replacing literals with var() references. 57,400 × 1.03 → 59,136.
-        const int budget = 59_136;
+        // Headroom rule (see AssetBudgetTests): measured 59,213 B (2026-10-04)
+        // after the F1 cascading density token — control heights and paddings
+        // now derive from --sui-density-scale via calc(), the byte cost of six
+        // var() indirections. 59,213 × 1.03 → 61,184.
+        const int budget = 61_184;
         Assert.True(bytes <= budget,
             $"sufficit-ui.css is {bytes} bytes, budget is {budget}. See AssetBudgetTests for the compressed budgets.");
     }

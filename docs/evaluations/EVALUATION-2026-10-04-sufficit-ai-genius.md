@@ -29,8 +29,15 @@
 > `"error"→"danger"`/`Neutral→info` unificada em `SUIToneNormalizer` interno;
 > baseline revisado, CHANGELOG atualizado (926 testes; atividade:
 > `docs/activities/20261004-design-consolidation-feedback-tone.md`).
-> Próximo: F5 (convergência dos hosts + pausa hover, exige verificação de
-> timer), depois F1/F4/L4. A migração dos demais
+> ✅ **F1/F4 + L1/L4 concluídos** — densidade vira token em cascata
+> (`--sui-density-scale`; alturas/paddings de controle derivam via `calc()`,
+> áreas de toque de navegação ficam literais como piso de acessibilidade),
+> `SUILayout.Z*` (7 tokens) e `SUITypography.FsField` entram no modelo e no
+> writer; `.editorconfig` na raiz e `scripts/README.md` documentam Node×Python.
+> Orçamentos de asset reajustados pela regra ×1,03 (928 testes; atividade:
+> `docs/activities/20261004-design-consolidation-density-zindex-tooling.md`).
+> Restam fora desta onda: F5 (convergência dos hosts + pausa hover, exige
+> verificação de timer) e P3 (generics). A migração dos demais
 > componentes para a base permanece progressiva.
 
 **Avaliador:** Sufficit AI Genius (sessão autônoma)

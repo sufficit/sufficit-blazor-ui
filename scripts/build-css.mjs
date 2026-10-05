@@ -41,7 +41,11 @@ const budgets = {
   // (strict-CSP safe; component markup shrinks as CSS grows). Measured
   // 58,993 / 10,848 / 9,476 B. Kept under the AssetBudgetTests ceilings
   // (60,928 / 11,264 / 9,984) so this script still fails before CI does.
-  raw: 59_136,
+  // Ratcheted 2026-10-04 (stage F1/F4) for the cascading density token:
+  // control heights/paddings now derive from --sui-density-scale via calc().
+  // Measured 59,213 / 10,877 / 9,490 B; gzip/brotli still fit the previous
+  // script budgets, only raw moved.
+  raw: 59_392,
   gzip: 11_008,
   brotli: 9_728,
 };

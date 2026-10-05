@@ -103,6 +103,55 @@ public sealed class DesignTokenContractTests
     }
 
     [Fact]
+    public void DensityToken_ScalesControlSizing_InFoundationsAndTheme()
+    {
+        var foundations = File.ReadAllText(Path.Combine(RepositoryLayout.Styles, "sui-foundations.css"));
+
+        // Density is a cascading token: one value tightens every control size
+        // that derives from it, so an app (or subtree) gets coherent density
+        // without per-component parameters.
+        Assert.Contains("--sui-density-scale: 1;", foundations);
+        Assert.Contains("--sui-control-h-md: calc(36px * var(--sui-density-scale));", foundations);
+        Assert.Contains("--sui-control-px-md: calc(14px * var(--sui-density-scale));", foundations);
+
+        // Navigation hit areas are accessibility floors, not density: they stay
+        // literal even when everything else scales.
+        Assert.Contains("--sui-nav-item-h: 48px;", foundations);
+        Assert.DoesNotContain("--sui-nav-item-h: calc(", foundations);
+        Assert.DoesNotContain("--sui-nav-item-h-nested: calc(", foundations);
+
+        // The theme model must be able to publish the scale like any other
+        // token, and its control-size defaults must derive from it too.
+        Assert.Equal("1", Sufficit.Blazor.UI.Themes.SUILayout.Default.DensityScale);
+        Assert.Equal("calc(36px * var(--sui-density-scale))",
+            Sufficit.Blazor.UI.Themes.SUILayout.Default.ControlHMd);
+
+        var css = Sufficit.Blazor.UI.Themes.SUIThemeCssWriter.Write(Sufficit.Blazor.UI.Themes.SUITheme.Light);
+        Assert.Contains("--sui-density-scale:1;", css, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void StackingOrder_AndFieldFontSize_AreThemeableTokens()
+    {
+        // F4: z-index and --sui-fs-field existed only in the authored
+        // foundations; consumers could not theme them. Now the model carries
+        // them and the writer publishes them alongside every other token.
+        var css = Sufficit.Blazor.UI.Themes.SUIThemeCssWriter.Write(Sufficit.Blazor.UI.Themes.SUITheme.Light);
+        Assert.Contains("--sui-z-dropdown:1000;", css, StringComparison.Ordinal);
+        Assert.Contains("--sui-z-sticky:1100;", css, StringComparison.Ordinal);
+        Assert.Contains("--sui-z-drawer:1200;", css, StringComparison.Ordinal);
+        Assert.Contains("--sui-z-backdrop:1300;", css, StringComparison.Ordinal);
+        Assert.Contains("--sui-z-modal:1400;", css, StringComparison.Ordinal);
+        Assert.Contains("--sui-z-toast:1500;", css, StringComparison.Ordinal);
+        Assert.Contains("--sui-z-tooltip:1600;", css, StringComparison.Ordinal);
+        Assert.Contains("--sui-fs-field:.8125rem;", css, StringComparison.Ordinal);
+
+        var foundations = File.ReadAllText(Path.Combine(RepositoryLayout.Styles, "sui-foundations.css"));
+        Assert.Contains("--sui-fs-field: .8125rem;", foundations);
+        Assert.Contains("--sui-z-dropdown: 1000;", foundations);
+    }
+
+    [Fact]
     public void Components_DoNotShipStaticInlineStyles()
     {
         // Static inline styles break under a strict CSP (style-src without

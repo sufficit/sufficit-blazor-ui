@@ -160,6 +160,7 @@ public static class SUIThemeCssWriter
         Append(css, "--sui-fs-button", typography.FsButton, fallbackTypography.FsButton);
         Append(css, "--sui-fs-caption", typography.FsCaption, fallbackTypography.FsCaption);
         Append(css, "--sui-fs-overline", typography.FsOverline, fallbackTypography.FsOverline);
+        Append(css, "--sui-fs-field", typography.FsField, fallbackTypography.FsField);
         Append(css, "--sui-fs-display", typography.FsDisplay, fallbackTypography.FsDisplay);
         Append(css, "--sui-fs-headline", typography.FsHeadline, fallbackTypography.FsHeadline);
         Append(css, "--sui-fs-title", typography.FsTitle, fallbackTypography.FsTitle);
@@ -190,6 +191,14 @@ public static class SUIThemeCssWriter
         Append(css, "--sui-focus-shadow", layout.FocusShadow, fallbackLayout.FocusShadow);
         Append(css, "--sui-transition", layout.Transition, fallbackLayout.Transition);
         Append(css, "--sui-transition-slow", layout.TransitionSlow, fallbackLayout.TransitionSlow);
+        Append(css, "--sui-z-dropdown", layout.ZDropdown, fallbackLayout.ZDropdown);
+        Append(css, "--sui-z-sticky", layout.ZSticky, fallbackLayout.ZSticky);
+        Append(css, "--sui-z-drawer", layout.ZDrawer, fallbackLayout.ZDrawer);
+        Append(css, "--sui-z-backdrop", layout.ZBackdrop, fallbackLayout.ZBackdrop);
+        Append(css, "--sui-z-modal", layout.ZModal, fallbackLayout.ZModal);
+        Append(css, "--sui-z-toast", layout.ZToast, fallbackLayout.ZToast);
+        Append(css, "--sui-z-tooltip", layout.ZTooltip, fallbackLayout.ZTooltip);
+        Append(css, "--sui-density-scale", layout.DensityScale, fallbackLayout.DensityScale);
         Append(css, "--sui-control-h-sm", layout.ControlHSm, fallbackLayout.ControlHSm);
         Append(css, "--sui-control-h-md", layout.ControlHMd, fallbackLayout.ControlHMd);
         Append(css, "--sui-control-h-lg", layout.ControlHLg, fallbackLayout.ControlHLg);
