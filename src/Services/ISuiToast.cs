@@ -1,3 +1,5 @@
+using Sufficit.Blazor.UI.Components;
+
 namespace Sufficit.Blazor.UI.Services;
 
 /// <summary>
@@ -9,21 +11,30 @@ namespace Sufficit.Blazor.UI.Services;
 /// </summary>
 public interface ISUIToast
 {
-    /// <summary>Shows a toast with the given tone (info/success/warning/danger/error),
-    /// duration and optional action button.</summary>
-    void Add(string message, string severity = "info", int durationMs = 6000, string? actionLabel = null, Action? onAction = null);
+    /// <summary>Shows a toast with the given tone (info/success/warning/danger), duration and optional action button. Neutral is rendered as info because the toast surface defines no neutral variant.</summary>
+    void Add(string message, SUITone tone = SUITone.Info, int durationMs = 6000, string? actionLabel = null, Action? onAction = null);
+
+    /// <summary>
+    /// Legacy bridge kept for source compatibility: accepts the historical
+    /// severity string ("info"/"success"/"warning"/"danger"/"error") and
+    /// normalizes it through the shared tone normalizer. Prefer the typed
+    /// overload taking <see cref="SUITone"/>.
+    /// </summary>
+    [Obsolete("Use the typed overload Add(message, SUITone tone, durationMs, actionLabel, onAction). The string severity bridge will be removed in a future major version.")]
+    void Add(string message, string severity, int durationMs = 6000, string? actionLabel = null, Action? onAction = null)
+        => Add(message, SUIToneNormalizer.Parse(severity), durationMs, actionLabel, onAction);
 
     /// <summary>Convenience: informational toast.</summary>
-    void Info(string message) => Add(message, "info");
+    void Info(string message) => Add(message, SUITone.Info);
 
     /// <summary>Convenience: positive-outcome toast.</summary>
-    void Success(string message) => Add(message, "success");
+    void Success(string message) => Add(message, SUITone.Success);
 
     /// <summary>Convenience: caution toast.</summary>
-    void Warning(string message) => Add(message, "warning");
+    void Warning(string message) => Add(message, SUITone.Warning);
 
     /// <summary>Convenience: error/danger toast.</summary>
-    void Error(string message) => Add(message, "danger");
+    void Error(string message) => Add(message, SUITone.Danger);
 
     /// <summary>Event raised when a new toast is queued. The host subscribes.</summary>
     event Action<SUIToastEntry>? OnEnqueue;
@@ -32,7 +43,7 @@ public interface ISUIToast
 /// <summary>A single toast entry shown by <c>SUIToastHost</c>.</summary>
 /// <param name="Id">Unique entry identifier used for dismissal.</param>
 /// <param name="Message">Plain text shown in the toast body.</param>
-/// <param name="Severity">Tone token: info/success/warning/danger (already normalized).</param>
+/// <param name="Severity">Tone token: info/success/warning/danger (already normalized; never "error" or "neutral").</param>
 /// <param name="ExpiresAt">UTC instant after which the host dismisses the entry.</param>
 /// <param name="ActionLabel">Optional action button label (e.g. "Tentar de novo").</param>
 /// <param name="OnAction">Optional callback invoked when the action button is clicked; the toast is dismissed afterwards.</param>

@@ -88,7 +88,7 @@ public sealed class RenderContractFeedbackTests
 
         var actionInvoked = false;
         context.Services.GetRequiredService<ISUIToast>().Add(
-            "Falha ao salvar", "error", actionLabel: "Tentar de novo", onAction: () => actionInvoked = true);
+            "Falha ao salvar", SUITone.Danger, actionLabel: "Tentar de novo", onAction: () => actionInvoked = true);
 
         cut.WaitForAssertion(() =>
         {
@@ -119,7 +119,7 @@ public sealed class RenderContractFeedbackTests
     }
 
     [Fact]
-    public void ToastService_NormalizesErrorSeverityToDangerAndFiresEnqueue()
+    public void ToastService_LegacyStringBridge_NormalizesErrorToDanger()
     {
         using var context = new BunitContext();
         context.Services.AddSufficitUI();
@@ -128,12 +128,30 @@ public sealed class RenderContractFeedbackTests
         SUIToastEntry? enqueued = null;
         service.OnEnqueue += entry => enqueued = entry;
 
+#pragma warning disable CS0618 // exercising the obsolete string bridge on purpose
         service.Add("falhou", "Error", actionLabel: "Repetir");
+#pragma warning restore CS0618
         Assert.NotNull(enqueued);
         Assert.Equal("danger", enqueued!.Severity);
         Assert.Equal("falhou", enqueued.Message);
         Assert.Equal("Repetir", enqueued.ActionLabel);
         Assert.True(enqueued.ExpiresAt > DateTime.UtcNow);
+    }
+
+    [Fact]
+    public void SnackbarService_TypeOverload_MapsNeutralToInfoSlug()
+    {
+        using var context = new BunitContext();
+        context.Services.AddSufficitUI();
+        var service = context.Services.GetRequiredService<ISUISnackbar>();
+
+        SUISnackbarEntry? enqueued = null;
+        service.OnEnqueue += entry => enqueued = entry;
+
+        service.Add("neutro", SUITone.Neutral);
+        Assert.NotNull(enqueued);
+        Assert.Equal("info", enqueued!.Severity);
+        Assert.Equal("neutro", enqueued.Message);
     }
 
     [Fact]

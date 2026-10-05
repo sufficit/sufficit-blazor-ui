@@ -24,7 +24,13 @@
 > nos 3 migrados, guarda contra novos aliases e gerador de catálogo atualizado;
 > baseline público revisado (924 testes; atividade:
 > `docs/activities/20261004-design-consolidation-component-base.md`).
-> Próximo: P4 (feedback tipado), depois F1/F4/L4. A migração dos demais
+> ✅ **P4 concluído** — sobrecarga tipada `Add(message, SUITone, …)` nos dois
+> serviços, `string severity` vira ponte DIM `[Obsolete]`, normalização
+> `"error"→"danger"`/`Neutral→info` unificada em `SUIToneNormalizer` interno;
+> baseline revisado, CHANGELOG atualizado (926 testes; atividade:
+> `docs/activities/20261004-design-consolidation-feedback-tone.md`).
+> Próximo: F5 (convergência dos hosts + pausa hover, exige verificação de
+> timer), depois F1/F4/L4. A migração dos demais
 > componentes para a base permanece progressiva.
 
 **Avaliador:** Sufficit AI Genius (sessão autônoma)

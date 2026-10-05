@@ -80,6 +80,14 @@ definem a numeração das próximas publicações.
 
 ### Changed
 
+- `ISUISnackbar`/`ISUIToast`: sobrecarga tipada `Add(message, SUITone tone, …)`
+  como caminho preferido; `Neutral` é renderizado como `info` (as superfícies
+  de feedback não definem variante neutra em CSS). A versão `string severity`
+  continua compilando como ponte `[Obsolete]` (normaliza `"error"`→`"danger"`,
+  desconhecidos/vazios→`"info"`) e será removida numa futura major. A
+  normalização agora vive uma única vez em `SUIToneNormalizer` interno,
+  compartilhado pelos dois serviços — antes duplicada em
+  `SUISnackbarService.cs` e `SUIToastService.cs`.
 - `SUIAlert`: `OnClose` substitui `CloseIconClicked`. O nome antigo foi
   publicado como encaminhador obsoleto em `2.26.911.2356` e removido na
   release seguinte, depois que todos os consumidores conhecidos migraram.

@@ -15,10 +15,10 @@ public sealed class CopyToClipboardTests
 {
     private sealed class RecordingSnackbar : ISUISnackbar
     {
-        public readonly List<(string Message, string Severity)> Entries = new();
+        public readonly List<(string Message, SUITone Tone)> Entries = new();
 
-        public void Add(string message, string severity = "info", int durationMs = 4000)
-            => Entries.Add((message, severity));
+        public void Add(string message, SUITone tone = SUITone.Info, int durationMs = 4000)
+            => Entries.Add((message, tone));
 
         // Required by the interface; the host subscribes to it, these tests do not.
         public event Action<SUISnackbarEntry>? OnEnqueue { add { } remove { } }
@@ -78,7 +78,7 @@ public sealed class CopyToClipboardTests
         cut.Find("button").Click();
 
         var entry = Assert.Single(snackbar.Entries);
-        Assert.Equal("success", entry.Severity);
+        Assert.Equal(SUITone.Success, entry.Tone);
         Assert.Contains("Token", entry.Message);
     }
 
