@@ -156,7 +156,7 @@ for framework in net10.0; do
     's#<base href="/" />#<base href="\@BaseHref" />#; s#(<link rel="stylesheet" href="\@Assets\["app\.css"\]" />)#$1\n    <link rel="stylesheet" href="_content/Sufficit.Blazor.UI/sufficit-ui.css" />#; s#</html>#</html>\n\n\@code {\n    private static string BaseHref {\n        get {\n            var pathBase = Environment.GetEnvironmentVariable("SUI_TEST_PATHBASE");\n            return string.IsNullOrWhiteSpace(pathBase) ? "/" : \$"{pathBase.TrimEnd(\x27/\x27)}/";\n        }\n    }\n}#' \
     "$app_dir/Components/App.razor"
   perl -0pi -e \
-    's#\A.*\z#\@page "/"\n\@using Sufficit.Blazor.UI.Components\n\@using Sufficit.Blazor.UI.Themes\n\n<PageTitle>SUI package smoke</PageTitle>\n\n<SUIThemeProvider>\n    <main data-sui-package-smoke>\n        <h1>SUI package smoke</h1>\n        <SUIFormGrid Columns="2">\n            <SUITextField T="string" Label="Nome" />\n            <SUISelect T="string" Label="Região" />\n        </SUIFormGrid>\n        <SUIButton>Pacote SUI operacional</SUIButton>\n    </main>\n</SUIThemeProvider>\n#s' \
+    's#\A.*\z#\@page "/"\n\@using Sufficit.Blazor.UI.Components\n\@using Sufficit.Blazor.UI.Themes\n\n<PageTitle>SUI package smoke</PageTitle>\n\n<SUIThemeProvider>\n    <main data-sui-package-smoke>\n        <h1>SUI package smoke</h1>\n        <SUIFormGrid Columns="2">\n            <SUITextField TValue="string" Label="Nome" />\n            <SUISelect TValue="string" Label="Região" />\n        </SUIFormGrid>\n        <SUIButton>Pacote SUI operacional</SUIButton>\n    </main>\n</SUIThemeProvider>\n#s' \
     "$app_dir/Components/Pages/Home.razor"
 
   dotnet restore "$app_project" \
