@@ -1,5 +1,6 @@
 @* Loading Button — async operation pattern. *@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 @using Sufficit.Blazor.UI.Utilities
 @using Microsoft.JSInterop
 @implements IAsyncDisposable
@@ -26,7 +27,7 @@
        aria-disabled="@IsAriaDisabled" aria-busy="@(IsLoading ? "true" : null)"
        data-sui-instant-busy="@(InstantFeedback ? "" : null)"
        @onclick="HandleClickAsync" @onclick:preventDefault="@IsAriaDisabled"
-       @attributes="UserAttributes">
+       @attributes="AdditionalAttributes">
         @Body(spinClass)
     </a>
 }
@@ -36,7 +37,7 @@ else
             disabled="@(Disabled || IsLoading)" aria-disabled="@IsAriaDisabled"
             aria-busy="@(IsLoading ? "true" : null)"
             data-sui-instant-busy="@(InstantFeedback ? "" : null)"
-            @onclick="HandleClickAsync" @attributes="UserAttributes">
+            @onclick="HandleClickAsync" @attributes="AdditionalAttributes">
         @Body(spinClass)
     </button>
 }
@@ -138,14 +139,16 @@ else
     [Parameter]
     public string? Target { get; set; }
 
-    [Parameter]
-    public string? Class { get; set; }
-
-    [Parameter]
-    public string? Style { get; set; }
-
-    [Parameter(CaptureUnmatchedValues = true)]
+    /// <summary>Legacy alias for <see cref="SUIComponentBase.AdditionalAttributes"/>.</summary>
+    [Parameter, Obsolete("Use AdditionalAttributes instead; this alias will be removed in the next breaking release.")]
     public Dictionary<string, object?> UserAttributes { get; set; } = new();
+
+    protected override void OnParametersSet()
+    {
+#pragma warning disable CS0618 // deliberate bridge for the obsolete parameter
+        MergeLegacyAttributes(UserAttributes);
+#pragma warning restore CS0618
+    }
 
     private IJSObjectReference? _module;
 

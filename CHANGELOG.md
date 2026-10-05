@@ -102,6 +102,15 @@ definem a numeração das próximas publicações.
 
 ### Changed
 
+- Migração da família Actions para `SUIComponentBase` (4 componentes:
+  `SUIButton`, `SUIIconButton`, `SUILoadingButton`, `SUICopyToClipboard`):
+  `Class`/`Style`/`AdditionalAttributes` vêm da base e o splat canônico
+  substitui o `UserAttributes` legado. `SUIButton`, `SUIIconButton` e
+  `SUILoadingButton` publicam `UserAttributes` como alias `[Obsolete]` com
+  merge na forma canônica (canônico vence em colisões) durante a janela de
+  migração; `SUICopyToClipboard` já usava os nomes canônicos e só perdeu a
+  duplicação de parâmetros.
+
 - Migração do lote Layout para `SUIComponentBase` (13 componentes: `SUIAppBar`,
   `SUICard` + Header/Content/Actions, `SUIContainer`, `SUIDivider`, `SUIGrid`,
   `SUIItem`, `SUILayout`, `SUIPageHeader`, `SUISpacer`, `SUIStack`): `Class`,

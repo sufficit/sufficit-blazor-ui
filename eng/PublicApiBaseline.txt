@@ -4,7 +4,7 @@ B|Sufficit.Blazor.UI.Components.SUIAppBar|Sufficit.Blazor.UI.Components.SUICompo
 B|Sufficit.Blazor.UI.Components.SUIAutocomplete<`0:TValue>|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIAvatar|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIButtonType|System.Enum
-B|Sufficit.Blazor.UI.Components.SUIButton|Microsoft.AspNetCore.Components.ComponentBase
+B|Sufficit.Blazor.UI.Components.SUIButton|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUICardActions|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUICardContent|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUICardHeader|Sufficit.Blazor.UI.Components.SUIComponentBase
@@ -16,7 +16,7 @@ B|Sufficit.Blazor.UI.Components.SUIColor|System.Enum
 B|Sufficit.Blazor.UI.Components.SUIComponentBase|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIConfirmDialog|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIContainer|Sufficit.Blazor.UI.Components.SUIComponentBase
-B|Sufficit.Blazor.UI.Components.SUICopyToClipboard|Microsoft.AspNetCore.Components.ComponentBase
+B|Sufficit.Blazor.UI.Components.SUICopyToClipboard|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIDateField|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIDateTime|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIDecisionDialog|Microsoft.AspNetCore.Components.ComponentBase
@@ -31,7 +31,7 @@ B|Sufficit.Blazor.UI.Components.SUIFilterScope|Microsoft.AspNetCore.Components.C
 B|Sufficit.Blazor.UI.Components.SUIFilterTree|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIFormGrid|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIGrid|Sufficit.Blazor.UI.Components.SUIComponentBase
-B|Sufficit.Blazor.UI.Components.SUIIconButton|Microsoft.AspNetCore.Components.ComponentBase
+B|Sufficit.Blazor.UI.Components.SUIIconButton|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIIconMarkup|System.Object
 B|Sufficit.Blazor.UI.Components.SUIIcons|System.Object
 B|Sufficit.Blazor.UI.Components.SUIIcon|Microsoft.AspNetCore.Components.ComponentBase
@@ -40,7 +40,7 @@ B|Sufficit.Blazor.UI.Components.SUILayout|Sufficit.Blazor.UI.Components.SUICompo
 B|Sufficit.Blazor.UI.Components.SUILink|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIListItem|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIList|Microsoft.AspNetCore.Components.ComponentBase
-B|Sufficit.Blazor.UI.Components.SUILoadingButton|Microsoft.AspNetCore.Components.ComponentBase
+B|Sufficit.Blazor.UI.Components.SUILoadingButton|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUINavAccordionScope|System.Object
 B|Sufficit.Blazor.UI.Components.SUINavGroup|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUINavLink|Microsoft.AspNetCore.Components.ComponentBase
@@ -871,13 +871,11 @@ P|Sufficit.Blazor.UI.Components.SUIButton|System.Nullable<Sufficit.Blazor.UI.Com
 P|Sufficit.Blazor.UI.Components.SUIButton|System.Nullable<Sufficit.Blazor.UI.Components.SUISize>|IconSizeValue|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIButton|System.Nullable<Sufficit.Blazor.UI.Components.SUISize>|SizeValue|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIButton|System.Nullable<Sufficit.Blazor.UI.Components.SUIVariant>|VariantValue|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUIButton|System.String|Class|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIButton|System.String|EndIcon|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIButton|System.String|Href|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIButton|System.String|IconClass|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIButton|System.String|Rel|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIButton|System.String|StartIcon|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUIButton|System.String|Style|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIButton|System.String|Target|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICardActions|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICardActions|System.Boolean|AlignEnd|[]|get;set;
@@ -946,11 +944,8 @@ P|Sufficit.Blazor.UI.Components.SUIContainer|Microsoft.AspNetCore.Components.Ren
 P|Sufficit.Blazor.UI.Components.SUIContainer|System.String|MaxWidth|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICopyToClipboard|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICopyToClipboard|System.Boolean|FullWidth|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUICopyToClipboard|System.Collections.Generic.Dictionary<System.String,System.Object>|AdditionalAttributes|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICopyToClipboard|System.String|AriaLabel|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUICopyToClipboard|System.String|Class|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICopyToClipboard|System.String|ErrorMessage|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUICopyToClipboard|System.String|Style|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICopyToClipboard|System.String|SuccessMessage|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICopyToClipboard|System.String|Text|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICopyToClipboard|System.String|Title|[]|get;set;
@@ -1043,11 +1038,9 @@ P|Sufficit.Blazor.UI.Components.SUIIconButton|System.Nullable<Sufficit.Blazor.UI
 P|Sufficit.Blazor.UI.Components.SUIIconButton|System.Nullable<Sufficit.Blazor.UI.Components.SUIEdge>|EdgeValue|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIIconButton|System.Nullable<Sufficit.Blazor.UI.Components.SUISize>|SizeValue|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIIconButton|System.Nullable<Sufficit.Blazor.UI.Components.SUIVariant>|VariantValue|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUIIconButton|System.String|Class|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIIconButton|System.String|Href|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIIconButton|System.String|Icon|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIIconButton|System.String|Rel|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUIIconButton|System.String|Style|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIIconButton|System.String|Target|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIIconButton|System.String|Title|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIIcon|System.Collections.Generic.Dictionary<System.String,System.Object>|AdditionalAttributes|[]|get;set;
@@ -1087,12 +1080,10 @@ P|Sufficit.Blazor.UI.Components.SUILoadingButton|System.Nullable<Sufficit.Blazor
 P|Sufficit.Blazor.UI.Components.SUILoadingButton|System.Nullable<Sufficit.Blazor.UI.Components.SUIColor>|ColorValue|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUILoadingButton|System.Nullable<Sufficit.Blazor.UI.Components.SUISize>|SizeValue|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUILoadingButton|System.Nullable<Sufficit.Blazor.UI.Components.SUIVariant>|VariantValue|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUILoadingButton|System.String|Class|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUILoadingButton|System.String|EndIcon|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUILoadingButton|System.String|Href|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUILoadingButton|System.String|LoadingIcon|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUILoadingButton|System.String|StartIcon|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUILoadingButton|System.String|Style|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUILoadingButton|System.String|Target|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINavGroup|Microsoft.AspNetCore.Components.EventCallback<System.Boolean>|ExpandedChanged|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINavGroup|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;

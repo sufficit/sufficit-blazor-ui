@@ -133,7 +133,15 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Legacy alias for SUIComponentBase.AdditionalAttributes.",
+        "name": "UserAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": true
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -141,7 +149,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional per-instance styles (consumer supplied).",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -149,8 +157,8 @@
         "deprecated": false
       },
       {
-        "description": "",
-        "name": "UserAttributes",
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
         "required": false,
@@ -213,22 +221,6 @@
       },
       {
         "description": "",
-        "name": "Class",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "Style",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -236,7 +228,23 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -363,7 +371,15 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Legacy alias for SUIComponentBase.AdditionalAttributes.",
+        "name": "UserAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": true
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -371,7 +387,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional per-instance styles (consumer supplied).",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -379,8 +395,8 @@
         "deprecated": false
       },
       {
-        "description": "",
-        "name": "UserAttributes",
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
         "required": false,
@@ -593,7 +609,15 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Legacy alias for SUIComponentBase.AdditionalAttributes.",
+        "name": "UserAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": true
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -601,7 +625,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional per-instance styles (consumer supplied).",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -609,8 +633,8 @@
         "deprecated": false
       },
       {
-        "description": "",
-        "name": "UserAttributes",
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
         "required": false,

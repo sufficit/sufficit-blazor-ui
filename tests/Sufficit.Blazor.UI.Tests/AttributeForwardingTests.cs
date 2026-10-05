@@ -10,8 +10,22 @@ public sealed class AttributeForwardingTests
     {
         using var context = new BunitContext();
         var button = context.Render<SUIButton>(parameters => parameters
+            .AddUnmatched("data-probe", "button")
+            .AddUnmatched("aria-label", "Salvar"));
+
+        Assert.Equal("button", button.Find("button").GetAttribute("data-probe"));
+        Assert.Equal("Salvar", button.Find("button").GetAttribute("aria-label"));
+
+        // Migration window: the legacy UserAttributes dictionary must still
+        // merge into the canonical splat (canonical wins on collisions).
+#pragma warning disable CS0618 // exercising the obsolete bridge on purpose
+        var legacyButton = context.Render<SUIButton>(parameters => parameters
             .Add(component => component.UserAttributes,
-                new Dictionary<string, object?> { ["data-probe"] = "button", ["aria-label"] = "Salvar" }));
+                new Dictionary<string, object?> { ["data-legacy"] = "button", ["data-same"] = "old" })
+            .AddUnmatched("data-same", "new"));
+#pragma warning restore CS0618
+        Assert.Equal("button", legacyButton.Find("button").GetAttribute("data-legacy"));
+        Assert.Equal("new", legacyButton.Find("button").GetAttribute("data-same"));
         var card = context.Render<SUICard>(parameters => parameters
             .AddUnmatched("data-probe", "card"));
 

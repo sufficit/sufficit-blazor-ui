@@ -1,4 +1,5 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 @using Sufficit.Blazor.UI.Utilities
 @using Microsoft.AspNetCore.Components
 @using Microsoft.AspNetCore.Components.Web
@@ -21,21 +22,20 @@
 {
     <a @ref="_elementReference" class="@cls" style="@Style" href="@Href" target="@Target" rel="@GetRel()"
        aria-busy="@(IsLoading ? "true" : null)" aria-disabled="@isDisabled" @onclick="OnClickHandler" @onclick:preventDefault="@isDisabled"
-       @attributes="UserAttributes">
+       @attributes="AdditionalAttributes">
         @RenderBody()
     </a>
 }
 else
 {
     <button @ref="_elementReference" type="@SUIClassBuilder.Slug(EffectiveButtonType)" class="@cls" style="@Style"
-            aria-busy="@(IsLoading ? "true" : null)" disabled="@isDisabled" @onclick="OnClickHandler" @attributes="UserAttributes">
+            aria-busy="@(IsLoading ? "true" : null)" disabled="@isDisabled" @onclick="OnClickHandler" @attributes="AdditionalAttributes">
         @RenderBody()
     </button>
 }
 
 @code {
-    // The SUI button manages its own loading state during click handling. ComponentBase is the only base class.
-
+    // The SUI button manages its own loading state during click handling.
     protected bool IsLoading;
     private ElementReference _elementReference;
 
@@ -76,14 +76,16 @@ else
     [Parameter]
     public string? Rel { get; set; }
 
-    [Parameter]
-    public string? Class { get; set; }
-
-    [Parameter]
-    public string? Style { get; set; }
-
-    [Parameter(CaptureUnmatchedValues = true)]
+    /// <summary>Legacy alias for <see cref="SUIComponentBase.AdditionalAttributes"/>.</summary>
+    [Parameter, Obsolete("Use AdditionalAttributes instead; this alias will be removed in the next breaking release.")]
     public Dictionary<string, object?> UserAttributes { get; set; } = new();
+
+    protected override void OnParametersSet()
+    {
+#pragma warning disable CS0618 // deliberate bridge for the obsolete parameter
+        MergeLegacyAttributes(UserAttributes);
+#pragma warning restore CS0618
+    }
 
     protected string GetRel()
     {
