@@ -13,6 +13,9 @@
 <SUITable TItem="string" Items="_services.Skip(_page * 5).Take(5)" RowKey="@(item => item)" ColumnCount="1"><HeaderContent><SUITh>Serviço</SUITh></HeaderContent><RowTemplate Context="item"><SUITd DataLabel="Serviço">@item</SUITd></RowTemplate></SUITable>
 <SUIPagination TotalItems="_services.Length" PageSize="5" @bind-PageIndex="_page" />
 </section>
+<section id="patterns-continuous"><h2>Lista com scroll contínuo</h2><p>Para milhares de registros em rolagem contínua: <code>Virtualize</code> mantém no DOM só a janela visível — a rolagem da própria página aciona a troca —, preservando RowKey e o contrato de grid. São 100 registros nesta demonstração; o mecanismo é o mesmo para milhares. A paginação acima continua sendo o formato recomendado para listagens discretas.</p>
+<SUITable TItem="string" Items="_ledger" Virtualize="true" ItemSize="44" RowKey="@(item => item)" ColumnCount="1"><HeaderContent><SUITh>Registro contínuo</SUITh></HeaderContent><RowTemplate Context="item"><SUITd DataLabel="Registro contínuo">@item</SUITd></RowTemplate></SUITable>
+</section>
 <section><h2>Seção com alterações pendentes</h2><SUISection Title="Preferências"><SUITextField TValue="string" Label="Nome da seção" @bind-Value="_sectionName" /></SUISection>@if (_sectionName != _savedSectionName) { <SUIPendingChangesBar OnSave="SaveSection" OnCancel="ResetSection" /> }</section>
 <section><h2>Confirmar antes de aplicar</h2><Sufficit.Blazor.UI.Demos.Examples.SUIConfirmDialogExample /></section>
 <Sufficit.Blazor.UI.Demos.Compositions.InteractionPatterns />
@@ -26,6 +29,9 @@
     private void ResetSection() { _sectionName = _savedSectionName; Snackbar.Info("Alterações descartadas."); }
     private int _page;
     private readonly string[] _services = Enumerable.Range(1, 18).Select(i => $"Serviço de demonstração {i:00}").ToArray();
+    // The virtualization demo: enough rows that the materialized table would
+    // be several screens tall; the page itself is the scroll container.
+    private readonly string[] _ledger = Enumerable.Range(1, 100).Select(i => $"Lançamento contínuo {i:0000}").ToArray();
     private void Saved() => Snackbar.Success("Formulário validado com sucesso.");
     private sealed class ExampleForm
     {

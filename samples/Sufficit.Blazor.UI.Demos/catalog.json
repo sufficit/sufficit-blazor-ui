@@ -1192,6 +1192,38 @@
         "deprecated": false
       },
       {
+        "description": "Renders the body through Virtualize: only the visible window of rows exists in the DOM. For operational listings with thousands of rows under continuous scroll. The wrapper becomes the scroll container (a max height applies automatically); paginated navigation (SUIPagination) remains the recommended shape for discrete listings. Needs an interactive render mode — a statically rendered page shows only the initial rows.",
+        "name": "Virtualize",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Estimated row height in pixels, used by Virtualize to translate scroll position into a row window. Measure a representative row (padding + line height + border): a wrong estimate causes jitter, not data loss. Ignored when Virtualize is false.",
+        "name": "ItemSize",
+        "type": "float",
+        "default": "44f",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Extra rows rendered before and after the visible window when Virtualize is on, so a fast scroll lands on already rendered rows.",
+        "name": "OverscanCount",
+        "type": "int",
+        "default": "5",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Accessible name of the scrollable region a virtualized read-only table becomes. A scroller that keyboard users cannot focus is unreachable (WCAG 2.1.1), so the wrapper joins the tab order and is named so a screen reader announces what it scrolls. Ignored unless Virtualize is on and OnRowClick is unset (interactive rows are already focusable).",
+        "name": "ScrollLabel",
+        "type": "string",
+        "default": "\"Tabela com rolagem\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "Items to render. When null/empty, NoRecordsContent shows.",
         "name": "Items",
         "type": "IEnumerable<TItem>?",
@@ -1200,7 +1232,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Applies the hover background to data rows.",
         "name": "Hover",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -1208,7 +1240,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Compacts cell padding for dense operational layouts.",
         "name": "Dense",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -1272,7 +1304,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional header row: rendered inside thead.",
         "name": "HeaderContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1280,7 +1312,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Cell content for each rendered body row.",
         "name": "RowTemplate",
         "type": "RenderFragment<TItem>?",
         "default": "Padrão do tipo",
@@ -1288,7 +1320,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Content of the empty-state row; when null, an empty table shows no body row.",
         "name": "NoRecordsContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1296,7 +1328,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional footer row: rendered inside tfoot.",
         "name": "FooterContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",

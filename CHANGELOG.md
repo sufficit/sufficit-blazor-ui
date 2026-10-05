@@ -10,6 +10,19 @@ definem a numeração das próximas publicações.
 
 ### Added
 
+- `SUITable.Virtualize` (opt-in, padrão `false`): o corpo passa por
+  `Virtualize` e só a janela visível de linhas existe no DOM — para listagens
+  operacionais de milhares de registros em rolagem contínua. Parâmetros
+  `ItemSize` (altura estimada, 44 px) e `OverscanCount` (5). Preserva
+  `RowKey`, `RowTemplate`, `RowClassFunc`/`RowStyleFunc`, roving tabindex e o
+  contrato de grid; o índice original viaja com cada item (valores duplicados
+  não desalinham classes nem `tabindex`). Spacers são `tr` (o `div` padrão é
+  expulso da tabela pelo parser HTML). O wrapper vira o contêiner de rolagem
+  (`max-height` + `overflow-y`) e, em tabela somente leitura, região focável
+  nomeada por `ScrollLabel` (WCAG 2.1.1, regra axe `scrollable-region-focusable`).
+  A paginação por composição (`SUIPagination`) segue sendo o caminho
+  recomendado para listagens discretas. `SUITable` ganhou code-behind
+  (`SUITable.razor.cs`) para respeitar o orçamento de 250 linhas do `.razor`.
 - Densidade sistêmica em cascata: token `--sui-density-scale` (1 = confortável,
   ~0,85 = compacta) publicado pelo tema (`SUILayout.DensityScale`) e em `:root`;
   alturas e paddings de controle (`--sui-control-h-*`/`--sui-control-px-*`)

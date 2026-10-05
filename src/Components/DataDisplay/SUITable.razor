@@ -3,13 +3,31 @@
 @typeparam TItem
 @implements IAsyncDisposable
 @inject IJSRuntime JS
+@using Microsoft.AspNetCore.Components.Web.Virtualization
 
 @{
     var rows = Items as IReadOnlyList<TItem> ?? Items?.ToArray() ?? Array.Empty<TItem>();
     var activeRow = Math.Clamp(_activeRow, 0, Math.Max(0, rows.Count - 1));
+    // One row renderer for both body paths; they differ only in who decides
+    // which rows exist. Keeping it here (instead of a field) preserves the
+    // per-render snapshot of the previous markup: the source is enumerated
+    // exactly once per render, before any branch reads it.
+    RenderFragment RenderRow((TItem item, int index) row) => @<tr
+            @key="@(RowKey?.Invoke(row.item) ?? (object?)row.item ?? row.index)"
+            class="@GetRowClass(row.item, row.index, interactive: OnRowClick.HasDelegate)"
+            style="@RowStyleFunc?.Invoke(row.item, row.index)"
+            aria-label="@(OnRowClick.HasDelegate ? RowAriaLabelFunc?.Invoke(row.item) : null)"
+            tabindex="@(OnRowClick.HasDelegate ? (row.index == activeRow ? 0 : -1) : null)"
+            @onclick="() => OnRowItemClick(row.item)"
+            @onfocus="() => _activeRow = row.index">
+        @RowTemplate?.Invoke(row.item)
+    </tr>;
 }
 
-<div @ref="_wrapperElement" class="@WrapperClass" aria-busy="@(Loading ? "true" : "false")">
+<div @ref="_wrapperElement" class="@WrapperClass" aria-busy="@(Loading ? "true" : "false")"
+     role="@(ScrollRegion ? "region" : null)"
+     aria-label="@(ScrollRegion ? ScrollLabel : null)"
+     tabindex="@(ScrollRegion ? 0 : null)">
     @if (Loading)
     {
         <SUIProgressLinear Indeterminate="true" Class="sui-table__progress" />
@@ -34,30 +52,26 @@
                     </tr>
                 }
             }
+            else if (Virtualize)
+            {
+                @* Spacer rows must be table rows too: the framework default
+                   (div) is hoisted out of the table by the HTML parser and
+                   breaks the grid geometry. An empty tr whose height the
+                   framework sets keeps the scrollbar inside the row group.
+                   The index pairs below carry the original position to each
+                   rendered row: ItemContent hands back the item alone, and
+                   searching it back in rows would misindex duplicate values. *@
+                var indexed = rows.Select((item, index) => new IndexedRow(item, index)).ToArray();
+                <Virtualize TItem="IndexedRow" Items="indexed" ItemSize="ItemSize"
+                            OverscanCount="OverscanCount" SpacerElement="tr">
+                    <ItemContent Context="row">@RenderRow((row.Item, row.Index))</ItemContent>
+                </Virtualize>
+            }
             else
             {
                 @foreach (var indexedItem in rows.Select((item, index) => (item, index)))
                 {
-                    var item = indexedItem.item;
-                    var index = indexedItem.index;
-                    @if (OnRowClick.HasDelegate)
-                    {
-                        <tr @key="@(RowKey?.Invoke(item) ?? (object?)item ?? index)" class="@GetRowClass(item, index, interactive: true)"
-                            style="@RowStyleFunc?.Invoke(item, index)"
-                            aria-label="@RowAriaLabelFunc?.Invoke(item)"
-                            tabindex="@(index == activeRow ? 0 : -1)"
-                            @onclick="() => OnRowItemClick(item)"
-                            @onfocus="() => _activeRow = index">
-                            @RowTemplate?.Invoke(item)
-                        </tr>
-                    }
-                    else
-                    {
-                        <tr @key="@(RowKey?.Invoke(item) ?? (object?)item ?? index)" class="@GetRowClass(item, index)"
-                            style="@RowStyleFunc?.Invoke(item, index)">
-                            @RowTemplate?.Invoke(item)
-                        </tr>
-                    }
+                    @RenderRow(indexedItem)
                 }
             }
         </tbody>
@@ -67,141 +81,3 @@
         }
     </table>
 </div>
-
-@code {
-    /// <summary>Stable identity retained when rows are sorted or paged.</summary>
-    [Parameter] public Func<TItem, object>? RowKey { get; set; }
-
-    /// <summary>Items to render. When null/empty, <see cref="NoRecordsContent"/> shows.</summary>
-    [Parameter]
-    public IEnumerable<TItem>? Items { get; set; }
-
-    [Parameter]
-    public bool Hover { get; set; }
-
-    [Parameter]
-    public bool Dense { get; set; }
-
-    /// <summary>
-    /// Presents each body row as a labelled card on compact screens. Cells should
-    /// provide <see cref="SUITd.DataLabel"/> so their column name remains visible.
-    /// Desktop table semantics and layout are unchanged.
-    /// </summary>
-    [Parameter]
-    public bool StackOnMobile { get; set; }
-
-    /// <summary>Shows an indeterminate progress indicator and exposes aria-busy.</summary>
-    [Parameter]
-    public bool Loading { get; set; }
-
-    /// <summary>Optional class selector calculated for each rendered row.</summary>
-    [Parameter]
-    public Func<TItem, int, string?>? RowClassFunc { get; set; }
-
-    /// <summary>Optional inline style calculated for each rendered row.</summary>
-    [Parameter]
-    public Func<TItem, int, string?>? RowStyleFunc { get; set; }
-
-    /// <summary>
-    /// Number of data columns, used by the no-records cell so its
-    /// <c>colspan</c> covers the full table. Left unset (0) the cell spans a
-    /// column count no table reaches, which is what a browser needs to make it
-    /// fill the row: a short colspan pins the empty state to the first column.
-    /// </summary>
-    [Parameter]
-    public int ColumnCount { get; set; }
-
-    /// <summary>
-    /// Called when a row is clicked or activated with Enter/Space (item passed).
-    /// Setting it turns the table into a grid: one row is in the tab order and
-    /// arrow keys, Home and End move between rows.
-    /// </summary>
-    [Parameter]
-    public EventCallback<TItem> OnRowClick { get; set; }
-
-    /// <summary>
-    /// Optional accessible name for an interactive row, e.g. "Abrir pedido 42".
-    /// Without it the row is announced by its cell contents.
-    /// </summary>
-    [Parameter]
-    public Func<TItem, string?>? RowAriaLabelFunc { get; set; }
-
-    [Parameter]
-    public RenderFragment? HeaderContent { get; set; }
-
-    [Parameter]
-    public RenderFragment<TItem>? RowTemplate { get; set; }
-
-    [Parameter]
-    public RenderFragment? NoRecordsContent { get; set; }
-
-    [Parameter]
-    public RenderFragment? FooterContent { get; set; }
-
-
-    private string WrapperClass
-        => SUIClassBuilder.Default("sui-table-wrapper")
-            .AddClass("sui-table-wrapper--stack-mobile", StackOnMobile)
-            .Build();
-
-    private string Classname
-        => SUIClassBuilder.Default("sui-table")
-            .AddClass("sui-table--hover", Hover)
-            .AddClass("sui-table--dense", Dense)
-            .AddClass("sui-table--stack-mobile", StackOnMobile)
-            .AddClass(Class)
-            .Build();
-
-    private Task OnRowItemClick(TItem item) => OnRowClick.InvokeAsync(item);
-
-    private ElementReference _wrapperElement;
-    private IJSObjectReference? _module;
-    private IJSObjectReference? _interop;
-    private bool _interopInitialized;
-    // The row in the tab order (roving tabindex); follows focus.
-    private int _activeRow;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        // Row keys live in the module: it sees the event target, so a key
-        // pressed on a control inside a row never activates the row itself.
-        // A read-only table never loads it. The flag flips before the first
-        // await: a render that arrives while the import is still in flight
-        // must not start a second concurrent initialize, or the keydown
-        // listener is attached twice and one Enter activates the row (and
-        // any OnRowClick side effect) more than once.
-        if (_interopInitialized || !OnRowClick.HasDelegate)
-            return;
-        _interopInitialized = true;
-        _module = await JS.InvokeAsync<IJSObjectReference>(
-            "import", "./_content/Sufficit.Blazor.UI/Components/DataDisplay/SUITable.razor.js");
-        _interop = await _module.InvokeAsync<IJSObjectReference>("initialize", _wrapperElement);
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        try
-        {
-            if (_interop is not null)
-                await _interop.InvokeVoidAsync("dispose");
-            if (_module is not null)
-                await _module.DisposeAsync();
-        }
-        catch (Exception ex) when (ex is JSException or JSDisconnectedException or InvalidOperationException)
-        {
-            // The browser circuit may already be gone during disposal.
-        }
-    }
-
-    // 1000 is the maximum colspan the HTML spec allows, so an unset ColumnCount
-    // still spans every column of any real table instead of just the first one.
-    private const int FullRowColumnSpan = 1000;
-
-    private int EffectiveColumnCount => ColumnCount > 0 ? ColumnCount : FullRowColumnSpan;
-
-    private string GetRowClass(TItem item, int index, bool interactive = false)
-        => SUIClassBuilder.Default("sui-table__row")
-            .AddClass("sui-table__row--interactive", interactive)
-            .AddClass(RowClassFunc?.Invoke(item, index))
-            .Build();
-}

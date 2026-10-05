@@ -52,6 +52,12 @@
 > (SUITable/SUITableSortLabel), com regra no `NamingConventionTests` —
 > quebra de fonte documentada, baseline de API pública revisado (933 testes).
 >
+> ✅ **F2 concluído (2026-10-05)** — `SUITable.Virtualize` opt-in: janela de
+> linhas no DOM, spacers `tr`, wrapper como contêiner de rolagem focável,
+> índice original preservado para valores duplicados; `SUITable` ganhou
+> code-behind (943 testes; atividade:
+> `docs/activities/20261005-table-virtualization-f2.md`).
+>
 > ℹ️ **Correção pós-merge (2026-10-05):** a política V3 como `.01ms`
 > falhava o contrato hover×pressed e o teste de motion no navegador
 > (valor pré-mudança lido no mesmo frame). Corrigida para

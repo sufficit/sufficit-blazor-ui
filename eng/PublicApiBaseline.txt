@@ -1283,12 +1283,16 @@ P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|System.Boolean|Dense|[]|get;s
 P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|System.Boolean|Hover|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|System.Boolean|Loading|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|System.Boolean|StackOnMobile|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|System.Boolean|Virtualize|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|System.Collections.Generic.IEnumerable<`0:TItem>|Items|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|System.Func<`0:TItem,System.Int32,System.String>|RowClassFunc|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|System.Func<`0:TItem,System.Int32,System.String>|RowStyleFunc|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|System.Func<`0:TItem,System.Object>|RowKey|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|System.Func<`0:TItem,System.String>|RowAriaLabelFunc|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|System.Int32|ColumnCount|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|System.Int32|OverscanCount|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|System.Single|ItemSize|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|System.String|ScrollLabel|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITableEmpty|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITableEmpty|Sufficit.Blazor.UI.Components.SUITypo|TitleTypo|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITableEmpty|System.String|Description|[]|get;set;
