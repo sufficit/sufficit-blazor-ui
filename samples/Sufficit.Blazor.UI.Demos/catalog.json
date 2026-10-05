@@ -5217,6 +5217,30 @@
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": false
       }
     ]
   },
@@ -5246,6 +5270,30 @@
         "name": "Tags",
         "type": "string[]?",
         "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
         "required": false,
         "deprecated": false
       }
@@ -5377,7 +5425,15 @@
         "deprecated": false
       },
       {
-        "description": "Additional CSS class for the root element.",
+        "description": "Legacy alias for SUIComponentBase.AdditionalAttributes.",
+        "name": "UserAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": true
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -5385,7 +5441,7 @@
         "deprecated": false
       },
       {
-        "description": "Inline style for the root nav element (non-rail mode).",
+        "description": "Optional per-instance styles (consumer supplied).",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -5393,8 +5449,8 @@
         "deprecated": false
       },
       {
-        "description": "Unmatched attributes forwarded to the root nav element (non-rail mode).",
-        "name": "UserAttributes",
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
         "required": false,
@@ -5633,22 +5689,6 @@
       },
       {
         "description": "",
-        "name": "Class",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "Style",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
         "name": "Attributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -5656,12 +5696,12 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Legacy alias for SUIComponentBase.AdditionalAttributes.",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
         "required": false,
-        "deprecated": false
+        "deprecated": true
       },
       {
         "description": "",
@@ -5676,6 +5716,30 @@
         "name": "OnClick",
         "type": "EventCallback<MouseEventArgs>",
         "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
         "required": false,
         "deprecated": false
       }
@@ -5806,7 +5870,15 @@
         "deprecated": false
       },
       {
-        "description": "Optional CSS class applied to the panel container.",
+        "description": "Content shown while this panel is the active tab.",
+        "name": "ChildContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -5814,10 +5886,18 @@
         "deprecated": false
       },
       {
-        "description": "Content shown while this panel is the active tab.",
-        "name": "ChildContent",
-        "type": "RenderFragment?",
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
         "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
         "required": false,
         "deprecated": false
       }
@@ -5869,14 +5949,6 @@
         "deprecated": false
       },
       {
-        "description": "Optional CSS class applied to the root element.",
-        "name": "Class",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
         "description": "Stable id prefix used to associate tabs and panels.",
         "name": "Id",
         "type": "string?",
@@ -5909,7 +5981,23 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -5933,6 +6021,14 @@
       },
       {
         "description": "",
+        "name": "ChildContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -5940,10 +6036,18 @@
         "deprecated": false
       },
       {
-        "description": "",
-        "name": "ChildContent",
-        "type": "RenderFragment?",
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
         "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
         "required": false,
         "deprecated": false
       }
@@ -5958,14 +6062,6 @@
         "description": "Place the tab list beside its panel; uses Up/Down keyboard navigation.",
         "name": "Vertical",
         "type": "bool",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "Class",
-        "type": "string?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -6011,7 +6107,23 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",

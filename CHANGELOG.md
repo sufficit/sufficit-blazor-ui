@@ -102,6 +102,18 @@ definem a numeração das próximas publicações.
 
 ### Changed
 
+- Migração da família Navigation para `SUIComponentBase` (8 componentes:
+  `SUIFilterScope`, `SUIFilterTree`, `SUINavGroup`, `SUINavLink`,
+  `SUISlidingTabPanel`, `SUISlidingTabs`, `SUITabPanel`, `SUITabs`):
+  `SUITabs`/`SUISlidingTabs` aplicam `Style` no raiz (não publicavam) e os
+  painéis (`SUITabPanel`/`SUISlidingTabPanel`) herdam `Class` da base — o
+  valor continua sendo lido pelo componente pai ao montar o painel ativo.
+  `SUINavGroup` (code-behind) e `SUINavLink` mantêm o dicionário legado
+  `UserAttributes` como alias `[Obsolete]` com merge canônico; o grupo em
+  rail mode ganha `Style`/splat no raiz (`.sui-rail-group`).
+  `scripts/generate-catalog.py` passou a seguir também a herança declarada
+  em code-behind (`partial class … : SUIComponentBase`).
+
 - Migração da família Feedback para `SUIComponentBase` (11 componentes:
   `SUIAlert`, `SUIEmptyState`, `SUIPendingChangesBar`, `SUIProgressCircular`,
   `SUIProgressLinear`, `SUISkeletonLoader`, `SUISnackbarHost`,

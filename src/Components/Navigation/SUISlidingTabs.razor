@@ -1,4 +1,5 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 @implements IAsyncDisposable
 @inject IJSRuntime JS
 
@@ -8,7 +9,7 @@
    panel and a JS module keeps the indicator glued to the active button. *@
 
 <CascadingValue Value="this">
-    <div @ref="_rootElement" class="@Classname" @attributes="AdditionalAttributes">
+    <div @ref="_rootElement" class="@Classname" style="@Style" @attributes="AdditionalAttributes">
         <div class="sui-sliding-tabs__scroller">
             <div class="sui-sliding-tabs__track"
                  role="tablist"
@@ -74,9 +75,6 @@
     /// <summary>Accessible name for the tab list.</summary>
     [Parameter] public string? AriaLabel { get; set; }
 
-    /// <summary>Optional CSS class applied to the root element.</summary>
-    [Parameter] public string? Class { get; set; }
-
     /// <summary>Stable id prefix used to associate tabs and panels.</summary>
     [Parameter] public string? Id { get; set; }
 
@@ -87,9 +85,6 @@
     [Parameter] public int ActiveIndex { get; set; }
 
     [Parameter] public EventCallback<int> ActiveIndexChanged { get; set; }
-
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
     private readonly List<SUISlidingTabPanel> _panels = new();
     private readonly string _generatedId = $"sui-sliding-tabs-{Guid.NewGuid():N}";

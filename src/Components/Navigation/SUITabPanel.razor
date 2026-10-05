@@ -1,4 +1,5 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 @implements IDisposable
 
 @* Tab panel: registers with the parent SUITabs (cascaded) on init. Its own
@@ -10,9 +11,6 @@
 
     [Parameter]
     public string Text { get; set; } = string.Empty;
-
-    [Parameter]
-    public string? Class { get; set; }
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }

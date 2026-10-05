@@ -1,9 +1,12 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
 @if (IsRootRail)
 {
     @* Rail mode: top-level group = icon trigger + floating glass flyout. *@
     <div class="@Classname sui-rail-group"
+         style="@Style"
+         @attributes="AdditionalAttributes"
          @onpointerenter="EnterRail"
          @onpointerleave="LeaveRail">
         <button type="button"
@@ -54,7 +57,7 @@
 }
 else
 {
-<nav @attributes="UserAttributes"
+<nav @attributes="AdditionalAttributes"
      class="@Classname"
      aria-disabled="@(_navigationContext.Disabled ? "true" : null)"
      style="@Style"

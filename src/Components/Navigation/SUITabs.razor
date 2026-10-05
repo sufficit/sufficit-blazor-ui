@@ -1,9 +1,10 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 @implements IAsyncDisposable
 @inject IJSRuntime JS
 
 <CascadingValue Value="this">
-    <div @ref="_rootElement" class="@Classname" @attributes="AdditionalAttributes">
+    <div @ref="_rootElement" class="@Classname" style="@Style" @attributes="AdditionalAttributes">
         <div class="sui-tabs__list"
              role="tablist"
              aria-label="@AriaLabel"
@@ -48,9 +49,6 @@
     /// <summary>Place the tab list beside its panel; uses Up/Down keyboard navigation.</summary>
     [Parameter] public bool Vertical { get; set; }
 
-    [Parameter]
-    public string? Class { get; set; }
-
     /// <summary>Stable id prefix used to associate tabs and panels.</summary>
     [Parameter]
     public string? Id { get; set; }
@@ -68,9 +66,6 @@
 
     [Parameter]
     public EventCallback<int> ActiveIndexChanged { get; set; }
-
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
     private readonly List<SUITabPanel> _panels = new();
     private readonly string _generatedId = $"sui-tabs-{Guid.NewGuid():N}";

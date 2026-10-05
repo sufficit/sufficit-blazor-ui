@@ -14,7 +14,7 @@ namespace Sufficit.Blazor.UI.Components
     /// A deeper level of navigation links. Standalone: plain Blazor + CSS. Preserves rail-mode flyout, exclusive accordion
     /// between siblings, and animated collapse.
     /// </summary>
-    public partial class SUINavGroup : ComponentBase, IAsyncDisposable
+    public partial class SUINavGroup : SUIComponentBase, IAsyncDisposable
     {
         private SUINavigationContext _navigationContext = new() { Disabled = false, Expanded = true };
         private bool _expandedState;
@@ -52,6 +52,10 @@ namespace Sufficit.Blazor.UI.Components
             }
 
             UpdateNavigationContext();
+
+#pragma warning disable CS0618 // deliberate bridge for the obsolete parameter
+            MergeLegacyAttributes(UserAttributes);
+#pragma warning restore CS0618
         }
 
         /// <summary>Root rail groups only: connects the browser flyout helper on first use and re-clamps the panel to the viewport after every render.</summary>
@@ -115,7 +119,7 @@ namespace Sufficit.Blazor.UI.Components
         // Styling helpers.
         // ---------------------------------------------------------------------
 
-        /// <summary>Root CSS classes: root/nested, expanded, disabled and the user <see cref="Class"/>.</summary>
+        /// <summary>Root CSS classes: root/nested, expanded, disabled and the user <see cref="SUIComponentBase.Class"/>.</summary>
         protected string Classname =>
             SUIClassBuilder.Default("sui-nav-group")
                 .AddClass("sui-nav-group--nested", ParentNavigationContext is not null)
@@ -188,12 +192,8 @@ namespace Sufficit.Blazor.UI.Components
         [Parameter] public RenderFragment? ChildContent { get; set; }
         /// <summary>Raised when the user toggles the group; enables <c>@bind-Expanded</c>.</summary>
         [Parameter] public EventCallback<bool> ExpandedChanged { get; set; }
-        /// <summary>Additional CSS class for the root element.</summary>
-        [Parameter] public string? Class { get; set; }
-        /// <summary>Inline style for the root <c>nav</c> element (non-rail mode).</summary>
-        [Parameter] public string? Style { get; set; }
-        /// <summary>Unmatched attributes forwarded to the root <c>nav</c> element (non-rail mode).</summary>
-        [Parameter(CaptureUnmatchedValues = true)]
+        /// <summary>Legacy alias for <see cref="SUIComponentBase.AdditionalAttributes"/>.</summary>
+        [Parameter, Obsolete("Use AdditionalAttributes instead; this alias will be removed in the next breaking release.")]
         public Dictionary<string, object?> UserAttributes { get; set; } = new();
 
         // ---------------------------------------------------------------------

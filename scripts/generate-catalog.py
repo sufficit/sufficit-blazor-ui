@@ -36,8 +36,10 @@ for component in sorted((root/'src').rglob('*.razor')):
     # shared base. The catalog describes the public component surface, including
     # inherited parameters, not just declarations in the Razor file. The
     # notification hosts reach the same base through SUINotificationHostBase,
-    # so both inheritances must pull the base source in.
-    if re.search(r'@inherits\s+(?:SUIComponentBase\b|SUINotificationHostBase<)', source):
+    # and code-behind families (SUINavGroup) declare the base on the partial
+    # class, so all three forms must pull the base source in.
+    if (re.search(r'@inherits\s+(?:SUIComponentBase\b|SUINotificationHostBase<)', source)
+            or re.search(r'partial class \w+\s*:\s*SUIComponentBase\b', source)):
         source += '\n' + (root/'src/Components/SUIComponentBase.cs').read_text()
     parameters = []
     for match in re.finditer(r'((?:\[[^\]]*\]\s*)+)public\s+([^\n]+?)\s+(\w+)\s*\{\s*get;\s*set;\s*\}(?:\s*=\s*([^;\n]+);)?', source):

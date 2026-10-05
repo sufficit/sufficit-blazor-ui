@@ -27,8 +27,8 @@ B|Sufficit.Blazor.UI.Components.SUIEdge|System.Enum
 B|Sufficit.Blazor.UI.Components.SUIEmptyState+Icons|System.Object
 B|Sufficit.Blazor.UI.Components.SUIEmptyState|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIFilterContext|System.Object
-B|Sufficit.Blazor.UI.Components.SUIFilterScope|Microsoft.AspNetCore.Components.ComponentBase
-B|Sufficit.Blazor.UI.Components.SUIFilterTree|Microsoft.AspNetCore.Components.ComponentBase
+B|Sufficit.Blazor.UI.Components.SUIFilterScope|Sufficit.Blazor.UI.Components.SUIComponentBase
+B|Sufficit.Blazor.UI.Components.SUIFilterTree|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIFormGrid|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIGrid|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIIconButton|Sufficit.Blazor.UI.Components.SUIComponentBase
@@ -42,8 +42,8 @@ B|Sufficit.Blazor.UI.Components.SUIListItem|Sufficit.Blazor.UI.Components.SUICom
 B|Sufficit.Blazor.UI.Components.SUIList|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUILoadingButton|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUINavAccordionScope|System.Object
-B|Sufficit.Blazor.UI.Components.SUINavGroup|Microsoft.AspNetCore.Components.ComponentBase
-B|Sufficit.Blazor.UI.Components.SUINavLink|Microsoft.AspNetCore.Components.ComponentBase
+B|Sufficit.Blazor.UI.Components.SUINavGroup|Sufficit.Blazor.UI.Components.SUIComponentBase
+B|Sufficit.Blazor.UI.Components.SUINavLink|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUINavigationContext|System.Object
 B|Sufficit.Blazor.UI.Components.SUINotificationHostBase<`0:TEntry>|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|Microsoft.AspNetCore.Components.ComponentBase
@@ -61,8 +61,8 @@ B|Sufficit.Blazor.UI.Components.SUISelectItem|Microsoft.AspNetCore.Components.Co
 B|Sufficit.Blazor.UI.Components.SUISize|System.Enum
 B|Sufficit.Blazor.UI.Components.SUISkeletonLoader|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUISkeletonType|System.Enum
-B|Sufficit.Blazor.UI.Components.SUISlidingTabPanel|Microsoft.AspNetCore.Components.ComponentBase
-B|Sufficit.Blazor.UI.Components.SUISlidingTabs|Microsoft.AspNetCore.Components.ComponentBase
+B|Sufficit.Blazor.UI.Components.SUISlidingTabPanel|Sufficit.Blazor.UI.Components.SUIComponentBase
+B|Sufficit.Blazor.UI.Components.SUISlidingTabs|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUISnackbarHost|Sufficit.Blazor.UI.Components.SUINotificationHostBase<Sufficit.Blazor.UI.Services.SUISnackbarEntry>
 B|Sufficit.Blazor.UI.Components.SUISortDirection|System.Enum
 B|Sufficit.Blazor.UI.Components.SUISpacer|Sufficit.Blazor.UI.Components.SUIComponentBase
@@ -73,11 +73,11 @@ B|Sufficit.Blazor.UI.Components.SUIStatusBanner|Sufficit.Blazor.UI.Components.SU
 B|Sufficit.Blazor.UI.Components.SUIStat|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUISwitchButton|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUISwitch|Microsoft.AspNetCore.Components.ComponentBase
-B|Sufficit.Blazor.UI.Components.SUITabPanel|Microsoft.AspNetCore.Components.ComponentBase
+B|Sufficit.Blazor.UI.Components.SUITabPanel|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUITableEmpty|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUITableSortLabel<`0:TItem>|Sufficit.Blazor.UI.Components.SUIComponentBase
-B|Sufficit.Blazor.UI.Components.SUITabs|Microsoft.AspNetCore.Components.ComponentBase
+B|Sufficit.Blazor.UI.Components.SUITabs|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUITd|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUITextTag|System.Enum
@@ -1081,11 +1081,9 @@ P|Sufficit.Blazor.UI.Components.SUINavGroup|System.Boolean|RailMode|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINavGroup|System.Boolean|Ripple|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINavGroup|System.Collections.Generic.Dictionary<System.String,System.Object>|UserAttributes|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINavGroup|System.Nullable<System.Int32>|MaxHeight|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUINavGroup|System.String|Class|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINavGroup|System.String|ExpandIcon|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINavGroup|System.String|HeaderClass|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINavGroup|System.String|Icon|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUINavGroup|System.String|Style|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINavGroup|System.String|SubTitle|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINavGroup|System.String|Title|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINavLink|Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs>|OnClick|[]|get;set;
@@ -1108,10 +1106,8 @@ P|Sufficit.Blazor.UI.Components.SUINavLink|System.Int32|TooltipMaxWidth|[]|get;s
 P|Sufficit.Blazor.UI.Components.SUINavLink|System.Int32|TooltipOffset|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINavLink|System.Int32|TooltipShowDelay|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINavLink|System.String|ActiveClass|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUINavLink|System.String|Class|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINavLink|System.String|Href|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINavLink|System.String|Icon|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUINavLink|System.String|Style|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINavLink|System.String|Title|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINavLink|System.String|TooltipBackgroundColor|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINavLink|System.String|TooltipBorderColor|[]|get;set;
@@ -1239,7 +1235,6 @@ P|Sufficit.Blazor.UI.Components.SUISkeletonLoader|System.Int32|Rows|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISkeletonLoader|System.String|Size|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISlidingTabPanel|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISlidingTabPanel|System.Boolean|Disabled|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUISlidingTabPanel|System.String|Class|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISlidingTabPanel|System.String|Icon|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISlidingTabPanel|System.String|Text|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISlidingTabs|Microsoft.AspNetCore.Components.EventCallback<System.Int32>|ActiveIndexChanged|[]|get;set;
@@ -1248,10 +1243,8 @@ P|Sufficit.Blazor.UI.Components.SUISlidingTabs|Sufficit.Blazor.UI.Components.SUI
 P|Sufficit.Blazor.UI.Components.SUISlidingTabs|System.Boolean|Center|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISlidingTabs|System.Boolean|FullWidth|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISlidingTabs|System.Boolean|IconOnly|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUISlidingTabs|System.Collections.Generic.Dictionary<System.String,System.Object>|AdditionalAttributes|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISlidingTabs|System.Int32|ActiveIndex|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISlidingTabs|System.String|AriaLabel|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUISlidingTabs|System.String|Class|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISlidingTabs|System.String|Id|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIStack|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIStack|System.Boolean|Row|[]|get;set;
@@ -1296,7 +1289,6 @@ P|Sufficit.Blazor.UI.Components.SUISwitch|System.String|Id|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISwitch|System.String|Label|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISwitch|System.String|Name|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITabPanel|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUITabPanel|System.String|Class|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITabPanel|System.String|Text|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|Microsoft.AspNetCore.Components.EventCallback<`0:TItem>|OnRowClick|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|Microsoft.AspNetCore.Components.RenderFragment<`0:TItem>|RowTemplate|[]|get;set;
@@ -1328,10 +1320,8 @@ P|Sufficit.Blazor.UI.Components.SUITableSortLabel<`0:TItem>|System.Object|Initia
 P|Sufficit.Blazor.UI.Components.SUITabs|Microsoft.AspNetCore.Components.EventCallback<System.Int32>|ActiveIndexChanged|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITabs|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITabs|System.Boolean|Vertical|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUITabs|System.Collections.Generic.Dictionary<System.String,System.Object>|AdditionalAttributes|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITabs|System.Int32|ActiveIndex|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITabs|System.String|AriaLabel|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUITabs|System.String|Class|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITabs|System.String|Id|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITd|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITd|System.Collections.Generic.Dictionary<System.String,System.Object>|UserAttributes|[]|get;set;
