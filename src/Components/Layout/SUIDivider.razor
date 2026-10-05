@@ -1,11 +1,8 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<hr class="sui-divider @Class" style="@Style" />
+<hr class="@Classname" style="@Style" @attributes="AdditionalAttributes" />
 
 @code {
-    [Parameter]
-    public string? Class { get; set; }
-
-    [Parameter]
-    public string? Style { get; set; }
+    private string Classname => EffectiveClass("sui-divider");
 }

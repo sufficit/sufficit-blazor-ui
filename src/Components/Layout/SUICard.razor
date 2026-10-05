@@ -1,27 +1,29 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<div class="@Classname" style="@Style" @attributes="Attributes">
+<div class="@Classname" style="@Style" @attributes="AdditionalAttributes">
     @ChildContent
 </div>
 
 @code {
     /// <summary>Elevation 0-3 (shadow depth). Default 1.</summary>
-    /// <summary>Forward unmatched attributes (onclick, role, data-*, etc.) to the root element.</summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object?>? Attributes { get; set; }
-
-    /// <summary>Elevation 0-3 (shadow depth). Default 1.</summary>
     [Parameter]
     public int Elevation { get; set; } = 1;
 
     [Parameter]
-    public string? Class { get; set; }
-
-    [Parameter]
-    public string? Style { get; set; }
-
-    [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>Legacy alias for <see cref="SUIComponentBase.AdditionalAttributes"/>.</summary>
+    [Parameter, Obsolete("Use AdditionalAttributes instead; this alias will be removed in the next breaking release.")]
+    public Dictionary<string, object?>? Attributes { get; set; }
+
+    protected override void OnParametersSet()
+    {
+#pragma warning disable CS0618 // deliberate bridge for the obsolete parameter
+        if (Attributes is { Count: > 0 })
+            MergeLegacyAttributes(Attributes);
+#pragma warning restore CS0618
+    }
 
     private string Classname
         => SUIClassBuilder.Default("sui-card")

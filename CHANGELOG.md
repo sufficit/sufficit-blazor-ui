@@ -102,6 +102,15 @@ definem a numeração das próximas publicações.
 
 ### Changed
 
+- Migração do lote Layout para `SUIComponentBase` (13 componentes: `SUIAppBar`,
+  `SUICard` + Header/Content/Actions, `SUIContainer`, `SUIDivider`, `SUIGrid`,
+  `SUIItem`, `SUILayout`, `SUIPageHeader`, `SUISpacer`, `SUIStack`): `Class`,
+  `Style` e `AdditionalAttributes` vêm da base e todos agora splattam atributos
+  no elemento raiz (antes `SUIAppBar`, `SUIStack`, `SUIGrid`, `SUILayout` e
+  `SUIDivider` descartavam atributos não modelados). A família Card mantém o
+  dicionário legado `Attributes` como alias `[Obsolete]` com merge na forma
+  canônica durante a janela de migração (canônico vence em colisões).
+
 - `ISUISnackbar`/`ISUIToast`: sobrecarga tipada `Add(message, SUITone tone, …)`
   como caminho preferido; `Neutral` é renderizado como `info` (as superfícies
   de feedback não definem variante neutra em CSS). A versão `string severity`

@@ -1,6 +1,7 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<div class="@Classname">
+<div class="@Classname" style="@Style" @attributes="AdditionalAttributes">
     @ChildContent
 </div>
 
@@ -14,9 +15,6 @@
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
-
-    [Parameter]
-    public string? Class { get; set; }
 
     private string Classname
         => SUIClassBuilder.Default("sui-layout")

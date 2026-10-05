@@ -1,6 +1,7 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<div class="@Classname" @attributes="AdditionalAttributes">
+<div class="@Classname" style="@Style" @attributes="AdditionalAttributes">
     @ChildContent
 </div>
 
@@ -10,18 +11,11 @@
     public string MaxWidth { get; set; } = "lg";
 
     [Parameter]
-    public string? Class { get; set; }
-
-    [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>
-    /// Unmatched attributes (id, data-*, aria-*, style, ...) forwarded to the root
-    /// div. Without this, any such attribute throws InvalidOperationException at
-    /// render time — a page-level crash in the consumer.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
+    // Unmatched attributes (id, data-*, ...) and Style come from SUIComponentBase
+    // and are forwarded to the root div. Regression guard: a consumer page once
+    // passed id="..." and Blazor threw InvalidOperationException at render time.
 
     private string Classname
         => SUIClassBuilder.Default("sui-container")

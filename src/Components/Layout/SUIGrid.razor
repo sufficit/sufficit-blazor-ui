@@ -1,15 +1,13 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<div class="@Classname">
+<div class="@Classname" style="@Style" @attributes="AdditionalAttributes">
     @ChildContent
 </div>
 
 @code {
     [Parameter]
     public bool Spacing { get; set; } = true;
-
-    [Parameter]
-    public string? Class { get; set; }
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }

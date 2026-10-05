@@ -1,6 +1,7 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<div class="@Classname" style="@($"{GapStyle}{Style}")">
+<div class="@Classname" style="@($"{GapStyle}{Style}")" @attributes="AdditionalAttributes">
     @ChildContent
 </div>
 
@@ -25,12 +26,6 @@
     public bool Wrap { get; set; }
 
     [Parameter]
-    public string? Class { get; set; }
-
-    [Parameter]
-    public string? Style { get; set; }
-
-    [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
     private string Classname
@@ -43,5 +38,5 @@
             .Build();
 
     private string GapStyle
-        => Spacing == 0 ? "gap:0;" : Spacing is >= 1 and <= 6 ? $"gap: var(--sui-space-{Spacing});" : $"gap: var(--sui-space-3);";
+        => Spacing == 0 ? "gap:0;" : Spacing is >= 1 and <= 6 ? $"gap: var(--sui-space-{Spacing});" : "gap: var(--sui-space-3);";
 }

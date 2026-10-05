@@ -262,7 +262,10 @@ public sealed class StyleContractTests
         var component = File.ReadAllText(Path.Combine(
             RepositoryLayout.Src, "Components", "Layout", "SUIDivider.razor"));
 
-        Assert.Contains("<hr class=\"sui-divider @Class\"", component, StringComparison.Ordinal);
+        // EffectiveClass always leads with the owned class, so the zero-margin
+        // reset in the stylesheet applies even when the consumer passes Class.
+        Assert.Contains("""EffectiveClass("sui-divider")""", component, StringComparison.Ordinal);
+        Assert.DoesNotContain("sui-divider @Class", component, StringComparison.Ordinal);
     }
 
     [Fact]

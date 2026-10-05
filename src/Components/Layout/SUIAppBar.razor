@@ -1,6 +1,7 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<header class="@Classname">
+<header class="@Classname" style="@Style" @attributes="AdditionalAttributes">
     @ChildContent
 </header>
 
@@ -14,12 +15,6 @@
     /// <summary>Background color: "primary", "dark", "surface" (default), "inherit".</summary>
     [Parameter]
     public string? Color { get; set; }
-
-    [Parameter]
-    public string? Class { get; set; }
-
-    [Parameter]
-    public string? Style { get; set; }
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }

@@ -1,7 +1,9 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<div class="sui-spacer" aria-hidden="true"></div>
+<div class="@Classname" aria-hidden="true" @attributes="AdditionalAttributes"></div>
 
 @code {
     // A flex-grow spacer — fills remaining space in a SUIStack/appbar row.
+    private string Classname => EffectiveClass("sui-spacer");
 }

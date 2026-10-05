@@ -1,6 +1,7 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<header class="@Classname" @attributes="AdditionalAttributes">
+<header class="@Classname" style="@Style" @attributes="AdditionalAttributes">
     <div class="sui-page-header__identity">
         @if (LeadingContent is not null)
         {
@@ -53,12 +54,6 @@
     /// </summary>
     [Parameter]
     public bool Prominent { get; set; }
-
-    [Parameter]
-    public string? Class { get; set; }
-
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
     private string Classname
         => SUIClassBuilder.Default("sui-page-header")

@@ -13,12 +13,23 @@ public sealed class AttributeForwardingTests
             .Add(component => component.UserAttributes,
                 new Dictionary<string, object?> { ["data-probe"] = "button", ["aria-label"] = "Salvar" }));
         var card = context.Render<SUICard>(parameters => parameters
-            .Add(component => component.Attributes,
-                new Dictionary<string, object?> { ["data-probe"] = "card" }));
+            .AddUnmatched("data-probe", "card"));
 
         Assert.Equal("button", button.Find("button").GetAttribute("data-probe"));
         Assert.Equal("Salvar", button.Find("button").GetAttribute("aria-label"));
         Assert.Equal("card", card.Find(".sui-card").GetAttribute("data-probe"));
+
+        // Migration window: the card family still accepts the legacy Attributes
+        // dictionary; it must merge into the canonical splat (canonical wins).
+#pragma warning disable CS0618 // exercising the obsolete bridge on purpose
+        var legacyCard = context.Render<SUICard>(parameters => parameters
+            .Add(component => component.Attributes,
+                new Dictionary<string, object?> { ["data-legacy"] = "card" })
+            .AddUnmatched("data-probe", "canonical"));
+#pragma warning restore CS0618
+        var legacyRoot = legacyCard.Find(".sui-card");
+        Assert.Equal("card", legacyRoot.GetAttribute("data-legacy"));
+        Assert.Equal("canonical", legacyRoot.GetAttribute("data-probe"));
 
         var alert = context.Render<SUIAlert>(parameters => parameters
             .AddUnmatched("data-probe", "alert")

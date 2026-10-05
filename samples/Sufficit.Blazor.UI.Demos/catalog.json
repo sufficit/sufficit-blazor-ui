@@ -3873,6 +3873,14 @@
       },
       {
         "description": "",
+        "name": "ChildContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3880,7 +3888,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional per-instance styles (consumer supplied).",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3888,10 +3896,10 @@
         "deprecated": false
       },
       {
-        "description": "",
-        "name": "ChildContent",
-        "type": "RenderFragment?",
-        "default": "Padrão do tipo",
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
         "required": false,
         "deprecated": false
       }
@@ -3903,14 +3911,6 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUICard>\n<SUICardHeader Title=\"Configuração\" Description=\"Dados de demonstração.\" />\n<SUICardContent>\n<SUITextField TValue=\"string\" Label=\"Nome público\" @bind-Value=\"Text\" />\n</SUICardContent>\n<SUICardActions>\n<SUIButton OnClick=\"Notify\">Salvar</SUIButton>\n</SUICardActions>\n</SUICard>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
     "parameters": [
       {
-        "description": "Forward unmatched attributes (onclick, role, data-*, etc.) to the root element.",
-        "name": "Attributes",
-        "type": "Dictionary<string, object?>?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
         "description": "Elevation 0-3 (shadow depth). Default 1.",
         "name": "Elevation",
         "type": "int",
@@ -3920,6 +3920,22 @@
       },
       {
         "description": "",
+        "name": "ChildContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Legacy alias for SUIComponentBase.AdditionalAttributes.",
+        "name": "Attributes",
+        "type": "Dictionary<string, object?>?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": true
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3927,7 +3943,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional per-instance styles (consumer supplied).",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3935,10 +3951,10 @@
         "deprecated": false
       },
       {
-        "description": "",
-        "name": "ChildContent",
-        "type": "RenderFragment?",
-        "default": "Padrão do tipo",
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
         "required": false,
         "deprecated": false
       }
@@ -3950,14 +3966,6 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUICard>\n<SUICardHeader Title=\"Configuração\" Description=\"Dados de demonstração.\" />\n<SUICardContent>\n<SUITextField TValue=\"string\" Label=\"Nome público\" @bind-Value=\"Text\" />\n</SUICardContent>\n<SUICardActions>\n<SUIButton OnClick=\"Notify\">Salvar</SUIButton>\n</SUICardActions>\n</SUICard>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
     "parameters": [
       {
-        "description": "Forward unmatched attributes to the root element.",
-        "name": "Attributes",
-        "type": "Dictionary<string, object?>?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
         "description": "Align actions to the end of the row instead of the start.",
         "name": "AlignEnd",
         "type": "bool",
@@ -3967,6 +3975,22 @@
       },
       {
         "description": "",
+        "name": "ChildContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Legacy alias for SUIComponentBase.AdditionalAttributes.",
+        "name": "Attributes",
+        "type": "Dictionary<string, object?>?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": true
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3974,7 +3998,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional per-instance styles (consumer supplied).",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3982,10 +4006,10 @@
         "deprecated": false
       },
       {
-        "description": "",
-        "name": "ChildContent",
-        "type": "RenderFragment?",
-        "default": "Padrão do tipo",
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
         "required": false,
         "deprecated": false
       }
@@ -3997,15 +4021,23 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUICard>\n<SUICardHeader Title=\"Configuração\" Description=\"Dados de demonstração.\" />\n<SUICardContent>\n<SUITextField TValue=\"string\" Label=\"Nome público\" @bind-Value=\"Text\" />\n</SUICardContent>\n<SUICardActions>\n<SUIButton OnClick=\"Notify\">Salvar</SUIButton>\n</SUICardActions>\n</SUICard>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
     "parameters": [
       {
-        "description": "Forward unmatched attributes to the root element.",
-        "name": "Attributes",
-        "type": "Dictionary<string, object?>?",
+        "description": "",
+        "name": "ChildContent",
+        "type": "RenderFragment?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Legacy alias for SUIComponentBase.AdditionalAttributes.",
+        "name": "Attributes",
+        "type": "Dictionary<string, object?>?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": true
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4013,7 +4045,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional per-instance styles (consumer supplied).",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4021,10 +4053,10 @@
         "deprecated": false
       },
       {
-        "description": "",
-        "name": "ChildContent",
-        "type": "RenderFragment?",
-        "default": "Padrão do tipo",
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
         "required": false,
         "deprecated": false
       }
@@ -4035,30 +4067,6 @@
     "family": "Layout",
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUICard>\n<SUICardHeader Title=\"Configuração\" Description=\"Dados de demonstração.\" />\n<SUICardContent>\n<SUITextField TValue=\"string\" Label=\"Nome público\" @bind-Value=\"Text\" />\n</SUICardContent>\n<SUICardActions>\n<SUIButton OnClick=\"Notify\">Salvar</SUIButton>\n</SUICardActions>\n</SUICard>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
     "parameters": [
-      {
-        "description": "Forward unmatched attributes to the root element.",
-        "name": "Attributes",
-        "type": "Dictionary<string, object?>?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "Class",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "Style",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
       {
         "description": "Optional SUI icon name shown before the heading.",
         "name": "Icon",
@@ -4138,6 +4146,38 @@
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
+      },
+      {
+        "description": "Legacy alias for SUIComponentBase.AdditionalAttributes.",
+        "name": "Attributes",
+        "type": "Dictionary<string, object?>?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": true
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": false
       }
     ]
   },
@@ -4156,14 +4196,6 @@
       },
       {
         "description": "",
-        "name": "Class",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -4171,7 +4203,23 @@
         "deprecated": false
       },
       {
-        "description": "Unmatched attributes (id, data-*, aria-*, style, ...) forwarded to the root div. Without this, any such attribute throws InvalidOperationException at render time — a page-level crash in the consumer.",
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -4186,7 +4234,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIText>Primeira seção</SUIText>\n<SUIDivider />\n<SUIText>Segunda seção</SUIText>\n",
     "parameters": [
       {
-        "description": "",
+        "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4194,10 +4242,18 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional per-instance styles (consumer supplied).",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
         "required": false,
         "deprecated": false
       }
@@ -4393,6 +4449,14 @@
       },
       {
         "description": "",
+        "name": "ChildContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4400,10 +4464,18 @@
         "deprecated": false
       },
       {
-        "description": "",
-        "name": "ChildContent",
-        "type": "RenderFragment?",
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
         "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
         "required": false,
         "deprecated": false
       }
@@ -4456,14 +4528,6 @@
       },
       {
         "description": "",
-        "name": "Class",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -4471,7 +4535,23 @@
         "deprecated": false
       },
       {
-        "description": "Catch-all for unmatched attributes (for example Style), applied to the root element. Keeps consumer markup written against the framework-style API surface from crashing on parameters this component does not model.",
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -4510,10 +4590,26 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
         "required": false,
         "deprecated": false
       }
@@ -4573,7 +4669,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4581,7 +4677,15 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -4697,7 +4801,32 @@
     "name": "SUISpacer",
     "family": "Layout",
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack Row>\n<span>Conteúdo inicial</span>\n<SUISpacer />\n<span>Ação à direita</span>\n</SUIStack>\n",
-    "parameters": []
+    "parameters": [
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": false
+      }
+    ]
   },
   {
     "name": "SUIStack",
@@ -4746,6 +4875,14 @@
       },
       {
         "description": "",
+        "name": "ChildContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4753,7 +4890,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional per-instance styles (consumer supplied).",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4761,10 +4898,10 @@
         "deprecated": false
       },
       {
-        "description": "",
-        "name": "ChildContent",
-        "type": "RenderFragment?",
-        "default": "Padrão do tipo",
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
         "required": false,
         "deprecated": false
       }

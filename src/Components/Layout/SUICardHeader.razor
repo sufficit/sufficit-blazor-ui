@@ -1,6 +1,7 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<div class="@Classname" style="@Style" @attributes="Attributes">
+<div class="@Classname" style="@Style" @attributes="AdditionalAttributes">
     @if (!string.IsNullOrWhiteSpace(Icon))
     {
         <span class="sui-card__header-icon" aria-hidden="true">
@@ -48,16 +49,6 @@
 </div>
 
 @code {
-    /// <summary>Forward unmatched attributes to the root element.</summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object?>? Attributes { get; set; }
-
-    [Parameter]
-    public string? Class { get; set; }
-
-    [Parameter]
-    public string? Style { get; set; }
-
     /// <summary>Optional SUI icon name shown before the heading.</summary>
     [Parameter]
     public string? Icon { get; set; }
@@ -102,6 +93,18 @@
     /// <summary>Compatibility slot for legacy card header actions.</summary>
     [Parameter]
     public RenderFragment? CardHeaderActions { get; set; }
+
+    /// <summary>Legacy alias for <see cref="SUIComponentBase.AdditionalAttributes"/>.</summary>
+    [Parameter, Obsolete("Use AdditionalAttributes instead; this alias will be removed in the next breaking release.")]
+    public Dictionary<string, object?>? Attributes { get; set; }
+
+    protected override void OnParametersSet()
+    {
+#pragma warning disable CS0618 // deliberate bridge for the obsolete parameter
+        if (Attributes is { Count: > 0 })
+            MergeLegacyAttributes(Attributes);
+#pragma warning restore CS0618
+    }
 
     private string Classname
         => SUIClassBuilder.Default("sui-card__header")
