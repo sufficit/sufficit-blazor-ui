@@ -1,6 +1,7 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<li class="@Classname" @attributes="AdditionalAttributes">
+<li class="@Classname" style="@Style" @attributes="AdditionalAttributes">
     <span class="sui-timeline__marker sui-timeline__marker--@SizeSlug sui-timeline__marker--@ToneSlug sui-timeline__marker--@VariantSlug" aria-hidden="true"></span>
     <div class="sui-timeline__body">
         @if (!string.IsNullOrWhiteSpace(Title) || !string.IsNullOrWhiteSpace(Description) || MetaContent is not null || TrailingContent is not null)
@@ -40,9 +41,6 @@
     [Parameter] public SUISize? SizeValue { get; set; }
     [Parameter] public SUIVariant? VariantValue { get; set; }
 
-    [Parameter]
-    public string? Class { get; set; }
-
     /// <summary>Optional structured title. Existing free-form child content remains supported.</summary>
     [Parameter]
     public string? Title { get; set; }
@@ -62,8 +60,6 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
     private string ToneSlug => SUIClassBuilder.Slug(ColorValue ?? SUIColor.Primary);
     private string VariantSlug => SUIClassBuilder.Slug(VariantValue ?? SUIVariant.Filled);

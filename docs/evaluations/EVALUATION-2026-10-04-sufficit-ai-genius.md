@@ -20,6 +20,7 @@
 > migrada para nomes canônicos (910 testes; atividade:
 > `docs/activities/20261004-design-consolidation-parity-inline-aliases.md`).
 > ✅ **P1/P2 iniciado e validado** — `SUIComponentBase` fino, 8 componentes pilotos
+> ➕ **2026-10-05 — família DataDisplay:** +14 componentes (`SUITable`+SortLabel/Td/Th/Empty, `SUIChip`, `SUIAvatar`, `SUIIcon`, `SUIText`, `SUIDateTime`, List/ListItem, Timeline/Item) em `SUIComponentBase`; `UserAttributes` de `SUITd`/`SUITh` vira ponte obsoleta; `Style` passa a aplicar no raiz de todos (`docs/activities/20261005-component-base-datadisplay-batch.md`)
 > ➕ **2026-10-05 — família Actions:** +4 componentes (`SUIButton`, `SUIIconButton`, `SUILoadingButton`, `SUICopyToClipboard`) em `SUIComponentBase`; `UserAttributes` vira ponte obsoleta nos três botões, família Actions 100% na base (`docs/activities/20261005-component-base-actions-batch.md`)
 > ➕ **2026-10-05 — lote Layout:** +13 componentes em `SUIComponentBase` (Card/Stack/Container/AppBar/…); splat canônico chega ao raiz de quem descartava atributos; aliases legados com ponte obsoleta (`docs/activities/20261005-component-base-layout-batch.md`)
 > (incluindo `SUISelect<T>` e `SUITextField<T>`), aliases `UserAttributes` obsoletos

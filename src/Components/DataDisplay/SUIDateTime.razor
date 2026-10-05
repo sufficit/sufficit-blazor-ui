@@ -1,6 +1,7 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<span class="@Classname" @attributes="AdditionalAttributes">@Content</span>
+<span class="@Classname" style="@Style" @attributes="AdditionalAttributes">@Content</span>
 
 @code {
     /// <summary>Date/time value rendered with <see cref="Format"/>. Renders nothing when null.</summary>
@@ -11,12 +12,6 @@
     [Parameter]
     public string Format { get; set; } = "dd/MM/yyyy";
 
-    /// <summary>Extra classes appended after <c>sui-datetime</c>.</summary>
-    [Parameter]
-    public string? Class { get; set; }
-
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
     private string? Formatted => Value?.ToString(Format);
 

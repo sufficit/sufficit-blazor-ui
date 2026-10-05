@@ -1,6 +1,7 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<div class="@GetClassName()">
+<div class="@GetClassName()" style="@Style" @attributes="AdditionalAttributes">
     <span class="sui-icon sui-icon--large sui-table-empty__icon">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@SUIIconMarkup.Render(Icon)</svg>
     </span>
@@ -39,15 +40,10 @@
     public SUITypo TitleTypo { get; set; } = SUITypo.h6;
 
     [Parameter]
-    public string? Class { get; set; }
-
-    [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
     private string GetClassName()
-        => string.IsNullOrWhiteSpace(Class)
-            ? "sui-table-empty sui-width-full"
-            : $"sui-table-empty sui-width-full {Class}";
+        => EffectiveClass("sui-table-empty sui-width-full");
 
     private IEnumerable<string> GetDescriptionLines()
     {

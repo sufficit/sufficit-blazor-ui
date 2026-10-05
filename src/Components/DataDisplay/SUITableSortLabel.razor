@@ -1,11 +1,12 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 @typeparam TItem
 
 @* Rendered as a button, not a clickable th: sorting is an action, and without
    button semantics it is unreachable by keyboard and silent to screen readers.
    aria-sort belongs on the th: inside a SUITh the label reports its direction
    there; under a raw th the consumer sets aria-sort from SortDirection. *@
-<button type="button" class="@Classname" @onclick="ToggleAsync" @attributes="AdditionalAttributes">
+<button type="button" class="@Classname" style="@Style" @onclick="ToggleAsync" @attributes="AdditionalAttributes">
     <span class="sui-sort-label__text">@ChildContent</span>
     <span class="sui-sort-label__icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" width="100%" height="100%" fill="currentColor" aria-hidden="true" focusable="false">
@@ -52,13 +53,7 @@
     public Func<SUISortDirection, string>? StateDescriptionFactory { get; set; }
 
     [Parameter]
-    public string? Class { get; set; }
-
-    [Parameter]
     public RenderFragment? ChildContent { get; set; }
-
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
     [CascadingParameter]
     private SUITh? Header { get; set; }

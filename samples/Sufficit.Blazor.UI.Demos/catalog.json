@@ -689,22 +689,6 @@
       },
       {
         "description": "",
-        "name": "Class",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "Style",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -712,7 +696,23 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -760,14 +760,6 @@
       },
       {
         "description": "",
-        "name": "Class",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -807,7 +799,23 @@
         "deprecated": false
       },
       {
-        "description": "Additional HTML attributes forwarded to the root element, including accessibility attributes such as aria-live and role.",
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -838,7 +846,7 @@
         "deprecated": false
       },
       {
-        "description": "Extra classes appended after sui-datetime.",
+        "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -846,7 +854,15 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -885,7 +901,23 @@
         "deprecated": false
       },
       {
-        "description": "Catch-all for unmatched attributes, applied to the root <svg>. Icon sizing belongs in Size; keeping this catch-all prevents consumer markup written against the framework-style API surface from crashing on parameters this component does not model.",
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -909,14 +941,6 @@
       },
       {
         "description": "",
-        "name": "Class",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -924,7 +948,23 @@
         "deprecated": false
       },
       {
-        "description": "Catch-all for unmatched attributes (for example Style), applied to the root element. Keeps consumer markup written against the framework-style API surface from crashing on parameters this component does not model.",
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -948,6 +988,14 @@
       },
       {
         "description": "",
+        "name": "ChildContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -955,10 +1003,18 @@
         "deprecated": false
       },
       {
-        "description": "",
-        "name": "ChildContent",
-        "type": "RenderFragment?",
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
         "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
         "required": false,
         "deprecated": false
       }
@@ -1248,7 +1304,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1256,7 +1312,15 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -1304,6 +1368,14 @@
       },
       {
         "description": "",
+        "name": "ChildContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1311,10 +1383,18 @@
         "deprecated": false
       },
       {
-        "description": "",
-        "name": "ChildContent",
-        "type": "RenderFragment?",
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
         "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
         "required": false,
         "deprecated": false
       }
@@ -1375,14 +1455,6 @@
       },
       {
         "description": "",
-        "name": "Class",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1390,7 +1462,23 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -1414,14 +1502,6 @@
       },
       {
         "description": "",
-        "name": "Class",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1429,8 +1509,32 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Legacy alias for SUIComponentBase.AdditionalAttributes.",
         "name": "UserAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": true
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
         "required": false,
@@ -1477,14 +1581,6 @@
       },
       {
         "description": "",
-        "name": "Class",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1492,7 +1588,23 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -1506,14 +1618,6 @@
     "family": "Dados",
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITable TItem=\"string\" Items=\"Rows\" RowKey=\"@(row => row)\" ColumnCount=\"1\">\n<HeaderContent>\n<SUITh>Serviço</SUITh>\n</HeaderContent>\n<RowTemplate Context=\"row\">\n<SUITd DataLabel=\"Serviço\">@row</SUITd>\n</RowTemplate>\n</SUITable>\n\n@code {\n    protected string[] Rows { get; } = [\"Telefonia\", \"Provisionamento\", \"Atendimento\"];\n}\n",
     "parameters": [
-      {
-        "description": "",
-        "name": "Class",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
       {
         "description": "Header scope. Defaults to a column header.",
         "name": "Scope",
@@ -1539,8 +1643,32 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Legacy alias for SUIComponentBase.AdditionalAttributes.",
         "name": "UserAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": true
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
         "required": false,
@@ -1563,14 +1691,6 @@
       },
       {
         "description": "",
-        "name": "Class",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -1578,7 +1698,23 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
@@ -1612,14 +1748,6 @@
         "description": "",
         "name": "VariantValue",
         "type": "SUIVariant?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "",
-        "name": "Class",
-        "type": "string?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -1665,7 +1793,23 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",

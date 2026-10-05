@@ -1,11 +1,9 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<th class="@Class" scope="@Scope" aria-sort="@AriaSort" @attributes="UserAttributes"><CascadingValue Value="this" IsFixed="true">@ChildContent</CascadingValue></th>
+<th class="@Class" style="@Style" scope="@Scope" aria-sort="@AriaSort" @attributes="AdditionalAttributes"><CascadingValue Value="this" IsFixed="true">@ChildContent</CascadingValue></th>
 
 @code {
-    [Parameter]
-    public string? Class { get; set; }
-
     /// <summary>Header scope. Defaults to a column header.</summary>
     [Parameter]
     public string Scope { get; set; } = "col";
@@ -20,8 +18,16 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
+    /// <summary>Legacy alias for <see cref="SUIComponentBase.AdditionalAttributes"/>.</summary>
+    [Parameter, Obsolete("Use AdditionalAttributes instead; this alias will be removed in the next breaking release.")]
     public Dictionary<string, object?> UserAttributes { get; set; } = new();
+
+    protected override void OnParametersSet()
+    {
+#pragma warning disable CS0618 // deliberate bridge for the obsolete parameter
+        MergeLegacyAttributes(UserAttributes);
+#pragma warning restore CS0618
+    }
 
     private SUISortDirection? _reported;
 

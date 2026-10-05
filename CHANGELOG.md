@@ -102,6 +102,19 @@ definem a numeração das próximas publicações.
 
 ### Changed
 
+- Migração da família DataDisplay para `SUIComponentBase` (14 componentes:
+  `SUIAvatar`, `SUIChip`, `SUIDateTime`, `SUIIcon`, `SUIList`, `SUIListItem`,
+  `SUITable`, `SUITableEmpty`, `SUITableSortLabel`, `SUITd`, `SUIText`,
+  `SUITh`, `SUITimeline`, `SUITimelineItem`): `Class`/`Style`/`AdditionalAttributes`
+  vêm da base e `Style` agora aplica no elemento raiz de todos (antes só
+  `SUIAvatar` publicava `Style`; no resto chegava pelo catch-all ou nem
+  chegava). `SUIListItem` e `SUITableEmpty` passam a splattar atributos não
+  modelados no raiz (antes um `id=` crashava em runtime); `SUITableEmpty`
+  adota `EffectiveClass` no lugar da concatenação manual; `SUIIcon` combina
+  o legado `CssClass` com o novo `Class` da base no `svg`. `SUITd`/`SUITh`
+  mantêm o dicionário legado `UserAttributes` como alias `[Obsolete]` com
+  merge na forma canônica (canônico vence em colisões).
+
 - Migração da família Actions para `SUIComponentBase` (4 componentes:
   `SUIButton`, `SUIIconButton`, `SUILoadingButton`, `SUICopyToClipboard`):
   `Class`/`Style`/`AdditionalAttributes` vêm da base e o splat canônico

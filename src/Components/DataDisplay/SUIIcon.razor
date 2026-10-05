@@ -1,11 +1,13 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
 @if (IsMarkup)
 {
     @* SUIIcons constants carry filled SVG paths, the value SUIButton and
        SUINavLink take. Rendering them here keeps one icon value valid everywhere
        instead of silently drawing the fallback circle. *@
-    <svg class="@CssClass"
+    <svg class="@SvgClass"
+         style="@Style"
          width="@Size"
          height="@Size"
          viewBox="0 0 24 24"
@@ -16,7 +18,8 @@
 }
 else
 {
-    <svg class="@CssClass"
+    <svg class="@SvgClass"
+         style="@Style"
          width="@Size"
          height="@Size"
          viewBox="0 0 24 24"
@@ -128,13 +131,20 @@ else
     public string? CssClass { get; set; }
 
     /// <summary>
-    /// Catch-all for unmatched attributes, applied to the root &lt;svg&gt;. Icon
-    /// sizing belongs in <see cref="Size"/>; keeping this catch-all prevents
-    /// consumer markup written against the framework-style API surface from
-    /// crashing on parameters this component does not model.
+    /// Classes for the root &lt;svg&gt;: the legacy <see cref="CssClass"/> parameter
+    /// plus the base <see cref="SUIComponentBase.Class"/>. Null when both are
+    /// empty so the attribute stays omitted, as before the migration.
     /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
+    private string? SvgClass
+    {
+        get
+        {
+            var parts = new[] { CssClass, Class }
+                .Where(value => !string.IsNullOrWhiteSpace(value))
+                .ToArray();
+            return parts.Length == 0 ? null : string.Join(' ', parts);
+        }
+    }
 
     private bool IsMarkup => Name.TrimStart().StartsWith('<');
 }

@@ -1,6 +1,7 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<li class="@Classname">
+<li class="@Classname" style="@Style" @attributes="AdditionalAttributes">
     @if (_hasClick)
     {
         <button type="button" class="sui-list__button" @onclick="OnClickHandler">
@@ -16,9 +17,6 @@
 @code {
     [Parameter]
     public EventCallback OnClick { get; set; }
-
-    [Parameter]
-    public string? Class { get; set; }
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }

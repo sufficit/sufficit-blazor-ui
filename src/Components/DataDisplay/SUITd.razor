@@ -1,6 +1,7 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<td class="@Class" data-label="@DataLabel" @attributes="UserAttributes">@ChildContent</td>
+<td class="@Class" style="@Style" data-label="@DataLabel" @attributes="AdditionalAttributes">@ChildContent</td>
 
 @code {
     /// <summary>Responsive label shown when the table collapses to cards.</summary>
@@ -8,11 +9,16 @@
     public string? DataLabel { get; set; }
 
     [Parameter]
-    public string? Class { get; set; }
-
-    [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
+    /// <summary>Legacy alias for <see cref="SUIComponentBase.AdditionalAttributes"/>.</summary>
+    [Parameter, Obsolete("Use AdditionalAttributes instead; this alias will be removed in the next breaking release.")]
     public Dictionary<string, object?> UserAttributes { get; set; } = new();
+
+    protected override void OnParametersSet()
+    {
+#pragma warning disable CS0618 // deliberate bridge for the obsolete parameter
+        MergeLegacyAttributes(UserAttributes);
+#pragma warning restore CS0618
+    }
 }

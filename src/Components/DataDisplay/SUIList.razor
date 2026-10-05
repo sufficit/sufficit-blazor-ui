@@ -1,24 +1,14 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<ul class="@Classname" @attributes="AdditionalAttributes">@ChildContent</ul>
+<ul class="@Classname" style="@Style" @attributes="AdditionalAttributes">@ChildContent</ul>
 
 @code {
     [Parameter]
     public bool Dense { get; set; }
 
     [Parameter]
-    public string? Class { get; set; }
-
-    [Parameter]
     public RenderFragment? ChildContent { get; set; }
-
-    /// <summary>
-    /// Catch-all for unmatched attributes (for example <c>Style</c>), applied to the
-    /// root element. Keeps consumer markup written against the framework-style API
-    /// surface from crashing on parameters this component does not model.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
     private string Classname
         => SUIClassBuilder.Default("sui-list")

@@ -1,6 +1,7 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<span class="@Classname" @attributes="AdditionalAttributes">
+<span class="@Classname" style="@Style" @attributes="AdditionalAttributes">
     @if (OnClick.HasDelegate)
     {
         <button type="button"
@@ -49,9 +50,6 @@
     public string? Icon { get; set; }
 
     [Parameter]
-    public string? Class { get; set; }
-
-    [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>Optional primary action for interactive chips.</summary>
@@ -69,13 +67,6 @@
     /// <summary>Accessible label and tooltip for the remove action.</summary>
     [Parameter]
     public string RemoveLabel { get; set; } = "Remover";
-
-    /// <summary>
-    /// Additional HTML attributes forwarded to the root element, including
-    /// accessibility attributes such as <c>aria-live</c> and <c>role</c>.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
     private string Classname
         => SUIClassBuilder.Default("sui-chip")
