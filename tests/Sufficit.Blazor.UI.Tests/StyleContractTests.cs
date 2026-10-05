@@ -142,7 +142,7 @@ public sealed class StyleContractTests
     /// </summary>
     private static bool IsCentralReducedMotionPolicy(string relativePath, string line) =>
         relativePath.EndsWith("sui-foundations.css", StringComparison.Ordinal)
-        && Regex.IsMatch(line, @"^\s*(?:transition|animation)-(?:duration|iteration-count):[^;]*!important");
+        && Regex.IsMatch(line, @"^\s*(?:transition|animation)(?:-[a-z]+)?:[^;]*!important");
 
     [Theory]
     [MemberData(nameof(Stylesheets))]

@@ -158,6 +158,20 @@ definem a numeração das próximas publicações.
 
 ### Fixed
 
+- `prefers-reduced-motion`: a política centralizada agora aplica
+  `transition: none`/`animation: none` (não `duration: .01ms`). Uma transição
+  de ~0 ms ainda devolve o valor pré-mudança dentro do mesmo frame sob
+  emulação, o que igualava hover e pressed nos botões (contrato
+  `Button*` da vitrine) e mantinha o `animation-name` do spinner visível ao
+  teste de motion; nenhum script SUI escuta `transitionend`/`animationend`,
+  então `none` é seguro. A exceção do spinner pending voltou por shorthand
+  (`animation: sui-btn-pending-spin 2.4s linear infinite !important`),
+  especificidade igual e fonte posterior ao bloqueio universal.
+- `CompatibilitySuppressions.xml` (pack): registra as quebras deliberadas
+  desta onda frente ao pacote publicado (`T`→`TValue`/`TItem`, sobrecarga
+  tipada `Add(message, SUITone, …)`), permitindo que o gate de
+  `dotnet pack` volte a fechar verde sem esconder quebras acidentais.
+
 - `SUITable` interativa registrou o módulo de teclado duas vezes quando o
   primeiro render interativo do circuito chegava enquanto o `import` do módulo
   ainda estava em curso: o guard antigo (`_module is not null`) só fechava

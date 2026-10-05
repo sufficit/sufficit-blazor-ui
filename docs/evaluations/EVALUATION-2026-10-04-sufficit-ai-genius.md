@@ -44,6 +44,13 @@
 > (SUITable/SUITableSortLabel), com regra no `NamingConventionTests` —
 > quebra de fonte documentada, baseline de API pública revisado (933 testes).
 >
+> ℹ️ **Correção pós-merge (2026-10-05):** a política V3 como `.01ms`
+> falhava o contrato hover×pressed e o teste de motion no navegador
+> (valor pré-mudança lido no mesmo frame). Corrigida para
+> `transition/animation: none !important`, com a exceção do spinner
+> pending restaurada por shorthand. Detectada pelo CI da main após o
+> merge `afe00b4`; os testes de navegador não rodavam no worktree de
+> consolidação — lição registrada em atividade de 2026-10-05.
 > Restam fora desta onda: a migração dos demais
 > componentes para a base permanece progressiva.
 

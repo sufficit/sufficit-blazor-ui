@@ -64,7 +64,7 @@ public sealed class DesignTokenContractTests
         // keep literal periods: they are progress or identity, not transitions.
         var allowed = new Dictionary<string, HashSet<string>>(StringComparer.Ordinal)
         {
-            ["src/styles/sui-foundations.css"] = ["2.4s", ".01ms"], // reduced-motion policy
+            ["src/styles/sui-foundations.css"] = ["2.4s"], // reduced-motion policy (none, not .01ms)
             ["src/styles/sui-shared-skeleton.css"] = ["1.4s"],
             ["src/styles/sui-buttons.css"] = [".7s"],
             ["src/styles/sui-progress-circular.css"] = ["1.4s"],

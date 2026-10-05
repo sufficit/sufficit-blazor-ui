@@ -372,22 +372,25 @@
    - [class*="sui-"] covers components rendered without the provider (there
      is no .sui-root wrapper to lean on) and surfaces portaled to
      document.body (tooltips), which always carry a sui- class.
-   Forcing these declarations is deliberate: scoped component CSS loads
-   later and must not restore motion for users who asked for less of it. */
+   `none`, not a near-zero duration: a state change must resolve
+   synchronously — a .01ms transition still reads as the pre-change value
+   inside the same frame, which blurs the hover/pressed contract — and no
+   SUI script listens for transitionend/animationend. Forcing these
+   declarations is deliberate: scoped component CSS loads later and must
+   not restore motion for users who asked for less of it. */
 @media (prefers-reduced-motion: reduce) {
   .sui-root *, .sui-root *::before, .sui-root *::after,
   [class*="sui-"], [class*="sui-"]::before, [class*="sui-"]::after,
   [class*="sui-"] *, [class*="sui-"] *::before, [class*="sui-"] *::after {
-    transition-duration: .01ms !important;
-    animation-duration: .01ms !important;
-    animation-iteration-count: 1 !important;
+    transition: none !important;
+    animation: none !important;
   }
   /* Deliberate exception: a pending spinner is progress feedback, not
-     decoration — it keeps moving, just calm. Later in source + equal
-     specificity, and !important restores both declarations it needs. */
+     decoration — it keeps moving, just calm. The shorthand restores every
+     longhand the blanket rule removed; higher specificity and later
+     source win over the equal !important above. */
   .sui-btn--pending::after {
-    animation-duration: 2.4s !important;
-    animation-iteration-count: infinite !important;
+    animation: sui-btn-pending-spin 2.4s linear infinite !important;
   }
 }
 
