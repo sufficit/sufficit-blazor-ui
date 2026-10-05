@@ -1,7 +1,8 @@
 @* Skeleton Loader Component - Loading State Pattern *@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<div class="sui-skeleton-loader @Class">
+<div class="@Classname" style="@Style" @attributes="AdditionalAttributes">
     @if (Type == SUISkeletonType.Card)
     {
         <div class="sui-skeleton sui-skeleton-card"></div>
@@ -33,6 +34,6 @@
     [Parameter]
     public string Size { get; set; } = "48px";
 
-    [Parameter]
-    public string? Class { get; set; }
+    private string Classname
+        => EffectiveClass("sui-skeleton-loader");
 }

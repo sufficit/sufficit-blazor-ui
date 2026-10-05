@@ -3,7 +3,7 @@
 @inherits SUINotificationHostBase<SUIToastEntry>
 @inject ISUIToast Toast
 
-<div class="sui-toast-host">
+<div class="@Classname" style="@Style" @attributes="AdditionalAttributes">
     @foreach (var entry in Entries)
     {
         var current = entry;
@@ -28,6 +28,8 @@
 @code {
     // Toasts are more intrusive than snackbars, so the visible stack is shorter.
     protected override int MaxVisible => 3;
+
+    private string Classname => EffectiveClass("sui-toast-host");
 
     protected override Guid IdOf(SUIToastEntry entry) => entry.Id;
     protected override DateTime ExpiresAtOf(SUIToastEntry entry) => entry.ExpiresAt;

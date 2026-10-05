@@ -1,6 +1,7 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<span class="@Classname" @attributes="AdditionalAttributes">
+<span class="@Classname" style="@Style" @attributes="AdditionalAttributes">
     @if (!string.IsNullOrWhiteSpace(Icon))
     {
         <SUIIcon Name="@Icon" Size="14" />
@@ -19,11 +20,8 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
-
     private SUITone EffectiveTone => ToneValue ?? SUITone.Neutral;
 
     private string Classname
-        => $"sui-status-badge sui-status-badge--{SUIClassBuilder.Slug(EffectiveTone)}";
+        => EffectiveClass($"sui-status-badge sui-status-badge--{SUIClassBuilder.Slug(EffectiveTone)}");
 }

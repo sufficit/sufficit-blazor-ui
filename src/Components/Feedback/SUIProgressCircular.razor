@@ -1,4 +1,5 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 @using System.Globalization
 
 @* Built on the .sui-progress-circular rules that SUILoadingButton already
@@ -76,14 +77,6 @@
     [Parameter]
     public string? AriaLabel { get; set; }
 
-    [Parameter]
-    public string? Class { get; set; }
-
-    [Parameter]
-    public string? Style { get; set; }
-
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
     /// <summary>
     /// Size suffix matching the existing --sm/--md/--lg rules rather than

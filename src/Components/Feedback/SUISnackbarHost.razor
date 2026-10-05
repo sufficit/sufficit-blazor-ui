@@ -3,7 +3,7 @@
 @inherits SUINotificationHostBase<SUISnackbarEntry>
 @inject ISUISnackbar Snackbar
 
-<div class="sui-snackbar-host" aria-live="polite" aria-atomic="true">
+<div class="@Classname" style="@Style" aria-live="polite" aria-atomic="true" @attributes="AdditionalAttributes">
     @foreach (var entry in Entries)
     {
         var id = entry.Id;
@@ -21,6 +21,8 @@
 @code {
     // Snackbar is passive information: a longer, shallower stack than toast.
     protected override int MaxVisible => 5;
+
+    private string Classname => EffectiveClass("sui-snackbar-host");
 
     protected override Guid IdOf(SUISnackbarEntry entry) => entry.Id;
     protected override DateTime ExpiresAtOf(SUISnackbarEntry entry) => entry.ExpiresAt;

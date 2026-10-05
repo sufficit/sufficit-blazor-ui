@@ -1,12 +1,14 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
 @* Dominant status surface for health, readiness and incidents. The semantic
    tone is always paired with a title; the signal bars are supplemental. *@
 
 <section class="@Classname"
+         style="@Style"
          role="status"
          aria-live="@AriaLive"
-         @attributes="UserAttributes">
+         @attributes="AdditionalAttributes">
     @if (ShowSignal)
     {
         <div class="sui-status-banner__signal" aria-hidden="true">
@@ -78,11 +80,16 @@
     [Parameter]
     public string AriaLive { get; set; } = "polite";
 
-    [Parameter]
-    public string? Class { get; set; }
-
-    [Parameter(CaptureUnmatchedValues = true)]
+    /// <summary>Legacy alias for <see cref="SUIComponentBase.AdditionalAttributes"/>.</summary>
+    [Parameter, Obsolete("Use AdditionalAttributes instead; this alias will be removed in the next breaking release.")]
     public Dictionary<string, object?> UserAttributes { get; set; } = new();
+
+    protected override void OnParametersSet()
+    {
+#pragma warning disable CS0618 // deliberate bridge for the obsolete parameter
+        MergeLegacyAttributes(UserAttributes);
+#pragma warning restore CS0618
+    }
 
     private string Classname
         => SUIClassBuilder.Default("sui-status-banner")

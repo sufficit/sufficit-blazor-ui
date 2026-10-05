@@ -1,7 +1,8 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<div id="@Id" class="sui-toast sui-toast--@Color.ToString().ToLowerInvariant() @Class"
-     role="alert" aria-live="assertive" @attributes="UserAttributes"
+<div id="@Id" class="@Classname" style="@Style"
+     role="alert" aria-live="assertive" @attributes="AdditionalAttributes"
      @onmouseenter="OnPause" @onmouseleave="OnResume"
      @onfocusin="OnPause" @onfocusout="OnResume">
     <span class="sui-toast__icon" aria-hidden="true">@Icon</span>
@@ -31,10 +32,19 @@
     /// <summary>Raised when the pointer leaves the toast (hosts resume the countdown).</summary>
     [Parameter] public EventCallback OnResume { get; set; }
 
-    [Parameter] public string? Class { get; set; }
-
-    [Parameter(CaptureUnmatchedValues = true)]
+    /// <summary>Legacy alias for <see cref="SUIComponentBase.AdditionalAttributes"/>.</summary>
+    [Parameter, Obsolete("Use AdditionalAttributes instead; this alias will be removed in the next breaking release.")]
     public Dictionary<string, object?> UserAttributes { get; set; } = new();
+
+    protected override void OnParametersSet()
+    {
+#pragma warning disable CS0618 // deliberate bridge for the obsolete parameter
+        MergeLegacyAttributes(UserAttributes);
+#pragma warning restore CS0618
+    }
+
+    private string Classname
+        => EffectiveClass($"sui-toast sui-toast--{Color.ToString().ToLowerInvariant()}");
 
     private Task DismissAsync() => OnDismiss.InvokeAsync();
 }

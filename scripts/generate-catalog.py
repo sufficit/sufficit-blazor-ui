@@ -34,8 +34,10 @@ for component in sorted((root/'src').rglob('*.razor')):
     if component.with_suffix('.razor.cs').exists(): source += '\n'+component.with_suffix('.razor.cs').read_text()
     # @inherits SUIComponentBase moves Class/Style/AdditionalAttributes to the
     # shared base. The catalog describes the public component surface, including
-    # inherited parameters, not just declarations in the Razor file.
-    if re.search(r'@inherits\s+SUIComponentBase\b', source):
+    # inherited parameters, not just declarations in the Razor file. The
+    # notification hosts reach the same base through SUINotificationHostBase,
+    # so both inheritances must pull the base source in.
+    if re.search(r'@inherits\s+(?:SUIComponentBase\b|SUINotificationHostBase<)', source):
         source += '\n' + (root/'src/Components/SUIComponentBase.cs').read_text()
     parameters = []
     for match in re.finditer(r'((?:\[[^\]]*\]\s*)+)public\s+([^\n]+?)\s+(\w+)\s*\{\s*get;\s*set;\s*\}(?:\s*=\s*([^;\n]+);)?', source):

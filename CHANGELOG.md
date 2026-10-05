@@ -102,6 +102,19 @@ definem a numeração das próximas publicações.
 
 ### Changed
 
+- Migração da família Feedback para `SUIComponentBase` (11 componentes:
+  `SUIAlert`, `SUIEmptyState`, `SUIPendingChangesBar`, `SUIProgressCircular`,
+  `SUIProgressLinear`, `SUISkeletonLoader`, `SUISnackbarHost`,
+  `SUIStatusBadge`, `SUIStatusBanner`, `SUIToast`, `SUIToastHost`): além do
+  padrão das levas anteriores, `SUINotificationHostBase` (motor único dos
+  hosts) passa a herdar de `SUIComponentBase`, então os dois hosts ganham
+  `Class`/`Style`/splat no raiz que antes não tinham. `SUIToast` e
+  `SUIStatusBanner` mantêm o dicionário legado `UserAttributes` como alias
+  `[Obsolete]` com merge canônico; `SUISkeletonLoader` ganha `Style`/splat e
+  `SUIStatusBadge` passa a aceitar `Class` (via `EffectiveClass`).
+  `scripts/generate-catalog.py` agora segue a herança
+  `@inherits SUINotificationHostBase<...>` ao coletar parâmetros herdados.
+
 - Migração da família DataDisplay para `SUIComponentBase` (14 componentes:
   `SUIAvatar`, `SUIChip`, `SUIDateTime`, `SUIIcon`, `SUIList`, `SUIListItem`,
   `SUITable`, `SUITableEmpty`, `SUITableSortLabel`, `SUITd`, `SUIText`,

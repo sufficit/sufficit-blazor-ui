@@ -11,7 +11,7 @@ namespace Sufficit.Blazor.UI.Components;
 /// markup and map tones; queue, expiry and accessibility timing live here
 /// exactly once.
 /// </summary>
-public abstract class SUINotificationHostBase<TEntry> : ComponentBase, IDisposable
+public abstract class SUINotificationHostBase<TEntry> : SUIComponentBase, IDisposable
     where TEntry : class
 {
     private sealed class Slot
