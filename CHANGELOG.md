@@ -102,6 +102,19 @@ definem a numeração das próximas publicações.
 
 ### Changed
 
+- Migração da família Forms para `SUIComponentBase` (8 componentes:
+  `SUIAutocomplete<TValue>`, `SUIChoiceCard<TValue>`, `SUIDateField`,
+  `SUIFormGrid`, `SUINumericField<TValue>`, `SUISelectItem`, `SUISwitch`,
+  `SUISwitchButton`): com esta leva, **todos os 72 componentes** herdam de
+  `SUIComponentBase`. `SUIAutocomplete`, `SUIDateField` e `SUINumericField`
+  mantêm o dicionário legado `UserAttributes` como alias `[Obsolete]` com
+  merge canônico no `OnParametersSet` existente (o destino do splat não muda:
+  raiz/trigger/input, como antes); `SUIFormGrid` perde o
+  `IReadOnlyDictionary` próprio em favor do dicionário da base; `SUISwitch`
+  e `SUIChoiceCard` já eram canônicos e só perdem a duplicação;
+  `SUISwitchButton` repassa `Class`/`Style`/splat ao `SUIButton` interno;
+  `SUISelectItem` (lógico) herda por consistência.
+
 - Migração da família Overlays para `SUIComponentBase` (5 componentes:
   `SUIConfirmDialog`, `SUIDecisionDialog`, `SUIDialogHost`, `SUIPopover`,
   `SUITooltip`): `SUIDialogHost` ganha `Class`/`Style`/splat no overlay raiz

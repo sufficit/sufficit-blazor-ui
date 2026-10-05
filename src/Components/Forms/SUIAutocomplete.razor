@@ -1,9 +1,10 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 @typeparam TValue
 @using Microsoft.AspNetCore.Components.Web
 @implements IAsyncDisposable
 
-<div class="@Classname" @onfocusout="OnFocusOutAsync" @attributes="UserAttributes">
+<div class="@Classname" style="@Style" @onfocusout="OnFocusOutAsync" @attributes="AdditionalAttributes">
     @if (!string.IsNullOrWhiteSpace(Label))
     {
         <label id="@LabelId" class="sui-field__label" for="@EffectiveId">@Label</label>

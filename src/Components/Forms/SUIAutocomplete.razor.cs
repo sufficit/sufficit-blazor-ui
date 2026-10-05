@@ -125,12 +125,8 @@ public partial class SUIAutocomplete<TValue>
     [Parameter]
     public RenderFragment? NoItemsTemplate { get; set; }
 
-    /// <summary>Additional CSS class for the root element.</summary>
-    [Parameter]
-    public string? Class { get; set; }
-
-    /// <summary>Unmatched attributes forwarded to the root element.</summary>
-    [Parameter(CaptureUnmatchedValues = true)]
+    /// <summary>Legacy alias for <see cref="SUIComponentBase.AdditionalAttributes"/>.</summary>
+    [Parameter, Obsolete("Use AdditionalAttributes instead; this alias will be removed in the next breaking release.")]
     public Dictionary<string, object?> UserAttributes { get; set; } = new();
 
     private readonly string _generatedId = $"sui-autocomplete-{Guid.NewGuid():N}";
@@ -196,6 +192,9 @@ public partial class SUIAutocomplete<TValue>
     /// <summary>Wires form validation, mirrors an externally changed <see cref="Value"/> into the input text and closes the list when disabled.</summary>
     protected override void OnParametersSet()
     {
+        #pragma warning disable CS0618 // deliberate bridge for the obsolete parameter
+        MergeLegacyAttributes(UserAttributes);
+#pragma warning restore CS0618
         _field.Configure(FormContext, ValueExpression, () => _ = InvokeAsync(StateHasChanged));
         if (!_valueInitialized || !EqualityComparer<TValue?>.Default.Equals(Value, _observedValue))
         {

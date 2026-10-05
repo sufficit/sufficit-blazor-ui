@@ -1,7 +1,9 @@
 @implements IDisposable
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<SUIButton VariantValue="@Variant" ColorValue="SUIColor.Primary" FullWidth OnClick="OnClicked">
+<SUIButton VariantValue="@Variant" ColorValue="SUIColor.Primary" FullWidth OnClick="OnClicked"
+           Class="@Class" Style="@Style" @attributes="AdditionalAttributes">
     @ChildContent
 </SUIButton>
 @if (EffectiveErrorText is not null)

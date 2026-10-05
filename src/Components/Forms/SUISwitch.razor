@@ -1,7 +1,8 @@
 @implements IDisposable
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<label class="@Classname" @attributes="AdditionalAttributes">
+<label class="@Classname" style="@Style" @attributes="AdditionalAttributes">
     <input type="checkbox" class="sui-switch__input"
            id="@EffectiveId"
            name="@Name"
@@ -83,11 +84,7 @@
     [Parameter]
     public bool Disabled { get; set; }
 
-    [Parameter]
-    public string? Class { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
     private string Classname
         => SUIClassBuilder.Default("sui-switch")

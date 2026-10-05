@@ -1,9 +1,10 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 @using Microsoft.AspNetCore.Components.Web
 @implements IAsyncDisposable
 @inject IJSRuntime JS
 
-<div @ref="_rootElement" class="@Classname">
+<div @ref="_rootElement" class="@Classname" style="@Style">
     @if (!string.IsNullOrWhiteSpace(Label))
     {
         <label id="@LabelId" class="sui-field__label" for="@EffectiveId">@Label</label>
@@ -26,7 +27,7 @@
                 disabled="@Disabled"
                 @onclick="Toggle"
                 @onkeydown="OnTriggerKeyDown"
-                @attributes="UserAttributes">
+                @attributes="AdditionalAttributes">
             <span class="@(Value is null ? "sui-date-field__value sui-date-field__placeholder" : "sui-date-field__value")">
                 @(Value is { } value ? FormatDate(value) : EffectivePlaceholder)
             </span>

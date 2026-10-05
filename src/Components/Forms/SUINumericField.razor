@@ -3,9 +3,10 @@
 @inject IJSRuntime JS
 @using System.Globalization
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 @typeparam TValue
 
-<div class="@Classname">
+<div class="@Classname" style="@Style">
     @if (!string.IsNullOrWhiteSpace(Label))
     {
         <label class="sui-field__label" for="@EffectiveId">@Label</label>
@@ -25,7 +26,7 @@
            aria-describedby="@DescribedBy"
            aria-invalid="@(HasError ? "true" : null)"
            aria-errormessage="@(!string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null)"
-           @attributes="UserAttributes" />
+           @attributes="AdditionalAttributes" />
     @if (SpinnerStep is not null)
     {
         <div class="sui-numeric__steppers">
@@ -87,7 +88,13 @@
         catch (JSDisconnectedException) { }
     }
 
-    protected override void OnParametersSet() => _field.Configure(FormContext, ValueExpression, () => _ = InvokeAsync(StateHasChanged));
+    protected override void OnParametersSet()
+    {
+        #pragma warning disable CS0618 // deliberate bridge for the obsolete parameter
+        MergeLegacyAttributes(UserAttributes);
+#pragma warning restore CS0618
+        _field.Configure(FormContext, ValueExpression, () => _ = InvokeAsync(StateHasChanged));
+    }
 
     [CascadingParameter] private Microsoft.AspNetCore.Components.Forms.EditContext? FormContext { get; set; }
     private readonly SUIFieldBinding<TValue?> _field = new();
@@ -160,10 +167,8 @@
     [Parameter]
     public bool Disabled { get; set; }
 
-    [Parameter]
-    public string? Class { get; set; }
-
-    [Parameter(CaptureUnmatchedValues = true)]
+    /// <summary>Legacy alias for <see cref="SUIComponentBase.AdditionalAttributes"/>.</summary>
+    [Parameter, Obsolete("Use AdditionalAttributes instead; this alias will be removed in the next breaking release.")]
     public Dictionary<string, object?> UserAttributes { get; set; } = new();
 
     private readonly string _generatedId = $"sui-numeric-field-{Guid.NewGuid():N}";

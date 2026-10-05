@@ -74,10 +74,6 @@ public partial class SUIDateField
     [Parameter]
     public string? Name { get; set; }
 
-    /// <summary>Additional CSS class for the root element.</summary>
-    [Parameter]
-    public string? Class { get; set; }
-
     /// <summary>Accessible name of the trigger when no <see cref="Label"/> is given. Defaults to a localized "Choose date".</summary>
     [Parameter]
     public string? AriaLabel { get; set; }
@@ -86,8 +82,8 @@ public partial class SUIDateField
     [Parameter]
     public string? AriaDescribedBy { get; set; }
 
-    /// <summary>Unmatched attributes forwarded to the trigger button.</summary>
-    [Parameter(CaptureUnmatchedValues = true)]
+    /// <summary>Legacy alias for <see cref="SUIComponentBase.AdditionalAttributes"/>.</summary>
+    [Parameter, Obsolete("Use AdditionalAttributes instead; this alias will be removed in the next breaking release.")]
     public Dictionary<string, object?> UserAttributes { get; set; } = new();
 
     private readonly string _generatedId = $"sui-date-field-{Guid.NewGuid():N}";
@@ -176,6 +172,9 @@ public partial class SUIDateField
     /// <summary>Wires form validation and resets the focused day and visible month when the value or culture changes while the calendar is closed.</summary>
     protected override void OnParametersSet()
     {
+        #pragma warning disable CS0618 // deliberate bridge for the obsolete parameter
+        MergeLegacyAttributes(UserAttributes);
+#pragma warning restore CS0618
         _field.Configure(FormContext, ValueExpression, () => _ = InvokeAsync(StateHasChanged));
         var cultureName = EffectiveCulture.Name;
         if (!_initialized || (!_open && Value != _lastValue) || _lastCulture != cultureName)

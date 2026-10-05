@@ -1,4 +1,5 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
 <div @attributes="AdditionalAttributes"
      class="@Classname"
@@ -32,17 +33,7 @@
     public bool StackOnMobile { get; set; } = true;
 
     [Parameter]
-    public string? Class { get; set; }
-
-    /// <summary>Additional inline declarations, appended after the generated layout variables.</summary>
-    [Parameter]
-    public string? Style { get; set; }
-
-    [Parameter]
     public RenderFragment? ChildContent { get; set; }
-
-    [Parameter(CaptureUnmatchedValues = true)]
-    public IReadOnlyDictionary<string, object?>? AdditionalAttributes { get; set; }
 
     private int EffectiveColumns => Math.Clamp(Columns, 1, 4);
     private int EffectiveSpacing => Math.Clamp(Spacing, 0, 6);
