@@ -1,7 +1,7 @@
 @inherits DemoBase
 <SUIFormGrid>
-    <SUITextField T="string" Label="Nome" @bind-Value="Text" HelperText="Nome público." />
-    <SUINumericField T="int" Label="Tentativas" @bind-Value="Count" Min="1" Max="10" />
+    <SUITextField TValue="string" Label="Nome" @bind-Value="Text" HelperText="Nome público." />
+    <SUINumericField TValue="int" Label="Tentativas" @bind-Value="Count" Min="1" Max="10" />
 </SUIFormGrid>
 <SUIStack Row Wrap>
     <SUIButton OnClick="Notify">Salvar alterações</SUIButton>

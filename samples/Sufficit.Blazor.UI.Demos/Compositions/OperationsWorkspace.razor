@@ -6,7 +6,7 @@
     <SUIStack Row="true" Wrap="true" AlignItems="Center" Spacing="3">
         <SUIText Typo="SUITypo.h5" Tag="SUITextTag.H2">Operação da equipe</SUIText>
         <SUISpacer />
-        <SUISelect T="string" Label="Estado da demonstração" @bind-Value="_state">
+        <SUISelect TValue="string" Label="Estado da demonstração" @bind-Value="_state">
             <SUISelectItem Value='@("ready")'>Com dados</SUISelectItem><SUISelectItem Value='@("loading")'>Carregando</SUISelectItem>
             <SUISelectItem Value='@("error")'>Erro</SUISelectItem><SUISelectItem Value='@("empty")'>Sem dados</SUISelectItem>
         </SUISelect>
@@ -39,13 +39,13 @@
             </SUITabPanel>
             <SUITabPanel Text="Serviços">
                 <SUIStack Row="true" Wrap="true" AlignItems="End" Spacing="3">
-                    <SUITextField T="string" Label="Buscar serviço" Value="@_search" ValueChanged="Search" Immediate="true" />
-                    <SUISelect T="string" Label="Disponibilidade" Value="@_filter" ValueChanged="Filter">
+                    <SUITextField TValue="string" Label="Buscar serviço" Value="@_search" ValueChanged="Search" Immediate="true" />
+                    <SUISelect TValue="string" Label="Disponibilidade" Value="@_filter" ValueChanged="Filter">
                         <SUISelectItem Value='@("all")'>Todos</SUISelectItem><SUISelectItem Value='@("enabled")'>Habilitados</SUISelectItem>
                     </SUISelect>
                     <SUIButton VariantValue="SUIVariant.Outlined" OnClick="Create">Novo serviço</SUIButton>
                 </SUIStack>
-                <SUITable T="Service" Items="Filtered.Skip(_page * 5).Take(5)" RowKey="@(item => item.Id)" ColumnCount="3" StackOnMobile="true">
+                <SUITable TItem="Service" Items="Filtered.Skip(_page * 5).Take(5)" RowKey="@(item => item.Id)" ColumnCount="3" StackOnMobile="true">
                     <HeaderContent><SUITh>Nome</SUITh><SUITh>Disponibilidade</SUITh><SUITh>Ação</SUITh></HeaderContent>
                     <RowTemplate Context="item">
                         <SUITd DataLabel="Nome">@item.Name</SUITd><SUITd DataLabel="Disponibilidade">@(item.Enabled ? "Habilitado" : "Desabilitado")</SUITd>
@@ -59,7 +59,7 @@
                     <SUISection Title="Editar serviço">
                         <EditForm Model="_draft" OnValidSubmit="Save">
                             <DataAnnotationsValidator />
-                            <SUITextField T="string" Label="Nome do serviço" @bind-Value="_draft.Name" />
+                            <SUITextField TValue="string" Label="Nome do serviço" @bind-Value="_draft.Name" />
                             <SUICheckbox Label="Habilitado para uso" @bind-Value="_draft.Enabled" />
                             <SUIButton ButtonTypeValue="SUIButtonType.Submit">Salvar serviço</SUIButton>
                             <SUIButton VariantValue="SUIVariant.Text" OnClick="() => _draft = null">Cancelar edição</SUIButton>

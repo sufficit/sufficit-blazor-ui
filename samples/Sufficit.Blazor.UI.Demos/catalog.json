@@ -1101,12 +1101,12 @@
   {
     "name": "SUITable",
     "family": "Dados",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITable T=\"string\" Items=\"Rows\" RowKey=\"@(row => row)\" ColumnCount=\"1\">\n<HeaderContent>\n<SUITh>Serviço</SUITh>\n</HeaderContent>\n<RowTemplate Context=\"row\">\n<SUITd DataLabel=\"Serviço\">@row</SUITd>\n</RowTemplate>\n</SUITable>\n\n@code {\n    protected string[] Rows { get; } = [\"Telefonia\", \"Provisionamento\", \"Atendimento\"];\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITable TItem=\"string\" Items=\"Rows\" RowKey=\"@(row => row)\" ColumnCount=\"1\">\n<HeaderContent>\n<SUITh>Serviço</SUITh>\n</HeaderContent>\n<RowTemplate Context=\"row\">\n<SUITd DataLabel=\"Serviço\">@row</SUITd>\n</RowTemplate>\n</SUITable>\n\n@code {\n    protected string[] Rows { get; } = [\"Telefonia\", \"Provisionamento\", \"Atendimento\"];\n}\n",
     "parameters": [
       {
         "description": "Stable identity retained when rows are sorted or paged.",
         "name": "RowKey",
-        "type": "Func<T, object>?",
+        "type": "Func<TItem, object>?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -1114,7 +1114,7 @@
       {
         "description": "Items to render. When null/empty, NoRecordsContent shows.",
         "name": "Items",
-        "type": "IEnumerable<T>?",
+        "type": "IEnumerable<TItem>?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -1154,7 +1154,7 @@
       {
         "description": "Optional class selector calculated for each rendered row.",
         "name": "RowClassFunc",
-        "type": "Func<T, int, string?>?",
+        "type": "Func<TItem, int, string?>?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -1162,7 +1162,7 @@
       {
         "description": "Optional inline style calculated for each rendered row.",
         "name": "RowStyleFunc",
-        "type": "Func<T, int, string?>?",
+        "type": "Func<TItem, int, string?>?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -1178,7 +1178,7 @@
       {
         "description": "Called when a row is clicked or activated with Enter/Space (item passed). Setting it turns the table into a grid: one row is in the tab order and arrow keys, Home and End move between rows.",
         "name": "OnRowClick",
-        "type": "EventCallback<T>",
+        "type": "EventCallback<TItem>",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -1186,7 +1186,7 @@
       {
         "description": "Optional accessible name for an interactive row, e.g. \"Abrir pedido 42\". Without it the row is announced by its cell contents.",
         "name": "RowAriaLabelFunc",
-        "type": "Func<T, string?>?",
+        "type": "Func<TItem, string?>?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -1202,7 +1202,7 @@
       {
         "description": "",
         "name": "RowTemplate",
-        "type": "RenderFragment<T>?",
+        "type": "RenderFragment<TItem>?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -1244,7 +1244,7 @@
   {
     "name": "SUITableEmpty",
     "family": "Dados",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITable T=\"string\" Items=\"Array.Empty<string>()\" ColumnCount=\"1\">\n<HeaderContent>\n<SUITh>Serviço</SUITh>\n</HeaderContent>\n<NoRecordsContent>\n<SUITableEmpty Title=\"Nenhum serviço encontrado\" />\n</NoRecordsContent>\n</SUITable>\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITable TItem=\"string\" Items=\"Array.Empty<string>()\" ColumnCount=\"1\">\n<HeaderContent>\n<SUITh>Serviço</SUITh>\n</HeaderContent>\n<NoRecordsContent>\n<SUITableEmpty Title=\"Nenhum serviço encontrado\" />\n</NoRecordsContent>\n</SUITable>\n",
     "parameters": [
       {
         "description": "",
@@ -1299,7 +1299,7 @@
   {
     "name": "SUITableSortLabel",
     "family": "Dados",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITable T=\"string\" Items=\"Rows.Order()\">\n<HeaderContent>\n<SUITh>\n<SUITableSortLabel T=\"string\">Serviço</SUITableSortLabel>\n</SUITh>\n</HeaderContent>\n<RowTemplate Context=\"row\">\n<SUITd>@row</SUITd>\n</RowTemplate>\n</SUITable>\n\n@code {\n    protected string[] Rows { get; } = [\"Telefonia\", \"Provisionamento\", \"Atendimento\"];\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITable TItem=\"string\" Items=\"Rows.Order()\">\n<HeaderContent>\n<SUITh>\n<SUITableSortLabel TItem=\"string\">Serviço</SUITableSortLabel>\n</SUITh>\n</HeaderContent>\n<RowTemplate Context=\"row\">\n<SUITd>@row</SUITd>\n</RowTemplate>\n</SUITable>\n\n@code {\n    protected string[] Rows { get; } = [\"Telefonia\", \"Provisionamento\", \"Atendimento\"];\n}\n",
     "parameters": [
       {
         "description": "Current sort direction for this column.",
@@ -1328,7 +1328,7 @@
       {
         "description": "Compatibility metadata for callers migrating from MudTableSortLabel. Sorting remains controlled by SortDirectionChanged at the UI layer.",
         "name": "SortBy",
-        "type": "Func<T, object?>?",
+        "type": "Func<TItem, object?>?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -1378,7 +1378,7 @@
   {
     "name": "SUITd",
     "family": "Dados",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITable T=\"string\" Items=\"Rows\" RowKey=\"@(row => row)\" ColumnCount=\"1\">\n<HeaderContent>\n<SUITh>Serviço</SUITh>\n</HeaderContent>\n<RowTemplate Context=\"row\">\n<SUITd DataLabel=\"Serviço\">@row</SUITd>\n</RowTemplate>\n</SUITable>\n\n@code {\n    protected string[] Rows { get; } = [\"Telefonia\", \"Provisionamento\", \"Atendimento\"];\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITable TItem=\"string\" Items=\"Rows\" RowKey=\"@(row => row)\" ColumnCount=\"1\">\n<HeaderContent>\n<SUITh>Serviço</SUITh>\n</HeaderContent>\n<RowTemplate Context=\"row\">\n<SUITd DataLabel=\"Serviço\">@row</SUITd>\n</RowTemplate>\n</SUITable>\n\n@code {\n    protected string[] Rows { get; } = [\"Telefonia\", \"Provisionamento\", \"Atendimento\"];\n}\n",
     "parameters": [
       {
         "description": "Responsive label shown when the table collapses to cards.",
@@ -1480,7 +1480,7 @@
   {
     "name": "SUITh",
     "family": "Dados",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITable T=\"string\" Items=\"Rows\" RowKey=\"@(row => row)\" ColumnCount=\"1\">\n<HeaderContent>\n<SUITh>Serviço</SUITh>\n</HeaderContent>\n<RowTemplate Context=\"row\">\n<SUITd DataLabel=\"Serviço\">@row</SUITd>\n</RowTemplate>\n</SUITable>\n\n@code {\n    protected string[] Rows { get; } = [\"Telefonia\", \"Provisionamento\", \"Atendimento\"];\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITable TItem=\"string\" Items=\"Rows\" RowKey=\"@(row => row)\" ColumnCount=\"1\">\n<HeaderContent>\n<SUITh>Serviço</SUITh>\n</HeaderContent>\n<RowTemplate Context=\"row\">\n<SUITd DataLabel=\"Serviço\">@row</SUITd>\n</RowTemplate>\n</SUITable>\n\n@code {\n    protected string[] Rows { get; } = [\"Telefonia\", \"Provisionamento\", \"Atendimento\"];\n}\n",
     "parameters": [
       {
         "description": "",
@@ -2286,6 +2286,22 @@
         "deprecated": false
       },
       {
+        "description": "Raised when the pointer enters the toast (hosts pause the countdown).",
+        "name": "OnPause",
+        "type": "EventCallback",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Raised when the pointer leaves the toast (hosts resume the countdown).",
+        "name": "OnResume",
+        "type": "EventCallback",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "",
         "name": "Class",
         "type": "string?",
@@ -2306,18 +2322,18 @@
   {
     "name": "SUIToastHost",
     "family": "Feedback",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIButton OnClick=\"Alert\">Disparar toast</SUIButton>\n<p>O host de toasts está instalado na raiz desta vitrine.</p>\n\n@code {\n    [Inject] protected ISUIToast Toast { get; set; } = default!;\n    protected void Alert() => Toast.Add(\"Não foi possível concluir a operação.\", \"danger\", actionLabel: \"Tentar de novo\", onAction: () => Toast.Info(\"Nova tentativa iniciada.\"));\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIButton OnClick=\"Alert\">Disparar toast</SUIButton>\n<p>O host de toasts está instalado na raiz desta vitrine.</p>\n\n@code {\n    [Inject] protected ISUIToast Toast { get; set; } = default!;\n    protected void Alert() => Toast.Add(\"Não foi possível concluir a operação.\", SUITone.Danger, actionLabel: \"Tentar de novo\", onAction: () => Toast.Info(\"Nova tentativa iniciada.\"));\n}\n",
     "parameters": []
   },
   {
     "name": "SUIAutocomplete",
     "family": "Formulários",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIAutocomplete T=\"string\" Label=\"Cidade\" SearchFuncAsync=\"Search\" MinCharacters=\"1\" Placeholder=\"Digite para buscar\" Clearable />\n\n@code {\n    protected string[] Cities { get; } = [\"São Paulo\", \"Rio de Janeiro\", \"Curitiba\", \"Porto Alegre\"];\n    protected async Task<IEnumerable<string>> Search(string text, CancellationToken token)\n    {\n        await Task.Delay(150, token);\n        return Cities.Where(city => city.Contains(text, StringComparison.OrdinalIgnoreCase));\n    }\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIAutocomplete TValue=\"string\" Label=\"Cidade\" SearchFuncAsync=\"Search\" MinCharacters=\"1\" Placeholder=\"Digite para buscar\" Clearable />\n\n@code {\n    protected string[] Cities { get; } = [\"São Paulo\", \"Rio de Janeiro\", \"Curitiba\", \"Porto Alegre\"];\n    protected async Task<IEnumerable<string>> Search(string text, CancellationToken token)\n    {\n        await Task.Delay(150, token);\n        return Cities.Where(city => city.Contains(text, StringComparison.OrdinalIgnoreCase));\n    }\n}\n",
     "parameters": [
       {
         "description": "Field expression used to bind validation messages from the surrounding EditContext.",
         "name": "ValueExpression",
-        "type": "System.Linq.Expressions.Expression<Func<T?>>?",
+        "type": "System.Linq.Expressions.Expression<Func<TValue?>>?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -2325,7 +2341,7 @@
       {
         "description": "Selected item, or default when nothing is chosen.",
         "name": "Value",
-        "type": "T?",
+        "type": "TValue?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -2333,7 +2349,7 @@
       {
         "description": "Raised on selection, on clear and when the text is emptied; enables @bind-Value.",
         "name": "ValueChanged",
-        "type": "EventCallback<T?>",
+        "type": "EventCallback<TValue?>",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -2341,7 +2357,7 @@
       {
         "description": "Search callback without cancellation. Ignored when SearchFuncAsync is set.",
         "name": "SearchFunc",
-        "type": "Func<string, Task<IEnumerable<T>>>?",
+        "type": "Func<string, Task<IEnumerable<TValue>>>?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -2349,7 +2365,7 @@
       {
         "description": "Search callback whose token is cancelled when the user keeps typing; preferred over SearchFunc.",
         "name": "SearchFuncAsync",
-        "type": "Func<string, CancellationToken, Task<IEnumerable<T>>>?",
+        "type": "Func<string, CancellationToken, Task<IEnumerable<TValue>>>?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -2357,7 +2373,7 @@
       {
         "description": "Formats an item for the input text and the default option text. Falls back to ToString().",
         "name": "ToStringFunc",
-        "type": "Func<T, string>?",
+        "type": "Func<TValue, string>?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -2421,7 +2437,7 @@
       {
         "description": "Converts the chosen value into the submitted token; defaults to its invariant-culture text.",
         "name": "ToFormValueFunc",
-        "type": "Func<T, string>?",
+        "type": "Func<TValue, string>?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -2525,7 +2541,7 @@
       {
         "description": "Custom markup for each option; defaults to the ToStringFunc text.",
         "name": "ItemTemplate",
-        "type": "RenderFragment<T>?",
+        "type": "RenderFragment<TValue>?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -2988,7 +3004,7 @@
   {
     "name": "SUIFormGrid",
     "family": "Formulários",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIFormGrid MinColumnWidth=\"14rem\">\n<SUITextField T=\"string\" Label=\"Nome\" @bind-Value=\"Text\" HelperText=\"Nome público.\" />\n<SUINumericField T=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" />\n</SUIFormGrid>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected int Count { get; set; } = 3;\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIFormGrid MinColumnWidth=\"14rem\">\n<SUITextField TValue=\"string\" Label=\"Nome\" @bind-Value=\"Text\" HelperText=\"Nome público.\" />\n<SUINumericField TValue=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" />\n</SUIFormGrid>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected int Count { get; set; } = 3;\n}\n",
     "parameters": [
       {
         "description": "Number of equal-width columns before the mobile breakpoint (1-4).",
@@ -3067,12 +3083,12 @@
   {
     "name": "SUINumericField",
     "family": "Formulários",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUINumericField T=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" Min=\"1\" Max=\"10\" Immediate ChangeOnWheel />\n\n<p role=\"status\">Tentativas: @Count</p>\n\n<SUIFormGrid Columns=\"2\" Spacing=\"3\">\n    <SUISwitch Label=\"Permitir rolagem no valor\" @bind-Value=\"AllowWheel\" />\n    <SUISwitch Label=\"Permitir setas no valor\" @bind-Value=\"AllowArrows\" />\n    <SUISelect T=\"decimal\" Label=\"Incremento do mouse e das setas\" @bind-Value=\"WheelIncrement\">\n        <SUISelectItem Value=\"@(0.01m)\">R$ 0,01</SUISelectItem>\n        <SUISelectItem Value=\"@(1m)\">R$ 1,00</SUISelectItem>\n        <SUISelectItem Value=\"@(10m)\">R$ 10,00</SUISelectItem>\n    </SUISelect>\n    <SUINumericField T=\"decimal\" Label=\"Prévia monetária\" Min=\"50\" Max=\"2500\" Step=\"0.01\"\n                     ChangeOnWheel=\"@AllowWheel\" WheelStep=\"@WheelIncrement\" Immediate @bind-Value=\"Amount\"\n                     ChangeOnArrowKeys=\"@AllowArrows\" ArrowKeyStep=\"@WheelIncrement\"\n                     SpinnerStep=\"@WheelIncrement\"\n                     HelperText=\"As setinhas clicáveis sempre usam o salto. Roda e teclado são opcionais; a digitação de centavos continua livre.\" />\n</SUIFormGrid>\n\n@code {\n    private bool AllowWheel;\n    private bool AllowArrows = true;\n    private decimal WheelIncrement = 1m;\n    private decimal Amount = 360.37m;\n}\n\n@code {\n    protected int Count { get; set; } = 3;\n    protected int Step { get; set; } = 1;\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUINumericField TValue=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" Min=\"1\" Max=\"10\" Immediate ChangeOnWheel />\n\n<p role=\"status\">Tentativas: @Count</p>\n\n<SUIFormGrid Columns=\"2\" Spacing=\"3\">\n    <SUISwitch Label=\"Permitir rolagem no valor\" @bind-Value=\"AllowWheel\" />\n    <SUISwitch Label=\"Permitir setas no valor\" @bind-Value=\"AllowArrows\" />\n    <SUISelect TValue=\"decimal\" Label=\"Incremento do mouse e das setas\" @bind-Value=\"WheelIncrement\">\n        <SUISelectItem Value=\"@(0.01m)\">R$ 0,01</SUISelectItem>\n        <SUISelectItem Value=\"@(1m)\">R$ 1,00</SUISelectItem>\n        <SUISelectItem Value=\"@(10m)\">R$ 10,00</SUISelectItem>\n    </SUISelect>\n    <SUINumericField TValue=\"decimal\" Label=\"Prévia monetária\" Min=\"50\" Max=\"2500\" Step=\"0.01\"\n                     ChangeOnWheel=\"@AllowWheel\" WheelStep=\"@WheelIncrement\" Immediate @bind-Value=\"Amount\"\n                     ChangeOnArrowKeys=\"@AllowArrows\" ArrowKeyStep=\"@WheelIncrement\"\n                     SpinnerStep=\"@WheelIncrement\"\n                     HelperText=\"As setinhas clicáveis sempre usam o salto. Roda e teclado são opcionais; a digitação de centavos continua livre.\" />\n</SUIFormGrid>\n\n@code {\n    private bool AllowWheel;\n    private bool AllowArrows = true;\n    private decimal WheelIncrement = 1m;\n    private decimal Amount = 360.37m;\n}\n\n@code {\n    protected int Count { get; set; } = 3;\n    protected int Step { get; set; } = 1;\n}\n",
     "parameters": [
       {
         "description": "",
         "name": "ValueExpression",
-        "type": "System.Linq.Expressions.Expression<Func<T?>>?",
+        "type": "System.Linq.Expressions.Expression<Func<TValue?>>?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -3080,7 +3096,7 @@
       {
         "description": "",
         "name": "Value",
-        "type": "T?",
+        "type": "TValue?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -3088,7 +3104,7 @@
       {
         "description": "",
         "name": "ValueChanged",
-        "type": "EventCallback<T?>",
+        "type": "EventCallback<TValue?>",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -3152,7 +3168,7 @@
       {
         "description": "",
         "name": "Min",
-        "type": "T?",
+        "type": "TValue?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -3160,7 +3176,7 @@
       {
         "description": "",
         "name": "Max",
-        "type": "T?",
+        "type": "TValue?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -3266,12 +3282,12 @@
   {
     "name": "SUISelect",
     "family": "Formulários",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISelect T=\"string\" Label=\"Região\" HelperText=\"Região atendida pela equipe.\" @bind-Value=\"Region\">\n<SUISelectItem Value='@(\"sul\")'>Sul</SUISelectItem>\n<SUISelectItem Value='@(\"sudeste\")'>Sudeste</SUISelectItem>\n</SUISelect>\n\n@code {\n    protected string? Region { get; set; } = \"sul\";\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISelect TValue=\"string\" Label=\"Região\" HelperText=\"Região atendida pela equipe.\" @bind-Value=\"Region\">\n<SUISelectItem Value='@(\"sul\")'>Sul</SUISelectItem>\n<SUISelectItem Value='@(\"sudeste\")'>Sudeste</SUISelectItem>\n</SUISelect>\n\n@code {\n    protected string? Region { get; set; } = \"sul\";\n}\n",
     "parameters": [
       {
         "description": "Field expression used to bind validation messages from the surrounding EditContext.",
         "name": "ValueExpression",
-        "type": "System.Linq.Expressions.Expression<Func<T?>>?",
+        "type": "System.Linq.Expressions.Expression<Func<TValue?>>?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -3279,7 +3295,7 @@
       {
         "description": "Selected value, matched against each item's Value; when null, an item marked Selected is shown.",
         "name": "Value",
-        "type": "T?",
+        "type": "TValue?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -3287,7 +3303,7 @@
       {
         "description": "Raised when an enabled option is chosen; enables @bind-Value.",
         "name": "ValueChanged",
-        "type": "EventCallback<T?>",
+        "type": "EventCallback<TValue?>",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -3367,7 +3383,7 @@
       {
         "description": "Converts the value into the submitted token; defaults to its invariant-culture text.",
         "name": "ToFormValueFunc",
-        "type": "Func<T, string>?",
+        "type": "Func<TValue, string>?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -3433,7 +3449,7 @@
   {
     "name": "SUISelectItem",
     "family": "Formulários",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISelect T=\"string\" Label=\"Região\" @bind-Value=\"Region\">\n<SUISelectItem Value='@(\"sul\")'>Sul</SUISelectItem>\n<SUISelectItem Value='@(\"sudeste\")'>Sudeste</SUISelectItem>\n</SUISelect>\n\n@code {\n    protected string? Region { get; set; } = \"sul\";\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISelect TValue=\"string\" Label=\"Região\" @bind-Value=\"Region\">\n<SUISelectItem Value='@(\"sul\")'>Sul</SUISelectItem>\n<SUISelectItem Value='@(\"sudeste\")'>Sudeste</SUISelectItem>\n</SUISelect>\n\n@code {\n    protected string? Region { get; set; } = \"sul\";\n}\n",
     "parameters": [
       {
         "description": "",
@@ -3630,12 +3646,12 @@
   {
     "name": "SUITextField",
     "family": "Formulários",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITextField T=\"string\" Label=\"Nome público\" @bind-Value=\"Text\" HelperText=\"Nome exibido aos usuários.\" Clearable />\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITextField TValue=\"string\" Label=\"Nome público\" @bind-Value=\"Text\" HelperText=\"Nome exibido aos usuários.\" Clearable />\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n}\n",
     "parameters": [
       {
         "description": "Current value, or the type default when empty.",
         "name": "Value",
-        "type": "T?",
+        "type": "TValue?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -3643,7 +3659,7 @@
       {
         "description": "Raised when the user commits a value; enables @bind-Value.",
         "name": "ValueChanged",
-        "type": "EventCallback<T?>",
+        "type": "EventCallback<TValue?>",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -3651,7 +3667,7 @@
       {
         "description": "Field expression used to bind validation messages from the surrounding EditContext.",
         "name": "ValueExpression",
-        "type": "Expression<Func<T?>>?",
+        "type": "Expression<Func<TValue?>>?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -3884,7 +3900,7 @@
   {
     "name": "SUICard",
     "family": "Layout",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUICard>\n<SUICardHeader Title=\"Configuração\" Description=\"Dados de demonstração.\" />\n<SUICardContent>\n<SUITextField T=\"string\" Label=\"Nome público\" @bind-Value=\"Text\" />\n</SUICardContent>\n<SUICardActions>\n<SUIButton OnClick=\"Notify\">Salvar</SUIButton>\n</SUICardActions>\n</SUICard>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUICard>\n<SUICardHeader Title=\"Configuração\" Description=\"Dados de demonstração.\" />\n<SUICardContent>\n<SUITextField TValue=\"string\" Label=\"Nome público\" @bind-Value=\"Text\" />\n</SUICardContent>\n<SUICardActions>\n<SUIButton OnClick=\"Notify\">Salvar</SUIButton>\n</SUICardActions>\n</SUICard>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
     "parameters": [
       {
         "description": "Forward unmatched attributes (onclick, role, data-*, etc.) to the root element.",
@@ -3931,7 +3947,7 @@
   {
     "name": "SUICardActions",
     "family": "Layout",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUICard>\n<SUICardHeader Title=\"Configuração\" Description=\"Dados de demonstração.\" />\n<SUICardContent>\n<SUITextField T=\"string\" Label=\"Nome público\" @bind-Value=\"Text\" />\n</SUICardContent>\n<SUICardActions>\n<SUIButton OnClick=\"Notify\">Salvar</SUIButton>\n</SUICardActions>\n</SUICard>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUICard>\n<SUICardHeader Title=\"Configuração\" Description=\"Dados de demonstração.\" />\n<SUICardContent>\n<SUITextField TValue=\"string\" Label=\"Nome público\" @bind-Value=\"Text\" />\n</SUICardContent>\n<SUICardActions>\n<SUIButton OnClick=\"Notify\">Salvar</SUIButton>\n</SUICardActions>\n</SUICard>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
     "parameters": [
       {
         "description": "Forward unmatched attributes to the root element.",
@@ -3978,7 +3994,7 @@
   {
     "name": "SUICardContent",
     "family": "Layout",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUICard>\n<SUICardHeader Title=\"Configuração\" Description=\"Dados de demonstração.\" />\n<SUICardContent>\n<SUITextField T=\"string\" Label=\"Nome público\" @bind-Value=\"Text\" />\n</SUICardContent>\n<SUICardActions>\n<SUIButton OnClick=\"Notify\">Salvar</SUIButton>\n</SUICardActions>\n</SUICard>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUICard>\n<SUICardHeader Title=\"Configuração\" Description=\"Dados de demonstração.\" />\n<SUICardContent>\n<SUITextField TValue=\"string\" Label=\"Nome público\" @bind-Value=\"Text\" />\n</SUICardContent>\n<SUICardActions>\n<SUIButton OnClick=\"Notify\">Salvar</SUIButton>\n</SUICardActions>\n</SUICard>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
     "parameters": [
       {
         "description": "Forward unmatched attributes to the root element.",
@@ -4017,7 +4033,7 @@
   {
     "name": "SUICardHeader",
     "family": "Layout",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUICard>\n<SUICardHeader Title=\"Configuração\" Description=\"Dados de demonstração.\" />\n<SUICardContent>\n<SUITextField T=\"string\" Label=\"Nome público\" @bind-Value=\"Text\" />\n</SUICardContent>\n<SUICardActions>\n<SUIButton OnClick=\"Notify\">Salvar</SUIButton>\n</SUICardActions>\n</SUICard>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUICard>\n<SUICardHeader Title=\"Configuração\" Description=\"Dados de demonstração.\" />\n<SUICardContent>\n<SUITextField TValue=\"string\" Label=\"Nome público\" @bind-Value=\"Text\" />\n</SUICardContent>\n<SUICardActions>\n<SUIButton OnClick=\"Notify\">Salvar</SUIButton>\n</SUICardActions>\n</SUICard>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
     "parameters": [
       {
         "description": "Forward unmatched attributes to the root element.",
@@ -4365,7 +4381,7 @@
   {
     "name": "SUIGrid",
     "family": "Layout",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIGrid>\n<SUIItem Xs=\"12\" Md=\"6\">\n<SUITextField T=\"string\" Label=\"Nome\" @bind-Value=\"Text\" />\n</SUIItem>\n<SUIItem Xs=\"12\" Md=\"6\">\n<SUINumericField T=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" />\n</SUIItem>\n</SUIGrid>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected int Count { get; set; } = 3;\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIGrid>\n<SUIItem Xs=\"12\" Md=\"6\">\n<SUITextField TValue=\"string\" Label=\"Nome\" @bind-Value=\"Text\" />\n</SUIItem>\n<SUIItem Xs=\"12\" Md=\"6\">\n<SUINumericField TValue=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" />\n</SUIItem>\n</SUIGrid>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected int Count { get; set; } = 3;\n}\n",
     "parameters": [
       {
         "description": "",
@@ -4396,7 +4412,7 @@
   {
     "name": "SUIItem",
     "family": "Layout",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIGrid>\n<SUIItem Xs=\"12\" Md=\"6\">\n<SUITextField T=\"string\" Label=\"Nome\" @bind-Value=\"Text\" />\n</SUIItem>\n<SUIItem Xs=\"12\" Md=\"6\">\n<SUINumericField T=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" />\n</SUIItem>\n</SUIGrid>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected int Count { get; set; } = 3;\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIGrid>\n<SUIItem Xs=\"12\" Md=\"6\">\n<SUITextField TValue=\"string\" Label=\"Nome\" @bind-Value=\"Text\" />\n</SUIItem>\n<SUIItem Xs=\"12\" Md=\"6\">\n<SUINumericField TValue=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" />\n</SUIItem>\n</SUIGrid>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected int Count { get; set; } = 3;\n}\n",
     "parameters": [
       {
         "description": "Columns (1–12) at the smallest breakpoint. Default 12.",
@@ -4577,7 +4593,7 @@
   {
     "name": "SUISection",
     "family": "Layout",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISection Title=\"Preferências\" Description=\"Organize conteúdo e ações relacionados.\">\n<SUITextField T=\"string\" Label=\"Nome\" @bind-Value=\"Text\" />\n<SUICheckbox Label=\"Ativar notificações\" @bind-Value=\"Enabled\" />\n</SUISection>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected bool Enabled { get; set; } = true;\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISection Title=\"Preferências\" Description=\"Organize conteúdo e ações relacionados.\">\n<SUITextField TValue=\"string\" Label=\"Nome\" @bind-Value=\"Text\" />\n<SUICheckbox Label=\"Ativar notificações\" @bind-Value=\"Enabled\" />\n</SUISection>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected bool Enabled { get; set; } = true;\n}\n",
     "parameters": [
       {
         "description": "",
@@ -4686,7 +4702,7 @@
   {
     "name": "SUIStack",
     "family": "Layout",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack Row Wrap Spacing=\"4\">\n    <SUIButton OnClick=\"Notify\">Salvar</SUIButton>\n    <SUIButton VariantValue=\"SUIVariant.Outlined\" OnClick=\"Reset\">Cancelar</SUIButton>\n</SUIStack>\n\n<p>Em barras com campos rotulados, alinhe as ações à base dos controles e permita quebra de linha.</p>\n<div data-testid=\"field-actions-toolbar\">\n    <SUIStack Row Wrap AlignItems=\"End\" Spacing=\"3\">\n        <div style=\"flex:1 1 16rem;min-width:0\">\n            <SUITextField T=\"string\" Label=\"Buscar no console\" Id=\"stack-console-search\"\n                          Placeholder=\"Ferramenta, arquivo ou texto\" Immediate=\"true\" @bind-Value=\"_search\" />\n        </div>\n        <SUIButton VariantValue=\"SUIVariant.Outlined\" OnClick=\"TogglePause\"\n                   aria-pressed=\"@(_paused ? \"true\" : \"false\")\">\n            @(_paused ? \"Retomar exibição\" : \"Pausar exibição\")\n        </SUIButton>\n    </SUIStack>\n    <p role=\"status\">@(_paused ? \"Exibição pausada\" : \"Exibição em tempo real\")@(!string.IsNullOrEmpty(_search) ? $\" · Filtro: {_search}\" : \"\")</p>\n</div>\n\n@code {\n    private string? _search;\n    private bool _paused;\n    private void TogglePause() => _paused = !_paused;\n}\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n    protected void Reset() { Text = \"Operação Sudeste\"; Snackbar.Info(\"Alterações descartadas.\"); }\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack Row Wrap Spacing=\"4\">\n    <SUIButton OnClick=\"Notify\">Salvar</SUIButton>\n    <SUIButton VariantValue=\"SUIVariant.Outlined\" OnClick=\"Reset\">Cancelar</SUIButton>\n</SUIStack>\n\n<p>Em barras com campos rotulados, alinhe as ações à base dos controles e permita quebra de linha.</p>\n<div data-testid=\"field-actions-toolbar\">\n    <SUIStack Row Wrap AlignItems=\"End\" Spacing=\"3\">\n        <div style=\"flex:1 1 16rem;min-width:0\">\n            <SUITextField TValue=\"string\" Label=\"Buscar no console\" Id=\"stack-console-search\"\n                          Placeholder=\"Ferramenta, arquivo ou texto\" Immediate=\"true\" @bind-Value=\"_search\" />\n        </div>\n        <SUIButton VariantValue=\"SUIVariant.Outlined\" OnClick=\"TogglePause\"\n                   aria-pressed=\"@(_paused ? \"true\" : \"false\")\">\n            @(_paused ? \"Retomar exibição\" : \"Pausar exibição\")\n        </SUIButton>\n    </SUIStack>\n    <p role=\"status\">@(_paused ? \"Exibição pausada\" : \"Exibição em tempo real\")@(!string.IsNullOrEmpty(_search) ? $\" · Filtro: {_search}\" : \"\")</p>\n</div>\n\n@code {\n    private string? _search;\n    private bool _paused;\n    private void TogglePause() => _paused = !_paused;\n}\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n    protected void Reset() { Text = \"Operação Sudeste\"; Snackbar.Info(\"Alterações descartadas.\"); }\n}\n",
     "parameters": [
       {
         "description": "When true, children are laid out horizontally (row).",
@@ -4757,7 +4773,7 @@
   {
     "name": "SUIFilterScope",
     "family": "Navegação",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITextField T=\"string\" Label=\"Filtrar serviços\" @bind-Value=\"Text\" Immediate />\n<SUIFilterScope FilterText=\"Text\">\n<SUIFilterTree Tags=\"@(new[] { \"Telefonia\" })\">\n<SUIText>Telefonia</SUIText>\n</SUIFilterTree>\n<SUIFilterTree Tags=\"@(new[] { \"Atendimento\" })\">\n<SUIText>Atendimento</SUIText>\n</SUIFilterTree>\n</SUIFilterScope>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITextField TValue=\"string\" Label=\"Filtrar serviços\" @bind-Value=\"Text\" Immediate />\n<SUIFilterScope FilterText=\"Text\">\n<SUIFilterTree Tags=\"@(new[] { \"Telefonia\" })\">\n<SUIText>Telefonia</SUIText>\n</SUIFilterTree>\n<SUIFilterTree Tags=\"@(new[] { \"Atendimento\" })\">\n<SUIText>Atendimento</SUIText>\n</SUIFilterTree>\n</SUIFilterScope>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n}\n",
     "parameters": [
       {
         "description": "Current filter text. Null or blank shows everything.",
@@ -4780,7 +4796,7 @@
   {
     "name": "SUIFilterTree",
     "family": "Navegação",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITextField T=\"string\" Label=\"Filtrar serviços\" @bind-Value=\"Text\" Immediate />\n<SUIFilterScope FilterText=\"Text\">\n<SUIFilterTree Tags=\"@(new[] { \"Telefonia\" })\">\n<SUIText>Telefonia</SUIText>\n</SUIFilterTree>\n<SUIFilterTree Tags=\"@(new[] { \"Atendimento\" })\">\n<SUIText>Atendimento</SUIText>\n</SUIFilterTree>\n</SUIFilterScope>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITextField TValue=\"string\" Label=\"Filtrar serviços\" @bind-Value=\"Text\" Immediate />\n<SUIFilterScope FilterText=\"Text\">\n<SUIFilterTree Tags=\"@(new[] { \"Telefonia\" })\">\n<SUIText>Telefonia</SUIText>\n</SUIFilterTree>\n<SUIFilterTree Tags=\"@(new[] { \"Atendimento\" })\">\n<SUIText>Atendimento</SUIText>\n</SUIFilterTree>\n</SUIFilterScope>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n}\n",
     "parameters": [
       {
         "description": "",

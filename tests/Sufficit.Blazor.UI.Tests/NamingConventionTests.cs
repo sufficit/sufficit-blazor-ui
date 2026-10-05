@@ -222,6 +222,25 @@ public sealed class NamingConventionTests
     }
 
     [Fact]
+    public void GenericComponents_UseValueOrItemTypeParameterNames()
+    {
+        // Convention (evaluation P3): TValue for value-bearing inputs
+        // (SUISelect, SUITextField, SUINumericField, SUIAutocomplete) and
+        // TItem for collection rows (SUITable, SUITableSortLabel). Renaming
+        // a shipped type parameter is a source break, so the rule keeps the
+        // next generic component from reintroducing a bare T.
+        var offenders = ComponentTypes()
+            .Where(type => type.IsGenericType)
+            .Select(type => (Type: type, Names: type.GetGenericArguments().Select(a => a.Name).ToArray()))
+            .Where(entry => entry.Names.Any(name => name is not ("TValue" or "TItem")))
+            .Select(entry => $"{StripArity(entry.Type.Name)}<{string.Join(", ", entry.Names)}>")
+            .ToArray();
+
+        Assert.True(offenders.Length == 0,
+            "Generic components must expose TValue/TItem type parameters: " + string.Join(", ", offenders));
+    }
+
+    [Fact]
     public void JsModules_AreColocatedAndNeverLoadedGlobally()
     {
         var offenders = RepositoryLayout.Files(RepositoryLayout.Src, "*.js")

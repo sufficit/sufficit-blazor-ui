@@ -41,8 +41,8 @@ Use `SUIFormGrid` quando dois ou mais fields SUI compartilharem uma linha:
 
 ```razor
 <SUIFormGrid Columns="2" LabelLines="2">
-    <SUITextField T="string" Label="Nome público" @bind-Value="Model.Name" />
-    <SUISelect T="string" Label="Região" @bind-Value="Model.Region">
+    <SUITextField TValue="string" Label="Nome público" @bind-Value="Model.Name" />
+    <SUISelect TValue="string" Label="Região" @bind-Value="Model.Region">
         ...
     </SUISelect>
 </SUIFormGrid>
@@ -84,8 +84,8 @@ Razor; com callbacks explícitos, passe `ValueExpression="() => Model.Name"`.
 ```razor
 <EditForm Model="Model" OnValidSubmit="SaveAsync">
     <DataAnnotationsValidator />
-    <SUITextField T="string" Label="Nome" @bind-Value="Model.Name" />
-    <SUINumericField T="int" Label="Tentativas" @bind-Value="Model.Attempts" />
+    <SUITextField TValue="string" Label="Nome" @bind-Value="Model.Name" />
+    <SUINumericField TValue="int" Label="Tentativas" @bind-Value="Model.Attempts" />
     <SUIButton ButtonTypeValue="SUIButtonType.Submit">Salvar</SUIButton>
 </EditForm>
 ```
@@ -130,7 +130,7 @@ próprio da roda, preservando o comportamento do navegador. Cada passo publica p
 mesmo contrato de eventos, inclusive quando Immediate está desativado.
 
 ```razor
-<SUINumericField T="int" Label="Espaçamento" @bind-Value="spacing"
+<SUINumericField TValue="int" Label="Espaçamento" @bind-Value="spacing"
                  Min="2" Max="6" Immediate ChangeOnWheel />
 ```
 

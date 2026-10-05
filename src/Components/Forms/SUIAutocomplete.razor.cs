@@ -5,34 +5,34 @@ using Sufficit.Blazor.UI.Utilities;
 namespace Sufficit.Blazor.UI.Components;
 
 /// <summary>Combobox with a debounced asynchronous search: typing calls <see cref="SearchFunc"/> or <see cref="SearchFuncAsync"/> and the results open in a top-layer listbox navigable with the arrow keys, Home/End, Enter and Escape.</summary>
-/// <typeparam name="T">Item type returned by the search.</typeparam>
-public partial class SUIAutocomplete<T>
+/// <typeparam name="TValue">Item type returned by the search.</typeparam>
+public partial class SUIAutocomplete<TValue>
 {
     [CascadingParameter] private Microsoft.AspNetCore.Components.Forms.EditContext? FormContext { get; set; }
-    private readonly SUIFieldBinding<T?> _field = new();
+    private readonly SUIFieldBinding<TValue?> _field = new();
     /// <summary>Field expression used to bind validation messages from the surrounding <c>EditContext</c>.</summary>
-    [Parameter] public System.Linq.Expressions.Expression<Func<T?>>? ValueExpression { get; set; }
+    [Parameter] public System.Linq.Expressions.Expression<Func<TValue?>>? ValueExpression { get; set; }
     private string? EffectiveErrorText => ErrorText ?? _field.Error;
 
     /// <summary>Selected item, or default when nothing is chosen.</summary>
     [Parameter]
-    public T? Value { get; set; }
+    public TValue? Value { get; set; }
 
     /// <summary>Raised on selection, on clear and when the text is emptied; enables <c>@bind-Value</c>.</summary>
     [Parameter]
-    public EventCallback<T?> ValueChanged { get; set; }
+    public EventCallback<TValue?> ValueChanged { get; set; }
 
     /// <summary>Search callback without cancellation. Ignored when <see cref="SearchFuncAsync"/> is set.</summary>
     [Parameter]
-    public Func<string, Task<IEnumerable<T>>>? SearchFunc { get; set; }
+    public Func<string, Task<IEnumerable<TValue>>>? SearchFunc { get; set; }
 
     /// <summary>Search callback whose token is cancelled when the user keeps typing; preferred over <see cref="SearchFunc"/>.</summary>
     [Parameter]
-    public Func<string, CancellationToken, Task<IEnumerable<T>>>? SearchFuncAsync { get; set; }
+    public Func<string, CancellationToken, Task<IEnumerable<TValue>>>? SearchFuncAsync { get; set; }
 
     /// <summary>Formats an item for the input text and the default option text. Falls back to <c>ToString()</c>.</summary>
     [Parameter]
-    public Func<T, string>? ToStringFunc { get; set; }
+    public Func<TValue, string>? ToStringFunc { get; set; }
 
     /// <summary>Visible label; also names the input and the listbox.</summary>
     [Parameter]
@@ -67,7 +67,7 @@ public partial class SUIAutocomplete<T>
 
     /// <summary>Converts the chosen value into the submitted token; defaults to its invariant-culture text.</summary>
     [Parameter]
-    public Func<T, string>? ToFormValueFunc { get; set; }
+    public Func<TValue, string>? ToFormValueFunc { get; set; }
 
     /// <summary>Extra element ids prepended to the input's <c>aria-describedby</c>.</summary>
     [Parameter]
@@ -119,7 +119,7 @@ public partial class SUIAutocomplete<T>
 
     /// <summary>Custom markup for each option; defaults to the <see cref="ToStringFunc"/> text.</summary>
     [Parameter]
-    public RenderFragment<T>? ItemTemplate { get; set; }
+    public RenderFragment<TValue>? ItemTemplate { get; set; }
 
     /// <summary>Custom markup for the empty-result row.</summary>
     [Parameter]
@@ -134,10 +134,10 @@ public partial class SUIAutocomplete<T>
     public Dictionary<string, object?> UserAttributes { get; set; } = new();
 
     private readonly string _generatedId = $"sui-autocomplete-{Guid.NewGuid():N}";
-    private readonly List<T> _items = new();
+    private readonly List<TValue> _items = new();
     private string _query = string.Empty;
     private string? _searchError;
-    private T? _observedValue;
+    private TValue? _observedValue;
     private CancellationTokenSource? _cts;
     private bool _valueInitialized;
     private bool _open;
@@ -197,7 +197,7 @@ public partial class SUIAutocomplete<T>
     protected override void OnParametersSet()
     {
         _field.Configure(FormContext, ValueExpression, () => _ = InvokeAsync(StateHasChanged));
-        if (!_valueInitialized || !EqualityComparer<T?>.Default.Equals(Value, _observedValue))
+        if (!_valueInitialized || !EqualityComparer<TValue?>.Default.Equals(Value, _observedValue))
         {
             _observedValue = Value;
             _query = Value is null ? string.Empty : ToDisplayString(Value);
@@ -220,7 +220,7 @@ public partial class SUIAutocomplete<T>
         _activeIndex = -1;
         _searchError = null;
 
-        if (string.IsNullOrEmpty(_query) && !EqualityComparer<T?>.Default.Equals(_observedValue, default))
+        if (string.IsNullOrEmpty(_query) && !EqualityComparer<TValue?>.Default.Equals(_observedValue, default))
         {
             _observedValue = default;
             await ValueChanged.InvokeAsync(default);
@@ -347,7 +347,7 @@ public partial class SUIAutocomplete<T>
         await InvokeAsync(StateHasChanged);
     }
 
-    private async Task SelectAsync(T item)
+    private async Task SelectAsync(TValue item)
     {
         if (Disabled) return;
         CancelPendingSearch();
@@ -374,7 +374,7 @@ public partial class SUIAutocomplete<T>
         await _inputElement.FocusAsync(preventScroll: true);
     }
 
-    private string ToDisplayString(T item)
+    private string ToDisplayString(TValue item)
         => ToStringFunc?.Invoke(item) ?? item?.ToString() ?? string.Empty;
 
     private string OptionClass(int index)

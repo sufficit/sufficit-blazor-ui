@@ -3,7 +3,7 @@
 @inject IJSRuntime JS
 @using System.Globalization
 @namespace Sufficit.Blazor.UI.Components
-@typeparam T
+@typeparam TValue
 
 <div class="@Classname">
     @if (!string.IsNullOrWhiteSpace(Label))
@@ -55,8 +55,8 @@
     private bool _hasMax;
     public override Task SetParametersAsync(ParameterView parameters)
     {
-        _hasMin = parameters.TryGetValue<T?>(nameof(Min), out _);
-        _hasMax = parameters.TryGetValue<T?>(nameof(Max), out _);
+        _hasMin = parameters.TryGetValue<TValue?>(nameof(Min), out _);
+        _hasMax = parameters.TryGetValue<TValue?>(nameof(Max), out _);
         return base.SetParametersAsync(parameters);
     }
 
@@ -90,15 +90,15 @@
     protected override void OnParametersSet() => _field.Configure(FormContext, ValueExpression, () => _ = InvokeAsync(StateHasChanged));
 
     [CascadingParameter] private Microsoft.AspNetCore.Components.Forms.EditContext? FormContext { get; set; }
-    private readonly SUIFieldBinding<T?> _field = new();
-    [Parameter] public System.Linq.Expressions.Expression<Func<T?>>? ValueExpression { get; set; }
+    private readonly SUIFieldBinding<TValue?> _field = new();
+    [Parameter] public System.Linq.Expressions.Expression<Func<TValue?>>? ValueExpression { get; set; }
     private string? EffectiveErrorText => ErrorText ?? _field.Error;
 
     [Parameter]
-    public T? Value { get; set; }
+    public TValue? Value { get; set; }
 
     [Parameter]
-    public EventCallback<T?> ValueChanged { get; set; }
+    public EventCallback<TValue?> ValueChanged { get; set; }
 
     [Parameter]
     public string? Label { get; set; }
@@ -123,10 +123,10 @@
     public string? Name { get; set; }
 
     [Parameter]
-    public T? Min { get; set; }
+    public TValue? Min { get; set; }
 
     [Parameter]
-    public T? Max { get; set; }
+    public TValue? Max { get; set; }
 
     [Parameter]
     public string? Step { get; set; }
@@ -199,7 +199,7 @@
     private async Task SetValue(object? raw)
     {
         if (Disabled || _disposed) return;
-        if (BindConverter.TryConvertTo<T>(
+        if (BindConverter.TryConvertTo<TValue>(
                 raw,
                 CultureInfo.InvariantCulture,
                 out var converted))

@@ -50,13 +50,13 @@
         <section id="forms" class="catalog__section">
             <h2>Formulários</h2>
             <SUIFormGrid Class="catalog__form-grid">
-                <SUITextField T="string" Label="Nome público" Placeholder="Ex.: Operação Sudeste"
+                <SUITextField TValue="string" Label="Nome público" Placeholder="Ex.: Operação Sudeste"
                               HelperText="Até 80 caracteres, incluindo acentos." MaxLength="80"
                               data-testid="text-field" />
-                <SUITextField T="string" Label="Campo indisponível" Value="DisabledFieldValue" Disabled />
-                <SUINumericField T="int" Label="Tentativas" HelperText="Entre 1 e 10."
+                <SUITextField TValue="string" Label="Campo indisponível" Value="DisabledFieldValue" Disabled />
+                <SUINumericField TValue="int" Label="Tentativas" HelperText="Entre 1 e 10."
                                  Min="1" Max="10" Value="3" />
-                <SUISelect T="string" Label="Região" Placeholder="Selecione uma região"
+                <SUISelect TValue="string" Label="Região" Placeholder="Selecione uma região"
                            HelperText="A seleção controla o roteamento." @bind-Value="_region"
                            data-testid="select">
                     <SUISelectItem Value="Southeast">Sudeste — São Paulo e Rio de Janeiro</SUISelectItem>
@@ -64,7 +64,7 @@
                     <SUISelectItem Value="North" Disabled>Norte — indisponível</SUISelectItem>
                 </SUISelect>
                 <div data-testid="autocomplete" data-sui-align-field>
-                    <SUIAutocomplete T="string" Label="Cidade" Placeholder="Digite ao menos uma letra"
+                    <SUIAutocomplete TValue="string" Label="Cidade" Placeholder="Digite ao menos uma letra"
                                      HelperText="Resultados são atualizados enquanto você digita."
                                      SearchFunc="SearchCities" ToStringFunc="@(value => value)"
                                      MinCharacters="1" DebounceInterval="0">
@@ -108,7 +108,7 @@
                     </SUINavGroup>
                 </div>
                 <div class="catalog__nav-tree">
-                    <SUITextField T="string" Label="Filtrar seções" @bind-Value="NavFilter" @bind-Value:event="oninput" />
+                    <SUITextField TValue="string" Label="Filtrar seções" @bind-Value="NavFilter" @bind-Value:event="oninput" />
                     <SUIFilterScope FilterText="@NavFilter">
                         @* The filter-tree leaves render no element of their own, so the
                            list can wrap them directly and the li stays a valid child of
@@ -176,7 +176,7 @@
                 </SUIStack>
             </div>
 
-            <SUITable T="CatalogRow" Items="_rows" ColumnCount="3" Hover Dense OnRowClick="SelectRow">
+            <SUITable TItem="CatalogRow" Items="_rows" ColumnCount="3" Hover Dense OnRowClick="SelectRow">
                 <HeaderContent>
                     <SUITh scope="col">Serviço</SUITh><SUITh scope="col">Região</SUITh><SUITh scope="col">Estado</SUITh>
                 </HeaderContent>
@@ -186,7 +186,7 @@
                     <SUITd DataLabel="Estado"><SUIStatusBadge ToneValue="@row.Tone">@row.Status</SUIStatusBadge></SUITd>
                 </RowTemplate>
             </SUITable>
-            <SUITable T="CatalogRow" Items="Array.Empty<CatalogRow>()" ColumnCount="3">
+            <SUITable TItem="CatalogRow" Items="Array.Empty<CatalogRow>()" ColumnCount="3">
                 <HeaderContent><SUITh scope="col">Resultado vazio</SUITh></HeaderContent>
                 <NoRecordsContent><SUITableEmpty /></NoRecordsContent>
             </SUITable>
@@ -202,10 +202,10 @@
                 <SUIProgressCircular Indeterminate="true" ColorValue="SUIColor.Info" AriaLabel="Carregando" />
                 <SUIProgressCircular SizeValue="SUISize.Small" Value="30" ColorValue="SUIColor.Warning" AriaLabel="Uso de disco" />
             </SUIStack>
-            <SUITable T="CatalogRow" Items="SortedRows" ColumnCount="2">
+            <SUITable TItem="CatalogRow" Items="SortedRows" ColumnCount="2">
                 <HeaderContent>
                     <SUITh scope="col" aria-sort="@(SortDirection is SUISortDirection.None ? null : SortDirection is SUISortDirection.Ascending ? "ascending" : "descending")">
-                        <SUITableSortLabel T="CatalogRow" SortDirection="SortDirection" SortDirectionChanged="OnSortChanged">Serviço</SUITableSortLabel>
+                        <SUITableSortLabel TItem="CatalogRow" SortDirection="SortDirection" SortDirectionChanged="OnSortChanged">Serviço</SUITableSortLabel>
                     </SUITh>
                     <SUITh scope="col">Região</SUITh>
                 </HeaderContent>

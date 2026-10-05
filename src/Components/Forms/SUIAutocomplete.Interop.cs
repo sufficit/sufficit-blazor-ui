@@ -3,7 +3,7 @@ using Microsoft.JSInterop;
 
 namespace Sufficit.Blazor.UI.Components;
 
-public partial class SUIAutocomplete<T>
+public partial class SUIAutocomplete<TValue>
 {
     [Inject] private IJSRuntime JS { get; set; } = default!;
     private ElementReference _inputElement, _listElement;

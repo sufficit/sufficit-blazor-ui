@@ -3,22 +3,22 @@
 <div class="identity-filter-fixture" aria-label="Grade de filtros do consumidor Identity">
     <h3>Grade de filtros do consumidor Identity</h3>
     <form class="identity-filter-grid" data-testid="identity-filter-grid" data-sui-align-row>
-        <SUITextField T="string" Class="identity-filter-field"
+        <SUITextField TValue="string" Class="identity-filter-field"
                       Id="fixture-users-search" name="search" autocomplete="off"
                       Label="Nome ou e-mail" InputType="search" Placeholder="Buscar no diretório" />
-        <SUISelect T="string" Class="identity-filter-field" Label="Investigação"
+        <SUISelect TValue="string" Class="identity-filter-field" Label="Investigação"
                    Id="fixture-review" Value="@All">
             <SUISelectItem Value="@All">Diretório completo</SUISelectItem>
         </SUISelect>
-        <SUISelect T="string" Class="identity-filter-field" Label="Estado"
+        <SUISelect TValue="string" Class="identity-filter-field" Label="Estado"
                    Id="fixture-state" Value="@All">
             <SUISelectItem Value="@All">Todos</SUISelectItem>
         </SUISelect>
-        <SUISelect T="string" Class="identity-filter-field" Label="E-mail"
+        <SUISelect TValue="string" Class="identity-filter-field" Label="E-mail"
                    Id="fixture-email" Value="@All">
             <SUISelectItem Value="@All">Todos</SUISelectItem>
         </SUISelect>
-        <SUISelect T="string" Class="identity-filter-field" Label="MFA"
+        <SUISelect TValue="string" Class="identity-filter-field" Label="MFA"
                    Id="fixture-mfa" Value="@All">
             <SUISelectItem Value="@All">Todos</SUISelectItem>
         </SUISelect>
@@ -30,11 +30,11 @@
                       Id="fixture-registered-to" Name="registeredTo"
                       Label="Cadastro final" Culture="@Culture"
                       Value="@_registeredTo" ValueChanged="value => _registeredTo = value" />
-        <SUISelect T="string" Class="identity-filter-field" Label="Ordenar por"
+        <SUISelect TValue="string" Class="identity-filter-field" Label="Ordenar por"
                    Id="fixture-sort" Value="@Newest">
             <SUISelectItem Value="@Newest">Cadastro mais recente</SUISelectItem>
         </SUISelect>
-        <SUISelect T="string" Class="identity-filter-field" Label="Histórico do gráfico"
+        <SUISelect TValue="string" Class="identity-filter-field" Label="Histórico do gráfico"
                    Id="fixture-history" Value="@ThirtyDays">
             <SUISelectItem Value="@ThirtyDays">30 dias</SUISelectItem>
         </SUISelect>

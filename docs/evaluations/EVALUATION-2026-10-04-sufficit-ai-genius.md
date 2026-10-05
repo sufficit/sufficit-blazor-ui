@@ -36,8 +36,15 @@
 > writer; `.editorconfig` na raiz e `scripts/README.md` documentam Node×Python.
 > Orçamentos de asset reajustados pela regra ×1,03 (928 testes; atividade:
 > `docs/activities/20261004-design-consolidation-density-zindex-tooling.md`).
-> Restam fora desta onda: F5 (convergência dos hosts + pausa hover, exige
-> verificação de timer) e P3 (generics). A migração dos demais
+> ✅ **F5/P3 concluídos** — snackbar/toast convergiram num motor único
+> `SUINotificationHostBase<TEntry>` (fila com teto, expiração, teardown) com
+> pausa em hover/focus e retomada do tempo restante (WCAG 2.2.1, testes bUnit
+> cobrindo hover e foco nos dois hosts); type parameters padronizados
+> `TValue` (SUISelect/SUITextField/SUINumericField/SUIAutocomplete) e `TItem`
+> (SUITable/SUITableSortLabel), com regra no `NamingConventionTests` —
+> quebra de fonte documentada, baseline de API pública revisado (933 testes).
+>
+> Restam fora desta onda: a migração dos demais
 > componentes para a base permanece progressiva.
 
 **Avaliador:** Sufficit AI Genius (sessão autônoma)

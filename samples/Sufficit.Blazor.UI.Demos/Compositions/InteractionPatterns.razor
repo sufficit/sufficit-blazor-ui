@@ -9,13 +9,13 @@
         <SUIStack Spacing="4" Style="margin-top:var(--sui-space-4)">
             <div style="width:100%;max-width:340px" data-testid="narrow-form">
                 <SUIFormGrid>
-                    <SUITextField T="string" Label="Nome para exibição" @bind-Value="_name" Clearable Immediate />
-                    <SUINumericField T="int" Label="Tentativas antes de interromper" @bind-Value="_attempts" HelperText="De 1 a 10 tentativas." Min="1" Max="10" />
+                    <SUITextField TValue="string" Label="Nome para exibição" @bind-Value="_name" Clearable Immediate />
+                    <SUINumericField TValue="int" Label="Tentativas antes de interromper" @bind-Value="_attempts" HelperText="De 1 a 10 tentativas." Min="1" Max="10" />
                 </SUIFormGrid>
             </div>
             <form @onsubmit="() => _submits++" @onsubmit:preventDefault style="max-width:340px;overflow:hidden;padding:4px" data-testid="clipped-form">
                 <SUIStack Spacing="3">
-                <SUIAutocomplete T="string" Label="Localizar destino" @bind-Value="_destination" SearchFunc="Search" DebounceInterval="0" MaxItems="30" Clearable />
+                <SUIAutocomplete TValue="string" Label="Localizar destino" @bind-Value="_destination" SearchFunc="Search" DebounceInterval="0" MaxItems="30" Clearable />
                 <SUIStack Row Wrap Spacing="2">
                 <SUIButton ButtonTypeValue="SUIButtonType.Submit" VariantValue="SUIVariant.Outlined">Confirmar destino</SUIButton>
                 <span role="status">Confirmações: @_submits</span>
@@ -23,7 +23,7 @@
                 </SUIStack>
             </form>
             <div style="max-width:340px">
-                <SUISelect T="string" Label="Destino da operação" @bind-Value="_selected">
+                <SUISelect TValue="string" Label="Destino da operação" @bind-Value="_selected">
                     @foreach (var option in _options) { <SUISelectItem Value="@option">@option</SUISelectItem> }
                 </SUISelect>
                 <SUIButton VariantValue="SUIVariant.Text">Depois do seletor</SUIButton>

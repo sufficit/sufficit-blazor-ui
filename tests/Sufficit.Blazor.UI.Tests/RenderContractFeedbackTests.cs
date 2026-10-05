@@ -1,5 +1,6 @@
 using Bunit;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
 using Sufficit.Blazor.UI.Components;
 using Sufficit.Blazor.UI.Services;
@@ -264,6 +265,66 @@ public sealed class RenderContractFeedbackTests
 
         Assert.True(cut.Find(".sui-toast").ClassList.Contains("sui-toast--success"));
         Assert.Empty(cut.FindAll("button"));
+    }
+
+    [Fact]
+    public async Task Snackbar_PausesExpiryWhileHovered_AndResumesWithRemainingTime()
+    {
+        using var context = new BunitContext();
+        context.Services.AddSufficitUI();
+        var cut = context.Render<SUISnackbarHost>();
+
+        context.Services.GetRequiredService<ISUISnackbar>().Add("Salvando…", durationMs: 800);
+        cut.WaitForAssertion(() => Assert.Single(cut.FindAll(".sui-snackbar")));
+
+        // WCAG 2.2.1: hovering (or focusing) a transient message must stop its clock.
+        var snackbar = cut.Find(".sui-snackbar");
+        snackbar.TriggerEvent("onmouseenter", new MouseEventArgs());
+        await Task.Delay(1_600);
+        Assert.Single(cut.FindAll(".sui-snackbar")); // stayed paused well past the deadline
+
+        // Leaving resumes from the remaining time, not from zero: dismissal
+        // must follow within a fresh, bounded window.
+        snackbar.TriggerEvent("onmouseleave", new MouseEventArgs());
+        cut.WaitForAssertion(() => Assert.Empty(cut.FindAll(".sui-snackbar")), TimeSpan.FromSeconds(5));
+    }
+
+    [Fact]
+    public async Task Snackbar_PausesExpiryWhileFocused()
+    {
+        using var context = new BunitContext();
+        context.Services.AddSufficitUI();
+        var cut = context.Render<SUISnackbarHost>();
+
+        context.Services.GetRequiredService<ISUISnackbar>().Add("Processando", durationMs: 700);
+        cut.WaitForAssertion(() => Assert.Single(cut.FindAll(".sui-snackbar")));
+
+        var snackbar = cut.Find(".sui-snackbar");
+        snackbar.TriggerEvent("onfocusin", new FocusEventArgs());
+        await Task.Delay(1_400);
+        Assert.Single(cut.FindAll(".sui-snackbar"));
+
+        snackbar.TriggerEvent("onfocusout", new FocusEventArgs());
+        cut.WaitForAssertion(() => Assert.Empty(cut.FindAll(".sui-snackbar")), TimeSpan.FromSeconds(5));
+    }
+
+    [Fact]
+    public async Task Toast_PausesExpiryWhileHovered_AndResumesAfterwards()
+    {
+        using var context = new BunitContext();
+        context.Services.AddSufficitUI();
+        var cut = context.Render<SUIToastHost>();
+
+        context.Services.GetRequiredService<ISUIToast>().Add("Falha ao salvar", durationMs: 800);
+        cut.WaitForAssertion(() => Assert.Single(cut.FindAll(".sui-toast")));
+
+        var toast = cut.Find(".sui-toast");
+        toast.TriggerEvent("onmouseenter", new MouseEventArgs());
+        await Task.Delay(1_600);
+        Assert.Single(cut.FindAll(".sui-toast"));
+
+        toast.TriggerEvent("onmouseleave", new MouseEventArgs());
+        cut.WaitForAssertion(() => Assert.Empty(cut.FindAll(".sui-toast")), TimeSpan.FromSeconds(5));
     }
 
     [Fact]

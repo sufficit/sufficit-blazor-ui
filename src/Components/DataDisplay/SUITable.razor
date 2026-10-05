@@ -1,10 +1,10 @@
 @namespace Sufficit.Blazor.UI.Components
-@typeparam T
+@typeparam TItem
 @implements IAsyncDisposable
 @inject IJSRuntime JS
 
 @{
-    var rows = Items as IReadOnlyList<T> ?? Items?.ToArray() ?? Array.Empty<T>();
+    var rows = Items as IReadOnlyList<TItem> ?? Items?.ToArray() ?? Array.Empty<TItem>();
     var activeRow = Math.Clamp(_activeRow, 0, Math.Max(0, rows.Count - 1));
 }
 
@@ -69,11 +69,11 @@
 
 @code {
     /// <summary>Stable identity retained when rows are sorted or paged.</summary>
-    [Parameter] public Func<T, object>? RowKey { get; set; }
+    [Parameter] public Func<TItem, object>? RowKey { get; set; }
 
     /// <summary>Items to render. When null/empty, <see cref="NoRecordsContent"/> shows.</summary>
     [Parameter]
-    public IEnumerable<T>? Items { get; set; }
+    public IEnumerable<TItem>? Items { get; set; }
 
     [Parameter]
     public bool Hover { get; set; }
@@ -95,11 +95,11 @@
 
     /// <summary>Optional class selector calculated for each rendered row.</summary>
     [Parameter]
-    public Func<T, int, string?>? RowClassFunc { get; set; }
+    public Func<TItem, int, string?>? RowClassFunc { get; set; }
 
     /// <summary>Optional inline style calculated for each rendered row.</summary>
     [Parameter]
-    public Func<T, int, string?>? RowStyleFunc { get; set; }
+    public Func<TItem, int, string?>? RowStyleFunc { get; set; }
 
     /// <summary>
     /// Number of data columns, used by the no-records cell so its
@@ -116,20 +116,20 @@
     /// arrow keys, Home and End move between rows.
     /// </summary>
     [Parameter]
-    public EventCallback<T> OnRowClick { get; set; }
+    public EventCallback<TItem> OnRowClick { get; set; }
 
     /// <summary>
     /// Optional accessible name for an interactive row, e.g. "Abrir pedido 42".
     /// Without it the row is announced by its cell contents.
     /// </summary>
     [Parameter]
-    public Func<T, string?>? RowAriaLabelFunc { get; set; }
+    public Func<TItem, string?>? RowAriaLabelFunc { get; set; }
 
     [Parameter]
     public RenderFragment? HeaderContent { get; set; }
 
     [Parameter]
-    public RenderFragment<T>? RowTemplate { get; set; }
+    public RenderFragment<TItem>? RowTemplate { get; set; }
 
     [Parameter]
     public RenderFragment? NoRecordsContent { get; set; }
@@ -156,7 +156,7 @@
             .AddClass(Class)
             .Build();
 
-    private Task OnRowItemClick(T item) => OnRowClick.InvokeAsync(item);
+    private Task OnRowItemClick(TItem item) => OnRowClick.InvokeAsync(item);
 
     private ElementReference _wrapperElement;
     private IJSObjectReference? _module;
@@ -203,7 +203,7 @@
 
     private int EffectiveColumnCount => ColumnCount > 0 ? ColumnCount : FullRowColumnSpan;
 
-    private string GetRowClass(T item, int index, bool interactive = false)
+    private string GetRowClass(TItem item, int index, bool interactive = false)
         => SUIClassBuilder.Default("sui-table__row")
             .AddClass("sui-table__row--interactive", interactive)
             .AddClass(RowClassFunc?.Invoke(item, index))

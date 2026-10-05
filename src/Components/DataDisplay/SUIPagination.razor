@@ -9,7 +9,7 @@
     <div class="sui-pagination__controls">
         @if (PageSizeOptions is { Count: > 0 })
         {
-            <SUISelect T="int"
+            <SUISelect TValue="int"
                        Label="Itens por página"
                        Value="@EffectivePageSize"
                        ValueChanged="ChangePageSizeAsync"

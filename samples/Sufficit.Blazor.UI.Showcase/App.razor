@@ -9,7 +9,7 @@
     <header class="site-header">
         <a class="brand" href="."><span class="brand-mark">SUI</span><span>Sufficit.Blazor.UI</span></a>
         <div class="header-actions">
-            <SUISelect T="string" Label="Tema" Class="theme-select" Value="@_preference.Mode" ValueChanged="ChangeMode">
+            <SUISelect TValue="string" Label="Tema" Class="theme-select" Value="@_preference.Mode" ValueChanged="ChangeMode">
                 <SUISelectItem Value='@("system")'>Sistema</SUISelectItem>
                 <SUISelectItem Value='@("light")'>Claro</SUISelectItem>
                 <SUISelectItem Value='@("dark")'>Escuro</SUISelectItem>

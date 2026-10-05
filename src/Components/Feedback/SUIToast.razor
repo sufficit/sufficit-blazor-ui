@@ -1,8 +1,11 @@
 @namespace Sufficit.Blazor.UI.Components
 
 <div id="@Id" class="sui-toast sui-toast--@Color.ToString().ToLowerInvariant() @Class"
-     role="alert" aria-live="assertive" @attributes="UserAttributes">
+     role="alert" aria-live="assertive" @attributes="UserAttributes"
+     @onmouseenter="OnPause" @onmouseleave="OnResume"
+     @onfocusin="OnPause" @onfocusout="OnResume">
     <span class="sui-toast__icon" aria-hidden="true">@Icon</span>
+
     <div class="sui-toast__content">
         @ChildContent
     </div>
@@ -21,6 +24,13 @@
     [Parameter] public bool Dismissible { get; set; } = true;
     [Parameter] public string DismissLabel { get; set; } = "Fechar";
     [Parameter] public EventCallback OnDismiss { get; set; }
+
+    /// <summary>Raised when the pointer enters the toast (hosts pause the countdown).</summary>
+    [Parameter] public EventCallback OnPause { get; set; }
+
+    /// <summary>Raised when the pointer leaves the toast (hosts resume the countdown).</summary>
+    [Parameter] public EventCallback OnResume { get; set; }
+
     [Parameter] public string? Class { get; set; }
 
     [Parameter(CaptureUnmatchedValues = true)]

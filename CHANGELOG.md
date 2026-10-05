@@ -25,6 +25,12 @@ definem a numeração das próximas publicações.
 - `.editorconfig` na raiz (convenções que o código já segue, agora explícitas)
   e `scripts/README.md` (papel de cada runtime: Node para pipeline CSS,
   Python para catálogo/release).
+- WCAG 2.2.1 em snackbar/toast: o cronômetro de expiração pausa enquanto a
+  entrada está sob hover ou foco e retoma do tempo restante (não do zero) ao
+  sair. Os dois hosts (`SUISnackbarHost`/`SUIToastHost`) passaram a herdar de
+  um motor único, `SUINotificationHostBase<TEntry>` (fila com teto, auto
+  dismiss, teardown); `SUIToast` ganhou `OnPause`/`OnResume`. As interfaces
+  públicas `ISUISnackbar`/`ISUIToast` não mudaram.
 
 - `ThemeSwitch` (testes de navegador): helper que espera o catálogo estar sob o
   circuito interativo antes de agir. A vitrine é HTML estático pré-renderizado que

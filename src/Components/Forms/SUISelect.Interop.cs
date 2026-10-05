@@ -2,7 +2,7 @@ using Microsoft.JSInterop;
 
 namespace Sufficit.Blazor.UI.Components;
 
-public partial class SUISelect<T>
+public partial class SUISelect<TValue>
 {
     private int _lastRevealedIndex = -1;
     /// <summary>Once items exist: loads the browser module, connects key handling on the trigger, opens or closes the top-layer menu only on transitions and reveals the active option.</summary>

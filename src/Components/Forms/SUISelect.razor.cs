@@ -7,22 +7,22 @@ using Sufficit.Blazor.UI.Utilities;
 namespace Sufficit.Blazor.UI.Components;
 
 /// <summary>Single-select combobox built from nested <see cref="SUISelectItem"/> options; the listbox opens in the top layer and supports the arrow keys, Home/End, Enter/Space and Escape.</summary>
-/// <typeparam name="T">Value type; item values are converted to it, with <see cref="Guid"/> parsed from text.</typeparam>
-public partial class SUISelect<T>
+/// <typeparam name="TValue">Value type; item values are converted to it, with <see cref="Guid"/> parsed from text.</typeparam>
+public partial class SUISelect<TValue>
 {
     [CascadingParameter] private Microsoft.AspNetCore.Components.Forms.EditContext? FormContext { get; set; }
-    private readonly SUIFieldBinding<T?> _field = new();
+    private readonly SUIFieldBinding<TValue?> _field = new();
     /// <summary>Field expression used to bind validation messages from the surrounding <c>EditContext</c>.</summary>
-    [Parameter] public System.Linq.Expressions.Expression<Func<T?>>? ValueExpression { get; set; }
+    [Parameter] public System.Linq.Expressions.Expression<Func<TValue?>>? ValueExpression { get; set; }
     private string? EffectiveErrorText => ErrorText ?? _field.Error;
 
     /// <summary>Selected value, matched against each item's <c>Value</c>; when null, an item marked <c>Selected</c> is shown.</summary>
     [Parameter]
-    public T? Value { get; set; }
+    public TValue? Value { get; set; }
 
     /// <summary>Raised when an enabled option is chosen; enables <c>@bind-Value</c>.</summary>
     [Parameter]
-    public EventCallback<T?> ValueChanged { get; set; }
+    public EventCallback<TValue?> ValueChanged { get; set; }
 
     /// <summary>Visible label; also names the trigger and the listbox.</summary>
     [Parameter]
@@ -65,7 +65,7 @@ public partial class SUISelect<T>
 
     /// <summary>Converts the value into the submitted token; defaults to its invariant-culture text.</summary>
     [Parameter]
-    public Func<T, string>? ToFormValueFunc { get; set; }
+    public Func<TValue, string>? ToFormValueFunc { get; set; }
 
     /// <summary>
     /// Optional CSS width for the open menu. When omitted, the menu sizes itself
@@ -372,7 +372,7 @@ public partial class SUISelect<T>
         return -1;
     }
 
-    private static bool TryConvertValue(object? raw, out T? value)
+    private static bool TryConvertValue(object? raw, out TValue? value)
     {
         if (raw is null)
         {
@@ -380,7 +380,7 @@ public partial class SUISelect<T>
             return true;
         }
 
-        if (raw is T typed)
+        if (raw is TValue typed)
         {
             value = typed;
             return true;
@@ -388,11 +388,11 @@ public partial class SUISelect<T>
 
         try
         {
-            var targetType = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
+            var targetType = Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue);
             object converted = targetType == typeof(Guid)
                 ? Guid.Parse(raw.ToString()!)
                 : Convert.ChangeType(raw, targetType, CultureInfo.InvariantCulture)!;
-            value = (T)converted;
+            value = (TValue)converted;
             return true;
         }
         catch (FormatException)
