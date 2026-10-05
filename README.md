@@ -235,13 +235,13 @@ compatibilidade; código novo deve usar os enums SUI.
 ### Select
 
 ```razor
-<SUISelect T="string"
+<SUISelect TValue="string"
            Label="Região"
            Value="SelectedRegion"
            ValueChanged="OnRegionChanged"
            MenuMaxWidth="36rem">
-    <SUISelectItem T="string" Value="sudeste">Sudeste</SUISelectItem>
-    <SUISelectItem T="string" Value="sul">Sul</SUISelectItem>
+    <SUISelectItem Value="sudeste">Sudeste</SUISelectItem>
+    <SUISelectItem Value="sul">Sul</SUISelectItem>
 </SUISelect>
 ```
 

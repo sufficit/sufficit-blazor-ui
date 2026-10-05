@@ -64,9 +64,9 @@
 
 .sui-nav--nested button.sui-nav-link,
 .sui-nav--nested .sui-nav-link__row {
-  min-height: 40px;
-  padding-block: 8px;
-  padding-inline: 14px;
+  min-height: var(--sui-nav-item-h-nested);
+  padding-block: var(--sui-space-2);
+  padding-inline: var(--sui-space-4);
 }
 
 .sui-rail-group {
@@ -86,13 +86,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  min-width: 48px;
-  height: 48px;
+  width: var(--sui-nav-item-h);
+  min-width: var(--sui-nav-item-h);
+  height: var(--sui-nav-item-h);
   margin: 2px auto;
   padding: 0;
   border: 0;
-  border-radius: 14px;
+  border-radius: var(--sui-radius-lg);
   background: transparent;
   color: var(--sui-text-secondary);
   cursor: pointer;
@@ -101,7 +101,7 @@
 
 .sui-rail-trigger:hover,
 .sui-rail-trigger.is-open {
-  background: color-mix(in srgb,var(--sui-color-primary) 12%,transparent);
+  background: var(--sui-state-selected);
   color: var(--sui-color-primary);
 }
 

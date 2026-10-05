@@ -1,6 +1,6 @@
 @inherits DemoBase
 
-<SUITextField T="string" Label="Filtrar serviços" @bind-Value="Text" Immediate />
+<SUITextField TValue="string" Label="Filtrar serviços" @bind-Value="Text" Immediate />
 <SUIFilterScope FilterText="Text">
 <SUIFilterTree Tags="@(new[] { "Telefonia" })">
 <SUIText>Telefonia</SUIText>

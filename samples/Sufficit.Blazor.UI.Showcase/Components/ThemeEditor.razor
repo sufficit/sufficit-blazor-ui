@@ -2,33 +2,33 @@
 <p class="lead">Experimente cor, contraste e densidade em toda a vitrine. A preferência fica salva neste navegador.</p>
 <div class="theme-workbench">
     <section class="theme-controls" aria-label="Configurar tema">
-        <SUISelect T="string" Label="Paleta de demonstração" Value="@Preference.Brand" ValueChanged="SetBrand">
+        <SUISelect TValue="string" Label="Paleta de demonstração" Value="@Preference.Brand" ValueChanged="SetBrand">
             <SUISelectItem Value='@("amber")'>Sufficit · Âmbar</SUISelectItem>
             <SUISelectItem Value='@("blue")'>Azul</SUISelectItem>
             <SUISelectItem Value='@("red")'>Vermelho</SUISelectItem>
         </SUISelect>
-        <SUISelect T="string" Label="Aparência" Value="@Preference.Mode" ValueChanged="SetMode">
+        <SUISelect TValue="string" Label="Aparência" Value="@Preference.Mode" ValueChanged="SetMode">
             <SUISelectItem Value='@("system")'>Acompanhar sistema</SUISelectItem>
             <SUISelectItem Value='@("light")'>Claro</SUISelectItem>
             <SUISelectItem Value='@("dark")'>Escuro</SUISelectItem>
         </SUISelect>
-        <SUISelect T="string" Label="Densidade" Value="@Preference.Density" ValueChanged="SetDensity">
+        <SUISelect TValue="string" Label="Densidade" Value="@Preference.Density" ValueChanged="SetDensity">
             <SUISelectItem Value='@("comfortable")'>Confortável</SUISelectItem>
             <SUISelectItem Value='@("compact")'>Compacta</SUISelectItem>
         </SUISelect>
-        <SUISelect T="string" Label="Família tipográfica" Value="@Preference.Font" ValueChanged="SetFont">
+        <SUISelect TValue="string" Label="Família tipográfica" Value="@Preference.Font" ValueChanged="SetFont">
             <SUISelectItem Value='@("system")'>Sistema</SUISelectItem><SUISelectItem Value='@("serif")'>Serifada</SUISelectItem><SUISelectItem Value='@("mono")'>Monoespaçada</SUISelectItem>
         </SUISelect>
-        <SUINumericField T="int" Immediate ChangeOnWheel Label="Tamanho do texto (px)" Value="@Preference.FontSize" ValueChanged="SetFontSize" Min="14" Max="20" />
-        <SUINumericField T="int" Immediate ChangeOnWheel Label="Unidade de espaçamento (px)" Value="@Preference.SpaceUnit" ValueChanged="SetSpace" Min="2" Max="6" />
-        <SUINumericField T="int" Immediate ChangeOnWheel Label="Raio das bordas (px)" Value="@Preference.Radius" ValueChanged="SetRadius" Min="0" Max="16" />
-        <SUITextField T="string" Label="Cor de sucesso" Value="@Preference.Build().Palette.Success" ValueChanged="SetSuccess" HelperText="Cor hexadecimal: #166534" ErrorText="@_successError" />
-        <SUITextField T="string" Label="Cor de erro" Value="@Preference.Build().Palette.Error" ValueChanged="SetError" HelperText="Cor hexadecimal: #b91c1c" ErrorText="@_errorError" />
+        <SUINumericField TValue="int" Immediate ChangeOnWheel Label="Tamanho do texto (px)" Value="@Preference.FontSize" ValueChanged="SetFontSize" Min="14" Max="20" />
+        <SUINumericField TValue="int" Immediate ChangeOnWheel Label="Unidade de espaçamento (px)" Value="@Preference.SpaceUnit" ValueChanged="SetSpace" Min="2" Max="6" />
+        <SUINumericField TValue="int" Immediate ChangeOnWheel Label="Raio das bordas (px)" Value="@Preference.Radius" ValueChanged="SetRadius" Min="0" Max="16" />
+        <SUITextField TValue="string" Label="Cor de sucesso" Value="@Preference.Build().Palette.Success" ValueChanged="SetSuccess" HelperText="Cor hexadecimal: #166534" ErrorText="@_successError" />
+        <SUITextField TValue="string" Label="Cor de erro" Value="@Preference.Build().Palette.Error" ValueChanged="SetError" HelperText="Cor hexadecimal: #b91c1c" ErrorText="@_errorError" />
         <p>O modo sistema acompanha as mudanças de preferência do dispositivo.</p>
     </section>
     <section class="theme-sample" aria-label="Prévia do tema">
         <h2>Preferências da operação</h2><p>Dados locais de demonstração.</p>
-        <SUITextField T="string" Label="Nome público" @bind-Value="_name" HelperText="Um nome fácil de reconhecer." />
+        <SUITextField TValue="string" Label="Nome público" @bind-Value="_name" HelperText="Um nome fácil de reconhecer." />
         <SUICheckbox Label="Receber notificações" @bind-Value="_enabled" />
         <SUIButton OnClick="ShowSuccess">Salvar preferências</SUIButton>
         <SUIAlert ToneValue="SUITone.Info">Você pode alterar o tema sem perder os valores preenchidos.</SUIAlert>
@@ -132,7 +132,7 @@
                     },
                     Layout = preset.Layout with
                     {
-                        ControlHMd = "{{theme.Layout.ControlHMd}}",
+                        DensityScale = "{{theme.Layout.DensityScale}}",
                         Radius = "{{theme.Layout.Radius}}", RadiusLg = "{{theme.Layout.RadiusLg}}",
                         Space1 = "{{theme.Layout.Space1}}", Space2 = "{{theme.Layout.Space2}}", Space3 = "{{theme.Layout.Space3}}",
                         Space4 = "{{theme.Layout.Space4}}", Space5 = "{{theme.Layout.Space5}}", Space6 = "{{theme.Layout.Space6}}",

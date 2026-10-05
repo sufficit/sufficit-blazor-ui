@@ -19,7 +19,7 @@
   color: var(--sui-text-primary);
   box-shadow: var(--sui-shadow-3);
   font-family: var(--sui-font);
-  animation: sui-toast-in 220ms cubic-bezier(.22, 1, .36, 1) both;
+  animation: sui-toast-in var(--sui-dur-slow) var(--sui-ease-enter) both;
 }
 .sui-toast--error,
 .sui-toast--info,
@@ -123,8 +123,4 @@
     inset-inline: 12px;
     width: auto;
   }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .sui-toast { animation: none; }
 }

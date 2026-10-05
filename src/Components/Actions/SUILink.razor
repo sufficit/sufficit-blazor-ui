@@ -1,6 +1,7 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<a class="@Classname" href="@Href" target="@Target" rel="@EffectiveRel" @attributes="UserAttributes">
+<a class="@Classname" href="@Href" target="@Target" rel="@EffectiveRel" style="@Style" @attributes="AdditionalAttributes">
     @ChildContent
 </a>
 
@@ -14,14 +15,20 @@
     [Parameter]
     public string? Rel { get; set; }
 
-    [Parameter]
-    public string? Class { get; set; }
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
+    /// <summary>Legacy alias for <see cref="SUIComponentBase.AdditionalAttributes"/>.</summary>
+    [Parameter, Obsolete("Use AdditionalAttributes instead; this alias will be removed in the next breaking release.")]
     public Dictionary<string, object?> UserAttributes { get; set; } = new();
+
+    protected override void OnParametersSet()
+    {
+#pragma warning disable CS0618 // deliberate bridge for the obsolete parameter
+        MergeLegacyAttributes(UserAttributes);
+#pragma warning restore CS0618
+    }
 
     // Same default as the anchor-buttons: a new-tab link must not hand the
     // opened page a window.opener handle back to this one (reverse tabnabbing).

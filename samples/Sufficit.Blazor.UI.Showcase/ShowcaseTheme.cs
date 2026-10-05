@@ -49,7 +49,7 @@ public sealed record ThemePreference(string Mode, string Brand, string Density, 
             },
             Layout = preset.Layout with
             {
-                ControlHMd = Density == "compact" ? "32px" : "40px",
+                DensityScale = Density == "compact" ? "0.85" : "1",
                 Radius = $"{Math.Clamp(Radius, 0, 16)}px", RadiusLg = $"{Math.Clamp(Radius, 0, 16) + 6}px",
                 Space1 = $"{space}px", Space2 = $"{space * 2}px", Space3 = $"{space * 3}px",
                 Space4 = $"{space * 4}px", Space5 = $"{space * 6}px", Space6 = $"{space * 8}px"

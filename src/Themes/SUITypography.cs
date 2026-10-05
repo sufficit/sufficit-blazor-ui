@@ -47,6 +47,13 @@ public sealed record SUITypography
     public string FsCaption { get; init; } = ".75rem";
     /// <summary>Font size of overline (uppercase eyebrow) text; feeds <c>--sui-fs-overline</c>. Default .6875rem.</summary>
     public string FsOverline { get; init; } = ".6875rem";
+    /// <summary>
+    /// Font size of form field inputs; feeds <c>--sui-fs-field</c>. Default .8125rem.
+    /// The field box — not the letter size — promotes the perceived value: the
+    /// token a consumer with its own type scale most needs to adjust, which is
+    /// why it is themable.
+    /// </summary>
+    public string FsField { get; init; } = ".8125rem";
 
     // Semantic operational ramp. These roles are additive: the legacy h1-h6
     // scale above remains unchanged for existing consumers.

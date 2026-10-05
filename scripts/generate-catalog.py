@@ -32,6 +32,11 @@ for component in sorted((root/'src').rglob('*.razor')):
     if not example.exists(): raise SystemExit(f'Missing executable example: {name}')
     source = component.read_text()
     if component.with_suffix('.razor.cs').exists(): source += '\n'+component.with_suffix('.razor.cs').read_text()
+    # @inherits SUIComponentBase moves Class/Style/AdditionalAttributes to the
+    # shared base. The catalog describes the public component surface, including
+    # inherited parameters, not just declarations in the Razor file.
+    if re.search(r'@inherits\s+SUIComponentBase\b', source):
+        source += '\n' + (root/'src/Components/SUIComponentBase.cs').read_text()
     parameters = []
     for match in re.finditer(r'((?:\[[^\]]*\]\s*)+)public\s+([^\n]+?)\s+(\w+)\s*\{\s*get;\s*set;\s*\}(?:\s*=\s*([^;\n]+);)?', source):
         flags, typ, param, default = match.groups()

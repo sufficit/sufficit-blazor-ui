@@ -49,19 +49,44 @@ public sealed record SUILayout
     /// <summary>Slower transition for enter/exit motion (drawers, dialogs); feeds <c>--sui-transition-slow</c>. Default 280ms.</summary>
     public string TransitionSlow { get; init; } = "280ms cubic-bezier(.4, 0, .2, 1)";
 
+    // stacking order
+    /// <summary>Stacking level of dropdown surfaces (menus, select lists); feeds <c>--sui-z-dropdown</c>. Default 1000.</summary>
+    public string ZDropdown { get; init; } = "1000";
+    /// <summary>Stacking level of sticky elements (sticky headers, bars); feeds <c>--sui-z-sticky</c>. Default 1100.</summary>
+    public string ZSticky { get; init; } = "1100";
+    /// <summary>Stacking level of drawers; feeds <c>--sui-z-drawer</c>. Default 1200.</summary>
+    public string ZDrawer { get; init; } = "1200";
+    /// <summary>Stacking level of backdrops/overlays; feeds <c>--sui-z-backdrop</c>. Default 1300.</summary>
+    public string ZBackdrop { get; init; } = "1300";
+    /// <summary>Stacking level of modals/dialogs; feeds <c>--sui-z-modal</c>. Default 1400.</summary>
+    public string ZModal { get; init; } = "1400";
+    /// <summary>Stacking level of toasts; feeds <c>--sui-z-toast</c>. Default 1500.</summary>
+    public string ZToast { get; init; } = "1500";
+    /// <summary>Stacking level of tooltips; feeds <c>--sui-z-tooltip</c>. Default 1600.</summary>
+    public string ZTooltip { get; init; } = "1600";
+
     // control sizing
+    /// <summary>
+    /// Unitless density multiplier applied to control heights and paddings
+    /// (1 = comfortable, ~0.8 = compact); feeds <c>--sui-density-scale</c>,
+    /// which the control size tokens derive from via <c>calc()</c>. Consumers
+    /// can also override the variable on any subtree for scoped density.
+    /// Navigation hit areas are deliberately not scaled: 48/40px are
+    /// accessibility floors.
+    /// </summary>
+    public string DensityScale { get; init; } = "1";
     /// <summary>Height of small controls (small buttons, checkboxes); feeds <c>--sui-control-h-sm</c>. Default 28px.</summary>
-    public string ControlHSm { get; init; } = "28px";
+    public string ControlHSm { get; init; } = "calc(28px * var(--sui-density-scale))";
     /// <summary>Height of medium (default) controls; feeds <c>--sui-control-h-md</c>. Default 36px.</summary>
-    public string ControlHMd { get; init; } = "36px";
+    public string ControlHMd { get; init; } = "calc(36px * var(--sui-density-scale))";
     /// <summary>Height of large controls; feeds <c>--sui-control-h-lg</c>. Default 44px.</summary>
-    public string ControlHLg { get; init; } = "44px";
+    public string ControlHLg { get; init; } = "calc(44px * var(--sui-density-scale))";
     /// <summary>Horizontal padding of small controls; feeds <c>--sui-control-px-sm</c>. Default 10px.</summary>
-    public string ControlPxSm { get; init; } = "10px";
+    public string ControlPxSm { get; init; } = "calc(10px * var(--sui-density-scale))";
     /// <summary>Horizontal padding of medium (default) controls; feeds <c>--sui-control-px-md</c>. Default 14px.</summary>
-    public string ControlPxMd { get; init; } = "14px";
+    public string ControlPxMd { get; init; } = "calc(14px * var(--sui-density-scale))";
     /// <summary>Horizontal padding of large controls; feeds <c>--sui-control-px-lg</c>. Default 18px.</summary>
-    public string ControlPxLg { get; init; } = "18px";
+    public string ControlPxLg { get; init; } = "calc(18px * var(--sui-density-scale))";
 
     /// <summary>Default shape, spacing, elevation and motion tokens matching the original hardcoded SUI values.</summary>
     public static SUILayout Default { get; } = new();

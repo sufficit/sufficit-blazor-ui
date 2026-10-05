@@ -18,7 +18,9 @@
   --sui-color-primary-contrast:#ffffff;
   --sui-color-primary-action: var(--sui-color-primary);
   --sui-color-primary-action-contrast:var(--sui-color-primary-contrast);
-  --sui-color-primary-soft:   color-mix(in srgb,var(--sui-color-primary) 14%,transparent);
+  /* Compat alias: the historical 14% "soft" is the selected state of the
+     tint scale above. New styles must consume --sui-state-* directly. */
+  --sui-color-primary-soft:   var(--sui-state-selected);
   --sui-color-secondary:      #64748b;
   --sui-color-secondary-contrast:#fff;
   --sui-color-info:           #0369a1;
@@ -31,6 +33,24 @@
   --sui-color-error-contrast: #fff;
   --sui-color-dark:           #1e293b;
   --sui-color-light:          #f8fafc;
+
+  /* interaction states — single tint scale for every hover/selected/pressed
+     surface. Deriving every state from these four keeps the "feel" of the
+     system adjustable in one place; components must not pick their own
+     color-mix percentages. Percentages were consolidated from the values
+     previously scattered across modules (7/11/14% nav, 8/12% buttons). */
+  --sui-state-hover:    color-mix(in srgb, var(--sui-color-primary) 8%,  transparent);
+  --sui-state-selected: color-mix(in srgb, var(--sui-color-primary) 12%, transparent);
+  --sui-state-pressed:  color-mix(in srgb, var(--sui-color-primary) 16%, transparent);
+  --sui-state-soft:     color-mix(in srgb, var(--sui-color-primary) 20%, transparent);
+
+  /* Keyboard focus: outline follows the palette's focus color; inset rings
+     are explicit exceptions for controls clipped inside their own bounds. */
+  --sui-focus-ring: 2px solid var(--sui-focus-color, var(--sui-color-primary));
+  --sui-focus-offset: 2px;
+  /* Inset ring for surfaces clipped inside their own bounds (table cells,
+     tab strips, numeric steppers): the outline must not bleed outside. */
+  --sui-focus-offset-inset: -2px;
 
   /* surface / text */
   --sui-surface:              #ffffff;
@@ -46,6 +66,7 @@
   /* shape */
   --sui-radius-sm: 4px;
   --sui-radius:    8px;
+  --sui-radius-control: calc(var(--sui-radius) * 1.25);
   --sui-radius-lg: 14px;
   --sui-radius-full: 9999px;
 
@@ -71,9 +92,19 @@
   --sui-z-toast: 1500;
   --sui-z-tooltip: 1600;
 
-  /* motion */
-  --sui-transition: 160ms cubic-bezier(.4, 0, .2, 1);
-  --sui-transition-slow: 280ms cubic-bezier(.4, 0, .2, 1);
+  /* motion — duration and easing are separable so signature movements can
+     borrow the vocabulary without inventing literals. Loops (spinners,
+     shimmer) keep their own periods: they are progress, not transitions. */
+  --sui-dur-fast: 120ms;
+  --sui-dur:      160ms;
+  --sui-dur-slow: 280ms;
+  --sui-ease:       cubic-bezier(.4, 0, .2, 1);
+  --sui-ease-enter: cubic-bezier(.16, 1, .3, 1);
+  --sui-transition:      var(--sui-dur) var(--sui-ease);
+  --sui-transition-slow: var(--sui-dur-slow) var(--sui-ease);
+  /* Legacy hook kept alive: the drawer visibility delay and consumer apps
+     read the duration alone. Aliased to the atomic token. */
+  --sui-transition-duration: var(--sui-dur);
 
   /* typography */
   --sui-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -109,13 +140,21 @@
   --sui-lh-mono: 1.4;
   --sui-ls-display: -.025em;
 
-  /* control sizing */
-  --sui-control-h-sm: 28px;
-  --sui-control-h-md: 36px;
-  --sui-control-h-lg: 44px;
-  --sui-control-px-sm: 10px;
-  --sui-control-px-md: 14px;
-  --sui-control-px-lg: 18px;
+  /* control sizing — density is a cascading token, not a per-component
+     parameter: heights and paddings derive from --sui-density-scale so a
+     whole app can tighten coherently (1 = comfortable, ~.8 = compact).
+     Nav hit areas stay literal: 48/40px are accessibility floors. */
+  --sui-density-scale: 1;
+  --sui-control-h-sm: calc(28px * var(--sui-density-scale));
+  --sui-control-h-md: calc(36px * var(--sui-density-scale));
+  --sui-control-h-lg: calc(44px * var(--sui-density-scale));
+  --sui-control-px-sm: calc(10px * var(--sui-density-scale));
+  --sui-control-px-md: calc(14px * var(--sui-density-scale));
+  --sui-control-px-lg: calc(18px * var(--sui-density-scale));
+  /* Shared navigation hit area: 48px already used by the collapsed rail.
+     Nested navigation is denser but must remain at least 40px tall. */
+  --sui-nav-item-h: 48px;
+  --sui-nav-item-h-nested: 40px;
 
   color-scheme: light;
 }
@@ -125,7 +164,9 @@
 .theme-dark {
   --sui-color-primary: #93c5fd;
   --sui-color-primary-contrast: #0f172a;
-  --sui-color-primary-soft: color-mix(in srgb,var(--sui-color-primary) 14%,transparent);
+  --sui-color-primary-soft: var(--sui-state-selected);
+  --sui-color-secondary: #cbd5e1;
+  --sui-color-secondary-contrast: #0f172a;
   --sui-color-info: #7dd3fc;
   --sui-color-success: #4ade80;
   --sui-color-warning: #fbbf24;
@@ -216,6 +257,10 @@
   flex: 0 0 auto;
 }
 .sui-icon svg { width: 100%; height: 100%; display: block; }
+/* Size aliases: --small/--medium/--large are canonical (they match SUISize);
+   the --sm/--md/--lg forms are legacy consumer surface. Internal markup must
+   use the long names — DesignTokenContractTests enforces it. Remove the short
+   aliases in the next breaking window. */
 .sui-icon--sm, .sui-icon--small { width: 1.25em; height: 1.25em; }
 .sui-icon--md, .sui-icon--medium { width: 1.5em;  height: 1.5em; }
 .sui-icon--lg, .sui-icon--large { width: 2em;    height: 2em; }
@@ -261,11 +306,48 @@
   box-shadow: var(--sui-focus-shadow, 0 0 0 3px var(--sui-color-primary-soft));
 }
 .sui-field__input:disabled { background: var(--sui-surface-2); color: var(--sui-text-disabled); cursor: not-allowed; }
+.sui-field__input--multiline { height: auto; min-height: 108px; padding: var(--sui-space-3); resize: vertical; }
+/* Text field geometry: the control wrapper is the positioning context for
+   the clear button and adornment icons; the clear button overlays the
+   trailing edge. Previously shipped as inline style attributes, which a
+   strict CSP page would strip. */
+.sui-text-field__control { position: relative; }
+.sui-text-field__input--pad-trailing { padding-inline-end: 3rem; }
+.sui-text-field__input--pad-clear    { padding-inline-end: 5rem; }
+.sui-text-field__adornment {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: var(--sui-space-3);
+  color: var(--sui-text-secondary);
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+.sui-text-field__adornment--with-clear { inset-inline-end: 2.75rem; }
+.sui-text-field__clear {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 100%;
+  padding: 0;
+  color: var(--sui-text-secondary);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
 /* Shared helper rhythm: the field gap supplies separation from the control.
    Keep all field helpers together here; applications can override this class.
    Error messages retain their separate visual emphasis. */
 .sui-field__helper { margin-top: 0; padding-left: var(--sui-space-3); font-size: calc(var(--sui-fs-caption) * .92); font-style: italic; color: var(--sui-text-secondary); }
 .sui-field__error { margin-top: var(--sui-space-1); padding-left: var(--sui-space-3); font-size: var(--sui-fs-caption); font-weight: 600; color: var(--sui-color-error); }
+/* Reserved height keeps the field footprint stable when the error slot is
+   mounted before any text arrives (form-context fields mount the span empty).
+   Was an inline style attribute, which strict-CSP pages strip. */
+.sui-field__error--reserve { min-height: 1.3em; }
 .sui-field__input[aria-invalid="true"],
 .sui-select__trigger[aria-invalid="true"] { border-color: var(--sui-color-error); }
 .sui-sr-only {
@@ -285,10 +367,27 @@
   .sui-field__input { height: 44px; }
 }
 
+/* Central reduced-motion policy. One point of control for every SUI surface:
+   - .sui-root * covers app content under the theme provider;
+   - [class*="sui-"] covers components rendered without the provider (there
+     is no .sui-root wrapper to lean on) and surfaces portaled to
+     document.body (tooltips), which always carry a sui- class.
+   Forcing these declarations is deliberate: scoped component CSS loads
+   later and must not restore motion for users who asked for less of it. */
 @media (prefers-reduced-motion: reduce) {
-  .sui-btn,
-  .sui-field__input {
-    transition: none;
+  .sui-root *, .sui-root *::before, .sui-root *::after,
+  [class*="sui-"], [class*="sui-"]::before, [class*="sui-"]::after,
+  [class*="sui-"] *, [class*="sui-"] *::before, [class*="sui-"] *::after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+  /* Deliberate exception: a pending spinner is progress feedback, not
+     decoration — it keeps moving, just calm. Later in source + equal
+     specificity, and !important restores both declarations it needs. */
+  .sui-btn--pending::after {
+    animation-duration: 2.4s !important;
+    animation-iteration-count: infinite !important;
   }
 }
 

@@ -1,5 +1,6 @@
 @implements IDisposable
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 @using Microsoft.AspNetCore.Components
 @using Sufficit.Blazor.UI.Utilities
 
@@ -90,14 +91,8 @@
     [Parameter]
     public bool Disabled { get; set; }
 
-    [Parameter]
-    public string? Class { get; set; }
 
-    [Parameter]
-    public string? Style { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
     private string InputId
         => string.IsNullOrWhiteSpace(Id) ? _generatedInputId : Id!;

@@ -24,7 +24,7 @@
      height while preserving readable wrapping for longer action labels. */
   line-height: 1.3;
   border: 1px solid transparent;
-  border-radius: calc(var(--sui-radius) * 1.25);
+  border-radius: var(--sui-radius-control);
   cursor: pointer;
   user-select: none;
   text-decoration: none;
@@ -36,7 +36,7 @@
 }
 .sui-btn:focus-visible {
   outline: 2px solid var(--_btn-color);
-  outline-offset: 2px;
+  outline-offset: var(--sui-focus-offset);
 }
 .sui-btn:is(:disabled,[aria-disabled="true"]) {
   cursor: not-allowed;
@@ -45,6 +45,9 @@
 }
 
 /* sizes */
+/* sizes: --small/--large canonical (SUISize); --sm/--lg legacy aliases for
+   consumers only. DesignTokenContractTests bans the short forms in internal
+   markup; remove them in the next breaking window. */
 .sui-btn--sm, .sui-btn--small { --_btn-h: var(--sui-control-h-sm); --_btn-px: var(--sui-control-px-sm); font-size: var(--sui-fs-caption); }
 /* Medium uses the base control tokens; Large adds space, not larger type. */
 .sui-btn--lg, .sui-btn--large { --_btn-h: var(--sui-control-h-lg); --_btn-px: var(--sui-control-px-lg); }
@@ -121,10 +124,6 @@
   animation: sui-btn-pending-spin .7s linear infinite;
 }
 @keyframes sui-btn-pending-spin { to { transform: rotate(360deg); } }
-@media (prefers-reduced-motion: reduce) {
-  .sui-btn--pending::after { animation-duration: 2.4s; }
-}
-
 .sui-btn__label {
   display: flex;
   flex: 1 1 auto;

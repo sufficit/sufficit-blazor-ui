@@ -6,7 +6,9 @@
     width: 2.25rem;
     height: 2.25rem;
     color: var(--sui-color-primary);
-    background: color-mix(in srgb, var(--sui-color-primary) 10%, transparent);
+    /* Soft accent container: uses the selected step of the state tint scale
+       instead of a bespoke 10% so the whole system shifts together. */
+    background: var(--sui-state-selected);
     border-radius: var(--sui-radius);
 }
 

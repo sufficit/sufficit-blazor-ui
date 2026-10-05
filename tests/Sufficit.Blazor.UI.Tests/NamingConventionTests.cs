@@ -85,6 +85,28 @@ public sealed class NamingConventionTests
     }
 
     [Fact]
+    public void LegacyUserAttributes_DoesNotGrowBeyondTheFrozenList()
+    {
+        // In the migration window we keep old public aliases source-compatible.
+        // Every new component must use AdditionalAttributes; this frozen set
+        // shrinks as components move to SUIComponentBase.
+        string[] frozen =
+        [
+            "SUIAutocomplete", "SUIButton", "SUIDateField", "SUIIconButton",
+            "SUILink", "SUILoadingButton", "SUINavGroup", "SUINavLink",
+            "SUINumericField", "SUIPopover", "SUISelect", "SUIStatusBanner",
+            "SUITd", "SUITextField", "SUITh", "SUITooltip", "SUIToast",
+        ];
+
+        var actual = ComponentTypes()
+            .Where(type => type.GetProperty("UserAttributes", BindingFlags.Public | BindingFlags.Instance) is not null)
+            .Select(type => type.Name.Split('`')[0])
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+        Assert.Equal(frozen.Order(StringComparer.Ordinal), actual);
+    }
+
+    [Fact]
     public void ComponentParameters_ArePublicPascalCaseProperties()
     {
         var offenders = new List<string>();
@@ -197,6 +219,25 @@ public sealed class NamingConventionTests
         }
 
         Assert.True(offenders.Count == 0, string.Join(Environment.NewLine, offenders));
+    }
+
+    [Fact]
+    public void GenericComponents_UseValueOrItemTypeParameterNames()
+    {
+        // Convention (evaluation P3): TValue for value-bearing inputs
+        // (SUISelect, SUITextField, SUINumericField, SUIAutocomplete) and
+        // TItem for collection rows (SUITable, SUITableSortLabel). Renaming
+        // a shipped type parameter is a source break, so the rule keeps the
+        // next generic component from reintroducing a bare T.
+        var offenders = ComponentTypes()
+            .Where(type => type.IsGenericType)
+            .Select(type => (Type: type, Names: type.GetGenericArguments().Select(a => a.Name).ToArray()))
+            .Where(entry => entry.Names.Any(name => name is not ("TValue" or "TItem")))
+            .Select(entry => $"{StripArity(entry.Type.Name)}<{string.Join(", ", entry.Names)}>")
+            .ToArray();
+
+        Assert.True(offenders.Length == 0,
+            "Generic components must expose TValue/TItem type parameters: " + string.Join(", ", offenders));
     }
 
     [Fact]

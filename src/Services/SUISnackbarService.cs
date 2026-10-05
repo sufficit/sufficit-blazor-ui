@@ -1,3 +1,5 @@
+using Sufficit.Blazor.UI.Components;
+
 namespace Sufficit.Blazor.UI.Services;
 
 /// <summary>
@@ -10,16 +12,13 @@ public sealed class SUISnackbarService : ISUISnackbar
     public event Action<SUISnackbarEntry>? OnEnqueue;
 
     /// <inheritdoc />
-    /// <remarks>"error" is normalized to "danger"; other severities are lower-cased. Entries expire <paramref name="durationMs"/> after being added.</remarks>
-    public void Add(string message, string severity = "info", int durationMs = 4000)
+    /// <remarks>The tone slug comes from the shared <c>SUIToneNormalizer</c>; entries expire <paramref name="durationMs"/> after being added.</remarks>
+    public void Add(string message, SUITone tone = SUITone.Info, int durationMs = 4000)
     {
-        // "error" and "danger" are the same tone.
-        var tone = severity.Equals("error", StringComparison.OrdinalIgnoreCase)
-            ? "danger" : severity.ToLowerInvariant();
         var entry = new SUISnackbarEntry(
             Guid.NewGuid(),
             message,
-            tone,
+            SUIToneNormalizer.Slug(tone),
             DateTime.UtcNow.AddMilliseconds(durationMs));
         OnEnqueue?.Invoke(entry);
     }

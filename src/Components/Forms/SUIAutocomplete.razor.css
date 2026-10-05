@@ -17,7 +17,7 @@
 }
 
 .sui-autocomplete__clear:hover { color: var(--sui-text-primary); background: var(--sui-surface-2); }
-.sui-autocomplete__clear:focus-visible { outline: 2px solid var(--sui-color-primary); outline-offset: 1px; }
+.sui-autocomplete__clear:focus-visible { outline: var(--sui-focus-ring); outline-offset: var(--sui-focus-offset); }
 .sui-autocomplete__control:has(.sui-autocomplete__clear) .sui-field__input { padding-inline-end: 3rem; }
 .sui-autocomplete__adornment--with-clear { right: 2.75rem; }
 .sui-autocomplete__control:has(.sui-autocomplete__adornment--with-clear) .sui-field__input { padding-inline-end: 5rem; }

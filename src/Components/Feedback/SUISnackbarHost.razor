@@ -1,14 +1,17 @@
 @namespace Sufficit.Blazor.UI.Components
 @using Sufficit.Blazor.UI.Services
-@implements IDisposable
+@inherits SUINotificationHostBase<SUISnackbarEntry>
 @inject ISUISnackbar Snackbar
 
 <div class="sui-snackbar-host" aria-live="polite" aria-atomic="true">
-    @foreach (var entry in _entries)
+    @foreach (var entry in Entries)
     {
-        <div class="sui-snackbar sui-snackbar--@entry.Severity" role="status">
+        var id = entry.Id;
+        <div class="sui-snackbar sui-snackbar--@entry.Severity" role="status"
+             @onmouseenter="() => Pause(id)" @onmouseleave="() => Resume(id)"
+             @onfocusin="() => Pause(id)" @onfocusout="() => Resume(id)">
             <span class="sui-snackbar__message">@entry.Message</span>
-            <button type="button" class="sui-snackbar__close" aria-label="Fechar" @onclick="() => Dismiss(entry.Id)">
+            <button type="button" class="sui-snackbar__close" aria-label="Fechar" @onclick="() => Dismiss(id)">
                 <SUIIcon Name="x" Size="16" />
             </button>
         </div>
@@ -16,48 +19,13 @@
 </div>
 
 @code {
-    private readonly List<SUISnackbarEntry> _entries = new();
+    // Snackbar is passive information: a longer, shallower stack than toast.
+    protected override int MaxVisible => 5;
 
-    protected override void OnInitialized()
-        => Snackbar.OnEnqueue += Enqueue;
-
-    private readonly CancellationTokenSource _lifetime = new();
-    private bool _disposed;
-
-    private void Enqueue(SUISnackbarEntry entry) => _ = EnqueueAsync(entry);
-
-    private async Task EnqueueAsync(SUISnackbarEntry entry)
-    {
-        if (_disposed) return;
-        var token = _lifetime.Token;
-        try
-        {
-            await InvokeAsync(() =>
-            {
-                if (_disposed) return;
-                if (_entries.Count >= 5) _entries.RemoveAt(0);
-                _entries.Add(entry);
-                StateHasChanged();
-            });
-            var remaining = entry.ExpiresAt - DateTime.UtcNow;
-            if (remaining > TimeSpan.Zero) await Task.Delay(remaining, token);
-            await InvokeAsync(() => Dismiss(entry.Id));
-        }
-        catch (OperationCanceledException) when (token.IsCancellationRequested) { }
-    }
-
-    private void Dismiss(Guid id)
-    {
-        if (_disposed) return;
-        _entries.RemoveAll(entry => entry.Id == id);
-        StateHasChanged();
-    }
-
-    public void Dispose()
-    {
-        _disposed = true;
-        Snackbar.OnEnqueue -= Enqueue;
-        _lifetime.Cancel();
-        _lifetime.Dispose();
-    }
+    protected override Guid IdOf(SUISnackbarEntry entry) => entry.Id;
+    protected override DateTime ExpiresAtOf(SUISnackbarEntry entry) => entry.ExpiresAt;
+    protected override SUISnackbarEntry WithExpiresAt(SUISnackbarEntry entry, DateTime expiresAt)
+        => entry with { ExpiresAt = expiresAt };
+    protected override void Subscribe(Action<SUISnackbarEntry> handler) => Snackbar.OnEnqueue += handler;
+    protected override void Unsubscribe(Action<SUISnackbarEntry> handler) => Snackbar.OnEnqueue -= handler;
 }

@@ -1,3 +1,5 @@
+using Sufficit.Blazor.UI.Components;
+
 namespace Sufficit.Blazor.UI.Services;
 
 /// <summary>
@@ -10,16 +12,13 @@ public sealed class SUIToastService : ISUIToast
     public event Action<SUIToastEntry>? OnEnqueue;
 
     /// <inheritdoc />
-    /// <remarks>"error" is normalized to "danger" (same tone); other severities are lower-cased.</remarks>
-    public void Add(string message, string severity = "info", int durationMs = 6000, string? actionLabel = null, Action? onAction = null)
+    /// <remarks>The tone slug comes from the shared <c>SUIToneNormalizer</c> (never "error" or "neutral").</remarks>
+    public void Add(string message, SUITone tone = SUITone.Info, int durationMs = 6000, string? actionLabel = null, Action? onAction = null)
     {
-        // "error" and "danger" are the same tone.
-        var tone = severity.Equals("error", StringComparison.OrdinalIgnoreCase)
-            ? "danger" : severity.ToLowerInvariant();
         var entry = new SUIToastEntry(
             Guid.NewGuid(),
             message,
-            tone,
+            SUIToneNormalizer.Slug(tone),
             DateTime.UtcNow.AddMilliseconds(durationMs),
             string.IsNullOrWhiteSpace(actionLabel) ? null : actionLabel,
             onAction);

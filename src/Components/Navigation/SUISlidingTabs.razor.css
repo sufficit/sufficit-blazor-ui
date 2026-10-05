@@ -82,7 +82,7 @@
 
 .sui-sliding-tab:focus-visible {
   outline: 2px solid var(--sui-sliding-tabs-accent, var(--sui-color-primary));
-  outline-offset: 2px;
+  outline-offset: var(--sui-focus-offset);
 }
 
 .sui-sliding-tab[disabled] {
@@ -113,7 +113,7 @@
 /* Panels slide in subtly every time the active tab changes. */
 .sui-sliding-tabs__panels { padding-top: var(--sui-space-4); }
 .sui-sliding-tab-panel {
-  animation: sui-sliding-panel-in 240ms cubic-bezier(.4, 0, .2, 1);
+  animation: sui-sliding-panel-in var(--sui-dur-slow) var(--sui-ease);
   overflow-wrap: anywhere;
 }
 @keyframes sui-sliding-panel-in {
@@ -126,12 +126,4 @@
      the full label stays available as each button's aria-label. */
   .sui-sliding-tab__label { display: none; }
   .sui-sliding-tab { min-height: 44px; padding-inline: var(--sui-space-3); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .sui-sliding-tabs__track.is-positioned .sui-sliding-tabs__indicator { transition: none; }
-  .sui-sliding-tab,
-  .sui-sliding-tab__icon { transition: none; }
-  .sui-sliding-tab.is-active .sui-sliding-tab__icon { animation: none; }
-  .sui-sliding-tab-panel { animation: none; }
 }

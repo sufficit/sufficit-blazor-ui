@@ -49,13 +49,13 @@
              popover="manual"
              @onkeydown="OnPopoverKeyDown">
             <div class="sui-date-field__header">
-                <button type="button" class="sui-btn sui-btn--icon sui-btn--sm sui-btn--text sui-btn--color-default sui-date-field__nav"
+                <button type="button" class="sui-btn sui-btn--icon sui-btn--small sui-btn--text sui-btn--color-default sui-date-field__nav"
                         aria-label="@PreviousMonthText" title="@PreviousMonthText"
                         disabled="@(!CanMoveMonth(-1))" @onclick="() => MoveMonth(-1)">
                     <SUIIcon Name="chevron-left" Size="18" />
                 </button>
                 <strong id="@MonthId" class="sui-date-field__month" aria-live="polite">@MonthLabel</strong>
-                <button type="button" class="sui-btn sui-btn--icon sui-btn--sm sui-btn--text sui-btn--color-default sui-date-field__nav"
+                <button type="button" class="sui-btn sui-btn--icon sui-btn--small sui-btn--text sui-btn--color-default sui-date-field__nav"
                         aria-label="@NextMonthText" title="@NextMonthText"
                         disabled="@(!CanMoveMonth(1))" @onclick="() => MoveMonth(1)">
                     <SUIIcon Name="chevron-right" Size="18" />
@@ -93,9 +93,9 @@
             </div>
 
             <div class="sui-date-field__footer">
-                <button type="button" class="sui-btn sui-btn--sm sui-btn--text sui-btn--color-primary sui-date-field__action"
+                <button type="button" class="sui-btn sui-btn--small sui-btn--text sui-btn--color-primary sui-date-field__action"
                         disabled="@IsDateDisabled(Today)" @onclick="SelectTodayAsync">@TodayText</button>
-                <button type="button" class="sui-btn sui-btn--sm sui-btn--text sui-btn--color-primary sui-date-field__action"
+                <button type="button" class="sui-btn sui-btn--small sui-btn--text sui-btn--color-primary sui-date-field__action"
                         disabled="@(Required || Value is null)" @onclick="ClearAsync">@ClearText</button>
             </div>
         </div>

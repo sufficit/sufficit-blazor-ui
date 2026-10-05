@@ -1,6 +1,7 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<div class="@Classname" style="display:flex;min-block-size:6.4rem;align-items:flex-start;justify-content:space-between;gap:var(--sui-space-3);padding:var(--sui-space-4)">
+<div class="@Classname">
     <div class="sui-stat__copy">
         <SUIText Typo="SUITypo.h5" Tag="SUITextTag.Div" Class="sui-stat__value">@Value</SUIText>
         <SUIText Typo="SUITypo.caption" Color="SUIColor.Default">@Label</SUIText>
@@ -18,7 +19,6 @@
     [Parameter] public string? Label { get; set; }
     [Parameter] public string? Icon { get; set; }
     [Parameter] public SUIColor ColorValue { get; set; } = SUIColor.Primary;
-    [Parameter] public string? Class { get; set; }
 
     private string Classname => SUIClassBuilder.Default("sui-card sui-stat")
         .AddClass($"sui-stat--{SUIClassBuilder.Slug(ColorValue)}")

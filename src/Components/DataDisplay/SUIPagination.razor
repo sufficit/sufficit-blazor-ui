@@ -1,16 +1,15 @@
 @namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
 
-<nav class="@Classname"
-     style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--sui-space-3);padding-block-start:var(--sui-space-3)"
-     aria-label="@AriaLabel">
+<nav class="@Classname" aria-label="@AriaLabel">
     <SUIText Typo="SUITypo.caption" Color="SUIColor.Default" aria-live="polite">
         @RangeLabel
     </SUIText>
 
-    <div class="sui-pagination__controls" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:var(--sui-space-2)">
+    <div class="sui-pagination__controls">
         @if (PageSizeOptions is { Count: > 0 })
         {
-            <SUISelect T="int"
+            <SUISelect TValue="int"
                        Label="Itens por página"
                        Value="@EffectivePageSize"
                        ValueChanged="ChangePageSizeAsync"
@@ -50,7 +49,6 @@
     [Parameter] public IReadOnlyList<int>? PageSizeOptions { get; set; }
     [Parameter] public string ItemLabel { get; set; } = "itens";
     [Parameter] public string AriaLabel { get; set; } = "Paginação";
-    [Parameter] public string? Class { get; set; }
 
     private int EffectivePageSize => Math.Max(1, PageSize);
     private int PageCount => Math.Max(1, (int)Math.Ceiling(Math.Max(0, TotalItems) / (double)EffectivePageSize));

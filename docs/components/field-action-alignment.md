@@ -6,7 +6,7 @@ wrapper deixa o botão acima do centro do input. Use a composição existente:
 ```razor
 <SUIStack Row Wrap AlignItems="End" Spacing="3">
     <div style="flex:1 1 16rem;min-width:0">
-        <SUITextField T="string" Label="Buscar" @bind-Value="search" />
+        <SUITextField TValue="string" Label="Buscar" @bind-Value="search" />
     </div>
     <SUIButton VariantValue="SUIVariant.Outlined" OnClick="Apply">Aplicar</SUIButton>
 </SUIStack>

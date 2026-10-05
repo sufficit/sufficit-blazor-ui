@@ -7,29 +7,29 @@ using Sufficit.Blazor.UI.Utilities;
 namespace Sufficit.Blazor.UI.Components;
 
 /// <summary>
-///     Single-line or multiline text input bound to <typeparamref name="T"/>.
+///     Single-line or multiline text input bound to <typeparamref name="TValue"/>.
 ///     Numeric input types (<c>number</c>, <c>range</c>) are parsed and rendered
 ///     with the invariant culture, because the browser only speaks the
 ///     dot-decimal form: rendering 0.40m as "0,40" makes it drop the value, and
 ///     parsing "0.40" as pt-BR turns forty cents into forty reais.
 /// </summary>
-public partial class SUITextField<T>
+public partial class SUITextField<TValue>
 {
     [CascadingParameter] private Microsoft.AspNetCore.Components.Forms.EditContext? FormContext { get; set; }
-    private readonly SUIFieldBinding<T?> _field = new();
+    private readonly SUIFieldBinding<TValue?> _field = new();
     private string? EffectiveErrorText => ErrorText ?? _field.Error;
 
     /// <summary>Current value, or the type default when empty.</summary>
     [Parameter]
-    public T? Value { get; set; }
+    public TValue? Value { get; set; }
 
     /// <summary>Raised when the user commits a value; enables <c>@bind-Value</c>.</summary>
     [Parameter]
-    public EventCallback<T?> ValueChanged { get; set; }
+    public EventCallback<TValue?> ValueChanged { get; set; }
 
     /// <summary>Field expression used to bind validation messages from the surrounding <c>EditContext</c>.</summary>
     [Parameter]
-    public Expression<Func<T?>>? ValueExpression { get; set; }
+    public Expression<Func<TValue?>>? ValueExpression { get; set; }
 
     /// <summary>Visible label, rendered above the control and bound to it for assistive technology.</summary>
     [Parameter]
@@ -99,12 +99,9 @@ public partial class SUITextField<T>
     [Parameter]
     public string ClearText { get; set; } = "Limpar campo";
 
-    /// <summary>Additional css classes appended to the field's root element.</summary>
-    [Parameter]
-    public string? Class { get; set; }
 
-    /// <summary>Any other attributes are splatted onto the underlying input or textarea.</summary>
-    [Parameter(CaptureUnmatchedValues = true)]
+    /// <summary>Legacy alias for <see cref="SUIComponentBase.AdditionalAttributes"/>; splatted onto the input or textarea.</summary>
+    [Parameter, Obsolete("Use AdditionalAttributes instead; this alias will be removed in the next breaking release.")]
     public Dictionary<string, object?> UserAttributes { get; set; } = new();
 
     private ElementReference _inputElement;
@@ -116,14 +113,12 @@ public partial class SUITextField<T>
     private bool HasError => Invalid || !string.IsNullOrWhiteSpace(EffectiveErrorText);
     private bool CanClear
         => Clearable && !Disabled && !string.IsNullOrEmpty(Value?.ToString());
-    private string? InputPaddingStyle
+    private string InputClassname
         => CanClear && !string.IsNullOrWhiteSpace(AdornmentIcon)
-            ? "padding-inline-end:5rem"
+            ? "sui-field__input sui-text-field__input--pad-clear"
             : CanClear || !string.IsNullOrWhiteSpace(AdornmentIcon)
-                ? "padding-inline-end:3rem"
-                : null;
-    private string AdornmentStyle
-        => $"position:absolute;inset-block-start:50%;inset-inline-end:{(CanClear ? "2.75rem" : "var(--sui-space-3)")};color:var(--sui-text-secondary);pointer-events:none;transform:translateY(-50%)";
+                ? "sui-field__input sui-text-field__input--pad-trailing"
+                : "sui-field__input";
 
     /// <summary>
     ///     Number and range inputs speak the dot-decimal form only, whatever the
@@ -139,7 +134,7 @@ public partial class SUITextField<T>
     /// </summary>
     private string? InputValue => IsNumericInput ? FormatNumeric(Value) : Value?.ToString();
 
-    private static string? FormatNumeric(T? value)
+    private static string? FormatNumeric(TValue? value)
         => value switch
         {
             null => null,
@@ -168,7 +163,13 @@ public partial class SUITextField<T>
     public void Dispose() => _field.Dispose();
 
     /// <inheritdoc />
-    protected override void OnParametersSet() => _field.Configure(FormContext, ValueExpression, () => _ = InvokeAsync(StateHasChanged));
+    protected override void OnParametersSet()
+    {
+#pragma warning disable CS0618 // deliberate bridge for the obsolete parameter
+        MergeLegacyAttributes(UserAttributes);
+#pragma warning restore CS0618
+        _field.Configure(FormContext, ValueExpression, () => _ = InvokeAsync(StateHasChanged));
+    }
 
     /// <summary>
     /// Moves keyboard focus to this field's control, in either mode.
@@ -209,7 +210,7 @@ public partial class SUITextField<T>
             return;
         }
 
-        if (!BindConverter.TryConvertTo<T>(raw, CultureInfo.CurrentCulture, out var converted))
+        if (!BindConverter.TryConvertTo<TValue>(raw, CultureInfo.CurrentCulture, out var converted))
         {
             _field.Notify("Informe um valor válido.");
             return;
@@ -223,7 +224,7 @@ public partial class SUITextField<T>
     ///     regardless of the user culture: parsing "0.40" as pt-BR turns forty
     ///     cents into forty reais, the exact bug this guards against.
     /// </summary>
-    private static bool TryParseNumeric(string? text, out T? parsed)
+    private static bool TryParseNumeric(string? text, out TValue? parsed)
     {
         parsed = default;
         if (string.IsNullOrWhiteSpace(text))
@@ -231,22 +232,22 @@ public partial class SUITextField<T>
 
         var culture = CultureInfo.InvariantCulture;
         var style = NumberStyles.Float;
-        var type = typeof(T);
+        var type = typeof(TValue);
 
-        if (type == typeof(decimal)) { if (decimal.TryParse(text, style, culture, out var v)) { parsed = (T)(object)v; return true; } return false; }
-        if (type == typeof(double)) { if (double.TryParse(text, style, culture, out var v)) { parsed = (T)(object)v; return true; } return false; }
-        if (type == typeof(float)) { if (float.TryParse(text, style, culture, out var v)) { parsed = (T)(object)v; return true; } return false; }
-        if (type == typeof(int)) { if (int.TryParse(text, style, culture, out var v)) { parsed = (T)(object)v; return true; } return false; }
-        if (type == typeof(long)) { if (long.TryParse(text, style, culture, out var v)) { parsed = (T)(object)v; return true; } return false; }
-        if (type == typeof(short)) { if (short.TryParse(text, style, culture, out var v)) { parsed = (T)(object)v; return true; } return false; }
-        if (type == typeof(byte)) { if (byte.TryParse(text, style, culture, out var v)) { parsed = (T)(object)v; return true; } return false; }
-        if (type == typeof(sbyte)) { if (sbyte.TryParse(text, style, culture, out var v)) { parsed = (T)(object)v; return true; } return false; }
-        if (type == typeof(uint)) { if (uint.TryParse(text, style, culture, out var v)) { parsed = (T)(object)v; return true; } return false; }
-        if (type == typeof(ulong)) { if (ulong.TryParse(text, style, culture, out var v)) { parsed = (T)(object)v; return true; } return false; }
-        if (type == typeof(ushort)) { if (ushort.TryParse(text, style, culture, out var v)) { parsed = (T)(object)v; return true; } return false; }
+        if (type == typeof(decimal)) { if (decimal.TryParse(text, style, culture, out var v)) { parsed = (TValue)(object)v; return true; } return false; }
+        if (type == typeof(double)) { if (double.TryParse(text, style, culture, out var v)) { parsed = (TValue)(object)v; return true; } return false; }
+        if (type == typeof(float)) { if (float.TryParse(text, style, culture, out var v)) { parsed = (TValue)(object)v; return true; } return false; }
+        if (type == typeof(int)) { if (int.TryParse(text, style, culture, out var v)) { parsed = (TValue)(object)v; return true; } return false; }
+        if (type == typeof(long)) { if (long.TryParse(text, style, culture, out var v)) { parsed = (TValue)(object)v; return true; } return false; }
+        if (type == typeof(short)) { if (short.TryParse(text, style, culture, out var v)) { parsed = (TValue)(object)v; return true; } return false; }
+        if (type == typeof(byte)) { if (byte.TryParse(text, style, culture, out var v)) { parsed = (TValue)(object)v; return true; } return false; }
+        if (type == typeof(sbyte)) { if (sbyte.TryParse(text, style, culture, out var v)) { parsed = (TValue)(object)v; return true; } return false; }
+        if (type == typeof(uint)) { if (uint.TryParse(text, style, culture, out var v)) { parsed = (TValue)(object)v; return true; } return false; }
+        if (type == typeof(ulong)) { if (ulong.TryParse(text, style, culture, out var v)) { parsed = (TValue)(object)v; return true; } return false; }
+        if (type == typeof(ushort)) { if (ushort.TryParse(text, style, culture, out var v)) { parsed = (TValue)(object)v; return true; } return false; }
 
         // Unknown numeric binding: fall back to the framework converter with the
         // invariant culture rather than inventing a conversion.
-        return BindConverter.TryConvertTo<T>(text, culture, out parsed);
+        return BindConverter.TryConvertTo<TValue>(text, culture, out parsed);
     }
 }

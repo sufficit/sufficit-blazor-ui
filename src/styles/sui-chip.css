@@ -54,7 +54,7 @@
 }
 .sui-chip--actionable.sui-chip--removable .sui-chip__action { padding-inline-end: var(--sui-space-1); }
 .sui-chip__action:hover { background: color-mix(in srgb,currentColor 7%, transparent); }
-.sui-chip__action:focus-visible { outline: 2px solid currentColor; outline-offset: -2px; }
+.sui-chip__action:focus-visible { outline: 2px solid currentColor; outline-offset: var(--sui-focus-offset-inset); }
 .sui-chip__leading { display: inline-flex; line-height: 0; }
 .sui-chip__label { transform: translateY(1px); }
 .sui-chip__remove {
@@ -76,7 +76,7 @@
   color: var(--sui-text-primary);
   background: color-mix(in srgb,currentColor 9%, transparent);
 }
-.sui-chip__remove:focus-visible { outline: 2px solid currentColor; outline-offset: 1px; }
+.sui-chip__remove:focus-visible { outline: 2px solid currentColor; outline-offset: var(--sui-focus-offset); }
 
 .sui-chip--filled { }
 .sui-chip--outlined { background: transparent; border-color: var(--_chip-bd); }

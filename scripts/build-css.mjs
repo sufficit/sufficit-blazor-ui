@@ -36,9 +36,18 @@ const budgets = {
   // keep their soft-wrap opportunities): measured 56,780 / 10,480 / 9,128 B,
   // within the budgets below and under the AssetBudgetTests ceilings
   // (58,624 / 11,008 / 9,472), so this script still fails before CI does.
-  raw: 58_368,
-  gzip: 10_752,
-  brotli: 9_472,
+  // Ratcheted 2026-10-04 for the design-consolidation stages: state tints,
+  // focus/motion/nav tokens and the L2 inline-style -> class migration
+  // (strict-CSP safe; component markup shrinks as CSS grows). Measured
+  // 58,993 / 10,848 / 9,476 B. Kept under the AssetBudgetTests ceilings
+  // (60,928 / 11,264 / 9,984) so this script still fails before CI does.
+  // Ratcheted 2026-10-04 (stage F1/F4) for the cascading density token:
+  // control heights/paddings now derive from --sui-density-scale via calc().
+  // Measured 59,213 / 10,877 / 9,490 B; gzip/brotli still fit the previous
+  // script budgets, only raw moved.
+  raw: 59_392,
+  gzip: 11_008,
+  brotli: 9_728,
 };
 
 const result = bundle({

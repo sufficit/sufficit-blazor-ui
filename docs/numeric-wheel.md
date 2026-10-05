@@ -3,7 +3,7 @@
 `SUINumericField` separa a precisão de entrada (`Step`) dos incrementos da roda do mouse (`WheelStep`), das setas do teclado (`ArrowKeyStep`) e das setinhas clicáveis (`SpinnerStep`). As permissões `ChangeOnWheel` e `ChangeOnArrowKeys` são independentes e não bloqueiam os botões clicáveis.
 
 ```razor
-<SUINumericField T="decimal" Step="0.01" Min="50" Max="2500"
+<SUINumericField TValue="decimal" Step="0.01" Min="50" Max="2500"
                  ChangeOnWheel="@AllowWheel" WheelStep="@Increment"
                  ChangeOnArrowKeys="@AllowArrows" ArrowKeyStep="@Increment"
                  SpinnerStep="@Increment"
