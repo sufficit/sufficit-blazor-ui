@@ -14,13 +14,13 @@ B|Sufficit.Blazor.UI.Components.SUIChip|Sufficit.Blazor.UI.Components.SUICompone
 B|Sufficit.Blazor.UI.Components.SUIChoiceCard<`0:TValue>|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIColor|System.Enum
 B|Sufficit.Blazor.UI.Components.SUIComponentBase|Microsoft.AspNetCore.Components.ComponentBase
-B|Sufficit.Blazor.UI.Components.SUIConfirmDialog|Microsoft.AspNetCore.Components.ComponentBase
+B|Sufficit.Blazor.UI.Components.SUIConfirmDialog|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIContainer|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUICopyToClipboard|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIDateField|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIDateTime|Sufficit.Blazor.UI.Components.SUIComponentBase
-B|Sufficit.Blazor.UI.Components.SUIDecisionDialog|Microsoft.AspNetCore.Components.ComponentBase
-B|Sufficit.Blazor.UI.Components.SUIDialogHost|Microsoft.AspNetCore.Components.ComponentBase
+B|Sufficit.Blazor.UI.Components.SUIDecisionDialog|Sufficit.Blazor.UI.Components.SUIComponentBase
+B|Sufficit.Blazor.UI.Components.SUIDialogHost|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIDivider|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIDrawer|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIEdge|System.Enum
@@ -51,7 +51,7 @@ B|Sufficit.Blazor.UI.Components.SUIOrigin|System.Enum
 B|Sufficit.Blazor.UI.Components.SUIPageHeader|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIPagination|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIPendingChangesBar|Sufficit.Blazor.UI.Components.SUIComponentBase
-B|Sufficit.Blazor.UI.Components.SUIPopover|Microsoft.AspNetCore.Components.ComponentBase
+B|Sufficit.Blazor.UI.Components.SUIPopover|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIProgressCircular|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIProgressLinear|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIProgressSteps|Sufficit.Blazor.UI.Components.SUIComponentBase
@@ -89,7 +89,7 @@ B|Sufficit.Blazor.UI.Components.SUIToastHost|Sufficit.Blazor.UI.Components.SUINo
 B|Sufficit.Blazor.UI.Components.SUIToast|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUITone|System.Enum
 B|Sufficit.Blazor.UI.Components.SUITooltipPlacement|System.Enum
-B|Sufficit.Blazor.UI.Components.SUITooltip|Microsoft.AspNetCore.Components.ComponentBase
+B|Sufficit.Blazor.UI.Components.SUITooltip|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUITypo|System.Enum
 B|Sufficit.Blazor.UI.Components.SUIVariant|System.Enum
 B|Sufficit.Blazor.UI.ServiceCollectionExtensions|System.Object
@@ -1178,9 +1178,7 @@ P|Sufficit.Blazor.UI.Components.SUIPopover|System.Int32|HideDelay|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIPopover|System.Int32|MaxWidth|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIPopover|System.Int32|Offset|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIPopover|System.Int32|ShowDelay|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUIPopover|System.String|Class|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIPopover|System.String|PanelClass|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUIPopover|System.String|Style|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIProgressCircular|Sufficit.Blazor.UI.Components.SUISpinDirection|SpinDirection|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIProgressCircular|System.Boolean|Indeterminate|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIProgressCircular|System.Double|Value|[]|get;set;
@@ -1391,10 +1389,8 @@ P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|BackgroundColor|[]|get;
 P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|BorderColor|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|BorderRadius|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|BoxShadow|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|Class|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|FontSize|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|Padding|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|Style|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|TextColor|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|Text|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|TooltipClass|[]|get;set;

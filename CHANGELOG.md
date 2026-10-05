@@ -102,6 +102,15 @@ definem a numeração das próximas publicações.
 
 ### Changed
 
+- Migração da família Overlays para `SUIComponentBase` (5 componentes:
+  `SUIConfirmDialog`, `SUIDecisionDialog`, `SUIDialogHost`, `SUIPopover`,
+  `SUITooltip`): `SUIDialogHost` ganha `Class`/`Style`/splat no overlay raiz
+  (`.sui-dialog-overlay`) que antes não tinha; `SUIConfirmDialog` e
+  `SUIDecisionDialog` são conteúdo renderizado dentro do host (sem raiz
+  próprio) e herdam a base pela consistência da família. `SUIPopover` e
+  `SUITooltip` mantêm o dicionário legado `UserAttributes` como alias
+  `[Obsolete]` com merge canônico (canônico vence em colisões).
+
 - Migração da família Navigation para `SUIComponentBase` (8 componentes:
   `SUIFilterScope`, `SUIFilterTree`, `SUINavGroup`, `SUINavLink`,
   `SUISlidingTabPanel`, `SUISlidingTabs`, `SUITabPanel`, `SUITabs`):
