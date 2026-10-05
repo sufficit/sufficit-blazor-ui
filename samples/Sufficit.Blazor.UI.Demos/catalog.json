@@ -4795,22 +4795,6 @@
         "deprecated": false
       },
       {
-        "description": "Additional CSS classes appended to the aside.",
-        "name": "Class",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "Inline style appended after the --sui-drawer-width custom property.",
-        "name": "Style",
-        "type": "string?",
-        "default": "Padrão do tipo",
-        "required": false,
-        "deprecated": false
-      },
-      {
         "description": "Drawer body, rendered inside sui-drawer__content.",
         "name": "ChildContent",
         "type": "RenderFragment?",
@@ -4819,7 +4803,23 @@
         "deprecated": false
       },
       {
-        "description": "Unmatched attributes forwarded to the aside element.",
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",

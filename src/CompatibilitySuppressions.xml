@@ -45,6 +45,13 @@
   </Suppression>
   <Suppression>
     <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Sufficit.Blazor.UI.Components.SUIFormGrid.get_AdditionalAttributes</Target>
+    <Left>lib/net10.0/Sufficit.Blazor.UI.dll</Left>
+    <Right>lib/net10.0/Sufficit.Blazor.UI.dll</Right>
+    <IsBaselineSuppression>true</IsBaselineSuppression>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
     <Target>M:Sufficit.Blazor.UI.Services.SUISnackbarService.Add(System.String,System.String,System.Int32)</Target>
     <Left>lib/net10.0/Sufficit.Blazor.UI.dll</Left>
     <Right>lib/net10.0/Sufficit.Blazor.UI.dll</Right>

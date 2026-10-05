@@ -65,16 +65,8 @@ public partial class SUIDrawer
     [Parameter] public EventCallback<bool> CompactChanged { get; set; }
     /// <summary>Shadow level 1-3 (<c>sui-drawer--e1</c>..<c>e3</c>); out-of-range values fall back to 1.</summary>
     [Parameter] public int Elevation { get; set; } = 1;
-    /// <summary>Additional CSS classes appended to the <c>aside</c>.</summary>
-    [Parameter] public string? Class { get; set; }
-    /// <summary>Inline style appended after the <c>--sui-drawer-width</c> custom property.</summary>
-    [Parameter] public string? Style { get; set; }
     /// <summary>Drawer body, rendered inside <c>sui-drawer__content</c>.</summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
-
-    /// <summary>Unmatched attributes forwarded to the <c>aside</c> element.</summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
 
     /// <summary>Seeds the compact state from the variant and subscribes to navigation changes.</summary>
     protected override void OnInitialized()

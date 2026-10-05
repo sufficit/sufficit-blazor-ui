@@ -5,12 +5,14 @@
 
 ## Escopo
 
-Oitava e última leva da migração progressiva para `SUIComponentBase`
+Oitava leva da migração progressiva para `SUIComponentBase`
 (pilotos em `20261004-…-component-base.md`; Layout/Actions/DataDisplay/
 Feedback/Navigation/Overlays nas notas de 2026-10-05). Oito componentes
-Forms restantes. **Após esta leva, todos os 72 componentes do pacote
-herdam de `SUIComponentBase`** (o `SUIDrawer`, único da Layout fora, foi
-migrado na leva anterior — ver baseline).
+Forms restantes. **Correção:** a primeira versão desta nota (e do
+CHANGELOG) afirmava que a leva completava 100% da base — incorreto: o
+`SUIDrawer` (code-behind + interop JS, adiado desde o lote Layout) ainda
+estava em `ComponentBase`. Ele é migrado no commit imediatamente
+seguinte, que fecha a cobertura em 100% de `src/Components/`.
 
 ## Decisões
 
@@ -22,7 +24,15 @@ migrado na leva anterior — ver baseline).
   input do numeric.
 - **`SUIFormGrid`:** tinha parâmetro próprio
   `IReadOnlyDictionary<string, object?>? AdditionalAttributes` (tipo
-  diferente da base). Removido em favor do `Dictionary` da base —
+  diferente da base). Removido em favor do `Dictionary` da base. **Essa
+  troca de tipo é uma quebra de API deliberada** (o getter público muda de
+  assinatura) e foi suprimida em `src/CompatibilitySuppressions.xml`
+  (CP0002, commit seguinte) — o mesmo mecanismo usado para as quebras
+  deliberadas anteriores. Nota de processo: a validação local de pack
+  (`dotnet pack | grep`) escondeu o erro CP0002 porque o ApiCompat roda
+  DEPOIS de criar os pacotes; só o CI o expôs. A validação local agora
+  confere o exit code.
+
   ApiCompat verde porque a mudança é apenas de declaração (o parâmetro
   herdado mantém o mesmo nome; o tipo mudou de
   `IReadOnlyDictionary` para `Dictionary`, o que o pack aceita por

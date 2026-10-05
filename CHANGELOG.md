@@ -102,11 +102,16 @@ definem a numeração das próximas publicações.
 
 ### Changed
 
+- Migração final: `SUIDrawer` para `SUIComponentBase` (code-behind +
+  interop JS de focus trap) — com ele, **todos os 72 componentes de
+  `src/Components/` herdam da base única**; `SUIThemeProvider`
+  (em `Themes/`, fora do escopo das famílias de componentes) permanece em
+  `ComponentBase`.
 - Migração da família Forms para `SUIComponentBase` (8 componentes:
   `SUIAutocomplete<TValue>`, `SUIChoiceCard<TValue>`, `SUIDateField`,
   `SUIFormGrid`, `SUINumericField<TValue>`, `SUISelectItem`, `SUISwitch`,
-  `SUISwitchButton`): com esta leva, **todos os 72 componentes** herdam de
-  `SUIComponentBase`. `SUIAutocomplete`, `SUIDateField` e `SUINumericField`
+  `SUISwitchButton`): faltava apenas o `SUIDrawer`, concluído na entrada
+  acima. `SUIAutocomplete`, `SUIDateField` e `SUINumericField`
   mantêm o dicionário legado `UserAttributes` como alias `[Obsolete]` com
   merge canônico no `OnParametersSet` existente (o destino do splat não muda:
   raiz/trigger/input, como antes); `SUIFormGrid` perde o
@@ -208,6 +213,13 @@ definem a numeração das próximas publicações.
   `aria-label`/`aria-labelledby` ou texto visível).
 
 ### Packaging
+
+- `src/CompatibilitySuppressions.xml`: supressão deliberada de CP0002 para
+  `SUIFormGrid.AdditionalAttributes` (getter mudou de
+  `IReadOnlyDictionary<string, object?>?` para o `Dictionary` da base na
+  migração de família) — janela de migração, mesma prática das quebras
+  anteriores registradas no arquivo.
+
 
 - Pacote inclui `Sufficit.Blazor.UI.xml` (IntelliSense), publica símbolos `.snupkg` com Source Link (`PublishRepositoryUrl`, `EmbedUntrackedSources`) e deixa de usar `PackageIconUrl`, obsoleto. Todos os 320 membros públicos que faltavam receberam `<summary>` (tokens de tema com o `--sui-*` que alimentam, enums com o efeito real, parâmetros com padrões e ARIA); `CS1591` passa a valer com warnings como erro. `SUIDateField.Calendar.cs` e `SUINavGroup.Rail.cs` nascem de divisões mecânicas para respeitar o teto de 450 linhas.
 - Mensagens `[Obsolete]` das pontes não prometem mais "v2.0.0": apontam para `docs/PLAN-API-CLEANUP.md` (antigo `PLAN-SUI-V2.md`).

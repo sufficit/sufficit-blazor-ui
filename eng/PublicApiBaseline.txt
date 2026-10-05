@@ -22,7 +22,7 @@ B|Sufficit.Blazor.UI.Components.SUIDateTime|Sufficit.Blazor.UI.Components.SUICom
 B|Sufficit.Blazor.UI.Components.SUIDecisionDialog|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIDialogHost|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIDivider|Sufficit.Blazor.UI.Components.SUIComponentBase
-B|Sufficit.Blazor.UI.Components.SUIDrawer|Microsoft.AspNetCore.Components.ComponentBase
+B|Sufficit.Blazor.UI.Components.SUIDrawer|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIEdge|System.Enum
 B|Sufficit.Blazor.UI.Components.SUIEmptyState+Icons|System.Object
 B|Sufficit.Blazor.UI.Components.SUIEmptyState|Sufficit.Blazor.UI.Components.SUIComponentBase
@@ -974,14 +974,11 @@ P|Sufficit.Blazor.UI.Components.SUIDrawer|System.Boolean|FullScreenOnCompact|[]|
 P|Sufficit.Blazor.UI.Components.SUIDrawer|System.Boolean|Open|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDrawer|System.Boolean|ShowBackdrop|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDrawer|System.Boolean|ShowCloseButton|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUIDrawer|System.Collections.Generic.Dictionary<System.String,System.Object>|AdditionalAttributes|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDrawer|System.Int32|Elevation|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDrawer|System.Int32|ResponsiveBreakpoint|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDrawer|System.String|AriaLabel|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUIDrawer|System.String|Class|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDrawer|System.String|CloseLabel|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDrawer|System.String|Id|[]|get;set;
-P|Sufficit.Blazor.UI.Components.SUIDrawer|System.String|Style|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDrawer|System.String|Title|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDrawer|System.String|Variant|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDrawer|System.String|Width|[]|get;set;
