@@ -1,0 +1,24 @@
+@inherits DemoBase
+
+<SUIStack Spacing="2">
+    <SUIExpansionPanel Title="Adapter advanced"
+                       Subtitle="Provider-specific fields, collapsed by default">
+        <SUITextField T="string" Label="Base URL" Value="https://api.example.com" />
+    </SUIExpansionPanel>
+    <SUIExpansionPanel Title="Session credentials"
+                       Subtitle="Stored encrypted, never rendered back in full"
+                       StartIcon="key"
+                       Expanded="true">
+        <SUIText Typo="SUITypo.body2">Collapsible body content stays mounted only while expanded.</SUIText>
+    </SUIExpansionPanel>
+    <SUIExpansionPanel Title="Bound usage"
+                       Subtitle="@($"Expanded is bound to a field: {BoundExpanded}")"
+                       Expanded="@BoundExpanded"
+                       ExpandedChanged="(bool v) => BoundExpanded = v">
+        <SUIText Typo="SUITypo.body2">Toggle from code: <SUIButton SizeValue="SUISize.Small" OnClick="@(() => BoundExpanded = !BoundExpanded)">Toggle</SUIButton></SUIText>
+    </SUIExpansionPanel>
+</SUIStack>
+
+@code {
+    private bool BoundExpanded;
+}

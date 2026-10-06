@@ -1,0 +1,82 @@
+@namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
+
+<div class="@Classname" style="@Style" @attributes="AdditionalAttributes">
+    <button type="button" class="sui-expansion__header"
+            aria-expanded="@ExpandedState"
+            @onclick="ToggleAsync">
+        @if (!string.IsNullOrWhiteSpace(StartIcon))
+        {
+            <SUIIcon Name="@StartIcon" CssClass="sui-expansion__icon" />
+        }
+        <span class="sui-expansion__titles">
+            <span class="sui-expansion__title">@Title</span>
+            @if (!string.IsNullOrWhiteSpace(Subtitle))
+            {
+                <span class="sui-expansion__subtitle">@Subtitle</span>
+            }
+        </span>
+        <SUIIcon Name="chevron-down" CssClass="@ChevronClass" />
+    </button>
+    @if (ExpandedState)
+    {
+        <div class="sui-expansion__content">
+            @ChildContent
+        </div>
+    }
+</div>
+
+@code {
+    /// <summary>Local state used when the caller does not bind <see cref="Expanded"/>.</summary>
+    private bool? _localExpanded;
+
+    /// <summary>Title rendered in the always-visible header.</summary>
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    /// <summary>Optional secondary line rendered under the title.</summary>
+    [Parameter]
+    public string? Subtitle { get; set; }
+
+    /// <summary>Optional leading icon name (resolved by <see cref="SUIIcon"/>).</summary>
+    [Parameter]
+    public string? StartIcon { get; set; }
+
+    /// <summary>Whether the body is expanded. Bindable; defaults to collapsed.</summary>
+    [Parameter]
+    public bool Expanded { get; set; }
+
+    /// <summary>Raised when the header toggles the expansion state (wired by <c>@bind-Expanded</c>).</summary>
+    [Parameter]
+    public EventCallback<bool> ExpandedChanged { get; set; }
+
+    /// <summary>Collapsible body content.</summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private bool ExpandedState => _localExpanded ?? Expanded;
+
+    private string ChevronClass
+        => ExpandedState ? "sui-expansion__chevron sui-expansion__chevron--expanded" : "sui-expansion__chevron";
+
+    private string Classname
+        => EffectiveClass(ExpandedState
+            ? "sui-expansion sui-expansion--expanded"
+            : "sui-expansion");
+
+    private async Task ToggleAsync()
+    {
+        var next = !ExpandedState;
+        if (ExpandedChanged.HasDelegate)
+        {
+            // Bound usage: the parent owns the state and re-renders with the new value.
+            await ExpandedChanged.InvokeAsync(next);
+            _localExpanded = null;
+        }
+        else
+        {
+            // Unbound usage: the panel owns its own toggle state.
+            _localExpanded = next;
+        }
+    }
+}

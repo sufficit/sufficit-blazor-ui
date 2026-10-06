@@ -26,6 +26,7 @@ B|Sufficit.Blazor.UI.Components.SUIDrawer|Sufficit.Blazor.UI.Components.SUICompo
 B|Sufficit.Blazor.UI.Components.SUIEdge|System.Enum
 B|Sufficit.Blazor.UI.Components.SUIEmptyState+Icons|System.Object
 B|Sufficit.Blazor.UI.Components.SUIEmptyState|Sufficit.Blazor.UI.Components.SUIComponentBase
+B|Sufficit.Blazor.UI.Components.SUIExpansionPanel|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIFilterContext|System.Object
 B|Sufficit.Blazor.UI.Components.SUIFilterScope|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIFilterTree|Sufficit.Blazor.UI.Components.SUIComponentBase
@@ -133,6 +134,7 @@ C|Sufficit.Blazor.UI.Components.SUIDialogHost|()
 C|Sufficit.Blazor.UI.Components.SUIDivider|()
 C|Sufficit.Blazor.UI.Components.SUIDrawer|()
 C|Sufficit.Blazor.UI.Components.SUIEmptyState|()
+C|Sufficit.Blazor.UI.Components.SUIExpansionPanel|()
 C|Sufficit.Blazor.UI.Components.SUIFilterContext|(System.String)
 C|Sufficit.Blazor.UI.Components.SUIFilterScope|()
 C|Sufficit.Blazor.UI.Components.SUIFilterTree|()
@@ -456,6 +458,9 @@ I|Sufficit.Blazor.UI.Components.SUIEdge|System.ISpanFormattable
 I|Sufficit.Blazor.UI.Components.SUIEmptyState|Microsoft.AspNetCore.Components.IComponent
 I|Sufficit.Blazor.UI.Components.SUIEmptyState|Microsoft.AspNetCore.Components.IHandleAfterRender
 I|Sufficit.Blazor.UI.Components.SUIEmptyState|Microsoft.AspNetCore.Components.IHandleEvent
+I|Sufficit.Blazor.UI.Components.SUIExpansionPanel|Microsoft.AspNetCore.Components.IComponent
+I|Sufficit.Blazor.UI.Components.SUIExpansionPanel|Microsoft.AspNetCore.Components.IHandleAfterRender
+I|Sufficit.Blazor.UI.Components.SUIExpansionPanel|Microsoft.AspNetCore.Components.IHandleEvent
 I|Sufficit.Blazor.UI.Components.SUIFilterContext|System.IEquatable<Sufficit.Blazor.UI.Components.SUIFilterContext>
 I|Sufficit.Blazor.UI.Components.SUIFilterScope|Microsoft.AspNetCore.Components.IComponent
 I|Sufficit.Blazor.UI.Components.SUIFilterScope|Microsoft.AspNetCore.Components.IHandleAfterRender
@@ -988,6 +993,12 @@ P|Sufficit.Blazor.UI.Components.SUIEmptyState|System.String|Description|[]|get;s
 P|Sufficit.Blazor.UI.Components.SUIEmptyState|System.String|IconPath|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIEmptyState|System.String|Icon|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIEmptyState|System.String|Title|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIExpansionPanel|Microsoft.AspNetCore.Components.EventCallback<System.Boolean>|ExpandedChanged|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIExpansionPanel|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIExpansionPanel|System.Boolean|Expanded|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIExpansionPanel|System.String|StartIcon|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIExpansionPanel|System.String|Subtitle|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIExpansionPanel|System.String|Title|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIFilterContext|System.Boolean|IsFiltering|[]|get;
 P|Sufficit.Blazor.UI.Components.SUIFilterContext|System.String|FilterText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIFilterScope|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
@@ -1537,6 +1548,7 @@ T|class|Sufficit.Blazor.UI.Components.SUIDivider
 T|class|Sufficit.Blazor.UI.Components.SUIDrawer
 T|class|Sufficit.Blazor.UI.Components.SUIEmptyState
 T|class|Sufficit.Blazor.UI.Components.SUIEmptyState+Icons
+T|class|Sufficit.Blazor.UI.Components.SUIExpansionPanel
 T|class|Sufficit.Blazor.UI.Components.SUIFilterContext
 T|class|Sufficit.Blazor.UI.Components.SUIFilterScope
 T|class|Sufficit.Blazor.UI.Components.SUIFilterTree

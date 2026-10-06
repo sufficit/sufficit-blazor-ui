@@ -27,6 +27,7 @@ public static partial class DemoCatalog
         "SUITimelineItem" => typeof(Examples.SUITimelineItemExample),
         "SUIAlert" => typeof(Examples.SUIAlertExample),
         "SUIEmptyState" => typeof(Examples.SUIEmptyStateExample),
+        "SUIExpansionPanel" => typeof(Examples.SUIExpansionPanelExample),
         "SUIPendingChangesBar" => typeof(Examples.SUIPendingChangesBarExample),
         "SUIProgressCircular" => typeof(Examples.SUIProgressCircularExample),
         "SUIProgressLinear" => typeof(Examples.SUIProgressLinearExample),

@@ -1,0 +1,13 @@
+/* Expansion panel — collapsible section with an always-visible header */
+.sui-expansion{border-top:1px solid var(--sui-border)}
+.sui-expansion:first-child{border-top:0}
+.sui-expansion__header{display:flex;align-items:center;gap:var(--sui-space-3);width:100%;padding:var(--sui-space-3) var(--sui-space-4);background:transparent;border:0;border-radius:0;color:inherit;font:inherit;text-align:start;cursor:pointer;transition:background-color var(--sui-transition)}
+.sui-expansion__header:hover{background:var(--sui-surface-2)}
+.sui-expansion__header:focus-visible{outline:2px solid var(--sui-color-primary);outline-offset:-2px}
+.sui-expansion__icon{color:var(--sui-text-secondary)}
+.sui-expansion__titles{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
+.sui-expansion__title{font-size:var(--sui-fs-body2);font-weight:600;color:var(--sui-text-primary)}
+.sui-expansion__subtitle{font-size:var(--sui-fs-caption);color:var(--sui-text-secondary)}
+.sui-expansion__chevron{margin-inline-start:auto;color:var(--sui-text-secondary);transition:transform var(--sui-dur-fast) var(--sui-ease)}
+.sui-expansion ::deep .sui-expansion__chevron--expanded{transform:rotate(180deg)}
+.sui-expansion__content{padding:var(--sui-space-2) var(--sui-space-4) var(--sui-space-4)}

@@ -37,7 +37,9 @@ public sealed class AssetBudgetTests
     // 32,217 B; headroom rule keeps ~3% slack.
     // Raised 2026-09-20 for SUIPopover (dark floating surface, per-placement
     // arrows, open state, reduced-motion) — measured 34,491 B.
-    private const int IsolatedCssRawBudget = 34 * 1024 + 1024; // measured 34,491 B
+    // Raised 2026-10-06 for SUIExpansionPanel (header row, titles, chevron
+    // rotation, content padding) — measured 35,905 B.
+    private const int IsolatedCssRawBudget = 36 * 1024 + 1024; // measured 35,905 B
 
     [Fact]
     public void GlobalStylesheet_FitsTheTransferBudget()
