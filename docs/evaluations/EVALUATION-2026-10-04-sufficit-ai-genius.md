@@ -65,6 +65,17 @@
 > `TypographyRampContractTests` travam a decisão (949 testes; atividade:
 > `docs/activities/20261005-typography-ramp-f3.md`).
 >
+> ➕ **2026-10-07 — janela de quebra v3 planejada e main destravada:**
+> inventário completo em `docs/PLAN-MAJOR3-BREAKING-WINDOW.md`, travado por
+> `BreakingWindowContractTests` (21 pontes de atributos + 2 sobrecargas de
+> severidade, contagem exata, sem ponte nova em silêncio). No caminho, a main
+> estava vermelha desde `d97e206` (`SUIExpansionPanel`): o exemplo copiado do
+> catálogo não compilava — com `T="string"` explícito o Razor trata o valor do
+> atributo como expressão crua e o `//` da URL abre comentário (CS1525).
+> Corrigido em `878d5bd`; teto de transferência de CSS do catálogo reajustado
+> pela regra ×1,03 (960 testes; atividade:
+> `docs/activities/20261007-major3-breaking-window-plan.md`).
+>
 > ℹ️ **Correção pós-merge (2026-10-05):** a política V3 como `.01ms`
 > falhava o contrato hover×pressed e o teste de motion no navegador
 > (valor pré-mudança lido no mesmo frame). Corrigida para

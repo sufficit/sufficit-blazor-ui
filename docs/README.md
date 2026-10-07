@@ -22,6 +22,10 @@ concluído é arquivado em `activities/` com prefixo de timestamp
 
 ## Planos ativos (trabalho pendente)
 
+- [Janela de quebra da próxima major (v3)](PLAN-MAJOR3-BREAKING-WINDOW.md) —
+  inventário travado por contrato (`BreakingWindowContractTests`): as 21
+  pontes `UserAttributes`/`Attributes` da migração `SUIComponentBase` e as 2
+  sobrecargas legadas de severidade por string só saem juntas, na janela
 - [Acompanhamento da avaliação de 2026-09-11](PLAN-LIBRARY-REVIEW-FOLLOWUP.md) —
   deslistagem no NuGet (bloqueada por credencial) e summaries XML faltantes
 - [Adoção dos componentes `SUI*`](PLAN-CONSUMER-MIGRATION.md) —

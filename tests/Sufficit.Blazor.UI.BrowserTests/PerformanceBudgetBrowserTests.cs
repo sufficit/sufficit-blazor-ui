@@ -21,7 +21,9 @@ public sealed class PerformanceBudgetBrowserTests : PageTest
     // Raised 2026-09-23 for SUIPopover's scoped surface styling: 107,136 B
     // measured in Chromium CI; measured × 1.03 rounded up to the next KiB
     // (3 % headroom rule, see AssetBudgetTests).
-    private const long CssTransferBudget = 108 * 1024; // measured 107,136 B in Chromium CI
+    // Raised 2026-10-07 for SUIExpansionPanel's scoped CSS and catalog page:
+    // 111,900 B measured in Chromium CI; 111,900 × 1.03 = 115,257 → 113 KiB.
+    private const long CssTransferBudget = 113 * 1024; // measured 111,900 B in Chromium CI
     private const long TotalTransferBudget = 900 * 1024;
     private const double LargestContentfulPaintBudgetMs = 2500;
     private const double CumulativeLayoutShiftBudget = 0.1;

@@ -115,6 +115,14 @@ definem a numeração das próximas publicações.
 
 ### Changed
 
+- Janela de quebra da próxima major: inventário registrado em
+  `docs/PLAN-MAJOR3-BREAKING-WINDOW.md` e travado por contrato
+  (`BreakingWindowContractTests`) — as 21 pontes `UserAttributes`/`Attributes`
+  da migração `SUIComponentBase` e as 2 sobrecargas legadas de severidade por
+  string saem juntas apenas nessa janela; a família Material do `SUITypo`
+  segue suportada e os defaults tipográficos internos (`SUIDrawer`,
+  `SUIPagination`, `SUIStat`, `SUITableEmpty`) só migram lá, com recaptura de
+  baselines visuais. Nenhuma ponte nova entra ou sai em silêncio.
 - Rampa tipográfica (F3): decisão registrada em
   `docs/DESIGN-TYPOGRAPHY-RAMP.md`. Os seis papéis semânticos de `SUITypo`
   (`display`, `headline`, `title`, `body`, `label`, `mono`) são a direção para
@@ -234,6 +242,11 @@ definem a numeração das próximas publicações.
 
 ### Packaging
 
+- Teto de transferência de CSS do catálogo (`PerformanceBudgetBrowserTests`)
+  elevado para 113 KiB: medido 111.900 B no Chromium do CI após o
+  `SUIExpansionPanel` (CSS isolado + página de catálogo) — medido × 1,03
+  arredondado para cima, mesma regra dos demais tetos; data e motivo no
+  próprio teste.
 - `src/CompatibilitySuppressions.xml`: supressão deliberada de CP0002 para
   `SUIFormGrid.AdditionalAttributes` (getter mudou de
   `IReadOnlyDictionary<string, object?>?` para o `Dictionary` da base na
