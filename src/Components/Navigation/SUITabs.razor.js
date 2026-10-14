@@ -1,9 +1,10 @@
 export function initialize(root) {
+  if (!(root instanceof HTMLElement) || !root.isConnected) return null;
   const preventNavigation = event => {
     const tab = event.target;
     if (!(tab instanceof HTMLElement) || tab.getAttribute('role') !== 'tab'
         || event.altKey || event.ctrlKey || event.metaKey) return;
-    const vertical = tab.parentElement.getAttribute('aria-orientation') === 'vertical';
+    const vertical = tab.parentElement?.getAttribute('aria-orientation') === 'vertical';
     const keys = vertical ? ['ArrowUp', 'ArrowDown', 'Home', 'End'] : ['ArrowLeft', 'ArrowRight', 'Home', 'End'];
     if (keys.includes(event.key)) event.preventDefault();
   };
@@ -12,6 +13,7 @@ export function initialize(root) {
 }
 
 export function reveal(root) {
+  if (!(root instanceof HTMLElement) || !root.isConnected) return;
   const list = root.querySelector('[role="tablist"]');
   const tab = list?.querySelector('[aria-selected="true"]');
   if (!tab || list.getAttribute('aria-orientation') === 'vertical') return;
