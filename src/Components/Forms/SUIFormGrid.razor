@@ -6,6 +6,12 @@
      style="@StyleValue"
      data-sui-align-row>
     @ChildContent
+    @if (FullWidthContent is not null)
+    {
+        <div class="sui-form-grid__full-width">
+            @FullWidthContent
+        </div>
+    }
 </div>
 
 @code {
@@ -35,6 +41,10 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>Content spanning every column after the regular fields, using the same Spacing gap.</summary>
+    [Parameter]
+    public RenderFragment? FullWidthContent { get; set; }
+
     private int EffectiveColumns => Math.Clamp(Columns, 1, 4);
     private int EffectiveSpacing => Math.Clamp(Spacing, 0, 6);
     private int EffectiveLabelLines => Math.Clamp(LabelLines, 1, 3);
@@ -48,7 +58,7 @@
 
     private string StyleValue
         => $"--sui-form-grid-columns:{EffectiveColumns};"
-            + $"--sui-form-grid-gap:var(--sui-space-{EffectiveSpacing});"
+            + (EffectiveSpacing == 0 ? "--sui-form-grid-gap:0px;" : $"--sui-form-grid-gap:var(--sui-space-{EffectiveSpacing});")
             + $"--sui-form-grid-label-lines:{EffectiveLabelLines};"
             + $"--sui-form-grid-min-width:{MinColumnWidth};"
             + (string.IsNullOrWhiteSpace(Style) ? string.Empty : Style);

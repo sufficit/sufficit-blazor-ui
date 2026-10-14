@@ -12,6 +12,12 @@ diretamente. Seus blocos de conteúdo seguem, por padrão, um fluxo vertical com
 Use outro valor da escala de 0 a 6 quando a densidade da seção exigir; reserve
 `ContentSpacing="0"` para conteúdo que controla integralmente o próprio layout.
 
+`SUIStack` aplica `Spacing` (0–6, padrão 3) por classes CSS da biblioteca. Isso
+mantém o intervalo entre filhos em aplicações com CSP sem `unsafe-inline`;
+`Style` fica disponível somente para personalizações explícitas do consumidor.
+Para separar um cabeçalho de sua explicação, componha ambos como filhos diretos
+do stack e remova margens próprias que possam duplicar o intervalo.
+
 Drawer permanente participa do fluxo em desktop. Drawer temporário usa eixo
 lógico, funciona em RTL e ocupa o nível `--sui-z-drawer`. Tokens de spacing,
 raio e elevação vêm do tema; não replique números de z-index no consumer.

@@ -25,7 +25,8 @@ public sealed class CatalogImprovementTests
     {
         using var context = new BunitContext();
         var cut = context.Render<SUIStack>(p => p.Add(x => x.Spacing, 0).Add(x => x.Style, "width:50%"));
-        Assert.Equal("gap:0;width:50%", cut.Find("div").GetAttribute("style"));
+        Assert.Contains("sui-stack--gap-0", cut.Find("div").ClassList);
+        Assert.Equal("width:50%", cut.Find("div").GetAttribute("style"));
     }
 
     [Fact]

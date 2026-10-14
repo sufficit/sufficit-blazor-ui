@@ -1,7 +1,7 @@
 @namespace Sufficit.Blazor.UI.Components
 @inherits SUIComponentBase
 
-<div class="@Classname" style="@($"{GapStyle}{Style}")" @attributes="AdditionalAttributes">
+<div class="@Classname" style="@Style" @attributes="AdditionalAttributes">
     @ChildContent
 </div>
 
@@ -30,13 +30,11 @@
 
     private string Classname
         => SUIClassBuilder.Default("sui-stack")
+            .AddClass($"sui-stack--gap-{Spacing}", Spacing is >= 0 and <= 6 and not 3)
             .AddClass("sui-stack--row", Row)
             .AddClass("sui-stack--wrap", Wrap)
             .AddClass($"sui-stack--ai-{AlignItems?.ToLowerInvariant()}", !string.IsNullOrWhiteSpace(AlignItems))
             .AddClass($"sui-stack--jc-{Justify?.ToLowerInvariant()}", !string.IsNullOrWhiteSpace(Justify))
             .AddClass(Class)
             .Build();
-
-    private string GapStyle
-        => Spacing == 0 ? "gap:0;" : Spacing is >= 1 and <= 6 ? $"gap: var(--sui-space-{Spacing});" : "gap: var(--sui-space-3);";
 }

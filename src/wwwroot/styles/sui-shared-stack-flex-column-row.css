@@ -2,7 +2,13 @@
  * Stack (flex column/row)
  * ------------------------------------------------------------------ */
 
-.sui-stack { display: flex; flex-direction: column; min-width: 0; }
+.sui-stack { display: flex; flex-direction: column; min-width: 0; gap: var(--sui-space-3); }
+.sui-stack--gap-0 { gap: 0; }
+.sui-stack--gap-1 { gap: var(--sui-space-1); }
+.sui-stack--gap-2 { gap: var(--sui-space-2); }
+.sui-stack--gap-4 { gap: var(--sui-space-4); }
+.sui-stack--gap-5 { gap: var(--sui-space-5); }
+.sui-stack--gap-6 { gap: var(--sui-space-6); }
 .sui-stack--row { flex-direction: row; }
 .sui-stack--wrap { flex-wrap: wrap; }
 .sui-stack--ai-center { align-items: center; }

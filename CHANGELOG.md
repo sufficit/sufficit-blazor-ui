@@ -8,6 +8,10 @@ definem a numeração das próximas publicações.
 
 ## [Unreleased]
 
+### Fixed
+
+- `SUIStack.Spacing` agora usa classes CSS da escala de espaçamento (0–6), inclusive o padrão 3, para funcionar em aplicações com CSP que bloqueia estilos inline. `Style` continua reservado ao estilo explícito do consumidor.
+
 ### Added
 
 - `SUITable.Virtualize` (opt-in, padrão `false`): o corpo passa por

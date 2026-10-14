@@ -26,7 +26,8 @@ public sealed class FormLayoutContractTests
         var stack = content.QuerySelector(":scope > .sui-stack");
 
         Assert.NotNull(stack);
-        Assert.Contains("gap: var(--sui-space-4)", stack.GetAttribute("style"));
+        Assert.Contains("sui-stack--gap-4", stack.ClassList);
+        Assert.True(string.IsNullOrEmpty(stack.GetAttribute("style")));
         Assert.Equal(2, stack.Children.Length);
     }
 
@@ -41,7 +42,8 @@ public sealed class FormLayoutContractTests
 
         var stack = cut.Find(".sui-card__content > .sui-stack");
 
-        Assert.Contains("gap: var(--sui-space-6)", stack.GetAttribute("style"));
+        Assert.Contains("sui-stack--gap-6", stack.ClassList);
+        Assert.True(string.IsNullOrEmpty(stack.GetAttribute("style")));
     }
 
     [Fact]
@@ -219,7 +221,7 @@ public sealed class FormLayoutContractTests
         var root = cut.Find(".sui-form-grid");
         Assert.DoesNotContain("sui-form-grid--stack-mobile", root.ClassList);
         Assert.Contains("--sui-form-grid-columns:4", root.GetAttribute("style"));
-        Assert.Contains("--sui-form-grid-gap:var(--sui-space-0)", root.GetAttribute("style"));
+        Assert.Contains("--sui-form-grid-gap:0px", root.GetAttribute("style"));
         Assert.Contains("--sui-form-grid-label-lines:1", root.GetAttribute("style"));
     }
 }

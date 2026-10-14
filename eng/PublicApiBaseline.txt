@@ -1009,6 +1009,7 @@ P|Sufficit.Blazor.UI.Components.SUIFilterTree|System.Boolean|IsFiltering|[]|get;
 P|Sufficit.Blazor.UI.Components.SUIFilterTree|System.Boolean|IsMatch|[]|get;
 P|Sufficit.Blazor.UI.Components.SUIFilterTree|System.String[]|Tags|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIFormGrid|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIFormGrid|Microsoft.AspNetCore.Components.RenderFragment|FullWidthContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIFormGrid|System.Boolean|StackOnMobile|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIFormGrid|System.Int32|Columns|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIFormGrid|System.Int32|LabelLines|[]|get;set;

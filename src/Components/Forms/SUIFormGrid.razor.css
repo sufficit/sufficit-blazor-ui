@@ -25,6 +25,18 @@
   min-block-size: calc(var(--sui-form-grid-label-lines, 2) * 1.2em);
 }
 
+.sui-form-grid__full-width {
+  display: grid;
+  gap: var(--sui-form-grid-gap, var(--sui-space-4));
+  grid-column: 1 / -1;
+  min-inline-size: 0;
+}
+
+/* Full-width labels need no reservation for neighbouring columns. */
+.sui-form-grid .sui-form-grid__full-width ::deep > :is(.sui-field, [data-sui-align-field]) :is(.sui-field__label, [data-sui-field-label]) {
+  min-block-size: auto;
+}
+
 @media (max-width: 44rem) {
   .sui-form-grid--stack-mobile {
     grid-template-columns: minmax(0, 1fr);

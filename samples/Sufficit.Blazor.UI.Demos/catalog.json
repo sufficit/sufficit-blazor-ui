@@ -3510,6 +3510,14 @@
         "default": "new()",
         "required": false,
         "deprecated": false
+      },
+      {
+        "description": "Optional content spanning every column after the regular fields, separated by the grid spacing token.",
+        "name": "FullWidthContent",
+        "type": "RenderFragment?",
+        "default": "null",
+        "required": false,
+        "deprecated": false
       }
     ]
   },
