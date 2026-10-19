@@ -83,7 +83,7 @@
     <!-- The SUI components are plain Blazor: they need only the Razor SDK
          component base packages. Exact servicing versions make restore
          reproducible; Dependabot owns the regular update cadence. -->
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.12" />
   </ItemGroup>
 
