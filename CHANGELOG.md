@@ -10,6 +10,8 @@ definem a numeração das próximas publicações.
 
 ### Fixed
 
+- `SUIExpansionPanel`: cabeçalho expandido com fundo distinto e altura mínima de 44px; corpo com separador, padding uniforme e tipografia própria. Margens externas do conteúdo não duplicam o espaçamento do painel. `aria-expanded` publica explicitamente `true`/`false` para tecnologias assistivas.
+
 - `SUIStack.Spacing` agora usa classes CSS da escala de espaçamento (0–6), inclusive o padrão 3, para funcionar em aplicações com CSP que bloqueia estilos inline. `Style` continua reservado ao estilo explícito do consumidor.
 
 ### Added

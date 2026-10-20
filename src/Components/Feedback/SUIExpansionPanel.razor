@@ -3,7 +3,7 @@
 
 <div class="@Classname" style="@Style" @attributes="AdditionalAttributes">
     <button type="button" class="sui-expansion__header"
-            aria-expanded="@ExpandedState"
+            aria-expanded="@(ExpandedState ? "true" : "false")"
             @onclick="ToggleAsync">
         @if (!string.IsNullOrWhiteSpace(StartIcon))
         {
