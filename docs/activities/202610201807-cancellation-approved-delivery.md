@@ -1,0 +1,3 @@
+# Header de diálogo integrado para cancelamento
+
+Código integrado/enviado em main: d33d9ae e 8673fb6. Full suite local: 970 testes passaram. Baseline público revisto intencionalmente: 14 assinaturas aditivas esperadas, nenhuma removida; registra overload opcional, SUIDialogOptions, request.Options e SUIIcons.Cancel. Fallback da interface preserva implementações anteriores. Changelog atualizado. Consumidor Blazor faz referência direta e passou em 49 testes; pacote Release local concluído. Sem release/tag NuGet nesta entrega. CI 39497355455 ainda em andamento na conferência; não declarar sucesso remoto. Evidências e bloqueio operacional de publicação do consumidor descritos em sufficit-blazor/docs/activities/202610201807-cancellation-approved-delivery.md
