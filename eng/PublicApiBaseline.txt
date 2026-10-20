@@ -94,6 +94,7 @@ B|Sufficit.Blazor.UI.Components.SUITooltip|Sufficit.Blazor.UI.Components.SUIComp
 B|Sufficit.Blazor.UI.Components.SUITypo|System.Enum
 B|Sufficit.Blazor.UI.Components.SUIVariant|System.Enum
 B|Sufficit.Blazor.UI.ServiceCollectionExtensions|System.Object
+B|Sufficit.Blazor.UI.Services.SUIDialogOptions|System.Object
 B|Sufficit.Blazor.UI.Services.SUIDialogReference|System.Object
 B|Sufficit.Blazor.UI.Services.SUIDialogRequest|System.Object
 B|Sufficit.Blazor.UI.Services.SUIDialogService|System.Object
@@ -188,6 +189,7 @@ C|Sufficit.Blazor.UI.Components.SUITimeline|()
 C|Sufficit.Blazor.UI.Components.SUIToastHost|()
 C|Sufficit.Blazor.UI.Components.SUIToast|()
 C|Sufficit.Blazor.UI.Components.SUITooltip|()
+C|Sufficit.Blazor.UI.Services.SUIDialogOptions|()
 C|Sufficit.Blazor.UI.Services.SUIDialogReference|()
 C|Sufficit.Blazor.UI.Services.SUIDialogRequest|(System.Guid,System.Type,System.String,System.Collections.Generic.IReadOnlyDictionary<System.String,System.Object>,Sufficit.Blazor.UI.Services.SUIDialogReference)
 C|Sufficit.Blazor.UI.Services.SUIDialogService|()
@@ -246,6 +248,7 @@ F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|ArrowDropUp
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Bank
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Barcode
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Bolt
+F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Cancel
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Cast
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Category
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|ChevronLeft
@@ -678,6 +681,7 @@ I|Sufficit.Blazor.UI.Components.SUIVariant|System.IComparable
 I|Sufficit.Blazor.UI.Components.SUIVariant|System.IConvertible
 I|Sufficit.Blazor.UI.Components.SUIVariant|System.IFormattable
 I|Sufficit.Blazor.UI.Components.SUIVariant|System.ISpanFormattable
+I|Sufficit.Blazor.UI.Services.SUIDialogOptions|System.IEquatable<Sufficit.Blazor.UI.Services.SUIDialogOptions>
 I|Sufficit.Blazor.UI.Services.SUIDialogRequest|System.IEquatable<Sufficit.Blazor.UI.Services.SUIDialogRequest>
 I|Sufficit.Blazor.UI.Services.SUIDialogService|Sufficit.Blazor.UI.Services.ISUIDialogService
 I|Sufficit.Blazor.UI.Services.SUISnackbarEntry|System.IEquatable<Sufficit.Blazor.UI.Services.SUISnackbarEntry>
@@ -746,6 +750,7 @@ M|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.Void|Dispose|()
 M|Sufficit.Blazor.UI.Components.SUITooltip|System.Threading.Tasks.ValueTask|DisposeAsync|()
 M|Sufficit.Blazor.UI.ServiceCollectionExtensions|Microsoft.Extensions.DependencyInjection.IServiceCollection|AddSufficitUI|(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action<Sufficit.Blazor.UI.Themes.SUIThemeOptions>)
 M|Sufficit.Blazor.UI.Services.ISUIDialogService|System.Threading.Tasks.Task<Sufficit.Blazor.UI.Services.SUIDialogReference>|ShowAsync``1|(System.String,System.Collections.Generic.IDictionary<System.String,System.Object>)
+M|Sufficit.Blazor.UI.Services.ISUIDialogService|System.Threading.Tasks.Task<Sufficit.Blazor.UI.Services.SUIDialogReference>|ShowAsync``1|(System.String,System.Collections.Generic.IDictionary<System.String,System.Object>,Sufficit.Blazor.UI.Services.SUIDialogOptions)
 M|Sufficit.Blazor.UI.Services.ISUIDialogService|System.Threading.Tasks.Task<System.Boolean>|ConfirmAsync|(System.String,System.String)
 M|Sufficit.Blazor.UI.Services.ISUISnackbar|System.Void|Add|(System.String,Sufficit.Blazor.UI.Components.SUITone,System.Int32)
 M|Sufficit.Blazor.UI.Services.ISUISnackbar|System.Void|Add|(System.String,System.String,System.Int32)
@@ -759,6 +764,11 @@ M|Sufficit.Blazor.UI.Services.ISUIToast|System.Void|Error|(System.String)
 M|Sufficit.Blazor.UI.Services.ISUIToast|System.Void|Info|(System.String)
 M|Sufficit.Blazor.UI.Services.ISUIToast|System.Void|Success|(System.String)
 M|Sufficit.Blazor.UI.Services.ISUIToast|System.Void|Warning|(System.String)
+M|Sufficit.Blazor.UI.Services.SUIDialogOptions|Sufficit.Blazor.UI.Services.SUIDialogOptions|<Clone>$|()
+M|Sufficit.Blazor.UI.Services.SUIDialogOptions|System.Boolean|Equals|(Sufficit.Blazor.UI.Services.SUIDialogOptions)
+M|Sufficit.Blazor.UI.Services.SUIDialogOptions|System.Boolean|Equals|(System.Object)
+M|Sufficit.Blazor.UI.Services.SUIDialogOptions|System.Int32|GetHashCode|()
+M|Sufficit.Blazor.UI.Services.SUIDialogOptions|System.String|ToString|()
 M|Sufficit.Blazor.UI.Services.SUIDialogReference|System.Void|Complete|(System.Object)
 M|Sufficit.Blazor.UI.Services.SUIDialogRequest|Sufficit.Blazor.UI.Services.SUIDialogRequest|<Clone>$|()
 M|Sufficit.Blazor.UI.Services.SUIDialogRequest|System.Boolean|Equals|(Sufficit.Blazor.UI.Services.SUIDialogRequest)
@@ -767,6 +777,7 @@ M|Sufficit.Blazor.UI.Services.SUIDialogRequest|System.Int32|GetHashCode|()
 M|Sufficit.Blazor.UI.Services.SUIDialogRequest|System.String|ToString|()
 M|Sufficit.Blazor.UI.Services.SUIDialogRequest|System.Void|Deconstruct|(out System.Guid,out System.Type,out System.String,out System.Collections.Generic.IReadOnlyDictionary<System.String,System.Object>,out Sufficit.Blazor.UI.Services.SUIDialogReference)
 M|Sufficit.Blazor.UI.Services.SUIDialogService|System.Threading.Tasks.Task<Sufficit.Blazor.UI.Services.SUIDialogReference>|ShowAsync``1|(System.String,System.Collections.Generic.IDictionary<System.String,System.Object>)
+M|Sufficit.Blazor.UI.Services.SUIDialogService|System.Threading.Tasks.Task<Sufficit.Blazor.UI.Services.SUIDialogReference>|ShowAsync``1|(System.String,System.Collections.Generic.IDictionary<System.String,System.Object>,Sufficit.Blazor.UI.Services.SUIDialogOptions)
 M|Sufficit.Blazor.UI.Services.SUIDialogService|System.Threading.Tasks.Task<System.Boolean>|ConfirmAsync|(System.String,System.String)
 M|Sufficit.Blazor.UI.Services.SUISnackbarEntry|Sufficit.Blazor.UI.Services.SUISnackbarEntry|<Clone>$|()
 M|Sufficit.Blazor.UI.Services.SUISnackbarEntry|System.Boolean|Equals|(Sufficit.Blazor.UI.Services.SUISnackbarEntry)
@@ -1396,8 +1407,10 @@ P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|Padding|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|TextColor|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|Text|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|TooltipClass|[]|get;set;
+P|Sufficit.Blazor.UI.Services.SUIDialogOptions|System.String|Icon|[]|get;set;
 P|Sufficit.Blazor.UI.Services.SUIDialogReference|System.Guid|Id|[]|get;
 P|Sufficit.Blazor.UI.Services.SUIDialogReference|System.Threading.Tasks.Task<System.Object>|Result|[]|get;
+P|Sufficit.Blazor.UI.Services.SUIDialogRequest|Sufficit.Blazor.UI.Services.SUIDialogOptions|Options|[]|get;set;
 P|Sufficit.Blazor.UI.Services.SUIDialogRequest|Sufficit.Blazor.UI.Services.SUIDialogReference|Reference|[]|get;set;
 P|Sufficit.Blazor.UI.Services.SUIDialogRequest|System.Collections.Generic.IReadOnlyDictionary<System.String,System.Object>|Parameters|[]|get;set;
 P|Sufficit.Blazor.UI.Services.SUIDialogRequest|System.Guid|Id|[]|get;set;
@@ -1607,6 +1620,7 @@ T|class|Sufficit.Blazor.UI.Components.SUIToast
 T|class|Sufficit.Blazor.UI.Components.SUIToastHost
 T|class|Sufficit.Blazor.UI.Components.SUITooltip
 T|class|Sufficit.Blazor.UI.ServiceCollectionExtensions
+T|class|Sufficit.Blazor.UI.Services.SUIDialogOptions
 T|class|Sufficit.Blazor.UI.Services.SUIDialogReference
 T|class|Sufficit.Blazor.UI.Services.SUIDialogRequest
 T|class|Sufficit.Blazor.UI.Services.SUIDialogService
