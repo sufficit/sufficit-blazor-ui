@@ -8,6 +8,10 @@ namespace Sufficit.Blazor.UI.Components;
 /// </summary>
 public static class SUIIcons
 {
+    /// <summary>Cancellation: circle with a diagonal slash.</summary>
+    public const string Cancel =
+        "<circle cx=\"12\" cy=\"12\" r=\"9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/><path d=\"m5.6 5.6 12.8 12.8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/>";
+
     /// <summary>Home / application entry.</summary>
     public const string Home =
         "<path d=\"m3 11 9-8 9 8M5 10v11h14V10M9 21v-7h6v7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>";

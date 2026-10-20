@@ -1,0 +1,9 @@
+# Ícone no título Cancelar serviço
+
+Solicitação: ícone de cancelamento junto ao título da operação. Adicionado SUIIcons.Cancel (círculo com diagonal) e opção de ícone no header do host SUI; aplicação usa esse valor em Cancelar serviço. Motivos continuam sem ícones, contexto do serviço secundário e rodapé separado. Sem alteração de negócio, publicação, release/tag ou cancelamento real.
+
+Extensão aditiva em sufficit-blazor-ui: SUIDialogOptions.Icon, overload ShowAsync(title, parameters, options) e propriedade opcional de apresentação no request. Chamada anterior continua funcionando. Interface inclui fallback para implementações antigas; serviço padrão encaminha opção ao host. Ícone renderizado por SUIIcon com alinhamento/gap em CSS isolado, sem hacks de DOM ou estilo global específico da aplicação. Constante e membros públicos documentados.
+
+Validação: 20 testes do fluxo passaram em tests/ServiceCancellation/Sufficit.Blazor.ServiceCancellation.Tests.csproj; 6 testes de overlays passaram em sufficit-blazor-ui/tests/Sufficit.Blazor.UI.Tests (filtro RenderContractOverlaysTests), incluindo ausência de ícone nas chamadas antigas, título/ícone nas chamadas novas e resultado da confirmação preservado. Chromium 1280 e celular touch 390 validou desenho circle/path no título, motivos sem SVG, peso/tamanho do título, rodapé e ausência de overflow horizontal. Captura do componente/host reais renderizados em bUnit com dados de exemplo; não sessão autenticada em produção.
+
+Evidências: /mnt/workspaces/sufficit/tmp/cancellation-title-icon-preview/{dialog-1280.png,dialog-390.png,browser-results.json}, /mnt/workspaces/sufficit/tmp/cancellation-title-icon-tests.log e /mnt/workspaces/sufficit/tmp/dialog-title-icon-ui-tests.log. git diff --check em ambos os repositórios sem erros. Para futura entrega, incluir biblioteca e consumidor (mudança da biblioteca ainda sem release).

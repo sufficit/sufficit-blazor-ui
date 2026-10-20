@@ -52,6 +52,11 @@ public sealed class SUIDialogService : ISUIDialogService
     /// <inheritdoc />
     public Task<SUIDialogReference> ShowAsync<T>(string title, IDictionary<string, object?>? parameters = null)
         where T : ComponentBase
+        => ShowAsync<T>(title, parameters, new SUIDialogOptions());
+
+    /// <inheritdoc />
+    public Task<SUIDialogReference> ShowAsync<T>(string title, IDictionary<string, object?>? parameters, SUIDialogOptions options)
+        where T : ComponentBase
     {
         var reference = new SUIDialogReference();
         var request = new SUIDialogRequest(
@@ -59,7 +64,7 @@ public sealed class SUIDialogService : ISUIDialogService
             typeof(T),
             title,
             (IReadOnlyDictionary<string, object?>?)parameters ?? new Dictionary<string, object?>(),
-            reference);
+            reference) { Options = options };
         Action<SUIDialogRequest>? handler;
         lock (_sync)
         {

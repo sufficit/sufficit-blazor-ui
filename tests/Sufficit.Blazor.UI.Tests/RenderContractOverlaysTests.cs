@@ -1,4 +1,5 @@
 using Bunit;
+using Microsoft.Extensions.DependencyInjection;
 using Sufficit.Blazor.UI.Components;
 using Sufficit.Blazor.UI.Services;
 
@@ -12,6 +13,28 @@ namespace Sufficit.Blazor.UI.Tests;
 /// </summary>
 public sealed class RenderContractOverlaysTests
 {
+    [Fact]
+    public async Task DialogHeaderIconIsOptionalAndKeepsTitleAndResults()
+    {
+        using var context = new BunitContext();
+        context.JSInterop.Mode = JSRuntimeMode.Loose;
+        context.JSInterop.SetupModule("./_content/Sufficit.Blazor.UI/Components/Overlays/SUIDialogHost.razor.js");
+        var service = new SUIDialogService();
+        context.Services.AddSingleton<ISUIDialogService>(service);
+        var host = context.Render<SUIDialogHost>();
+        var plain = await service.ShowAsync<SUIConfirmDialog>("Dialog without icon");
+        host.WaitForElement(".sui-dialog__title");
+        Assert.Empty(host.FindAll(".sui-dialog__title svg"));
+        var decorated = await service.ShowAsync<SUIConfirmDialog>("Cancelar serviço", null,
+            new SUIDialogOptions { Icon = SUIIcons.Cancel });
+        host.WaitForAssertion(() => Assert.Contains("Cancelar serviço", host.Find(".sui-dialog__title").TextContent));
+        Assert.NotNull(host.Find(".sui-dialog__title svg circle"));
+        Assert.NotNull(host.Find(".sui-dialog__title svg path"));
+        Assert.Null(await plain.Result);
+        host.FindAll(".sui-dialog__actions button").Single(b => b.TextContent == "Confirmar").Click();
+        Assert.Equal(true, await decorated.Result);
+    }
+
     [Fact]
     public void Tooltip_RendersAnchorWithTextPlacementAndForwardsAttributes()
     {

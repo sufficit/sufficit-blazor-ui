@@ -14,6 +14,8 @@ definem a numeração das próximas publicações.
 
 ### Added
 
+- `SUIDialogOptions.Icon` e overload de `ISUIDialogService.ShowAsync`: ícone opcional no título do diálogo. Chamadas atuais continuam válidas; provedores antigos recebem fallback sem opções. `SUIIcons.Cancel` representa cancelamento com círculo e diagonal.
+
 - `SUITable.Virtualize` (opt-in, padrão `false`): o corpo passa por
   `Virtualize` e só a janela visível de linhas existe no DOM — para listagens
   operacionais de milhares de registros em rolagem contínua. Parâmetros
