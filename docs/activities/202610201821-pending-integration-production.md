@@ -1,0 +1,3 @@
+# Consumidor consolidado publicado
+
+Sufficit.Blazor.UI do main 7f63b81 incluída no pacote Blazor server/publish-20261020181542, publicado pelo deploy.py oficial no EVEO. Saúde Healthy na versão1.26.1020.2115+c6546157; hash da DLL UI igual ao artefato local: ddf6874d4a93e3c0dfa01d74ca077226a91efae2d1552194a29706b8edd7bf7f. Biblioteca: 970 testes locais + CI39497355455 success; aplicativo integrado:134 testes passaram. Não houve tag/publicação NuGet; consumidor referencia biblioteca via ProjectReference. Registro completo em sufficit-blazor/docs/activities/202610201821-pending-integration-production.md
