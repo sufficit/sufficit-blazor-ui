@@ -1,0 +1,5 @@
+@inherits DemoBase
+<SUIRecordTable TItem="string" Items="@(new[]{"Saudação","Aviso"})" TitleSelector="@(x=>x)" SecondarySelector="@(x=>"Áudio de atendimento")" ActiveSelector="@(x=>x=="Saudação")" KeySelector="@(x=>x)">
+<StatusTemplate Context="item"><SUIChip>@(item=="Saudação"?"Ativo":"Desativado")</SUIChip></StatusTemplate>
+<Actions Context="item"><SUIButton OnClick="Notify">Editar</SUIButton><SUIButton OnClick="Notify">Excluir</SUIButton></Actions>
+</SUIRecordTable>
