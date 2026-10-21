@@ -6692,6 +6692,14 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIButton OnClick=\"Confirm\">Abrir diálogo</SUIButton>\n<p>O host de diálogos está instalado na raiz desta vitrine.</p>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    [Inject] protected ISUIDialogService Dialogs { get; set; } = default!;\n    protected async Task Confirm() => Snackbar.Info(await Dialogs.ConfirmAsync(\"Confirmar alteração\", \"Aplicar a configuração de demonstração?\") ? \"Confirmado.\" : \"Cancelado.\");\n}\n",
     "parameters": [
       {
+        "description": "Accessible name of the header close button. Defaults to Portuguese, like the rest of the library's built-in copy; hosts rendering another language pass their own.",
+        "name": "CloseLabel",
+        "type": "string",
+        "default": "\"Fechar\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",

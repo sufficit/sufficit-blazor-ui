@@ -1005,6 +1005,7 @@ P|Sufficit.Blazor.UI.Components.SUIDecisionDialog|System.String|Description|[]|g
 P|Sufficit.Blazor.UI.Components.SUIDecisionDialog|System.String|Message|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDecisionDialog|System.String|PrimaryText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDecisionDialog|System.String|SecondaryText|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIDialogHost|System.String|CloseLabel|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDrawer|Microsoft.AspNetCore.Components.EventCallback<System.Boolean>|CompactChanged|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDrawer|Microsoft.AspNetCore.Components.EventCallback<System.Boolean>|OpenChanged|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDrawer|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;

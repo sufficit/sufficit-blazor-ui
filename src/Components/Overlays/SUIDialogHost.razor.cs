@@ -21,6 +21,14 @@ public partial class SUIDialogHost
     private bool _hostInteropConnected;
     private bool _disposed;
 
+    /// <summary>
+    /// Accessible name of the header close button. Defaults to Portuguese,
+    /// like the rest of the library's built-in copy; hosts rendering another
+    /// language pass their own.
+    /// </summary>
+    [Parameter]
+    public string CloseLabel { get; set; } = "Fechar";
+
     private string TitleId => $"sui-dialog-{_current?.Id:N}-title";
 
     /// <summary>Subscribes to <c>ISUIDialogService.OnShow</c>.</summary>
@@ -91,6 +99,15 @@ public partial class SUIDialogHost
         }
 
         await CloseInteropAsync();
+
+        // A dialog requested while the close interop was in flight is the
+        // current one now. Clearing it here would erase it from the screen and
+        // leave its caller awaiting a Result that never completes.
+        if (_current?.Reference != request.Reference)
+        {
+            return;
+        }
+
         _current = null;
         _dialogParameters = new Dictionary<string, object?>();
         StateHasChanged();
@@ -113,7 +130,8 @@ public partial class SUIDialogHost
 
     private async Task CloseInteropAsync()
     {
-        if (_module is null || _openedRequestId is null)
+        var opened = _openedRequestId;
+        if (_module is null || opened is null)
         {
             _openedRequestId = null;
             return;
@@ -129,7 +147,12 @@ public partial class SUIDialogHost
         }
         finally
         {
-            _openedRequestId = null;
+            // Only forget the dialog this call closed; a newer one may have
+            // been opened by a render while the interop was awaited.
+            if (_openedRequestId == opened)
+            {
+                _openedRequestId = null;
+            }
         }
     }
 

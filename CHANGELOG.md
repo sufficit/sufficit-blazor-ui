@@ -10,6 +10,8 @@ definem a numeração das próximas publicações.
 
 ### Fixed
 
+- `SUIDialogHost`: um diálogo aberto enquanto o anterior ainda fechava (chamada JS em andamento) era apagado da tela e o `Result` dele nunca completava. O host agora recheca o diálogo atual depois do `await` e só esquece o diálogo que ele mesmo fechou.
+
 - `SUILoadingButton`: o feedback instantâneo (`sui-btn--pending`) é desfeito quando a validação nativa do formulário bloqueia o envio (evento `invalid`). Antes, um submit com campo obrigatório vazio deixava o spinner girando por 8 s sem nada acontecer.
 
 - Cabeçalhos `SUIPageHeader` quebram as ações para outra linha antes de comprimir o título/descrição; diálogos respeitam a altura dinâmica disponível para rolagem com teclado. Consumidores Android devem usar `interactive-widget=resizes-content` na meta viewport.
@@ -19,6 +21,8 @@ definem a numeração das próximas publicações.
 - `SUIStack.Spacing` agora usa classes CSS da escala de espaçamento (0–6), inclusive o padrão 3, para funcionar em aplicações com CSP que bloqueia estilos inline. `Style` continua reservado ao estilo explícito do consumidor.
 
 ### Added
+
+- `SUIDialogHost.CloseLabel`: nome acessível do botão de fechar (padrão "Fechar"); hosts em outro idioma passam o próprio texto.
 
 - `SUIDialogOptions.Icon` e overload de `ISUIDialogService.ShowAsync`: ícone opcional no título do diálogo. Chamadas atuais continuam válidas; provedores antigos recebem fallback sem opções. `SUIIcons.Cancel` representa cancelamento com círculo e diagonal.
 
