@@ -10,6 +10,8 @@ definem a numeração das próximas publicações.
 
 ### Fixed
 
+- `SUILoadingButton`: o feedback instantâneo (`sui-btn--pending`) é desfeito quando a validação nativa do formulário bloqueia o envio (evento `invalid`). Antes, um submit com campo obrigatório vazio deixava o spinner girando por 8 s sem nada acontecer.
+
 - Cabeçalhos `SUIPageHeader` quebram as ações para outra linha antes de comprimir o título/descrição; diálogos respeitam a altura dinâmica disponível para rolagem com teclado. Consumidores Android devem usar `interactive-widget=resizes-content` na meta viewport.
 
 - `SUIExpansionPanel`: cabeçalho expandido com fundo distinto e altura mínima de 44px; corpo com separador, padding uniforme e tipografia própria. Margens externas do conteúdo não duplicam o espaçamento do painel. `aria-expanded` publica explicitamente `true`/`false` para tecnologias assistivas.
