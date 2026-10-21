@@ -1,0 +1,8 @@
+@namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
+<div class="sui-responsive__desktop">@Desktop</div>
+<div class="sui-responsive__mobile">@Mobile</div>
+@code {
+    [Parameter] public RenderFragment? Desktop {get;set;}
+    [Parameter] public RenderFragment? Mobile {get;set;}
+}

@@ -1,0 +1,31 @@
+@namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+<div class="sui-menu">
+    <button @ref="_trigger" type="button" class="sui-menu__trigger" popovertarget="@_id" aria-haspopup="menu" aria-label="@Label" disabled="@Disabled">
+        @if(Trigger is not null) { @Trigger }
+        else { <SUIIcon Name="@Icon" Size="18" /> @Label }
+    </button>
+    <div @ref="_panel" id="@_id" popover="auto" role="menu" aria-label="@Label" class="sui-menu__panel">@ChildContent</div>
+</div>
+@code {
+    [Parameter] public string Label {get;set;}="Ações";
+    [Parameter] public string Icon {get;set;}="more-vertical";
+    [Parameter] public bool Disabled {get;set;}
+    [Parameter] public RenderFragment? Trigger {get;set;}
+    [Parameter] public RenderFragment? ChildContent {get;set;}
+    private readonly string _id="sui-menu-"+Guid.NewGuid().ToString("N");
+    private ElementReference _trigger,_panel;
+    private IJSObjectReference? _module;
+    protected override async Task OnAfterRenderAsync(bool firstRender) {
+        if(!firstRender)return;
+        _module=await JS.InvokeAsync<IJSObjectReference>("import","./_content/Sufficit.Blazor.UI/Components/Overlays/SUIMenu.razor.js");
+        if(_module is not null) await _module.InvokeVoidAsync("connect",_trigger,_panel);
+    }
+    public async ValueTask DisposeAsync() {
+        if(_module is null)return;
+        try {await _module.InvokeVoidAsync("disconnect",_panel);await _module.DisposeAsync();}
+        catch(JSDisconnectedException) {}
+    }
+}

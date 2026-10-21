@@ -1,0 +1,2 @@
+.sui-action-group { display:grid; grid-auto-flow:column; grid-auto-columns:minmax(0,1fr); gap:var(--sui-space-2); width:100%; }
+.sui-action-group ::deep .sui-btn { width:100%; min-width:0; }
