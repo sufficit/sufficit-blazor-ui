@@ -1,0 +1,5 @@
+.sui-responsive__mobile { display:none; }
+@media(max-width:599.98px) {
+ .sui-responsive__desktop { display:none; }
+ .sui-responsive__mobile { display:block; min-width:0; }
+}

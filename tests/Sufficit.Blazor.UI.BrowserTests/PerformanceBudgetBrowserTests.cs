@@ -23,7 +23,9 @@ public sealed class PerformanceBudgetBrowserTests : PageTest
     // (3 % headroom rule, see AssetBudgetTests).
     // Raised 2026-10-07 for SUIExpansionPanel's scoped CSS and catalog page:
     // 111,900 B measured in Chromium CI; 111,900 × 1.03 = 115,257 → 113 KiB.
-    private const long CssTransferBudget = 113 * 1024; // measured 111,900 B in Chromium CI
+    // 2026-10-21: responsive records/action menu scoped CSS;116,486 B in CI.
+    // Same +3% headroom rounded up to KiB:119,981 B ->118 KiB.
+    private const long CssTransferBudget = 118 * 1024; // measured116,486 B
     private const long TotalTransferBudget = 900 * 1024;
     private const double LargestContentfulPaintBudgetMs = 2500;
     private const double CumulativeLayoutShiftBudget = 0.1;

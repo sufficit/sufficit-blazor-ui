@@ -164,7 +164,7 @@ para `Primary`/`PrimaryContrast` e preserva temas existentes.
 
 **[Abrir a vitrine publicada](https://sufficit.github.io/sufficit-blazor-ui/)**
 
-A vitrine em `samples/Sufficit.Blazor.UI.Showcase` executa os **74 componentes**
+A vitrine em `samples/Sufficit.Blazor.UI.Showcase` executa os **78 componentes**
 em Blazor WebAssembly. Inclui busca, exemplos Razor copiáveis, parâmetros
 públicos, composições e editor de temas claro/escuro/sistema com persistência,
 três paletas, duas densidades e exportação C#. Todos os dados são locais.
@@ -192,13 +192,13 @@ derivada de `src/Components/<Família>/` e conferida por
 
 | Família | Componentes |
 | --- | --- |
-| Ações | `SUIButton`, `SUICopyToClipboard`, `SUIIconButton`, `SUILink`, `SUILoadingButton` |
+| Ações | `SUIActionGroup`, `SUIButton`, `SUICopyToClipboard`, `SUIIconButton`, `SUILink`, `SUILoadingButton` |
 | Formulários | `SUIAutocomplete`, `SUICheckbox`, `SUIChoiceCard`, `SUIDateField`, `SUIFormGrid`, `SUINumericField`, `SUISelect`, `SUISelectItem`, `SUISwitch`, `SUISwitchButton`, `SUITextField` |
-| Layout | `SUIAppBar`, `SUICard`, `SUICardActions`, `SUICardContent`, `SUICardHeader`, `SUIContainer`, `SUIDivider`, `SUIDrawer`, `SUIGrid`, `SUIItem`, `SUILayout`, `SUIPageHeader`, `SUISection`, `SUISpacer`, `SUIStack` |
+| Layout | `SUIAppBar`, `SUICard`, `SUICardActions`, `SUICardContent`, `SUICardHeader`, `SUIContainer`, `SUIDivider`, `SUIDrawer`, `SUIGrid`, `SUIItem`, `SUILayout`, `SUIPageHeader`, `SUIResponsive`, `SUISection`, `SUISpacer`, `SUIStack` |
 | Navegação | `SUIFilterScope`, `SUIFilterTree`, `SUINavGroup`, `SUINavLink`, `SUIProgressSteps`, `SUISlidingTabPanel`, `SUISlidingTabs`, `SUITabPanel`, `SUITabs` |
-| Exibição de dados | `SUIAvatar`, `SUIChip`, `SUIDateTime`, `SUIIcon`, `SUIList`, `SUIListItem`, `SUIPagination`, `SUIStat`, `SUITable`, `SUITableEmpty`, `SUITableSortLabel`, `SUITd`, `SUIText`, `SUITh`, `SUITimeline`, `SUITimelineItem` |
+| Exibição de dados | `SUIAvatar`, `SUIChip`, `SUIDateTime`, `SUIIcon`, `SUIList`, `SUIListItem`, `SUIPagination`, `SUIRecordTable`, `SUIStat`, `SUITable`, `SUITableEmpty`, `SUITableSortLabel`, `SUITd`, `SUIText`, `SUITh`, `SUITimeline`, `SUITimelineItem` |
 | Feedback | `SUIAlert`, `SUIEmptyState`, `SUIExpansionPanel`, `SUIPendingChangesBar`, `SUIProgressCircular`, `SUIProgressLinear`, `SUISkeletonLoader`, `SUISnackbarHost`, `SUIStatusBadge`, `SUIStatusBanner`, `SUIToast`, `SUIToastHost` |
-| Overlays | `SUIConfirmDialog`, `SUIDecisionDialog`, `SUIDialogHost`, `SUIPopover`, `SUITooltip` |
+| Overlays | `SUIConfirmDialog`, `SUIDecisionDialog`, `SUIDialogHost`, `SUIMenu`, `SUIPopover`, `SUITooltip` |
 
 Enums como `SUIColor`, `SUIVariant`, `SUISize`, `SUIButtonType`, `SUIEdge`,
 `SUITypo`, `SUIAlign`, `SUIOrigin` e `SUITone` evitam dependência de tipos

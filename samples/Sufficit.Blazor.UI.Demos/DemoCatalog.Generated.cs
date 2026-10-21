@@ -4,6 +4,7 @@ public static partial class DemoCatalog
 {
     public static Type ExampleType(string name) => name switch
     {
+        "SUIActionGroup" => typeof(Examples.SUIActionGroupExample),
         "SUIButton" => typeof(Examples.SUIButtonExample),
         "SUICopyToClipboard" => typeof(Examples.SUICopyToClipboardExample),
         "SUIIconButton" => typeof(Examples.SUIIconButtonExample),
@@ -16,6 +17,7 @@ public static partial class DemoCatalog
         "SUIList" => typeof(Examples.SUIListExample),
         "SUIListItem" => typeof(Examples.SUIListItemExample),
         "SUIPagination" => typeof(Examples.SUIPaginationExample),
+        "SUIRecordTable" => typeof(Examples.SUIRecordTableExample),
         "SUIStat" => typeof(Examples.SUIStatExample),
         "SUITable" => typeof(Examples.SUITableExample),
         "SUITableEmpty" => typeof(Examples.SUITableEmptyExample),
@@ -60,6 +62,7 @@ public static partial class DemoCatalog
         "SUIItem" => typeof(Examples.SUIItemExample),
         "SUILayout" => typeof(Examples.SUILayoutExample),
         "SUIPageHeader" => typeof(Examples.SUIPageHeaderExample),
+        "SUIResponsive" => typeof(Examples.SUIResponsiveExample),
         "SUISection" => typeof(Examples.SUISectionExample),
         "SUISpacer" => typeof(Examples.SUISpacerExample),
         "SUIStack" => typeof(Examples.SUIStackExample),
@@ -75,6 +78,7 @@ public static partial class DemoCatalog
         "SUIConfirmDialog" => typeof(Examples.SUIConfirmDialogExample),
         "SUIDecisionDialog" => typeof(Examples.SUIDecisionDialogExample),
         "SUIDialogHost" => typeof(Examples.SUIDialogHostExample),
+        "SUIMenu" => typeof(Examples.SUIMenuExample),
         "SUIPopover" => typeof(Examples.SUIPopoverExample),
         "SUITooltip" => typeof(Examples.SUITooltipExample),
         "SUIThemeProvider" => typeof(Examples.SUIThemeProviderExample),

@@ -30,7 +30,9 @@ public sealed class AssetBudgetTests
     // row focus replacing tr[role=button]) and the clipboard HTTPS message.
     // Raised 2026-09-20 for the SUIPopover module (hover-intent delays, focus,
     // Escape, fixed positioning with viewport flip) — measured 12,387 B.
-    private const int JsTotalBrotliBudget = 12 * 1024 + 512;  // measured 12,387 B
+    // 2026-10-21: SUIMenu adds keyboard/focus/viewport handling; all modules
+    // measured 13,283 B. Existing 3% headroom rule rounded to 256 B.
+    private const int JsTotalBrotliBudget = 13_824; // measured 13,283 B
     // Raw bytes of every .razor.css (source/parse cost of CSS isolation).
     // Raised 2026-09-13 for SUISlidingTabs (pill track + sliding indicator,
     // micro-interactions, responsive collapse, reduced-motion) — measured
@@ -39,7 +41,9 @@ public sealed class AssetBudgetTests
     // arrows, open state, reduced-motion) — measured 34,491 B.
     // Raised 2026-10-06 for SUIExpansionPanel (header row, titles, chevron
     // rotation, content padding) — measured 35,905 B.
-    private const int IsolatedCssRawBudget = 36 * 1024 + 1024; // measured 35,905 B
+    // 2026-10-21: responsive records/menu/equal action columns add shared
+    // component CSS, replacing page-local styles. Measured 39,654 B; +3%.
+    private const int IsolatedCssRawBudget = 40_960; // measured 39,654 B
 
     [Fact]
     public void GlobalStylesheet_FitsTheTransferBudget()

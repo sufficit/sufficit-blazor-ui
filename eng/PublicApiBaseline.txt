@@ -1,3 +1,4 @@
+B|Sufficit.Blazor.UI.Components.SUIActionGroup|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIAlert|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIAlign|System.Enum
 B|Sufficit.Blazor.UI.Components.SUIAppBar|Sufficit.Blazor.UI.Components.SUIComponentBase
@@ -42,6 +43,7 @@ B|Sufficit.Blazor.UI.Components.SUILink|Sufficit.Blazor.UI.Components.SUICompone
 B|Sufficit.Blazor.UI.Components.SUIListItem|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIList|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUILoadingButton|Sufficit.Blazor.UI.Components.SUIComponentBase
+B|Sufficit.Blazor.UI.Components.SUIMenu|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUINavAccordionScope|System.Object
 B|Sufficit.Blazor.UI.Components.SUINavGroup|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUINavLink|Sufficit.Blazor.UI.Components.SUIComponentBase
@@ -56,6 +58,8 @@ B|Sufficit.Blazor.UI.Components.SUIPopover|Sufficit.Blazor.UI.Components.SUIComp
 B|Sufficit.Blazor.UI.Components.SUIProgressCircular|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIProgressLinear|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIProgressSteps|Sufficit.Blazor.UI.Components.SUIComponentBase
+B|Sufficit.Blazor.UI.Components.SUIRecordTable<`0:TItem>|Sufficit.Blazor.UI.Components.SUIComponentBase
+B|Sufficit.Blazor.UI.Components.SUIResponsive|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUISection|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUISelectItem|Sufficit.Blazor.UI.Components.SUIComponentBase
@@ -113,6 +117,7 @@ B|Sufficit.Blazor.UI.Themes.SUITheme|System.Object
 B|Sufficit.Blazor.UI.Themes.SUITypography|System.Object
 B|Sufficit.Blazor.UI.Utilities.SUIClassBuilder|System.Object
 B|Sufficit.Blazor.UI._Imports|System.Object
+C|Sufficit.Blazor.UI.Components.SUIActionGroup|()
 C|Sufficit.Blazor.UI.Components.SUIAlert|()
 C|Sufficit.Blazor.UI.Components.SUIAppBar|()
 C|Sufficit.Blazor.UI.Components.SUIAutocomplete<`0:TValue>|()
@@ -149,6 +154,7 @@ C|Sufficit.Blazor.UI.Components.SUILink|()
 C|Sufficit.Blazor.UI.Components.SUIListItem|()
 C|Sufficit.Blazor.UI.Components.SUIList|()
 C|Sufficit.Blazor.UI.Components.SUILoadingButton|()
+C|Sufficit.Blazor.UI.Components.SUIMenu|()
 C|Sufficit.Blazor.UI.Components.SUINavAccordionScope|()
 C|Sufficit.Blazor.UI.Components.SUINavGroup|()
 C|Sufficit.Blazor.UI.Components.SUINavLink|()
@@ -161,6 +167,8 @@ C|Sufficit.Blazor.UI.Components.SUIPopover|()
 C|Sufficit.Blazor.UI.Components.SUIProgressCircular|()
 C|Sufficit.Blazor.UI.Components.SUIProgressLinear|()
 C|Sufficit.Blazor.UI.Components.SUIProgressSteps|()
+C|Sufficit.Blazor.UI.Components.SUIRecordTable<`0:TItem>|()
+C|Sufficit.Blazor.UI.Components.SUIResponsive|()
 C|Sufficit.Blazor.UI.Components.SUISection|()
 C|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|()
 C|Sufficit.Blazor.UI.Components.SUISelectItem|()
@@ -245,6 +253,7 @@ F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Add
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Admin
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|ArrowDropDown
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|ArrowDropUp
+F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Audio
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Bank
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Barcode
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Bolt
@@ -271,6 +280,7 @@ F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Link
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Login
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Logout
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Menu
+F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Pause
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Payments
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Pdf
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Pending
@@ -368,6 +378,9 @@ F|Sufficit.Blazor.UI.Components.SUIVariant|Sufficit.Blazor.UI.Components.SUIVari
 F|Sufficit.Blazor.UI.Components.SUIVariant|System.Int32|value__
 F|Sufficit.Blazor.UI.Themes.SUIThemeCssWriter|System.String|TokenSelector
 F|Sufficit.Blazor.UI.Themes.SUIThemeProvider|System.String|TokenSelector
+I|Sufficit.Blazor.UI.Components.SUIActionGroup|Microsoft.AspNetCore.Components.IComponent
+I|Sufficit.Blazor.UI.Components.SUIActionGroup|Microsoft.AspNetCore.Components.IHandleAfterRender
+I|Sufficit.Blazor.UI.Components.SUIActionGroup|Microsoft.AspNetCore.Components.IHandleEvent
 I|Sufficit.Blazor.UI.Components.SUIAlert|Microsoft.AspNetCore.Components.IComponent
 I|Sufficit.Blazor.UI.Components.SUIAlert|Microsoft.AspNetCore.Components.IHandleAfterRender
 I|Sufficit.Blazor.UI.Components.SUIAlert|Microsoft.AspNetCore.Components.IHandleEvent
@@ -504,6 +517,10 @@ I|Sufficit.Blazor.UI.Components.SUILoadingButton|Microsoft.AspNetCore.Components
 I|Sufficit.Blazor.UI.Components.SUILoadingButton|Microsoft.AspNetCore.Components.IHandleAfterRender
 I|Sufficit.Blazor.UI.Components.SUILoadingButton|Microsoft.AspNetCore.Components.IHandleEvent
 I|Sufficit.Blazor.UI.Components.SUILoadingButton|System.IAsyncDisposable
+I|Sufficit.Blazor.UI.Components.SUIMenu|Microsoft.AspNetCore.Components.IComponent
+I|Sufficit.Blazor.UI.Components.SUIMenu|Microsoft.AspNetCore.Components.IHandleAfterRender
+I|Sufficit.Blazor.UI.Components.SUIMenu|Microsoft.AspNetCore.Components.IHandleEvent
+I|Sufficit.Blazor.UI.Components.SUIMenu|System.IAsyncDisposable
 I|Sufficit.Blazor.UI.Components.SUINavGroup|Microsoft.AspNetCore.Components.IComponent
 I|Sufficit.Blazor.UI.Components.SUINavGroup|Microsoft.AspNetCore.Components.IHandleAfterRender
 I|Sufficit.Blazor.UI.Components.SUINavGroup|Microsoft.AspNetCore.Components.IHandleEvent
@@ -547,6 +564,12 @@ I|Sufficit.Blazor.UI.Components.SUIProgressLinear|Microsoft.AspNetCore.Component
 I|Sufficit.Blazor.UI.Components.SUIProgressSteps|Microsoft.AspNetCore.Components.IComponent
 I|Sufficit.Blazor.UI.Components.SUIProgressSteps|Microsoft.AspNetCore.Components.IHandleAfterRender
 I|Sufficit.Blazor.UI.Components.SUIProgressSteps|Microsoft.AspNetCore.Components.IHandleEvent
+I|Sufficit.Blazor.UI.Components.SUIRecordTable<`0:TItem>|Microsoft.AspNetCore.Components.IComponent
+I|Sufficit.Blazor.UI.Components.SUIRecordTable<`0:TItem>|Microsoft.AspNetCore.Components.IHandleAfterRender
+I|Sufficit.Blazor.UI.Components.SUIRecordTable<`0:TItem>|Microsoft.AspNetCore.Components.IHandleEvent
+I|Sufficit.Blazor.UI.Components.SUIResponsive|Microsoft.AspNetCore.Components.IComponent
+I|Sufficit.Blazor.UI.Components.SUIResponsive|Microsoft.AspNetCore.Components.IHandleAfterRender
+I|Sufficit.Blazor.UI.Components.SUIResponsive|Microsoft.AspNetCore.Components.IHandleEvent
 I|Sufficit.Blazor.UI.Components.SUISection|Microsoft.AspNetCore.Components.IComponent
 I|Sufficit.Blazor.UI.Components.SUISection|Microsoft.AspNetCore.Components.IHandleAfterRender
 I|Sufficit.Blazor.UI.Components.SUISection|Microsoft.AspNetCore.Components.IHandleEvent
@@ -722,6 +745,7 @@ M|Sufficit.Blazor.UI.Components.SUIIconMarkup|Microsoft.AspNetCore.Components.Ma
 M|Sufficit.Blazor.UI.Components.SUIIconMarkup|System.Boolean|IsMarkup|(System.String)
 M|Sufficit.Blazor.UI.Components.SUIIconMarkup|System.Boolean|IsSafe|(System.String)
 M|Sufficit.Blazor.UI.Components.SUILoadingButton|System.Threading.Tasks.ValueTask|DisposeAsync|()
+M|Sufficit.Blazor.UI.Components.SUIMenu|System.Threading.Tasks.ValueTask|DisposeAsync|()
 M|Sufficit.Blazor.UI.Components.SUINavAccordionScope|System.Void|NotifyExpanded|(Sufficit.Blazor.UI.Components.SUINavGroup)
 M|Sufficit.Blazor.UI.Components.SUINavAccordionScope|System.Void|Register|(Sufficit.Blazor.UI.Components.SUINavGroup)
 M|Sufficit.Blazor.UI.Components.SUINavAccordionScope|System.Void|Unregister|(Sufficit.Blazor.UI.Components.SUINavGroup)
@@ -825,6 +849,7 @@ M|Sufficit.Blazor.UI.Utilities.SUIClassBuilder|Sufficit.Blazor.UI.Utilities.SUIC
 M|Sufficit.Blazor.UI.Utilities.SUIClassBuilder|System.String|Build|()
 M|Sufficit.Blazor.UI.Utilities.SUIClassBuilder|System.String|Slug|(System.Object)
 M|Sufficit.Blazor.UI.Utilities.SUIClassBuilder|System.String|ToString|()
+P|Sufficit.Blazor.UI.Components.SUIActionGroup|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIAlert|Microsoft.AspNetCore.Components.EventCallback|OnClose|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIAlert|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIAlert|System.Boolean|ShowCloseIcon|[]|get;set;
@@ -1081,6 +1106,11 @@ P|Sufficit.Blazor.UI.Components.SUILoadingButton|System.String|Href|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUILoadingButton|System.String|LoadingIcon|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUILoadingButton|System.String|StartIcon|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUILoadingButton|System.String|Target|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIMenu|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIMenu|Microsoft.AspNetCore.Components.RenderFragment|Trigger|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIMenu|System.Boolean|Disabled|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIMenu|System.String|Icon|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIMenu|System.String|Label|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINavGroup|Microsoft.AspNetCore.Components.EventCallback<System.Boolean>|ExpandedChanged|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINavGroup|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINavGroup|Microsoft.AspNetCore.Components.RenderFragment|IconContent|[]|get;set;
@@ -1209,6 +1239,19 @@ P|Sufficit.Blazor.UI.Components.SUIProgressSteps|System.String|AriaLabel|[]|get;
 P|Sufficit.Blazor.UI.Components.SUIProgressSteps|System.String|CompletedStatusLabel|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIProgressSteps|System.String|CurrentStatusLabel|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIProgressSteps|System.String|PendingStatusLabel|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIRecordTable<`0:TItem>|Microsoft.AspNetCore.Components.RenderFragment<`0:TItem>|Actions|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIRecordTable<`0:TItem>|Microsoft.AspNetCore.Components.RenderFragment<`0:TItem>|StatusTemplate|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIRecordTable<`0:TItem>|System.Collections.Generic.IEnumerable<`0:TItem>|Items|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIRecordTable<`0:TItem>|System.Func<`0:TItem,System.Boolean>|ActiveSelector|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIRecordTable<`0:TItem>|System.Func<`0:TItem,System.Object>|KeySelector|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIRecordTable<`0:TItem>|System.Func<`0:TItem,System.String>|SecondarySelector|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIRecordTable<`0:TItem>|System.Func<`0:TItem,System.String>|TitleSelector|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIRecordTable<`0:TItem>|System.String|EmptyText|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIRecordTable<`0:TItem>|System.String|Label|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIRecordTable<`0:TItem>|System.String|SecondaryLabel|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIRecordTable<`0:TItem>|System.String|TitleLabel|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIResponsive|Microsoft.AspNetCore.Components.RenderFragment|Desktop|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIResponsive|Microsoft.AspNetCore.Components.RenderFragment|Mobile|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|Microsoft.AspNetCore.Components.RenderFragment|Actions|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|System.Boolean|Attached|[]|get;set;
@@ -1538,6 +1581,7 @@ P|Sufficit.Blazor.UI.Themes.SUITypography|System.String|LineHeightHeadline|[]|ge
 P|Sufficit.Blazor.UI.Themes.SUITypography|System.String|LineHeightLabel|[]|get;set;
 P|Sufficit.Blazor.UI.Themes.SUITypography|System.String|LineHeightMono|[]|get;set;
 P|Sufficit.Blazor.UI.Themes.SUITypography|System.String|LineHeightTitle|[]|get;set;
+T|class|Sufficit.Blazor.UI.Components.SUIActionGroup
 T|class|Sufficit.Blazor.UI.Components.SUIAlert
 T|class|Sufficit.Blazor.UI.Components.SUIAppBar
 T|class|Sufficit.Blazor.UI.Components.SUIAutocomplete<`0:TValue>
@@ -1578,6 +1622,7 @@ T|class|Sufficit.Blazor.UI.Components.SUILink
 T|class|Sufficit.Blazor.UI.Components.SUIList
 T|class|Sufficit.Blazor.UI.Components.SUIListItem
 T|class|Sufficit.Blazor.UI.Components.SUILoadingButton
+T|class|Sufficit.Blazor.UI.Components.SUIMenu
 T|class|Sufficit.Blazor.UI.Components.SUINavAccordionScope
 T|class|Sufficit.Blazor.UI.Components.SUINavGroup
 T|class|Sufficit.Blazor.UI.Components.SUINavLink
@@ -1591,6 +1636,8 @@ T|class|Sufficit.Blazor.UI.Components.SUIPopover
 T|class|Sufficit.Blazor.UI.Components.SUIProgressCircular
 T|class|Sufficit.Blazor.UI.Components.SUIProgressLinear
 T|class|Sufficit.Blazor.UI.Components.SUIProgressSteps
+T|class|Sufficit.Blazor.UI.Components.SUIRecordTable<`0:TItem>
+T|class|Sufficit.Blazor.UI.Components.SUIResponsive
 T|class|Sufficit.Blazor.UI.Components.SUISection
 T|class|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>
 T|class|Sufficit.Blazor.UI.Components.SUISelectItem

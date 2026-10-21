@@ -1,5 +1,44 @@
 [
   {
+    "name": "SUIActionGroup",
+    "family": "Ações",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIActionGroup><SUIButton>Editar</SUIButton><SUIButton>Desativar</SUIButton><SUIButton ColorValue=\"SUIColor.Error\">Excluir</SUIButton></SUIActionGroup>\n",
+    "parameters": [
+      {
+        "description": "",
+        "name": "ChildContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": false
+      }
+    ]
+  },
+  {
     "name": "SUIButton",
     "family": "Ações",
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack Spacing=\"4\">\n<SUIStack Row Wrap>\n<SUIButton StartIcon=\"@SUIIcons.Save\" EndIcon=\"@SUIIcons.ChevronRight\" OnClick=\"Notify\">Salvar alterações</SUIButton>\n<SUIButton VariantValue=\"SUIVariant.Soft\" OnClick=\"Notify\">Suave</SUIButton>\n<SUIButton VariantValue=\"SUIVariant.Outlined\" OnClick=\"Reset\">Cancelar</SUIButton>\n<SUIButton Disabled>Indisponível</SUIButton>\n</SUIStack>\n\n<SUIStack Style=\"max-width:320px\">\n    <SUIButton VariantValue=\"SUIVariant.Outlined\" FullWidth Style=\"justify-content:flex-start;text-align:start\">\n        Ação alinhada ao início\n    </SUIButton>\n    <SUIButton VariantValue=\"SUIVariant.Outlined\" FullWidth Style=\"justify-content:space-between;text-align:start\">\n        <span>Conferir resultado</span>\n        <SUIIcon Name=\"arrow-right\" Size=\"18\" />\n    </SUIButton>\n</SUIStack>\n\n<SUIButton VariantValue=\"SUIVariant.Outlined\" FullWidth Style=\"max-width:280px;justify-content:flex-start;text-align:start\" data-testid=\"button-long-content\">\n    relatorio_financeiro_e_reconciliacao_detalhada_das_notas_fiscais_de_todos_os_fornecedores\n</SUIButton>\n</SUIStack>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n    protected void Reset() { Text = \"Operação Sudeste\"; Snackbar.Info(\"Alterações descartadas.\"); }\n}\n",
@@ -1086,6 +1125,125 @@
         "name": "AriaLabel",
         "type": "string",
         "default": "\"Paginação\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": false
+      }
+    ]
+  },
+  {
+    "name": "SUIRecordTable",
+    "family": "Dados",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIRecordTable TItem=\"string\" Items=\"@(new[]{\"Saudação\",\"Aviso\"})\" TitleSelector=\"@(x=>x)\" SecondarySelector=\"@(x=>\"Áudio de atendimento\")\" ActiveSelector=\"@(x=>x==\"Saudação\")\" KeySelector=\"@(x=>x)\">\n<StatusTemplate Context=\"item\"><SUIChip>@(item==\"Saudação\"?\"Ativo\":\"Desativado\")</SUIChip></StatusTemplate>\n<Actions Context=\"item\"><SUIButton OnClick=\"Notify\">Editar</SUIButton><SUIButton OnClick=\"Notify\">Excluir</SUIButton></Actions>\n</SUIRecordTable>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
+    "parameters": [
+      {
+        "description": "",
+        "name": "Items",
+        "type": "IEnumerable<TItem>",
+        "default": "Array.Empty<TItem>()",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "TitleSelector",
+        "type": "Func<TItem,string>",
+        "default": "default!",
+        "required": true,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "SecondarySelector",
+        "type": "Func<TItem,string>",
+        "default": "default!",
+        "required": true,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "ActiveSelector",
+        "type": "Func<TItem,bool>",
+        "default": "default!",
+        "required": true,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "KeySelector",
+        "type": "Func<TItem,object>",
+        "default": "default!",
+        "required": true,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "StatusTemplate",
+        "type": "RenderFragment<TItem>",
+        "default": "default!",
+        "required": true,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "Actions",
+        "type": "RenderFragment<TItem>",
+        "default": "default!",
+        "required": true,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "TitleLabel",
+        "type": "string",
+        "default": "\"Nome\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "SecondaryLabel",
+        "type": "string",
+        "default": "\"Descrição\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "Label",
+        "type": "string",
+        "default": "\"Registros\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "EmptyText",
+        "type": "string",
+        "default": "\"Nenhum registro encontrado.\"",
         "required": false,
         "deprecated": false
       },
@@ -5208,6 +5366,53 @@
     ]
   },
   {
+    "name": "SUIResponsive",
+    "family": "Layout",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIResponsive><Desktop><SUIText>Visualização ampla</SUIText></Desktop><Mobile><SUIText>Visualização compacta</SUIText></Mobile></SUIResponsive>\n",
+    "parameters": [
+      {
+        "description": "",
+        "name": "Desktop",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "Mobile",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": false
+      }
+    ]
+  },
+  {
     "name": "SUISection",
     "family": "Layout",
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISection Title=\"Preferências\" Description=\"Organize conteúdo e ações relacionados.\">\n<SUITextField TValue=\"string\" Label=\"Nome\" @bind-Value=\"Text\" />\n<SUICheckbox Label=\"Ativar notificações\" @bind-Value=\"Enabled\" />\n</SUISection>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected bool Enabled { get; set; } = true;\n}\n",
@@ -6486,6 +6691,77 @@
     "family": "Overlays",
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIButton OnClick=\"Confirm\">Abrir diálogo</SUIButton>\n<p>O host de diálogos está instalado na raiz desta vitrine.</p>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    [Inject] protected ISUIDialogService Dialogs { get; set; } = default!;\n    protected async Task Confirm() => Snackbar.Info(await Dialogs.ConfirmAsync(\"Confirmar alteração\", \"Aplicar a configuração de demonstração?\") ? \"Confirmado.\" : \"Cancelado.\");\n}\n",
     "parameters": [
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance styles (consumer supplied).",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": false
+      }
+    ]
+  },
+  {
+    "name": "SUIMenu",
+    "family": "Overlays",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIMenu Label=\"Ações\"><SUIButton OnClick=\"Notify\">Editar</SUIButton><SUIButton OnClick=\"Notify\">Desativar</SUIButton></SUIMenu>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
+    "parameters": [
+      {
+        "description": "",
+        "name": "Label",
+        "type": "string",
+        "default": "\"Ações\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "Icon",
+        "type": "string",
+        "default": "\"more-vertical\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "Disabled",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "Trigger",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "ChildContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
       {
         "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",

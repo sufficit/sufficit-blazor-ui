@@ -1,0 +1,39 @@
+@namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
+@typeparam TItem
+<div class="sui-records @Class" style="@Style" @attributes="AdditionalAttributes">
+ <div class="sui-records__desktop">
+ <SUITable TItem="TItem" Items="Items" ColumnCount="4" Dense="true" Hover="true">
+  <HeaderContent><th>@TitleLabel</th><th>@SecondaryLabel</th><th>Situação</th><th class="sui-records__actions-heading">Ações</th></HeaderContent>
+  <RowTemplate Context="item">
+   <td>@TitleSelector(item)</td><td>@SecondarySelector(item)</td><td>@StatusTemplate(item)</td>
+   <td class="sui-records__actions"><SUIActionGroup>@Actions(item)</SUIActionGroup></td>
+  </RowTemplate>
+  <NoRecordsContent>@EmptyText</NoRecordsContent>
+ </SUITable>
+ </div>
+ <div class="sui-records__mobile" aria-label="@Label">
+ @foreach(var item in Items) {
+  <div @key="KeySelector(item)" class="sui-records__item @(ActiveSelector(item)?"sui-records__item--active":"sui-records__item--inactive")">
+   <SUIMenu Label="@("Ações de "+TitleSelector(item)+": "+(ActiveSelector(item)?"ativo":"desativado"))">
+    <Trigger><span class="sui-records__copy"><strong>@TitleSelector(item)</strong><span>@SecondarySelector(item)</span></span></Trigger>
+    <ChildContent>@Actions(item)</ChildContent>
+   </SUIMenu>
+  </div>
+ }
+ @if(!Items.Any()) {<SUIText>@EmptyText</SUIText>}
+ </div>
+</div>
+@code {
+ [Parameter] public IEnumerable<TItem> Items {get;set;}=Array.Empty<TItem>();
+ [Parameter,EditorRequired] public Func<TItem,string> TitleSelector {get;set;}=default!;
+ [Parameter,EditorRequired] public Func<TItem,string> SecondarySelector {get;set;}=default!;
+ [Parameter,EditorRequired] public Func<TItem,bool> ActiveSelector {get;set;}=default!;
+ [Parameter,EditorRequired] public Func<TItem,object> KeySelector {get;set;}=default!;
+ [Parameter,EditorRequired] public RenderFragment<TItem> StatusTemplate {get;set;}=default!;
+ [Parameter,EditorRequired] public RenderFragment<TItem> Actions {get;set;}=default!;
+ [Parameter] public string TitleLabel {get;set;}="Nome";
+ [Parameter] public string SecondaryLabel {get;set;}="Descrição";
+ [Parameter] public string Label {get;set;}="Registros";
+ [Parameter] public string EmptyText {get;set;}="Nenhum registro encontrado.";
+}

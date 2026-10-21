@@ -54,6 +54,10 @@ public static class SUIIcons
         "<path d=\"M12 5v14M5 12h14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/>";
 
     /// <summary>Play triangle.</summary>
+    public const string Pause = "<path d=\"M6 4h4v16H6zm8 0h4v16h-4z\"/>";
+    /// <summary>Audio catalogue / music note.</summary>
+    public const string Audio = "<path d=\"M12 3v10.55A4 4 0 1 0 14 17V7h4V3z\"/>";
+    /// <summary>Play / enable.</summary>
     public const string Play =
         "<path d=\"M8 5v14l11-7z\"/>";
 
