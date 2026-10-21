@@ -1,7 +1,7 @@
 @namespace Sufficit.Blazor.UI.Components
 @inherits SUIComponentBase
 @typeparam TItem
-<div class="sui-records">
+<div class="sui-records @Class" style="@Style" @attributes="AdditionalAttributes">
  <div class="sui-records__desktop">
  <SUITable TItem="TItem" Items="Items" ColumnCount="4" Dense="true" Hover="true">
   <HeaderContent><th>@TitleLabel</th><th>@SecondaryLabel</th><th>Situação</th><th class="sui-records__actions-heading">Ações</th></HeaderContent>

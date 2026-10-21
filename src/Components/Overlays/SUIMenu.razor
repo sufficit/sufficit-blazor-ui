@@ -2,7 +2,7 @@
 @inherits SUIComponentBase
 @implements IAsyncDisposable
 @inject IJSRuntime JS
-<div class="sui-menu">
+<div class="sui-menu @Class" style="@Style" @attributes="AdditionalAttributes">
     <button @ref="_trigger" type="button" class="sui-menu__trigger" popovertarget="@_id" aria-haspopup="menu" aria-label="@Label" disabled="@Disabled">
         @if(Trigger is not null) { @Trigger }
         else { <SUIIcon Name="@Icon" Size="18" /> @Label }
