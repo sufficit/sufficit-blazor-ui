@@ -27,6 +27,22 @@ export function register() {
     setTimeout(() => element.classList.remove(PENDING), RELEASE_MS);
   }, true);
 
+  // A submit press the browser's constraint validation stops never leaves the
+  // page: the click already marked the button, then the form reports a field
+  // as invalid and nothing else happens. "invalid" does not bubble, hence the
+  // capture phase; it fires once per offending field, before the browser
+  // shows its message.
+  document.addEventListener("invalid", (event) => {
+    const form = event.target?.form;
+    if (!form) return;
+    form.querySelectorAll("." + PENDING)
+      .forEach((element) => element.classList.remove(PENDING));
+    if (form.id) {
+      document.querySelectorAll(`[form="${CSS.escape(form.id)}"].${PENDING}`)
+        .forEach((element) => element.classList.remove(PENDING));
+    }
+  }, true);
+
   // A page restored from the back/forward cache never re-renders.
   addEventListener("pageshow", (event) => {
     if (event.persisted) {
