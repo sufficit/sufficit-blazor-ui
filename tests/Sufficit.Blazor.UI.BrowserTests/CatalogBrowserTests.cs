@@ -90,9 +90,8 @@ public sealed partial class CatalogBrowserTests : PageTest
         Assert.That(styles[3], Is.EqualTo("flex"));
         Assert.That(styles[4], Is.EqualTo("relative"));
         Assert.That(styles[5], Is.EqualTo("flex"));
-        // The header moved to a two-column grid (identity + actions) in the
-        // header-layout refinement — computed display is grid, not flex.
-        Assert.That(styles[6], Is.EqualTo("grid"));
+        // Commands wrap before compressing the title on tablet-sized containers.
+        Assert.That(styles[6], Is.EqualTo("flex"));
         Assert.That(styles[7], Is.EqualTo("collapse"));
         Assert.That(styles[8], Is.EqualTo("flex"));
 
@@ -101,6 +100,34 @@ public sealed partial class CatalogBrowserTests : PageTest
             .EvaluateAllAsync<bool>(
                 "elements => elements.every(element => [...element.attributes].some(attribute => attribute.name.startsWith('b-')))");
         Assert.That(scopedRoots, Is.True);
+    }
+
+    [Test]
+    public async Task PageHeader_WideCommandsWrapWithoutCrushingTheDescription()
+    {
+        foreach (var width in new[] { 800, 390 })
+        {
+            await Page.SetViewportSizeAsync(width, 1000);
+            var dimensions = await Page.Locator(".sui-page-header").First.EvaluateAsync<double[]>(
+                """
+                header => {
+                    // Reproduce a customer chip and commands occupying 600px.
+                    header.style.width = '640px';
+                    header.style.maxWidth = '100%';
+                    const actions = header.querySelector('.sui-page-header__actions');
+                    actions.style.width = '600px';
+                    const identity = header.querySelector('.sui-page-header__identity').getBoundingClientRect();
+                    const copy = header.querySelector('.sui-page-header__copy').getBoundingClientRect();
+                    const commands = actions.getBoundingClientRect();
+                    return [copy.width, copy.height, commands.top - identity.bottom,
+                        commands.right - header.getBoundingClientRect().right];
+                }
+                """);
+            Assert.That(dimensions[0], Is.GreaterThan(220), "Description was compressed by commands.");
+            Assert.That(dimensions[1], Is.LessThan(160), "Identity gained an unintended fixed height.");
+            Assert.That(dimensions[2], Is.GreaterThanOrEqualTo(0), "Commands did not move below identity.");
+            Assert.That(dimensions[3], Is.LessThanOrEqualTo(1), "Commands overflowed the header.");
+        }
     }
 
     [Test]

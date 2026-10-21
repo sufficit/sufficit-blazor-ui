@@ -12,3 +12,7 @@ Critérios: título/descrição com largura legível; ações quebram em linha p
 Pré-validação real com os arquivos candidatos: descrição passa de87px para439px; teclado aberto reduz viewport de1112px para728px; rodapé termina650px, acima do teclado. Suíte SUI:972 testes aprovados.
 
 Validação candidata:972 testes SUI e36 serviços/cancelamento; header390/800/1024/1440px; Lenovo retrato com IME728px e rodapé650px; paisagem com IME312px e botão279px após rolagem.
+
+CI da tag150 encontrou assert antigo de display:grid no teste de carregamento CSS. Atualizar contrato flex e acrescentar regressão geométrica com ações largas antes de nova tag; sem publicar tag150.
+
+Regressões reais do catálogo executadas localmente:2 aprovadas (carregamento CSS e ações600px em390/800px). Publicar nova tag com o teste corrigido.
