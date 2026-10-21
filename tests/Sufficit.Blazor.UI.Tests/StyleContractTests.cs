@@ -279,7 +279,8 @@ public sealed class StyleContractTests
 
         Assert.Contains("sui-page-header__identity", component, StringComparison.Ordinal);
         Assert.Contains("sui-page-header__copy", component, StringComparison.Ordinal);
-        Assert.Contains("grid-template-columns:minmax(0,1fr)auto", compact, StringComparison.Ordinal);
+        Assert.Contains("flex-wrap:wrap", compact, StringComparison.Ordinal);
+        Assert.Contains("flex:1120rem", compact, StringComparison.Ordinal);
         Assert.Contains("border-bottom:1pxsolidcolor-mix", compact, StringComparison.Ordinal);
         Assert.DoesNotContain("font-size:var(--sui-fs-display)", compact, StringComparison.Ordinal);
     }

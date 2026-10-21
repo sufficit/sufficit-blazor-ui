@@ -17,7 +17,7 @@
   position: relative;
   z-index: var(--sui-z-modal, 1400);
   width: min(92vw, 480px);
-  max-height: 90vh;
+  max-height: 90dvh;
   overflow-y: auto;
   padding: var(--sui-space-4);
 }

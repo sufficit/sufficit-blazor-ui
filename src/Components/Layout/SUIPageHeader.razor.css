@@ -3,13 +3,14 @@
  * ------------------------------------------------------------------ */
 
 .sui-page-header {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--sui-space-4);
   align-items: center;
   margin-bottom: var(--sui-space-4);
 }
 .sui-page-header__identity {
+  flex: 1 1 20rem;
   display: flex;
   align-items: center;
   min-width: 0;
@@ -52,6 +53,8 @@
   max-width: 70ch;
 }
 .sui-page-header__actions {
+  min-width: 0;
+  max-width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: var(--sui-space-2);
@@ -80,10 +83,10 @@
 
 @media (max-width: 760px) {
   .sui-page-header {
-    grid-template-columns: minmax(0, 1fr);
     align-items: start;
   }
 
+  .sui-page-header__identity { flex-basis: 100%; }
   .sui-page-header__actions { justify-content: flex-start; }
 }
 
