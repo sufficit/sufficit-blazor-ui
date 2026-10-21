@@ -1,7 +1,8 @@
 .sui-records { min-width:0; }
 .sui-records__mobile {display:none;}
 .sui-records__desktop ::deep td {overflow-wrap:anywhere;}
-.sui-records__actions-heading {text-align:center;}
+/* Override the base table header alignment through the component boundary. */
+.sui-records__desktop ::deep th.sui-records__actions-heading {text-align:center;}
 .sui-records__actions {width:42%;min-width:24rem;}
 .sui-records__copy {display:flex;flex-direction:column;align-items:flex-start;gap:var(--sui-space-1);min-width:0;text-align:start;overflow-wrap:anywhere;}
 .sui-records__copy>span {font-size:var(--sui-fs-caption);color:var(--sui-text-secondary);}
