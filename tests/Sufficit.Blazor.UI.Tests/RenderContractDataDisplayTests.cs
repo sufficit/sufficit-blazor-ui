@@ -168,6 +168,32 @@ public sealed class RenderContractDataDisplayTests
     }
 
     [Fact]
+    public void Stat_LoadingSkeletonAndAnimationFlags()
+    {
+        using var context = new BunitContext();
+        var loading = context.Render<SUIStat>(parameters => parameters.Add(c => c.Label, "Chamadas").Add(c => c.Loading, true));
+        Assert.Equal("true", loading.Find(".sui-stat__copy").GetAttribute("aria-busy"));
+        Assert.Equal(2, loading.FindAll(".sui-stat__skeleton").Count);
+        Assert.True(loading.Find(".sui-stat").ClassList.Contains("sui-stat--anim-loading"));
+        var none = context.Render<SUIStat>(parameters => parameters.Add(c => c.Value, "1").Add(c => c.Loading, true).Add(c => c.Animation, SUIAnimation.None));
+        Assert.DoesNotContain(none.Find(".sui-stat").ClassList, name => name.StartsWith("sui-stat--anim-", StringComparison.Ordinal));
+        var stat = context.Render<SUIStat>(parameters => parameters.Add(c => c.Value, "5").Add(c => c.Animation, SUIAnimation.ValueChange));
+        Assert.Empty(stat.FindAll(".sui-stat__number--changed"));
+        stat.Render(parameters => parameters.Add(c => c.Value, "6"));
+        Assert.NotEmpty(stat.FindAll(".sui-stat__number--changed"));
+        Assert.Equal("6", stat.Find(".sui-stat__number").TextContent);
+    }
+
+    [Fact]
+    public void AnimationPolicy_ComponentParameterWinsOverApplicationDefault()
+    {
+        var policy = new Sufficit.Blazor.UI.Services.SUIAnimationPolicy(SUIAnimation.None);
+        Assert.Equal(SUIAnimation.None, Sufficit.Blazor.UI.Services.SUIAnimationPolicy.Resolve(null, policy));
+        Assert.Equal(SUIAnimation.Enter, Sufficit.Blazor.UI.Services.SUIAnimationPolicy.Resolve(SUIAnimation.Enter, policy));
+        Assert.Equal(SUIAnimation.Default, Sufficit.Blazor.UI.Services.SUIAnimationPolicy.Resolve(null, null));
+    }
+
+    [Fact]
     public void Stat_PlainHasNoWatermarkAndImageRejectsUnsafeUrls()
     {
         using var context = new BunitContext();

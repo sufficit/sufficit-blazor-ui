@@ -1,6 +1,7 @@
 B|Sufficit.Blazor.UI.Components.SUIActionGroup|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIAlert|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIAlign|System.Enum
+B|Sufficit.Blazor.UI.Components.SUIAnimation|System.Enum
 B|Sufficit.Blazor.UI.Components.SUIAppBar|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIAutocomplete<`0:TValue>|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIAvatar|Sufficit.Blazor.UI.Components.SUIComponentBase
@@ -100,6 +101,7 @@ B|Sufficit.Blazor.UI.Components.SUITrend|System.Enum
 B|Sufficit.Blazor.UI.Components.SUITypo|System.Enum
 B|Sufficit.Blazor.UI.Components.SUIVariant|System.Enum
 B|Sufficit.Blazor.UI.ServiceCollectionExtensions|System.Object
+B|Sufficit.Blazor.UI.Services.SUIAnimationPolicy|System.Object
 B|Sufficit.Blazor.UI.Services.SUIDialogOptions|System.Object
 B|Sufficit.Blazor.UI.Services.SUIDialogReference|System.Object
 B|Sufficit.Blazor.UI.Services.SUIDialogRequest|System.Object
@@ -199,6 +201,7 @@ C|Sufficit.Blazor.UI.Components.SUITimeline|()
 C|Sufficit.Blazor.UI.Components.SUIToastHost|()
 C|Sufficit.Blazor.UI.Components.SUIToast|()
 C|Sufficit.Blazor.UI.Components.SUITooltip|()
+C|Sufficit.Blazor.UI.Services.SUIAnimationPolicy|(Sufficit.Blazor.UI.Components.SUIAnimation)
 C|Sufficit.Blazor.UI.Services.SUIDialogOptions|()
 C|Sufficit.Blazor.UI.Services.SUIDialogReference|()
 C|Sufficit.Blazor.UI.Services.SUIDialogRequest|(System.Guid,System.Type,System.String,System.Collections.Generic.IReadOnlyDictionary<System.String,System.Object>,Sufficit.Blazor.UI.Services.SUIDialogReference)
@@ -227,6 +230,14 @@ F|Sufficit.Blazor.UI.Components.SUIAlign|Sufficit.Blazor.UI.Components.SUIAlign|
 F|Sufficit.Blazor.UI.Components.SUIAlign|Sufficit.Blazor.UI.Components.SUIAlign|Justify
 F|Sufficit.Blazor.UI.Components.SUIAlign|Sufficit.Blazor.UI.Components.SUIAlign|Start
 F|Sufficit.Blazor.UI.Components.SUIAlign|System.Int32|value__
+F|Sufficit.Blazor.UI.Components.SUIAnimation|Sufficit.Blazor.UI.Components.SUIAnimation|CountUp
+F|Sufficit.Blazor.UI.Components.SUIAnimation|Sufficit.Blazor.UI.Components.SUIAnimation|Default
+F|Sufficit.Blazor.UI.Components.SUIAnimation|Sufficit.Blazor.UI.Components.SUIAnimation|Enter
+F|Sufficit.Blazor.UI.Components.SUIAnimation|Sufficit.Blazor.UI.Components.SUIAnimation|Hover
+F|Sufficit.Blazor.UI.Components.SUIAnimation|Sufficit.Blazor.UI.Components.SUIAnimation|Loading
+F|Sufficit.Blazor.UI.Components.SUIAnimation|Sufficit.Blazor.UI.Components.SUIAnimation|None
+F|Sufficit.Blazor.UI.Components.SUIAnimation|Sufficit.Blazor.UI.Components.SUIAnimation|ValueChange
+F|Sufficit.Blazor.UI.Components.SUIAnimation|System.Int32|value__
 F|Sufficit.Blazor.UI.Components.SUIButtonType|Sufficit.Blazor.UI.Components.SUIButtonType|Button
 F|Sufficit.Blazor.UI.Components.SUIButtonType|Sufficit.Blazor.UI.Components.SUIButtonType|Reset
 F|Sufficit.Blazor.UI.Components.SUIButtonType|Sufficit.Blazor.UI.Components.SUIButtonType|Submit
@@ -399,6 +410,10 @@ I|Sufficit.Blazor.UI.Components.SUIAlign|System.IComparable
 I|Sufficit.Blazor.UI.Components.SUIAlign|System.IConvertible
 I|Sufficit.Blazor.UI.Components.SUIAlign|System.IFormattable
 I|Sufficit.Blazor.UI.Components.SUIAlign|System.ISpanFormattable
+I|Sufficit.Blazor.UI.Components.SUIAnimation|System.IComparable
+I|Sufficit.Blazor.UI.Components.SUIAnimation|System.IConvertible
+I|Sufficit.Blazor.UI.Components.SUIAnimation|System.IFormattable
+I|Sufficit.Blazor.UI.Components.SUIAnimation|System.ISpanFormattable
 I|Sufficit.Blazor.UI.Components.SUIAppBar|Microsoft.AspNetCore.Components.IComponent
 I|Sufficit.Blazor.UI.Components.SUIAppBar|Microsoft.AspNetCore.Components.IHandleAfterRender
 I|Sufficit.Blazor.UI.Components.SUIAppBar|Microsoft.AspNetCore.Components.IHandleEvent
@@ -643,6 +658,7 @@ I|Sufficit.Blazor.UI.Components.SUIStatusBanner|Microsoft.AspNetCore.Components.
 I|Sufficit.Blazor.UI.Components.SUIStat|Microsoft.AspNetCore.Components.IComponent
 I|Sufficit.Blazor.UI.Components.SUIStat|Microsoft.AspNetCore.Components.IHandleAfterRender
 I|Sufficit.Blazor.UI.Components.SUIStat|Microsoft.AspNetCore.Components.IHandleEvent
+I|Sufficit.Blazor.UI.Components.SUIStat|System.IDisposable
 I|Sufficit.Blazor.UI.Components.SUISwitchButton|Microsoft.AspNetCore.Components.IComponent
 I|Sufficit.Blazor.UI.Components.SUISwitchButton|Microsoft.AspNetCore.Components.IHandleAfterRender
 I|Sufficit.Blazor.UI.Components.SUISwitchButton|Microsoft.AspNetCore.Components.IHandleEvent
@@ -783,6 +799,7 @@ M|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.Threading.Tasks.Valu
 M|Sufficit.Blazor.UI.Components.SUISelectItem|System.Void|Dispose|()
 M|Sufficit.Blazor.UI.Components.SUISlidingTabPanel|System.Void|Dispose|()
 M|Sufficit.Blazor.UI.Components.SUISlidingTabs|System.Threading.Tasks.ValueTask|DisposeAsync|()
+M|Sufficit.Blazor.UI.Components.SUIStat|System.Void|Dispose|()
 M|Sufficit.Blazor.UI.Components.SUISwitchButton|System.Void|Dispose|()
 M|Sufficit.Blazor.UI.Components.SUISwitch|System.Void|Dispose|()
 M|Sufficit.Blazor.UI.Components.SUITabPanel|System.Void|Dispose|()
@@ -807,6 +824,7 @@ M|Sufficit.Blazor.UI.Services.ISUIToast|System.Void|Error|(System.String)
 M|Sufficit.Blazor.UI.Services.ISUIToast|System.Void|Info|(System.String)
 M|Sufficit.Blazor.UI.Services.ISUIToast|System.Void|Success|(System.String)
 M|Sufficit.Blazor.UI.Services.ISUIToast|System.Void|Warning|(System.String)
+M|Sufficit.Blazor.UI.Services.SUIAnimationPolicy|Sufficit.Blazor.UI.Components.SUIAnimation|Resolve|(System.Nullable<Sufficit.Blazor.UI.Components.SUIAnimation>,Sufficit.Blazor.UI.Services.SUIAnimationPolicy)
 M|Sufficit.Blazor.UI.Services.SUIDialogOptions|Sufficit.Blazor.UI.Services.SUIDialogOptions|<Clone>$|()
 M|Sufficit.Blazor.UI.Services.SUIDialogOptions|System.Boolean|Equals|(Sufficit.Blazor.UI.Services.SUIDialogOptions)
 M|Sufficit.Blazor.UI.Services.SUIDialogOptions|System.Boolean|Equals|(System.Object)
@@ -1342,7 +1360,9 @@ P|Sufficit.Blazor.UI.Components.SUIStat|Microsoft.AspNetCore.Components.RenderFr
 P|Sufficit.Blazor.UI.Components.SUIStat|Sufficit.Blazor.UI.Components.SUIColor|ColorValue|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIStat|Sufficit.Blazor.UI.Components.SUIStatAppearance|Appearance|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIStat|System.Boolean|HigherIsBetter|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIStat|System.Boolean|Loading|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIStat|System.Collections.Generic.IReadOnlyList<System.Double>|Sparkline|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIStat|System.Nullable<Sufficit.Blazor.UI.Components.SUIAnimation>|Animation|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIStat|System.Nullable<Sufficit.Blazor.UI.Components.SUITrend>|Trend|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIStat|System.String|BackgroundImage|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIStat|System.String|Caption|[]|get;set;
@@ -1479,6 +1499,7 @@ P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|Padding|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|TextColor|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|Text|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|TooltipClass|[]|get;set;
+P|Sufficit.Blazor.UI.Services.SUIAnimationPolicy|Sufficit.Blazor.UI.Components.SUIAnimation|Animations|[]|get;
 P|Sufficit.Blazor.UI.Services.SUIDialogOptions|System.String|Icon|[]|get;set;
 P|Sufficit.Blazor.UI.Services.SUIDialogReference|System.Guid|Id|[]|get;
 P|Sufficit.Blazor.UI.Services.SUIDialogReference|System.Threading.Tasks.Task<System.Object>|Result|[]|get;
@@ -1566,6 +1587,7 @@ P|Sufficit.Blazor.UI.Themes.SUIPalette|System.String|TextPrimary|[]|get;set;
 P|Sufficit.Blazor.UI.Themes.SUIPalette|System.String|TextSecondary|[]|get;set;
 P|Sufficit.Blazor.UI.Themes.SUIPalette|System.String|WarningContrast|[]|get;set;
 P|Sufficit.Blazor.UI.Themes.SUIPalette|System.String|Warning|[]|get;set;
+P|Sufficit.Blazor.UI.Themes.SUIThemeOptions|Sufficit.Blazor.UI.Components.SUIAnimation|Animations|[]|get;set;
 P|Sufficit.Blazor.UI.Themes.SUIThemeOptions|Sufficit.Blazor.UI.Themes.ISUITheme|Theme|[]|get;set;
 P|Sufficit.Blazor.UI.Themes.SUIThemeProvider|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Themes.SUIThemeProvider|Sufficit.Blazor.UI.Themes.ISUITheme|Theme|[]|get;set;
@@ -1696,6 +1718,7 @@ T|class|Sufficit.Blazor.UI.Components.SUIToast
 T|class|Sufficit.Blazor.UI.Components.SUIToastHost
 T|class|Sufficit.Blazor.UI.Components.SUITooltip
 T|class|Sufficit.Blazor.UI.ServiceCollectionExtensions
+T|class|Sufficit.Blazor.UI.Services.SUIAnimationPolicy
 T|class|Sufficit.Blazor.UI.Services.SUIDialogOptions
 T|class|Sufficit.Blazor.UI.Services.SUIDialogReference
 T|class|Sufficit.Blazor.UI.Services.SUIDialogRequest
@@ -1716,6 +1739,7 @@ T|class|Sufficit.Blazor.UI.Themes.SUITypography
 T|class|Sufficit.Blazor.UI.Utilities.SUIClassBuilder
 T|class|Sufficit.Blazor.UI._Imports
 T|enum|Sufficit.Blazor.UI.Components.SUIAlign
+T|enum|Sufficit.Blazor.UI.Components.SUIAnimation
 T|enum|Sufficit.Blazor.UI.Components.SUIButtonType
 T|enum|Sufficit.Blazor.UI.Components.SUIColor
 T|enum|Sufficit.Blazor.UI.Components.SUIEdge

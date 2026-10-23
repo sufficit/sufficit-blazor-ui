@@ -1276,7 +1276,7 @@
   {
     "name": "SUIStat",
     "family": "Dados",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<div style=\"display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px\">\n    <SUIStat Value=\"12\" Label=\"Serviços no exemplo\" Icon=\"check\" />\n    <SUIStat Value=\"1.248\" Label=\"Chamadas recebidas\" Icon=\"phone\" ColorValue=\"SUIColor.Info\" Appearance=\"SUIStatAppearance.Soft\"\n             Delta=\"+12%\" Trend=\"SUITrend.Up\" Caption=\"vs. ontem\" Sparkline=\"@(new double[] { 3, 5, 4, 7, 6, 9, 11 })\" />\n    <SUIStat Value=\"82\" Unit=\"%\" Label=\"Atendidas\" Icon=\"check\" ColorValue=\"SUIColor.Success\" Appearance=\"SUIStatAppearance.Gradient\"\n             Delta=\"+3 p.p.\" Trend=\"SUITrend.Up\" />\n    <SUIStat Value=\"9\" Label=\"Abandonadas\" Icon=\"close\" ColorValue=\"SUIColor.Error\" Appearance=\"SUIStatAppearance.Gradient\"\n             Delta=\"-2\" Trend=\"SUITrend.Down\" HigherIsBetter=\"false\" Caption=\"menor é melhor\" />\n    <SUIStat Value=\"15 s\" Label=\"Espera média\" Icon=\"schedule\" ColorValue=\"SUIColor.Warning\" Appearance=\"SUIStatAppearance.Image\"\n             Caption=\"imagem padrão (ondas)\" />\n</div>\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<div style=\"display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px\">\n    <SUIStat Value=\"12\" Label=\"Serviços no exemplo\" Icon=\"check\" />\n    <SUIStat Label=\"Carregando\" Icon=\"clock\" ColorValue=\"SUIColor.Secondary\" Loading=\"true\" />\n    <SUIStat Value=\"1.248\" Label=\"Chamadas recebidas\" Icon=\"phone\" ColorValue=\"SUIColor.Info\" Appearance=\"SUIStatAppearance.Soft\"\n             Delta=\"+12%\" Trend=\"SUITrend.Up\" Caption=\"vs. ontem\" Sparkline=\"@(new double[] { 3, 5, 4, 7, 6, 9, 11 })\" />\n    <SUIStat Value=\"82\" Unit=\"%\" Label=\"Atendidas\" Icon=\"check\" ColorValue=\"SUIColor.Success\" Appearance=\"SUIStatAppearance.Gradient\"\n             Delta=\"+3 p.p.\" Trend=\"SUITrend.Up\" />\n    <SUIStat Value=\"9\" Label=\"Abandonadas\" Icon=\"close\" ColorValue=\"SUIColor.Error\" Appearance=\"SUIStatAppearance.Gradient\"\n             Delta=\"-2\" Trend=\"SUITrend.Down\" HigherIsBetter=\"false\" Caption=\"menor é melhor\" />\n    <SUIStat Value=\"15 s\" Label=\"Espera média\" Icon=\"schedule\" ColorValue=\"SUIColor.Warning\" Appearance=\"SUIStatAppearance.Image\"\n             Caption=\"imagem padrão (ondas)\" />\n</div>\n",
     "parameters": [
       {
         "description": "Headline number, already formatted (e.g. \"1,2 mil\", \"15 s\").",
@@ -1378,6 +1378,22 @@
         "description": "",
         "name": "ChildContent",
         "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Shows a skeleton (shimmering when SUIAnimation.Loading is enabled) instead of the value.",
+        "name": "Loading",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Animations for this card; null uses the application default (SUIThemeOptions.Animations).",
+        "name": "Animation",
+        "type": "SUIAnimation?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false

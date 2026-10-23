@@ -270,3 +270,27 @@ public enum SUITrend
     /// <summary>No meaningful change.</summary>
     Flat,
 }
+
+/// <summary>
+/// Animation kinds a SUI component may play. Combine with <c>|</c>; <see cref="None"/> turns every
+/// animation off. The application default comes from <c>SUIThemeOptions.Animations</c> and a component
+/// parameter overrides it. <c>prefers-reduced-motion</c> always wins over CSS motion.
+/// </summary>
+[Flags]
+public enum SUIAnimation
+{
+    /// <summary>No animation at all.</summary>
+    None = 0,
+    /// <summary>Fade and rise when the element first appears.</summary>
+    Enter = 1,
+    /// <summary>Skeleton shimmer while content is loading.</summary>
+    Loading = 2,
+    /// <summary>Brief highlight when a displayed value changes.</summary>
+    ValueChange = 4,
+    /// <summary>Numbers count from the previous to the new value.</summary>
+    CountUp = 8,
+    /// <summary>Lift and shadow on pointer hover.</summary>
+    Hover = 16,
+    /// <summary>Recommended set: everything above.</summary>
+    Default = Enter | Loading | ValueChange | CountUp | Hover,
+}

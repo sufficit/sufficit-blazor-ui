@@ -23,7 +23,7 @@ componentes e nunca devem ser adicionados manualmente.
 - [Migração da API tipada](api-migration.md)
 
 Páginas detalhadas: [Select](select.md), [Tooltip](tooltip.md),
-[NavGroup](nav-group.md), [Dialog](dialog.md) e
+[NavGroup](nav-group.md), [Dialog](dialog.md), [Stat](stat.md) e
 [ThemeProvider](theme-provider.md).
 
 Componentes com raiz semântica ou interativa encaminham atributos HTML não

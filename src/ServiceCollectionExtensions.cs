@@ -30,6 +30,7 @@ public static class ServiceCollectionExtensions
 
         var theme = options.Theme ?? DefaultSUITheme.Instance;
         services.AddScoped(_ => theme);
+        services.AddSingleton(new SUIAnimationPolicy(options.Animations));
         services.AddScoped<ISUISnackbar, SUISnackbarService>();
         services.AddScoped<ISUIToast, SUIToastService>();
         services.AddScoped<ISUIDialogService, SUIDialogService>();

@@ -1,5 +1,8 @@
 @namespace Sufficit.Blazor.UI.Components
 @inherits SUIComponentBase
+@implements IDisposable
+@using Sufficit.Blazor.UI.Services
+@inject IServiceProvider Services
 
 <div class="@Classname" style="@RootStyle" @attributes="AdditionalAttributes">
     @if (Decorated)
@@ -7,8 +10,16 @@
         @* Decorative watermark: the same icon, large and faint, gives each tone its own texture. *@
         <span class="sui-stat__mark" aria-hidden="true"><SUIIcon Name="@Icon" Size="96" /></span>
     }
-    <div class="sui-stat__copy">
-        <SUIText Typo="SUITypo.h5" Tag="SUITextTag.Div" Class="sui-stat__value">@Value@if (!string.IsNullOrWhiteSpace(Unit)) { <span class="sui-stat__unit">@Unit</span> }</SUIText>
+    <div class="sui-stat__copy" aria-busy="@(Loading ? "true" : null)">
+        @if (Loading)
+        {
+            @* Skeleton keeps the card's shape so the layout does not jump when data arrives. *@
+            <span class="sui-stat__skeleton sui-stat__skeleton--value"></span>
+            <span class="sui-stat__skeleton sui-stat__skeleton--label">@Label</span>
+        }
+        else
+        {
+        <SUIText Typo="SUITypo.h5" Tag="SUITextTag.Div" Class="sui-stat__value"><span @key="_changes" class="@(_changes > 0 && Has(SUIAnimation.ValueChange) ? "sui-stat__number sui-stat__number--changed" : "sui-stat__number")">@_shown</span>@if (!string.IsNullOrWhiteSpace(Unit)) { <span class="sui-stat__unit">@Unit</span> }</SUIText>
         <SUIText Typo="SUITypo.caption" Color="@(Bold ? SUIColor.Inherit : SUIColor.Default)" Class="sui-stat__label">@Label</SUIText>
         @if (!string.IsNullOrWhiteSpace(Delta) || !string.IsNullOrWhiteSpace(Caption))
         {
@@ -23,6 +34,7 @@
             </div>
         }
         @ChildContent
+        }
     </div>
     @if (!string.IsNullOrWhiteSpace(Icon))
     {
@@ -30,7 +42,7 @@
             <SUIIcon Name="@Icon" Size="20" />
         </SUIAvatar>
     }
-    @if (SparkPoints is { } points)
+    @if (!Loading && SparkPoints is { } points)
     {
         <svg class="sui-stat__spark" viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true" focusable="false">
             <polygon class="sui-stat__spark-area" points="0,24 @points 100,24" />
@@ -64,6 +76,49 @@
     /// <summary>Optional series drawn as a small area chart along the bottom edge (no axes).</summary>
     [Parameter] public IReadOnlyList<double>? Sparkline { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>Shows a skeleton (shimmering when <see cref="SUIAnimation.Loading"/> is enabled) instead of the value.</summary>
+    [Parameter] public bool Loading { get; set; }
+    /// <summary>Animations for this card; null uses the application default (<c>SUIThemeOptions.Animations</c>).</summary>
+    [Parameter] public SUIAnimation? Animation { get; set; }
+
+    private SUIAnimation Animations => SUIAnimationPolicy.Resolve(Animation, Services.GetService(typeof(SUIAnimationPolicy)) as SUIAnimationPolicy);
+    private bool Has(SUIAnimation kind) => (Animations & kind) == kind;
+
+    private string? _shown, _last;
+    private int _changes;
+    private CancellationTokenSource? _tween;
+
+    protected override void OnParametersSet()
+    {
+        if (_last is null) { _shown = _last = Value; return; }
+        if (Value == _last) return;
+        var from = _last; _last = Value; _changes++;
+        _tween?.Cancel();
+        if (Has(SUIAnimation.CountUp) && TryNumber(from, out var start) && TryNumber(Value, out var end) && start != end)
+        {
+            _tween = new CancellationTokenSource();
+            _ = CountAsync(start, end, _tween.Token);
+        }
+        else _shown = Value;
+    }
+
+    // Integers only (the displayed text is kept verbatim otherwise): 12 frames over ~480 ms, ease-out.
+    private async Task CountAsync(long start, long end, CancellationToken token)
+    {
+        const int frames = 12;
+        for (var frame = 1; frame <= frames && !token.IsCancellationRequested; frame++)
+        {
+            var t = 1 - Math.Pow(1 - frame / (double)frames, 3);
+            _shown = frame == frames ? Value : Math.Round(start + (end - start) * t).ToString(System.Globalization.CultureInfo.InvariantCulture);
+            await InvokeAsync(StateHasChanged);
+            try { await Task.Delay(40, token); } catch (TaskCanceledException) { return; }
+        }
+    }
+
+    private static bool TryNumber(string? text, out long value) =>
+        long.TryParse(text, System.Globalization.NumberStyles.AllowLeadingSign, System.Globalization.CultureInfo.InvariantCulture, out value);
+
+    public void Dispose() { _tween?.Cancel(); _tween?.Dispose(); }
 
     // Light-on-colour cards: the label inherits the card's white text instead of the secondary tone.
     private bool Bold => Appearance is SUIStatAppearance.Gradient or SUIStatAppearance.Image;
@@ -72,7 +127,10 @@
     private string Classname => SUIClassBuilder.Default("sui-card sui-stat")
         .AddClass($"sui-stat--{SUIClassBuilder.Slug(ColorValue)}")
         .AddClass($"sui-stat--{SUIClassBuilder.Slug(Appearance)}", Appearance != SUIStatAppearance.Plain)
-        .AddClass("sui-stat--spark", SparkPoints is not null)
+        .AddClass("sui-stat--spark", SparkPoints is not null && !Loading)
+        .AddClass("sui-stat--anim-enter", Has(SUIAnimation.Enter))
+        .AddClass("sui-stat--anim-hover", Has(SUIAnimation.Hover))
+        .AddClass("sui-stat--anim-loading", Loading && Has(SUIAnimation.Loading))
         .AddClass(Class)
         .Build();
 
