@@ -46,3 +46,18 @@
     min-block-size: auto;
   }
 }
+
+.sui-form-grid--columns-1 { --sui-form-grid-columns: 1; }
+.sui-form-grid--columns-2 { --sui-form-grid-columns: 2; }
+.sui-form-grid--columns-3 { --sui-form-grid-columns: 3; }
+.sui-form-grid--columns-4 { --sui-form-grid-columns: 4; }
+.sui-form-grid--gap-0 { --sui-form-grid-gap: 0px; }
+.sui-form-grid--gap-1 { --sui-form-grid-gap: var(--sui-space-1); }
+.sui-form-grid--gap-2 { --sui-form-grid-gap: var(--sui-space-2); }
+.sui-form-grid--gap-3 { --sui-form-grid-gap: var(--sui-space-3); }
+.sui-form-grid--gap-4 { --sui-form-grid-gap: var(--sui-space-4); }
+.sui-form-grid--gap-5 { --sui-form-grid-gap: var(--sui-space-5); }
+.sui-form-grid--gap-6 { --sui-form-grid-gap: var(--sui-space-6); }
+.sui-form-grid--label-lines-1 { --sui-form-grid-label-lines: 1; }
+.sui-form-grid--label-lines-2 { --sui-form-grid-label-lines: 2; }
+.sui-form-grid--label-lines-3 { --sui-form-grid-label-lines: 3; }

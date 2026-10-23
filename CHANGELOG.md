@@ -23,6 +23,8 @@ definem a numeração das próximas publicações.
 
 ### Fixed
 
+- `SUIFormGrid`: colunas, espaçamento e linhas de rótulo saem em classes (`sui-form-grid--columns-N`, `--gap-N`, `--label-lines-N`), não mais no atributo `style`. Uma página com CSP sem `style-src-attr 'unsafe-inline'` perdia o layout inteiro da grade. O `style` só aparece com `MinColumnWidth` diferente de `14rem` ou com `Style` do consumidor.
+
 - `SUIDialogHost`: um diálogo aberto enquanto o anterior ainda fechava (chamada JS em andamento) era apagado da tela e o `Result` dele nunca completava. O host agora recheca o diálogo atual depois do `await` e só esquece o diálogo que ele mesmo fechou.
 
 - `SUILoadingButton`: o feedback instantâneo (`sui-btn--pending`) é desfeito quando a validação nativa do formulário bloqueia o envio (evento `invalid`). Antes, um submit com campo obrigatório vazio deixava o spinner girando por 8 s sem nada acontecer.
