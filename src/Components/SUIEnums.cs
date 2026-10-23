@@ -289,8 +289,8 @@ public enum SUIAnimation
     ValueChange = 4,
     /// <summary>Numbers count from the previous to the new value.</summary>
     CountUp = 8,
-    /// <summary>Lift and shadow on pointer hover.</summary>
+    /// <summary>Lift and shadow on pointer hover. Opt-in only: not part of <see cref="Default"/>.</summary>
     Hover = 16,
-    /// <summary>Recommended set: everything above.</summary>
-    Default = Enter | Loading | ValueChange | CountUp | Hover,
+    /// <summary>Recommended set: Enter, Loading, ValueChange and CountUp (no hover lift).</summary>
+    Default = Enter | Loading | ValueChange | CountUp,
 }

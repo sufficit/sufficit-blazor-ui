@@ -16,7 +16,7 @@ definem a numeração das próximas publicações.
 - `SUIAnimation` (`[Flags]`: `None`, `Enter`, `Loading`, `ValueChange`, `CountUp`, `Hover`, `Default`) padroniza as
   animações; padrão da aplicação em `SUIThemeOptions.Animations` (registrado como `SUIAnimationPolicy`), com
   override por componente. `SUIStat` ganhou `Loading` (esqueleto com brilho), destaque e contagem quando o valor
-  muda, entrada e elevação no hover, e bloco do ícone tingido na cor do card. Documentação em `docs/ANIMATIONS.md`
+  muda, entrada, elevação no hover só por opção (`Hover` fora do `Default`), e bloco do ícone tingido na cor do card. Documentação em `docs/ANIMATIONS.md`
   e `docs/components/stat.md` (com as referências pesquisadas).
 
 ### Fixed

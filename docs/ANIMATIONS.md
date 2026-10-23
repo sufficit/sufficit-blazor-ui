@@ -9,8 +9,8 @@ Um único enum padroniza as animações da biblioteca. É `[Flags]`: combine tip
 | `Loading` | Esqueleto com brilho enquanto carrega (sem o flag, o esqueleto fica parado). |
 | `ValueChange` | Destaque curto quando um valor exibido muda. |
 | `CountUp` | Números inteiros contam do valor anterior ao novo (~0,5 s). |
-| `Hover` | Leve elevação e sombra ao passar o ponteiro. |
-| `Default` | Todos acima. |
+| `Hover` | Leve elevação e sombra ao passar o ponteiro. Só quando pedido explicitamente; fora do `Default`. |
+| `Default` | `Enter`, `Loading`, `ValueChange` e `CountUp` (sem `Hover`: o card não sobe ao passar o mouse). |
 
 ## Padrão da aplicação
 
