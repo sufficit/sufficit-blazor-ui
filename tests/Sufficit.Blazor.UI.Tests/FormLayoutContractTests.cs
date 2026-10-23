@@ -201,10 +201,10 @@ public sealed class FormLayoutContractTests
         Assert.Equal("Configuração regional", root.GetAttribute("aria-label"));
         Assert.Contains("sui-form-grid--stack-mobile", root.ClassList);
         Assert.Contains("consumer-grid", root.ClassList);
-        Assert.Contains("--sui-form-grid-columns:3", root.GetAttribute("style"));
-        Assert.Contains("--sui-form-grid-gap:var(--sui-space-5)", root.GetAttribute("style"));
-        Assert.Contains("--sui-form-grid-label-lines:2", root.GetAttribute("style"));
-        Assert.Contains("--consumer-probe:1", root.GetAttribute("style"));
+        Assert.Contains("sui-form-grid--columns-3", root.ClassList);
+        Assert.Contains("sui-form-grid--gap-5", root.ClassList);
+        Assert.Contains("sui-form-grid--label-lines-2", root.ClassList);
+        Assert.Equal("--consumer-probe:1;", root.GetAttribute("style"));
         Assert.Single(root.Children);
     }
 
@@ -220,8 +220,24 @@ public sealed class FormLayoutContractTests
 
         var root = cut.Find(".sui-form-grid");
         Assert.DoesNotContain("sui-form-grid--stack-mobile", root.ClassList);
-        Assert.Contains("--sui-form-grid-columns:4", root.GetAttribute("style"));
-        Assert.Contains("--sui-form-grid-gap:0px", root.GetAttribute("style"));
-        Assert.Contains("--sui-form-grid-label-lines:1", root.GetAttribute("style"));
+        Assert.Contains("sui-form-grid--columns-4", root.ClassList);
+        Assert.Contains("sui-form-grid--gap-0", root.ClassList);
+        Assert.Contains("sui-form-grid--label-lines-1", root.ClassList);
+    }
+
+    [Fact]
+    public void FormGrid_RendersNoInlineStyleForItsOwnLayout()
+    {
+        // A host whose CSP drops style-src-attr 'unsafe-inline' must keep the
+        // grid: the layout travels in classes, never in a style attribute.
+        using var context = new BunitContext();
+        var cut = context.Render<SUIFormGrid>(parameters => parameters
+            .Add(component => component.Columns, 2)
+            .Add(component => component.Spacing, 0));
+
+        Assert.False(cut.Find(".sui-form-grid").HasAttribute("style"));
+
+        cut.Render(parameters => parameters.Add(component => component.MinColumnWidth, "20rem"));
+        Assert.Equal("--sui-form-grid-min-width:20rem;", cut.Find(".sui-form-grid").GetAttribute("style"));
     }
 }
