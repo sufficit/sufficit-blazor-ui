@@ -1,5 +1,9 @@
 const connections=new WeakMap();
 export function connect(trigger,panel) {
+ // Blazor can remove the render tree before this queued interop call arrives.
+ if(!trigger?.isConnected || !panel?.isConnected)return;
+ // Reconnection must not duplicate document/window listeners.
+ disconnect(panel);
  const items=()=>[...panel.querySelectorAll('button:not(:disabled),a[href]')];
  const position=()=>{const r=trigger.getBoundingClientRect();const p=panel.getBoundingClientRect();panel.style.left=Math.max(8,Math.min(r.right-p.width,innerWidth-p.width-8))+'px';panel.style.top=Math.max(8,Math.min(r.bottom+4,innerHeight-p.height-8))+'px';};
  const toggle=e=>{if(e.newState==='open'){position();items().forEach(b=>b.setAttribute('role','menuitem'));items()[0]?.focus();}};

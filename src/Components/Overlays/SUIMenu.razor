@@ -18,14 +18,36 @@
     private readonly string _id="sui-menu-"+Guid.NewGuid().ToString("N");
     private ElementReference _trigger,_panel;
     private IJSObjectReference? _module;
+    private bool _disposed;
     protected override async Task OnAfterRenderAsync(bool firstRender) {
-        if(!firstRender)return;
-        _module=await JS.InvokeAsync<IJSObjectReference>("import","./_content/Sufficit.Blazor.UI/Components/Overlays/SUIMenu.razor.js");
-        if(_module is not null) await _module.InvokeVoidAsync("connect",_trigger,_panel);
+        if(!firstRender || _disposed)return;
+        // Initialization owns its module until connect completes. Disposal can run
+        // at either await; a late result must be released, never attached to a dead menu.
+        IJSObjectReference? pending=null;
+        var connecting=false;
+        try {
+            pending=await JS.InvokeAsync<IJSObjectReference>("import","./_content/Sufficit.Blazor.UI/Components/Overlays/SUIMenu.razor.js");
+            if(_disposed || pending is null)return;
+            connecting=true;
+            await pending.InvokeVoidAsync("connect",_trigger,_panel);
+            if(!_disposed) { _module=pending; pending=null; }
+        }
+        catch(JSDisconnectedException) { }
+        finally { if(pending is not null) await ReleaseAsync(pending,connecting); }
+    }
+    private async ValueTask ReleaseAsync(IJSObjectReference module,bool disconnect) {
+        try { if(disconnect) await module.InvokeVoidAsync("disconnect",_panel); }
+        catch(JSDisconnectedException) { }
+        finally {
+            try { await module.DisposeAsync(); }
+            catch(JSDisconnectedException) { }
+        }
     }
     public async ValueTask DisposeAsync() {
-        if(_module is null)return;
-        try {await _module.InvokeVoidAsync("disconnect",_panel);await _module.DisposeAsync();}
-        catch(JSDisconnectedException) {}
+        if(_disposed)return;
+        _disposed=true;
+        var module=_module; _module=null;
+        // A pending initialization releases its own reference in its finally block.
+        if(module is not null) await ReleaseAsync(module,true);
     }
 }
