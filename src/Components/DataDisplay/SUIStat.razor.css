@@ -1,0 +1,37 @@
+/* SUIStat appearances (scoped; outside the global bundle budget). */
+.sui-stat{--_stat:var(--sui-color-primary);--_stat-2:color-mix(in srgb,var(--_stat) 55%,#7c3aed);position:relative;overflow:hidden;isolation:isolate}
+.sui-stat--secondary{--_stat:var(--sui-color-secondary)}
+.sui-stat--info{--_stat:var(--sui-color-info);--_stat-2:color-mix(in srgb,var(--_stat) 55%,#4f46e5)}
+.sui-stat--success{--_stat:var(--sui-color-success);--_stat-2:color-mix(in srgb,var(--_stat) 55%,#0d9488)}
+.sui-stat--warning{--_stat:var(--sui-color-warning);--_stat-2:color-mix(in srgb,var(--_stat) 55%,#dc2626)}
+.sui-stat--error{--_stat:var(--sui-color-error);--_stat-2:color-mix(in srgb,var(--_stat) 55%,#9d174d)}
+.sui-stat--dark{--_stat:var(--sui-color-dark,#0f172a);--_stat-2:#334155}
+.sui-stat__copy{position:relative;z-index:1;display:grid;gap:2px;min-width:0}
+::deep .sui-stat__value{font-variant-numeric:tabular-nums;line-height:1.15}
+.sui-stat__unit{font-size:.6em;font-weight:500;opacity:.7;margin-inline-start:2px}
+.sui-stat__meta{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;margin-top:4px;font-size:.78rem}
+.sui-stat__caption{color:var(--sui-text-secondary)}
+.sui-stat__delta{font-weight:600;white-space:nowrap;padding:1px 8px;border-radius:999px;--_d:var(--sui-text-secondary);color:var(--_d);background:color-mix(in srgb,var(--_d) 12%,transparent)}
+.sui-stat__delta--good{--_d:var(--sui-color-success)}
+.sui-stat__delta--bad{--_d:var(--sui-color-error)}
+::deep .sui-stat__icon{position:relative;z-index:1;flex:none}
+.sui-stat__mark{position:absolute;right:-14px;bottom:-18px;z-index:0;color:var(--_stat);opacity:.12;transform:rotate(-12deg);pointer-events:none;line-height:0}
+.sui-stat--spark{padding-bottom:calc(var(--sui-space-4) + 22px)}
+.sui-stat__spark{position:absolute;inset:auto 0 0;width:100%;height:28px}
+.sui-stat__spark-line{fill:none;stroke:var(--_stat);stroke-width:1.6;vector-effect:non-scaling-stroke}
+.sui-stat__spark-area{fill:color-mix(in srgb,var(--_stat) 16%,transparent)}
+.sui-stat--soft{background:linear-gradient(160deg,color-mix(in srgb,var(--_stat) 14%,var(--sui-surface)),color-mix(in srgb,var(--_stat) 5%,var(--sui-surface)));border-color:color-mix(in srgb,var(--_stat) 30%,var(--sui-border))}
+.sui-stat--soft ::deep .sui-stat__value{color:var(--_stat)}
+.sui-stat--gradient,.sui-stat--image{--_g1:var(--_stat);--_g2:var(--_stat-2);color:#fff;border-color:transparent;background:linear-gradient(135deg,var(--_g1),var(--_g2));box-shadow:0 8px 22px -12px var(--_g1)}
+[data-sui-theme="dark"] :is(.sui-stat--gradient,.sui-stat--image){--_g1:color-mix(in srgb,var(--_stat) 58%,#000);--_g2:color-mix(in srgb,var(--_stat-2) 45%,#000)}
+.sui-stat--image{background:linear-gradient(135deg,color-mix(in srgb,var(--_g1) 88%,transparent),color-mix(in srgb,var(--_g2) 74%,transparent)),var(--sui-stat-image,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='120'%3E%3Cg fill='none' stroke='%23fff' stroke-opacity='.5'%3E%3Cpath d='M0 90q30-30 60 0t60 0 60 0 60 0M0 70q30-30 60 0t60 0 60 0 60 0M0 50q30-30 60 0t60 0 60 0 60 0M0 30q30-30 60 0t60 0 60 0 60 0'/%3E%3C/g%3E%3C/svg%3E")) center/cover,var(--_g1)}
+.sui-stat--gradient::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(120px 90px at 100% 0,#ffffff38,transparent 70%),radial-gradient(160px 120px at 0 120%,#0000002e,transparent 70%)}
+:is(.sui-stat--gradient,.sui-stat--image) ::deep .sui-stat__value{color:inherit}
+:is(.sui-stat--gradient,.sui-stat--image) ::deep .sui-stat__label{opacity:.88}
+:is(.sui-stat--gradient,.sui-stat--image) .sui-stat__caption{color:#ffffffd9}
+:is(.sui-stat--gradient,.sui-stat--image) .sui-stat__mark{color:#fff;opacity:.16}
+:is(.sui-stat--gradient,.sui-stat--image) ::deep .sui-stat__icon{background:#fff3;color:#fff}
+:is(.sui-stat--gradient,.sui-stat--image) .sui-stat__delta{--_d:#fff}
+:is(.sui-stat--gradient,.sui-stat--image) .sui-stat__spark-line{stroke:#ffffffd9}
+:is(.sui-stat--gradient,.sui-stat--image) .sui-stat__spark-area{fill:#ffffff29}
+@media (prefers-contrast:more){.sui-stat--gradient,.sui-stat--image{background:var(--_g1)}.sui-stat--gradient::before,.sui-stat__mark{display:none}}

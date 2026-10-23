@@ -43,7 +43,9 @@ public sealed class AssetBudgetTests
     // rotation, content padding) — measured 35,905 B.
     // 2026-10-21: responsive records/menu/equal action columns add shared
     // component CSS, replacing page-local styles. Measured 39,654 B; +3%.
-    private const int IsolatedCssRawBudget = 40_960; // measured 39,654 B
+    // 2026-10-22: SUIStat appearances (soft, gradient, image with built-in wave
+    // pattern), delta tones, watermark icon and sparkline — measured 43,801 B; +3%.
+    private const int IsolatedCssRawBudget = 45_120; // measured 43,801 B
 
     [Fact]
     public void GlobalStylesheet_FitsTheTransferBudget()

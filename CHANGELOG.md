@@ -8,6 +8,12 @@ definem a numeração das próximas publicações.
 
 ## [Unreleased]
 
+### Adicionado
+- `SUIStat` ganhou aparências (`Appearance`: `Plain`, `Soft`, `Gradient`, `Image`), ícone em marca d'água,
+  `Unit`, `Caption`, variação (`Delta` + `Trend`, com `HigherIsBetter` para métricas em que menor é melhor),
+  `Sparkline` (área sem eixos no rodapé), `BackgroundImage` (URL validada; padrão de ondas embutido) e
+  `ChildContent`. Novos enums `SUIStatAppearance` e `SUITrend`. Mudança aditiva: o visual padrão continua o mesmo.
+
 ### Fixed
 
 - `SUIDialogHost`: um diálogo aberto enquanto o anterior ainda fechava (chamada JS em andamento) era apagado da tela e o `Result` dele nunca completava. O host agora recheca o diálogo atual depois do `await` e só esquece o diálogo que ele mesmo fechou.

@@ -1,27 +1,113 @@
 @namespace Sufficit.Blazor.UI.Components
 @inherits SUIComponentBase
 
-<div class="@Classname">
+<div class="@Classname" style="@RootStyle" @attributes="AdditionalAttributes">
+    @if (Decorated)
+    {
+        @* Decorative watermark: the same icon, large and faint, gives each tone its own texture. *@
+        <span class="sui-stat__mark" aria-hidden="true"><SUIIcon Name="@Icon" Size="96" /></span>
+    }
     <div class="sui-stat__copy">
-        <SUIText Typo="SUITypo.h5" Tag="SUITextTag.Div" Class="sui-stat__value">@Value</SUIText>
-        <SUIText Typo="SUITypo.caption" Color="SUIColor.Default">@Label</SUIText>
+        <SUIText Typo="SUITypo.h5" Tag="SUITextTag.Div" Class="sui-stat__value">@Value@if (!string.IsNullOrWhiteSpace(Unit)) { <span class="sui-stat__unit">@Unit</span> }</SUIText>
+        <SUIText Typo="SUITypo.caption" Color="@(Bold ? SUIColor.Inherit : SUIColor.Default)" Class="sui-stat__label">@Label</SUIText>
+        @if (!string.IsNullOrWhiteSpace(Delta) || !string.IsNullOrWhiteSpace(Caption))
+        {
+            <div class="sui-stat__meta">
+                @if (!string.IsNullOrWhiteSpace(Delta))
+                {
+                    <span class="sui-stat__delta sui-stat__delta--@DeltaTone" aria-label="@DeltaLabel">
+                        <span aria-hidden="true">@TrendArrow</span>@Delta
+                    </span>
+                }
+                @if (!string.IsNullOrWhiteSpace(Caption)) { <span class="sui-stat__caption">@Caption</span> }
+            </div>
+        }
+        @ChildContent
     </div>
     @if (!string.IsNullOrWhiteSpace(Icon))
     {
-        <SUIAvatar SizeValue="SUISize.Small" ColorValue="@ColorValue">
+        <SUIAvatar SizeValue="SUISize.Small" ColorValue="@ColorValue" Class="sui-stat__icon">
             <SUIIcon Name="@Icon" Size="20" />
         </SUIAvatar>
+    }
+    @if (SparkPoints is { } points)
+    {
+        <svg class="sui-stat__spark" viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <polygon class="sui-stat__spark-area" points="0,24 @points 100,24" />
+            <polyline class="sui-stat__spark-line" points="@points" />
+        </svg>
     }
 </div>
 
 @code {
+    /// <summary>Headline number, already formatted (e.g. "1,2 mil", "15 s").</summary>
     [Parameter] public string? Value { get; set; }
+    /// <summary>Small suffix shown after the value (e.g. "/20", "%").</summary>
+    [Parameter] public string? Unit { get; set; }
+    /// <summary>What the number measures.</summary>
     [Parameter] public string? Label { get; set; }
+    /// <summary>Icon name; also used as the faint watermark in the Soft, Gradient and Image appearances.</summary>
     [Parameter] public string? Icon { get; set; }
     [Parameter] public SUIColor ColorValue { get; set; } = SUIColor.Primary;
+    /// <summary>Surface treatment. Plain keeps the neutral card; Soft tints it; Gradient and Image are bold, light-on-color cards.</summary>
+    [Parameter] public SUIStatAppearance Appearance { get; set; } = SUIStatAppearance.Plain;
+    /// <summary>Background image URL for <see cref="SUIStatAppearance.Image"/>; a gradient in the card colour keeps text legible.</summary>
+    [Parameter] public string? BackgroundImage { get; set; }
+    /// <summary>Change against the comparison period, already formatted (e.g. "+12%").</summary>
+    [Parameter] public string? Delta { get; set; }
+    /// <summary>Direction of the change. Null hides the arrow.</summary>
+    [Parameter] public SUITrend? Trend { get; set; }
+    /// <summary>False for metrics where lower is better (abandonment, wait, errors): a fall is then shown as good.</summary>
+    [Parameter] public bool HigherIsBetter { get; set; } = true;
+    /// <summary>Secondary line, e.g. the comparison window ("vs. ontem") or a share ("82% atendidas").</summary>
+    [Parameter] public string? Caption { get; set; }
+    /// <summary>Optional series drawn as a small area chart along the bottom edge (no axes).</summary>
+    [Parameter] public IReadOnlyList<double>? Sparkline { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    // Light-on-colour cards: the label inherits the card's white text instead of the secondary tone.
+    private bool Bold => Appearance is SUIStatAppearance.Gradient or SUIStatAppearance.Image;
+    private bool Decorated => Appearance != SUIStatAppearance.Plain && !string.IsNullOrWhiteSpace(Icon);
 
     private string Classname => SUIClassBuilder.Default("sui-card sui-stat")
         .AddClass($"sui-stat--{SUIClassBuilder.Slug(ColorValue)}")
+        .AddClass($"sui-stat--{SUIClassBuilder.Slug(Appearance)}", Appearance != SUIStatAppearance.Plain)
+        .AddClass("sui-stat--spark", SparkPoints is not null)
         .AddClass(Class)
         .Build();
+
+    // Only a validated absolute/relative URL becomes a CSS url(); quotes and parentheses are rejected.
+    private string? RootStyle
+    {
+        get
+        {
+            var image = Appearance == SUIStatAppearance.Image && Uri.TryCreate(BackgroundImage, UriKind.RelativeOrAbsolute, out var uri)
+                && BackgroundImage!.IndexOfAny(['"', '\'', '(', ')', '\\', ';', '\n', '\r']) < 0
+                && (!uri.IsAbsoluteUri || uri.Scheme is "https" or "http" or "data")
+                ? $"--sui-stat-image:url(\"{BackgroundImage}\");" : null;
+            return string.IsNullOrEmpty(image) ? Style : image + Style;
+        }
+    }
+
+    private string DeltaTone => Trend switch
+    {
+        SUITrend.Up => HigherIsBetter ? "good" : "bad",
+        SUITrend.Down => HigherIsBetter ? "bad" : "good",
+        _ => "flat",
+    };
+    private string TrendArrow => Trend switch { SUITrend.Up => "▲ ", SUITrend.Down => "▼ ", SUITrend.Flat => "■ ", _ => "" };
+    private string? DeltaLabel => Trend is null ? null : $"{Trend}: {Delta}";
+
+    private string? SparkPoints
+    {
+        get
+        {
+            if (Sparkline is not { Count: >= 2 } values || values.Any(v => double.IsNaN(v) || double.IsInfinity(v))) return null;
+            var min = values.Min(); var max = values.Max(); var span = max - min;
+            var step = 100.0 / (values.Count - 1);
+            // Leave a little headroom so the line never touches the card edge.
+            return string.Join(" ", values.Select((v, i) => FormattableString.Invariant(
+                $"{i * step:0.##},{(span <= 0 ? 12 : 22 - (v - min) / span * 18):0.##}")));
+        }
+    }
 }

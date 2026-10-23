@@ -246,3 +246,27 @@ public enum SUISortDirection
     /// <summary>Sorted high-to-low; adds <c>sui-sort-label--descending</c>, flipping the arrow.</summary>
     Descending,
 }
+
+/// <summary>Surface treatment of <c>SUIStat</c>.</summary>
+public enum SUIStatAppearance
+{
+    /// <summary>Neutral card with a coloured icon tile (default, previous look).</summary>
+    Plain,
+    /// <summary>Card tinted with the stat colour and a faint icon watermark.</summary>
+    Soft,
+    /// <summary>Bold diagonal gradient in the stat colour, light text and icon watermark.</summary>
+    Gradient,
+    /// <summary>Background image under a gradient in the stat colour (set <c>BackgroundImage</c>).</summary>
+    Image,
+}
+
+/// <summary>Direction of a change shown by <c>SUIStat.Delta</c>.</summary>
+public enum SUITrend
+{
+    /// <summary>The value went up.</summary>
+    Up,
+    /// <summary>The value went down.</summary>
+    Down,
+    /// <summary>No meaningful change.</summary>
+    Flat,
+}

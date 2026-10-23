@@ -1,3 +1,13 @@
 @inherits DemoBase
 
-<SUIStat Value="12" Label="Serviços no exemplo" Icon="check" />
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+    <SUIStat Value="12" Label="Serviços no exemplo" Icon="check" />
+    <SUIStat Value="1.248" Label="Chamadas recebidas" Icon="phone" ColorValue="SUIColor.Info" Appearance="SUIStatAppearance.Soft"
+             Delta="+12%" Trend="SUITrend.Up" Caption="vs. ontem" Sparkline="@(new double[] { 3, 5, 4, 7, 6, 9, 11 })" />
+    <SUIStat Value="82" Unit="%" Label="Atendidas" Icon="check" ColorValue="SUIColor.Success" Appearance="SUIStatAppearance.Gradient"
+             Delta="+3 p.p." Trend="SUITrend.Up" />
+    <SUIStat Value="9" Label="Abandonadas" Icon="close" ColorValue="SUIColor.Error" Appearance="SUIStatAppearance.Gradient"
+             Delta="-2" Trend="SUITrend.Down" HigherIsBetter="false" Caption="menor é melhor" />
+    <SUIStat Value="15 s" Label="Espera média" Icon="schedule" ColorValue="SUIColor.Warning" Appearance="SUIStatAppearance.Image"
+             Caption="imagem padrão (ondas)" />
+</div>

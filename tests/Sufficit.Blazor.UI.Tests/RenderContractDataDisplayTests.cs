@@ -142,6 +142,48 @@ public sealed class RenderContractDataDisplayTests
     }
 
     [Fact]
+    public void Stat_AppearanceDeltaAndSparkline()
+    {
+        using var context = new BunitContext();
+        var cut = context.Render<SUIStat>(parameters => parameters
+            .Add(component => component.Value, "9")
+            .Add(component => component.Unit, "/20")
+            .Add(component => component.Icon, "phone")
+            .Add(component => component.ColorValue, SUIColor.Error)
+            .Add(component => component.Appearance, SUIStatAppearance.Gradient)
+            .Add(component => component.Delta, "-2")
+            .Add(component => component.Trend, SUITrend.Down)
+            .Add(component => component.HigherIsBetter, false)
+            .Add(component => component.Caption, "vs. ontem")
+            .Add(component => component.Sparkline, new double[] { 1, 3, 2 }));
+
+        var root = cut.Find(".sui-stat");
+        Assert.True(root.ClassList.Contains("sui-stat--gradient"));
+        Assert.True(root.ClassList.Contains("sui-stat--error"));
+        Assert.Equal("/20", cut.Find(".sui-stat__unit").TextContent);
+        // Lower is better: a fall is good news.
+        Assert.True(cut.Find(".sui-stat__delta").ClassList.Contains("sui-stat__delta--good"));
+        Assert.Equal("true", cut.Find(".sui-stat__mark").GetAttribute("aria-hidden"));
+        Assert.Equal(3, cut.Find(".sui-stat__spark-line").GetAttribute("points")!.Split(' ').Length);
+    }
+
+    [Fact]
+    public void Stat_PlainHasNoWatermarkAndImageRejectsUnsafeUrls()
+    {
+        using var context = new BunitContext();
+        var plain = context.Render<SUIStat>(parameters => parameters.Add(c => c.Value, "1").Add(c => c.Icon, "phone"));
+        Assert.Empty(plain.FindAll(".sui-stat__mark"));
+        var unsafeImage = context.Render<SUIStat>(parameters => parameters
+            .Add(c => c.Appearance, SUIStatAppearance.Image)
+            .Add(c => c.BackgroundImage, "x\"); background:url(javascript:alert(1))"));
+        Assert.DoesNotContain("--sui-stat-image", unsafeImage.Find(".sui-stat").GetAttribute("style") ?? "", StringComparison.Ordinal);
+        var image = context.Render<SUIStat>(parameters => parameters
+            .Add(c => c.Appearance, SUIStatAppearance.Image)
+            .Add(c => c.BackgroundImage, "/images/bg.webp"));
+        Assert.Contains("--sui-stat-image:url(\"/images/bg.webp\")", image.Find(".sui-stat").GetAttribute("style"), StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void TableSortLabel_IsAButtonThatAnnouncesItsStateAndForwardsAttributes()
     {
         using var context = new BunitContext();
