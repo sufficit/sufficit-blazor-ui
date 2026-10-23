@@ -233,10 +233,16 @@ F|Sufficit.Blazor.UI.Components.SUIAlign|System.Int32|value__
 F|Sufficit.Blazor.UI.Components.SUIAnimation|Sufficit.Blazor.UI.Components.SUIAnimation|CountUp
 F|Sufficit.Blazor.UI.Components.SUIAnimation|Sufficit.Blazor.UI.Components.SUIAnimation|Default
 F|Sufficit.Blazor.UI.Components.SUIAnimation|Sufficit.Blazor.UI.Components.SUIAnimation|Enter
+F|Sufficit.Blazor.UI.Components.SUIAnimation|Sufficit.Blazor.UI.Components.SUIAnimation|EnterFade
+F|Sufficit.Blazor.UI.Components.SUIAnimation|Sufficit.Blazor.UI.Components.SUIAnimation|EnterRise
+F|Sufficit.Blazor.UI.Components.SUIAnimation|Sufficit.Blazor.UI.Components.SUIAnimation|EnterZoom
 F|Sufficit.Blazor.UI.Components.SUIAnimation|Sufficit.Blazor.UI.Components.SUIAnimation|Hover
 F|Sufficit.Blazor.UI.Components.SUIAnimation|Sufficit.Blazor.UI.Components.SUIAnimation|Loading
+F|Sufficit.Blazor.UI.Components.SUIAnimation|Sufficit.Blazor.UI.Components.SUIAnimation|LoadingPulse
 F|Sufficit.Blazor.UI.Components.SUIAnimation|Sufficit.Blazor.UI.Components.SUIAnimation|None
 F|Sufficit.Blazor.UI.Components.SUIAnimation|Sufficit.Blazor.UI.Components.SUIAnimation|ValueChange
+F|Sufficit.Blazor.UI.Components.SUIAnimation|Sufficit.Blazor.UI.Components.SUIAnimation|ValueFlash
+F|Sufficit.Blazor.UI.Components.SUIAnimation|Sufficit.Blazor.UI.Components.SUIAnimation|ValueGlow
 F|Sufficit.Blazor.UI.Components.SUIAnimation|System.Int32|value__
 F|Sufficit.Blazor.UI.Components.SUIButtonType|Sufficit.Blazor.UI.Components.SUIButtonType|Button
 F|Sufficit.Blazor.UI.Components.SUIButtonType|Sufficit.Blazor.UI.Components.SUIButtonType|Reset

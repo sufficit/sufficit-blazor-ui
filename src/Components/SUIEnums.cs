@@ -273,7 +273,8 @@ public enum SUITrend
 
 /// <summary>
 /// Animation kinds a SUI component may play. Combine with <c>|</c>; <see cref="None"/> turns every
-/// animation off. The application default comes from <c>SUIThemeOptions.Animations</c> and a component
+/// animation off. Variants of the same moment (enter, loading, value change) animate different properties
+/// (opacity, translate, scale, glow, overlay), so any combination plays together. The application default comes from <c>SUIThemeOptions.Animations</c> and a component
 /// parameter overrides it. <c>prefers-reduced-motion</c> always wins over CSS motion.
 /// </summary>
 [Flags]
@@ -291,6 +292,18 @@ public enum SUIAnimation
     CountUp = 8,
     /// <summary>Lift and shadow on pointer hover. Opt-in only: not part of <see cref="Default"/>.</summary>
     Hover = 16,
+    /// <summary>Enter variant: fade in. <see cref="Enter"/> alone means <see cref="EnterFade"/> + <see cref="EnterRise"/>.</summary>
+    EnterFade = 32,
+    /// <summary>Enter variant: rise a few pixels. Combines with fade and zoom.</summary>
+    EnterRise = 64,
+    /// <summary>Enter variant: grow from 96%. Combines with fade and rise.</summary>
+    EnterZoom = 128,
+    /// <summary>Loading variant: skeleton breathes (opacity). Combines with the <see cref="Loading"/> shimmer.</summary>
+    LoadingPulse = 256,
+    /// <summary>Value-change variant: the card flashes in its colour. Combines with the <see cref="ValueChange"/> pop and glow.</summary>
+    ValueFlash = 512,
+    /// <summary>Value-change variant: the number glows. Combines with pop and flash.</summary>
+    ValueGlow = 1024,
     /// <summary>Recommended set: Enter, Loading, ValueChange and CountUp (no hover lift).</summary>
     Default = Enter | Loading | ValueChange | CountUp,
 }

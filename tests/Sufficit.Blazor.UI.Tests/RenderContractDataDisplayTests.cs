@@ -185,6 +185,27 @@ public sealed class RenderContractDataDisplayTests
     }
 
     [Fact]
+    public void Stat_AnimationVariantsCombine()
+    {
+        using var context = new BunitContext();
+        var enter = context.Render<SUIStat>(parameters => parameters.Add(c => c.Value, "1").Add(c => c.Animation, SUIAnimation.Enter));
+        var classes = enter.Find(".sui-stat").ClassList;
+        Assert.True(classes.Contains("sui-stat--enter-fade") && classes.Contains("sui-stat--enter-rise") && !classes.Contains("sui-stat--enter-zoom"));
+        var combo = context.Render<SUIStat>(parameters => parameters.Add(c => c.Value, "1").Add(c => c.Loading, true)
+            .Add(c => c.Animation, SUIAnimation.EnterFade | SUIAnimation.EnterZoom | SUIAnimation.Loading | SUIAnimation.LoadingPulse));
+        classes = combo.Find(".sui-stat").ClassList;
+        Assert.True(classes.Contains("sui-stat--enter-fade") && classes.Contains("sui-stat--enter-zoom") && !classes.Contains("sui-stat--enter-rise"));
+        Assert.True(classes.Contains("sui-stat--load-shimmer") && classes.Contains("sui-stat--load-pulse"));
+        var change = context.Render<SUIStat>(parameters => parameters.Add(c => c.Value, "1")
+            .Add(c => c.Animation, SUIAnimation.ValueFlash | SUIAnimation.ValueGlow));
+        Assert.Empty(change.FindAll(".sui-stat__flash"));
+        change.Render(parameters => parameters.Add(c => c.Value, "2"));
+        Assert.NotEmpty(change.FindAll(".sui-stat__flash"));
+        Assert.NotEmpty(change.FindAll(".sui-stat__number--changed"));
+        Assert.True(change.Find(".sui-stat").ClassList.Contains("sui-stat--value-glow"));
+    }
+
+    [Fact]
     public void AnimationPolicy_ComponentParameterWinsOverApplicationDefault()
     {
         var policy = new Sufficit.Blazor.UI.Services.SUIAnimationPolicy(SUIAnimation.None);

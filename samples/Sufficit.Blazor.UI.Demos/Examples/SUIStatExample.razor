@@ -3,7 +3,7 @@
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
     <SUIStat Value="12" Label="Serviços no exemplo" Icon="check" />
     <SUIStat Label="Carregando" Icon="clock" ColorValue="SUIColor.Secondary" Loading="true" />
-    <SUIStat Value="1.248" Label="Chamadas recebidas" Icon="phone" ColorValue="SUIColor.Info" Appearance="SUIStatAppearance.Soft"
+    <SUIStat Value="1248" Label="Chamadas recebidas" Animation="SUIAnimation.EnterFade | SUIAnimation.EnterZoom | SUIAnimation.CountUp | SUIAnimation.ValueFlash" Icon="phone" ColorValue="SUIColor.Info" Appearance="SUIStatAppearance.Soft"
              Delta="+12%" Trend="SUITrend.Up" Caption="vs. ontem" Sparkline="@(new double[] { 3, 5, 4, 7, 6, 9, 11 })" />
     <SUIStat Value="82" Unit="%" Label="Atendidas" Icon="check" ColorValue="SUIColor.Success" Appearance="SUIStatAppearance.Gradient"
              Delta="+3 p.p." Trend="SUITrend.Up" />

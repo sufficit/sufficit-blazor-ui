@@ -10,6 +10,8 @@
         @* Decorative watermark: the same icon, large and faint, gives each tone its own texture. *@
         <span class="sui-stat__mark" aria-hidden="true"><SUIIcon Name="@Icon" Size="96" /></span>
     }
+    @if (_changes > 0 && Has(SUIAnimation.ValueFlash))
+    { <span @key="_changes" class="sui-stat__flash" aria-hidden="true"></span> }
     <div class="sui-stat__copy" aria-busy="@(Loading ? "true" : null)">
         @if (Loading)
         {
@@ -19,7 +21,7 @@
         }
         else
         {
-        <SUIText Typo="SUITypo.h5" Tag="SUITextTag.Div" Class="sui-stat__value"><span @key="_changes" class="@(_changes > 0 && Has(SUIAnimation.ValueChange) ? "sui-stat__number sui-stat__number--changed" : "sui-stat__number")">@_shown</span>@if (!string.IsNullOrWhiteSpace(Unit)) { <span class="sui-stat__unit">@Unit</span> }</SUIText>
+        <SUIText Typo="SUITypo.h5" Tag="SUITextTag.Div" Class="sui-stat__value"><span @key="_changes" class="@(_changes > 0 && (Has(SUIAnimation.ValueChange) || Has(SUIAnimation.ValueGlow)) ? "sui-stat__number sui-stat__number--changed" : "sui-stat__number")">@_shown</span>@if (!string.IsNullOrWhiteSpace(Unit)) { <span class="sui-stat__unit">@Unit</span> }</SUIText>
         <SUIText Typo="SUITypo.caption" Color="@(Bold ? SUIColor.Inherit : SUIColor.Default)" Class="sui-stat__label">@Label</SUIText>
         @if (!string.IsNullOrWhiteSpace(Delta) || !string.IsNullOrWhiteSpace(Caption))
         {
@@ -83,6 +85,9 @@
 
     private SUIAnimation Animations => SUIAnimationPolicy.Resolve(Animation, Services.GetService(typeof(SUIAnimationPolicy)) as SUIAnimationPolicy);
     private bool Has(SUIAnimation kind) => (Animations & kind) == kind;
+    // Enter alone keeps its original look (fade + rise); explicit variants add to it.
+    private bool EnterFade => Has(SUIAnimation.Enter) || Has(SUIAnimation.EnterFade);
+    private bool EnterRise => Has(SUIAnimation.Enter) || Has(SUIAnimation.EnterRise);
 
     private string? _shown, _last;
     private int _changes;
@@ -128,9 +133,16 @@
         .AddClass($"sui-stat--{SUIClassBuilder.Slug(ColorValue)}")
         .AddClass($"sui-stat--{SUIClassBuilder.Slug(Appearance)}", Appearance != SUIStatAppearance.Plain)
         .AddClass("sui-stat--spark", SparkPoints is not null && !Loading)
-        .AddClass("sui-stat--anim-enter", Has(SUIAnimation.Enter))
+        .AddClass("sui-stat--anim-enter", EnterFade || EnterRise || Has(SUIAnimation.EnterZoom))
+        .AddClass("sui-stat--enter-fade", EnterFade)
+        .AddClass("sui-stat--enter-rise", EnterRise)
+        .AddClass("sui-stat--enter-zoom", Has(SUIAnimation.EnterZoom))
         .AddClass("sui-stat--anim-hover", Has(SUIAnimation.Hover))
-        .AddClass("sui-stat--anim-loading", Loading && Has(SUIAnimation.Loading))
+        .AddClass("sui-stat--anim-loading", Loading && (Has(SUIAnimation.Loading) || Has(SUIAnimation.LoadingPulse)))
+        .AddClass("sui-stat--load-shimmer", Loading && Has(SUIAnimation.Loading))
+        .AddClass("sui-stat--load-pulse", Loading && Has(SUIAnimation.LoadingPulse))
+        .AddClass("sui-stat--value-pop", Has(SUIAnimation.ValueChange))
+        .AddClass("sui-stat--value-glow", Has(SUIAnimation.ValueGlow))
         .AddClass(Class)
         .Build();
 

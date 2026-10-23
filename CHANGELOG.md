@@ -13,6 +13,8 @@ definem a numeração das próximas publicações.
   `Unit`, `Caption`, variação (`Delta` + `Trend`, com `HigherIsBetter` para métricas em que menor é melhor),
   `Sparkline` (área sem eixos no rodapé), `BackgroundImage` (URL validada; padrão de ondas embutido) e
   `ChildContent`. Novos enums `SUIStatAppearance` e `SUITrend`. Mudança aditiva: o visual padrão continua o mesmo.
+- Variações combináveis de `SUIAnimation`: `EnterFade`, `EnterRise`, `EnterZoom`, `LoadingPulse`, `ValueFlash` e
+  `ValueGlow`. `Enter` sozinho continua fade + subida; o brilho do número saiu do `ValueChange` padrão e virou `ValueGlow`.
 - `SUIAnimation` (`[Flags]`: `None`, `Enter`, `Loading`, `ValueChange`, `CountUp`, `Hover`, `Default`) padroniza as
   animações; padrão da aplicação em `SUIThemeOptions.Animations` (registrado como `SUIAnimationPolicy`), com
   override por componente. `SUIStat` ganhou `Loading` (esqueleto com brilho), destaque e contagem quando o valor

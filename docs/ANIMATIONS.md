@@ -10,7 +10,27 @@ Um único enum padroniza as animações da biblioteca. É `[Flags]`: combine tip
 | `ValueChange` | Destaque curto quando um valor exibido muda. |
 | `CountUp` | Números inteiros contam do valor anterior ao novo (~0,5 s). |
 | `Hover` | Leve elevação e sombra ao passar o ponteiro. Só quando pedido explicitamente; fora do `Default`. |
+| `EnterFade` | Variação de entrada: só aparece com fade. |
+| `EnterRise` | Variação de entrada: sobe alguns pixels. |
+| `EnterZoom` | Variação de entrada: cresce de 96% para 100%. |
+| `LoadingPulse` | Variação de carregamento: o esqueleto "respira" (opacidade). |
+| `ValueFlash` | Variação de mudança: o card pisca na própria cor. |
+| `ValueGlow` | Variação de mudança: o número brilha. |
 | `Default` | `Enter`, `Loading`, `ValueChange` e `CountUp` (sem `Hover`: o card não sobe ao passar o mouse). |
+
+## Variações se somam
+
+Cada variação mexe numa propriedade diferente (opacidade, deslocamento, escala, brilho do texto, camada de cor),
+então qualquer combinação toca junta:
+
+- `Enter` sozinho = `EnterFade | EnterRise` (o visual original). `Enter | EnterZoom` = fade + subida + zoom.
+- `Loading | LoadingPulse` = brilho que corre + respiração.
+- `ValueChange` (salto do número), `ValueGlow` e `ValueFlash` combinam entre si e com `CountUp`.
+
+```razor
+<SUIStat Value="@Total" Label="Recebidas"
+         Animation="SUIAnimation.EnterFade | SUIAnimation.EnterZoom | SUIAnimation.CountUp | SUIAnimation.ValueFlash" />
+```
 
 ## Padrão da aplicação
 
