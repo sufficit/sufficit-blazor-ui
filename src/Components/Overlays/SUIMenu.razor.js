@@ -1,7 +1,8 @@
-const connections=new WeakMap();
+// Stable IDs allow disposal after Blazor has removed the element reference.
+const connections=new Map();
 export function connect(trigger,panel) {
  // Blazor can remove the render tree before this queued interop call arrives.
- if(!trigger?.isConnected || !panel?.isConnected)return;
+ if(!trigger?.isConnected || !panel?.isConnected || !panel.id)return;
  // Reconnection must not duplicate document/window listeners.
  disconnect(panel);
  const items=()=>[...panel.querySelectorAll('button:not(:disabled),a[href]')];
@@ -12,6 +13,9 @@ export function connect(trigger,panel) {
  panel.addEventListener('toggle',toggle);panel.addEventListener('keydown',key);panel.addEventListener('click',click);
  const resize=()=>{if(panel.matches(':popover-open'))position();};
  window.addEventListener('resize',resize);
- connections.set(panel,()=>{panel.removeEventListener('toggle',toggle);panel.removeEventListener('keydown',key);panel.removeEventListener('click',click);window.removeEventListener('resize',resize);});
+ connections.set(panel.id,()=>{panel.removeEventListener('toggle',toggle);panel.removeEventListener('keydown',key);panel.removeEventListener('click',click);window.removeEventListener('resize',resize);});
 }
-export function disconnect(panel){connections.get(panel)?.();connections.delete(panel);}
+export function disconnect(panel){
+ const id=typeof panel==='string'?panel:panel?.id;
+ connections.get(id)?.();connections.delete(id);
+}

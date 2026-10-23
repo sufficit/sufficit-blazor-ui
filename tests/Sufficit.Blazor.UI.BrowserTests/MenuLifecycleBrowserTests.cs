@@ -16,6 +16,10 @@ public sealed class MenuLifecycleBrowserTests : PageTest
             async source => {
                 const module = await import('data:text/javascript;base64,' + btoa(source));
                 window.menuModule = module;
+                window.menuResizeListeners = new Set();
+                const add = window.addEventListener.bind(window), remove = window.removeEventListener.bind(window);
+                window.addEventListener = (type, fn, ...args) => { if(type === 'resize') menuResizeListeners.add(fn); add(type, fn, ...args); };
+                window.removeEventListener = (type, fn, ...args) => { if(type === 'resize') menuResizeListeners.delete(fn); remove(type, fn, ...args); };
                 const t = document.querySelector('#trigger'), p = document.querySelector('#panel');
                 module.connect(null, null);
                 module.connect(t, null);
@@ -25,6 +29,7 @@ public sealed class MenuLifecycleBrowserTests : PageTest
                 module.connect(t, p);
             }
             """, script);
+        Assert.That(await Page.EvaluateAsync<int>("menuResizeListeners.size"), Is.EqualTo(1));
         await Page.Locator("#trigger").ClickAsync();
         await Expect(Page.Locator("#one")).ToBeFocusedAsync();
         await Page.Keyboard.PressAsync("ArrowDown");
@@ -37,5 +42,7 @@ public sealed class MenuLifecycleBrowserTests : PageTest
         await Page.Locator("#one").FocusAsync();
         await Page.EvaluateAsync("document.querySelector('#panel').dispatchEvent(new KeyboardEvent('keydown', {key:'ArrowDown',bubbles:true}))");
         await Expect(Page.Locator("#one")).ToBeFocusedAsync();
+        await Page.EvaluateAsync("menuModule.connect(document.querySelector('#trigger'), document.querySelector('#panel')); document.querySelector('#panel').remove(); menuModule.disconnect('panel')");
+        Assert.That(await Page.EvaluateAsync<int>("menuResizeListeners.size"), Is.Zero);
     }
 }

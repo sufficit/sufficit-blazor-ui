@@ -52,6 +52,7 @@ public sealed class MenuLifecycleTests
         public async ValueTask<T> InvokeAsync<T>(string identifier, object?[]? args)
         {
             Calls.Add(identifier);
+            if (identifier == "disconnect") Assert.StartsWith("sui-menu-", Assert.IsType<string>(args![0]));
             if (identifier == "connect" && Connect != null) await Connect.Task;
             return default!;
         }

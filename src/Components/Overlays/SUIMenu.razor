@@ -36,7 +36,7 @@
         finally { if(pending is not null) await ReleaseAsync(pending,connecting); }
     }
     private async ValueTask ReleaseAsync(IJSObjectReference module,bool disconnect) {
-        try { if(disconnect) await module.InvokeVoidAsync("disconnect",_panel); }
+        try { if(disconnect) await module.InvokeVoidAsync("disconnect",_id); }
         catch(JSDisconnectedException) { }
         finally {
             try { await module.DisposeAsync(); }
