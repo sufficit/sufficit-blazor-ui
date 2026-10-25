@@ -45,7 +45,11 @@ const budgets = {
   // control heights/paddings now derive from --sui-density-scale via calc().
   // Measured 59,213 / 10,877 / 9,490 B; gzip/brotli still fit the previous
   // script budgets, only raw moved.
-  raw: 59_392,
+  // Ratcheted 2026-10-25 for SUISection Flat (divider rule with the section
+  // gap on both sides, secondary overline title): +218 B raw. Measured
+  // 59,609 / 10,921 / 9,557 B, under the AssetBudgetTests ceilings
+  // (60,928 / 11,264 / 9,984), so this script still fails before CI does.
+  raw: 59_648,
   gzip: 11_008,
   brotli: 9_728,
 };

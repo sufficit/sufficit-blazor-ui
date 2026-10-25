@@ -32,6 +32,41 @@ public sealed class FormLayoutContractTests
     }
 
     [Fact]
+    public void FlatSection_RendersWithoutCardAndNamesItselfByItsTitle()
+    {
+        using var context = new BunitContext();
+        var cut = context.Render<SUISection>(parameters => parameters
+            .Add(component => component.Title, "Idioma")
+            .Add(component => component.Flat, true)
+            .Add(component => component.Attached, true)
+            .AddChildContent("Conteúdo"));
+
+        var root = cut.Find("section.sui-section");
+        var title = cut.Find(".sui-section__title");
+
+        Assert.Empty(cut.FindAll(".sui-card"));
+        Assert.Contains("sui-section--flat", root.ClassList);
+        // Attached is a card seam; a flat section keeps its divider rhythm instead.
+        Assert.DoesNotContain("sui-section--attached", root.ClassList);
+        Assert.True(string.IsNullOrEmpty(root.GetAttribute("style")));
+        Assert.Equal(title.Id, root.GetAttribute("aria-labelledby"));
+        Assert.Equal("Idioma", title.TextContent);
+        Assert.NotNull(root.QuerySelector(":scope > .sui-stack.sui-stack--gap-4"));
+    }
+
+    [Fact]
+    public void FlatSection_DividerKeepsTheGapOnBothSides()
+    {
+        var css = RepositoryLayout.ReadStyles("sui-section.css");
+
+        // Space above the rule comes from the sibling margin or the container gap;
+        // the padding repeats the same gap below it, so controls never touch it.
+        Assert.Contains(".sui-section--flat + .sui-section--flat {", css);
+        Assert.Contains("padding-block-start: var(--sui-section-gap, var(--sui-space-4));", css);
+        Assert.Contains("margin-block-start: var(--sui-section-gap, var(--sui-space-4));", css);
+    }
+
+    [Fact]
     public void Section_ClampsUnsafeContentSpacing()
     {
         using var context = new BunitContext();

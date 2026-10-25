@@ -1299,6 +1299,7 @@ P|Sufficit.Blazor.UI.Components.SUIResponsive|Microsoft.AspNetCore.Components.Re
 P|Sufficit.Blazor.UI.Components.SUISection|Microsoft.AspNetCore.Components.RenderFragment|Actions|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|System.Boolean|Attached|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUISection|System.Boolean|Flat|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|System.Int32|ContentSpacing|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|System.Int32|Elevation|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|System.Nullable<System.Int32>|Gap|[]|get;set;

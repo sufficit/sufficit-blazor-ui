@@ -1,21 +1,44 @@
 @namespace Sufficit.Blazor.UI.Components
 @inherits SUIComponentBase
 
-<section class="@Classname" style="@StyleValue" @attributes="AdditionalAttributes">
-    <SUICard Elevation="@Elevation">
-        <SUICardHeader Icon="@Icon" Title="@Title" Description="@Description">
-            <Actions>@Actions</Actions>
-        </SUICardHeader>
+@if (Flat)
+{
+    @* Built from the stack and text classes: the only new CSS is the divider rule. *@
+    <section class="@Classname" style="@StyleValue" aria-labelledby="@TitleId" @attributes="AdditionalAttributes">
+        <div class="sui-stack sui-stack--row sui-stack--ai-center sui-stack--jc-between">
+            <h2 id="@TitleId" class="sui-text sui-text--overline sui-section__title">@Title</h2>
+            @Actions
+        </div>
+        @if (!string.IsNullOrWhiteSpace(Description))
+        {
+            <p class="sui-text sui-text--caption sui-section__title">@Description</p>
+        }
         @if (ChildContent is not null)
         {
-            <SUICardContent>
-                <SUIStack Spacing="@EffectiveContentSpacing">
-                    @ChildContent
-                </SUIStack>
-            </SUICardContent>
+            <SUIStack Spacing="@EffectiveContentSpacing">
+                @ChildContent
+            </SUIStack>
         }
-    </SUICard>
-</section>
+    </section>
+}
+else
+{
+    <section class="@Classname" style="@StyleValue" @attributes="AdditionalAttributes">
+        <SUICard Elevation="@Elevation">
+            <SUICardHeader Icon="@Icon" Title="@Title" Description="@Description">
+                <Actions>@Actions</Actions>
+            </SUICardHeader>
+            @if (ChildContent is not null)
+            {
+                <SUICardContent>
+                    <SUIStack Spacing="@EffectiveContentSpacing">
+                        @ChildContent
+                    </SUIStack>
+                </SUICardContent>
+            }
+        </SUICard>
+    </section>
+}
 
 @code {
     [Parameter] public string? Icon { get; set; }
@@ -48,12 +71,25 @@
 
     [Parameter] public int Elevation { get; set; }
 
+    /// <summary>
+    /// Renders without the card: an overline title above the content, for settings
+    /// lists and narrow panels where nested cards would crowd the space. Stacked
+    /// flat sections are divided by a rule with the same breathing room above and
+    /// below it (<see cref="Gap"/>), so the divider never touches the controls.
+    /// <see cref="Icon"/>, <see cref="Elevation"/> and <see cref="Attached"/> do not apply.
+    /// </summary>
+    [Parameter] public bool Flat { get; set; }
+
+    private readonly string _titleId = $"sui-section-{Guid.NewGuid():N}";
+    private string TitleId => _titleId;
+
     /// <summary>Additional inline declarations, appended after the generated gap variable.</summary>
 
 
     private string Classname
         => SUIClassBuilder.Default("sui-section")
-            .AddClass("sui-section--attached", Attached)
+            .AddClass("sui-stack sui-section--flat", Flat)
+            .AddClass("sui-section--attached", Attached && !Flat)
             .AddClass(Class)
             .Build();
 
@@ -64,7 +100,7 @@
             // Attached means glued to the previous section, so the gap is zero by
             // definition; emitting it here keeps the stylesheet to the seam rules.
             // space-0 does not exist in the scale: a requested 0 means "no gap".
-            var gap = Attached || Gap is 0
+            var gap = (Attached && !Flat) || Gap is 0
                 ? "--sui-section-gap:0;"
                 : Gap.HasValue
                     ? $"--sui-section-gap:var(--sui-space-{Math.Clamp(Gap.Value, 1, 6)});"

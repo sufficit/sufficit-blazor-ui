@@ -35,3 +35,16 @@
   border-start-end-radius: 0;
   border-block-start: 0;
 }
+
+/* Flat sections (no card): the rule between two of them gets the section gap
+   on both sides, margin or container gap above and padding below, so it
+   never touches the controls. */
+.sui-section--flat + .sui-section--flat {
+  border-block-start: 1px solid var(--sui-border);
+  padding-block-start: var(--sui-section-gap, var(--sui-space-4));
+}
+
+/* Two classes so it wins over .sui-text, which loads later. */
+.sui-section--flat .sui-section__title {
+  color: var(--sui-text-secondary);
+}

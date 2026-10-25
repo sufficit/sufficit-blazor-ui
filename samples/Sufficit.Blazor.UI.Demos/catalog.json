@@ -5578,6 +5578,14 @@
         "deprecated": false
       },
       {
+        "description": "Renders without the card: an overline title above the content, for settings lists and narrow panels where nested cards would crowd the space. Stacked flat sections are divided by a rule with the same breathing room above and below it (Gap), so the divider never touches the controls. Icon, Elevation and Attached do not apply.",
+        "name": "Flat",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",

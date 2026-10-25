@@ -9,6 +9,9 @@ definem a numeração das próximas publicações.
 ## [Unreleased]
 
 ### Adicionado
+- `SUISection` ganhou `Flat`: seção sem card, título em sobrelinha e conteúdo em pilha, para listas de
+  configuração e painéis estreitos. Entre duas seções planas há um divisor com o mesmo espaço (`Gap`, padrão
+  16px) acima e abaixo, então ele nunca encosta nos controles. Mudança aditiva.
 - `SUIStat` ganhou aparências (`Appearance`: `Plain`, `Soft`, `Gradient`, `Image`), ícone em marca d'água,
   `Unit`, `Caption`, variação (`Delta` + `Trend`, com `HigherIsBetter` para métricas em que menor é melhor),
   `Sparkline` (área sem eixos no rodapé), `BackgroundImage` (URL validada; padrão de ondas embutido) e
