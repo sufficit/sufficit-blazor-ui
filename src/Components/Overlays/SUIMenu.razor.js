@@ -12,8 +12,12 @@ export function connect(trigger,panel) {
  const click=e=>{if(e.target.closest('button,a[href]')){panel.hidePopover();trigger.focus();}};
  panel.addEventListener('toggle',toggle);panel.addEventListener('keydown',key);panel.addEventListener('click',click);
  const resize=()=>{if(panel.matches(':popover-open'))position();};
+ // The panel is fixed to the viewport: follow the trigger on any scroll (capture covers
+ // inner scroll containers) and close once the trigger leaves the visible area.
+ const scroll=e=>{if(!panel.matches(':popover-open')||panel.contains(e.target))return;const r=trigger.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight){panel.hidePopover();return;}position();};
  window.addEventListener('resize',resize);
- connections.set(panel.id,()=>{panel.removeEventListener('toggle',toggle);panel.removeEventListener('keydown',key);panel.removeEventListener('click',click);window.removeEventListener('resize',resize);});
+ document.addEventListener('scroll',scroll,{capture:true,passive:true});
+ connections.set(panel.id,()=>{panel.removeEventListener('toggle',toggle);panel.removeEventListener('keydown',key);panel.removeEventListener('click',click);window.removeEventListener('resize',resize);document.removeEventListener('scroll',scroll,{capture:true});});
 }
 export function disconnect(panel){
  const id=typeof panel==='string'?panel:panel?.id;

@@ -120,7 +120,9 @@ public static class SUIIcons
 
     /// <summary>Phone / device.</summary>
     public const string Phone =
-        "<rect x=\"7\" y=\"2\" width=\"10\" height=\"20\" rx=\"2\"/><path d=\"M11 18h2\"/>";
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<rect x=\"7\" y=\"2\" width=\"10\" height=\"20\" rx=\"2\"/><path d=\"M11 18h2\"/>" +
+        "</g>";
 
     /// <summary>Dashboard grid.</summary>
     public const string Dashboard =
