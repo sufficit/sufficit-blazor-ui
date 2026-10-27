@@ -2,9 +2,25 @@
 @inherits SUIComponentBase
 @implements IAsyncDisposable
 @inject IJSRuntime JS
+@using Sufficit.Blazor.UI.Utilities
+@{
+    // A variant opts the trigger into the SUIButton visual contract (same classes as SUIButton),
+    // so a menu placed next to buttons matches them; without it the compact trigger is kept.
+    var triggerClass = VariantValue is { } variant
+        ? SUIClassBuilder.Default("sui-btn sui-menu__trigger sui-menu__trigger--button")
+            .AddClass($"sui-btn--{SUIClassBuilder.Slug(variant)}")
+            .AddClass($"sui-btn--color-{SUIClassBuilder.Slug(ColorValue ?? SUIColor.Primary)}")
+            .AddClass($"sui-btn--{SUIClassBuilder.Slug(SizeValue ?? SUISize.Medium)}")
+            .Build()
+        : "sui-menu__trigger";
+}
 <div class="sui-menu @Class" style="@Style" @attributes="AdditionalAttributes">
-    <button @ref="_trigger" type="button" class="sui-menu__trigger" popovertarget="@_id" aria-haspopup="menu" aria-label="@Label" disabled="@Disabled">
-        @if(Trigger is not null) { @Trigger }
+    <button @ref="_trigger" type="button" class="@triggerClass" popovertarget="@_id" aria-haspopup="menu" aria-label="@Label" disabled="@Disabled">
+        @if(VariantValue is not null)
+        {
+            <span class="sui-btn__label">@if(Trigger is not null) { @Trigger } else { @Label }</span>
+        }
+        else if(Trigger is not null) { @Trigger }
         else { <SUIIcon Name="@Icon" Size="18" /> @Label }
     </button>
     <div @ref="_panel" id="@_id" popover="auto" role="menu" aria-label="@Label" class="sui-menu__panel">@ChildContent</div>
@@ -13,6 +29,12 @@
     [Parameter] public string Label {get;set;}="Ações";
     [Parameter] public string Icon {get;set;}="more-vertical";
     [Parameter] public bool Disabled {get;set;}
+    /// <summary>Renders the trigger as a SUIButton of this variant (Filled, Outlined, Text...).</summary>
+    [Parameter] public SUIVariant? VariantValue {get;set;}
+    /// <summary>Trigger color when <see cref="VariantValue"/> is set; defaults to Primary.</summary>
+    [Parameter] public SUIColor? ColorValue {get;set;}
+    /// <summary>Trigger size when <see cref="VariantValue"/> is set; defaults to Medium.</summary>
+    [Parameter] public SUISize? SizeValue {get;set;}
     [Parameter] public RenderFragment? Trigger {get;set;}
     [Parameter] public RenderFragment? ChildContent {get;set;}
     private readonly string _id="sui-menu-"+Guid.NewGuid().ToString("N");

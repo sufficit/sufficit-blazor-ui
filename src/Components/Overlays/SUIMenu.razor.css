@@ -1,5 +1,5 @@
 .sui-menu { min-width:0; }
-.sui-menu__trigger { display:flex; align-items:center; justify-content:center; gap:var(--sui-space-2); font:inherit; cursor:pointer; color:var(--sui-text-primary); background:var(--sui-surface); border:1px solid var(--sui-border); border-radius:var(--sui-radius); padding:var(--sui-space-2) var(--sui-space-3); min-height:2.75rem; max-width:100%; }
+.sui-menu__trigger:not(.sui-menu__trigger--button) { display:flex; align-items:center; justify-content:center; gap:var(--sui-space-2); font:inherit; cursor:pointer; color:var(--sui-text-primary); background:var(--sui-surface); border:1px solid var(--sui-border); border-radius:var(--sui-radius); padding:var(--sui-space-2) var(--sui-space-3); min-height:2.75rem; max-width:100%; }
 .sui-menu__trigger:focus-visible {outline:2px solid var(--sui-focus-color);outline-offset:2px;}
 .sui-menu__trigger:disabled {cursor:default;opacity:.6;}
 .sui-menu__panel { position:fixed; inset:auto; margin:0; padding:var(--sui-space-2); border:1px solid var(--sui-border); border-radius:var(--sui-radius); background:var(--sui-surface); color:var(--sui-text-primary); min-width:12rem; max-width:calc(100vw - 1rem); max-height:calc(100dvh - 1rem); overflow:auto; box-shadow:var(--sui-shadow-2); }

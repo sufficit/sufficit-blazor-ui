@@ -1153,6 +1153,9 @@ P|Sufficit.Blazor.UI.Components.SUILoadingButton|System.String|Target|[]|get;set
 P|Sufficit.Blazor.UI.Components.SUIMenu|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIMenu|Microsoft.AspNetCore.Components.RenderFragment|Trigger|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIMenu|System.Boolean|Disabled|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIMenu|System.Nullable<Sufficit.Blazor.UI.Components.SUIColor>|ColorValue|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIMenu|System.Nullable<Sufficit.Blazor.UI.Components.SUISize>|SizeValue|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIMenu|System.Nullable<Sufficit.Blazor.UI.Components.SUIVariant>|VariantValue|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIMenu|System.String|Icon|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIMenu|System.String|Label|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINavGroup|Microsoft.AspNetCore.Components.EventCallback<System.Boolean>|ExpandedChanged|[]|get;set;

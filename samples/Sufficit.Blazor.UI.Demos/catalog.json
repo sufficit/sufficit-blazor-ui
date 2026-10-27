@@ -6851,6 +6851,30 @@
         "deprecated": false
       },
       {
+        "description": "Renders the trigger as a SUIButton of this variant (Filled, Outlined, Text...).",
+        "name": "VariantValue",
+        "type": "SUIVariant?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Trigger color when VariantValue is set; defaults to Primary.",
+        "name": "ColorValue",
+        "type": "SUIColor?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Trigger size when VariantValue is set; defaults to Medium.",
+        "name": "SizeValue",
+        "type": "SUISize?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "",
         "name": "Trigger",
         "type": "RenderFragment?",
