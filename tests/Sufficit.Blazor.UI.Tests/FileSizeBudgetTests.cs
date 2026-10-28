@@ -96,7 +96,9 @@ public sealed class FileSizeBudgetTests
         // after the F1 cascading density token — control heights and paddings
         // now derive from --sui-density-scale via calc(), the byte cost of six
         // var() indirections. 59,213 × 1.03 → 61,184.
-        const int budget = 61_184;
+        // 2026-10-28: SUISection ToneValue and header decision row, measured
+        // 61,251 B → 63,232 (same ceiling as AssetBudgetTests).
+        const int budget = 63_232;
         Assert.True(bytes <= budget,
             $"sufficit-ui.css is {bytes} bytes, budget is {budget}. See AssetBudgetTests for the compressed budgets.");
     }

@@ -32,7 +32,7 @@ Hosts com `style-src-attr 'none'` (identity, por exemplo) fazem o navegador
 ignorar todo atributo `style`, pré-renderizado ou definido depois pelo Blazor.
 A SUI não escreve valores próprios nesse atributo:
 
-- valores limitados viram classes: `SUISection.Gap` (`sui-section--gap-0…6`),
+- valores limitados viram classes: `SUISection.Gap` (`sui-section--gap-0…6`) e `ToneValue` (`sui-section--danger|warning`),
   `SUIText.Color` (`sui-color-*`), colunas/gap de `SUIFormGrid`, label de
   `SUILoadingButton`, grupo oculto de `SUIFilterTree` (atributo `hidden`);
 - valores livres vão em `data-sui-style="--sui-…:valor"` e o inicializador JS

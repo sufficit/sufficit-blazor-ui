@@ -1361,6 +1361,7 @@ P|Sufficit.Blazor.UI.Components.SUISection|System.Boolean|Attached|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|System.Boolean|Flat|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|System.Int32|ContentSpacing|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|System.Int32|Elevation|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUISection|System.Nullable<Sufficit.Blazor.UI.Components.SUITone>|ToneValue|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|System.Nullable<System.Int32>|Gap|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|System.String|Description|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|System.String|Icon|[]|get;set;

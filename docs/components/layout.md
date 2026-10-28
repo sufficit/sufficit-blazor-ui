@@ -12,6 +12,29 @@ diretamente. Seus blocos de conteúdo seguem, por padrão, um fluxo vertical com
 Use outro valor da escala de 0 a 6 quando a densidade da seção exigir; reserve
 `ContentSpacing="0"` para conteúdo que controla integralmente o próprio layout.
 
+Com `Actions`, o cabeçalho vira uma linha de decisão: título e descrição à
+esquerda ocupam a linha, as ações ficam no fim dela e quebram para baixo do
+texto quando ele ficaria com menos de 16rem (mobile), em vez de espremê-lo.
+
+`ToneValue` marca uma seção de consequência — a "zona de perigo":
+`SUITone.Danger` para perda (excluir, revogar) e `SUITone.Warning` para
+interrupção. Só a borda e o título recebem a cor do tom; a descrição continua
+neutra e a seção mantém tamanho e posição (cor distingue, não cria hierarquia;
+ver `docs/DESIGN-VISUAL-HIERARCHY.md`). Sem tom, ou com Neutral/Info/Success, a
+marcação é a mesma de antes. Sai por classes (`sui-section--tone`,
+`sui-section--danger|warning`), seguro sob CSP estrita.
+
+```razor
+<SUISection Title="Excluir tema" Description="Não pode ser desfeito." ToneValue="SUITone.Danger">
+    <Actions><SUIButton ColorValue="SUIColor.Error" OnClick="AskDelete">Excluir</SUIButton></Actions>
+    <ChildContent>@* formulário de confirmação, quando aberto *@</ChildContent>
+</SUISection>
+```
+
+Seções seguidas nunca se tocam: fora de um container, `.sui-section +
+.sui-section` aplica o `Gap` (16px por padrão); dentro de `SUIStack`/`SUIGrid`
+o gap do container já separa.
+
 `SUIStack` aplica `Spacing` (0–6, padrão 3) por classes CSS da biblioteca. Isso
 mantém o intervalo entre filhos em aplicações com CSP sem `unsafe-inline`;
 `Style` fica disponível somente para personalizações explícitas do consumidor.

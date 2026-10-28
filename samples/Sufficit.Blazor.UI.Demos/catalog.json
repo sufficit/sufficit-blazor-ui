@@ -5871,7 +5871,7 @@
   {
     "name": "SUISection",
     "family": "Layout",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISection Title=\"Preferências\" Description=\"Organize conteúdo e ações relacionados.\">\n<SUITextField TValue=\"string\" Label=\"Nome\" @bind-Value=\"Text\" />\n<SUICheckbox Label=\"Ativar notificações\" @bind-Value=\"Enabled\" />\n</SUISection>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected bool Enabled { get; set; } = true;\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISection Title=\"Preferências\" Description=\"Organize conteúdo e ações relacionados.\">\n<SUITextField TValue=\"string\" Label=\"Nome\" @bind-Value=\"Text\" />\n<SUICheckbox Label=\"Ativar notificações\" @bind-Value=\"Enabled\" />\n</SUISection>\n<SUISection Title=\"Excluir operação\" Description=\"Remove a operação e o histórico dela. Não pode ser desfeito.\" ToneValue=\"SUITone.Danger\">\n<Actions><SUIButton ColorValue=\"SUIColor.Error\">Excluir</SUIButton></Actions>\n</SUISection>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected bool Enabled { get; set; } = true;\n}\n",
     "parameters": [
       {
         "description": "",
@@ -5949,6 +5949,14 @@
         "description": "Renders without the card: an overline title above the content, for settings lists and narrow panels where nested cards would crowd the space. Stacked flat sections are divided by a rule with the same breathing room above and below it (Gap), so the divider never touches the controls. Icon, Elevation and Attached do not apply.",
         "name": "Flat",
         "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Marks the section as consequential: SUITone.Danger for loss (delete, revoke) and SUITone.Warning for interruption. Only the border and the title take the tone color; the copy stays neutral and the section keeps its size and position, since color distinguishes but does not create hierarchy. Null (default) and the other tones render the plain section.",
+        "name": "ToneValue",
+        "type": "SUITone?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false

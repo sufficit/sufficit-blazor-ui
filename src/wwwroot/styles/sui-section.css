@@ -56,3 +56,29 @@
 .sui-section--flat .sui-section__title {
   color: var(--sui-text-secondary);
 }
+
+/* A header with actions is a decision row: the copy fills the line, the
+   actions sit at its end and wrap under the copy once it would shrink below
+   16rem, instead of squeezing the text into a column. Wide layouts render as
+   before: the copy only grows into space the actions' auto margin owned. */
+.sui-section > .sui-card > .sui-card__header:has(> .sui-card__header-actions) {
+  flex-wrap: wrap;
+}
+.sui-section > .sui-card > .sui-card__header > .sui-card__header-copy {
+  flex: 1 1 16rem;
+}
+
+/* Tone (ToneValue): Danger marks loss, Warning interruption. Only the border
+   and the title carry it; copy stays neutral and nothing grows or lifts,
+   since color distinguishes but does not create hierarchy. sui-section--tone
+   carries the shared rules; the title selectors must beat the isolated
+   card-header title and the flat secondary title. */
+.sui-section--danger { --_tone: var(--sui-color-error); }
+.sui-section--warning { --_tone: var(--sui-color-warning); }
+.sui-section--tone > .sui-card {
+  border-color: color-mix(in srgb, var(--_tone) 45%, var(--sui-border));
+}
+.sui-section--tone > .sui-card .sui-card__header-title,
+.sui-section--tone h2.sui-section__title {
+  color: var(--_tone);
+}

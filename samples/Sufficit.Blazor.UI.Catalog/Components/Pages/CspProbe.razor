@@ -30,6 +30,10 @@
 
         <SUISection Title="Primeira">Conteúdo</SUISection>
         <SUISection Title="Segunda" Gap="1" data-testid="csp-section-gap">Conteúdo</SUISection>
+        <SUISection Title="Excluir operação" Description="Remove a operação e todo o histórico dela. Não pode ser desfeito."
+                    ToneValue="SUITone.Danger" data-testid="csp-section-danger">
+            <Actions><SUIButton ColorValue="SUIColor.Error">Excluir</SUIButton></Actions>
+        </SUISection>
 
         <SUIText Color="SUIColor.Error" data-testid="csp-text-error">Falhou</SUIText>
         <SUISkeletonLoader Type="SUISkeletonType.Circle" Size="32px" data-testid="csp-skeleton" />

@@ -80,6 +80,15 @@ else
     /// </summary>
     [Parameter] public bool Flat { get; set; }
 
+    /// <summary>
+    /// Marks the section as consequential: <see cref="SUITone.Danger"/> for loss
+    /// (delete, revoke) and <see cref="SUITone.Warning"/> for interruption. Only the
+    /// border and the title take the tone color; the copy stays neutral and the
+    /// section keeps its size and position, since color distinguishes but does not
+    /// create hierarchy. Null (default) and the other tones render the plain section.
+    /// </summary>
+    [Parameter] public SUITone? ToneValue { get; set; }
+
     private readonly string _titleId = $"sui-section-{Guid.NewGuid():N}";
     private string TitleId => _titleId;
 
@@ -88,6 +97,7 @@ else
             .AddClass("sui-stack sui-section--flat", Flat)
             .AddClass("sui-section--attached", Attached && !Flat)
             .AddClass($"sui-section--gap-{EffectiveGap}", EffectiveGap is not null)
+            .AddClass($"sui-section--tone sui-section--{SUIClassBuilder.Slug(ToneValue)}", ToneValue is SUITone.Danger or SUITone.Warning)
             .AddClass(Class)
             .Build();
 

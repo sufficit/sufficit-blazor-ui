@@ -8,6 +8,19 @@ definem a numeração das próximas publicações.
 
 ## [Unreleased]
 
+### Added
+- `SUISection.ToneValue` (`SUITone?`): `Danger` (loss: delete, revoke) and
+  `Warning` (interruption) tint only the section border and title; copy stays
+  neutral, nothing grows or lifts. Null and the other tones keep the markup
+  byte-identical. Classes only (`sui-section--tone sui-section--danger|warning`),
+  CSP-safe. Replaces hand-made "danger zone" blocks in consumers: Title +
+  Description + Actions in the header, the confirmation form as ChildContent.
+
+### Changed
+- A section header with Actions is a decision row: the copy fills the line,
+  the actions sit at its end and wrap under the copy once it would shrink
+  below 16rem (mobile), instead of squeezing the text into a narrow column.
+
 ### Fixed
 - The CSSOM style initializer now also ships as `_content/Sufficit.Blazor.UI/sui-style.js`
   (stable name; `startSuiStyle()`), for hosts that load Blazor without the

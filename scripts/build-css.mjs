@@ -60,9 +60,14 @@ const budgets = {
   // fallbacks (skeleton size, capped nav collapse). Measured 60,770 / 11,104 /
   // 9,674 B; raw now sits at the AssetBudgetTests ceiling, so the next rule
   // must shave bytes elsewhere or ratchet both in a dedicated change.
-  raw: 60_928,
-  gzip: 11_200,
-  brotli: 9_728,
+  // Ratcheted 2026-10-28 for SUISection ToneValue (danger/warning border and
+  // title, one shared --tone class) and the header decision row (actions wrap
+  // under the copy below 16rem instead of squeezing it): +481 B raw.
+  // Measured 61,251 / 11,193 / 9,765 B, under the AssetBudgetTests ceilings
+  // (63,232 / 11,776 / 10,240), so this script still fails before CI does.
+  raw: 62_464,
+  gzip: 11_520,
+  brotli: 10_000,
 };
 
 const result = bundle({
