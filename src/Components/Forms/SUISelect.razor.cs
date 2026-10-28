@@ -163,12 +163,11 @@ public partial class SUISelect<TValue>
 
     // Applied by the browser module through CSSOM (style.setProperty) when
     // the menu opens: a style attribute in the markup is exactly what a strict
-    // CSP (style-src-attr 'none') drops. A declaration separator would let the
-    // value smuggle other properties, so such a value is ignored.
+    // CSP (style-src-attr 'none') drops. Validated by the same allow-list as
+    // data-sui-style (SUIStyleBuilder), so a value cannot smuggle other
+    // properties; such a value is ignored.
     private static string? MenuLength(string? value)
-        => string.IsNullOrWhiteSpace(value) || value.IndexOfAny([';', '{', '}']) >= 0
-            ? null
-            : value.Trim();
+        => SUIStyleBuilder.IsSafeValue(value) ? value!.Trim() : null;
 
     void ISUISelectRegistry.Register(SUISelectItem item)
     {

@@ -21,7 +21,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -212,7 +212,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -299,7 +299,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -474,7 +474,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -545,7 +545,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -712,7 +712,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -791,7 +791,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -894,7 +894,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -941,7 +941,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -996,7 +996,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1043,7 +1043,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1090,7 +1090,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1249,7 +1249,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1368,7 +1368,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1519,7 +1519,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1630,7 +1630,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional inline style calculated for each rendered row.",
+        "description": "Optional inline style calculated for each rendered row. Ignored by the browser under a CSP with style-src-attr 'none'; prefer RowClassFunc there.",
         "name": "RowStyleFunc",
         "type": "Func<TItem, int, string?>?",
         "default": "Padrão do tipo",
@@ -1702,7 +1702,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1773,7 +1773,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1884,7 +1884,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1939,7 +1939,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2010,7 +2010,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2073,7 +2073,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2120,7 +2120,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2215,7 +2215,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2286,7 +2286,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2373,7 +2373,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2468,7 +2468,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2563,7 +2563,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2650,7 +2650,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2713,7 +2713,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2768,7 +2768,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2799,7 +2799,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2854,7 +2854,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -2973,7 +2973,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3084,7 +3084,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3115,7 +3115,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3378,7 +3378,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3513,7 +3513,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3688,7 +3688,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3879,7 +3879,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -3974,7 +3974,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4237,7 +4237,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4428,7 +4428,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4491,7 +4491,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4626,7 +4626,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4697,7 +4697,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -4952,7 +4952,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -5015,7 +5015,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -5070,7 +5070,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -5125,7 +5125,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -5172,7 +5172,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -5291,7 +5291,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -5338,7 +5338,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -5369,7 +5369,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -5544,7 +5544,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -5591,7 +5591,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -5670,7 +5670,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -5725,7 +5725,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -5804,7 +5804,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -5851,7 +5851,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -5962,7 +5962,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -5993,7 +5993,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -6072,7 +6072,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -6119,7 +6119,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -6174,7 +6174,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -6333,7 +6333,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -6620,7 +6620,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -6723,7 +6723,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -6786,7 +6786,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -6889,7 +6889,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -6936,7 +6936,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -7015,7 +7015,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -7054,7 +7054,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -7141,7 +7141,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -7180,7 +7180,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -7275,7 +7275,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -7402,7 +7402,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -7617,7 +7617,7 @@
         "deprecated": false
       },
       {
-        "description": "Optional per-instance styles (consumer supplied).",
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
         "name": "Style",
         "type": "string?",
         "default": "Padrão do tipo",

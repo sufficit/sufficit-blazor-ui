@@ -181,7 +181,10 @@ public partial class SUIDrawer
     private string? AriaModal => _isCompact && Open ? "true" : null;
     private string? AriaHidden => _isCompact ? (!Open).ToString().ToLowerInvariant() : null;
     private string? TabIndex => _isCompact ? "-1" : null;
-    private string StyleValue => $"--sui-drawer-width:{Width};{Style}";
+    // CSSOM via data-sui-style: a style attribute is ignored under style-src-attr 'none'.
+    // The CSS fallback is 256px, so the default width needs no attribute.
+    private string? CssomStyle
+        => SUIStyleBuilder.Default().Add("--sui-drawer-width", Width, Width != "256px").Build();
 
     private string Classname
         => SUIClassBuilder.Default("sui-drawer")

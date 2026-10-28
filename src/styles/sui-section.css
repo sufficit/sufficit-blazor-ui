@@ -6,7 +6,7 @@
  * it without asking; --sui-section-gap overrides it per section, including 0.
  *
  * Attached sections read as one continuous block with internal divisions: the
- * component zeroes the gap inline and the seam goes flat, with a single border
+ * component zeroes the gap (class, CSP-safe) and the seam goes flat, with a single border
  * between the two cards instead of two rounded edges meeting.
  */
 
@@ -22,6 +22,14 @@
 :is(.sui-stack, .sui-grid, .sui-sections) > .sui-section + .sui-section {
   margin-block-start: 0;
 }
+
+.sui-section--gap-0 { --sui-section-gap: 0; }
+.sui-section--gap-1 { --sui-section-gap: var(--sui-space-1); }
+.sui-section--gap-2 { --sui-section-gap: var(--sui-space-2); }
+.sui-section--gap-3 { --sui-section-gap: var(--sui-space-3); }
+.sui-section--gap-4 { --sui-section-gap: var(--sui-space-4); }
+.sui-section--gap-5 { --sui-section-gap: var(--sui-space-5); }
+.sui-section--gap-6 { --sui-section-gap: var(--sui-space-6); }
 
 .sui-section:has(+ .sui-section--attached) > .sui-card {
   border-end-start-radius: 0;

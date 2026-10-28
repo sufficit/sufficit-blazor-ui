@@ -37,10 +37,11 @@
   min-block-size: auto;
 }
 
-/* Explicit (unequal) template wins over the equal split, stacked or not. */
+/* Explicit (unequal) template wins over the equal split, stacked or not. It
+   arrives through CSSOM (data-sui-style); until then the track count splits equally. */
 .sui-form-grid--template,
 .sui-form-grid--template.sui-form-grid--stack-mobile {
-  grid-template-columns: var(--sui-form-grid-template);
+  grid-template-columns: var(--sui-form-grid-template, repeat(var(--sui-form-grid-columns, 2), minmax(0, 1fr)));
 }
 
 @media (max-width: 44rem) {

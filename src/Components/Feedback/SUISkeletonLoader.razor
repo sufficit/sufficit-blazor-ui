@@ -13,7 +13,7 @@
     }
     else if (Type == SUISkeletonType.Circle)
     {
-        <div class="sui-skeleton sui-skeleton-circle" style="width: @Size; height: @Size;"></div>
+        <div class="sui-skeleton sui-skeleton-circle" data-sui-style="@CircleCssomStyle"></div>
     }
     else if (Type == SUISkeletonType.Table)
     {
@@ -36,4 +36,9 @@
 
     private string Classname
         => EffectiveClass("sui-skeleton-loader");
+
+    // CSSOM via data-sui-style (a style attribute is ignored under style-src-attr 'none');
+    // the CSS fallback is the default 48px.
+    private string? CircleCssomStyle
+        => SUIStyleBuilder.Default().Add("--sui-skeleton-size", Size, Size != "48px").Build();
 }

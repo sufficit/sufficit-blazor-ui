@@ -4,7 +4,7 @@
 @using Sufficit.Blazor.UI.Services
 @inject IServiceProvider Services
 
-<div class="@Classname" style="@RootStyle" @attributes="AdditionalAttributes">
+<div class="@Classname" style="@Style" data-sui-style="@CssomStyle" @attributes="AdditionalAttributes">
     @if (Decorated)
     {
         @* Decorative watermark: the same icon, large and faint, gives each tone its own texture. *@
@@ -146,18 +146,12 @@
         .AddClass(Class)
         .Build();
 
-    // Only a validated absolute/relative URL becomes a CSS url(); quotes and parentheses are rejected.
-    private string? RootStyle
-    {
-        get
-        {
-            var image = Appearance == SUIStatAppearance.Image && Uri.TryCreate(BackgroundImage, UriKind.RelativeOrAbsolute, out var uri)
-                && BackgroundImage!.IndexOfAny(['"', '\'', '(', ')', '\\', ';', '\n', '\r']) < 0
-                && (!uri.IsAbsoluteUri || uri.Scheme is "https" or "http" or "data")
-                ? $"--sui-stat-image:url(\"{BackgroundImage}\");" : null;
-            return string.IsNullOrEmpty(image) ? Style : image + Style;
-        }
-    }
+    // Only a validated http(s)/relative URL becomes a CSS url(); quotes and parentheses are rejected.
+    // Applied through CSSOM (data-sui-style): a style attribute is ignored under style-src-attr 'none'.
+    private string? CssomStyle
+        => Appearance == SUIStatAppearance.Image
+            ? SUIStyleBuilder.Default().AddUrl("--sui-stat-image", BackgroundImage).Build()
+            : null;
 
     private string DeltaTone => Trend switch
     {

@@ -18,5 +18,5 @@
 }
 .sui-skeleton-card    { height: 120px; width: 100%; border-radius: var(--sui-radius); }
 .sui-skeleton-text    { height: 12px; width: 100%; margin: 6px 0; }
-.sui-skeleton-circle  { border-radius: var(--sui-radius-full); }
+.sui-skeleton-circle  { width: var(--sui-skeleton-size, 48px); height: var(--sui-skeleton-size, 48px); border-radius: var(--sui-radius-full); }
 .sui-skeleton-text--table { margin-bottom: .75rem; }

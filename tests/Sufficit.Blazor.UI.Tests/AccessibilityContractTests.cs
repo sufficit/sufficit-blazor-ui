@@ -325,11 +325,10 @@ public sealed class AccessibilityContractTests
     public void Progress_ClampsValueAndUsesTransformScale()
     {
         using var context = new BunitContext();
-        var cut = context.Render<SUIProgressLinear>(parameters => parameters
-            .Add(component => component.Value, 150));
-
+        var cut = context.Render<SUIProgressLinear>(parameters => parameters.Add(component => component.Value, 150));
         Assert.Equal("100", cut.Find("[role=progressbar]").GetAttribute("aria-valuenow"));
-        var barStyle = cut.Find(".sui-progress-linear__bar").GetAttribute("style") ?? string.Empty;
+        Assert.False(cut.Find(".sui-progress-linear__bar").HasAttribute("style"));
+        var barStyle = cut.Find(".sui-progress-linear__bar").GetAttribute("data-sui-style") ?? string.Empty;
         Assert.Contains("--sui-progress-scale:1", barStyle, StringComparison.Ordinal);
         Assert.DoesNotContain("width", barStyle, StringComparison.OrdinalIgnoreCase);
     }

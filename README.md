@@ -141,6 +141,18 @@ Hosts com `Content-Security-Policy` estrita passam o nonce da resposta em
 `<SUIThemeProvider Nonce="…">`; ele é copiado para o `<style>` inline que
 publica os tokens. Veja o [contrato do provider](docs/components/theme-provider.md).
 
+Com `style-src-attr 'none'` (ou `style-src` sem `'unsafe-inline'`) o navegador
+ignora todo atributo `style`, no HTML pré-renderizado e quando o Blazor o
+define depois. Os componentes SUI não dependem dele: valores limitados viram
+classes (gap de `SUISection`, cor de `SUIText`) e valores livres
+(`ColumnTemplate`, `MinColumnWidth`, larguras, progresso) vão em
+`data-sui-style` e são aplicados via CSSOM pelo inicializador JS do pacote
+(`Sufficit.Blazor.UI.lib.module.js`, carregado automaticamente pelo
+`blazor.web.js`). O parâmetro `Style` de qualquer componente (e
+`RowStyleFunc` de `SUITable`) é do consumidor e **é ignorado** sob essa
+política: use `Class` com uma regra de folha de estilo. Detalhes em
+[CSP estrita](docs/components/README.md#csp-estrita).
+
 Use `SUITheme.Light` e `SUITheme.Dark` como presets completos e `with` para
 personalizar paleta, tipografia e layout. Alterar apenas `IsDark` não recalcula
 as cores de um tema arbitrário. `InfoContrast`, `SuccessContrast`,

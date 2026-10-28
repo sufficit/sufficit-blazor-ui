@@ -9,10 +9,11 @@
 <CascadingValue Value="this" IsFixed="true">
     @if (Group)
     {
-        @* Groups hide with display:none instead of leaving the tree: removing
-           them would dispose every child, and disposed children cannot report
-           matches when the filter changes again. *@
-        <div style="@(IsMatch ? null : "display:none")">
+        @* Groups hide with the hidden attribute instead of leaving the tree:
+           removing them would dispose every child, and disposed children cannot
+           report matches when the filter changes again. Not an inline display:none,
+           which a CSP with style-src-attr 'none' ignores. *@
+        <div hidden="@(!IsMatch)">
             @ChildContent
         </div>
     }

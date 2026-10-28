@@ -8,7 +8,27 @@ definem a numeração das próximas publicações.
 
 ## [Unreleased]
 
+### Corrigido
+- CSP estrita (`style-src-attr 'none'`, como no identity): a SUI não renderiza mais atributos `style` com
+  valores próprios — o navegador os ignorava e, por exemplo, `SUIFormGrid.ColumnTemplate` caía em colunas
+  iguais em produção. Valores limitados viraram classes (`SUISection.Gap` → `sui-section--gap-*`,
+  `SUIText.Color` → `sui-color-*`/`sui-text--secondary`, `SUIFilterTree` usa `hidden`, `SUILoadingButton`
+  usa a regra `--loading` existente). Valores livres vão em `data-sui-style` e são aplicados via CSSOM por
+  um inicializador JS do pacote (`Sufficit.Blazor.UI.lib.module.js`, carregado automaticamente pelo
+  Blazor; cobre pré-render, SSR estático, navegação aprimorada e renders interativos):
+  `SUIFormGrid.ColumnTemplate`/`MinColumnWidth`, `SUIDrawer.Width`, `SUIProgressLinear.Value`,
+  `SUIStat.BackgroundImage`, `SUISkeletonLoader.Size`, `SUIPopover.MaxWidth`, `SUINavGroup.MaxHeight`.
+  Antes do JS, a grade com template divide suas trilhas em colunas iguais (antes: uma coluna só).
+- `ColumnTemplate`, `MinColumnWidth` e `SUISelect.MenuWidth`/`MenuMaxWidth` passam por allow-list de
+  caracteres e funções; valores fora dela são ignorados (antes só `;{}` eram rejeitados).
+
 ### Adicionado
+- `SUIStyleBuilder` (público) monta `data-sui-style` só com custom properties `--sui-*` validadas;
+  consumidores podem usá-lo para tokens por elemento sob CSP estrita. `Style` e `SUITable.RowStyleFunc`
+  continuam repassados, mas são ignorados sob CSP estrita — documentado; use `Class`.
+- Teste `StrictCspBrowserTests`: catálogo com `style-src-attr 'none'` (`?csp=strict`) mede grade, menu do
+  select, progresso, drawer, seção, texto, skeleton, stat, popover e nav group, e falha em qualquer
+  `securitypolicyviolation`.
 - Segunda rodada de lacunas da migração do Identity (aditivas; markup padrão inalterado):
   - `SUIEmptyState.ToneValue` (`SUITone`): colore o ícone (`Danger` falha, `Warning` alerta, `Neutral`/nulo
     mantém o ícone neutro atenuado) — sem reestilizar `.sui-empty__icon`.

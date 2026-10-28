@@ -16,7 +16,15 @@ public abstract class SUIComponentBase : ComponentBase
     [Parameter]
     public string? Class { get; set; }
 
-    /// <summary>Optional per-instance styles (consumer supplied).</summary>
+    /// <summary>
+    /// Optional per-instance inline styles (consumer supplied), rendered as a
+    /// <c>style</c> attribute. A Content-Security-Policy with
+    /// <c>style-src-attr 'none'</c> (or a <c>style-src</c> without
+    /// <c>'unsafe-inline'</c>) makes the browser ignore it: prefer
+    /// <see cref="Class"/> with a stylesheet rule, or <c>data-sui-style</c>
+    /// for <c>--sui-*</c> custom properties. SUI never puts its own computed
+    /// values here.
+    /// </summary>
     [Parameter]
     public string? Style { get; set; }
 

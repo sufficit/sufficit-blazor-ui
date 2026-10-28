@@ -90,9 +90,9 @@ else
             </span>
         }
     </button>
-    <div class="sui-collapse @(_navigationContext.Expanded ? "is-expanded" : "")"
+    <div class="sui-collapse @(_navigationContext.Expanded ? "is-expanded" : "") @(CollapseCssomStyle is null ? "" : "sui-collapse--capped")"
          id="@_navigationContext.MenuId"
-         style="@GetCollapseStyle()"
+         data-sui-style="@CollapseCssomStyle"
          aria-hidden="@((_navigationContext.Expanded is false).ToString().ToLowerInvariant())">
         <div class="sui-collapse__inner">
             <CascadingValue Value="@_navigationContext">
@@ -108,12 +108,9 @@ else
 }
 
 @code {
-    private string GetCollapseStyle()
-    {
-        if (MaxHeight is int max && max > 0)
-            return $"max-height:{max}px;";
-        return string.Empty;
-    }
+    // CSSOM via data-sui-style: a style attribute is ignored under style-src-attr 'none'.
+    private string? CollapseCssomStyle
+        => SUIStyleBuilder.Default().Add("--sui-collapse-max-height", $"{MaxHeight}px", MaxHeight > 0).Build();
 
     private RenderFragment RenderTrigger() => __builder =>
     {

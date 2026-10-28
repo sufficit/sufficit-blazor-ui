@@ -1,0 +1,50 @@
+@page "/fixtures/csp"
+
+@* Components whose geometry SUI computes per instance. The browser tests load
+   this page with style-src-attr 'none' and assert the layout still holds: the
+   values must arrive as classes or through data-sui-style (CSSOM), never as a
+   style attribute, which that policy ignores. No Style parameter on purpose. *@
+<PageTitle>CSP estrita | Catálogo SUI</PageTitle>
+<SUIThemeProvider Class="catalog-theme-root">
+    <main class="catalog" data-catalog-ready>
+        <h1>Layout sob CSP estrita</h1>
+
+        <SUIFormGrid ColumnTemplate="2fr 1fr" MinColumnWidth="10rem" data-testid="csp-template-grid">
+            <SUITextField TValue="string" Label="Nome" />
+            <SUITextField TValue="string" Label="Código" />
+        </SUIFormGrid>
+
+        <div class="catalog-csp-narrow" data-testid="csp-select">
+            <SUISelect TValue="string" Label="Região" MenuWidth="22rem">
+                <SUISelectItem Value="@("Southeast")">Sudeste</SUISelectItem>
+                <SUISelectItem Value="@("South")">Sul</SUISelectItem>
+            </SUISelect>
+        </div>
+
+        <SUIProgressLinear Value="40" AriaLabel="Sincronização" data-testid="csp-progress-linear" />
+        <SUIProgressCircular Value="65" AriaLabel="Uso" data-testid="csp-progress-circular" />
+
+        <div class="sui-stack sui-stack--row" data-testid="csp-drawer-host">
+            <SUIDrawer Open Width="11rem" data-testid="csp-drawer">Navegação</SUIDrawer>
+        </div>
+
+        <SUISection Title="Primeira">Conteúdo</SUISection>
+        <SUISection Title="Segunda" Gap="1" data-testid="csp-section-gap">Conteúdo</SUISection>
+
+        <SUIText Color="SUIColor.Error" data-testid="csp-text-error">Falhou</SUIText>
+        <SUISkeletonLoader Type="SUISkeletonType.Circle" Size="32px" data-testid="csp-skeleton" />
+        <SUIStat Value="1" Label="Imagem" Appearance="SUIStatAppearance.Image"
+                 BackgroundImage="data:image/gif,GIF89a" data-testid="csp-stat" />
+
+        <SUIPopover MaxWidth="200" data-testid="csp-popover">
+            <ChildContent>Detalhes</ChildContent>
+            <Content>Texto do popover</Content>
+        </SUIPopover>
+
+        <SUINavGroup Title="Grupo" Expanded MaxHeight="40" data-testid="csp-nav-group">
+            <SUINavLink Title="Um" Href="#um" />
+            <SUINavLink Title="Dois" Href="#dois" />
+            <SUINavLink Title="Três" Href="#tres" />
+        </SUINavGroup>
+    </main>
+</SUIThemeProvider>

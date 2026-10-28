@@ -98,8 +98,8 @@ public sealed class FormLayoutContractTests
     }
 
     [Theory]
-    [InlineData(2, "--sui-section-gap:var(--sui-space-2);")]
-    [InlineData(0, "--sui-section-gap:0;")]
+    [InlineData(2, "sui-section--gap-2")]
+    [InlineData(0, "sui-section--gap-0")]
     public void Section_OverridesTheGapOnRequest(int gap, string expected)
     {
         using var context = new BunitContext();
@@ -109,10 +109,12 @@ public sealed class FormLayoutContractTests
             .Add(component => component.Style, "--consumer-probe:1;")
             .AddChildContent("Conteúdo"));
 
-        var style = cut.Find(".sui-section").GetAttribute("style");
+        // A class, not an inline variable: CSP-safe. The consumer Style is
+        // passed through untouched.
+        var root = cut.Find(".sui-section");
 
-        Assert.Contains(expected, style);
-        Assert.Contains("--consumer-probe:1;", style);
+        Assert.Contains(expected, root.ClassList);
+        Assert.Equal("--consumer-probe:1;", root.GetAttribute("style"));
     }
 
     [Fact]
@@ -129,7 +131,8 @@ public sealed class FormLayoutContractTests
         Assert.Contains("sui-section--attached", root.ClassList);
         // Attached means glued: the gap is zero by definition, so the stylesheet
         // only has to flatten the seam.
-        Assert.Contains("--sui-section-gap:0;", root.GetAttribute("style"));
+        Assert.Contains("sui-section--gap-0", root.ClassList);
+        Assert.False(root.HasAttribute("style"));
     }
 
     [Fact]
@@ -262,8 +265,9 @@ public sealed class FormLayoutContractTests
     [Fact]
     public void FormGrid_RendersNoInlineStyleForItsOwnLayout()
     {
-        // A host whose CSP drops style-src-attr 'unsafe-inline' must keep the
-        // grid: the layout travels in classes, never in a style attribute.
+        // A host whose CSP has style-src-attr 'none' must keep the grid: the
+        // layout travels in classes and data-sui-style (CSSOM), never in a
+        // style attribute.
         using var context = new BunitContext();
         var cut = context.Render<SUIFormGrid>(parameters => parameters
             .Add(component => component.Columns, 2)
@@ -272,6 +276,7 @@ public sealed class FormLayoutContractTests
         Assert.False(cut.Find(".sui-form-grid").HasAttribute("style"));
 
         cut.Render(parameters => parameters.Add(component => component.MinColumnWidth, "20rem"));
-        Assert.Equal("--sui-form-grid-min-width:20rem;", cut.Find(".sui-form-grid").GetAttribute("style"));
+        Assert.Equal("--sui-form-grid-min-width:20rem", cut.Find(".sui-form-grid").GetAttribute("data-sui-style"));
+        Assert.False(cut.Find(".sui-form-grid").HasAttribute("style"));
     }
 }

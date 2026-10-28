@@ -66,3 +66,13 @@
 }
 .sui-text--secondary { color: var(--sui-text-secondary); }
 .sui-text--disabled  { color: var(--sui-text-disabled); }
+
+/* SUIText Color: two classes so the tone wins over .sui-text and its type
+   modifiers, as the inline style it replaces did (CSP-safe, no style attribute). */
+.sui-text.sui-color-primary   { color: var(--sui-color-primary); }
+.sui-text.sui-color-secondary { color: var(--sui-color-secondary); }
+.sui-text.sui-color-success   { color: var(--sui-color-success); }
+.sui-text.sui-color-warning   { color: var(--sui-color-warning); }
+.sui-text.sui-color-error     { color: var(--sui-color-error); }
+.sui-text.sui-color-info      { color: var(--sui-color-info); }
+.sui-text.sui-color-inherit   { color: inherit; }

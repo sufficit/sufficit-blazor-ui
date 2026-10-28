@@ -243,8 +243,14 @@ public sealed class NamingConventionTests
     [Fact]
     public void JsModules_AreColocatedAndNeverLoadedGlobally()
     {
+        // One deliberate exception: the Blazor JS initializer that applies
+        // data-sui-style through CSSOM. It must be global because static SSR
+        // and prerendered markup have no component lifecycle to import a
+        // colocated module from, and a strict CSP ignores the style attribute.
+        const string initializer = "src/wwwroot/Sufficit.Blazor.UI.lib.module.js";
         var offenders = RepositoryLayout.Files(RepositoryLayout.Src, "*.js")
             .Where(file => !file.EndsWith(".razor.js", StringComparison.Ordinal))
+            .Where(file => RepositoryLayout.Relative(file) != initializer)
             .Select(RepositoryLayout.Relative)
             .ToArray();
 

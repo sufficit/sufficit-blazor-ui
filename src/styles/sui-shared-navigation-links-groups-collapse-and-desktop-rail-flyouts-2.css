@@ -4,6 +4,8 @@
   transition-delay: 0s;
 }
 
+.sui-collapse--capped { max-height: var(--sui-collapse-max-height); }
+
 .sui-collapse__inner {
   position: relative;
   min-height: 0;

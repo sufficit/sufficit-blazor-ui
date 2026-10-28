@@ -120,6 +120,7 @@ B|Sufficit.Blazor.UI.Themes.SUIThemeProvider|Microsoft.AspNetCore.Components.Com
 B|Sufficit.Blazor.UI.Themes.SUITheme|System.Object
 B|Sufficit.Blazor.UI.Themes.SUITypography|System.Object
 B|Sufficit.Blazor.UI.Utilities.SUIClassBuilder|System.Object
+B|Sufficit.Blazor.UI.Utilities.SUIStyleBuilder|System.Object
 B|Sufficit.Blazor.UI._Imports|System.Object
 C|Sufficit.Blazor.UI.Components.SUIActionGroup|()
 C|Sufficit.Blazor.UI.Components.SUIAlert|()
@@ -218,6 +219,7 @@ C|Sufficit.Blazor.UI.Themes.SUIThemeProvider|()
 C|Sufficit.Blazor.UI.Themes.SUITheme|()
 C|Sufficit.Blazor.UI.Themes.SUITypography|()
 C|Sufficit.Blazor.UI.Utilities.SUIClassBuilder|()
+C|Sufficit.Blazor.UI.Utilities.SUIStyleBuilder|()
 C|Sufficit.Blazor.UI._Imports|()
 E|Sufficit.Blazor.UI.Services.ISUIDialogService|System.Action<Sufficit.Blazor.UI.Services.SUIDialogRequest>|OnShow
 E|Sufficit.Blazor.UI.Services.ISUISnackbar|System.Action<Sufficit.Blazor.UI.Services.SUISnackbarEntry>|OnEnqueue
@@ -419,6 +421,7 @@ F|Sufficit.Blazor.UI.Components.SUIVariant|Sufficit.Blazor.UI.Components.SUIVari
 F|Sufficit.Blazor.UI.Components.SUIVariant|System.Int32|value__
 F|Sufficit.Blazor.UI.Themes.SUIThemeCssWriter|System.String|TokenSelector
 F|Sufficit.Blazor.UI.Themes.SUIThemeProvider|System.String|TokenSelector
+F|Sufficit.Blazor.UI.Utilities.SUIStyleBuilder|System.String|AttributeName
 I|Sufficit.Blazor.UI.Components.SUIActionGroup|Microsoft.AspNetCore.Components.IComponent
 I|Sufficit.Blazor.UI.Components.SUIActionGroup|Microsoft.AspNetCore.Components.IHandleAfterRender
 I|Sufficit.Blazor.UI.Components.SUIActionGroup|Microsoft.AspNetCore.Components.IHandleEvent
@@ -907,6 +910,12 @@ M|Sufficit.Blazor.UI.Utilities.SUIClassBuilder|Sufficit.Blazor.UI.Utilities.SUIC
 M|Sufficit.Blazor.UI.Utilities.SUIClassBuilder|System.String|Build|()
 M|Sufficit.Blazor.UI.Utilities.SUIClassBuilder|System.String|Slug|(System.Object)
 M|Sufficit.Blazor.UI.Utilities.SUIClassBuilder|System.String|ToString|()
+M|Sufficit.Blazor.UI.Utilities.SUIStyleBuilder|Sufficit.Blazor.UI.Utilities.SUIStyleBuilder|AddUrl|(System.String,System.String)
+M|Sufficit.Blazor.UI.Utilities.SUIStyleBuilder|Sufficit.Blazor.UI.Utilities.SUIStyleBuilder|Add|(System.String,System.String,System.Boolean)
+M|Sufficit.Blazor.UI.Utilities.SUIStyleBuilder|Sufficit.Blazor.UI.Utilities.SUIStyleBuilder|Default|()
+M|Sufficit.Blazor.UI.Utilities.SUIStyleBuilder|System.Boolean|IsSafeProperty|(System.String)
+M|Sufficit.Blazor.UI.Utilities.SUIStyleBuilder|System.Boolean|IsSafeValue|(System.String)
+M|Sufficit.Blazor.UI.Utilities.SUIStyleBuilder|System.String|Build|()
 P|Sufficit.Blazor.UI.Components.SUIActionGroup|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIAlert|Microsoft.AspNetCore.Components.EventCallback|OnClose|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIAlert|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
@@ -1812,6 +1821,7 @@ T|class|Sufficit.Blazor.UI.Themes.SUIThemeOptions
 T|class|Sufficit.Blazor.UI.Themes.SUIThemeProvider
 T|class|Sufficit.Blazor.UI.Themes.SUITypography
 T|class|Sufficit.Blazor.UI.Utilities.SUIClassBuilder
+T|class|Sufficit.Blazor.UI.Utilities.SUIStyleBuilder
 T|class|Sufficit.Blazor.UI._Imports
 T|enum|Sufficit.Blazor.UI.Components.SUIAlign
 T|enum|Sufficit.Blazor.UI.Components.SUIAnimation

@@ -29,7 +29,8 @@ public sealed class ResponsiveDrawerTests
         Assert.Contains("sui-drawer--fullscreen-compact", drawer.ClassList);
         Assert.Equal("dialog", drawer.GetAttribute("role"));
         Assert.Equal("true", drawer.GetAttribute("aria-modal"));
-        Assert.Contains("--sui-drawer-width:280px", drawer.GetAttribute("style"));
+        Assert.Equal("--sui-drawer-width:280px", drawer.GetAttribute("data-sui-style"));
+        Assert.False(drawer.HasAttribute("style"));
 
         cut.Find("button[aria-label='Fechar navegação']").Click();
 

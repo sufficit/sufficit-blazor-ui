@@ -223,7 +223,8 @@ public sealed class RenderContractFeedbackTests
             .Add(component => component.Size, "32px"));
 
         Assert.Equal(4, table.FindAll(".sui-skeleton-text").Count);
-        Assert.Contains("width: 32px", circle.Find(".sui-skeleton-circle").GetAttribute("style"), StringComparison.Ordinal);
+        Assert.Equal("--sui-skeleton-size:32px", circle.Find(".sui-skeleton-circle").GetAttribute("data-sui-style"));
+        Assert.False(circle.Find(".sui-skeleton-circle").HasAttribute("style"));
     }
 
     [Fact]

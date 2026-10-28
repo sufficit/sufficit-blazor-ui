@@ -151,3 +151,6 @@ button, input, select, textarea { font: inherit; }
 .catalog__shell-body { display: flex; min-height: 12rem; gap: var(--sui-space-4); }
 .catalog__shell-body > .sui-layout__main { padding: var(--sui-space-4); }
 @media (max-width: 44rem) { .catalog__shell-body { flex-direction: column; } }
+
+/* CSP fixture: a narrow field so the select menu's own MenuWidth is measurable. */
+.catalog-csp-narrow { max-width: 12rem; }

@@ -54,8 +54,14 @@ const budgets = {
   // label marker and the monospace input: +193 B raw. Component-only rules
   // (checkbox description, rich tooltip) went to CSS isolation instead.
   // Under the AssetBudgetTests ceilings (60,928 / 11,264 / 9,984).
-  raw: 59_904,
-  gzip: 11_008,
+  // Ratcheted 2026-10-28 for strict CSP (style-src-attr 'none'): values SUI
+  // used to write as style="…" became classes (SUISection gap 0-6, SUIText
+  // tones that must beat .sui-text) or CSSOM custom properties with CSS
+  // fallbacks (skeleton size, capped nav collapse). Measured 60,770 / 11,104 /
+  // 9,674 B; raw now sits at the AssetBudgetTests ceiling, so the next rule
+  // must shave bytes elsewhere or ratchet both in a dedicated change.
+  raw: 60_928,
+  gzip: 11_200,
   brotli: 9_728,
 };
 

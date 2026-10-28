@@ -4,7 +4,7 @@
 @if (Flat)
 {
     @* Built from the stack and text classes: the only new CSS is the divider rule. *@
-    <section class="@Classname" style="@StyleValue" aria-labelledby="@TitleId" @attributes="AdditionalAttributes">
+    <section class="@Classname" style="@Style" aria-labelledby="@TitleId" @attributes="AdditionalAttributes">
         <div class="sui-stack sui-stack--row sui-stack--ai-center sui-stack--jc-between">
             <h2 id="@TitleId" class="sui-text sui-text--overline sui-section__title">@Title</h2>
             @Actions
@@ -23,7 +23,7 @@
 }
 else
 {
-    <section class="@Classname" style="@StyleValue" @attributes="AdditionalAttributes">
+    <section class="@Classname" style="@Style" @attributes="AdditionalAttributes">
         <SUICard Elevation="@Elevation">
             <SUICardHeader Icon="@Icon" Title="@Title" Description="@Description">
                 <Actions>@Actions</Actions>
@@ -83,33 +83,20 @@ else
     private readonly string _titleId = $"sui-section-{Guid.NewGuid():N}";
     private string TitleId => _titleId;
 
-    /// <summary>Additional inline declarations, appended after the generated gap variable.</summary>
-
-
     private string Classname
         => SUIClassBuilder.Default("sui-section")
             .AddClass("sui-stack sui-section--flat", Flat)
             .AddClass("sui-section--attached", Attached && !Flat)
+            .AddClass($"sui-section--gap-{EffectiveGap}", EffectiveGap is not null)
             .AddClass(Class)
             .Build();
 
-    private string? StyleValue
-    {
-        get
-        {
-            // Attached means glued to the previous section, so the gap is zero by
-            // definition; emitting it here keeps the stylesheet to the seam rules.
-            // space-0 does not exist in the scale: a requested 0 means "no gap".
-            var gap = (Attached && !Flat) || Gap is 0
-                ? "--sui-section-gap:0;"
-                : Gap.HasValue
-                    ? $"--sui-section-gap:var(--sui-space-{Math.Clamp(Gap.Value, 1, 6)});"
-                    : null;
-
-            var combined = gap + Style;
-            return string.IsNullOrWhiteSpace(combined) ? null : combined;
-        }
-    }
+    // A class, not an inline --sui-section-gap: a style attribute is ignored under a
+    // CSP with style-src-attr 'none'. Attached means glued to the previous
+    // section, so the gap is zero by definition; space-0 does not exist in the
+    // scale, so a requested 0 means "no gap".
+    private int? EffectiveGap
+        => (Attached && !Flat) || Gap is 0 ? 0 : Gap is int gap ? Math.Clamp(gap, 1, 6) : null;
 
     private int EffectiveContentSpacing => Math.Clamp(ContentSpacing, 0, 6);
 }

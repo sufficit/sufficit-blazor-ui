@@ -26,23 +26,20 @@
 
     private string Classname
         => SUIClassBuilder.Default($"sui-text sui-text--{Typo.ToString()}")
+            .AddClass(ColorClass)
             .AddClass(Class)
             .Build();
 
     private string AlignClass
         => Align is { } a ? $"sui-align-{a.ToString().ToLowerInvariant()}" : string.Empty;
 
-    private string ColorStyle => Color switch
+    // Classes, not a style attribute: the attribute is ignored under style-src-attr 'none'.
+    private string? ColorClass => Color switch
     {
-        SUIColor.Primary   => "color: var(--sui-color-primary);",
-        SUIColor.Secondary => "color: var(--sui-color-secondary);",
-        SUIColor.Success   => "color: var(--sui-color-success);",
-        SUIColor.Warning   => "color: var(--sui-color-warning);",
-        SUIColor.Error     => "color: var(--sui-color-error);",
-        SUIColor.Info      => "color: var(--sui-color-info);",
-        SUIColor.Inherit   => "color: inherit;",
-        SUIColor.Default   => "color: var(--sui-text-secondary);",
-        _ => string.Empty,
+        SUIColor.Primary or SUIColor.Secondary or SUIColor.Success or SUIColor.Warning
+            or SUIColor.Error or SUIColor.Info or SUIColor.Inherit => $"sui-color-{SUIClassBuilder.Slug(Color)}",
+        SUIColor.Default => "sui-text--secondary",
+        _ => null,
     };
 
     private string TagName => Tag switch
@@ -75,9 +72,8 @@
     {
         builder.OpenElement(0, TagName);
         builder.AddAttribute(1, "class", RenderClassName);
-        var combinedStyle = string.Concat(ColorStyle, Style ?? string.Empty);
-        if (!string.IsNullOrWhiteSpace(combinedStyle))
-            builder.AddAttribute(2, "style", combinedStyle);
+        if (!string.IsNullOrWhiteSpace(Style))
+            builder.AddAttribute(2, "style", Style);
         builder.AddMultipleAttributes(3, AdditionalAttributes.Select(attribute =>
             new KeyValuePair<string, object>(attribute.Key, attribute.Value!)));
         builder.AddContent(4, ChildContent);

@@ -154,23 +154,25 @@ public sealed class DesignTokenContractTests
     [Fact]
     public void Components_DoNotShipStaticInlineStyles()
     {
-        // Static inline styles break under a strict CSP (style-src without
-        // 'unsafe-inline') and dodge every contract in this suite. Dynamic
-        // Razor expressions (style="@...") stay allowed: they carry per-instance
-        // values that no class can express.
+        // A CSP with style-src-attr 'none' (identity runs one) ignores every
+        // style attribute, prerendered or set later by Blazor. So the only style
+        // a component may render is the consumer's own pass-through: @Style, or
+        // SUITable's per-row RowStyleFunc. Component-computed values travel as
+        // classes or through data-sui-style (CSSOM, see SUIStyleBuilder).
+        var allowed = new HashSet<string>(StringComparer.Ordinal)
+        {
+            "@Style",
+            "@RowStyleFunc?.Invoke(row.item, row.index)",
+        };
         var offenders = new List<string>();
         foreach (var file in RepositoryLayout.Files(RepositoryLayout.Src, "*.razor"))
         {
             var relative = RepositoryLayout.Relative(file);
-            foreach (Match match in Regex.Matches(File.ReadAllText(file), @"style\s*=\s*""(?<value>[^""]*)"""))
+            foreach (Match match in Regex.Matches(File.ReadAllText(file), @"(?<![\w-])style\s*=\s*""(?<value>[^""]*)"""))
             {
                 var value = match.Groups["value"].Value;
-                if (value.Contains('@'))
-                    continue;
-                if (value.Length == 0)
-                    continue; // style="" is a no-op placeholder
-
-                offenders.Add($"{relative}: style=\"{value}\"");
+                if (!allowed.Contains(value))
+                    offenders.Add($"{relative}: style=\"{value}\"");
             }
         }
 

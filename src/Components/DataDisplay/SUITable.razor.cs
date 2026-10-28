@@ -83,7 +83,11 @@ public partial class SUITable<TItem>
     [Parameter]
     public Func<TItem, int, string?>? RowClassFunc { get; set; }
 
-    /// <summary>Optional inline style calculated for each rendered row.</summary>
+    /// <summary>
+    /// Optional inline style calculated for each rendered row. Ignored by the
+    /// browser under a CSP with <c>style-src-attr 'none'</c>; prefer
+    /// <see cref="RowClassFunc"/> there.
+    /// </summary>
     [Parameter]
     public Func<TItem, int, string?>? RowStyleFunc { get; set; }
 

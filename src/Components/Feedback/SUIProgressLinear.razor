@@ -5,7 +5,7 @@
 <div class="@Classname" role="progressbar"
      aria-valuenow="@ClampedValue" aria-valuemin="0" aria-valuemax="100"
      aria-label="@AriaLabel" style="@Style" @attributes="AdditionalAttributes">
-    <div class="sui-progress-linear__bar" style="@ProgressStyle"></div>
+    <div class="sui-progress-linear__bar" data-sui-style="@ProgressCssomStyle"></div>
 </div>
 
 @code {
@@ -33,8 +33,12 @@
     private double ClampedValue
         => double.IsFinite(Value) ? Math.Clamp(Value, 0, 100) : 0;
 
-    private string ProgressStyle
-        => $"--sui-progress-scale:{(ClampedValue / 100).ToString("0.####", CultureInfo.InvariantCulture)}";
+    // CSSOM via data-sui-style: a style attribute is ignored under style-src-attr 'none'.
+    // Before JS runs the bar is empty and then grows (transform, no layout shift).
+    private string? ProgressCssomStyle
+        => SUIStyleBuilder.Default()
+            .Add("--sui-progress-scale", (ClampedValue / 100).ToString("0.####", CultureInfo.InvariantCulture))
+            .Build();
 
     private SUIColor EffectiveColor => ColorValue ?? SUIColor.Primary;
 }

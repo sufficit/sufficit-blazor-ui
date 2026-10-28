@@ -85,7 +85,7 @@ public sealed class FilterTreeTests
         Assert.NotNull(cut.Find("#match"));
         Assert.Empty(cut.FindAll("#other"));
         var wrapper = cut.Find("div");
-        Assert.DoesNotContain("display:none", wrapper.GetAttribute("style") ?? string.Empty);
+        Assert.False(wrapper.HasAttribute("hidden"));
     }
 
     [Fact]
@@ -100,11 +100,12 @@ public sealed class FilterTreeTests
                     .Add(component => component.Tags, new[] { "vendas" })
                     .AddChildContent("<span id='leaf'>Vendas</span>"))));
 
-        // Hidden with display:none rather than removed: unmounting would
+        // Hidden (attribute, CSP-safe) rather than removed: unmounting would
         // dispose the children, and disposed children cannot report a match
         // when the filter changes again.
         var wrapper = cut.Find("div");
-        Assert.Contains("display:none", wrapper.GetAttribute("style") ?? string.Empty);
+        Assert.True(wrapper.HasAttribute("hidden"));
+        Assert.False(wrapper.HasAttribute("style"));
     }
 
     [Fact]

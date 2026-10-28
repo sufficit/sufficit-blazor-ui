@@ -20,7 +20,7 @@
          aria-hidden="true"
          data-sui-popover-placement="@PlacementValue"
          data-sui-popover-arrow="@(ShowArrow ? "true" : "false")"
-         style="@PanelInlineStyle">
+         data-sui-style="@PanelCssomStyle">
         @Content
     </div>
 }
@@ -102,7 +102,12 @@
 
     private string PlacementValue => Placement.ToString().ToLowerInvariant();
 
-    private string PanelInlineStyle => $"max-width:{Math.Clamp(MaxWidth, 120, 1_200)}px;";
+    // CSSOM via data-sui-style (a style attribute is ignored under style-src-attr 'none');
+    // the CSS fallback is the default 340px.
+    private string? PanelCssomStyle
+        => SUIStyleBuilder.Default()
+            .Add("--sui-popover-max-width", $"{Math.Clamp(MaxWidth, 120, 1_200)}px", MaxWidth != 340)
+            .Build();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

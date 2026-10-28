@@ -19,8 +19,11 @@ O conteúdo em largura inteira segue a adaptação móvel da grade e não reserv
 ## Colunas desiguais
 
 `ColumnTemplate` recebe um `grid-template-columns` (ex.: `"2fr 1fr"`) e substitui a divisão igual de
-`Columns` acima de `44rem`; com `StackOnMobile` a grade continua empilhando em uma coluna. O valor vai numa
-custom property inline (`--sui-form-grid-template`) e é ignorado se contiver `;`, `{` ou `}`.
+`Columns` acima de `44rem`; com `StackOnMobile` a grade continua empilhando em uma coluna. O valor vai em
+`data-sui-style` (`--sui-form-grid-template`), aplicado via CSSOM para funcionar sob CSP estrita
+(`style-src-attr 'none'`); antes do JS a grade divide as trilhas em colunas iguais. Valores fora da
+allow-list (`;`, chaves, aspas, `url()`, funções além de `minmax`/`repeat`/`calc`/`var`/`min`/`max`/
+`clamp`/`fit-content`) são ignorados e a grade volta à divisão igual. Veja [CSP estrita](README.md#csp-estrita).
 
 ```razor
 <SUIFormGrid ColumnTemplate="minmax(0, 2fr) minmax(0, 1fr)">…</SUIFormGrid>

@@ -2,7 +2,7 @@
 @inherits SUIComponentBase
 @using Sufficit.Blazor.UI.Utilities
 
-<nav class="@ClassName" style="@InlineStyle" aria-label="@AriaLabel" @attributes="AdditionalAttributes">
+<nav class="@ClassName" style="@Style" aria-label="@AriaLabel" @attributes="AdditionalAttributes">
     <ol class="sui-stack sui-stack--row sui-stack--wrap sui-progress-steps__list">
         @for (var index = 0; index < Steps.Count; index++)
         {
@@ -94,7 +94,6 @@
             .AddClass(Class)
             .Build();
 
-    private string? InlineStyle => Style;
 
     private string StateFor(int index)
         => index < EffectiveActiveIndex

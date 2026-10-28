@@ -3,7 +3,8 @@
 
 <div @attributes="AdditionalAttributes"
      class="@Classname"
-     style="@StyleValue"
+     style="@Style"
+     data-sui-style="@CssomStyle"
      data-sui-align-row>
     @ChildContent
     @if (FullWidthContent is not null)
@@ -60,17 +61,17 @@
 
     private const string DefaultMinColumnWidth = "14rem";
 
-    // A declaration separator would let the value write other properties.
-    private bool HasTemplate
-        => !string.IsNullOrWhiteSpace(ColumnTemplate) && ColumnTemplate.IndexOfAny([';', '{', '}']) < 0;
+    // Validated by the same allow-list the JS initializer applies; an invalid
+    // template falls back to the equal split instead of leaking a declaration.
+    private bool HasTemplate => SUIStyleBuilder.IsSafeValue(ColumnTemplate);
 
     // Columns, gap and label lines are classes, not an inline style: a page
-    // whose CSP drops style-src-attr 'unsafe-inline' would otherwise lose the
-    // whole grid layout. Only a non-default minimum width or a caller Style
-    // still needs the attribute.
+    // whose CSP has style-src-attr 'none' ignores a style attribute. Free-form values
+    // (template, minimum width) go through data-sui-style (CSSOM); before JS
+    // runs, a template grid shows its track count as equal columns.
     private string Classname
         => SUIClassBuilder.Default("sui-form-grid")
-            .AddClass($"sui-form-grid--columns-{EffectiveColumns}")
+            .AddClass($"sui-form-grid--columns-{(HasTemplate ? TemplateTrackCount : EffectiveColumns)}")
             .AddClass($"sui-form-grid--gap-{EffectiveSpacing}")
             .AddClass($"sui-form-grid--label-lines-{EffectiveLabelLines}")
             .AddClass("sui-form-grid--stack-mobile", StackOnMobile)
@@ -79,16 +80,27 @@
             .AddClass(Class)
             .Build();
 
-    private string? StyleValue
+    private string? CssomStyle
+        => SUIStyleBuilder.Default()
+            .Add("--sui-form-grid-min-width", MinColumnWidth, MinColumnWidth != DefaultMinColumnWidth)
+            .Add("--sui-form-grid-template", ColumnTemplate, HasTemplate)
+            .Build();
+
+    // Top-level tracks of the template (1-4), for the prerender fallback.
+    private int TemplateTrackCount
     {
         get
         {
-            var minWidth = string.IsNullOrWhiteSpace(MinColumnWidth) || MinColumnWidth == DefaultMinColumnWidth
-                ? string.Empty
-                : $"--sui-form-grid-min-width:{MinColumnWidth};";
-            var template = HasTemplate ? $"--sui-form-grid-template:{ColumnTemplate!.Trim()};" : string.Empty;
-            var value = minWidth + template + (string.IsNullOrWhiteSpace(Style) ? string.Empty : Style);
-            return value.Length == 0 ? null : value;
+            int depth = 0, count = 0;
+            var inTrack = false;
+            foreach (var character in ColumnTemplate!)
+            {
+                depth += character == '(' ? 1 : character == ')' ? -1 : 0;
+                var separator = depth == 0 && char.IsWhiteSpace(character);
+                if (!separator && !inTrack) count++;
+                inTrack = !separator;
+            }
+            return Math.Clamp(count, 1, 4);
         }
     }
 }

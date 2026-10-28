@@ -62,6 +62,13 @@ if grep -Eq '^lib/net9\.0/' <<<"$entries"; then
   exit 1
 fi
 
+# JS initializer that applies data-sui-style through CSSOM (strict CSP). The
+# SDK fingerprints initializers; blazor.web.js finds them via the manifest.
+if ! grep -Eq '^staticwebassets/Sufficit\.Blazor\.UI\.([^.]+\.)?lib\.module\.js$' <<<"$entries"; then
+  echo "missing package entry: Sufficit.Blazor.UI.lib.module.js (JS initializer)" >&2
+  exit 1
+fi
+
 if ! grep -Eq '^staticwebassets/Sufficit\.Blazor\.UI\.[^.]+\.bundle\.scp\.css$' <<<"$entries"; then
   echo "missing package entry: fingerprinted CSS-isolation bundle" >&2
   exit 1

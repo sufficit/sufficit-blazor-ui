@@ -202,13 +202,18 @@ public sealed class ConsumerGapsFieldTests
         var root = cut.Find(".sui-form-grid");
         Assert.Contains("sui-form-grid--template", root.ClassList);
         Assert.Contains("sui-form-grid--stack-mobile", root.ClassList);
-        Assert.Equal("--sui-form-grid-template:2fr 1fr;", root.GetAttribute("style"));
+        Assert.Equal("--sui-form-grid-template:2fr 1fr", root.GetAttribute("data-sui-style"));
+        Assert.False(root.HasAttribute("style"));
+        // Before JS applies the template, the two tracks split equally.
+        Assert.Contains("sui-form-grid--columns-2", root.ClassList);
 
         var injected = context.Render<SUIFormGrid>(p => p.Add(c => c.ColumnTemplate, "1fr; color: red"));
-        Assert.Null(injected.Find(".sui-form-grid").GetAttribute("style"));
+        Assert.Null(injected.Find(".sui-form-grid").GetAttribute("data-sui-style"));
+        Assert.DoesNotContain("sui-form-grid--template", injected.Find(".sui-form-grid").ClassList);
 
         var plain = context.Render<SUIFormGrid>();
         Assert.DoesNotContain("sui-form-grid--template", plain.Find(".sui-form-grid").ClassList);
         Assert.Null(plain.Find(".sui-form-grid").GetAttribute("style"));
+        Assert.Null(plain.Find(".sui-form-grid").GetAttribute("data-sui-style"));
     }
 }

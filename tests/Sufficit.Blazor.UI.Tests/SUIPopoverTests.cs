@@ -40,7 +40,8 @@ public sealed class SUIPopoverTests
 
         var panel = cut.Find("[role='tooltip']");
         Assert.Equal("left", panel.GetAttribute("data-sui-popover-placement"));
-        Assert.Contains("max-width:420px", panel.GetAttribute("style"));
+        Assert.Equal("--sui-popover-max-width:420px", panel.GetAttribute("data-sui-style"));
+        Assert.False(panel.HasAttribute("style"));
     }
 
     [Fact]

@@ -223,11 +223,12 @@ public sealed class RenderContractDataDisplayTests
         var unsafeImage = context.Render<SUIStat>(parameters => parameters
             .Add(c => c.Appearance, SUIStatAppearance.Image)
             .Add(c => c.BackgroundImage, "x\"); background:url(javascript:alert(1))"));
-        Assert.DoesNotContain("--sui-stat-image", unsafeImage.Find(".sui-stat").GetAttribute("style") ?? "", StringComparison.Ordinal);
+        Assert.Null(unsafeImage.Find(".sui-stat").GetAttribute("data-sui-style"));
         var image = context.Render<SUIStat>(parameters => parameters
             .Add(c => c.Appearance, SUIStatAppearance.Image)
             .Add(c => c.BackgroundImage, "/images/bg.webp"));
-        Assert.Contains("--sui-stat-image:url(\"/images/bg.webp\")", image.Find(".sui-stat").GetAttribute("style"), StringComparison.Ordinal);
+        Assert.Equal("--sui-stat-image:url(\"/images/bg.webp\")", image.Find(".sui-stat").GetAttribute("data-sui-style"));
+        Assert.False(image.Find(".sui-stat").HasAttribute("style"));
     }
 
     [Fact]
