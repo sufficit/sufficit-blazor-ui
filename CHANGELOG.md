@@ -8,6 +8,12 @@ definem a numeração das próximas publicações.
 
 ## [Unreleased]
 
+### Fixed
+- The CSSOM style initializer now also ships as `_content/Sufficit.Blazor.UI/sui-style.js`
+  (stable name; `startSuiStyle()`), for hosts that load Blazor without the
+  static-assets manifest and therefore never run the fingerprinted
+  `lib.module.js` initializer.
+
 ### Corrigido
 - CSP estrita (`style-src-attr 'none'`, como no identity): a SUI não renderiza mais atributos `style` com
   valores próprios — o navegador os ignorava e, por exemplo, `SUIFormGrid.ColumnTemplate` caía em colunas

@@ -247,10 +247,16 @@ public sealed class NamingConventionTests
         // data-sui-style through CSSOM. It must be global because static SSR
         // and prerendered markup have no component lifecycle to import a
         // colocated module from, and a strict CSP ignores the style attribute.
-        const string initializer = "src/wwwroot/Sufficit.Blazor.UI.lib.module.js";
+        // The initializer's code lives in sui-style.js, whose stable name lets
+        // hosts without Blazor initializers import it.
+        string[] initializer =
+        [
+            "src/wwwroot/Sufficit.Blazor.UI.lib.module.js",
+            "src/wwwroot/sui-style.js",
+        ];
         var offenders = RepositoryLayout.Files(RepositoryLayout.Src, "*.js")
             .Where(file => !file.EndsWith(".razor.js", StringComparison.Ordinal))
-            .Where(file => RepositoryLayout.Relative(file) != initializer)
+            .Where(file => !initializer.Contains(RepositoryLayout.Relative(file)))
             .Select(RepositoryLayout.Relative)
             .ToArray();
 

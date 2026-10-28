@@ -89,9 +89,13 @@ public sealed class StyleBuilderTests
     [Fact]
     public void Initializer_ShipsAndOnlyHonorsSuiCustomProperties()
     {
-        var script = File.ReadAllText(Path.Combine(RepositoryLayout.WebRoot, "Sufficit.Blazor.UI.lib.module.js"));
-        Assert.Contains("export function beforeWebStart", script, StringComparison.Ordinal);
-        Assert.Contains("export function afterStarted", script, StringComparison.Ordinal);
+        var initializer = File.ReadAllText(Path.Combine(RepositoryLayout.WebRoot, "Sufficit.Blazor.UI.lib.module.js"));
+        Assert.Contains("export function beforeWebStart", initializer, StringComparison.Ordinal);
+        Assert.Contains("export function afterStarted", initializer, StringComparison.Ordinal);
+        Assert.Contains("from './sui-style.js'", initializer, StringComparison.Ordinal);
+        // The work ships under a stable name for hosts without initializers.
+        var script = File.ReadAllText(Path.Combine(RepositoryLayout.WebRoot, "sui-style.js"));
+        Assert.Contains("export function startSuiStyle", script, StringComparison.Ordinal);
         Assert.Contains("const NAME = /^--sui-[a-z0-9-]+$/;", script, StringComparison.Ordinal);
         Assert.Contains("setProperty", script, StringComparison.Ordinal);
         Assert.DoesNotContain("setAttribute('style'", script, StringComparison.Ordinal);
