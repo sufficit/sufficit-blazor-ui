@@ -1,4 +1,4 @@
-export { openSelectMenu, closeSelectMenu, revealActiveOption } from './SUISelect.razor.js?v=2';
+export { openSelectMenu, closeSelectMenu, revealActiveOption } from './SUISelect.razor.js?v=3';
 const listeners = new WeakMap();
 export function connect(input) {
     if (!input?.isConnected || listeners.has(input)) return;

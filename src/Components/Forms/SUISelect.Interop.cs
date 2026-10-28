@@ -15,7 +15,7 @@ public partial class SUISelect<TValue>
 
         _module ??= await JS.InvokeAsync<IJSObjectReference>(
             "import",
-            "./_content/Sufficit.Blazor.UI/Components/Forms/SUISelect.razor.js?v=2");
+            "./_content/Sufficit.Blazor.UI/Components/Forms/SUISelect.razor.js?v=3");
         if (!_keyboardInteropConnected)
         {
             await _module.InvokeVoidAsync("connectSelectTrigger", _triggerElement);
@@ -36,7 +36,9 @@ public partial class SUISelect<TValue>
             await _module.InvokeVoidAsync(
                 "openSelectMenu",
                 _triggerElement,
-                _menuElement);
+                _menuElement,
+                MenuLength(MenuWidth),
+                MenuLength(MenuMaxWidth));
         }
         else if (!_open && _interopOpen)
         {

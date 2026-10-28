@@ -5,13 +5,18 @@
 // to read as a click that did nothing. This listens in the capture phase, so
 // the pending class is on the button before Blazor is told about the click;
 // when IsLoading arrives, Blazor rewrites the class and the real spinner takes
-// over.
+// over. A click answered without IsLoading ever changing leaves the class
+// attribute untouched, so the component calls release() after that render.
 const PENDING = "sui-btn--pending";
 
 // A press that never becomes IsLoading must not leave the button pending.
 const RELEASE_MS = 8000;
 
 let registered = false;
+
+export function release(element) {
+  element?.classList?.remove(PENDING);
+}
 
 export function register() {
   if (registered) return;

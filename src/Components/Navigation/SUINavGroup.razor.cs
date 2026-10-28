@@ -172,7 +172,7 @@ namespace Sufficit.Blazor.UI.Components
         [Parameter] public string? Title { get; set; }
         /// <summary>Optional secondary line rendered under the title.</summary>
         [Parameter] public string? SubTitle { get; set; }
-        /// <summary>Inline SVG markup for the leading icon. Without it (and without <see cref="IconContent"/>) an avatar with the title initials is shown.</summary>
+        /// <summary>Leading icon: an <see cref="SUIIcon"/> name or inline SVG markup. Without it (and without <see cref="IconContent"/>) an avatar with the title initials is shown.</summary>
         [Parameter] public string? Icon { get; set; }
         /// <summary>Semantic colour of the leading icon or initials avatar. Default <see cref="SUIColor.Default"/>.</summary>
         [Parameter] public SUIColor IconColor { get; set; } = SUIColor.Default;
@@ -186,7 +186,7 @@ namespace Sufficit.Blazor.UI.Components
         [Parameter] public bool HideExpandIcon { get; set; }
         /// <summary>Optional max-height in pixels for the collapsible children area.</summary>
         [Parameter] public int? MaxHeight { get; set; }
-        /// <summary>Inline SVG markup for the expand chevron. Default <see cref="SUIIcons.ArrowDropDown"/>.</summary>
+        /// <summary>Expand chevron: an <see cref="SUIIcon"/> name or inline SVG markup. Default <see cref="SUIIcons.ArrowDropDown"/>.</summary>
         [Parameter] public string ExpandIcon { get; set; } = SUIIcons.ArrowDropDown;
         /// <summary>Nested navigation links and groups.</summary>
         [Parameter] public RenderFragment? ChildContent { get; set; }

@@ -161,24 +161,14 @@ public partial class SUISelect<TValue>
         ? "sui-select__menu sui-select__menu--open"
         : "sui-select__menu";
 
-    private string? MenuStyle
-    {
-        get
-        {
-            var declarations = new List<string>(2);
-            if (!string.IsNullOrWhiteSpace(MenuWidth))
-            {
-                declarations.Add($"--sui-select-menu-width: {MenuWidth.Trim()}");
-            }
-
-            if (!string.IsNullOrWhiteSpace(MenuMaxWidth))
-            {
-                declarations.Add($"--sui-select-menu-max-width: {MenuMaxWidth.Trim()}");
-            }
-
-            return declarations.Count == 0 ? null : string.Join("; ", declarations);
-        }
-    }
+    // Applied by the browser module through CSSOM (style.setProperty) when
+    // the menu opens: a style attribute in the markup is exactly what a strict
+    // CSP (style-src-attr 'none') drops. A declaration separator would let the
+    // value smuggle other properties, so such a value is ignored.
+    private static string? MenuLength(string? value)
+        => string.IsNullOrWhiteSpace(value) || value.IndexOfAny([';', '{', '}']) >= 0
+            ? null
+            : value.Trim();
 
     void ISUISelectRegistry.Register(SUISelectItem item)
     {

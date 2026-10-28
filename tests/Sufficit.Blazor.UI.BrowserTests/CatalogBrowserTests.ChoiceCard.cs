@@ -20,7 +20,6 @@ public sealed partial class CatalogBrowserTests
                     const content = card.querySelector('.sui-choice-card__content');
                     const trailing = card.querySelector('.sui-choice-card__indicator');
                     card.classList.add('sui-choice-card--has-custom-trailing');
-                    card.style.setProperty('--_choice-trailing-track', 'minmax(min-content,15rem)');
                     trailing.className = 'sui-choice-card__trailing sui-choice-card__trailing--custom';
                     trailing.textContent = 'Nenhuma oferta compatível agora';
 
@@ -58,5 +57,41 @@ public sealed partial class CatalogBrowserTests
                 Assert.That(root.GetProperty("stacked").GetBoolean(), Is.False);
             }
         }
+    }
+
+    [Test]
+    public async Task ChoiceCard_NarrowCard_KeepsTheTextColumnAndWrapsTrailing()
+    {
+        await Page.SetViewportSizeAsync(1440, 900);
+        await Page.GotoAsync(BaseUrl, new() { WaitUntil = Microsoft.Playwright.WaitUntilState.NetworkIdle });
+        await Expect(Page.Locator("[data-catalog-ready]")).ToBeVisibleAsync();
+
+        // The viewport is wide; only the card is narrow (a side panel column).
+        var reportJson = await Page.EvaluateAsync<string>(
+            """
+            () => {
+                const card = document.querySelector('.sui-choice-card');
+                const content = card.querySelector('.sui-choice-card__content');
+                const trailing = card.querySelector('.sui-choice-card__indicator');
+                card.classList.add('sui-choice-card--has-custom-trailing');
+                card.style.width = '320px';
+                trailing.className = 'sui-choice-card__trailing sui-choice-card__trailing--custom';
+                trailing.textContent = 'Nenhuma oferta compatível agora com este plano';
+
+                const contentBox = content.getBoundingClientRect();
+                const trailingBox = trailing.getBoundingClientRect();
+                return JSON.stringify({
+                    contentWidth: contentBox.width,
+                    stacked: trailingBox.top >= contentBox.bottom - 1,
+                    cardOverflow: card.scrollWidth - card.clientWidth,
+                });
+            }
+            """);
+
+        using var report = JsonDocument.Parse(reportJson);
+        var root = report.RootElement;
+        Assert.That(root.GetProperty("cardOverflow").GetDouble(), Is.LessThanOrEqualTo(0));
+        Assert.That(root.GetProperty("stacked").GetBoolean(), Is.True);
+        Assert.That(root.GetProperty("contentWidth").GetDouble(), Is.GreaterThan(180));
     }
 }

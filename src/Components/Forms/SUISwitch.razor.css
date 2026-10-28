@@ -6,3 +6,5 @@
 
 .sui-switch__helper { display: block; padding: 0; margin-top: var(--sui-space-1); }
 .sui-switch:has(.sui-switch__helper) { align-items: start; }
+
+.sui-switch-field > .sui-switch { align-self: flex-start; min-block-size: var(--sui-control-h-md); }

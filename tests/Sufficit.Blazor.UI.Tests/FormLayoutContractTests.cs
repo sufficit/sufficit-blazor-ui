@@ -204,9 +204,8 @@ public sealed class FormLayoutContractTests
         var root = cut.Find(".sui-choice-card");
         Assert.Contains("sui-choice-card--has-trailing", root.ClassList);
         Assert.Contains("sui-choice-card--has-custom-trailing", root.ClassList);
-        Assert.Contains(
-            "--_choice-trailing-track:minmax(min-content,15rem)",
-            root.GetAttribute("style"));
+        // Layout comes from classes only: a strict CSP drops inline styles.
+        Assert.False(root.HasAttribute("style"));
         Assert.Contains(
             "sui-choice-card__trailing--custom",
             cut.Find(".sui-choice-card__trailing").ClassList);

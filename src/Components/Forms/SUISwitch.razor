@@ -2,44 +2,69 @@
 @namespace Sufficit.Blazor.UI.Components
 @inherits SUIComponentBase
 
-<label class="@Classname" style="@Style" @attributes="AdditionalAttributes">
-    <input type="checkbox" class="sui-switch__input"
-           id="@EffectiveId"
-           name="@Name"
-           value="@FormValue"
-           aria-labelledby="@(string.IsNullOrWhiteSpace(Label) ? null : LabelId)"
-           aria-describedby="@DescribedBy"
-           aria-invalid="@(HasError ? "true" : null)"
-           aria-errormessage="@(!string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null)"
-           checked="@Value"
-           @onchange="OnChanged"
-           disabled="@Disabled" />
-    <span class="sui-switch__track" aria-hidden="true"></span>
-    @if (!string.IsNullOrWhiteSpace(HelperText))
-    {
-        <span>
-            @if (!string.IsNullOrWhiteSpace(Label))
-            {
-                <span id="@LabelId" class="sui-switch__label">@Label</span>
-            }
-            @if (!string.IsNullOrWhiteSpace(HelperText))
-            {
-                <span id="@HelperId" class="sui-field__helper sui-switch__helper">@HelperText</span>
-            }
-        </span>
-    }
-    else if (!string.IsNullOrWhiteSpace(Label))
-    {
-        <span id="@LabelId" class="sui-switch__label">@Label</span>
-    }
-</label>
-
-@if (!string.IsNullOrWhiteSpace(EffectiveErrorText))
+@if (AlignWithFields)
 {
-    <span id="@ErrorId" class="sui-field__error" role="alert">@EffectiveErrorText</span>
+    @* Same skeleton as a text field: an (empty) label slot the form grid
+       reserves, then the control row at the input height, so the switch lines
+       up with the inputs beside it. *@
+    <div class="sui-field sui-switch-field" data-sui-align-field>
+        <span class="sui-field__label" data-sui-field-label aria-hidden="true"></span>
+        @Control
+    </div>
+}
+else
+{
+    @Control
 }
 
 @code {
+    /// <summary>
+    /// Lines the switch up with text fields beside it in a <see cref="SUIFormGrid"/>:
+    /// reserves the label space the grid gives field labels and centres the
+    /// switch on the input row. Off by default (the switch sits at the top).
+    /// </summary>
+    [Parameter] public bool AlignWithFields { get; set; }
+
+    private RenderFragment Control => __builder =>
+    {
+        <label class="@Classname" style="@Style" @attributes="AdditionalAttributes">
+            <input type="checkbox" class="sui-switch__input"
+                   id="@EffectiveId"
+                   name="@Name"
+                   value="@FormValue"
+                   aria-labelledby="@(string.IsNullOrWhiteSpace(Label) ? null : LabelId)"
+                   aria-describedby="@DescribedBy"
+                   aria-invalid="@(HasError ? "true" : null)"
+                   aria-errormessage="@(!string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null)"
+                   checked="@Value"
+                   @onchange="OnChanged"
+                   disabled="@Disabled" />
+            <span class="sui-switch__track" aria-hidden="true"></span>
+            @if (!string.IsNullOrWhiteSpace(HelperText))
+            {
+                <span>
+                    @if (!string.IsNullOrWhiteSpace(Label))
+                    {
+                        <span id="@LabelId" class="sui-switch__label">@Label</span>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(HelperText))
+                    {
+                        <span id="@HelperId" class="sui-field__helper sui-switch__helper">@HelperText</span>
+                    }
+                </span>
+            }
+            else if (!string.IsNullOrWhiteSpace(Label))
+            {
+                <span id="@LabelId" class="sui-switch__label">@Label</span>
+            }
+        </label>
+
+        @if (!string.IsNullOrWhiteSpace(EffectiveErrorText))
+        {
+            <span id="@ErrorId" class="sui-field__error" role="alert">@EffectiveErrorText</span>
+        }
+    };
+
     public void Dispose() => _field.Dispose();
 
     protected override void OnParametersSet() => _field.Configure(FormContext, ValueExpression, () => _ = InvokeAsync(StateHasChanged));

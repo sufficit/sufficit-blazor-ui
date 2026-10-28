@@ -648,7 +648,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Leading icon: an SUIIcon name (e.g. \"key\") or SUIIcons SVG markup.",
         "name": "StartIcon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -656,7 +656,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Trailing icon: an SUIIcon name or SUIIcons SVG markup.",
         "name": "EndIcon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -1725,7 +1725,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITable TItem=\"string\" Items=\"Array.Empty<string>()\" ColumnCount=\"1\">\n<HeaderContent>\n<SUITh>Serviço</SUITh>\n</HeaderContent>\n<NoRecordsContent>\n<SUITableEmpty Title=\"Nenhum serviço encontrado\" />\n</NoRecordsContent>\n</SUITable>\n",
     "parameters": [
       {
-        "description": "",
+        "description": "Icon: an SUIIcon name or SUIIcons SVG markup. Default SUIIcons.SearchOff.",
         "name": "Icon",
         "type": "string",
         "default": "SUIIcons.SearchOff",
@@ -2352,6 +2352,14 @@
         "description": "Legacy alias for Actions (Identity convention).",
         "name": "ActionContent",
         "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Semantic tone of the icon: SUITone.Danger for a failure, SUITone.Warning for a caution, and so on. Null (default) and SUITone.Neutral keep the muted secondary icon.",
+        "name": "ToneValue",
+        "type": "SUITone?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -4506,6 +4514,14 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISwitch Label=\"Ativar notificações\" HelperText=\"Receber avisos sobre operações e alterações de estado.\" @bind-Value=\"Enabled\" />\n\n@code {\n    protected bool Enabled { get; set; } = true;\n}\n",
     "parameters": [
       {
+        "description": "Lines the switch up with text fields beside it in a SUIFormGrid: reserves the label space the grid gives field labels and centres the switch on the input row. Off by default (the switch sits at the top).",
+        "name": "AlignWithFields",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "",
         "name": "ValueExpression",
         "type": "System.Linq.Expressions.Expression<Func<bool>>?",
@@ -6221,7 +6237,7 @@
         "deprecated": false
       },
       {
-        "description": "Inline SVG markup for the leading icon. Without it (and without IconContent) an avatar with the title initials is shown.",
+        "description": "Leading icon: an SUIIcon name or inline SVG markup. Without it (and without IconContent) an avatar with the title initials is shown.",
         "name": "Icon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -6277,7 +6293,7 @@
         "deprecated": false
       },
       {
-        "description": "Inline SVG markup for the expand chevron. Default SUIIcons.ArrowDropDown.",
+        "description": "Expand chevron: an SUIIcon name or inline SVG markup. Default SUIIcons.ArrowDropDown.",
         "name": "ExpandIcon",
         "type": "string",
         "default": "SUIIcons.ArrowDropDown",
@@ -6380,7 +6396,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Leading icon: an SUIIcon name (e.g. \"users\") or SUIIcons SVG markup.",
         "name": "Icon",
         "type": "string?",
         "default": "Padrão do tipo",

@@ -3,7 +3,7 @@
 
 <div class="@GetClassName()" style="@Style" @attributes="AdditionalAttributes">
     <span class="sui-icon sui-icon--large sui-table-empty__icon">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@SUIIconMarkup.Render(Icon)</svg>
+        @SUIClickLoading.Glyph(Icon)
     </span>
 
     <div class="sui-text sui-text--@TitleTypo.ToString() sui-text--secondary sui-table-empty__title">@Title</div>
@@ -27,6 +27,7 @@
 </div>
 
 @code {
+    /// <summary>Icon: an <see cref="SUIIcon"/> name or <see cref="SUIIcons"/> SVG markup. Default <see cref="SUIIcons.SearchOff"/>.</summary>
     [Parameter]
     public string Icon { get; set; } = SUIIcons.SearchOff;
 

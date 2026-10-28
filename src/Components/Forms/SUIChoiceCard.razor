@@ -12,20 +12,20 @@
     @* Action mode: the card is a link or a button ("pick and go"), not a radio. *@
     @if (!string.IsNullOrWhiteSpace(Href) && !Disabled)
     {
-        <a class="@ClassName" style="@StyleValue" href="@Href" @onclick="ActivateAsync" @attributes="AdditionalAttributes">
+        <a class="@ClassName" style="@Style" href="@Href" @onclick="ActivateAsync" @attributes="AdditionalAttributes">
             @Body
         </a>
     }
     else
     {
-        <button type="button" class="@ClassName" style="@StyleValue" disabled="@Disabled" @onclick="ActivateAsync" @attributes="AdditionalAttributes">
+        <button type="button" class="@ClassName" style="@Style" disabled="@Disabled" @onclick="ActivateAsync" @attributes="AdditionalAttributes">
             @Body
         </button>
     }
 }
 else
 {
-    <label class="@ClassName" style="@StyleValue" @attributes="AdditionalAttributes">
+    <label class="@ClassName" style="@Style" @attributes="AdditionalAttributes">
         <input class="sui-choice-card__input"
                id="@InputId"
                name="@Name"
@@ -204,11 +204,6 @@ else
             .Build();
 
     private bool HasTrailing => TrailingContent is not null || ShowSelectionIndicator;
-
-    private string? StyleValue
-        => TrailingContent is null
-            ? Style
-            : $"--_choice-trailing-track:minmax(min-content,15rem);{Style}";
 
     private string TrailingClassName
         => SUIClassBuilder.Default("sui-choice-card__trailing")

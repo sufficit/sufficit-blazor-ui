@@ -239,4 +239,82 @@ public static class SUIIcons
     /// <summary>Glyph: payment card; payment and checkout areas.</summary>
     public const string Payments =
         "<rect x=\"3\" y=\"6\" width=\"18\" height=\"12\" rx=\"2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/><path d=\"M3 10h18M7 14h4\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"/>";
+
+    /// <summary>Glyph: key; credentials, secrets and API keys. Same artwork as the "key" <see cref="SUIIcon"/> name.</summary>
+    public const string Key =
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<circle cx=\"7.5\" cy=\"15.5\" r=\"4.5\"/><path d=\"m10.7 12.3 8-8M15 8l2 2M17.5 5.5l2 2\"/>" +
+        "</g>";
+
+    /// <summary>Glyph: closed padlock; locked or protected state.</summary>
+    public const string Lock =
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<rect x=\"4\" y=\"10\" width=\"16\" height=\"11\" rx=\"2\"/><path d=\"M8 10V7a4 4 0 0 1 8 0v3\"/>" +
+        "</g>";
+
+    /// <summary>Glyph: open padlock; unlocked state or unlock actions.</summary>
+    public const string Unlock =
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<rect x=\"4\" y=\"10\" width=\"16\" height=\"11\" rx=\"2\"/><path d=\"M8 10V7a4 4 0 0 1 7.9-1\"/>" +
+        "</g>";
+
+    /// <summary>Glyph: single person; account and profile.</summary>
+    public const string User =
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<path d=\"M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/>" +
+        "</g>";
+
+    /// <summary>Glyph: two people; users, members and groups.</summary>
+    public const string Users =
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/><path d=\"M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75\"/>" +
+        "</g>";
+
+    /// <summary>Glyph: check mark; confirm and done.</summary>
+    public const string Check =
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<path d=\"m20 6-11 11-5-5\"/>" +
+        "</g>";
+
+    /// <summary>Glyph: circled "i"; informational hints.</summary>
+    public const string Info =
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 11v5M12 8h.01\"/>" +
+        "</g>";
+
+    /// <summary>Glyph: arrow into a tray; download actions.</summary>
+    public const string Download =
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<path d=\"M12 3v12M7 10l5 5 5-5M4 21h16\"/>" +
+        "</g>";
+
+    /// <summary>Glyph: arrow out of a tray; upload actions.</summary>
+    public const string Upload =
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<path d=\"M12 21V9M7 14l5-5 5 5M4 3h16\"/>" +
+        "</g>";
+
+    /// <summary>Glyph: open eye; show or preview.</summary>
+    public const string Eye =
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<path d=\"M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/>" +
+        "</g>";
+
+    /// <summary>Glyph: struck-through eye; hide or conceal.</summary>
+    public const string EyeOff =
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<path d=\"M3 3l18 18M10.6 10.6a2 2 0 0 0 2.8 2.8M9.9 4.2A10.8 10.8 0 0 1 12 4c5.5 0 9 6 9 8a12.7 12.7 0 0 1-2.1 3.4M6.6 6.6C4.4 8.1 3 10.6 3 12c0 2 3.5 8 9 8a10.8 10.8 0 0 0 3.1-.5\"/>" +
+        "</g>";
+
+    /// <summary>Glyph: calendar page; dates and scheduling.</summary>
+    public const string Calendar =
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<rect x=\"3\" y=\"5\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M16 3v4M8 3v4M3 10h18\"/>" +
+        "</g>";
+
+    /// <summary>Glyph: bell; notifications and alerts.</summary>
+    public const string Bell =
+        "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+        "<path d=\"M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4\"/>" +
+        "</g>";
 }

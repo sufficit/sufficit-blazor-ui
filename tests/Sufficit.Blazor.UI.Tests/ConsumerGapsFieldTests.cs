@@ -142,6 +142,7 @@ public sealed class ConsumerGapsFieldTests
             .Add(c => c.Label, "Descrição")
             .Add(c => c.Optional, true));
         Assert.Equal("(opcional)", text.Find("label .sui-field__optional").TextContent);
+        Assert.Equal("Descrição (opcional)", text.Find("label").TextContent);
 
         var numeric = context.Render<SUINumericField<int>>(p => p
             .Add(c => c.Label, "Limit")

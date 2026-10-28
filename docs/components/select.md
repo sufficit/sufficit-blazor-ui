@@ -8,7 +8,8 @@ identificador previsível.
 Teclado: ArrowUp/Down abre e navega, Home/End saltam, Enter/Space selecionam,
 Escape fecha e Tab segue para o próximo controle. O menu usa Popover API e não
 é cortado por overflow. `MenuWidth`/`MenuMaxWidth` aceitam comprimentos CSS, com
-guarda do viewport.
+guarda do viewport; o módulo JS os aplica via CSSOM ao abrir (seguro sob CSP estrita,
+sem atributo `style`).
 
 O módulo `SUISelect.razor.js` posiciona o popover, cancela apenas as teclas que
 o listbox possui e remove listeners/ResizeObserver no dispose. Import relativo

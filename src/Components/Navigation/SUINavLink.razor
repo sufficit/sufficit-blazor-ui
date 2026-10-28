@@ -51,6 +51,7 @@
     [Parameter] public NavLinkMatch Match { get; set; } = NavLinkMatch.Prefix;
     [Parameter] public bool ForceLoad { get; set; }
     [Parameter] public string ActiveClass { get; set; } = "active";
+    /// <summary>Leading icon: an <see cref="SUIIcon"/> name (e.g. "users") or <see cref="SUIIcons"/> SVG markup.</summary>
     [Parameter] public string? Icon { get; set; }
     [Parameter] public SUIColor IconColor { get; set; } = SUIColor.Default;
     [Parameter] public bool IconAsAvatar { get; set; }
@@ -192,7 +193,7 @@
         if (!string.IsNullOrEmpty(Icon))
         {
             <span class="@IconClassname">
-                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@SUIIconMarkup.Render(Icon)</svg>
+                @SUIClickLoading.Glyph(Icon)
             </span>
         }
         else if (IconAsAvatar || !string.IsNullOrWhiteSpace(Title))

@@ -9,6 +9,26 @@ definem a numeração das próximas publicações.
 ## [Unreleased]
 
 ### Adicionado
+- Segunda rodada de lacunas da migração do Identity (aditivas; markup padrão inalterado):
+  - `SUIEmptyState.ToneValue` (`SUITone`): colore o ícone (`Danger` falha, `Warning` alerta, `Neutral`/nulo
+    mantém o ícone neutro atenuado) — sem reestilizar `.sui-empty__icon`.
+  - `SUISwitch.AlignWithFields`: reserva o espaço de rótulo que o `SUIFormGrid` dá aos campos e centraliza o
+    switch na altura do input, alinhando-o aos campos de texto vizinhos.
+  - `SUIIcons`: `Key`, `Lock`, `Unlock`, `User`, `Users`, `Check`, `Info`, `Download`, `Upload`, `Eye`,
+    `EyeOff`, `Calendar`, `Bell` (mesmo desenho dos nomes do `SUIIcon`).
+  - `SUILoadingButton.StartIcon`/`EndIcon`, `SUINavLink.Icon`, `SUINavGroup.Icon`/`ExpandIcon` e
+    `SUITableEmpty.Icon` aceitam nomes do `SUIIcon` (ex.: `"key"`), como o `SUIButton`.
+
+### Corrigido
+- Marcador `Optional` dos campos: um espaço real separa o rótulo de "(opcional)" na tela e no nome acessível.
+- `SUILoadingButton`: o estado imediato `--pending` some assim que o clique é respondido sem `IsLoading`
+  (resposta rápida do servidor), em vez de esperar o timeout de 8 s. Submit sem `OnClick` libera quando o
+  formulário responde.
+- `SUIChoiceCard` com `TrailingContent`: a coluna de texto tem prioridade; o conteúdo final ocupa só o que
+  sobra e desce para baixo do texto quando o cartão (não a viewport) fica estreito. Sem `style` inline.
+- `SUISelect MenuWidth`/`MenuMaxWidth`: aplicados via CSSOM no módulo JS ao abrir o menu, não mais em atributo
+  `style` — funcionam sob CSP estrita (`style-src-attr 'none'`). Valores com `;`, `{` ou `}` são ignorados.
+
 - `SUIButton`/`SUIIconButton`: `AutoLoading` (padrão `true`); `false` desliga o spinner automático para
   handlers que aguardam uma interação (ex.: resultado de diálogo).
 

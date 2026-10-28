@@ -84,10 +84,23 @@ export function disconnectSelectTrigger(trigger) {
     triggerControllers.delete(trigger);
 }
 
-export function openSelectMenu(trigger, menu) {
+function setLength(menu, property, value) {
+    if (value) {
+        menu.style.setProperty(property, value);
+    } else {
+        menu.style.removeProperty(property);
+    }
+}
+
+// MenuWidth / MenuMaxWidth arrive here instead of as a style attribute: CSSOM
+// writes are allowed under a strict CSP (style-src-attr 'none'), markup is not.
+export function openSelectMenu(trigger, menu, width, maxWidth) {
     if (!trigger || !menu) {
         return;
     }
+
+    setLength(menu, '--sui-select-menu-width', width);
+    setLength(menu, '--sui-select-menu-max-width', maxWidth);
 
     if (activeMenu && activeMenu !== menu) {
         closeSelectMenu(activeMenu);

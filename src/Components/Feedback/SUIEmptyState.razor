@@ -63,8 +63,18 @@
     public RenderFragment? ActionContent { get; set; }
 
 
+    /// <summary>
+    /// Semantic tone of the icon: <see cref="SUITone.Danger"/> for a failure,
+    /// <see cref="SUITone.Warning"/> for a caution, and so on. Null (default)
+    /// and <see cref="SUITone.Neutral"/> keep the muted secondary icon.
+    /// </summary>
+    [Parameter]
+    public SUITone? ToneValue { get; set; }
+
     private string Classname
-        => EffectiveClass("sui-empty");
+        => EffectiveClass(ToneValue is { } tone
+            ? $"sui-empty sui-empty--{SUIClassBuilder.Slug(tone)}"
+            : "sui-empty");
 
     // Common raw SVG paths (Heroicons outline) for direct IconPath usage.
     public static class Icons

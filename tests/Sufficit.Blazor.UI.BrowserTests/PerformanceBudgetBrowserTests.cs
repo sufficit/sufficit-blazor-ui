@@ -27,7 +27,10 @@ public sealed class PerformanceBudgetBrowserTests : PageTest
     // Same +3% headroom rounded up to KiB:119,981 B ->118 KiB.
     // 2026-10-23: SUIStat appearances/SUIAnimation variants and SUIFormGrid
     // layout classes; 124,777 B in CI. +3% rounded up to KiB: 128,520 B -> 126 KiB.
-    private const long CssTransferBudget = 126 * 1024; // measured 124,777 B
+    // 2026-10-28: second identity-migration round — EmptyState tones, ChoiceCard
+    // wrapping trailing row, Switch field alignment. 129,106 B measured locally
+    // (Chromium, Release catalog) before trimming comments; 1.03× → 130 KiB.
+    private const long CssTransferBudget = 130 * 1024; // measured ~129,010 B
     private const long TotalTransferBudget = 900 * 1024;
     private const double LargestContentfulPaintBudgetMs = 2500;
     private const double CumulativeLayoutShiftBudget = 0.1;
