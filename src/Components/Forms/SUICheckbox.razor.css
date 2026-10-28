@@ -1,0 +1,5 @@
+/* Described variant: label and helper stack beside a top-aligned box. */
+.sui-checkbox--described { align-items: flex-start; }
+.sui-checkbox__text { display: flex; flex-direction: column; gap: 2px; }
+.sui-checkbox--described .sui-checkbox__box { margin-top: 1px; }
+.sui-checkbox__helper { padding-left: 0; }

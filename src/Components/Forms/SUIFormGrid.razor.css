@@ -37,8 +37,15 @@
   min-block-size: auto;
 }
 
+/* Explicit (unequal) template wins over the equal split, stacked or not. */
+.sui-form-grid--template,
+.sui-form-grid--template.sui-form-grid--stack-mobile {
+  grid-template-columns: var(--sui-form-grid-template);
+}
+
 @media (max-width: 44rem) {
-  .sui-form-grid--stack-mobile {
+  .sui-form-grid--stack-mobile,
+  .sui-form-grid--template.sui-form-grid--stack-mobile {
     grid-template-columns: minmax(0, 1fr);
   }
 

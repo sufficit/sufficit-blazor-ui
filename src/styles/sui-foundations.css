@@ -343,11 +343,15 @@
    Keep all field helpers together here; applications can override this class.
    Error messages retain their separate visual emphasis. */
 .sui-field__helper { margin-top: 0; padding-left: var(--sui-space-3); font-size: calc(var(--sui-fs-caption) * .92); font-style: italic; color: var(--sui-text-secondary); }
-.sui-field__error { margin-top: var(--sui-space-1); padding-left: var(--sui-space-3); font-size: var(--sui-fs-caption); font-weight: 600; color: var(--sui-color-error); }
+/* Warning shares the error rhythm; only the tone differs (never aria-invalid). */
+.sui-field__error, .sui-field__warning { margin-top: var(--sui-space-1); padding-left: var(--sui-space-3); font-size: var(--sui-fs-caption); font-weight: 600; color: var(--sui-color-error); }
+.sui-field__warning { color: var(--sui-color-warning); }
 /* Reserved height keeps the field footprint stable when the error slot is
    mounted before any text arrives (form-context fields mount the span empty).
    Was an inline style attribute, which strict-CSP pages strip. */
 .sui-field__error--reserve { min-height: 1.3em; }
+.sui-field__optional { font-weight: 400; }
+.sui-field__input--mono { font-family: var(--sui-font-mono); font-variant-ligatures: none; }
 .sui-field__input[aria-invalid="true"],
 .sui-select__trigger[aria-invalid="true"] { border-color: var(--sui-color-error); }
 .sui-sr-only {

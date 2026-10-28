@@ -49,7 +49,12 @@ const budgets = {
   // gap on both sides, secondary overline title): +218 B raw. Measured
   // 59,609 / 10,921 / 9,557 B, under the AssetBudgetTests ceilings
   // (60,928 / 11,264 / 9,984), so this script still fails before CI does.
-  raw: 59_648,
+  // Ratcheted 2026-10-28 for consumer-migration field states: the warning
+  // message (shares the error rule, tone override only), the "(opcional)"
+  // label marker and the monospace input: +193 B raw. Component-only rules
+  // (checkbox description, rich tooltip) went to CSS isolation instead.
+  // Under the AssetBudgetTests ceilings (60,928 / 11,264 / 9,984).
+  raw: 59_904,
   gzip: 11_008,
   brotli: 9_728,
 };

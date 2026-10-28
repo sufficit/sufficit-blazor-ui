@@ -108,7 +108,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Leading icon: an SUIIcon name (e.g. \"arrow-left\") or SUIIcons SVG markup.",
         "name": "StartIcon",
         "type": "string?",
         "default": "Padrão do tipo",
@@ -116,10 +116,26 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Trailing icon: an SUIIcon name or SUIIcons SVG markup.",
         "name": "EndIcon",
         "type": "string?",
         "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Shows the loading spinner and disables the button, whatever the click state.",
+        "name": "Loading",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Milliseconds an asynchronous OnClick must still be running before the automatic spinner appears (default 300). Synchronous and short handlers never flash a spinner; a negative value disables the automatic spinner entirely (use Loading to drive it).",
+        "name": "LoadingDelay",
+        "type": "int",
+        "default": "SUIClickLoading.DefaultDelay",
         "required": false,
         "deprecated": false
       },
@@ -416,6 +432,22 @@
         "default": "new()",
         "required": false,
         "deprecated": true
+      },
+      {
+        "description": "Shows the loading spinner and disables the button, whatever the click state.",
+        "name": "Loading",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Milliseconds an asynchronous OnClick must still be running before the automatic spinner appears (default 300). Synchronous and short handlers never flash a spinner; a negative value disables it entirely.",
+        "name": "LoadingDelay",
+        "type": "int",
+        "default": "SUIClickLoading.DefaultDelay",
+        "required": false,
+        "deprecated": false
       },
       {
         "description": "Optional user CSS classes appended to component-owned classes.",
@@ -916,7 +948,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack Row>\n<SUIIcon Name=\"check\" />\n<SUIIcon Name=\"calendar\" />\n<SUIIcon Name=\"clock\" />\n</SUIStack>\n",
     "parameters": [
       {
-        "description": "Icon name. See the switch above for the available keys (dashboard, users, key, shield, scope, palette, workflow, audit, chart, settings, menu, x, bell, search, eye-off, arrow-right, arrow-left, plus, external, volume, phone, inbox, alert, check, clock, database, lock, code, browser, device, server, terminal, info, calendar, chevron-left, chevron-right, chevron-down, chevron-up, refresh, trash, edit, pix, credit-card, receipt, barcode). Also accepts the SVG markup held by SUIIcons constants; only library-defined, trusted markup belongs here.",
+        "description": "Icon name. See the switch above for the available keys (dashboard, users, key, shield, scope, palette, workflow, audit, chart, settings, menu, x, bell, search, eye-off, arrow-right, arrow-left, plus, external, volume, phone, inbox, alert, check, clock, database, lock, code, browser, device, server, terminal, info, calendar, chevron-left, chevron-right, chevron-down, chevron-up, refresh, trash, edit, pix, credit-card, receipt, barcode, eye, user, unlock, download, upload, more-vertical; aliases close = x, delete = trash, external-link = external). Also accepts the SVG markup held by SUIIcons constants; only library-defined, trusted markup belongs here.",
         "name": "Name",
         "type": "string",
         "default": "string.Empty",
@@ -1065,7 +1097,7 @@
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIPagination TotalItems=\"125\" @bind-PageIndex=\"PageIndex\" @bind-PageSize=\"PageSize\" PageSizeOptions=\"@(new[] { 10, 25, 50 })\" />\n\n@code {\n    protected int PageIndex { get; set; }\n    protected int PageSize { get; set; } = 10;\n}\n",
     "parameters": [
       {
-        "description": "",
+        "description": "Total number of items across all pages.",
         "name": "TotalItems",
         "type": "int",
         "default": "Padrão do tipo",
@@ -1073,7 +1105,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Items per page (minimum 1). Default 25.",
         "name": "PageSize",
         "type": "int",
         "default": "25",
@@ -1081,7 +1113,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Raised when the user picks another page size; the page index is reset to 0.",
         "name": "PageSizeChanged",
         "type": "EventCallback<int>",
         "default": "Padrão do tipo",
@@ -1089,7 +1121,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Zero-based current page, clamped to the page count.",
         "name": "PageIndex",
         "type": "int",
         "default": "Padrão do tipo",
@@ -1097,7 +1129,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Raised with the zero-based page the user navigates to (callback mode).",
         "name": "PageIndexChanged",
         "type": "EventCallback<int>",
         "default": "Padrão do tipo",
@@ -1105,7 +1137,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Page sizes offered in a selector; no selector when empty.",
         "name": "PageSizeOptions",
         "type": "IReadOnlyList<int>?",
         "default": "Padrão do tipo",
@@ -1113,7 +1145,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Plural noun appended to the range text (default \"itens\").",
         "name": "ItemLabel",
         "type": "string",
         "default": "\"itens\"",
@@ -1121,10 +1153,74 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Accessible name of the navigation landmark.",
         "name": "AriaLabel",
         "type": "string",
         "default": "\"Paginação\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Accessible name of the previous-page action.",
+        "name": "PreviousLabel",
+        "type": "string",
+        "default": "\"Página anterior\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Accessible name of the next-page action.",
+        "name": "NextLabel",
+        "type": "string",
+        "default": "\"Próxima página\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Label of the page-size selector.",
+        "name": "PageSizeLabel",
+        "type": "string",
+        "default": "\"Itens por página\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Page position text from the one-based page and the page count. Default \"Página {n} de {total}\".",
+        "name": "PageLabel",
+        "type": "Func<int, int, string>?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Range text from the first item, last item and total (one-based). Default \"{first}–{last} de {total} {ItemLabel}\".",
+        "name": "RangeFormatter",
+        "type": "Func<int, int, int, string>?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Text shown when there are no items. Default \"Nenhum {ItemLabel}\".",
+        "name": "EmptyText",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Disables every control, e.g. while the page is loading.",
+        "name": "Disabled",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Link mode: builds the URL of a zero-based page index, so previous/next render as anchors (e.g. i => $\"?page={i + 1}\") for server-routed pages. When null, the callback mode with PageIndexChanged is used.",
+        "name": "PageHref",
+        "type": "Func<int, string>?",
+        "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
       },
@@ -1732,7 +1828,31 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "State suffix announced while ascending (default \", sorted ascending\"). StateDescriptionFactory wins when set.",
+        "name": "AscendingLabel",
+        "type": "string",
+        "default": "\", sorted ascending\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "State suffix announced while descending (default \", sorted descending\").",
+        "name": "DescendingLabel",
+        "type": "string",
+        "default": "\", sorted descending\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "State suffix announced while unsorted (default \", not sorted\").",
+        "name": "UnsortedLabel",
+        "type": "string",
+        "default": "\", not sorted\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Column label content.",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
@@ -2294,6 +2414,22 @@
       {
         "description": "Collapsible body content.",
         "name": "ChildContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Keeps the body in the DOM while collapsed, hidden with the native hidden attribute and referenced by aria-controls. Default false: collapsed content is not rendered.",
+        "name": "KeepContentMounted",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Extra header content shown after the titles, e.g. a status badge. It sits inside the toggle button, so it must not contain interactive elements.",
+        "name": "HeaderContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",
         "required": false,
@@ -3249,6 +3385,30 @@
         "deprecated": false
       },
       {
+        "description": "Markup for the label area (e.g. text with a link or inline code); takes precedence over Label and stays inside the clickable label.",
+        "name": "ChildContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Secondary description rendered under the label with the shared field helper styling and linked to the box through aria-describedby.",
+        "name": "HelperText",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Markup helper content; takes precedence over HelperText.",
+        "name": "HelperContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "Whether the checkbox is selected.",
         "name": "Value",
         "type": "bool",
@@ -3464,7 +3624,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Shows the radio indicator (a chevron in action mode) when no trailing content is given.",
         "name": "ShowSelectionIndicator",
         "type": "bool",
         "default": "true",
@@ -3472,7 +3632,23 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Action mode: the card renders as a link to this URL instead of a radio option, for \"pick one and go\" lists. Value is still passed to OnClick.",
+        "name": "Href",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Action mode: the card renders as a button (or the Href link) and raises this with Value when activated.",
+        "name": "OnClick",
+        "type": "EventCallback<TValue>",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Disables the option (or the action in action mode).",
         "name": "Disabled",
         "type": "bool",
         "default": "Padrão do tipo",
@@ -3555,6 +3731,22 @@
         "name": "HelperText",
         "type": "string?",
         "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Appends a secondary OptionalText marker to the label instead of the caller editing the label text.",
+        "name": "Optional",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Marker shown when Optional is set. Default \"(opcional)\".",
+        "name": "OptionalText",
+        "type": "string",
+        "default": "SUIFieldParts.DefaultOptionalText",
         "required": false,
         "deprecated": false
       },
@@ -3690,6 +3882,14 @@
         "name": "Columns",
         "type": "int",
         "default": "2",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional CSS grid-template-columns for unequal columns, e.g. \"2fr 1fr\" or \"minmax(0, 1fr) 12rem\". Overrides the equal Columns split above the mobile breakpoint; with StackOnMobile the grid still collapses to one column below it.",
+        "name": "ColumnTemplate",
+        "type": "string?",
+        "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
       },
@@ -3957,6 +4157,54 @@
         "deprecated": true
       },
       {
+        "description": "Appends a secondary OptionalText marker to the label instead of the caller editing the label text.",
+        "name": "Optional",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Marker shown when Optional is set. Default \"(opcional)\".",
+        "name": "OptionalText",
+        "type": "string",
+        "default": "SUIFieldParts.DefaultOptionalText",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unit shown inside the field at the inline end (e.g. \"min\", \"dias\", \"h\") and announced through aria-describedby. Short units only.",
+        "name": "Suffix",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Markup label; takes precedence over Label.",
+        "name": "LabelContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Markup helper content; takes precedence over HelperText.",
+        "name": "HelperContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Non-blocking warning in the warning tone, linked by aria-describedby; never sets aria-invalid.",
+        "name": "WarningText",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",
@@ -4030,6 +4278,30 @@
       {
         "description": "Helper text rendered under the field and linked through aria-describedby.",
         "name": "HelperText",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Markup label; takes precedence over Label and names the trigger the same way.",
+        "name": "LabelContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Markup helper content; takes precedence over HelperText.",
+        "name": "HelperContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Non-blocking warning in the warning tone, linked by aria-describedby; never sets aria-invalid.",
+        "name": "WarningText",
         "type": "string?",
         "default": "Padrão do tipo",
         "required": false,
@@ -4361,10 +4633,18 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Pressed state, announced through aria-pressed.",
         "name": "Checked",
         "type": "bool",
         "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Stretches the button to its container (default true); false sizes it to its content.",
+        "name": "FullWidth",
+        "type": "bool",
+        "default": "true",
         "required": false,
         "deprecated": false
       },
@@ -4451,6 +4731,62 @@
         "description": "Static helper text rendered below the control.",
         "name": "HelperText",
         "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Appends a secondary OptionalText marker to the label instead of the caller editing the label text.",
+        "name": "Optional",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Marker shown when Optional is set. Default \"(opcional)\".",
+        "name": "OptionalText",
+        "type": "string",
+        "default": "SUIFieldParts.DefaultOptionalText",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Markup label (e.g. with inline <code>); takes precedence over Label.",
+        "name": "LabelContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Markup helper content; takes precedence over HelperText and uses the same slot.",
+        "name": "HelperContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Non-blocking warning shown below the control in the warning tone and announced through aria-describedby. Unlike ErrorText it never sets aria-invalid.",
+        "name": "WarningText",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Renders the value in the monospace font token (--sui-font-mono) with spellcheck off — for ids, tokens, URIs and JSON (with Multiline).",
+        "name": "Monospace",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Values offered as native suggestions (an HTML datalist) while the user remains free to type any other text. Ignored when Multiline.",
+        "name": "Suggestions",
+        "type": "IEnumerable<string>?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -6315,7 +6651,15 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Accessible position prefix for each step, given the one-based step number and the step count. Defaults to \"Etapa {n} de {total}\"; the step label and status are appended after a colon.",
+        "name": "StepPositionLabel",
+        "type": "Func<int, int, string>?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Status suffix announced for steps before the current one.",
         "name": "CompletedStatusLabel",
         "type": "string",
         "default": "\"concluída\"",
@@ -6323,7 +6667,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Status suffix announced for the current step.",
         "name": "CurrentStatusLabel",
         "type": "string",
         "default": "\"atual\"",
@@ -6331,7 +6675,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Status suffix announced for steps not yet started.",
         "name": "PendingStatusLabel",
         "type": "string",
         "default": "\"não iniciada\"",
@@ -7054,6 +7398,30 @@
         "type": "string?",
         "default": "Padrão do tipo",
         "required": true,
+        "deprecated": false
+      },
+      {
+        "description": "Optional heading rendered above the body inside the tooltip.",
+        "name": "Title",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Rich tooltip body (markup); takes precedence over Text.",
+        "name": "Content",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Keeps the tooltip text permanently in the DOM (visually hidden) and links it to the trigger through aria-describedby, so help icons are described even while closed. Default false: the description is attached only while the tooltip is visible.",
+        "name": "PersistentDescription",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
         "deprecated": false
       },
       {

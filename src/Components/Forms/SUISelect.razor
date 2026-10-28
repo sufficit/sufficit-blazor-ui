@@ -9,7 +9,11 @@
 
 <CascadingValue Value="(ISUISelectRegistry)this" IsFixed="true">
     <div class="@Classname" style="@Style" @onfocusin="() => { _focusVersion++; }" @onfocusout="OnFocusOutAsync">
-        @if (!string.IsNullOrWhiteSpace(Label))
+        @if (LabelContent is not null)
+        {
+            <label id="@LabelId" class="sui-field__label" for="@EffectiveId">@LabelContent</label>
+        }
+        else if (!string.IsNullOrWhiteSpace(Label))
         {
             <label id="@LabelId" class="sui-field__label" for="@EffectiveId">@Label</label>
         }
@@ -83,9 +87,18 @@
             <input type="hidden" name="@Name" value="@FormValue" disabled="@Disabled" />
         }
 
-        @if (!string.IsNullOrWhiteSpace(HelperText))
+        @if (HelperContent is not null)
+        {
+            <span id="@HelperId" class="sui-field__helper">@HelperContent</span>
+        }
+        else if (!string.IsNullOrWhiteSpace(HelperText))
         {
             <span id="@HelperId" class="sui-field__helper">@HelperText</span>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(WarningText))
+        {
+            <span id="@WarningId" class="sui-field__warning">@WarningText</span>
         }
 
         @if (!string.IsNullOrWhiteSpace(EffectiveErrorText))

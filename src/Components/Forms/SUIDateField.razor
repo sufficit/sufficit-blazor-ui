@@ -7,7 +7,7 @@
 <div @ref="_rootElement" class="@Classname" style="@Style">
     @if (!string.IsNullOrWhiteSpace(Label))
     {
-        <label id="@LabelId" class="sui-field__label" for="@EffectiveId">@Label</label>
+        <label id="@LabelId" class="sui-field__label" for="@EffectiveId">@Label@(Optional ? SUIFieldParts.OptionalMarker(Optional, OptionalText) : null)</label>
     }
 
     <div class="sui-date-field__control">

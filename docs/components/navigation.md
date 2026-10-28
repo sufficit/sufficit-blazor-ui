@@ -41,3 +41,6 @@ tags nunca casa enquanto há filtro. Com `Group`, o nó permanece visível
 enquanto qualquer filho casar e se esconde com `display:none` em vez de
 desmontar, para os filhos continuarem reportando. `IsMatch` e `IsFiltering`
 são públicos para grupos que se expandem durante a busca.
+
+`SUIProgressSteps.StepPositionLabel` (`(n, total) => $"Step {n} of {total}"`) localiza o prefixo acessível;
+o padrão continua "Etapa {n} de {total}".

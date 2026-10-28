@@ -19,6 +19,15 @@
     [Parameter]
     public int Columns { get; set; } = 2;
 
+    /// <summary>
+    /// Optional CSS <c>grid-template-columns</c> for unequal columns, e.g.
+    /// <c>"2fr 1fr"</c> or <c>"minmax(0, 1fr) 12rem"</c>. Overrides the equal
+    /// <see cref="Columns"/> split above the mobile breakpoint; with
+    /// <see cref="StackOnMobile"/> the grid still collapses to one column below it.
+    /// </summary>
+    [Parameter]
+    public string? ColumnTemplate { get; set; }
+
     /// <summary>Spacing token index (0-6). Defaults to <c>--sui-space-4</c>.</summary>
     [Parameter]
     public int Spacing { get; set; } = 4;
@@ -51,6 +60,10 @@
 
     private const string DefaultMinColumnWidth = "14rem";
 
+    // A declaration separator would let the value write other properties.
+    private bool HasTemplate
+        => !string.IsNullOrWhiteSpace(ColumnTemplate) && ColumnTemplate.IndexOfAny([';', '{', '}']) < 0;
+
     // Columns, gap and label lines are classes, not an inline style: a page
     // whose CSP drops style-src-attr 'unsafe-inline' would otherwise lose the
     // whole grid layout. Only a non-default minimum width or a caller Style
@@ -61,7 +74,8 @@
             .AddClass($"sui-form-grid--gap-{EffectiveSpacing}")
             .AddClass($"sui-form-grid--label-lines-{EffectiveLabelLines}")
             .AddClass("sui-form-grid--stack-mobile", StackOnMobile)
-            .AddClass("sui-form-grid--single", EffectiveColumns == 1)
+            .AddClass("sui-form-grid--single", EffectiveColumns == 1 && !HasTemplate)
+            .AddClass("sui-form-grid--template", HasTemplate)
             .AddClass(Class)
             .Build();
 
@@ -72,7 +86,8 @@
             var minWidth = string.IsNullOrWhiteSpace(MinColumnWidth) || MinColumnWidth == DefaultMinColumnWidth
                 ? string.Empty
                 : $"--sui-form-grid-min-width:{MinColumnWidth};";
-            var value = minWidth + (string.IsNullOrWhiteSpace(Style) ? string.Empty : Style);
+            var template = HasTemplate ? $"--sui-form-grid-template:{ColumnTemplate!.Trim()};" : string.Empty;
+            var value = minWidth + template + (string.IsNullOrWhiteSpace(Style) ? string.Empty : Style);
             return value.Length == 0 ? null : value;
         }
     }

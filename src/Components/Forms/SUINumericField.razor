@@ -7,11 +7,15 @@
 @typeparam TValue
 
 <div class="@Classname" style="@Style">
-    @if (!string.IsNullOrWhiteSpace(Label))
+    @if (LabelContent is not null)
     {
-        <label class="sui-field__label" for="@EffectiveId">@Label</label>
+        <label class="sui-field__label" for="@EffectiveId">@LabelContent@(Optional ? SUIFieldParts.OptionalMarker(Optional, OptionalText) : null)</label>
     }
-    <div class="sui-numeric__control @(SpinnerStep is not null ? "sui-numeric__control--steppers" : null)">
+    else if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <label class="sui-field__label" for="@EffectiveId">@Label@(Optional ? SUIFieldParts.OptionalMarker(Optional, OptionalText) : null)</label>
+    }
+    <div class="@ControlClass">
     <input @ref="_inputElement" class="sui-field__input"
            id="@EffectiveId"
            name="@Name"
@@ -27,6 +31,10 @@
            aria-invalid="@(HasError ? "true" : null)"
            aria-errormessage="@(!string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null)"
            @attributes="AdditionalAttributes" />
+    @if (!string.IsNullOrWhiteSpace(Suffix))
+    {
+        <span id="@SuffixId" class="sui-numeric__suffix">@Suffix</span>
+    }
     @if (SpinnerStep is not null)
     {
         <div class="sui-numeric__steppers">
@@ -41,9 +49,17 @@
         </div>
     }
     </div>
-    @if (!string.IsNullOrWhiteSpace(HelperText))
+    @if (HelperContent is not null)
+    {
+        <span id="@HelperId" class="sui-field__helper">@HelperContent</span>
+    }
+    else if (!string.IsNullOrWhiteSpace(HelperText))
     {
         <span id="@HelperId" class="sui-field__helper">@HelperText</span>
+    }
+    @if (!string.IsNullOrWhiteSpace(WarningText))
+    {
+        <span id="@WarningId" class="sui-field__warning">@WarningText</span>
     }
     @if (FormContext is not null || !string.IsNullOrWhiteSpace(EffectiveErrorText))
     {
@@ -113,6 +129,7 @@
     [Parameter]
     public string? HelperText { get; set; }
 
+
     [Parameter]
     public string? ErrorText { get; set; }
 
@@ -175,12 +192,15 @@
     private string EffectiveId => string.IsNullOrWhiteSpace(Id) ? _generatedId : Id;
     private string HelperId => $"{EffectiveId}-helper";
     private string ErrorId => $"{EffectiveId}-error";
+    private string WarningId => $"{EffectiveId}-warning";
     private bool HasError => Invalid || !string.IsNullOrWhiteSpace(EffectiveErrorText);
     private string? DescribedBy
         => string.Join(' ', new[]
             {
                 AriaDescribedBy,
-                string.IsNullOrWhiteSpace(HelperText) ? null : HelperId,
+                string.IsNullOrWhiteSpace(Suffix) ? null : SuffixId,
+                HelperContent is null && string.IsNullOrWhiteSpace(HelperText) ? null : HelperId,
+                string.IsNullOrWhiteSpace(WarningText) ? null : WarningId,
                 string.IsNullOrWhiteSpace(EffectiveErrorText) ? null : ErrorId,
             }
             .Where(value => !string.IsNullOrWhiteSpace(value)));

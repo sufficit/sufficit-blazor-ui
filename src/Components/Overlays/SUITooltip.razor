@@ -25,14 +25,46 @@
       data-sui-tooltip-shadow="@BoxShadow"
       data-sui-tooltip-font-size="@FontSize"
       data-sui-tooltip-font-weight="@SafeFontWeight"
-      data-sui-tooltip-class="@TooltipClass">
+      data-sui-tooltip-class="@TooltipClass"
+      data-sui-tooltip-content="@(HasSource ? SourceId : null)"
+      data-sui-tooltip-persistent="@(HasSource && PersistentDescription ? "true" : null)">
     @ChildContent
+    @if (HasSource)
+    {
+        @* Visually hidden source of the floating surface. Persistent: always in
+           the accessibility tree and referenced by aria-describedby. Otherwise
+           hidden and only cloned into the tooltip while it is open. *@
+        <span id="@SourceId" class="sui-sr-only" hidden="@(!PersistentDescription)">
+            @if (!string.IsNullOrWhiteSpace(Title))
+            {
+                <strong class="sui-tooltip__title">@Title</strong>
+            }
+            <span class="sui-tooltip__body">@(Content ?? (RenderFragment)(b => b.AddContent(0, EffectiveText)))</span>
+        </span>
+    }
 </span>
 
 @code {
     /// <summary>Text displayed inside the tooltip.</summary>
     [Parameter, EditorRequired]
     public string? Text { get; set; }
+
+    /// <summary>Optional heading rendered above the body inside the tooltip.</summary>
+    [Parameter]
+    public string? Title { get; set; }
+
+    /// <summary>Rich tooltip body (markup); takes precedence over <see cref="Text"/>.</summary>
+    [Parameter]
+    public RenderFragment? Content { get; set; }
+
+    /// <summary>
+    /// Keeps the tooltip text permanently in the DOM (visually hidden) and links
+    /// it to the trigger through <c>aria-describedby</c>, so help icons are
+    /// described even while closed. Default false: the description is attached
+    /// only while the tooltip is visible.
+    /// </summary>
+    [Parameter]
+    public bool PersistentDescription { get; set; }
 
     /// <summary>Preferred side. The runtime flips it when the viewport has no room.</summary>
     [Parameter]
@@ -118,6 +150,12 @@
 
     private string? EffectiveText
         => Disabled || string.IsNullOrWhiteSpace(Text) ? null : Text.Trim();
+
+    private readonly string _sourceId = $"sui-tooltip-{Guid.NewGuid():N}";
+    private string SourceId => $"{_sourceId}-content";
+    private bool HasSource
+        => !Disabled && (Content is not null || !string.IsNullOrWhiteSpace(Title)
+            || (PersistentDescription && EffectiveText is not null));
 
     private string Classname
         => SUIClassBuilder.Default("sui-tooltip-anchor")

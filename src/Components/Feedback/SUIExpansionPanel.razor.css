@@ -13,3 +13,5 @@
 .sui-expansion__content{display:flow-root;padding:var(--sui-space-4);border-top:1px solid var(--sui-border);font-size:var(--sui-fs-body2);line-height:var(--sui-lh-body);color:var(--sui-text-secondary);overflow-wrap:anywhere}
 .sui-expansion__content ::deep> :first-child{margin-top:0}
 .sui-expansion__content ::deep> :last-child{margin-bottom:0}
+.sui-expansion__content[hidden]{display:none}
+.sui-expansion__extra{display:inline-flex;align-items:center;gap:var(--sui-space-2);flex:0 0 auto}

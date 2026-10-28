@@ -139,6 +139,10 @@ function applyOptions(anchor, tooltip) {
     tooltip.style.setProperty('--sui-tooltip-max-width', `${maxWidth}px`);
 }
 
+// Rich content (title + body) lives in a hidden element the component renders.
+const sourceOf = anchor => document.getElementById(anchor.dataset.suiTooltipContent || '');
+const isPersistent = anchor => anchor.dataset.suiTooltipPersistent === 'true';
+
 function descriptionTarget(anchor) {
     return anchor.matches('a, button, input, select, textarea, [tabindex]')
         ? anchor
@@ -205,7 +209,8 @@ function dismissImmediately() {
 
 function showTooltip(anchor, immediate = false) {
     const label = anchor?.dataset?.suiTooltip?.trim();
-    if (!label) {
+    const source = anchor && sourceOf(anchor);
+    if (!label && !source) {
         return;
     }
 
@@ -223,9 +228,11 @@ function showTooltip(anchor, immediate = false) {
         activeAnchor = anchor;
         activeDescriptionTarget = descriptionTarget(anchor);
         applyOptions(anchor, tooltip);
-        tooltip.textContent = label;
+        if (source) tooltip.replaceChildren(...source.cloneNode(true).childNodes);
+        else tooltip.textContent = label;
         tooltip.setAttribute('aria-hidden', 'false');
-        addDescription(activeDescriptionTarget, tooltip.id);
+        // A persistent description already points at the source element.
+        if (!isPersistent(anchor)) addDescription(activeDescriptionTarget, tooltip.id);
         placeTooltip(anchor, tooltip);
         connectViewportListeners();
         requestAnimationFrame(() => {
@@ -271,6 +278,8 @@ export function connectTooltip(anchor) {
     anchor.addEventListener('focusout', controller.focusOut);
     anchors.add(anchor);
     anchorControllers.set(anchor, controller);
+    const source = sourceOf(anchor);
+    if (source && isPersistent(anchor)) addDescription(descriptionTarget(anchor), source.id);
 }
 
 export function disconnectTooltip(anchor) {
@@ -285,6 +294,7 @@ export function disconnectTooltip(anchor) {
     anchor.removeEventListener('focusout', controller.focusOut);
     anchorControllers.delete(anchor);
     anchors.delete(anchor);
+    if (anchor.dataset.suiTooltipContent) removeDescription(descriptionTarget(anchor), anchor.dataset.suiTooltipContent);
 
     if (activeAnchor === anchor) {
         window.clearTimeout(showTimer);

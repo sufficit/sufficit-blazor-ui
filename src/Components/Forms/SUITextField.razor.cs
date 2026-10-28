@@ -43,6 +43,42 @@ public partial class SUITextField<TValue>
     [Parameter]
     public string? HelperText { get; set; }
 
+    /// <summary>Appends a secondary <see cref="OptionalText"/> marker to the label instead of the caller editing the label text.</summary>
+    [Parameter] public bool Optional { get; set; }
+
+    /// <summary>Marker shown when <see cref="Optional"/> is set. Default "(opcional)".</summary>
+    [Parameter] public string OptionalText { get; set; } = SUIFieldParts.DefaultOptionalText;
+
+    /// <summary>Markup label (e.g. with inline <c>&lt;code&gt;</c>); takes precedence over <see cref="Label"/>.</summary>
+    [Parameter]
+    public RenderFragment? LabelContent { get; set; }
+
+    /// <summary>Markup helper content; takes precedence over <see cref="HelperText"/> and uses the same slot.</summary>
+    [Parameter]
+    public RenderFragment? HelperContent { get; set; }
+
+    /// <summary>
+    /// Non-blocking warning shown below the control in the warning tone and
+    /// announced through <c>aria-describedby</c>. Unlike <see cref="ErrorText"/>
+    /// it never sets <c>aria-invalid</c>.
+    /// </summary>
+    [Parameter]
+    public string? WarningText { get; set; }
+
+    /// <summary>
+    /// Renders the value in the monospace font token (<c>--sui-font-mono</c>)
+    /// with spellcheck off — for ids, tokens, URIs and JSON (with <see cref="Multiline"/>).
+    /// </summary>
+    [Parameter]
+    public bool Monospace { get; set; }
+
+    /// <summary>
+    /// Values offered as native suggestions (an HTML <c>datalist</c>) while the
+    /// user remains free to type any other text. Ignored when <see cref="Multiline"/>.
+    /// </summary>
+    [Parameter]
+    public IEnumerable<string>? Suggestions { get; set; }
+
     /// <summary>Explicit validation message; overrides any message from the <c>EditContext</c>.</summary>
     [Parameter]
     public string? ErrorText { get; set; }
@@ -110,10 +146,16 @@ public partial class SUITextField<TValue>
     private int EffectiveRows => Math.Clamp(Rows, 2, 20);
     private string HelperId => $"{EffectiveId}-helper";
     private string ErrorId => $"{EffectiveId}-error";
+    private string WarningId => $"{EffectiveId}-warning";
+    private string SuggestionsId => $"{EffectiveId}-suggestions";
+    private bool HasSuggestions => Suggestions?.Any() == true;
     private bool HasError => Invalid || !string.IsNullOrWhiteSpace(EffectiveErrorText);
     private bool CanClear
         => Clearable && !Disabled && !string.IsNullOrEmpty(Value?.ToString());
     private string InputClassname
+        => Monospace ? BaseInputClassname + " sui-field__input--mono" : BaseInputClassname;
+
+    private string BaseInputClassname
         => CanClear && !string.IsNullOrWhiteSpace(AdornmentIcon)
             ? "sui-field__input sui-text-field__input--pad-clear"
             : CanClear || !string.IsNullOrWhiteSpace(AdornmentIcon)
@@ -149,7 +191,8 @@ public partial class SUITextField<TValue>
         => string.Join(' ', new[]
             {
                 AriaDescribedBy,
-                string.IsNullOrWhiteSpace(HelperText) ? null : HelperId,
+                HelperContent is null && string.IsNullOrWhiteSpace(HelperText) ? null : HelperId,
+                string.IsNullOrWhiteSpace(WarningText) ? null : WarningId,
                 string.IsNullOrWhiteSpace(EffectiveErrorText) ? null : ErrorId,
             }
             .Where(value => !string.IsNullOrWhiteSpace(value)));

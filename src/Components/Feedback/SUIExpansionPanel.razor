@@ -4,6 +4,7 @@
 <div class="@Classname" style="@Style" @attributes="AdditionalAttributes">
     <button type="button" class="sui-expansion__header"
             aria-expanded="@(ExpandedState ? "true" : "false")"
+            aria-controls="@(KeepContentMounted ? ContentId : null)"
             @onclick="ToggleAsync">
         @if (!string.IsNullOrWhiteSpace(StartIcon))
         {
@@ -16,9 +17,21 @@
                 <span class="sui-expansion__subtitle">@Subtitle</span>
             }
         </span>
+        @if (HeaderContent is not null)
+        {
+            <span class="sui-expansion__extra">@HeaderContent</span>
+        }
         <SUIIcon Name="chevron-down" CssClass="@ChevronClass" />
     </button>
-    @if (ExpandedState)
+    @if (KeepContentMounted)
+    {
+        @* Mounted while collapsed (find-in-page, tests, state kept); the native
+           hidden attribute removes it from layout and the accessibility tree. *@
+        <div id="@ContentId" class="sui-expansion__content" hidden="@(!ExpandedState)">
+            @ChildContent
+        </div>
+    }
+    else if (ExpandedState)
     {
         <div class="sui-expansion__content">
             @ChildContent
@@ -53,6 +66,24 @@
     /// <summary>Collapsible body content.</summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Keeps the body in the DOM while collapsed, hidden with the native
+    /// <c>hidden</c> attribute and referenced by <c>aria-controls</c>. Default
+    /// false: collapsed content is not rendered.
+    /// </summary>
+    [Parameter]
+    public bool KeepContentMounted { get; set; }
+
+    /// <summary>
+    /// Extra header content shown after the titles, e.g. a status badge. It sits
+    /// inside the toggle button, so it must not contain interactive elements.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? HeaderContent { get; set; }
+
+    private readonly string _contentId = $"sui-expansion-{Guid.NewGuid():N}";
+    private string ContentId => $"{_contentId}-content";
 
     private bool ExpandedState => _localExpanded ?? Expanded;
 

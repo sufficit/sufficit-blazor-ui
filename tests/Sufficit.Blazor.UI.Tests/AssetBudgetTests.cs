@@ -32,7 +32,9 @@ public sealed class AssetBudgetTests
     // Escape, fixed positioning with viewport flip) — measured 12,387 B.
     // 2026-10-21: SUIMenu adds keyboard/focus/viewport handling; all modules
     // measured 13,283 B. Existing 3% headroom rule rounded to 256 B.
-    private const int JsTotalBrotliBudget = 13_824; // measured 13,283 B
+    // 2026-10-28: SUITooltip rich content (title + body) and the persistent
+    // aria-describedby link — measured 13,952 B; rounded to 256 B.
+    private const int JsTotalBrotliBudget = 14_336; // measured 13,952 B
     // Raw bytes of every .razor.css (source/parse cost of CSS isolation).
     // Raised 2026-09-13 for SUISlidingTabs (pill track + sliding indicator,
     // micro-interactions, responsive collapse, reduced-motion) — measured
@@ -46,7 +48,10 @@ public sealed class AssetBudgetTests
     // 2026-10-22: SUIStat appearances (soft, gradient, image with built-in wave
     // pattern), delta tones, watermark icon, sparkline, skeleton loading and the
     // SUIAnimation enter/value-change/hover keyframes — measured 45354 B; +3%.
-    private const int IsolatedCssRawBudget = 46_848; // measured 45354 B
+    // 2026-10-28: consumer-migration gaps — checkbox description, rich tooltip,
+    // numeric unit suffix, FormGrid column template, ChoiceCard action mode and
+    // ExpansionPanel mounted content/header slot. Measured 49,106 B; +3%.
+    private const int IsolatedCssRawBudget = 50_560; // measured 49,106 B
 
     [Fact]
     public void GlobalStylesheet_FitsTheTransferBudget()

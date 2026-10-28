@@ -10,8 +10,9 @@
         @if (PageSizeOptions is { Count: > 0 })
         {
             <SUISelect TValue="int"
-                       Label="Itens por página"
+                       Label="@PageSizeLabel"
                        Value="@EffectivePageSize"
+                       Disabled="@Disabled"
                        ValueChanged="ChangePageSizeAsync"
                        Class="sui-pagination__size">
                 @foreach (var size in PageSizeOptions.Distinct().Where(value => value > 0).Order())
@@ -22,42 +23,100 @@
         }
 
         <SUIText Typo="SUITypo.caption" Tag="SUITextTag.Span" Class="sui-pagination__page">
-            Página @(EffectivePageIndex + 1) de @PageCount
+            @if (PageLabel is not null)
+            {
+                @PageLabel(EffectivePageIndex + 1, PageCount)
+            }
+            else
+            {
+                @:Página @(EffectivePageIndex + 1) de @PageCount
+            }
         </SUIText>
 
-        <SUIIconButton Icon="@SUIIcons.ChevronLeft"
-                       Title="Página anterior"
-                       SizeValue="SUISize.Small"
-                       VariantValue="SUIVariant.Text"
-                       Disabled="@(EffectivePageIndex == 0)"
-                       OnClick="PreviousAsync" />
-        <SUIIconButton Icon="@SUIIcons.ChevronRight"
-                       Title="Próxima página"
-                       SizeValue="SUISize.Small"
-                       VariantValue="SUIVariant.Text"
-                       Disabled="@(EffectivePageIndex >= PageCount - 1)"
-                       OnClick="NextAsync" />
+        @if (PageHref is not null)
+        {
+            @* Server-routed pages: real links, so the browser navigates and the
+               route (e.g. ?page=) owns the state. A disabled end renders no href. *@
+            <SUIIconButton Icon="@SUIIcons.ChevronLeft"
+                           Title="@PreviousLabel"
+                           SizeValue="SUISize.Small"
+                           VariantValue="SUIVariant.Text"
+                           Href="@(PreviousDisabled ? null : PageHref(EffectivePageIndex - 1))"
+                           Disabled="@PreviousDisabled" />
+            <SUIIconButton Icon="@SUIIcons.ChevronRight"
+                           Title="@NextLabel"
+                           SizeValue="SUISize.Small"
+                           VariantValue="SUIVariant.Text"
+                           Href="@(NextDisabled ? null : PageHref(EffectivePageIndex + 1))"
+                           Disabled="@NextDisabled" />
+        }
+        else
+        {
+            <SUIIconButton Icon="@SUIIcons.ChevronLeft"
+                           Title="@PreviousLabel"
+                           SizeValue="SUISize.Small"
+                           VariantValue="SUIVariant.Text"
+                           Disabled="@PreviousDisabled"
+                           OnClick="PreviousAsync" />
+            <SUIIconButton Icon="@SUIIcons.ChevronRight"
+                           Title="@NextLabel"
+                           SizeValue="SUISize.Small"
+                           VariantValue="SUIVariant.Text"
+                           Disabled="@NextDisabled"
+                           OnClick="NextAsync" />
+        }
     </div>
 </nav>
 
 @code {
+    /// <summary>Total number of items across all pages.</summary>
     [Parameter] public int TotalItems { get; set; }
+    /// <summary>Items per page (minimum 1). Default 25.</summary>
     [Parameter] public int PageSize { get; set; } = 25;
+    /// <summary>Raised when the user picks another page size; the page index is reset to 0.</summary>
     [Parameter] public EventCallback<int> PageSizeChanged { get; set; }
+    /// <summary>Zero-based current page, clamped to the page count.</summary>
     [Parameter] public int PageIndex { get; set; }
+    /// <summary>Raised with the zero-based page the user navigates to (callback mode).</summary>
     [Parameter] public EventCallback<int> PageIndexChanged { get; set; }
+    /// <summary>Page sizes offered in a selector; no selector when empty.</summary>
     [Parameter] public IReadOnlyList<int>? PageSizeOptions { get; set; }
+    /// <summary>Plural noun appended to the range text (default "itens").</summary>
     [Parameter] public string ItemLabel { get; set; } = "itens";
+    /// <summary>Accessible name of the navigation landmark.</summary>
     [Parameter] public string AriaLabel { get; set; } = "Paginação";
+    /// <summary>Accessible name of the previous-page action.</summary>
+    [Parameter] public string PreviousLabel { get; set; } = "Página anterior";
+    /// <summary>Accessible name of the next-page action.</summary>
+    [Parameter] public string NextLabel { get; set; } = "Próxima página";
+    /// <summary>Label of the page-size selector.</summary>
+    [Parameter] public string PageSizeLabel { get; set; } = "Itens por página";
+    /// <summary>Page position text from the one-based page and the page count. Default "Página {n} de {total}".</summary>
+    [Parameter] public Func<int, int, string>? PageLabel { get; set; }
+    /// <summary>Range text from the first item, last item and total (one-based). Default "{first}–{last} de {total} {ItemLabel}".</summary>
+    [Parameter] public Func<int, int, int, string>? RangeFormatter { get; set; }
+    /// <summary>Text shown when there are no items. Default "Nenhum {ItemLabel}".</summary>
+    [Parameter] public string? EmptyText { get; set; }
+    /// <summary>Disables every control, e.g. while the page is loading.</summary>
+    [Parameter] public bool Disabled { get; set; }
+    /// <summary>
+    /// Link mode: builds the URL of a zero-based page index, so previous/next
+    /// render as anchors (e.g. <c>i =&gt; $"?page={i + 1}"</c>) for server-routed
+    /// pages. When null, the callback mode with <see cref="PageIndexChanged"/> is used.
+    /// </summary>
+    [Parameter] public Func<int, string>? PageHref { get; set; }
 
     private int EffectivePageSize => Math.Max(1, PageSize);
     private int PageCount => Math.Max(1, (int)Math.Ceiling(Math.Max(0, TotalItems) / (double)EffectivePageSize));
     private int EffectivePageIndex => Math.Clamp(PageIndex, 0, PageCount - 1);
     private int FirstItem => TotalItems == 0 ? 0 : EffectivePageIndex * EffectivePageSize + 1;
     private int LastItem => Math.Min(TotalItems, (EffectivePageIndex + 1) * EffectivePageSize);
-    private string RangeLabel => TotalItems == 0
-        ? $"Nenhum {ItemLabel}"
-        : $"{FirstItem:N0}–{LastItem:N0} de {TotalItems:N0} {ItemLabel}";
+    private bool PreviousDisabled => Disabled || EffectivePageIndex == 0;
+    private bool NextDisabled => Disabled || EffectivePageIndex >= PageCount - 1;
+    private string RangeLabel => TotalItems <= 0
+        ? EmptyText ?? $"Nenhum {ItemLabel}"
+        : RangeFormatter?.Invoke(FirstItem, LastItem, TotalItems)
+            ?? $"{FirstItem:N0}–{LastItem:N0} de {TotalItems:N0} {ItemLabel}";
     private string Classname => SUIClassBuilder.Default("sui-pagination").AddClass(Class).Build();
 
     private Task PreviousAsync()

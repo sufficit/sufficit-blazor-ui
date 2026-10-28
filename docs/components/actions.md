@@ -48,3 +48,11 @@ O componente importa seu próprio módulo ES sob demanda: usa
 `navigator.clipboard` em contexto seguro e cai para `textarea` +
 `execCommand("copy")` fora dele. O aviso só aparece se houver um
 `SUISnackbarHost` na raiz.
+
+## Spinner, foco e ícones por nome
+
+`SUIButton` e `SUIIconButton` só mostram o spinner automático quando o `OnClick` continua pendente depois de
+`LoadingDelay` ms (padrão 300; negativo desliga). Handlers síncronos ou curtos — um toggle de navegação — não
+piscam mais. `Loading="true"` força o estado. `StartIcon`/`EndIcon`/`Icon` aceitam nome do `SUIIcon`
+(`"arrow-left"`, `"trash"`) além das constantes SVG de `SUIIcons`. `SUIIconButton.FocusAsync(preventScroll)`
+permite que dois toggles passem o foco entre si.

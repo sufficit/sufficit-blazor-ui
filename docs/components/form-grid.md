@@ -15,3 +15,13 @@ Use `ChildContent` para os campos em colunas e `FullWidthContent` para observaç
 ```
 
 O conteúdo em largura inteira segue a adaptação móvel da grade e não reserva linhas de rótulo para colunas vizinhas. Sem o slot, o DOM e comportamento existentes são preservados. A página consumidora deve usar a grade para os campos relacionados; a biblioteca não acrescenta margens globais a inputs, evitando duplicar espaços em layouts que já possuem gap.
+
+## Colunas desiguais
+
+`ColumnTemplate` recebe um `grid-template-columns` (ex.: `"2fr 1fr"`) e substitui a divisão igual de
+`Columns` acima de `44rem`; com `StackOnMobile` a grade continua empilhando em uma coluna. O valor vai numa
+custom property inline (`--sui-form-grid-template`) e é ignorado se contiver `;`, `{` ou `}`.
+
+```razor
+<SUIFormGrid ColumnTemplate="minmax(0, 2fr) minmax(0, 1fr)">…</SUIFormGrid>
+```

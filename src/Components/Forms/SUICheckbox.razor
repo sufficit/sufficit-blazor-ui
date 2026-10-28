@@ -14,7 +14,7 @@
            disabled="@Disabled"
            aria-label="@AriaLabel"
            aria-invalid="@(!string.IsNullOrWhiteSpace(EffectiveErrorText) ? "true" : null)"
-           aria-describedby="@(!string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null)"
+           aria-describedby="@DescribedBy"
            aria-errormessage="@(!string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null)"
            @onchange="OnChanged" />
     @* The tick is always in the markup and revealed by :checked, so the box
@@ -25,9 +25,16 @@
     <span class="sui-checkbox__box" aria-hidden="true">
         <SUIIcon Name="check" Size="16" />
     </span>
-    @if (!string.IsNullOrWhiteSpace(Label))
+    @if (HasHelper)
     {
-        <span class="sui-checkbox__label">@Label</span>
+        <span class="sui-checkbox__text">
+            @RenderLabel()
+            <span id="@HelperId" class="sui-field__helper sui-checkbox__helper">@(HelperContent ?? (RenderFragment)(b => b.AddContent(0, HelperText)))</span>
+        </span>
+    }
+    else
+    {
+        @RenderLabel()
     }
 </label>
 
@@ -47,6 +54,44 @@
     private string? EffectiveErrorText => _field.Error;
 
     private string ErrorId => $"{InputId}-error";
+    private string HelperId => $"{InputId}-helper";
+    private bool HasHelper => HelperContent is not null || !string.IsNullOrWhiteSpace(HelperText);
+    private string? DescribedBy
+        => string.Join(' ', new[]
+            {
+                HasHelper ? HelperId : null,
+                string.IsNullOrWhiteSpace(EffectiveErrorText) ? null : ErrorId,
+            }.Where(id => id is not null)) is { Length: > 0 } ids ? ids : null;
+
+    private RenderFragment RenderLabel() => __builder =>
+    {
+        if (ChildContent is not null)
+        {
+            <span class="sui-checkbox__label">@ChildContent</span>
+        }
+        else if (!string.IsNullOrWhiteSpace(Label))
+        {
+            <span class="sui-checkbox__label">@Label</span>
+        }
+    };
+
+    /// <summary>
+    /// Markup for the label area (e.g. text with a link or inline code); takes
+    /// precedence over <see cref="Label"/> and stays inside the clickable label.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Secondary description rendered under the label with the shared field
+    /// helper styling and linked to the box through <c>aria-describedby</c>.
+    /// </summary>
+    [Parameter]
+    public string? HelperText { get; set; }
+
+    /// <summary>Markup helper content; takes precedence over <see cref="HelperText"/>.</summary>
+    [Parameter]
+    public RenderFragment? HelperContent { get; set; }
     private readonly string _generatedInputId = $"sui-checkbox-{Guid.NewGuid():N}";
 
     /// <summary>Whether the checkbox is selected.</summary>
@@ -101,6 +146,7 @@
         => SUIClassBuilder.Default("sui-checkbox")
             .AddClass("sui-checkbox--checked", Value)
             .AddClass("sui-checkbox--disabled", Disabled)
+            .AddClass("sui-checkbox--described", HasHelper)
             .AddClass($"sui-checkbox--{SUIClassBuilder.Slug(EffectiveColor)}")
             .AddClass(Class)
             .Build();

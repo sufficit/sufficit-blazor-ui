@@ -40,3 +40,13 @@ migração do MudTableSortLabel; a ordenação continua no callback.
 `Description`, quebrada em linhas por `\n` ou, na falta dele, na primeira
 sentença. `ChildContent` recebe ações como "limpar filtros". O `colspan` vem de
 `SUITable.ColumnCount`.
+
+## Paginação localizável e por links
+
+`SUIPagination` aceita `PreviousLabel`, `NextLabel`, `PageSizeLabel`, `PageLabel` (`(página, total) => …`),
+`RangeFormatter` (`(primeiro, último, total) => …`), `EmptyText` e `Disabled` (ex.: durante o carregamento).
+Com `PageHref` (`índice => $"?page={índice + 1}"`) anterior/próxima viram links, para páginas roteadas no
+servidor; a ponta desabilitada não tem `href`.
+
+`SUITableSortLabel` traduz o sufixo de estado por `AscendingLabel`, `DescendingLabel` e `UnsortedLabel`
+(`StateDescriptionFactory` continua tendo precedência).

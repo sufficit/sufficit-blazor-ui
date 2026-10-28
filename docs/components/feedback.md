@@ -51,3 +51,10 @@ máximo três entradas, descartando a mais antiga, cada uma removida ao vencer
 `durationMs` (padrão 6000). `ActionLabel`/`OnAction` (parâmetros de `Add`)
 renderizam um botão de ação — ex. "Tentar de novo" — e o toast fecha após
 invocar o callback.
+
+## SUIExpansionPanel: conteúdo montado e cabeçalho extra
+
+`KeepContentMounted="true"` mantém o corpo no DOM quando recolhido (busca na página, testes, estado
+preservado), oculto pelo atributo nativo `hidden` e referenciado por `aria-controls`. `HeaderContent`
+mostra um badge de status ao lado do título; fica dentro do botão do cabeçalho, então não pode conter
+elementos interativos.

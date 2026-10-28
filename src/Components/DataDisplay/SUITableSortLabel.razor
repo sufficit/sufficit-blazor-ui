@@ -52,6 +52,19 @@
     [Parameter]
     public Func<SUISortDirection, string>? StateDescriptionFactory { get; set; }
 
+    /// <summary>State suffix announced while ascending (default ", sorted ascending"). <see cref="StateDescriptionFactory"/> wins when set.</summary>
+    [Parameter]
+    public string AscendingLabel { get; set; } = ", sorted ascending";
+
+    /// <summary>State suffix announced while descending (default ", sorted descending").</summary>
+    [Parameter]
+    public string DescendingLabel { get; set; } = ", sorted descending";
+
+    /// <summary>State suffix announced while unsorted (default ", not sorted").</summary>
+    [Parameter]
+    public string UnsortedLabel { get; set; } = ", not sorted";
+
+    /// <summary>Column label content.</summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -71,9 +84,9 @@
     private string StateDescription
         => StateDescriptionFactory?.Invoke(SortDirection) ?? SortDirection switch
         {
-            SUISortDirection.Ascending => ", sorted ascending",
-            SUISortDirection.Descending => ", sorted descending",
-            _ => ", not sorted",
+            SUISortDirection.Ascending => AscendingLabel,
+            SUISortDirection.Descending => DescendingLabel,
+            _ => UnsortedLabel,
         };
 
     private Task ToggleAsync()

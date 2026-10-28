@@ -36,6 +36,18 @@ public partial class SUISelect<TValue>
     [Parameter]
     public string? HelperText { get; set; }
 
+    /// <summary>Markup label; takes precedence over <see cref="Label"/> and names the trigger the same way.</summary>
+    [Parameter]
+    public RenderFragment? LabelContent { get; set; }
+
+    /// <summary>Markup helper content; takes precedence over <see cref="HelperText"/>.</summary>
+    [Parameter]
+    public RenderFragment? HelperContent { get; set; }
+
+    /// <summary>Non-blocking warning in the warning tone, linked by <c>aria-describedby</c>; never sets <c>aria-invalid</c>.</summary>
+    [Parameter]
+    public string? WarningText { get; set; }
+
     /// <summary>Explicit error message; takes precedence over validation messages from the form.</summary>
     [Parameter]
     public string? ErrorText { get; set; }
@@ -106,8 +118,9 @@ public partial class SUISelect<TValue>
     private string LabelId => $"{EffectiveId}-label";
     private string HelperId => $"{EffectiveId}-helper";
     private string ErrorId => $"{EffectiveId}-error";
+    private string WarningId => $"{EffectiveId}-warning";
     private string MenuId => $"{EffectiveId}-menu";
-    private string? LabelledBy => string.IsNullOrWhiteSpace(Label) ? null : LabelId;
+    private string? LabelledBy => LabelContent is null && string.IsNullOrWhiteSpace(Label) ? null : LabelId;
     private string? ErrorMessageId => !string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null;
     private string? ActiveDescendantId
         => _open && _activeIndex >= 0 && _activeIndex < _items.Count
@@ -120,7 +133,8 @@ public partial class SUISelect<TValue>
             var ids = new[]
             {
                 AriaDescribedBy,
-                string.IsNullOrWhiteSpace(HelperText) ? null : HelperId,
+                HelperContent is null && string.IsNullOrWhiteSpace(HelperText) ? null : HelperId,
+                string.IsNullOrWhiteSpace(WarningText) ? null : WarningId,
                 !string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null
             };
             var value = string.Join(" ", ids.Where(id => !string.IsNullOrWhiteSpace(id)));

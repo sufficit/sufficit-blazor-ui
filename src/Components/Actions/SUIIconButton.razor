@@ -15,15 +15,15 @@
         .AddClass($"sui-btn--{SUIClassBuilder.Slug(EffectiveSize)}")
         .AddClass($"sui-btn--edge-{SUIClassBuilder.Slug(EffectiveEdge)}")
         .AddClass("sui-btn--full-width", FullWidth)
-        .AddClass("sui-btn--loading", IsLoading)
+        .AddClass("sui-btn--loading", ShowLoading)
         .AddClass(Class)
         .Build();
-    bool isDisabled = Disabled || IsLoading;
+    bool isDisabled = Disabled || ShowLoading;
 }
 
 @if (isAnchor)
 {
-    <a class="@cls" style="@Style" href="@Href" target="@Target" rel="@GetRel()"
+    <a @ref="_elementReference" class="@cls" style="@Style" href="@Href" target="@Target" rel="@GetRel()"
        aria-label="@Title" aria-disabled="@isDisabled" @onclick="OnClickHandler" @onclick:preventDefault="@preventDefault"
        @attributes="AdditionalAttributes">
         @RenderBody()
@@ -31,7 +31,7 @@
 }
 else
 {
-    <button type="@SUIClassBuilder.Slug(EffectiveButtonType)" class="@cls" style="@Style"
+    <button @ref="_elementReference" type="@SUIClassBuilder.Slug(EffectiveButtonType)" class="@cls" style="@Style"
             aria-label="@Title" disabled="@isDisabled" @onclick="OnClickHandler"
             @attributes="AdditionalAttributes">
         @RenderBody()
@@ -107,28 +107,50 @@ else
 
     protected async Task OnClickHandler(MouseEventArgs ev)
     {
-        if (Disabled)
+        if (Disabled || ShowLoading || _running)
             return;
 
         if (OnClick.HasDelegate)
         {
-            IsLoading = true;
-            await InvokeAsync(StateHasChanged);
+            _running = true;
             try
             {
-                await OnClick.InvokeAsync(ev);
+                await SUIClickLoading.RunAsync(OnClick.InvokeAsync(ev), LoadingDelay,
+                    busy => { IsLoading = busy; return InvokeAsync(StateHasChanged); });
             }
             finally
             {
-                IsLoading = false;
-                await InvokeAsync(StateHasChanged);
+                _running = false;
             }
         }
     }
 
+    private ElementReference _elementReference;
+    private bool _running;
+    private bool ShowLoading => Loading || IsLoading;
+
+    /// <summary>Shows the loading spinner and disables the button, whatever the click state.</summary>
+    [Parameter]
+    public bool Loading { get; set; }
+
+    /// <summary>
+    /// Milliseconds an asynchronous <c>OnClick</c> must still be running before
+    /// the automatic spinner appears (default 300). Synchronous and short
+    /// handlers never flash a spinner; a negative value disables it entirely.
+    /// </summary>
+    [Parameter]
+    public int LoadingDelay { get; set; } = SUIClickLoading.DefaultDelay;
+
+    /// <summary>
+    /// Moves keyboard focus to the button or anchor, e.g. so a toggle pair can
+    /// hand focus to its counterpart when it disappears.
+    /// </summary>
+    public ValueTask FocusAsync(bool preventScroll = false)
+        => _elementReference.FocusAsync(preventScroll);
+
     private RenderFragment RenderBody() => __builder =>
     {
-        if (IsLoading)
+        if (ShowLoading)
         {
             <span class="sui-overlay sui-overlay--light">
                 <span class="sui-progress-circular sui-progress-circular--sm sui-color-@SUIClassBuilder.Slug(EffectiveColor)">
@@ -139,7 +161,7 @@ else
         if (!string.IsNullOrEmpty(Icon))
         {
             <span class="sui-icon sui-icon--@SUIClassBuilder.Slug(EffectiveSize)">
-                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">@SUIIconMarkup.Render(Icon)</svg>
+                @SUIClickLoading.Glyph(Icon)
             </span>
         }
         else

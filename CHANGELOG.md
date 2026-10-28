@@ -9,6 +9,28 @@ definem a numeração das próximas publicações.
 ## [Unreleased]
 
 ### Adicionado
+- Lacunas da migração do Identity para SUI (todas aditivas; o markup padrão não muda):
+  - `SUICheckbox`: `HelperText`/`HelperContent` (descrição com o estilo de helper, ligada por `aria-describedby`)
+    e `ChildContent` para rótulo com markup.
+  - Fields (`SUITextField`, `SUINumericField`, `SUISelect`): `WarningText` (tom de aviso, anunciado, sem
+    `aria-invalid`), `LabelContent` e `HelperContent` (markup); `Optional`/`OptionalText` também no
+    `SUIDateField`. `SUITextField`: `Monospace` (fonte `--sui-font-mono`, sem spellcheck) e `Suggestions`
+    (`datalist` nativo, texto livre). `SUINumericField`: `Suffix` (unidade dentro do campo, anunciada).
+  - `SUIButton`/`SUIIconButton`: o spinner automático só aparece se o `OnClick` ainda estiver pendente após
+    `LoadingDelay` (300 ms; negativo desliga); `Loading` força o estado. Ícones aceitam nome do `SUIIcon`
+    além de SVG. `SUIIconButton.FocusAsync(preventScroll)` e `SUIButton.FocusAsync(bool)`.
+  - `SUIIcon`: `eye`, `user`, `unlock`, `download`, `upload`, `more-vertical` e aliases `close`, `delete`,
+    `external-link`.
+  - `SUIPagination`: `PreviousLabel`, `NextLabel`, `PageSizeLabel`, `PageLabel`, `RangeFormatter`,
+    `EmptyText`, `Disabled` e `PageHref` (navegação por links, ex.: `?page=`).
+  - `SUIProgressSteps.StepPositionLabel`; `SUITableSortLabel`: `AscendingLabel`, `DescendingLabel`,
+    `UnsortedLabel`.
+  - `SUIFormGrid.ColumnTemplate` (colunas desiguais, mantém o empilhamento móvel).
+  - `SUITooltip`: `Title`, `Content` (markup) e `PersistentDescription` (texto sempre no DOM, oculto
+    visualmente, ligado por `aria-describedby`).
+  - `SUIExpansionPanel`: `KeepContentMounted` (conteúdo oculto com `hidden`) e `HeaderContent`.
+  - `SUISwitchButton`: `aria-pressed` e `FullWidth` (padrão `true`).
+  - `SUIChoiceCard`: modo ação com `Href` ou `OnClick` (card vira link/botão, sem rádio).
 - `SUISection` ganhou `Flat`: seção sem card, título em sobrelinha e conteúdo em pilha, para listas de
   configuração e painéis estreitos. Entre duas seções planas há um divisor com o mesmo espaço (`Gap`, padrão
   16px) acima e abaixo, então ele nunca encosta nos controles. Mudança aditiva.

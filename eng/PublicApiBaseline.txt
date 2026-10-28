@@ -763,6 +763,7 @@ I|Sufficit.Blazor.UI.Themes.SUITheme|System.IEquatable<Sufficit.Blazor.UI.Themes
 I|Sufficit.Blazor.UI.Themes.SUITypography|System.IEquatable<Sufficit.Blazor.UI.Themes.SUITypography>
 M|Sufficit.Blazor.UI.Components.SUIAutocomplete<`0:TValue>|System.Threading.Tasks.ValueTask|DisposeAsync|()
 M|Sufficit.Blazor.UI.Components.SUIButton|System.Threading.Tasks.ValueTask|FocusAsync|()
+M|Sufficit.Blazor.UI.Components.SUIButton|System.Threading.Tasks.ValueTask|FocusAsync|(System.Boolean)
 M|Sufficit.Blazor.UI.Components.SUIButton|System.Void|Dispose|()
 M|Sufficit.Blazor.UI.Components.SUICheckbox|System.Void|Dispose|()
 M|Sufficit.Blazor.UI.Components.SUIChoiceCard<`0:TValue>|System.Void|Dispose|()
@@ -781,6 +782,7 @@ M|Sufficit.Blazor.UI.Components.SUIFilterContext|System.Int32|GetHashCode|()
 M|Sufficit.Blazor.UI.Components.SUIFilterContext|System.String|ToString|()
 M|Sufficit.Blazor.UI.Components.SUIFilterContext|System.Void|Deconstruct|(out System.String)
 M|Sufficit.Blazor.UI.Components.SUIFilterTree|System.Void|Dispose|()
+M|Sufficit.Blazor.UI.Components.SUIIconButton|System.Threading.Tasks.ValueTask|FocusAsync|(System.Boolean)
 M|Sufficit.Blazor.UI.Components.SUIIconButton|System.Void|Dispose|()
 M|Sufficit.Blazor.UI.Components.SUIIconMarkup|Microsoft.AspNetCore.Components.MarkupString|Render|(System.String)
 M|Sufficit.Blazor.UI.Components.SUIIconMarkup|System.Boolean|IsMarkup|(System.String)
@@ -941,7 +943,9 @@ P|Sufficit.Blazor.UI.Components.SUIButton|Microsoft.AspNetCore.Components.EventC
 P|Sufficit.Blazor.UI.Components.SUIButton|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIButton|System.Boolean|Disabled|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIButton|System.Boolean|FullWidth|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIButton|System.Boolean|Loading|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIButton|System.Collections.Generic.Dictionary<System.String,System.Object>|UserAttributes|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIButton|System.Int32|LoadingDelay|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIButton|System.Nullable<Sufficit.Blazor.UI.Components.SUIButtonType>|ButtonTypeValue|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIButton|System.Nullable<Sufficit.Blazor.UI.Components.SUIColor>|ColorValue|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIButton|System.Nullable<Sufficit.Blazor.UI.Components.SUIColor>|IconColorValue|[]|get;set;
@@ -974,12 +978,15 @@ P|Sufficit.Blazor.UI.Components.SUICard|Microsoft.AspNetCore.Components.RenderFr
 P|Sufficit.Blazor.UI.Components.SUICard|System.Collections.Generic.Dictionary<System.String,System.Object>|Attributes|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICard|System.Int32|Elevation|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICheckbox|Microsoft.AspNetCore.Components.EventCallback<System.Boolean>|ValueChanged|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUICheckbox|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUICheckbox|Microsoft.AspNetCore.Components.RenderFragment|HelperContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICheckbox|System.Boolean|Disabled|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICheckbox|System.Boolean|Value|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICheckbox|System.Linq.Expressions.Expression<System.Func<System.Boolean>>|ValueExpression|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICheckbox|System.Nullable<Sufficit.Blazor.UI.Components.SUIColor>|ColorValue|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICheckbox|System.String|AriaLabel|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICheckbox|System.String|FormValue|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUICheckbox|System.String|HelperText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICheckbox|System.String|Id|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICheckbox|System.String|Label|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICheckbox|System.String|Name|[]|get;set;
@@ -992,6 +999,7 @@ P|Sufficit.Blazor.UI.Components.SUIChip|System.Nullable<Sufficit.Blazor.UI.Compo
 P|Sufficit.Blazor.UI.Components.SUIChip|System.String|ActionLabel|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIChip|System.String|Icon|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIChip|System.String|RemoveLabel|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIChoiceCard<`0:TValue>|Microsoft.AspNetCore.Components.EventCallback<`0:TValue>|OnClick|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIChoiceCard<`0:TValue>|Microsoft.AspNetCore.Components.EventCallback<`0:TValue>|SelectedValueChanged|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIChoiceCard<`0:TValue>|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIChoiceCard<`0:TValue>|Microsoft.AspNetCore.Components.RenderFragment|IconContent|[]|get;set;
@@ -1002,6 +1010,7 @@ P|Sufficit.Blazor.UI.Components.SUIChoiceCard<`0:TValue>|System.Boolean|ShowSele
 P|Sufficit.Blazor.UI.Components.SUIChoiceCard<`0:TValue>|System.Linq.Expressions.Expression<System.Func<`0:TValue>>|SelectedValueExpression|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIChoiceCard<`0:TValue>|System.String|AriaLabel|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIChoiceCard<`0:TValue>|System.String|Description|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIChoiceCard<`0:TValue>|System.String|Href|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIChoiceCard<`0:TValue>|System.String|Id|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIChoiceCard<`0:TValue>|System.String|LeadingClass|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIChoiceCard<`0:TValue>|System.String|Name|[]|get;set;
@@ -1024,6 +1033,7 @@ P|Sufficit.Blazor.UI.Components.SUICopyToClipboard|System.String|Title|[]|get;se
 P|Sufficit.Blazor.UI.Components.SUIDateField|Microsoft.AspNetCore.Components.EventCallback<System.Nullable<System.DateOnly>>|ValueChanged|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDateField|System.Boolean|Disabled|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDateField|System.Boolean|Invalid|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIDateField|System.Boolean|Optional|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDateField|System.Boolean|Required|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDateField|System.Collections.Generic.Dictionary<System.String,System.Object>|UserAttributes|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDateField|System.Globalization.CultureInfo|Culture|[]|get;set;
@@ -1038,6 +1048,7 @@ P|Sufficit.Blazor.UI.Components.SUIDateField|System.String|HelperText|[]|get;set
 P|Sufficit.Blazor.UI.Components.SUIDateField|System.String|Id|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDateField|System.String|Label|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDateField|System.String|Name|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIDateField|System.String|OptionalText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDateField|System.String|Placeholder|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDateTime|System.Nullable<System.DateTime>|Value|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDateTime|System.String|Format|[]|get;set;
@@ -1075,7 +1086,9 @@ P|Sufficit.Blazor.UI.Components.SUIEmptyState|System.String|Icon|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIEmptyState|System.String|Title|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIExpansionPanel|Microsoft.AspNetCore.Components.EventCallback<System.Boolean>|ExpandedChanged|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIExpansionPanel|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIExpansionPanel|Microsoft.AspNetCore.Components.RenderFragment|HeaderContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIExpansionPanel|System.Boolean|Expanded|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIExpansionPanel|System.Boolean|KeepContentMounted|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIExpansionPanel|System.String|StartIcon|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIExpansionPanel|System.String|Subtitle|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIExpansionPanel|System.String|Title|[]|get;set;
@@ -1094,6 +1107,7 @@ P|Sufficit.Blazor.UI.Components.SUIFormGrid|System.Boolean|StackOnMobile|[]|get;
 P|Sufficit.Blazor.UI.Components.SUIFormGrid|System.Int32|Columns|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIFormGrid|System.Int32|LabelLines|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIFormGrid|System.Int32|Spacing|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIFormGrid|System.String|ColumnTemplate|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIFormGrid|System.String|MinColumnWidth|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIGrid|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIGrid|System.Boolean|Spacing|[]|get;set;
@@ -1101,7 +1115,9 @@ P|Sufficit.Blazor.UI.Components.SUIIconButton|Microsoft.AspNetCore.Components.Ev
 P|Sufficit.Blazor.UI.Components.SUIIconButton|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIIconButton|System.Boolean|Disabled|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIIconButton|System.Boolean|FullWidth|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIIconButton|System.Boolean|Loading|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIIconButton|System.Collections.Generic.Dictionary<System.String,System.Object>|UserAttributes|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIIconButton|System.Int32|LoadingDelay|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIIconButton|System.Nullable<Sufficit.Blazor.UI.Components.SUIButtonType>|ButtonTypeValue|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIIconButton|System.Nullable<Sufficit.Blazor.UI.Components.SUIColor>|ColorValue|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIIconButton|System.Nullable<Sufficit.Blazor.UI.Components.SUIEdge>|EdgeValue|[]|get;set;
@@ -1211,11 +1227,14 @@ P|Sufficit.Blazor.UI.Components.SUINavigationContext|System.Boolean|Disabled|[]|
 P|Sufficit.Blazor.UI.Components.SUINavigationContext|System.Boolean|Expanded|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINavigationContext|System.String|MenuId|[]|get;
 P|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|Microsoft.AspNetCore.Components.EventCallback<`0:TValue>|ValueChanged|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|Microsoft.AspNetCore.Components.RenderFragment|HelperContent|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|Microsoft.AspNetCore.Components.RenderFragment|LabelContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|System.Boolean|ChangeOnArrowKeys|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|System.Boolean|ChangeOnWheel|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|System.Boolean|Disabled|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|System.Boolean|Immediate|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|System.Boolean|Invalid|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|System.Boolean|Optional|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|System.Collections.Generic.Dictionary<System.String,System.Object>|UserAttributes|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|System.Linq.Expressions.Expression<System.Func<`0:TValue>>|ValueExpression|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|System.Nullable<System.Decimal>|ArrowKeyStep|[]|get;set;
@@ -1229,7 +1248,10 @@ P|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|System.String|Id|[]|g
 P|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|System.String|IncreaseText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|System.String|Label|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|System.String|Name|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|System.String|OptionalText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|System.String|Step|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|System.String|Suffix|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|System.String|WarningText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|`0:TValue|Max|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|`0:TValue|Min|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUINumericField<`0:TValue>|`0:TValue|Value|[]|get;set;
@@ -1241,12 +1263,20 @@ P|Sufficit.Blazor.UI.Components.SUIPageHeader|System.String|Eyebrow|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIPageHeader|System.String|Title|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIPagination|Microsoft.AspNetCore.Components.EventCallback<System.Int32>|PageIndexChanged|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIPagination|Microsoft.AspNetCore.Components.EventCallback<System.Int32>|PageSizeChanged|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIPagination|System.Boolean|Disabled|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIPagination|System.Collections.Generic.IReadOnlyList<System.Int32>|PageSizeOptions|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIPagination|System.Func<System.Int32,System.Int32,System.Int32,System.String>|RangeFormatter|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIPagination|System.Func<System.Int32,System.Int32,System.String>|PageLabel|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIPagination|System.Func<System.Int32,System.String>|PageHref|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIPagination|System.Int32|PageIndex|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIPagination|System.Int32|PageSize|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIPagination|System.Int32|TotalItems|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIPagination|System.String|AriaLabel|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIPagination|System.String|EmptyText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIPagination|System.String|ItemLabel|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIPagination|System.String|NextLabel|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIPagination|System.String|PageSizeLabel|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIPagination|System.String|PreviousLabel|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIPendingChangesBar|Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs>|OnCancel|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIPendingChangesBar|Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs>|OnSave|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIPendingChangesBar|System.Boolean|Disabled|[]|get;set;
@@ -1280,6 +1310,7 @@ P|Sufficit.Blazor.UI.Components.SUIProgressLinear|System.Nullable<Sufficit.Blazo
 P|Sufficit.Blazor.UI.Components.SUIProgressLinear|System.String|AriaLabel|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIProgressSteps|Microsoft.AspNetCore.Components.EventCallback<System.Int32>|ActiveIndexChanged|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIProgressSteps|System.Collections.Generic.IReadOnlyList<System.String>|Steps|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIProgressSteps|System.Func<System.Int32,System.Int32,System.String>|StepPositionLabel|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIProgressSteps|System.Int32|ActiveIndex|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIProgressSteps|System.Nullable<System.Int32>|MaxReachableIndex|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIProgressSteps|System.String|AriaLabel|[]|get;set;
@@ -1311,6 +1342,8 @@ P|Sufficit.Blazor.UI.Components.SUISection|System.String|Icon|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISection|System.String|Title|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|Microsoft.AspNetCore.Components.EventCallback<`0:TValue>|ValueChanged|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|Microsoft.AspNetCore.Components.RenderFragment|HelperContent|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|Microsoft.AspNetCore.Components.RenderFragment|LabelContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.Boolean|Disabled|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.Boolean|Invalid|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.Collections.Generic.Dictionary<System.String,System.Object>|UserAttributes|[]|get;set;
@@ -1325,6 +1358,7 @@ P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.String|MenuMaxWidth|
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.String|MenuWidth|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.String|Name|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.String|Placeholder|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.String|WarningText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|`0:TValue|Value|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelectItem|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelectItem|System.Boolean|Disabled|[]|get;set;
@@ -1384,6 +1418,7 @@ P|Sufficit.Blazor.UI.Components.SUIStat|System.String|Value|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISwitchButton|Microsoft.AspNetCore.Components.EventCallback<System.Boolean>|CheckedChanged|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISwitchButton|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISwitchButton|System.Boolean|Checked|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUISwitchButton|System.Boolean|FullWidth|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISwitchButton|System.Linq.Expressions.Expression<System.Func<System.Boolean>>|CheckedExpression|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISwitch|Microsoft.AspNetCore.Components.EventCallback<System.Boolean>|ValueChanged|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISwitch|System.Boolean|Disabled|[]|get;set;
@@ -1430,6 +1465,9 @@ P|Sufficit.Blazor.UI.Components.SUITableSortLabel<`0:TItem>|System.Boolean|Allow
 P|Sufficit.Blazor.UI.Components.SUITableSortLabel<`0:TItem>|System.Func<Sufficit.Blazor.UI.Components.SUISortDirection,System.String>|StateDescriptionFactory|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITableSortLabel<`0:TItem>|System.Func<`0:TItem,System.Object>|SortBy|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITableSortLabel<`0:TItem>|System.Object|InitialDirection|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITableSortLabel<`0:TItem>|System.String|AscendingLabel|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITableSortLabel<`0:TItem>|System.String|DescendingLabel|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITableSortLabel<`0:TItem>|System.String|UnsortedLabel|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITabs|Microsoft.AspNetCore.Components.EventCallback<System.Int32>|ActiveIndexChanged|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITabs|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITabs|System.Boolean|Vertical|[]|get;set;
@@ -1440,12 +1478,17 @@ P|Sufficit.Blazor.UI.Components.SUITd|Microsoft.AspNetCore.Components.RenderFrag
 P|Sufficit.Blazor.UI.Components.SUITd|System.Collections.Generic.Dictionary<System.String,System.Object>|UserAttributes|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITd|System.String|DataLabel|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|Microsoft.AspNetCore.Components.EventCallback<`0:TValue>|ValueChanged|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|Microsoft.AspNetCore.Components.RenderFragment|HelperContent|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|Microsoft.AspNetCore.Components.RenderFragment|LabelContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.Boolean|Clearable|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.Boolean|Disabled|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.Boolean|Immediate|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.Boolean|Invalid|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.Boolean|Monospace|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.Boolean|Multiline|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.Boolean|Optional|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.Collections.Generic.Dictionary<System.String,System.Object>|UserAttributes|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.Collections.Generic.IEnumerable<System.String>|Suggestions|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.Int32|Rows|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.Linq.Expressions.Expression<System.Func<`0:TValue>>|ValueExpression|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.Nullable<System.Int32>|MaxLength|[]|get;set;
@@ -1458,7 +1501,9 @@ P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.String|Id|[]|get;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.String|InputType|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.String|Label|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.String|Name|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.String|OptionalText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.String|Placeholder|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.String|WarningText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|`0:TValue|Value|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIText|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIText|Sufficit.Blazor.UI.Components.SUITextTag|Tag|[]|get;set;
@@ -1490,8 +1535,10 @@ P|Sufficit.Blazor.UI.Components.SUIToast|System.String|DismissLabel|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIToast|System.String|Icon|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIToast|System.String|Id|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITooltip|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITooltip|Microsoft.AspNetCore.Components.RenderFragment|Content|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITooltip|Sufficit.Blazor.UI.Components.SUITooltipPlacement|Placement|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITooltip|System.Boolean|Disabled|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITooltip|System.Boolean|PersistentDescription|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITooltip|System.Boolean|ShowArrow|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITooltip|System.Collections.Generic.Dictionary<System.String,System.Object>|UserAttributes|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITooltip|System.Double|Opacity|[]|get;set;
@@ -1508,6 +1555,7 @@ P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|FontSize|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|Padding|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|TextColor|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|Text|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|Title|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITooltip|System.String|TooltipClass|[]|get;set;
 P|Sufficit.Blazor.UI.Services.SUIAnimationPolicy|Sufficit.Blazor.UI.Components.SUIAnimation|Animations|[]|get;
 P|Sufficit.Blazor.UI.Services.SUIDialogOptions|System.String|Icon|[]|get;set;

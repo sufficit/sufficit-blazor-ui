@@ -1,0 +1,4 @@
+/* Rich tooltip: a heading line over a regular-weight body. The portal clones
+   these nodes with their scope attribute, so the scoped rules still match. */
+.sui-tooltip__title { display: block; margin-bottom: 2px; font-weight: 700; }
+.sui-tooltip__title + .sui-tooltip__body { display: block; font-weight: 400; }

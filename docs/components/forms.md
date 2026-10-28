@@ -137,3 +137,26 @@ mesmo contrato de eventos, inclusive quando Immediate está desativado.
 Immediate não adiciona debounce nem salvamento remoto: a aplicação decide o que
 executar em ValueChanged. O editor de temas publica valores dentro da faixa
 configurada, permitindo digitar valores intermediários sem reescrever o campo.
+
+## Estados e slots dos fields
+
+- `WarningText` (`SUITextField`, `SUINumericField`, `SUISelect`): aviso que não bloqueia. Usa o ritmo do erro
+  com o tom de aviso, entra no `aria-describedby` e nunca define `aria-invalid`.
+- `LabelContent` / `HelperContent`: markup no rótulo e no helper (ex.: `<code>`), no mesmo slot e com os
+  mesmos ids de `Label`/`HelperText`.
+- `Optional` + `OptionalText` (padrão "(opcional)"; também no `SUIDateField`): marcador secundário dentro do
+  rótulo, em vez de o consumidor editar o texto do label.
+- `SUITextField Monospace="true"`: ids, tokens, URIs e JSON (`Multiline`) em `--sui-font-mono`, sem spellcheck.
+- `SUITextField Suggestions="@scopes"`: sugestões por `datalist` nativo; o texto continua livre.
+- `SUINumericField Suffix="min"`: unidade dentro do campo, anunciada por `aria-describedby`.
+- `SUICheckbox HelperText="…"` (ou `HelperContent`) descreve a opção sem trocar para `SUISwitch`;
+  `ChildContent` aceita rótulo com markup.
+- `SUISwitchButton` expõe `aria-pressed`; `FullWidth="false"` ajusta a largura ao conteúdo.
+- `SUIChoiceCard` com `Href` ou `OnClick` vira um card de ação (link/botão com chevron), sem rádio, para
+  listas "escolha e siga".
+
+```razor
+<SUITextField TValue="string" Label="Redirect URI" Monospace="true" @bind-Value="Model.Uri"
+              WarningText="@(Model.Uri?.StartsWith("http:") == true ? "Sem HTTPS." : null)" />
+<SUINumericField TValue="int" Label="Validade" Suffix="min" Optional="true" @bind-Value="Model.Ttl" />
+```

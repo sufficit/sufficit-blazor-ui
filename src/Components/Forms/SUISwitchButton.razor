@@ -2,8 +2,8 @@
 @namespace Sufficit.Blazor.UI.Components
 @inherits SUIComponentBase
 
-<SUIButton VariantValue="@Variant" ColorValue="SUIColor.Primary" FullWidth OnClick="OnClicked"
-           Class="@Class" Style="@Style" @attributes="AdditionalAttributes">
+<SUIButton VariantValue="@Variant" ColorValue="SUIColor.Primary" FullWidth="@FullWidth" OnClick="OnClicked"
+           Class="@Class" Style="@Style" aria-pressed="@(Checked ? "true" : "false")" @attributes="AdditionalAttributes">
     @ChildContent
 </SUIButton>
 @if (EffectiveErrorText is not null)
@@ -24,8 +24,13 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>Pressed state, announced through <c>aria-pressed</c>.</summary>
     [Parameter]
     public bool Checked { get; set; }
+
+    /// <summary>Stretches the button to its container (default true); false sizes it to its content.</summary>
+    [Parameter]
+    public bool FullWidth { get; set; } = true;
 
     [Parameter]
     public EventCallback<bool> CheckedChanged { get; set; }

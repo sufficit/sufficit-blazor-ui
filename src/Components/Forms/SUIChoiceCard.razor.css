@@ -172,3 +172,18 @@
     grid-column-start: 2;
   }
 }
+
+/* Action mode: a link or button card. Reset native control chrome. */
+.sui-choice-card--action {
+  inline-size: 100%;
+  font: inherit;
+  text-align: start;
+  text-decoration: none;
+}
+
+.sui-choice-card--action:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--_choice-accent) 30%, transparent);
+  outline-offset: var(--sui-focus-offset);
+}
+
+.sui-choice-card--action .sui-choice-card__trailing { display: flex; color: var(--_choice-muted); }

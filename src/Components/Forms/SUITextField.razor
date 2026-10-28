@@ -4,14 +4,18 @@
 @typeparam TValue
 
 <div class="@Classname" style="@Style">
-    @if (!string.IsNullOrWhiteSpace(Label))
+    @if (LabelContent is not null)
     {
-        <label class="sui-field__label" for="@EffectiveId">@Label</label>
+        <label class="sui-field__label" for="@EffectiveId">@LabelContent@(Optional ? SUIFieldParts.OptionalMarker(Optional, OptionalText) : null)</label>
+    }
+    else if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <label class="sui-field__label" for="@EffectiveId">@Label@(Optional ? SUIFieldParts.OptionalMarker(Optional, OptionalText) : null)</label>
     }
     @if (Multiline)
     {
         <textarea @ref="_inputElement"
-                  class="sui-field__input sui-field__input--multiline"
+                  class="@(Monospace ? "sui-field__input sui-field__input--multiline sui-field__input--mono" : "sui-field__input sui-field__input--multiline")"
                   id="@EffectiveId"
                   name="@Name"
                   rows="@EffectiveRows"
@@ -20,6 +24,7 @@
                   placeholder="@Placeholder"
                   maxlength="@MaxLength"
                   disabled="@Disabled"
+                  spellcheck="@(Monospace ? "false" : null)"
                   aria-describedby="@DescribedBy"
                   aria-invalid="@(HasError ? "true" : null)"
                   aria-errormessage="@(!string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null)"
@@ -38,6 +43,8 @@
                    placeholder="@Placeholder"
                    maxlength="@MaxLength"
                    disabled="@Disabled"
+                   spellcheck="@(Monospace ? "false" : null)"
+                   list="@(HasSuggestions ? SuggestionsId : null)"
                    aria-describedby="@DescribedBy"
                    aria-invalid="@(HasError ? "true" : null)"
                    aria-errormessage="@(!string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null)"
@@ -62,9 +69,26 @@
             }
         </div>
     }
-    @if (!string.IsNullOrWhiteSpace(HelperText))
+    @if (HasSuggestions && !Multiline)
+    {
+        <datalist id="@SuggestionsId">
+            @foreach (var suggestion in Suggestions!)
+            {
+                <option value="@suggestion"></option>
+            }
+        </datalist>
+    }
+    @if (HelperContent is not null)
+    {
+        <span id="@HelperId" class="sui-field__helper">@HelperContent</span>
+    }
+    else if (!string.IsNullOrWhiteSpace(HelperText))
     {
         <span id="@HelperId" class="sui-field__helper">@HelperText</span>
+    }
+    @if (!string.IsNullOrWhiteSpace(WarningText))
+    {
+        <span id="@WarningId" class="sui-field__warning">@WarningText</span>
     }
     @if (FormContext is not null || !string.IsNullOrWhiteSpace(EffectiveErrorText))
     {

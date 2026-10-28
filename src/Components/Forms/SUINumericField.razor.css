@@ -13,3 +13,11 @@
     .sui-numeric__step { min-height: 44px; }
     .sui-numeric__control--steppers > input { min-height: 46px; }
 }
+.sui-numeric__suffix { position: absolute; inset-block: 0; inset-inline-end: var(--sui-space-3); display: flex; align-items: center; color: var(--sui-text-secondary); font-size: var(--sui-fs-body2); pointer-events: none; }
+.sui-numeric__control--suffix > input { padding-inline-end: 3.75rem; }
+.sui-numeric__control--steppers.sui-numeric__control--suffix > .sui-numeric__suffix { inset-inline-end: 2.5rem; }
+.sui-numeric__control--steppers.sui-numeric__control--suffix > input { padding-inline-end: 6rem; }
+@media (pointer: coarse), (max-width: 599.98px) {
+    .sui-numeric__control--steppers.sui-numeric__control--suffix > .sui-numeric__suffix { inset-inline-end: 6rem; }
+    .sui-numeric__control--steppers.sui-numeric__control--suffix > input { padding-inline-end: 9.5rem; }
+}

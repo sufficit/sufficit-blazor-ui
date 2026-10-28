@@ -7,44 +7,37 @@
 @using Sufficit.Blazor.UI.Utilities
 @using System.Globalization
 
-<label class="@ClassName" style="@StyleValue" @attributes="AdditionalAttributes">
-    <input class="sui-choice-card__input"
-           id="@InputId"
-           name="@Name"
-           type="radio"
-           value="@FormValue"
-           checked="@IsSelected"
-           disabled="@Disabled"
-           aria-label="@AriaLabel"
-           @onchange="SelectAsync" />
-
-    @if (IconContent is not null)
+@if (IsAction)
+{
+    @* Action mode: the card is a link or a button ("pick and go"), not a radio. *@
+    @if (!string.IsNullOrWhiteSpace(Href) && !Disabled)
     {
-        <span class="@IconClassName" aria-hidden="true">
-            @IconContent
-        </span>
+        <a class="@ClassName" style="@StyleValue" href="@Href" @onclick="ActivateAsync" @attributes="AdditionalAttributes">
+            @Body
+        </a>
     }
-
-    <span class="sui-choice-card__content">
-        <span class="sui-choice-card__title">@Title</span>
-        @if (!string.IsNullOrWhiteSpace(Description))
-        {
-            <span class="sui-choice-card__description">@Description</span>
-        }
-        @ChildContent
-    </span>
-
-    @if (TrailingContent is not null)
+    else
     {
-        <span class="@TrailingClassName">
-            @TrailingContent
-        </span>
+        <button type="button" class="@ClassName" style="@StyleValue" disabled="@Disabled" @onclick="ActivateAsync" @attributes="AdditionalAttributes">
+            @Body
+        </button>
     }
-    else if (ShowSelectionIndicator)
-    {
-        <span class="sui-choice-card__indicator" aria-hidden="true"></span>
-    }
-</label>
+}
+else
+{
+    <label class="@ClassName" style="@StyleValue" @attributes="AdditionalAttributes">
+        <input class="sui-choice-card__input"
+               id="@InputId"
+               name="@Name"
+               type="radio"
+               value="@FormValue"
+               checked="@IsSelected"
+               disabled="@Disabled"
+               aria-label="@AriaLabel"
+               @onchange="SelectAsync" />
+        @Body
+    </label>
+}
 
 @if (EffectiveErrorText is not null)
 {
@@ -129,13 +122,68 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>Shows the radio indicator (a chevron in action mode) when no trailing content is given.</summary>
     [Parameter]
     public bool ShowSelectionIndicator { get; set; } = true;
 
+    /// <summary>
+    /// Action mode: the card renders as a link to this URL instead of a radio
+    /// option, for "pick one and go" lists. <see cref="Value"/> is still passed to <see cref="OnClick"/>.
+    /// </summary>
+    [Parameter]
+    public string? Href { get; set; }
+
+    /// <summary>
+    /// Action mode: the card renders as a button (or the <see cref="Href"/>
+    /// link) and raises this with <see cref="Value"/> when activated.
+    /// </summary>
+    [Parameter]
+    public EventCallback<TValue> OnClick { get; set; }
+
+    private bool IsAction => !string.IsNullOrWhiteSpace(Href) || OnClick.HasDelegate;
+
+    private Task ActivateAsync()
+        => Disabled ? Task.CompletedTask : OnClick.InvokeAsync(Value);
+
+    /// <summary>Disables the option (or the action in action mode).</summary>
     [Parameter]
     public bool Disabled { get; set; }
 
 
+
+    private RenderFragment Body => __builder =>
+    {
+        @if (IconContent is not null)
+    {
+        <span class="@IconClassName" aria-hidden="true">
+            @IconContent
+        </span>
+    }
+
+    <span class="sui-choice-card__content">
+        <span class="sui-choice-card__title">@Title</span>
+        @if (!string.IsNullOrWhiteSpace(Description))
+        {
+            <span class="sui-choice-card__description">@Description</span>
+        }
+        @ChildContent
+    </span>
+
+    @if (TrailingContent is not null)
+    {
+        <span class="@TrailingClassName">
+            @TrailingContent
+        </span>
+    }
+    else if (ShowSelectionIndicator && IsAction)
+    {
+        <span class="sui-choice-card__trailing" aria-hidden="true"><SUIIcon Name="chevron-right" Size="18" /></span>
+    }
+    else if (ShowSelectionIndicator)
+    {
+        <span class="sui-choice-card__indicator" aria-hidden="true"></span>
+    }
+    };
 
     private bool IsSelected
         => EqualityComparer<TValue>.Default.Equals(SelectedValue, Value);
@@ -145,7 +193,8 @@
 
     private string ClassName
         => SUIClassBuilder.Default("sui-choice-card")
-            .AddClass("is-selected", IsSelected)
+            .AddClass("is-selected", IsSelected && !IsAction)
+            .AddClass("sui-choice-card--action", IsAction)
             .AddClass("is-disabled", Disabled)
             .AddClass("sui-choice-card--has-leading", IconContent is not null)
             .AddClass("sui-choice-card--has-description", !string.IsNullOrWhiteSpace(Description))

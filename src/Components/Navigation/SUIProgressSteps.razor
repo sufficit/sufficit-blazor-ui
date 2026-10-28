@@ -58,12 +58,23 @@
     [Parameter]
     public string AriaLabel { get; set; } = "Progresso da configuração";
 
+    /// <summary>
+    /// Accessible position prefix for each step, given the one-based step
+    /// number and the step count. Defaults to "Etapa {n} de {total}"; the step
+    /// label and status are appended after a colon.
+    /// </summary>
+    [Parameter]
+    public Func<int, int, string>? StepPositionLabel { get; set; }
+
+    /// <summary>Status suffix announced for steps before the current one.</summary>
     [Parameter]
     public string CompletedStatusLabel { get; set; } = "concluída";
 
+    /// <summary>Status suffix announced for the current step.</summary>
     [Parameter]
     public string CurrentStatusLabel { get; set; } = "atual";
 
+    /// <summary>Status suffix announced for steps not yet started.</summary>
     [Parameter]
     public string PendingStatusLabel { get; set; } = "não iniciada";
 
@@ -116,7 +127,8 @@
             _ => PendingStatusLabel
         };
 
-        return $"Etapa {index + 1} de {Steps.Count}: {Steps[index]}, {status}";
+        var position = StepPositionLabel?.Invoke(index + 1, Steps.Count) ?? $"Etapa {index + 1} de {Steps.Count}";
+        return $"{position}: {Steps[index]}, {status}";
     }
 
     private Task SelectAsync(int index)

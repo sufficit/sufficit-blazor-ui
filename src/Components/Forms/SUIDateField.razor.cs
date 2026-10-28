@@ -38,6 +38,12 @@ public partial class SUIDateField
     [Parameter]
     public string? HelperText { get; set; }
 
+    /// <summary>Appends a secondary <see cref="OptionalText"/> marker to the label instead of the caller editing the label text.</summary>
+    [Parameter] public bool Optional { get; set; }
+
+    /// <summary>Marker shown when <see cref="Optional"/> is set. Default "(opcional)".</summary>
+    [Parameter] public string OptionalText { get; set; } = SUIFieldParts.DefaultOptionalText;
+
     /// <summary>Explicit error message; takes precedence over validation messages from the form.</summary>
     [Parameter]
     public string? ErrorText { get; set; }
