@@ -1,13 +1,25 @@
 @namespace Sufficit.Blazor.UI.Components
 @inherits SUIComponentBase
 
-<td class="@Class" style="@Style" data-label="@DataLabel" @attributes="AdditionalAttributes">@ChildContent</td>
+@* A labelled cell wraps its content in one value box: stacked on mobile the
+   cell is a two-column grid (label, value), and several children — value plus
+   a secondary line, badge plus text — would otherwise spill into the label
+   column. On desktop the box is display: contents, so nothing changes. *@
+@if (string.IsNullOrEmpty(DataLabel))
+{
+    <td class="@Class" style="@Style" data-label="@DataLabel" @attributes="AdditionalAttributes">@ChildContent</td>
+}
+else
+{
+    <td class="@Class" style="@Style" data-label="@DataLabel" @attributes="AdditionalAttributes"><div class="sui-td__value">@ChildContent</div></td>
+}
 
 @code {
     /// <summary>Responsive label shown when the table collapses to cards.</summary>
     [Parameter]
     public string? DataLabel { get; set; }
 
+    /// <summary>Cell content.</summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 

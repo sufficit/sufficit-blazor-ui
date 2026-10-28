@@ -1,0 +1,6 @@
+/* Value box of a labelled cell: invisible to layout on desktop, one grid item
+   (second column) when the table stacks on mobile. */
+.sui-td__value { display: contents; }
+@media (width <= 599.98px) {
+  .sui-table--stack-mobile tbody td > .sui-td__value { display: block; min-inline-size: 0; }
+}

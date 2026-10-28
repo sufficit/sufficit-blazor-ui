@@ -61,6 +61,54 @@ public sealed class ConsumerGapsActionTests
     }
 
     [Fact]
+    public async Task Buttons_AutoLoadingFalse_NeverShowsTheSpinnerForALongHandler()
+    {
+        using var context = Create();
+        var gate = new TaskCompletionSource();
+        var button = context.Render<SUIButton>(p => p
+            .Add(c => c.AutoLoading, false)
+            .Add(c => c.LoadingDelay, 0)
+            .Add(c => c.OnClick, (MouseEventArgs _) => gate.Task)
+            .AddChildContent("Abrir diálogo"));
+
+        var click = button.Find("button").ClickAsync(new MouseEventArgs());
+        await Task.Delay(50);
+        Assert.Empty(button.FindAll(".sui-progress-circular"));
+        Assert.Null(button.Find("button").GetAttribute("aria-busy"));
+        gate.SetResult();
+        await click;
+    }
+
+    [Fact]
+    public void Buttons_SpinnerTakesTheLabelPlaceInsteadOfOverlappingIt()
+    {
+        var css = File.ReadAllText(Path.Combine(RepositoryLayout.Styles, "sui-buttons.css"));
+        Assert.Contains(".sui-btn:is(.sui-btn--pending, .sui-btn--loading) > .sui-btn__label { opacity: 0; }", css);
+        var pending = css[css.IndexOf(".sui-btn--pending::after", StringComparison.Ordinal)..];
+        pending = pending[..pending.IndexOf('}')];
+        Assert.DoesNotContain("inset-inline-end", pending);
+        Assert.Contains("margin: auto", pending);
+    }
+
+    [Fact]
+    public void Td_LabelledCellWrapsSeveralChildrenInOneValueBox()
+    {
+        using var context = Create();
+        var cut = context.Render<SUITd>(p => p
+            .Add(c => c.DataLabel, "Cliente")
+            .AddChildContent("<strong>Portal</strong><small>portal-web</small>"));
+        var td = cut.Find("td");
+        Assert.Equal(1, td.ChildElementCount);
+        var value = td.FirstElementChild!;
+        Assert.Contains("sui-td__value", value.ClassList);
+        Assert.Equal(2, value.ChildElementCount);
+
+        var plain = context.Render<SUITd>(p => p.AddChildContent("<b>a</b><i>b</i>"));
+        Assert.Equal(2, plain.Find("td").ChildElementCount);
+        Assert.Empty(plain.FindAll(".sui-td__value"));
+    }
+
+    [Fact]
     public void Buttons_LoadingParameter_ForcesTheSpinner()
     {
         using var context = Create();

@@ -140,6 +140,14 @@
         "deprecated": false
       },
       {
+        "description": "Whether a long-running OnClick shows the spinner on its own (default true). Set false for handlers that await a user interaction, such as a dialog result, where a spinner would misreport the wait. Re-entry stays blocked while the handler runs either way.",
+        "name": "AutoLoading",
+        "type": "bool",
+        "default": "true",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "",
         "name": "IconClass",
         "type": "string?",
@@ -446,6 +454,14 @@
         "name": "LoadingDelay",
         "type": "int",
         "default": "SUIClickLoading.DefaultDelay",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Whether a long-running OnClick shows the spinner on its own (default true). Set false for handlers that await a user interaction, such as a dialog result, where a spinner would misreport the wait. Re-entry stays blocked while the handler runs either way.",
+        "name": "AutoLoading",
+        "type": "bool",
+        "default": "true",
         "required": false,
         "deprecated": false
       },
@@ -1899,7 +1915,7 @@
         "deprecated": false
       },
       {
-        "description": "",
+        "description": "Cell content.",
         "name": "ChildContent",
         "type": "RenderFragment?",
         "default": "Padrão do tipo",

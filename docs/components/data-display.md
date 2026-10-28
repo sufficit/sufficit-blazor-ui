@@ -50,3 +50,7 @@ servidor; a ponta desabilitada não tem `href`.
 
 `SUITableSortLabel` traduz o sufixo de estado por `AscendingLabel`, `DescendingLabel` e `UnsortedLabel`
 (`StateDescriptionFactory` continua tendo precedência).
+
+Em `StackOnMobile`, um `SUITd` com `DataLabel` envolve o conteúdo em `div.sui-td__value`, que é
+`display: contents` no desktop e o segundo item da grade rótulo/valor no celular: vários filhos na célula
+ficam juntos na coluna do valor.

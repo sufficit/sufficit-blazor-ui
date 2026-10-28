@@ -114,7 +114,8 @@
 .sui-btn--pending::after {
   content: "";
   position: absolute;
-  inset-inline-end: var(--sui-space-2);
+  inset: 0;
+  margin: auto;
   width: 1em;
   height: 1em;
   border: 2px solid currentColor;
@@ -124,6 +125,9 @@
   animation: sui-btn-pending-spin .7s linear infinite;
 }
 @keyframes sui-btn-pending-spin { to { transform: rotate(360deg); } }
+/* The spinner takes the label's place, centred; the label keeps the width (and
+   the accessible name) but is not drawn, so the two never overlap. */
+.sui-btn:is(.sui-btn--pending, .sui-btn--loading) > .sui-btn__label { opacity: 0; }
 .sui-btn__label {
   display: flex;
   flex: 1 1 auto;

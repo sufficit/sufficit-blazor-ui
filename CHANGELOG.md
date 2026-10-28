@@ -9,6 +9,17 @@ definem a numeração das próximas publicações.
 ## [Unreleased]
 
 ### Adicionado
+- `SUIButton`/`SUIIconButton`: `AutoLoading` (padrão `true`); `false` desliga o spinner automático para
+  handlers que aguardam uma interação (ex.: resultado de diálogo).
+
+### Corrigido
+- Botões em carregamento (`SUIButton`, `SUILoadingButton` e o estado imediato `--pending`): o spinner fica
+  centralizado no lugar do rótulo, que continua ocupando a largura e o nome acessível mas não é desenhado
+  — o spinner não sobrepõe mais as últimas letras.
+- `SUITable StackOnMobile`: célula com `DataLabel` e vários filhos (valor + linha secundária, badge + texto)
+  não derrama mais o segundo filho na coluna do rótulo; o conteúdo vai numa caixa `sui-td__value`
+  (`display: contents` no desktop, sem mudança visual).
+
 - Lacunas da migração do Identity para SUI (todas aditivas; o markup padrão não muda):
   - `SUICheckbox`: `HelperText`/`HelperContent` (descrição com o estilo de helper, ligada por `aria-describedby`)
     e `ChildContent` para rótulo com markup.

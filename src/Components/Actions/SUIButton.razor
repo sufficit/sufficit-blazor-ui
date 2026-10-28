@@ -73,6 +73,15 @@ else
     [Parameter]
     public int LoadingDelay { get; set; } = SUIClickLoading.DefaultDelay;
 
+    /// <summary>
+    /// Whether a long-running <c>OnClick</c> shows the spinner on its own
+    /// (default true). Set false for handlers that await a user interaction,
+    /// such as a dialog result, where a spinner would misreport the wait.
+    /// Re-entry stays blocked while the handler runs either way.
+    /// </summary>
+    [Parameter]
+    public bool AutoLoading { get; set; } = true;
+
     [Parameter]
     public string? IconClass { get; set; }
 
@@ -129,7 +138,7 @@ else
             _running = true;
             try
             {
-                await SUIClickLoading.RunAsync(OnClick.InvokeAsync(ev), LoadingDelay,
+                await SUIClickLoading.RunAsync(OnClick.InvokeAsync(ev), AutoLoading ? LoadingDelay : -1,
                     busy => { IsLoading = busy; return InvokeAsync(StateHasChanged); });
             }
             finally

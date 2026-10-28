@@ -941,6 +941,7 @@ P|Sufficit.Blazor.UI.Components.SUIAvatar|System.String|Alt|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIAvatar|System.String|Src|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIButton|Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs>|OnClick|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIButton|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIButton|System.Boolean|AutoLoading|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIButton|System.Boolean|Disabled|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIButton|System.Boolean|FullWidth|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIButton|System.Boolean|Loading|[]|get;set;
@@ -1113,6 +1114,7 @@ P|Sufficit.Blazor.UI.Components.SUIGrid|Microsoft.AspNetCore.Components.RenderFr
 P|Sufficit.Blazor.UI.Components.SUIGrid|System.Boolean|Spacing|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIIconButton|Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs>|OnClick|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIIconButton|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIIconButton|System.Boolean|AutoLoading|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIIconButton|System.Boolean|Disabled|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIIconButton|System.Boolean|FullWidth|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIIconButton|System.Boolean|Loading|[]|get;set;

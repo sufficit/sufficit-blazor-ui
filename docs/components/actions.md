@@ -56,3 +56,7 @@ O componente importa seu próprio módulo ES sob demanda: usa
 piscam mais. `Loading="true"` força o estado. `StartIcon`/`EndIcon`/`Icon` aceitam nome do `SUIIcon`
 (`"arrow-left"`, `"trash"`) além das constantes SVG de `SUIIcons`. `SUIIconButton.FocusAsync(preventScroll)`
 permite que dois toggles passem o foco entre si.
+
+`AutoLoading="false"` desliga o spinner automático (o clique repetido continua bloqueado enquanto o handler
+roda) — use em handlers que aguardam o usuário, como o resultado de um diálogo. Em carregamento, o spinner
+ocupa o centro do botão e o rótulo fica transparente, mantendo largura e nome acessível.
