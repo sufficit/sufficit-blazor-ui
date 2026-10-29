@@ -4257,7 +4257,7 @@
   {
     "name": "SUISelect",
     "family": "Formulários",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISelect TValue=\"string\" Label=\"Região\" HelperText=\"Região atendida pela equipe.\" @bind-Value=\"Region\">\n<SUISelectItem Value='@(\"sul\")'>Sul</SUISelectItem>\n<SUISelectItem Value='@(\"sudeste\")'>Sudeste</SUISelectItem>\n</SUISelect>\n\n@code {\n    protected string? Region { get; set; } = \"sul\";\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISelect TValue=\"string\" Label=\"Região\" StartIcon=\"scope\" IconColorValue=\"SUIColor.Primary\" HelperText=\"Região atendida pela equipe.\" @bind-Value=\"Region\">\n<SUISelectItem Value='@(\"sul\")' Icon=\"phone\">Sul</SUISelectItem>\n<SUISelectItem Value='@(\"sudeste\")' Icon=\"users\">Sudeste</SUISelectItem>\n</SUISelect>\n\n@code {\n    protected string? Region { get; set; } = \"sul\";\n}\n",
     "parameters": [
       {
         "description": "Field expression used to bind validation messages from the surrounding EditContext.",
@@ -4280,6 +4280,22 @@
         "name": "ValueChanged",
         "type": "EventCallback<TValue?>",
         "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Decorative leading icon, independent of the selected option; accepts SUIIcon names or trusted SVG markup.",
+        "name": "StartIcon",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Semantic color of the leading icon. Defaults to inheriting the field color.",
+        "name": "IconColorValue",
+        "type": "SUIColor",
+        "default": "SUIColor.Inherit",
         "required": false,
         "deprecated": false
       },
@@ -4442,22 +4458,6 @@
         "default": "new()",
         "required": false,
         "deprecated": false
-      },
-      {
-        "description": "Decorative icon: SUIIcon name or trusted SVG markup. Always visible before the selected value.",
-        "name": "StartIcon",
-        "type": "string?",
-        "default": "null",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "Semantic color of the icon, independent of the text.",
-        "name": "IconColorValue",
-        "type": "SUIColor",
-        "default": "SUIColor.Inherit",
-        "required": false,
-        "deprecated": false
       }
     ]
   },
@@ -4499,6 +4499,22 @@
         "deprecated": false
       },
       {
+        "description": "Decorative icon shown in the menu and selected value; accepts SUIIcon names or trusted SVG markup.",
+        "name": "Icon",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Semantic icon color, independent of the option text.",
+        "name": "IconColorValue",
+        "type": "SUIColor",
+        "default": "SUIColor.Inherit",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",
@@ -4519,22 +4535,6 @@
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "Decorative icon: SUIIcon name or trusted SVG markup. Shown in both the option and selected value.",
-        "name": "Icon",
-        "type": "string?",
-        "default": "null",
-        "required": false,
-        "deprecated": false
-      },
-      {
-        "description": "Semantic color of the icon, independent of the text.",
-        "name": "IconColorValue",
-        "type": "SUIColor",
-        "default": "SUIColor.Inherit",
         "required": false,
         "deprecated": false
       }
