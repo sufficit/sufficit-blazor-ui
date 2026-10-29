@@ -1377,6 +1377,7 @@ P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.Collections.Generic.
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.Func<`0:TValue,System.String>|ToFormValueFunc|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.Linq.Expressions.Expression<System.Func<`0:TValue>>|ValueExpression|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.String|AriaDescribedBy|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.String|EndIcon|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.String|ErrorText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.String|HelperText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.String|Id|[]|get;set;

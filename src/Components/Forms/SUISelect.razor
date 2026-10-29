@@ -59,6 +59,12 @@
                         <span class="sui-select__placeholder">@Placeholder</span>
                     }
                 </span>
+                @if (!string.IsNullOrWhiteSpace(EndIcon))
+                {
+                    <span class="sui-select__icon sui-color-@SUIClassBuilder.Slug(IconColorValue)" aria-hidden="true">
+                        <SUIIcon Name="@EndIcon" Size="18" />
+                    </span>
+                }
                 <span class="sui-select__indicator" aria-hidden="true"></span>
             </button>
 

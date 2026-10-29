@@ -4257,7 +4257,7 @@
   {
     "name": "SUISelect",
     "family": "Formulários",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISelect TValue=\"string\" Label=\"Região\" StartIcon=\"scope\" IconColorValue=\"SUIColor.Primary\" HelperText=\"Região atendida pela equipe.\" @bind-Value=\"Region\">\n<SUISelectItem Value='@(\"sul\")' Icon=\"phone\">Sul</SUISelectItem>\n<SUISelectItem Value='@(\"sudeste\")' Icon=\"users\">Sudeste</SUISelectItem>\n</SUISelect>\n\n@code {\n    protected string? Region { get; set; } = \"sul\";\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUISelect TValue=\"string\" Label=\"Região\" EndIcon=\"scope\" IconColorValue=\"SUIColor.Primary\" HelperText=\"Região atendida pela equipe.\" @bind-Value=\"Region\">\n<SUISelectItem Value='@(\"sul\")' Icon=\"phone\">Sul</SUISelectItem>\n<SUISelectItem Value='@(\"sudeste\")' Icon=\"users\">Sudeste</SUISelectItem>\n</SUISelect>\n\n@code {\n    protected string? Region { get; set; } = \"sul\";\n}\n",
     "parameters": [
       {
         "description": "Field expression used to bind validation messages from the surrounding EditContext.",
@@ -4292,7 +4292,15 @@
         "deprecated": false
       },
       {
-        "description": "Semantic color of the leading icon. Defaults to inheriting the field color.",
+        "description": "Decorative trailing icon, placed after the selected value and before the dropdown indicator; accepts SUIIcon names or trusted SVG markup.",
+        "name": "EndIcon",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Semantic color of the leading and trailing field icons. Defaults to inheriting the field color.",
         "name": "IconColorValue",
         "type": "SUIColor",
         "default": "SUIColor.Inherit",

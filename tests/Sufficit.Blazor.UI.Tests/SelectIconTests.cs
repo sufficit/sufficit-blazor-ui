@@ -6,6 +6,28 @@ namespace Sufficit.Blazor.UI.Tests;
 public sealed class SelectIconTests
 {
     [Fact]
+    public void TrailingIconStaysBeforeIndicatorWithoutMovingTheOptionIcon()
+    {
+        using var context = new BunitContext();
+        context.JSInterop.Mode = JSRuntimeMode.Loose;
+        var cut = context.Render<SUISelect<string>>(p => p
+            .Add(x => x.EndIcon, "phone")
+            .Add(x => x.IconColorValue, SUIColor.Warning)
+            .Add(x => x.Value, "a")
+            .AddChildContent<SUISelectItem>(item => item
+                .Add(x => x.Value, "a")
+                .Add(x => x.Icon, "volume")
+                .AddChildContent("Opção")));
+        Assert.NotNull(cut.Find(".sui-select__value:first-child > .sui-select__icon"));
+        Assert.Equal("true", cut.Find(".sui-select__value + .sui-color-warning").GetAttribute("aria-hidden"));
+        Assert.NotNull(cut.Find(".sui-select__value + .sui-select__icon + .sui-select__indicator:last-child"));
+        Assert.Single(cut.FindAll("[role=option] .sui-select__icon"));
+        cut.Render(p => p.Add(x => x.EndIcon, (string?)null).Add(x => x.StartIcon, "phone"));
+        Assert.NotNull(cut.Find(".sui-select__trigger > .sui-select__icon:first-child + .sui-select__value + .sui-select__indicator"));
+        Assert.Equal("Opção", cut.Find(".sui-select__value").TextContent.Trim());
+    }
+
+    [Fact]
     public void IconsAreDecorativeAndSelectionStillSubmitsTheValue()
     {
         using var context = new BunitContext();

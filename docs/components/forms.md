@@ -177,3 +177,5 @@ configurada, permitindo digitar valores intermediários sem reescrever o campo.
 `--sui-field-height` (padrão `var(--sui-control-h-md)`) controla texto, número, autocomplete, data e select sem alterar a altura dos botões. `--sui-field-padding-inline` (padrão `var(--sui-space-3)`) controla seu recuo lateral. `--sui-fs-field` define a tipografia do valor. Defina os tokens no tema carregado após SUI. Multilinha mantém altura automática e tamanho mínimo próprio; adornos/limpeza reservam espaço na lateral correspondente.
 
 O consumidor Sufficit.Blazor adota 44px, 12px e 0.875rem respectivamente, adaptando campos legados de uma linha aos mesmos tokens. Os padrões da biblioteca para outros consumidores permanecem compatíveis.
+
+`SUISelect.StartIcon` coloca o ícone fixo no início; `EndIcon` o coloca após o valor, antes da seta. Ambos usam `IconColorValue` e são decorativos. `SUISelectItem.Icon` permanece junto ao texto da opção, inclusive no valor selecionado. Para mudar a posição, passe o ícone somente ao parâmetro desejado.

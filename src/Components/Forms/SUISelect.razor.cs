@@ -27,7 +27,10 @@ public partial class SUISelect<TValue>
     /// <summary>Decorative leading icon, independent of the selected option; accepts SUIIcon names or trusted SVG markup.</summary>
     [Parameter] public string? StartIcon { get; set; }
 
-    /// <summary>Semantic color of the leading icon. Defaults to inheriting the field color.</summary>
+    /// <summary>Decorative trailing icon, placed after the selected value and before the dropdown indicator; accepts SUIIcon names or trusted SVG markup.</summary>
+    [Parameter] public string? EndIcon { get; set; }
+
+    /// <summary>Semantic color of the leading and trailing field icons. Defaults to inheriting the field color.</summary>
     [Parameter] public SUIColor IconColorValue { get; set; } = SUIColor.Inherit;
 
     /// <summary>Visible label; also names the trigger and the listbox.</summary>
