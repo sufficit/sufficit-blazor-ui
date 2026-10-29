@@ -4442,6 +4442,22 @@
         "default": "new()",
         "required": false,
         "deprecated": false
+      },
+      {
+        "description": "Decorative icon: SUIIcon name or trusted SVG markup. Always visible before the selected value.",
+        "name": "StartIcon",
+        "type": "string?",
+        "default": "null",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Semantic color of the icon, independent of the text.",
+        "name": "IconColorValue",
+        "type": "SUIColor",
+        "default": "SUIColor.Inherit",
+        "required": false,
+        "deprecated": false
       }
     ]
   },
@@ -4503,6 +4519,22 @@
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Decorative icon: SUIIcon name or trusted SVG markup. Shown in both the option and selected value.",
+        "name": "Icon",
+        "type": "string?",
+        "default": "null",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Semantic color of the icon, independent of the text.",
+        "name": "IconColorValue",
+        "type": "SUIColor",
+        "default": "SUIColor.Inherit",
         "required": false,
         "deprecated": false
       }

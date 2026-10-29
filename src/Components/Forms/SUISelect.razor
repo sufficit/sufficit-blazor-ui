@@ -1,4 +1,5 @@
 @using System.Globalization
+@using Sufficit.Blazor.UI.Utilities
 @using Microsoft.AspNetCore.Components.Web
 @namespace Sufficit.Blazor.UI.Components
 @inherits SUIComponentBase
@@ -36,10 +37,22 @@
                     @onclick="Toggle"
                     @onkeydown="OnKeyDown"
                     @attributes="AdditionalAttributes">
+                @if (!string.IsNullOrWhiteSpace(StartIcon))
+                {
+                    <span class="sui-select__icon sui-color-@SUIClassBuilder.Slug(IconColorValue)" aria-hidden="true">
+                        <SUIIcon Name="@StartIcon" Size="18" />
+                    </span>
+                }
                 <span class="sui-select__value">
                     @if (SelectedItem is { } selected)
                     {
-                        @selected.ChildContent
+                        @if (!string.IsNullOrWhiteSpace(selected.Icon))
+                        {
+                            <span class="sui-select__icon sui-color-@SUIClassBuilder.Slug(selected.IconColorValue)" aria-hidden="true">
+                                <SUIIcon Name="@selected.Icon" Size="18" />
+                            </span>
+                        }
+                        <span class="sui-select__text">@selected.ChildContent</span>
                     }
                     else if (ShowPlaceholder)
                     {
@@ -72,7 +85,13 @@
                                 @onclick="() => SelectAsync(item)"
                                 @onpointerdown:preventDefault="true"
                                 @onmousedown:preventDefault="true">
-                            @item.ChildContent
+                            @if (!string.IsNullOrWhiteSpace(item.Icon))
+                            {
+                                <span class="sui-select__icon sui-color-@SUIClassBuilder.Slug(item.IconColorValue)" aria-hidden="true">
+                                    <SUIIcon Name="@item.Icon" Size="18" />
+                                </span>
+                            }
+                            <span class="sui-select__text">@item.ChildContent</span>
                         </button>
                     }
                 </div>

@@ -1370,6 +1370,7 @@ P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|Microsoft.AspNetCore.Compon
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|Microsoft.AspNetCore.Components.RenderFragment|HelperContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|Microsoft.AspNetCore.Components.RenderFragment|LabelContent|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|Sufficit.Blazor.UI.Components.SUIColor|IconColorValue|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.Boolean|Disabled|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.Boolean|Invalid|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.Collections.Generic.Dictionary<System.String,System.Object>|UserAttributes|[]|get;set;
@@ -1384,12 +1385,15 @@ P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.String|MenuMaxWidth|
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.String|MenuWidth|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.String|Name|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.String|Placeholder|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.String|StartIcon|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|System.String|WarningText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelect<`0:TValue>|`0:TValue|Value|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelectItem|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUISelectItem|Sufficit.Blazor.UI.Components.SUIColor|IconColorValue|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelectItem|System.Boolean|Disabled|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelectItem|System.Boolean|Selected|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISelectItem|System.Object|Value|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUISelectItem|System.String|Icon|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISkeletonLoader|Sufficit.Blazor.UI.Components.SUISkeletonType|Type|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISkeletonLoader|System.Int32|Rows|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISkeletonLoader|System.String|Size|[]|get;set;

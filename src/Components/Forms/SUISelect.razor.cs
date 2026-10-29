@@ -24,6 +24,12 @@ public partial class SUISelect<TValue>
     [Parameter]
     public EventCallback<TValue?> ValueChanged { get; set; }
 
+    /// <summary>Decorative leading icon, independent of the selected option; accepts SUIIcon names or trusted SVG markup.</summary>
+    [Parameter] public string? StartIcon { get; set; }
+
+    /// <summary>Semantic color of the leading icon. Defaults to inheriting the field color.</summary>
+    [Parameter] public SUIColor IconColorValue { get; set; } = SUIColor.Inherit;
+
     /// <summary>Visible label; also names the trigger and the listbox.</summary>
     [Parameter]
     public string? Label { get; set; }

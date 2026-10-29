@@ -160,3 +160,20 @@ configurada, permitindo digitar valores intermediários sem reescrever o campo.
               WarningText="@(Model.Uri?.StartsWith("http:") == true ? "Sem HTTPS." : null)" />
 <SUINumericField TValue="int" Label="Validade" Suffix="min" Optional="true" @bind-Value="Model.Ttl" />
 ```
+
+## Ícones no seletor
+
+`SUISelect.StartIcon` exibe um ícone fixo antes do valor. `SUISelectItem.Icon` exibe o ícone da opção tanto no menu quanto no valor selecionado. Ambos aceitam nomes de `SUIIcon` ou SVG confiável; não fornecer markup de usuários. `IconColorValue` (`SUIColor`, padrão `Inherit`) colore somente o ícone. Ícones são decorativos e não substituem o rótulo textual acessível. Sem ícone, nenhum espaço é reservado. Mudanças no ícone/cor de uma opção atualizam a seleção visível.
+
+```razor
+<SUISelect TValue="string" Label="Áudio" StartIcon="phone" IconColorValue="SUIColor.Success" @bind-Value="audio">
+    <SUISelectItem Value='@("system")' Icon="settings" IconColorValue="SUIColor.Info">Padrão do sistema</SUISelectItem>
+    <SUISelectItem Value='@("custom")' Icon="volume">Áudio personalizado</SUISelectItem>
+</SUISelect>
+```
+
+### Geometria de campos por aplicação
+
+`--sui-field-height` (padrão `var(--sui-control-h-md)`) controla texto, número, autocomplete, data e select sem alterar a altura dos botões. `--sui-field-padding-inline` (padrão `var(--sui-space-3)`) controla seu recuo lateral. `--sui-fs-field` define a tipografia do valor. Defina os tokens no tema carregado após SUI. Multilinha mantém altura automática e tamanho mínimo próprio; adornos/limpeza reservam espaço na lateral correspondente.
+
+O consumidor Sufficit.Blazor adota 44px, 12px e 0.875rem respectivamente, adaptando campos legados de uma linha aos mesmos tokens. Os padrões da biblioteca para outros consumidores permanecem compatíveis.

@@ -151,6 +151,8 @@
   --sui-control-px-sm: calc(10px * var(--sui-density-scale));
   --sui-control-px-md: calc(14px * var(--sui-density-scale));
   --sui-control-px-lg: calc(18px * var(--sui-density-scale));
+  --sui-field-height: var(--sui-control-h-md);
+  --sui-field-padding-inline: var(--sui-space-3);
   /* Shared navigation hit area: 48px already used by the collapsed rail.
      Nested navigation is denser but must remain at least 40px tall. */
   --sui-nav-item-h: 48px;
@@ -289,8 +291,8 @@
   box-sizing: border-box;
   width: 100%;
   min-width: 0;
-  height: var(--sui-control-h-md);
-  padding: 0 var(--sui-space-3);
+  height: var(--sui-field-height);
+  padding: 0 var(--sui-field-padding-inline);
   font-family: var(--sui-font);
   font-size: var(--sui-fs-field);   /* 1,33× o rótulo: é o tamanho que decide aqui */
   font-weight: 500;

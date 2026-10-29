@@ -20,24 +20,36 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>Decorative icon shown in the menu and selected value; accepts SUIIcon names or trusted SVG markup.</summary>
+    [Parameter] public string? Icon { get; set; }
+
+    /// <summary>Semantic icon color, independent of the option text.</summary>
+    [Parameter] public SUIColor IconColorValue { get; set; } = SUIColor.Inherit;
+
     internal int Version { get; private set; }
 
     private bool _hasSnapshot;
     private object? _lastValue;
     private bool _lastSelected;
     private bool _lastDisabled;
+    private string? _lastIcon;
+    private SUIColor _lastIconColor;
 
     protected override void OnParametersSet()
     {
         if (!_hasSnapshot
             || !Equals(_lastValue, Value)
             || _lastSelected != Selected
-            || _lastDisabled != Disabled)
+            || _lastDisabled != Disabled
+            || _lastIcon != Icon
+            || _lastIconColor != IconColorValue)
         {
             _hasSnapshot = true;
             _lastValue = Value;
             _lastSelected = Selected;
             _lastDisabled = Disabled;
+            _lastIcon = Icon;
+            _lastIconColor = IconColorValue;
             Version++;
         }
 

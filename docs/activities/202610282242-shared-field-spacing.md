@@ -1,0 +1,7 @@
+# Geometria compartilhada de campos
+
+Referência: captura da caixa postal e pedido de meio-termo global. Baseline medido: Mud outlined56px/font16; SUI36px/font13; MudDense40; Standard32. Tema Blazor passou para 44px/12px lateral/font14. Biblioteca fornece --sui-field-height e --sui-field-padding-inline com defaults compatíveis; botões mantêm36. Ponte global Mud exclui textarea/filled para preservar conteúdo; centraliza slots inline de select e mantém labels flutuantes/adornos. Sem CSS por feature.
+
+Validação: regressão de altura falhou antes (mud-text=56); após implementação fixture passou desktop1440/mobile390, dimensões/recuo/tipografia, texto de select centralizado, seleção/digitação e overflow. Zoom125%+tema SUI escuro também verificados. Capturas /tmp/field-spacing-evidence. 1135 testes SUI passaram, build consumidor/fixture passou (avisos preexistentes), CSS gerado/check passou (61671 raw/11258gzip/9824brotli). Uma falha intermediária de limite de linhas foi corrigida sem elevar orçamento. Build concorrente/reset exigiu reaplicar tema e remover duplicatas; nenhuma mudança alheia foi descartada.
+
+Commit/push autorizados diretamente na main pelo usuário; incluir somente arquivos revisados desta sessão. Entrega/deploy acompanhados no plano do consumidor docs/PLAN-FIELD-SPACING.md. Sem alegar validação de todas as páginas autenticadas: matriz de componentes representativos com dados locais.
