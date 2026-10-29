@@ -177,6 +177,11 @@ button.sui-nav-link:disabled,
   transition: transform var(--sui-transition);
 }
 
+.sui-nav-link__expand svg {
+  width: 50%;
+  height: 50%;
+}
+
 .sui-nav-link__expand.is-expanded {
   transform: rotate(180deg);
 }
