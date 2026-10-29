@@ -1519,6 +1519,7 @@ P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.Boolean|Invalid|[
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.Boolean|Monospace|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.Boolean|Multiline|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.Boolean|Optional|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.Boolean|Revealable|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.Collections.Generic.Dictionary<System.String,System.Object>|UserAttributes|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.Collections.Generic.IEnumerable<System.String>|Suggestions|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.Int32|Rows|[]|get;set;
@@ -1529,12 +1530,14 @@ P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.String|AriaDescri
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.String|ClearText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.String|ErrorText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.String|HelperText|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.String|HideText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.String|Id|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.String|InputType|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.String|Label|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.String|Name|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.String|OptionalText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.String|Placeholder|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.String|RevealText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|System.String|WarningText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITextField<`0:TValue>|`0:TValue|Value|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIText|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;

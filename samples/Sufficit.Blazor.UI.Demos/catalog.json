@@ -4976,6 +4976,30 @@
         "deprecated": false
       },
       {
+        "description": "Adds a show/hide toggle to a password input. Opt-in because the toggle needs an interactive render mode: on a statically rendered form the button would do nothing.",
+        "name": "Revealable",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Accessible label and tooltip of the reveal toggle while the value is hidden.",
+        "name": "RevealText",
+        "type": "string",
+        "default": "\"Mostrar valor\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Accessible label and tooltip of the reveal toggle while the value is shown.",
+        "name": "HideText",
+        "type": "string",
+        "default": "\"Ocultar valor\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "Legacy alias for SUIComponentBase.AdditionalAttributes; splatted onto the input or textarea.",
         "name": "UserAttributes",
         "type": "Dictionary<string, object?>",

@@ -19,7 +19,7 @@ public sealed class FileSizeBudgetTests
     private static readonly Dictionary<string, int> Debt = new(StringComparer.Ordinal)
     {
         // Foundations retain the shared tokens and accessibility rules.
-        ["src/styles/sui-foundations.css"] = 420,
+        ["src/styles/sui-foundations.css"] = 388,
         // One NUnit class covering the whole catalog surface; split by concern.
         // Raised from 937 for the timeline marker alignment test. Ratcheting the
         // ceiling to match is what the debt list is for, but it does mean the

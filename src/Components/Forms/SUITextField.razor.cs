@@ -135,6 +135,22 @@ public partial class SUITextField<TValue>
     [Parameter]
     public string ClearText { get; set; } = "Limpar campo";
 
+    /// <summary>
+    ///     Adds a show/hide toggle to a <c>password</c> input. Opt-in because the
+    ///     toggle needs an interactive render mode: on a statically rendered
+    ///     form the button would do nothing.
+    /// </summary>
+    [Parameter]
+    public bool Revealable { get; set; }
+
+    /// <summary>Accessible label and tooltip of the reveal toggle while the value is hidden.</summary>
+    [Parameter]
+    public string RevealText { get; set; } = "Mostrar valor";
+
+    /// <summary>Accessible label and tooltip of the reveal toggle while the value is shown.</summary>
+    [Parameter]
+    public string HideText { get; set; } = "Ocultar valor";
+
 
     /// <summary>Legacy alias for <see cref="SUIComponentBase.AdditionalAttributes"/>; splatted onto the input or textarea.</summary>
     [Parameter, Obsolete("Use AdditionalAttributes instead; this alias will be removed in the next breaking release.")]
@@ -150,17 +166,39 @@ public partial class SUITextField<TValue>
     private string SuggestionsId => $"{EffectiveId}-suggestions";
     private bool HasSuggestions => Suggestions?.Any() == true;
     private bool HasError => Invalid || !string.IsNullOrWhiteSpace(EffectiveErrorText);
+    private bool _revealed;
     private bool CanClear
         => Clearable && !Disabled && !string.IsNullOrEmpty(Value?.ToString());
+    private bool CanReveal
+        => Revealable && !Multiline && IsPasswordInput;
+    private bool IsPasswordInput
+        => string.Equals(InputType, "password", StringComparison.OrdinalIgnoreCase);
+    private string EffectiveInputType
+        => CanReveal && _revealed ? "text" : InputType;
+    private int TrailingCount
+        => (CanReveal ? 1 : 0) + (CanClear ? 1 : 0) + (string.IsNullOrWhiteSpace(AdornmentIcon) ? 0 : 1);
     private string InputClassname
         => Monospace ? BaseInputClassname + " sui-field__input--mono" : BaseInputClassname;
 
     private string BaseInputClassname
-        => CanClear && !string.IsNullOrWhiteSpace(AdornmentIcon)
-            ? "sui-field__input sui-text-field__input--pad-clear"
-            : CanClear || !string.IsNullOrWhiteSpace(AdornmentIcon)
-                ? "sui-field__input sui-text-field__input--pad-trailing"
-                : "sui-field__input";
+        => TrailingCount switch
+        {
+            0 => "sui-field__input",
+            1 => "sui-field__input sui-text-field__input--pad-trailing",
+            2 => "sui-field__input sui-text-field__input--pad-clear",
+            _ => "sui-field__input sui-text-field__input--pad-triple",
+        };
+
+    // The adornment sits left of every action button rendered at the end.
+    private string AdornmentClassname
+        => ((CanClear ? 1 : 0) + (CanReveal ? 1 : 0)) switch
+        {
+            0 => "sui-text-field__adornment",
+            1 => "sui-text-field__adornment sui-text-field__adornment--with-clear",
+            _ => "sui-text-field__adornment sui-text-field__adornment--with-actions",
+        };
+
+    private void ToggleReveal() => _revealed = !_revealed;
 
     /// <summary>
     ///     Number and range inputs speak the dot-decimal form only, whatever the

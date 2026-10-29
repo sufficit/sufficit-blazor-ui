@@ -9,6 +9,13 @@ definem a numeração das próximas publicações.
 ## [Unreleased]
 
 ### Added
+- `SUITextField.Revealable`: a `password` field gains an eye toggle at the
+  inline end that switches the input to `text` and back (`aria-pressed`,
+  `aria-controls`, labels from `RevealText`/`HideText`, pt-BR defaults
+  "Mostrar valor"/"Ocultar valor"). Opt-in, because a statically rendered
+  form cannot run the toggle. With `Clearable` the clear button steps
+  inward; with an adornment as well the input reserves three slots
+  (`sui-text-field__input--pad-triple`).
 - `SUISection.ToneValue` (`SUITone?`): `Danger` (loss: delete, revoke) and
   `Warning` (interruption) tint only the section border and title; copy stays
   neutral, nothing grows or lifts. Null and the other tones keep the markup

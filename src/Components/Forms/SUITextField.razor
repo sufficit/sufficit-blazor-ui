@@ -36,7 +36,7 @@
             <input @ref="_inputElement" class="@InputClassname"
                    id="@EffectiveId"
                    name="@Name"
-                   type="@InputType"
+                   type="@EffectiveInputType"
                    value="@(InputValue)"
                    @onchange="OnChanged"
                    @oninput="OnInput"
@@ -49,10 +49,24 @@
                    aria-invalid="@(HasError ? "true" : null)"
                    aria-errormessage="@(!string.IsNullOrWhiteSpace(EffectiveErrorText) ? ErrorId : null)"
                    @attributes="AdditionalAttributes" />
+            @if (CanReveal)
+            {
+                <button type="button"
+                        class="sui-text-field__reveal"
+                        title="@(_revealed ? HideText : RevealText)"
+                        aria-label="@(_revealed ? HideText : RevealText)"
+                        aria-pressed="@(_revealed ? "true" : "false")"
+                        aria-controls="@EffectiveId"
+                        disabled="@Disabled"
+                        @onmousedown:preventDefault="true"
+                        @onclick="ToggleReveal">
+                    <SUIIcon Name="@(_revealed ? "eye-off" : "eye")" Size="18" />
+                </button>
+            }
             @if (CanClear)
             {
                 <button type="button"
-                        class="sui-text-field__clear"
+                        class="@(CanReveal ? "sui-text-field__clear sui-text-field__clear--before-reveal" : "sui-text-field__clear")"
                         title="@ClearText"
                         aria-label="@ClearText"
                         @onmousedown:preventDefault="true"
@@ -62,7 +76,7 @@
             }
             @if (!string.IsNullOrWhiteSpace(AdornmentIcon))
             {
-                <span class="@(CanClear ? "sui-text-field__adornment sui-text-field__adornment--with-clear" : "sui-text-field__adornment")"
+                <span class="@AdornmentClassname"
                       aria-hidden="true">
                     <SUIIcon Name="@AdornmentIcon" Size="18" />
                 </span>

@@ -309,38 +309,6 @@
 }
 .sui-field__input:disabled { background: var(--sui-surface-2); color: var(--sui-text-disabled); cursor: not-allowed; }
 .sui-field__input--multiline { height: auto; min-height: 108px; padding: var(--sui-space-3); resize: vertical; }
-/* Text field geometry: the control wrapper is the positioning context for
-   the clear button and adornment icons; the clear button overlays the
-   trailing edge. Previously shipped as inline style attributes, which a
-   strict CSP page would strip. */
-.sui-text-field__control { position: relative; }
-.sui-text-field__input--pad-trailing { padding-inline-end: 3rem; }
-.sui-text-field__input--pad-clear    { padding-inline-end: 5rem; }
-.sui-text-field__adornment {
-  position: absolute;
-  inset-block-start: 50%;
-  inset-inline-end: var(--sui-space-3);
-  color: var(--sui-text-secondary);
-  pointer-events: none;
-  transform: translateY(-50%);
-}
-.sui-text-field__adornment--with-clear { inset-inline-end: 2.75rem; }
-.sui-text-field__clear {
-  position: absolute;
-  inset-block-start: 50%;
-  inset-inline-end: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.75rem;
-  height: 100%;
-  padding: 0;
-  color: var(--sui-text-secondary);
-  background: transparent;
-  border: 0;
-  cursor: pointer;
-  transform: translateY(-50%);
-}
 /* Shared helper rhythm: the field gap supplies separation from the control.
    Keep all field helpers together here; applications can override this class.
    Error messages retain their separate visual emphasis. */

@@ -1,0 +1,51 @@
+/*
+ * Sufficit UI — text field trailing slot: clear, reveal and adornment.
+ * Split out of sui-foundations.css when the reveal toggle pushed it past its
+ * frozen line ceiling; field shell, label and helper rules stay there.
+ */
+
+/* Text field geometry: the control wrapper is the positioning context for
+   the clear button and adornment icons; the clear button overlays the
+   trailing edge. Previously shipped as inline style attributes, which a
+   strict CSP page would strip. */
+.sui-text-field__control { position: relative; }
+.sui-text-field__input--pad-trailing { padding-inline-end: 3rem; }
+.sui-text-field__input--pad-clear    { padding-inline-end: 5rem; }
+.sui-text-field__input--pad-triple   { padding-inline-end: 7.75rem; }
+.sui-text-field__adornment {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: var(--sui-space-3);
+  color: var(--sui-text-secondary);
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+.sui-text-field__adornment--with-clear { inset-inline-end: 2.75rem; }
+.sui-text-field__adornment--with-actions { inset-inline-end: 5.5rem; }
+/* Reveal toggle of password fields: same trailing slot geometry as clear;
+   when both exist, reveal keeps the edge and clear steps inward. */
+.sui-text-field__reveal,
+.sui-text-field__clear {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 100%;
+  padding: 0;
+  color: var(--sui-text-secondary);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+.sui-text-field__clear--before-reveal { inset-inline-end: 2.75rem; }
+.sui-text-field__reveal:hover:not(:disabled) { color: var(--sui-text-primary); }
+.sui-text-field__reveal:focus-visible {
+  outline: 2px solid var(--sui-focus-color, var(--sui-color-primary));
+  outline-offset: -4px;
+  border-radius: var(--sui-radius);
+}
+.sui-text-field__reveal:disabled { cursor: not-allowed; opacity: .5; }
