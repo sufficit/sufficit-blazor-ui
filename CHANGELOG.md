@@ -29,6 +29,10 @@ definem a numeração das próximas publicações.
   below 16rem (mobile), instead of squeezing the text into a narrow column.
 
 ### Fixed
+- `SUIChip` semantic tints: success, warning, error and info text now mixes 80% of
+  the tone with the theme's text colour. Text in the tone's pure colour reached only
+  4:1 on its own tint with a consumer palette (warning `#b45309`), and 4.49:1 for the
+  default info on `surface-2`. Outlined and text chips are unchanged.
 - The CSSOM style initializer now also ships as `_content/Sufficit.Blazor.UI/sui-style.js`
   (stable name; `startSuiStyle()`), for hosts that load Blazor without the
   static-assets manifest and therefore never run the fingerprinted
