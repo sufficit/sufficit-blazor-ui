@@ -7,7 +7,8 @@
     grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
     gap: var(--sui-space-3);
-    width: min(48rem, calc(100vw - (2 * var(--sui-space-4))));
+    width: max-content;
+    max-width: calc(100vw - (2 * var(--sui-space-4)));
     padding: 0.625rem 0.75rem;
     color: var(--sui-text-primary);
     background: color-mix(in srgb, var(--sui-surface) 94%, transparent);
@@ -67,6 +68,7 @@
     .sui-pending-changes-bar {
         grid-template-columns: auto minmax(0, 1fr);
         width: calc(100vw - (2 * var(--sui-space-3)));
+        max-width: calc(100vw - (2 * var(--sui-space-3)));
         padding: var(--sui-space-3);
     }
 
