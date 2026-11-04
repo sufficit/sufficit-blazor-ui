@@ -253,27 +253,75 @@ function hideTooltip(immediate = false) {
     hideTimer = window.setTimeout(conceal, immediate ? 0 : delay);
 }
 
+// Touch has no hover: holding the anchor shows the tooltip, and the release that follows must not run its action.
+const longPressDelay = 450;
+const longPressLinger = 1500;
+
 export function connectTooltip(anchor) {
     if (!anchor || anchorControllers.has(anchor)) {
         return;
     }
 
+    let longPressTimer = 0;
+    let lingerTimer = 0;
+    let pressing = false;
+    let held = false;
+    const endPress = () => {
+        window.clearTimeout(longPressTimer);
+        pressing = false;
+        if (held) {
+            window.clearTimeout(lingerTimer);
+            lingerTimer = window.setTimeout(() => hideTooltip(true), longPressLinger);
+        }
+    };
     const controller = {
-        pointerEnter: () => showTooltip(anchor),
-        pointerLeave: () => {
-            if (!anchor.contains(document.activeElement)) {
+        pointerEnter: event => {
+            if (event.pointerType !== 'touch') showTooltip(anchor);
+        },
+        pointerLeave: event => {
+            if (event.pointerType !== 'touch' && !anchor.contains(document.activeElement)) {
                 hideTooltip();
             }
         },
-        focusIn: () => showTooltip(anchor, true),
+        pointerDown: event => {
+            if (event.pointerType !== 'touch') return;
+            window.clearTimeout(longPressTimer);
+            window.clearTimeout(lingerTimer);
+            pressing = true;
+            held = false;
+            longPressTimer = window.setTimeout(() => {
+                held = true;
+                showTooltip(anchor, true);
+            }, longPressDelay);
+        },
+        pointerEnd: endPress,
+        click: event => {
+            if (!held) return;
+            held = false;
+            event.preventDefault();
+            event.stopPropagation();
+        },
+        contextMenu: event => {
+            if (pressing || held) event.preventDefault();
+        },
+        // A tap also focuses the control; only keyboard focus should open the tooltip.
+        focusIn: event => {
+            if (event.target?.matches?.(':focus-visible')) showTooltip(anchor, true);
+        },
+        // Focus leaving another control (a touch press moves it) must not close this tooltip.
         focusOut: event => {
-            if (!anchor.contains(event.relatedTarget)) {
+            if (activeAnchor === anchor && !anchor.contains(event.relatedTarget)) {
                 hideTooltip(true);
             }
         },
     };
     anchor.addEventListener('pointerenter', controller.pointerEnter);
     anchor.addEventListener('pointerleave', controller.pointerLeave);
+    anchor.addEventListener('pointerdown', controller.pointerDown);
+    anchor.addEventListener('pointerup', controller.pointerEnd);
+    anchor.addEventListener('pointercancel', controller.pointerEnd);
+    anchor.addEventListener('click', controller.click, true);
+    anchor.addEventListener('contextmenu', controller.contextMenu);
     anchor.addEventListener('focusin', controller.focusIn);
     anchor.addEventListener('focusout', controller.focusOut);
     anchors.add(anchor);
@@ -290,6 +338,11 @@ export function disconnectTooltip(anchor) {
 
     anchor.removeEventListener('pointerenter', controller.pointerEnter);
     anchor.removeEventListener('pointerleave', controller.pointerLeave);
+    anchor.removeEventListener('pointerdown', controller.pointerDown);
+    anchor.removeEventListener('pointerup', controller.pointerEnd);
+    anchor.removeEventListener('pointercancel', controller.pointerEnd);
+    anchor.removeEventListener('click', controller.click, true);
+    anchor.removeEventListener('contextmenu', controller.contextMenu);
     anchor.removeEventListener('focusin', controller.focusIn);
     anchor.removeEventListener('focusout', controller.focusOut);
     anchorControllers.delete(anchor);

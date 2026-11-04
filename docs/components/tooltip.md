@@ -23,3 +23,7 @@ mesmo fechados, sem spans escondidos no consumidor.
     <ChildContent><SUIIconButton Icon="info" Title="Ajuda sobre escopos" /></ChildContent>
 </SUITooltip>
 ```
+
+## Touch
+
+Touch has no hover, so holding the anchor for 450 ms shows the tooltip, including on a disabled control. It stays while held and for 1.5 s after release, and that release does not run the control's action. A short tap runs the action without showing the tooltip. Keyboard focus still opens it.
