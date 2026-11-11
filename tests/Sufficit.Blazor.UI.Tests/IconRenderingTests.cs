@@ -6,6 +6,25 @@ namespace Sufficit.Blazor.UI.Tests;
 
 public sealed class IconRenderingTests
 {
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("   ")]
+    public void MissingName_RendersTheFallbackCircle(string? name)
+    {
+        using var context = new BunitContext();
+
+        var rendered = context.Render<SUIIcon>(parameters => parameters
+            .Add(component => component.Name, name!));
+
+        var svg = rendered.Find("svg");
+        var circle = Assert.Single(svg.QuerySelectorAll("circle"));
+        Assert.Equal("none", svg.GetAttribute("fill"));
+        Assert.Equal("12", circle.GetAttribute("cx"));
+        Assert.Equal("12", circle.GetAttribute("cy"));
+        Assert.Equal("9", circle.GetAttribute("r"));
+    }
+
     [Fact]
     public void EyeOff_RendersItsDistinctVisibilityGlyph()
     {

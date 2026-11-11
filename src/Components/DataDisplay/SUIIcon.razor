@@ -153,5 +153,5 @@ else
         }
     }
 
-    private bool IsMarkup => Name.TrimStart().StartsWith('<');
+    private bool IsMarkup => SUIIconMarkup.IsMarkup(Name);
 }

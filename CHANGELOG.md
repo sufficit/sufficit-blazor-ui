@@ -29,6 +29,8 @@ definem a numeração das próximas publicações.
   below 16rem (mobile), instead of squeezing the text into a narrow column.
 
 ### Fixed
+- `SUIIcon` now renders its fallback circle when `Name` is explicitly null,
+  instead of throwing `NullReferenceException` during markup detection.
 - `SUIChip` semantic tints: success, warning, error and info text now mixes 80% of
   the tone with the theme's text colour. Text in the tone's pure colour reached only
   4:1 on its own tint with a consumer palette (warning `#b45309`), and 4.49:1 for the
