@@ -1,48 +1,46 @@
-// Rich popover: hover/focus surface for arbitrary content. Unlike the text tooltip
-// (one shared element fed by data attributes), each SUIPopover owns its panel element
-// because Blazor renders the content. Interactive panels use the browser's
-// top layer so overflow and transformed ancestors cannot clip them.
-
-const instances = new WeakMap();
-
-function sidesFor(preferred) {
+// Shared geometry; callers retain placement order and margins.
+export function sidesFor(preferred, verticalFallback = 'left') {
+    const horizontal = verticalFallback === 'right' ? ['right', 'left'] : ['left', 'right'];
     switch (preferred) {
         case 'left': return ['left', 'right', 'top', 'bottom'];
-        case 'right': return ['right', 'left', 'top', 'bottom'];
-        case 'top': return ['top', 'bottom', 'left', 'right'];
-        case 'bottom': return ['bottom', 'top', 'left', 'right'];
+        case 'top': return ['top', 'bottom', ...horizontal];
+        case 'bottom': return ['bottom', 'top', ...horizontal];
         default: return ['right', 'left', 'top', 'bottom'];
     }
 }
 
-function coordinates(side, anchorRect, width, height, gap) {
+export function coordinates(side, rect, width, height, gap) {
+    const left = rect.left + ((rect.width - width) / 2);
+    const top = rect.top + ((rect.height - height) / 2);
     switch (side) {
-        case 'left':
-            return {
-                left: anchorRect.left - width - gap,
-                top: anchorRect.top + ((anchorRect.height - height) / 2),
-            };
-        case 'right':
-            return {
-                left: anchorRect.right + gap,
-                top: anchorRect.top + ((anchorRect.height - height) / 2),
-            };
-        case 'top':
-            return {
-                left: anchorRect.left + ((anchorRect.width - width) / 2),
-                top: anchorRect.top - height - gap,
-            };
-        default:
-            return {
-                left: anchorRect.left + ((anchorRect.width - width) / 2),
-                top: anchorRect.bottom + gap,
-            };
+        case 'left': return { left: rect.left - width - gap, top };
+        case 'top': return { left, top: rect.top - height - gap };
+        case 'bottom': return { left, top: rect.bottom + gap };
+        default: return { left: rect.right + gap, top };
     }
 }
 
+export function overflow(position, rect, margin) {
+    return Math.max(0, margin - position.left)
+        + Math.max(0, position.left + rect.width + margin - window.innerWidth)
+        + Math.max(0, margin - position.top)
+        + Math.max(0, position.top + rect.height + margin - window.innerHeight);
+}
+
+export function parseNumber(value, fallback, minimum, maximum) {
+    const parsed = Number.parseFloat(value);
+    return Number.isFinite(parsed)
+        ? Math.min(maximum, Math.max(minimum, parsed))
+        : fallback;
+}
+
+
+// Each Blazor-rendered panel owns its state; the top layer prevents clipping.
+
+const instances = new WeakMap();
+
 export function connectPopover(anchor, panel, options) {
-    // Blazor resolves element references to null when the row re-rendered or was
-    // removed while the module was loading. There is nothing to attach to then.
+    // Element references can expire during Blazor rerenders.
     if (!(anchor instanceof Element) || !(panel instanceof Element)) {
         return false;
     }
@@ -60,7 +58,7 @@ export function connectPopover(anchor, panel, options) {
     const gap = options?.offset ?? 10;
     const sides = sidesFor(options?.placement);
     const margin = 8;
-    // Only interactive panels need the top layer. Leave all other popovers intact.
+    // Only interactive panels use the top layer.
     const useTopLayer = options?.clickToToggle && typeof panel.showPopover === 'function';
     if (useTopLayer) panel.setAttribute('popover', 'manual');
 
@@ -189,8 +187,7 @@ export function connectPopover(anchor, panel, options) {
     on(anchor, 'mouseleave', scheduleHide);
     on(anchor, 'focusin', scheduleShow);
     on(anchor, 'focusout', scheduleHide);
-    // The panel is part of the hover target: moving from the anchor onto the panel
-    // (links, meters) must keep the surface open.
+    // Moving onto the panel must keep it open.
     on(panel, 'mouseenter', () => clearTimeout(state.hideTimer));
     on(panel, 'mouseleave', scheduleHide);
     on(document, 'keydown', onKeyDown);

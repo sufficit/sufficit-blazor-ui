@@ -1,3 +1,5 @@
+import { parseNumber, sidesFor, coordinates, overflow } from './SUIPopover.razor.js';
+
 const anchors = new Set();
 const anchorControllers = new WeakMap();
 let activeAnchor = null;
@@ -19,13 +21,6 @@ const styleProperties = {
     suiTooltipFontWeight: '--sui-tooltip-font-weight',
 };
 
-function parseNumber(value, fallback, minimum, maximum) {
-    const parsed = Number.parseFloat(value);
-    return Number.isFinite(parsed)
-        ? Math.min(maximum, Math.max(minimum, parsed))
-        : fallback;
-}
-
 function ensureTooltip() {
     if (tooltipElement?.isConnected) {
         return tooltipElement;
@@ -40,48 +35,6 @@ function ensureTooltip() {
     return tooltipElement;
 }
 
-function candidates(preferred) {
-    switch (preferred) {
-        case 'left': return ['left', 'right', 'top', 'bottom'];
-        case 'top': return ['top', 'bottom', 'right', 'left'];
-        case 'bottom': return ['bottom', 'top', 'right', 'left'];
-        case 'auto': return ['right', 'left', 'top', 'bottom'];
-        default: return ['right', 'left', 'top', 'bottom'];
-    }
-}
-
-function coordinates(side, targetRect, tooltipRect, gap) {
-    switch (side) {
-        case 'left':
-            return {
-                left: targetRect.left - tooltipRect.width - gap,
-                top: targetRect.top + ((targetRect.height - tooltipRect.height) / 2),
-            };
-        case 'top':
-            return {
-                left: targetRect.left + ((targetRect.width - tooltipRect.width) / 2),
-                top: targetRect.top - tooltipRect.height - gap,
-            };
-        case 'bottom':
-            return {
-                left: targetRect.left + ((targetRect.width - tooltipRect.width) / 2),
-                top: targetRect.bottom + gap,
-            };
-        default:
-            return {
-                left: targetRect.right + gap,
-                top: targetRect.top + ((targetRect.height - tooltipRect.height) / 2),
-            };
-    }
-}
-
-function overflow(position, tooltipRect, margin) {
-    return Math.max(0, margin - position.left)
-        + Math.max(0, position.left + tooltipRect.width + margin - window.innerWidth)
-        + Math.max(0, margin - position.top)
-        + Math.max(0, position.top + tooltipRect.height + margin - window.innerHeight);
-}
-
 function placeTooltip(anchor, tooltip) {
     if (!anchor?.isConnected || !tooltip?.isConnected) {
         return;
@@ -92,9 +45,9 @@ function placeTooltip(anchor, tooltip) {
     const targetRect = anchor.getBoundingClientRect();
     const tooltipRect = tooltip.getBoundingClientRect();
     const preferred = anchor.dataset.suiTooltipPlacement?.toLowerCase() || 'right';
-    const placements = candidates(preferred).map(side => ({
+    const placements = sidesFor(preferred, 'right').map(side => ({
         side,
-        position: coordinates(side, targetRect, tooltipRect, gap),
+        position: coordinates(side, targetRect, tooltipRect.width, tooltipRect.height, gap),
     }));
     const selected = placements.find(item => overflow(item.position, tooltipRect, margin) === 0)
         || placements.reduce((best, item) =>
@@ -139,7 +92,7 @@ function applyOptions(anchor, tooltip) {
     tooltip.style.setProperty('--sui-tooltip-max-width', `${maxWidth}px`);
 }
 
-// Rich content (title + body) lives in a hidden element the component renders.
+// Blazor renders rich content in a hidden source element.
 const sourceOf = anchor => document.getElementById(anchor.dataset.suiTooltipContent || '');
 const isPersistent = anchor => anchor.dataset.suiTooltipPersistent === 'true';
 
@@ -231,7 +184,7 @@ function showTooltip(anchor, immediate = false) {
         if (source) tooltip.replaceChildren(...source.cloneNode(true).childNodes);
         else tooltip.textContent = label;
         tooltip.setAttribute('aria-hidden', 'false');
-        // A persistent description already points at the source element.
+        // Persistent descriptions already reference the source.
         if (!isPersistent(anchor)) addDescription(activeDescriptionTarget, tooltip.id);
         placeTooltip(anchor, tooltip);
         connectViewportListeners();
@@ -253,7 +206,7 @@ function hideTooltip(immediate = false) {
     hideTimer = window.setTimeout(conceal, immediate ? 0 : delay);
 }
 
-// Touch has no hover: holding the anchor shows the tooltip, and the release that follows must not run its action.
+// Long press previews touch tooltips; release must not activate the control.
 const longPressDelay = 450;
 const longPressLinger = 1500;
 
@@ -304,11 +257,11 @@ export function connectTooltip(anchor) {
         contextMenu: event => {
             if (pressing || held) event.preventDefault();
         },
-        // A tap also focuses the control; only keyboard focus should open the tooltip.
+        // Open on keyboard focus, not the focus produced by a tap.
         focusIn: event => {
             if (event.target?.matches?.(':focus-visible')) showTooltip(anchor, true);
         },
-        // Focus leaving another control (a touch press moves it) must not close this tooltip.
+        // Focus leaving another control must not close this tooltip.
         focusOut: event => {
             if (activeAnchor === anchor && !anchor.contains(event.relatedTarget)) {
                 hideTooltip(true);
