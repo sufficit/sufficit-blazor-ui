@@ -1,12 +1,12 @@
-# Shared file upload and audio player
+# Shared file upload and audio player — delivered
 
 Objective: add reusable SUI file selection and audio playback components and adopt them in sufficit-blazor's audio catalog, preserving the validated upload/publication flow.
 
 ## Checkpoints
 1. Completed — lock public APIs and composition against existing SUI fields, tokens, native browser file/media semantics and the current audio screen.
 2. Completed — implement components with executable catalog examples, documentation and meaningful interaction tests; regenerate CSS/catalog and pass library gates.
-3. In progress — integrate in the audio catalog, update AI sidecar and remove its residual Mud icon/native markup; validate consumer tests and browser workflows at desktop/tablet/mobile, themes, keyboard and zoom.
-4. Pending — commit/push both repositories, deploy the validated consumer by its official workflow, verify delivery and convert this plan to an activity.
+3. Completed — integrate in the audio catalog, update AI sidecar and remove its residual Mud icon/native markup; validate consumer tests and browser workflows at desktop/tablet/mobile, themes, keyboard and zoom.
+4. Completed — commit/push both repositories, deploy the validated consumer by its official workflow, verify delivery and convert this plan to an activity.
 
 Reference lock: existing DESIGN.md/SUI tokens and field components; user's validated audio workflow; native file chooser and media controls for platform accessibility. No feature CSS or new dependency. File chooser remains keyboard accessible, selected filename wraps, external clearing resets native input. Audio does not autoplay and respects the available width. File acceptance hints and optional client size limits do not replace server validation. Publication and actual central application remain distinct.
 
@@ -21,3 +21,15 @@ Package checkpoint: dotnet pack and scripts/validate-package.sh passed, includin
 Delivery in progress: UI commit b35ab07 and consumer commit 64674da3 pushed to main. Official deploy.py eveo-apps --publish builds the committed consumer and sibling UI; both working trees are clean. The prior consumer CI runs were completed, with no older active deploy observed before starting. Artifact: server/publish-20261116171455.
 
 CI recheckpoint: run 43947749904 passed CSS, Release build, all component tests, package, WebKit, Firefox and Lighthouse. Chromium's only failure was TransferredBytes_StayWithinBudget: measured 133,895 B against 133,120 B. New shared scoped CSS accounts for the increase. Apply that gate's documented +3% rounded-to-KiB rule: 135 KiB (138,240 B). No functionality assertion is removed. Reopen checkpoint 3 for this final CI gate; deployment of the already-validated runtime is in flight (eveo completed, apoint transfer started); checkpoint 4 remains pending until closing verification.
+
+CI gate correction checkpoint: commit a9a5dfa updates only the browser CSS budget and this record. Browser test project built with warnings as errors. The exact TransferredBytes_StayWithinBudget test passed locally against the catalog using Chromium with an explicit installed executable; no test skipped. The new complete CI matrix is in progress and is not claimed complete. Runtime components/CSS are unchanged from b35ab07. Official consumer deployment completed on eveo and apoint; castrum is in progress. eveo installed UI DLL SHA256 66b1ecc1e117fc355cae4ea214a40e9ff5a882adbfb351ced5f387f663224515 and scoped CSS SHA256 9776f89afc474cc227c10a2e66b0da263f064525e44c376fdb0eb28f25b6b67c match the artifact; public scoped CSS matches too.
+
+## Final delivery
+
+Official consumer deployment completed on eveo-apps, apoint-apps and castrum-apps using the identical artifact server/publish-20261116171455. All three direct health endpoints and public health returned Healthy with version 1.26.1116.2014+64674da34e37097e47ce55e977e91388ec699dcb. Installed SUI DLL and scoped CSS hashes match on every host; public fingerprinted CSS also matches. Evidence: /tmp/audio-sui-production-verification.json. Logs: /tmp/audio-sui-deploy-{eveo,apoint,castrum}.log.
+
+CI after the budget correction (43948817255) has passed CSS, build, package, component tests, Lighthouse and the complete Chromium browser/accessibility job. Firefox and WebKit were still in progress at the last observation; both had passed on the same runtime/component code in 43947749904, before the Chromium-only test-budget correction. No claim of a completed new matrix is made. CodeQL passed on b35ab07.
+
+The reusable components, docs, examples and API baseline are published in main. The application consumes SUI by ProjectReference. NuGet package creation and executable validation passed locally; no NuGet.org release tag was created or claimed. No customer audio was modified for validation. Browser fixture evidence does not establish authenticated production acceptance, and no screen-reader session was performed.
+
+The closing commit changes only delivery documentation; runtime source remains the verified implementation. Consumer activity records the application rollout separately. This plan is converted to an activity with its index link updated; no unrelated plan is closed.

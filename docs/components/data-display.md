@@ -1,6 +1,6 @@
 # Exibição de dados
 
-Inclui `SUIText`, `SUIIcon`, `SUIChip`, `SUIStatusBadge`, `SUIList`, `SUITable`,
+Inclui `SUIAudioPlayer`, `SUIText`, `SUIIcon`, `SUIChip`, `SUIStatusBadge`, `SUIList`, `SUITable`,
 `SUIPagination`, `SUIStat` e `SUITimeline`.
 
 `SUIText` mapeia `SUITypo.h1`–`h6` para headings nativos quando `Tag=Auto`;

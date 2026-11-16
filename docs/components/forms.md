@@ -1,7 +1,7 @@
 # Formulários
 
 Família: `SUITextField<T>`, `SUINumericField<T>`, `SUIDateField`, `SUISelect<T>`,
-`SUIAutocomplete<T>`, `SUIChoiceCard<TValue>`, `SUICheckbox`, `SUISwitch` e
+`SUIAutocomplete<T>`, `SUIFileUpload`, `SUIChoiceCard<TValue>`, `SUICheckbox`, `SUISwitch` e
 `SUISwitchButton`. `SUIFormGrid` organiza fields equivalentes em colunas.
 
 ## Data localizada
