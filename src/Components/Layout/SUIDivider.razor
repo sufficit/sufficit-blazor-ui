@@ -1,8 +1,18 @@
 @namespace Sufficit.Blazor.UI.Components
 @inherits SUIComponentBase
 
-<hr class="@Classname" style="@Style" @attributes="AdditionalAttributes" />
+@if (Vertical)
+{
+    <div class="@Classname" style="@Style" role="separator" aria-orientation="vertical" @attributes="AdditionalAttributes"></div>
+}
+else
+{
+    <hr class="@Classname" style="@Style" @attributes="AdditionalAttributes" />
+}
 
 @code {
-    private string Classname => EffectiveClass("sui-divider");
+    /// <summary>Renders a vertical separator that stretches in a horizontal flex row.</summary>
+    [Parameter] public bool Vertical { get; set; }
+    private string Classname => SUIClassBuilder.Default(EffectiveClass("sui-divider"))
+        .AddClass("sui-divider--vertical", Vertical).Build();
 }

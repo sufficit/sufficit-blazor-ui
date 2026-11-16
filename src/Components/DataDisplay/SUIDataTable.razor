@@ -14,7 +14,7 @@
           ColumnCount="@ColumnCount" RowClassFunc="@RowClassFunc" RowStyleFunc="@RowStyleFunc"
           OnRowClick="@OnRowClick" RowAriaLabelFunc="@RowAriaLabelFunc" StackOnMobile="@StackOnMobile"
           HeaderContent="@HeaderContent" FooterContent="@FooterContent"
-          Loading="@Pending" Class="@Class" Style="@Style" @attributes="AdditionalAttributes">
+          Loading="@Pending" LoadingLabel="@LoadingText" Class="@Class" Style="@Style" @attributes="AdditionalAttributes">
     <RowTemplate Context="row">@RowTemplate?.Invoke(row)</RowTemplate>
     <NoRecordsContent>
         @if (Pending)

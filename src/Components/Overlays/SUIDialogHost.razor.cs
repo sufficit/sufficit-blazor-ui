@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Sufficit.Blazor.UI.Services;
+using Sufficit.Blazor.UI.Utilities;
 
 namespace Sufficit.Blazor.UI.Components;
 
@@ -28,6 +29,12 @@ public partial class SUIDialogHost
     /// </summary>
     [Parameter]
     public string CloseLabel { get; set; } = "Fechar";
+
+    private string? DialogCssomStyle => SUIStyleBuilder.Default()
+        .Add("--sui-dialog-max-width", $"{Math.Clamp(_current?.Options?.MaxWidth ?? 480, 240, 1600)}px", _current?.Options?.MaxWidth is not (null or 480))
+        .Build();
+
+    private Task BackdropClickedAsync() => _current?.Options?.CloseOnBackdropClick == false ? Task.CompletedTask : DismissAsync();
 
     private string TitleId => $"sui-dialog-{_current?.Id:N}-title";
 
@@ -126,7 +133,7 @@ public partial class SUIDialogHost
 
     /// <summary>Called from JS on Escape; completes the current dialog with a <c>null</c> result.</summary>
     [JSInvokable]
-    public Task DismissFromKeyboardAsync() => DismissAsync();
+    public Task DismissFromKeyboardAsync() => _current?.Options?.CloseOnEscape == false ? Task.CompletedTask : DismissAsync();
 
     private async Task CloseInteropAsync()
     {

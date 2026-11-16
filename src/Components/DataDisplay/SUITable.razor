@@ -30,7 +30,7 @@
      tabindex="@(ScrollRegion ? 0 : null)">
     @if (Loading)
     {
-        <SUIProgressLinear Indeterminate="true" Class="sui-table__progress" />
+        <SUIProgressLinear Indeterminate="true" AriaLabel="@LoadingLabel" Class="sui-table__progress" />
     }
     @* Clickable rows make this a grid: a row is an allowed focus target there
        (ARIA 1.2 row), unlike tr[role=button], which is not a valid role for a

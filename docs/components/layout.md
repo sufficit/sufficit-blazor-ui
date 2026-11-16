@@ -49,3 +49,7 @@ raio e elevação vêm do tema; não replique números de z-index no consumer.
 um `div` com a classe `sui-card__actions`, sem semântica própria, que recebe
 os botões. `AlignEnd` alinha as ações ao fim da linha em vez do início;
 atributos não mapeados vão para a raiz.
+
+`SUIGrid.Gap` controla o gutter em passos de 4 px (0–12), com CSSOM compatível com CSP. Quando omitido, conserva o comportamento de `Spacing` (booleano); zero remove o gutter.
+
+`SUIDivider.Vertical` renderiza um separador com orientação acessível e stretch em uma linha flex; o padrão horizontal continua sendo um `hr` nativo.

@@ -5,9 +5,9 @@
 .sui-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  gap: 0;
+  gap: var(--sui-grid-gap, 0);
 }
-.sui-grid--gutter { gap: var(--sui-space-3); }
+.sui-grid--gutter { gap: var(--sui-grid-gap, var(--sui-space-3)); }
 
 .sui-item { min-width: 0; }
 /* mobile-first: xs applies at all widths */

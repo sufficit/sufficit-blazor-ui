@@ -1,13 +1,21 @@
 @namespace Sufficit.Blazor.UI.Components
 @inherits SUIComponentBase
 
-<div class="@Classname" style="@Style" @attributes="AdditionalAttributes">
+<div class="@Classname" style="@Style" data-sui-style="@GridCssomStyle" @attributes="AdditionalAttributes">
     @ChildContent
 </div>
 
 @code {
     [Parameter]
     public bool Spacing { get; set; } = true;
+
+    /// <summary>Optional gap in four-pixel spacing steps (0-12), overriding Spacing's default gutter.</summary>
+    [Parameter]
+    public int? Gap { get; set; }
+
+    private string? GridCssomStyle => SUIStyleBuilder.Default()
+        .Add("--sui-grid-gap", $"{Math.Clamp(Gap.GetValueOrDefault(), 0, 12) * 4}px", Gap.HasValue)
+        .Build();
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }

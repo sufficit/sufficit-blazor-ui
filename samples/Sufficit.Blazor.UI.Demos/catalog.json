@@ -1980,6 +1980,14 @@
         "deprecated": false
       },
       {
+        "description": "Accessible label of the indeterminate loading indicator.",
+        "name": "LoadingLabel",
+        "type": "string",
+        "default": "\"Carregando registros\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "Optional class selector calculated for each rendered row.",
         "name": "RowClassFunc",
         "type": "Func<TItem, int, string?>?",
@@ -3028,12 +3036,20 @@
   {
     "name": "SUIProgressLinear",
     "family": "Feedback",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIProgressLinear Value=\"65\" />\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack>\n    <SUIProgressLinear Value=\"65\" AriaLabel=\"Progresso confirmado\" />\n    <SUIProgressLinear Indeterminate=\"true\" AriaLabel=\"Carregando registros\" />\n</SUIStack>\n",
     "parameters": [
       {
         "description": "Progress 0-100.",
         "name": "Value",
         "type": "double",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Shows ongoing work with unknown progress and omits aria-valuenow.",
+        "name": "Indeterminate",
+        "type": "bool",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -5345,7 +5361,7 @@
   {
     "name": "SUITextField",
     "family": "Formulários",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITextField TValue=\"string\" Label=\"Nome público\" @bind-Value=\"Text\" HelperText=\"Nome exibido aos usuários.\" Clearable />\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack>\n    <SUITextField TValue=\"string\" Label=\"Nome\" @bind-Value=\"Text\" />\n    <SUITextField TValue=\"DateOnly?\" Label=\"Data editável\" InputType=\"date\" @bind-Value=\"NativeDate\" />\n    <SUITextField TValue=\"TimeSpan?\" Label=\"Horário editável\" InputType=\"time\" step=\"any\" @bind-Value=\"NativeClock\" />\n    <SUITextField TValue=\"decimal\" Label=\"Fração\" InputType=\"range\" min=\"0\" max=\"1\" step=\"0.05\" Immediate=\"true\" @bind-Value=\"NativeRange\" />\n    <output data-testid=\"native-temporal-values\">@NativeDate?.ToString(\"yyyy-MM-dd\")|@NativeClock?.ToString(\"c\")|@NativeRange.ToString(System.Globalization.CultureInfo.InvariantCulture)</output>\n</SUIStack>\n@code {\n    private DateOnly? NativeDate = new(2026, 8, 1);\n    private TimeSpan? NativeClock = new(9, 30, 0);\n    private decimal NativeRange = .4m;\n}\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n}\n",
     "parameters": [
       {
         "description": "Current value, or the type default when empty.",
@@ -6073,8 +6089,16 @@
   {
     "name": "SUIDivider",
     "family": "Layout",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIText>Primeira seção</SUIText>\n<SUIDivider />\n<SUIText>Segunda seção</SUIText>\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack>\n    <SUIDivider />\n    <SUIStack Row>\n        <SUIText>Antes</SUIText>\n        <SUIDivider Vertical=\"true\" />\n        <SUIText>Depois</SUIText>\n    </SUIStack>\n</SUIStack>\n",
     "parameters": [
+      {
+        "description": "Renders a vertical separator that stretches in a horizontal flex row.",
+        "name": "Vertical",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
       {
         "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
@@ -6279,13 +6303,21 @@
   {
     "name": "SUIGrid",
     "family": "Layout",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIGrid>\n<SUIItem Xs=\"12\" Md=\"6\">\n<SUITextField TValue=\"string\" Label=\"Nome\" @bind-Value=\"Text\" />\n</SUIItem>\n<SUIItem Xs=\"12\" Md=\"6\">\n<SUINumericField TValue=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" />\n</SUIItem>\n</SUIGrid>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected int Count { get; set; } = 3;\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITextField TValue=\"int\" Label=\"Espaçamento do grid\" InputType=\"number\" @bind-Value=\"GridGap\" min=\"0\" max=\"12\" />\n<SUIGrid Gap=\"@GridGap\">\n    <SUIItem Xs=\"6\"><SUIText>Primeiro item</SUIText></SUIItem>\n    <SUIItem Xs=\"6\"><SUIText>Segundo item</SUIText></SUIItem>\n</SUIGrid>\n@code { private int GridGap = 3; }\n",
     "parameters": [
       {
         "description": "",
         "name": "Spacing",
         "type": "bool",
         "default": "true",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional gap in four-pixel spacing steps (0-12), overriding Spacing's default gutter.",
+        "name": "Gap",
+        "type": "int?",
+        "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
       },
@@ -7884,7 +7916,7 @@
   {
     "name": "SUIDialogHost",
     "family": "Overlays",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIButton OnClick=\"Confirm\">Abrir diálogo</SUIButton>\n<p>O host de diálogos está instalado na raiz desta vitrine.</p>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    [Inject] protected ISUIDialogService Dialogs { get; set; } = default!;\n    protected async Task Confirm() => Snackbar.Info(await Dialogs.ConfirmAsync(\"Confirmar alteração\", \"Aplicar a configuração de demonstração?\") ? \"Confirmado.\" : \"Cancelado.\");\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIButton OnClick=\"OpenEditor\">Abrir diálogo</SUIButton>\n<p>O editor de demonstração exige uma ação explícita para fechar.</p>\n@code {\n    private async Task OpenEditor() => await Dialogs.ShowAsync<SUIConfirmDialog>(\"Editor de demonstração\",\n        new Dictionary<string, object?> { [\"Message\"] = \"Dados de demonstração; confirme ou cancele explicitamente.\" },\n        new SUIDialogOptions { MaxWidth = 960, CloseOnBackdropClick = false, CloseOnEscape = false, ShowCloseButton = false });\n}\n\n@code {\n    [Inject] protected ISUIDialogService Dialogs { get; set; } = default!;\n}\n",
     "parameters": [
       {
         "description": "Accessible name of the header close button. Defaults to Portuguese, like the rest of the library's built-in copy; hosts rendering another language pass their own.",

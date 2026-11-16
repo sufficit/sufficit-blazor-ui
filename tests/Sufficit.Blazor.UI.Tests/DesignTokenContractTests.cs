@@ -68,6 +68,7 @@ public sealed class DesignTokenContractTests
             ["src/styles/sui-shared-skeleton.css"] = ["1.4s"],
             ["src/styles/sui-buttons.css"] = [".7s"],
             ["src/styles/sui-progress-circular.css"] = ["1.4s"],
+            ["src/styles/sui-shared-progress-linear.css"] = ["1.4s"],
             ["src/Components/Navigation/SUISlidingTabs.razor.css"] = ["380ms", "320ms"],
         };
 

@@ -1,3 +1,13 @@
 @inherits DemoBase
-
-<SUITextField TValue="string" Label="Nome público" @bind-Value="Text" HelperText="Nome exibido aos usuários." Clearable />
+<SUIStack>
+    <SUITextField TValue="string" Label="Nome" @bind-Value="Text" />
+    <SUITextField TValue="DateOnly?" Label="Data editável" InputType="date" @bind-Value="NativeDate" />
+    <SUITextField TValue="TimeSpan?" Label="Horário editável" InputType="time" step="any" @bind-Value="NativeClock" />
+    <SUITextField TValue="decimal" Label="Fração" InputType="range" min="0" max="1" step="0.05" Immediate="true" @bind-Value="NativeRange" />
+    <output data-testid="native-temporal-values">@NativeDate?.ToString("yyyy-MM-dd")|@NativeClock?.ToString("c")|@NativeRange.ToString(System.Globalization.CultureInfo.InvariantCulture)</output>
+</SUIStack>
+@code {
+    private DateOnly? NativeDate = new(2026, 8, 1);
+    private TimeSpan? NativeClock = new(9, 30, 0);
+    private decimal NativeRange = .4m;
+}

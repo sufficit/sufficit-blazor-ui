@@ -79,6 +79,9 @@ public partial class SUITable<TItem>
     [Parameter]
     public bool Loading { get; set; }
 
+    /// <summary>Accessible label of the indeterminate loading indicator.</summary>
+    [Parameter] public string LoadingLabel { get; set; } = "Carregando registros";
+
     /// <summary>Optional class selector calculated for each rendered row.</summary>
     [Parameter]
     public Func<TItem, int, string?>? RowClassFunc { get; set; }

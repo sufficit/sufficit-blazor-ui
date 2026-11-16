@@ -361,4 +361,18 @@ public sealed class RenderContractFeedbackTests
         Assert.Empty(cut.FindAll(".sui-empty__description"));
         Assert.Empty(cut.FindAll(".sui-empty__actions"));
     }
+    [Fact]
+    public void LinearProgressSwitchesBetweenKnownAndUnknownWithoutFalsePercentages()
+    {
+        using var context = new BunitContext();
+        var progress = context.Render<SUIProgressLinear>(p => p.Add(x => x.Value, 65).Add(x => x.AriaLabel, "Carregando"));
+        Assert.Equal("65", progress.Find("[role=progressbar]").GetAttribute("aria-valuenow"));
+        progress.Render(p => p.Add(x => x.Indeterminate, true));
+        Assert.Null(progress.Find("[role=progressbar]").GetAttribute("aria-valuenow"));
+        Assert.Null(progress.Find(".sui-progress-linear__bar").GetAttribute("data-sui-style"));
+        Assert.Equal("Carregando", progress.Find("[role=progressbar]").GetAttribute("aria-label"));
+        progress.Render(p => p.Add(x => x.Indeterminate, false).Add(x => x.Value, 80));
+        Assert.Equal("80", progress.Find("[role=progressbar]").GetAttribute("aria-valuenow"));
+    }
+
 }

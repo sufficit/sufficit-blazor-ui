@@ -3,7 +3,7 @@
 @using System.Globalization
 
 <div class="@Classname" role="progressbar"
-     aria-valuenow="@ClampedValue" aria-valuemin="0" aria-valuemax="100"
+     aria-valuenow="@(Indeterminate ? (double?)null : ClampedValue)" aria-valuemin="0" aria-valuemax="100"
      aria-label="@AriaLabel" style="@Style" @attributes="AdditionalAttributes">
     <div class="sui-progress-linear__bar" data-sui-style="@ProgressCssomStyle"></div>
 </div>
@@ -12,6 +12,10 @@
     /// <summary>Progress 0-100.</summary>
     [Parameter]
     public double Value { get; set; }
+
+    /// <summary>Shows ongoing work with unknown progress and omits aria-valuenow.</summary>
+    [Parameter]
+    public bool Indeterminate { get; set; }
 
     [Parameter]
     public SUIColor? ColorValue { get; set; }
@@ -27,6 +31,7 @@
         => SUIClassBuilder.Default("sui-progress-linear")
             .AddClass($"sui-progress-linear--{SUIClassBuilder.Slug(EffectiveColor)}")
             .AddClass("sui-progress-linear--rounded", Rounded)
+            .AddClass("sui-progress-linear--indeterminate", Indeterminate)
             .AddClass(Class)
             .Build();
 
@@ -37,7 +42,7 @@
     // Before JS runs the bar is empty and then grows (transform, no layout shift).
     private string? ProgressCssomStyle
         => SUIStyleBuilder.Default()
-            .Add("--sui-progress-scale", (ClampedValue / 100).ToString("0.####", CultureInfo.InvariantCulture))
+            .Add("--sui-progress-scale", (ClampedValue / 100).ToString("0.####", CultureInfo.InvariantCulture), !Indeterminate)
             .Build();
 
     private SUIColor EffectiveColor => ColorValue ?? SUIColor.Primary;

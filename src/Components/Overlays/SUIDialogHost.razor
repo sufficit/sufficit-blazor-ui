@@ -8,10 +8,11 @@
 
 @if (_current is not null)
 {
-    <div class="@Classname" style="@Style" @onclick="DismissAsync" @attributes="AdditionalAttributes">
+    <div class="@Classname" style="@Style" @onclick="BackdropClickedAsync" @attributes="AdditionalAttributes">
         <div @ref="_dialogElement"
              @key="_current.Id"
              class="sui-dialog sui-card"
+             data-sui-style="@DialogCssomStyle"
              role="dialog"
              aria-modal="true"
              aria-labelledby="@TitleId"
@@ -25,9 +26,12 @@
                     }
                     @_current.Title
                 </h2>
+                @if (_current.Options?.ShowCloseButton != false)
+                {
                 <button type="button" class="sui-dialog__close" aria-label="@CloseLabel" @onclick="DismissAsync">
                     <SUIIcon Name="x" Size="20" />
                 </button>
+                }
             </header>
             <CascadingValue Value="@_current.Reference">
                 <DynamicComponent Type="@_current.ComponentType" Parameters="@_dialogParameters" />

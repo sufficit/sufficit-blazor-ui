@@ -205,3 +205,13 @@ O campo validador observa `Value`, `Required`/`RequiredText`, `Disabled`,
 a `ErrorText` do controle SUI. As regras não alteram o modelo. Regras assíncronas
 recebem cancelamento e resultados antigos não substituem o estado atual;
 descartar o componente cancela a validação. Cada formulário isola seu registro.
+
+`SUITextField` suporta controles nativos editáveis com `InputType="date"`
+(`DateOnly`, `DateTime` e versões nullable) e `InputType="time"` (`TimeOnly`,
+`TimeSpan` de zero até menos de 24 horas, inclusive nullable). O valor no DOM é
+ISO, independente da cultura; datas não passam por UTC e um `DateTime` editado
+volta à meia-noite com `Kind=Unspecified`. Horários têm precisão de milissegundos
+no controle nativo. Limpar um nullable retorna null; valores inválidos não
+atualizam o modelo e participam da validação do EditContext. Para um calendário
+SUI personalizado, continue usando `SUIDateField`. O input `range` conserva a
+conversão numérica invariável, e `min`/`max`/`step` seguem os atributos nativos.

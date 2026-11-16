@@ -1,10 +1,6 @@
-@inherits DemoBase
-
-<SUIGrid>
-<SUIItem Xs="12" Md="6">
-<SUITextField TValue="string" Label="Nome" @bind-Value="Text" />
-</SUIItem>
-<SUIItem Xs="12" Md="6">
-<SUINumericField TValue="int" Label="Tentativas" @bind-Value="Count" />
-</SUIItem>
+<SUITextField TValue="int" Label="Espaçamento do grid" InputType="number" @bind-Value="GridGap" min="0" max="12" />
+<SUIGrid Gap="@GridGap">
+    <SUIItem Xs="6"><SUIText>Primeiro item</SUIText></SUIItem>
+    <SUIItem Xs="6"><SUIText>Segundo item</SUIText></SUIItem>
 </SUIGrid>
+@code { private int GridGap = 3; }

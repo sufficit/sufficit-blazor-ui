@@ -1,4 +1,8 @@
 @inherits DemoBase
-
-<SUIButton OnClick="Confirm">Abrir diálogo</SUIButton>
-<p>O host de diálogos está instalado na raiz desta vitrine.</p>
+<SUIButton OnClick="OpenEditor">Abrir diálogo</SUIButton>
+<p>O editor de demonstração exige uma ação explícita para fechar.</p>
+@code {
+    private async Task OpenEditor() => await Dialogs.ShowAsync<SUIConfirmDialog>("Editor de demonstração",
+        new Dictionary<string, object?> { ["Message"] = "Dados de demonstração; confirme ou cancele explicitamente." },
+        new SUIDialogOptions { MaxWidth = 960, CloseOnBackdropClick = false, CloseOnEscape = false, ShowCloseButton = false });
+}

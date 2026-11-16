@@ -60,3 +60,5 @@ mostra um badge de status ao lado do título; fica dentro do botão do cabeçalh
 elementos interativos.
 
 Quando uma `SUIPendingChangesBar` está visível, o snackbar aparece no topo para manter Salvar/Cancelar acessíveis. Sem a barra, conserva a posição inferior padrão.
+
+`SUIProgressLinear.Indeterminate` representa trabalho sem percentual conhecido, sem `aria-valuenow`. A animação usa translate e tem alternativa estática parcial com movimento reduzido. Forneça `AriaLabel` para nomear a tarefa. `SUITable.LoadingLabel` e `SUIDataTable.LoadingText` repassam esse nome ao indicador.

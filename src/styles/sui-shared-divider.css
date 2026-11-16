@@ -8,3 +8,9 @@
   margin: 0;
   width: 100%;
 }
+.sui-divider--vertical {
+  align-self: stretch;
+  width: 0;
+  border-top: 0;
+  border-inline-start: 1px solid var(--sui-border);
+}

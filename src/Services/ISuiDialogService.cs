@@ -16,9 +16,14 @@ public interface ISUIDialogService
     /// completes when the dialog closes.</summary>
     Task<SUIDialogReference> ShowAsync<T>(string title, IDictionary<string, object?>? parameters = null) where T : Microsoft.AspNetCore.Components.ComponentBase;
 
-    /// <summary>Shows a dialog with optional presentation settings. Older providers may ignore these settings.</summary>
+    /// <summary>Shows a dialog with presentation and dismissal settings. Providers must explicitly support nondefault dismissal policies.</summary>
     Task<SUIDialogReference> ShowAsync<T>(string title, IDictionary<string, object?>? parameters, SUIDialogOptions options)
-        where T : Microsoft.AspNetCore.Components.ComponentBase => ShowAsync<T>(title, parameters);
+        where T : Microsoft.AspNetCore.Components.ComponentBase
+    {
+        if (!options.CloseOnBackdropClick || !options.CloseOnEscape || !options.ShowCloseButton)
+            throw new NotSupportedException("This dialog provider must implement explicit dismissal policies.");
+        return ShowAsync<T>(title, parameters);
+    }
 
     /// <summary>Convenience: show a confirm dialog (OK/Cancel) and return true on OK.</summary>
     Task<bool> ConfirmAsync(string title, string message);
@@ -34,11 +39,19 @@ public sealed record SUIDialogRequest(Guid Id, Type ComponentType, string Title,
     public SUIDialogOptions? Options { get; init; }
 }
 
-/// <summary>Optional visual treatment of the dialog header; does not affect its result.</summary>
+/// <summary>Dialog presentation and light-dismiss policy; explicit component results remain unchanged.</summary>
 public sealed record SUIDialogOptions
 {
     /// <summary>Icon name or SUIIcons SVG accepted by SUIIcon.</summary>
     public string? Icon { get; init; }
+    /// <summary>Maximum panel width in pixels, clamped to 240-1600 and the viewport. Default 480.</summary>
+    public int MaxWidth { get; init; } = 480;
+    /// <summary>Whether clicking the overlay dismisses the dialog. Default true.</summary>
+    public bool CloseOnBackdropClick { get; init; } = true;
+    /// <summary>Whether Escape dismisses the dialog. Default true.</summary>
+    public bool CloseOnEscape { get; init; } = true;
+    /// <summary>Whether to render the host close button. Default true.</summary>
+    public bool ShowCloseButton { get; init; } = true;
 }
 
 /// <summary>A reference to a shown dialog. <see cref="Result"/> completes when closed.</summary>

@@ -1220,6 +1220,7 @@ P|Sufficit.Blazor.UI.Components.SUIDecisionDialog|System.String|Message|[]|get;s
 P|Sufficit.Blazor.UI.Components.SUIDecisionDialog|System.String|PrimaryText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDecisionDialog|System.String|SecondaryText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDialogHost|System.String|CloseLabel|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIDivider|System.Boolean|Vertical|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDrawer|Microsoft.AspNetCore.Components.EventCallback<System.Boolean>|CompactChanged|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDrawer|Microsoft.AspNetCore.Components.EventCallback<System.Boolean>|OpenChanged|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIDrawer|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
@@ -1294,6 +1295,7 @@ P|Sufficit.Blazor.UI.Components.SUIForm|System.Boolean|IsValid|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIForm|System.Object|Model|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIGrid|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIGrid|System.Boolean|Spacing|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIGrid|System.Nullable<System.Int32>|Gap|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIIconButton|Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs>|OnClick|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIIconButton|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIIconButton|System.Boolean|AutoLoading|[]|get;set;
@@ -1497,6 +1499,7 @@ P|Sufficit.Blazor.UI.Components.SUIProgressCircular|System.Nullable<Sufficit.Bla
 P|Sufficit.Blazor.UI.Components.SUIProgressCircular|System.Nullable<Sufficit.Blazor.UI.Components.SUISize>|SizeValue|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIProgressCircular|System.String|AriaLabel|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIProgressCircular|System.String|LoadingIcon|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIProgressLinear|System.Boolean|Indeterminate|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIProgressLinear|System.Boolean|Rounded|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIProgressLinear|System.Double|Value|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIProgressLinear|System.Nullable<Sufficit.Blazor.UI.Components.SUIColor>|ColorValue|[]|get;set;
@@ -1652,6 +1655,7 @@ P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|System.Func<`0:TItem,System.S
 P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|System.Int32|ColumnCount|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|System.Int32|OverscanCount|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|System.Single|ItemSize|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|System.String|LoadingLabel|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|System.String|ScrollLabel|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITableEmpty|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITableEmpty|Sufficit.Blazor.UI.Components.SUITypo|TitleTypo|[]|get;set;
@@ -1774,6 +1778,10 @@ P|Sufficit.Blazor.UI.Components.SUIValidatedField<`0:TValue>|System.Func<`0:TVal
 P|Sufficit.Blazor.UI.Components.SUIValidatedField<`0:TValue>|System.String|RequiredText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIValidatedField<`0:TValue>|`0:TValue|Value|[]|get;set;
 P|Sufficit.Blazor.UI.Services.SUIAnimationPolicy|Sufficit.Blazor.UI.Components.SUIAnimation|Animations|[]|get;
+P|Sufficit.Blazor.UI.Services.SUIDialogOptions|System.Boolean|CloseOnBackdropClick|[]|get;set;
+P|Sufficit.Blazor.UI.Services.SUIDialogOptions|System.Boolean|CloseOnEscape|[]|get;set;
+P|Sufficit.Blazor.UI.Services.SUIDialogOptions|System.Boolean|ShowCloseButton|[]|get;set;
+P|Sufficit.Blazor.UI.Services.SUIDialogOptions|System.Int32|MaxWidth|[]|get;set;
 P|Sufficit.Blazor.UI.Services.SUIDialogOptions|System.String|Icon|[]|get;set;
 P|Sufficit.Blazor.UI.Services.SUIDialogReference|System.Guid|Id|[]|get;
 P|Sufficit.Blazor.UI.Services.SUIDialogReference|System.Threading.Tasks.Task<System.Object>|Result|[]|get;

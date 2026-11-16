@@ -25,3 +25,5 @@ Escape fecha o painel superior e devolve foco ao trigger; clique externo fecha s
 roubar foco do destino. A biblioteca não toma foco ao abrir, permitindo hover e
 navegação por Tab sem transferências inesperadas. Não use esta superfície para substituir um
 diálogo modal de confirmação. Consulte `SUIPopupExample.razor`.
+
+`SUIDialogOptions.MaxWidth` configura o limite de largura (240–1600 px, sempre limitado ao viewport). `CloseOnBackdropClick`, `CloseOnEscape` e `ShowCloseButton` preservam políticas de cancelamento explícito em editores; as ações do componente continuam completando `SUIDialogReference` normalmente. Os três booleanos são verdadeiros por padrão.

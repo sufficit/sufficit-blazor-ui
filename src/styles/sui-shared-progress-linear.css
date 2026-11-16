@@ -25,3 +25,11 @@
 .sui-progress-linear--warning .sui-progress-linear__bar { background: var(--sui-color-warning); }
 .sui-progress-linear--error   .sui-progress-linear__bar { background: var(--sui-color-error); }
 .sui-progress-linear--info    .sui-progress-linear__bar { background: var(--sui-color-info); }
+
+.sui-progress-linear--indeterminate .sui-progress-linear__bar {
+  width: 30%;
+  transform: none;
+  animation: sui-progress-indeterminate 1.4s linear infinite;
+}
+.sui-progress-linear--indeterminate:dir(rtl) .sui-progress-linear__bar { animation-direction: reverse; }
+@keyframes sui-progress-indeterminate { from { translate: -100%; } to { translate: 400%; } }

@@ -7,7 +7,6 @@
  * with the host page. Visual language is deliberately its own (flat, soft
  * shadows, generous radii) — it does not mimic Material Design.
  */
-
 /* ------------------------------------------------------------------ *
  * Design tokens
  * ------------------------------------------------------------------ */
@@ -366,6 +365,7 @@
   .sui-btn--pending::after {
     animation: sui-btn-pending-spin 2.4s linear infinite !important;
   }
+  .sui-progress-linear--indeterminate .sui-progress-linear__bar { margin-inline: auto; }
 }
 
 /* Windows High Contrast / forced-colors must keep boundaries and keyboard

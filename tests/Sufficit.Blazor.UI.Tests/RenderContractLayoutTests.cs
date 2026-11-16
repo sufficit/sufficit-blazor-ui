@@ -117,4 +117,15 @@ public sealed class RenderContractLayoutTests
         Assert.True(root.ClassList.Contains("sui-appbar--e1"));
         Assert.True(root.ClassList.Contains("probe"));
     }
+    [Fact]
+    public void VerticalDividerExposesItsOrientationAndHorizontalDefaultRemainsNative()
+    {
+        using var context = new BunitContext();
+        var divider = context.Render<SUIDivider>();
+        Assert.Single(divider.FindAll("hr"));
+        divider.Render(p => p.Add(x => x.Vertical, true));
+        Assert.Empty(divider.FindAll("hr"));
+        Assert.Equal("vertical", divider.Find("[role=separator]").GetAttribute("aria-orientation"));
+    }
+
 }

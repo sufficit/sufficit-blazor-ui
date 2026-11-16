@@ -212,7 +212,7 @@ public partial class SUITextField<TValue>
     ///     The value the browser must see: numeric fields are rendered with the
     ///     invariant culture so 0.40m never reaches the DOM as "0,40".
     /// </summary>
-    private string? InputValue => IsNumericInput ? FormatNumeric(Value) : Value?.ToString();
+    private string? InputValue => IsNumericInput ? FormatNumeric(Value) : IsTemporalInput ? TemporalInputValue : Value?.ToString();
 
     private static string? FormatNumeric(TValue? value)
         => value switch
@@ -279,6 +279,17 @@ public partial class SUITextField<TValue>
 
     private async Task SetValue(object? raw)
     {
+        if (IsTemporalInput)
+        {
+            if (!TryParseTemporal(raw?.ToString(), out var temporal))
+            {
+                _field.Notify("Informe uma data ou horário válido.");
+                return;
+            }
+            await ValueChanged.InvokeAsync(temporal);
+            _field.Notify();
+            return;
+        }
         if (IsNumericInput)
         {
             if (!TryParseNumeric(raw?.ToString(), out var numeric))
