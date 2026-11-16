@@ -30,7 +30,9 @@ public sealed class PerformanceBudgetBrowserTests : PageTest
     // 2026-10-28: second identity-migration round — EmptyState tones, ChoiceCard
     // wrapping trailing row, Switch field alignment. 129,106 B measured locally
     // (Chromium, Release catalog) before trimming comments; 1.03× → 130 KiB.
-    private const long CssTransferBudget = 130 * 1024; // measured ~129,010 B
+    // 2026-11-16: native file chooser/player scoped CSS moves consumer styles
+    // into SUI. Chromium CI measured 133,895 B; ×1.03 = 137,912 B -> 135 KiB.
+    private const long CssTransferBudget = 135 * 1024; // measured 133,895 B
     private const long TotalTransferBudget = 900 * 1024;
     private const double LargestContentfulPaintBudgetMs = 2500;
     private const double CumulativeLayoutShiftBudget = 0.1;
