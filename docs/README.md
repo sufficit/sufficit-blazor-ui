@@ -111,3 +111,5 @@ concluído é arquivado em `activities/` com prefixo de timestamp
 - [Remoção completa do MudBlazor](activities/202608091921-completed-mudblazor-removal.md) —
   reescrita dos 7 componentes acoplados, remoção da árvore vendorizada, CSS
   próprio com tokens `--sui-*`
+
+- [Correção de cópia sob política de permissões](activities/202611161533-clipboard-permissions.md)

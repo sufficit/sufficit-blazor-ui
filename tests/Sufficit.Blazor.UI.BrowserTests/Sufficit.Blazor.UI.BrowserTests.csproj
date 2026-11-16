@@ -23,6 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="../../src/Components/Actions/SUICopyToClipboard.razor.js"
+             Link="clipboard-module.js" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="..\..\skills\sui-design\scripts\audit-field-alignment.js"
              Link="audit-field-alignment.js"
              CopyToOutputDirectory="PreserveNewest" />

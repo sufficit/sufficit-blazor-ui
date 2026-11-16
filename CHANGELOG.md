@@ -29,6 +29,9 @@ definem a numeração das próximas publicações.
   below 16rem (mobile), instead of squeezing the text into a narrow column.
 
 ### Fixed
+- `SUICopyToClipboard` tries the legacy copy path when the Clipboard API rejects
+  a write (including Permissions-Policy), restores focus/selection afterwards and
+  reports a manual-copy hint if both paths fail.
 - `SUIIcon` now renders its fallback circle when `Name` is explicitly null,
   instead of throwing `NullReferenceException` during markup detection.
 - `SUIChip` semantic tints: success, warning, error and info text now mixes 80% of

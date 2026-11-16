@@ -95,9 +95,8 @@ else
         }
         catch (Exception ex)
         {
-            // Includes the module's plain-HTTP case: the async Clipboard API is
-            // secure-context only and the execCommand fallback is deprecated, so
-            // once a browser drops it the reason shown asks for HTTPS.
+            // The module tries both browser APIs before reporting a manual-copy
+            // hint. Import/interop failures still need a visible error here.
             // First line only: interop exceptions carry a stack trace the user
             // has no use for, and the toast has no room for it either.
             var reason = ex.Message?.Split('\n')[0]?.Trim() ?? "falha desconhecida";
