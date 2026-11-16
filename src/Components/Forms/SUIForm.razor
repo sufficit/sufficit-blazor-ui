@@ -1,0 +1,129 @@
+@namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
+@implements IDisposable
+@using Microsoft.AspNetCore.Components.Forms
+
+<CascadingValue @key="_scope" Value="_scope" IsFixed="true">
+    <EditForm EditContext="@Context" OnSubmit="Submit" class="@EffectiveClass("sui-form")" style="@Style" @attributes="AdditionalAttributes">
+        <DataAnnotationsValidator />
+        @ChildContent
+    </EditForm>
+</CascadingValue>
+
+@code {
+    private SUIValidationScope _scope = new();
+    private readonly object _emptyModel = new();
+    private EditContext? _context;
+    private bool _disposed;
+    private bool _editTouched;
+    private bool _submitting;
+
+    /// <summary>Model whose DataAnnotations are validated. An explicit EditContext takes precedence.</summary>
+    [Parameter] public object? Model { get; set; }
+    /// <summary>Optional caller-owned edit context.</summary>
+    [Parameter] public EditContext? EditContext { get; set; }
+    /// <summary>Fields and actions rendered inside the native form.</summary>
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>Combined validity of DataAnnotations and registered SUIValidatedField rules.</summary>
+    [Parameter] public bool IsValid { get; set; }
+    /// <summary>Reports changes to combined form validity.</summary>
+    [Parameter] public EventCallback<bool> IsValidChanged { get; set; }
+    /// <summary>Whether a field changed or validation was explicitly requested.</summary>
+    [Parameter] public bool IsTouched { get; set; }
+    /// <summary>Reports the first observed field change.</summary>
+    [Parameter] public EventCallback<bool> IsTouchedChanged { get; set; }
+    /// <summary>Called after a submit passes all validation; never called by ordinary selection.</summary>
+    [Parameter] public EventCallback<EditContext> OnValidSubmit { get; set; }
+    /// <summary>Called when submit validation fails.</summary>
+    [Parameter] public EventCallback<EditContext> OnInvalidSubmit { get; set; }
+
+    /// <summary>The active edit context for this form.</summary>
+    public EditContext Context => _context!;
+
+    /// <inheritdoc />
+    protected override void OnInitialized() => _scope.Changed += ScopeChanged;
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        var model = Model ?? _emptyModel;
+        var next = EditContext ?? (_context != null && ReferenceEquals(_context.Model, model) ? _context : new(model));
+        if (ReferenceEquals(next, _context)) return;
+        DetachContext();
+        if (_context != null)
+        {
+            _scope.Changed -= ScopeChanged;
+            _scope.Dispose();
+            _scope = new();
+            _scope.Changed += ScopeChanged;
+            IsValid = false;
+            IsTouched = false;
+        }
+        _context = next;
+        _editTouched = false;
+        _context.OnFieldChanged += FieldChanged;
+        _context.OnValidationStateChanged += ValidationChanged;
+    }
+
+    /// <summary>Runs all rules and annotations, displaying errors without submitting the form.</summary>
+    public async Task<bool> ValidateAsync()
+    {
+        if (_disposed) return false;
+        var annotationsValid = Context.Validate();
+        var fieldsValid = await _scope.ValidateAsync();
+        if (_disposed) return false;
+        await PublishState(annotationsValid && fieldsValid);
+        return IsValid;
+    }
+
+    private async Task Submit(EditContext context)
+    {
+        if (_submitting || _disposed) return;
+        _submitting = true;
+        try
+        {
+            if (await ValidateAsync()) await OnValidSubmit.InvokeAsync(context);
+            else if (!_disposed) await OnInvalidSubmit.InvokeAsync(context);
+        }
+        finally { _submitting = false; }
+    }
+
+    private void FieldChanged(object? sender, FieldChangedEventArgs args)
+    {
+        _editTouched = true;
+        ScopeChanged();
+    }
+
+    private void ValidationChanged(object? sender, ValidationStateChangedEventArgs args) => ScopeChanged();
+
+    private void DetachContext()
+    {
+        if (_context == null) return;
+        _context.OnFieldChanged -= FieldChanged;
+        _context.OnValidationStateChanged -= ValidationChanged;
+    }
+
+    private void ScopeChanged()
+    {
+        if (!_disposed) _ = InvokeAsync(async () => { if (!_disposed) await PublishState(_scope.IsValid && !Context.GetValidationMessages().Any()); });
+    }
+
+    private async Task PublishState(bool valid)
+    {
+        if (_disposed) return;
+        var touched = _scope.IsTouched || _editTouched;
+        if (IsValid != valid) { IsValid = valid; await IsValidChanged.InvokeAsync(valid); }
+        if (IsTouched != touched) { IsTouched = touched; await IsTouchedChanged.InvokeAsync(touched); }
+        StateHasChanged();
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        if (_disposed) return;
+        _disposed = true;
+        DetachContext();
+        _scope.Changed -= ScopeChanged;
+        _scope.Dispose();
+    }
+}

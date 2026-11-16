@@ -38,3 +38,9 @@
 .sui-snackbar--warning { --_sn-bg: var(--sui-color-warning); --_sn-fg: var(--sui-color-warning-contrast); }
 .sui-snackbar--danger  { --_sn-bg: var(--sui-color-error); --_sn-fg: var(--sui-color-error-contrast); }
 @keyframes sui-snackbar-in { from { transform: translateY(12px); opacity: 0; } }
+
+/* Keep passive feedback clear of the active save/cancel bar. */
+body:has(.sui-pending-changes-bar) .sui-snackbar-host {
+  top: var(--sui-space-4);
+  bottom: auto;
+}

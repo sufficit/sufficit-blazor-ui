@@ -1,0 +1,13 @@
+<SUIPopup @bind-Open="_popupOpen" Label="Pesquisar no menu" Placement="SUITooltipPlacement.Right">
+    <ChildContent>
+        <SUIButton OnClick="@(() => _popupOpen = !_popupOpen)" aria-haspopup="dialog" aria-expanded="@_popupOpen.ToString().ToLowerInvariant()">Pesquisar no menu</SUIButton>
+    </ChildContent>
+    <Content>
+        <SUITextField TValue="string" Label="Pesquisar" InputType="search" @bind-Value="_popupSearch" Immediate="true" />
+        <SUIButton OnClick="@(() => _popupOpen = false)">Fechar pesquisa</SUIButton>
+    </Content>
+</SUIPopup>
+@code {
+    private bool _popupOpen;
+    private string? _popupSearch;
+}

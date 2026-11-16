@@ -6,7 +6,7 @@ namespace Sufficit.Blazor.UI.Components;
 /// ready-to-render <c>&lt;path&gt;</c> (or set of paths) drawn on a 24x24
 /// viewBox with <c>fill="currentColor"</c>.
 /// </summary>
-public static class SUIIcons
+public static partial class SUIIcons
 {
     /// <summary>Cancellation: circle with a diagonal slash.</summary>
     public const string Cancel =

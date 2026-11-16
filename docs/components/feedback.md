@@ -58,3 +58,5 @@ invocar o callback.
 preservado), oculto pelo atributo nativo `hidden` e referenciado por `aria-controls`. `HeaderContent`
 mostra um badge de status ao lado do título; fica dentro do botão do cabeçalho, então não pode conter
 elementos interativos.
+
+Quando uma `SUIPendingChangesBar` está visível, o snackbar aparece no topo para manter Salvar/Cancelar acessíveis. Sem a barra, conserva a posição inferior padrão.

@@ -1,0 +1,13 @@
+<SUIForm Model="@Model" @bind-IsValid="Valid" OnValidSubmit="@(_ => Saved = true)">
+    <SUIValidatedField TValue="string" Value="@Model.Name" Required="true" Context="error">
+        <SUITextField TValue="string" Label="Nome" @bind-Value="Model.Name" ErrorText="@error" />
+    </SUIValidatedField>
+    <SUIButton ButtonTypeValue="SUIButtonType.Submit">Validar e continuar</SUIButton>
+    <SUIText>@(Saved ? "Formulário validado." : "As regras são verificadas antes de continuar.")</SUIText>
+</SUIForm>
+@code {
+    private sealed class FormModel { public string Name { get; set; } = string.Empty; }
+    private FormModel Model = new();
+    private bool Valid;
+    private bool Saved;
+}

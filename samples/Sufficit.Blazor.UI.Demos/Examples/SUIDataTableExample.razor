@@ -1,0 +1,11 @@
+<SUIDataTable TItem="string" LoadPage="Load" ShowPagination="true" PageSize="5" ColumnCount="1">
+    <HeaderContent><SUITh>Nome</SUITh></HeaderContent>
+    <RowTemplate Context="name"><SUITd>@name</SUITd></RowTemplate>
+</SUIDataTable>
+@code {
+    private Task<SUITablePage<string>> Load(SUITableQuery query, CancellationToken token)
+        => Task.FromResult(new SUITablePage<string> {
+            Items = Enumerable.Range(query.PageIndex * query.PageSize + 1, query.PageSize).Select(i => $"Registro {i}"),
+            TotalItems = 30
+        });
+}

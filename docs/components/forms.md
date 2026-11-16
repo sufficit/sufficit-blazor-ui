@@ -190,3 +190,18 @@ O consumidor Sufficit.Blazor adota 44px, 12px e 0.875rem respectivamente, adapta
 no cliente e notifica `ValueChanged(null)`. O servidor deve repetir a validação.
 A seleção não abre streams nem envia arquivos. O consumidor decide quando
 confirmar, chamar `OpenReadStream` com seu limite e enviar o conteúdo.
+
+
+## Formulário e regras tipadas
+
+`SUIForm` combina DataAnnotations (`Model` ou `EditContext`) com regras de
+`SUIValidatedField<TValue>`. `ValidateAsync()` atualiza `IsValid` e mostra erros,
+sem executar a ação de negócio. O submit nativo chama `OnValidSubmit` somente
+quando todas as regras passam; `OnInvalidSubmit` recebe tentativas inválidas.
+`IsValidChanged`/`IsTouchedChanged` permitem refletir o estado nas ações.
+
+O campo validador observa `Value`, `Required`/`RequiredText`, `Disabled`,
+`Validator` e `AsyncValidator`. Seu `ChildContent` recebe o erro para fornecer
+a `ErrorText` do controle SUI. As regras não alteram o modelo. Regras assíncronas
+recebem cancelamento e resultados antigos não substituem o estado atual;
+descartar o componente cancela a validação. Cada formulário isola seu registro.

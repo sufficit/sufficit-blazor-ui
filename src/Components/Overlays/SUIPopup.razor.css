@@ -1,0 +1,16 @@
+.sui-popup-anchor { display: inline-flex; min-width: 0; }
+.sui-popup {
+    position: fixed;
+    inset: auto;
+    margin: 0;
+    box-sizing: border-box;
+    width: max-content;
+    max-height: calc(100dvh - 24px);
+    overflow: auto;
+    padding: 1rem;
+    border: 1px solid var(--sui-border);
+    border-radius: var(--sui-radius-lg);
+    color: var(--sui-text-primary);
+    background: var(--sui-surface);
+    box-shadow: var(--sui-shadow, 0 12px 28px rgb(0 0 0 / 18%));
+}

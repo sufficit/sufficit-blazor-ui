@@ -1,0 +1,10 @@
+<SUIForm>
+    <SUIValidatedField TValue="string" Value="@Name" Required="true" Validator="CheckName" Context="error">
+        <SUITextField TValue="string" Label="Nome com pelo menos três letras" @bind-Value="Name" ErrorText="@error" />
+    </SUIValidatedField>
+    <SUIButton ButtonTypeValue="SUIButtonType.Submit">Validar</SUIButton>
+</SUIForm>
+@code {
+    private string Name = string.Empty;
+    private string? CheckName(string? value) => value?.Trim().Length < 3 ? "Use pelo menos três letras." : null;
+}

@@ -1,0 +1,37 @@
+@namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
+@typeparam TItem
+@implements IDisposable
+
+@if (_error != null)
+{
+    <SUIAlert ToneValue="SUITone.Danger" role="alert">@ErrorText</SUIAlert>
+    @if (_rows.Count > 0) { <SUIText Typo="SUITypo.caption">@StaleText</SUIText> }
+    <SUIButton OnClick="@(_ => ReloadAsync())">@RetryText</SUIButton>
+}
+
+<SUITable TItem="TItem" Items="@VisibleItems" RowKey="@RowKey" Dense="@Dense" Hover="@Hover"
+          ColumnCount="@ColumnCount" RowClassFunc="@RowClassFunc" RowStyleFunc="@RowStyleFunc"
+          OnRowClick="@OnRowClick" RowAriaLabelFunc="@RowAriaLabelFunc" StackOnMobile="@StackOnMobile"
+          HeaderContent="@HeaderContent" FooterContent="@FooterContent"
+          Loading="@Pending" Class="@Class" Style="@Style" @attributes="AdditionalAttributes">
+    <RowTemplate Context="row">@RowTemplate?.Invoke(row)</RowTemplate>
+    <NoRecordsContent>
+        @if (Pending)
+        {
+            @if (LoadingContent != null) { @LoadingContent }
+            else { <SUISkeletonLoader Rows="3" aria-label="@LoadingText" /> }
+        }
+        else if (_hasResult || LoadPage == null)
+        {
+            @if (NoRecordsContent != null) { @NoRecordsContent }
+            else { <SUITableEmpty /> }
+        }
+    </NoRecordsContent>
+</SUITable>
+@if (ShowPagination)
+{
+    <SUIPagination TotalItems="@TotalItems" PageIndex="@PageIndex" PageSize="@PageSize"
+                   PageIndexChanged="ChangePage" PageSizeChanged="ChangePageSize"
+                   PageSizeOptions="@PageSizeOptions" Disabled="@_loading" />
+}

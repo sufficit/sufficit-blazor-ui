@@ -1,7 +1,7 @@
 # Exibição de dados
 
 Inclui `SUIAudioPlayer`, `SUIText`, `SUIIcon`, `SUIChip`, `SUIStatusBadge`, `SUIList`, `SUITable`,
-`SUIPagination`, `SUIStat` e `SUITimeline`.
+`SUIDataTable`, `SUIPagination`, `SUIStat` e `SUITimeline`.
 
 `SUIText` mapeia `SUITypo.h1`–`h6` para headings nativos quando `Tag=Auto`;
 `Tag` permite escolher `Div`, `Span`, `P` ou heading explicitamente. Aparência
@@ -64,3 +64,27 @@ adapta a mídia à largura disponível sem estilo inline na tela consumidora.
 `ErrorText` informa falha do player; mudar `Source` limpa o erro e reinicia a
 mídia. Sem fonte, mostra `EmptyText`. O componente não busca credenciais nem
 confirma publicação/entrega: cabe ao consumidor resolver a mídia autorizada.
+
+
+## Consulta assíncrona com SUIDataTable
+
+`SUIDataTable<TItem>` compõe `SUITable` e `SUIPagination`. `LoadPage` recebe uma
+`SUITableQuery` imutável (página zero-based, tamanho, chave e direção de ordenação)
+e um cancellation token. Retorne `SUITablePage<TItem>` com os registros autorizados
+e `TotalItems`. A aplicação continua responsável por autorização, filtros e ordenação;
+no modo local, forneça `Items` já ordenados. Use `ShowPagination` para habilitar o
+paginador e os callbacks controlados para persistir página/tamanho na URL.
+
+`QueryKey` identifica o contexto e os filtros. Alterá-la cancela a consulta anterior,
+limpa os registros do escopo anterior e inicia outra consulta. Renders sem alteração
+da consulta não repetem o carregamento. Uma resposta atrasada não substitui resultados
+mais novos. O carregamento inicial usa skeleton; vazio só aparece após conclusão.
+`ColumnCount` informa o colspan real do placeholder e das mensagens.
+
+`ReloadAsync()` atualiza a consulta atual. Falha nessa atualização preserva a lista
+anterior com aviso persistente de dados possivelmente desatualizados e botão de nova
+tentativa. Uma falha inicial não anuncia sucesso vazio. `OnLoadError` permite tratar
+autenticação/logs no consumidor; detalhes de exceções não são exibidos pela biblioteca.
+`OnRowClick`, `RowKey` e `RowAriaLabelFunc` preservam a interação de grid do SUITable.
+Ao trocar de modo remoto para local ou descartar o componente, a operação pendente é
+cancelada. Consulte `SUIDataTableExample.razor` na vitrine para o contrato executável.

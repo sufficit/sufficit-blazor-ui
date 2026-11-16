@@ -77,6 +77,7 @@
       <PackagePath></PackagePath>
     </None>
     <None Include="../README.md" Pack="True" PackagePath="readme.md" />
+    <None Include="../THIRD-PARTY-NOTICES.md" Pack="True" PackagePath="THIRD-PARTY-NOTICES.md" />
   </ItemGroup>
 
   <ItemGroup Label="Blazor component tooling for .NET 10">

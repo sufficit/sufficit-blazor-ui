@@ -999,6 +999,277 @@
     ]
   },
   {
+    "name": "SUIDataTable",
+    "family": "Dados",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIDataTable TItem=\"string\" LoadPage=\"Load\" ShowPagination=\"true\" PageSize=\"5\" ColumnCount=\"1\">\n    <HeaderContent><SUITh>Nome</SUITh></HeaderContent>\n    <RowTemplate Context=\"name\"><SUITd>@name</SUITd></RowTemplate>\n</SUIDataTable>\n@code {\n    private Task<SUITablePage<string>> Load(SUITableQuery query, CancellationToken token)\n        => Task.FromResult(new SUITablePage<string> {\n            Items = Enumerable.Range(query.PageIndex * query.PageSize + 1, query.PageSize).Select(i => $\"Registro {i}\"),\n            TotalItems = 30\n        });\n}\n\n@code {\n    protected int PageIndex { get; set; }\n    protected int PageSize { get; set; } = 10;\n}\n",
+    "parameters": [
+      {
+        "description": "Local records when no asynchronous loader is configured.",
+        "name": "Items",
+        "type": "IEnumerable<TItem>?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional server loader; receives an immutable query and a canceled-on-replacement token.",
+        "name": "LoadPage",
+        "type": "Func<SUITableQuery, CancellationToken, Task<SUITablePage<TItem>>>?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Stable scope/filter identity. A changed key clears prior rows before requesting another scope.",
+        "name": "QueryKey",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Zero-based selected page.",
+        "name": "PageIndex",
+        "type": "int",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Reports page changes so the application can persist them in its URL.",
+        "name": "PageIndexChanged",
+        "type": "EventCallback<int>",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Number of records per page when pagination is visible.",
+        "name": "PageSize",
+        "type": "int",
+        "default": "25",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Reports page size changes.",
+        "name": "PageSizeChanged",
+        "type": "EventCallback<int>",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Owner-defined server sort key.",
+        "name": "SortKey",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Sort direction sent to the server; local sorting remains an explicit owner projection.",
+        "name": "SortDirection",
+        "type": "SUISortDirection",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Whether to show the shared pagination controls.",
+        "name": "ShowPagination",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Allowed page sizes.",
+        "name": "PageSizeOptions",
+        "type": "IReadOnlyList<int>?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Stable row identity.",
+        "name": "RowKey",
+        "type": "Func<TItem, object>?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Compact row presentation.",
+        "name": "Dense",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Highlights a hovered row.",
+        "name": "Hover",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Number of visible columns for empty/loading content.",
+        "name": "ColumnCount",
+        "type": "int",
+        "default": "1",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Owner-defined row classes.",
+        "name": "RowClassFunc",
+        "type": "Func<TItem, int, string?>?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional owner-defined row styles.",
+        "name": "RowStyleFunc",
+        "type": "Func<TItem, int, string?>?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Keyboard/pointer row activation, rendered by SUITable's grid interaction.",
+        "name": "OnRowClick",
+        "type": "EventCallback<TItem>",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Accessible label for an actionable row.",
+        "name": "RowAriaLabelFunc",
+        "type": "Func<TItem, string?>?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Stacks labeled cells on narrow screens.",
+        "name": "StackOnMobile",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Column headings.",
+        "name": "HeaderContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Content for each record.",
+        "name": "RowTemplate",
+        "type": "RenderFragment<TItem>?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Shown only after a completed empty query.",
+        "name": "NoRecordsContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional initial loading placeholder.",
+        "name": "LoadingContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional table footer cells.",
+        "name": "FooterContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Localized initial loading label.",
+        "name": "LoadingText",
+        "type": "string",
+        "default": "\"Carregando registros\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Localized query failure message; exception details are never rendered.",
+        "name": "ErrorText",
+        "type": "string",
+        "default": "\"Não foi possível carregar os registros.\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Explains that preserved rows may be stale after an unsuccessful explicit refresh.",
+        "name": "StaleText",
+        "type": "string",
+        "default": "\"A lista anterior foi mantida",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Localized retry action.",
+        "name": "RetryText",
+        "type": "string",
+        "default": "\"Tentar novamente\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional error reporter for authentication/logging owned by the application.",
+        "name": "OnLoadError",
+        "type": "EventCallback<Exception>",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": false
+      }
+    ]
+  },
+  {
     "name": "SUIDateTime",
     "family": "Dados",
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack Row Wrap AlignItems=\"Center\">\n<SUIDateTime Value=\"new DateTime(2026, 9, 7)\" />\n<SUIDateTime Value=\"new DateTime(2026, 9, 7, 14, 30, 0)\" Format=\"dd/MM/yyyy HH:mm\" />\n<SUIDateTime Value=\"null\" />\n</SUIStack>\n",
@@ -1048,7 +1319,7 @@
   {
     "name": "SUIIcon",
     "family": "Dados",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack Row>\n<SUIIcon Name=\"check\" />\n<SUIIcon Name=\"calendar\" />\n<SUIIcon Name=\"clock\" />\n</SUIStack>\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack Row Wrap>\n    <SUIIcon Name=\"@SUIIcons.Audio\" aria-label=\"Áudios\" />\n    <SUIIcon Name=\"@SUIIcons.Business\" aria-label=\"Cliente\" />\n    <SUIIcon Name=\"@SUIIcons.Voice\" aria-label=\"Voz\" />\n    <SUIIcon Name=\"@SUIIcons.Dialpad\" aria-label=\"Telefonia\" />\n    <SUIIcon Name=\"@SUIIcons.Network\" aria-label=\"Conexões\" />\n    <SUIIcon Name=\"@SUIIcons.Star\" aria-label=\"Favorito salvo\" />\n    <SUIIcon Name=\"@SUIIcons.StarOutline\" aria-label=\"Adicionar favorito\" />\n    <SUIIcon Name=\"@SUIIcons.Fingerprint\" aria-label=\"Identidade\" />\n    <SUIIcon Name=\"@SUIIcons.WhatsApp\" aria-label=\"WhatsApp\" />\n</SUIStack>\n",
     "parameters": [
       {
         "description": "Icon name. See the switch above for the available keys (dashboard, users, key, shield, scope, palette, workflow, audit, chart, settings, menu, x, bell, search, eye-off, arrow-right, arrow-left, plus, external, volume, phone, inbox, alert, check, clock, database, lock, code, browser, device, server, terminal, info, calendar, chevron-left, chevron-right, chevron-down, chevron-up, refresh, trash, edit, pix, credit-card, receipt, barcode, eye, user, unlock, download, upload, more-vertical; aliases close = x, delete = trash, external-link = external). Also accepts the SVG markup held by SUIIcons constants; only library-defined, trusted markup belongs here.",
@@ -4111,6 +4382,109 @@
     ]
   },
   {
+    "name": "SUIForm",
+    "family": "Formulários",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIForm Model=\"@Model\" @bind-IsValid=\"Valid\" OnValidSubmit=\"@(_ => Saved = true)\">\n    <SUIValidatedField TValue=\"string\" Value=\"@Model.Name\" Required=\"true\" Context=\"error\">\n        <SUITextField TValue=\"string\" Label=\"Nome\" @bind-Value=\"Model.Name\" ErrorText=\"@error\" />\n    </SUIValidatedField>\n    <SUIButton ButtonTypeValue=\"SUIButtonType.Submit\">Validar e continuar</SUIButton>\n    <SUIText>@(Saved ? \"Formulário validado.\" : \"As regras são verificadas antes de continuar.\")</SUIText>\n</SUIForm>\n@code {\n    private sealed class FormModel { public string Name { get; set; } = string.Empty; }\n    private FormModel Model = new();\n    private bool Valid;\n    private bool Saved;\n}\n",
+    "parameters": [
+      {
+        "description": "Model whose DataAnnotations are validated. An explicit EditContext takes precedence.",
+        "name": "Model",
+        "type": "object?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional caller-owned edit context.",
+        "name": "EditContext",
+        "type": "EditContext?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Fields and actions rendered inside the native form.",
+        "name": "ChildContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Combined validity of DataAnnotations and registered SUIValidatedField rules.",
+        "name": "IsValid",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Reports changes to combined form validity.",
+        "name": "IsValidChanged",
+        "type": "EventCallback<bool>",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Whether a field changed or validation was explicitly requested.",
+        "name": "IsTouched",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Reports the first observed field change.",
+        "name": "IsTouchedChanged",
+        "type": "EventCallback<bool>",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Called after a submit passes all validation; never called by ordinary selection.",
+        "name": "OnValidSubmit",
+        "type": "EventCallback<EditContext>",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Called when submit validation fails.",
+        "name": "OnInvalidSubmit",
+        "type": "EventCallback<EditContext>",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": false
+      }
+    ]
+  },
+  {
     "name": "SUIFormGrid",
     "family": "Formulários",
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIFormGrid MinColumnWidth=\"14rem\">\n<SUITextField TValue=\"string\" Label=\"Nome\" @bind-Value=\"Text\" HelperText=\"Nome público.\" />\n<SUINumericField TValue=\"int\" Label=\"Tentativas\" @bind-Value=\"Count\" />\n</SUIFormGrid>\n\n@code {\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected int Count { get; set; } = 3;\n}\n",
@@ -5242,6 +5616,69 @@
         "name": "AdditionalAttributes",
         "type": "Dictionary<string, object?>",
         "default": "new()",
+        "required": false,
+        "deprecated": false
+      }
+    ]
+  },
+  {
+    "name": "SUIValidatedField",
+    "family": "Formulários",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIForm>\n    <SUIValidatedField TValue=\"string\" Value=\"@Name\" Required=\"true\" Validator=\"CheckName\" Context=\"error\">\n        <SUITextField TValue=\"string\" Label=\"Nome com pelo menos três letras\" @bind-Value=\"Name\" ErrorText=\"@error\" />\n    </SUIValidatedField>\n    <SUIButton ButtonTypeValue=\"SUIButtonType.Submit\">Validar</SUIButton>\n</SUIForm>\n@code {\n    private string Name = string.Empty;\n    private string? CheckName(string? value) => value?.Trim().Length < 3 ? \"Use pelo menos três letras.\" : null;\n}\n",
+    "parameters": [
+      {
+        "description": "Current field value; observing it never changes the consumer model.",
+        "name": "Value",
+        "type": "TValue?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Whether null or empty text is invalid.",
+        "name": "Required",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Localized message for a missing required value.",
+        "name": "RequiredText",
+        "type": "string",
+        "default": "\"Preencha este campo.\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Skips validation while the field is disabled.",
+        "name": "Disabled",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Typed synchronous rule; return null for a valid value.",
+        "name": "Validator",
+        "type": "Func<TValue?, string?>?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional typed asynchronous rule, run after the synchronous rule passes.",
+        "name": "AsyncValidator",
+        "type": "Func<TValue?, CancellationToken, Task<string?>>?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Render the field using the supplied error text, e.g. SUITextField ErrorText.",
+        "name": "ChildContent",
+        "type": "RenderFragment<string?>?",
+        "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
       }
@@ -7678,6 +8115,101 @@
         "default": "new()",
         "required": false,
         "deprecated": true
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": false
+      }
+    ]
+  },
+  {
+    "name": "SUIPopup",
+    "family": "Overlays",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIPopup @bind-Open=\"_popupOpen\" Label=\"Pesquisar no menu\" Placement=\"SUITooltipPlacement.Right\">\n    <ChildContent>\n        <SUIButton OnClick=\"@(() => _popupOpen = !_popupOpen)\" aria-haspopup=\"dialog\" aria-expanded=\"@_popupOpen.ToString().ToLowerInvariant()\">Pesquisar no menu</SUIButton>\n    </ChildContent>\n    <Content>\n        <SUITextField TValue=\"string\" Label=\"Pesquisar\" InputType=\"search\" @bind-Value=\"_popupSearch\" Immediate=\"true\" />\n        <SUIButton OnClick=\"@(() => _popupOpen = false)\">Fechar pesquisa</SUIButton>\n    </Content>\n</SUIPopup>\n@code {\n    private bool _popupOpen;\n    private string? _popupSearch;\n}\n\n@code {\n    protected bool Open { get; set; } = true;\n}\n",
+    "parameters": [
+      {
+        "description": "Caller-owned trigger content. Set its aria-expanded from Open.",
+        "name": "ChildContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Interactive floating content; retains the consumer's cascading values.",
+        "name": "Content",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Whether the panel is visible.",
+        "name": "Open",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Reports light dismissal; the owner must update Open.",
+        "name": "OpenChanged",
+        "type": "EventCallback<bool>",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Accessible name of this nonmodal dialog.",
+        "name": "Label",
+        "type": "string",
+        "default": "\"Detalhes\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Preferred side; automatically flips and clamps to the viewport.",
+        "name": "Placement",
+        "type": "SUITooltipPlacement",
+        "default": "SUITooltipPlacement.Bottom",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Gap between the trigger and panel, in pixels.",
+        "name": "Offset",
+        "type": "int",
+        "default": "8",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Maximum panel width in pixels.",
+        "name": "MaxWidth",
+        "type": "int",
+        "default": "360",
+        "required": false,
+        "deprecated": false
       },
       {
         "description": "Optional user CSS classes appended to component-owned classes.",

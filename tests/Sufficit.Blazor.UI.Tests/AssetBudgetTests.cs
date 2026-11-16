@@ -39,7 +39,10 @@ public sealed class AssetBudgetTests
     // 2026-11-16: baseline before media components already measures 14,706 B
     // after the committed clipboard/floating work. Media adds no JS. Reconcile
     // that existing source measurement with the documented 3%/256 B rule.
-    private const int JsTotalBrotliBudget = 15_360; // measured 14,706 B
+    // 2026-11-16: SUIPopup adds controlled interactive top-layer positioning and native
+    // light-dismiss synchronization; geometry is shared with SUIPopover. Measured
+    // 15,604 B total; existing 3% headroom rounded up to the next 256 B.
+    private const int JsTotalBrotliBudget = 16_128; // measured 15,604 B
     // Raw bytes of every .razor.css (source/parse cost of CSS isolation).
     // Raised 2026-09-13 for SUISlidingTabs (pill track + sliding indicator,
     // micro-interactions, responsive collapse, reduced-motion) — measured

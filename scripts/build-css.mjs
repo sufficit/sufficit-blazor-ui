@@ -65,7 +65,9 @@ const budgets = {
   // under the copy below 16rem instead of squeezing it): +481 B raw.
   // Measured 61,251 / 11,193 / 9,765 B, under the AssetBudgetTests ceilings
   // (63,232 / 11,776 / 10,240), so this script still fails before CI does.
-  raw: 62_464,
+  // 2026-11-16: keep passive snackbar feedback clear of active save/cancel bars.
+  // Adds 89 B raw; retain a stricter ceiling than AssetBudgetTests (63,232 B).
+  raw: 62_720,
   gzip: 11_520,
   brotli: 10_000,
 };

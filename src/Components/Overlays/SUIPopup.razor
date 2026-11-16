@@ -1,0 +1,98 @@
+@namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+<span @ref="_anchor" class="sui-popup-anchor @Class" style="@Style" @attributes="AdditionalAttributes">
+    @ChildContent
+</span>
+<div @ref="_panel" id="@PanelId" class="sui-popup" popover="auto" role="dialog"
+     aria-label="@Label" aria-modal="false" aria-hidden="@(!Open ? "true" : null)">
+    @Content
+</div>
+
+@code {
+    /// <summary>Caller-owned trigger content. Set its aria-expanded from Open.</summary>
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>Interactive floating content; retains the consumer's cascading values.</summary>
+    [Parameter] public RenderFragment? Content { get; set; }
+    /// <summary>Whether the panel is visible.</summary>
+    [Parameter] public bool Open { get; set; }
+    /// <summary>Reports light dismissal; the owner must update Open.</summary>
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+    /// <summary>Accessible name of this nonmodal dialog.</summary>
+    [Parameter] public string Label { get; set; } = "Detalhes";
+    /// <summary>Preferred side; automatically flips and clamps to the viewport.</summary>
+    [Parameter] public SUITooltipPlacement Placement { get; set; } = SUITooltipPlacement.Bottom;
+    /// <summary>Gap between the trigger and panel, in pixels.</summary>
+    [Parameter] public int Offset { get; set; } = 8;
+    /// <summary>Maximum panel width in pixels.</summary>
+    [Parameter] public int MaxWidth { get; set; } = 360;
+    /// <summary>Stable panel id for the caller's aria-controls.</summary>
+    public string PanelId { get; } = "sui-popup-" + Guid.NewGuid().ToString("N");
+
+    private ElementReference _anchor, _panel;
+    private IJSObjectReference? _module;
+    private DotNetObjectReference<SUIPopup>? _reference;
+    private bool _disposed;
+    private bool _initializing;
+    private Task? _sync;
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_disposed) return;
+        if (_module == null)
+        {
+            if (_initializing) return;
+            _initializing = true;
+            try
+            {
+                var module = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Sufficit.Blazor.UI/Components/Overlays/SUIPopup.razor.js");
+                if (_disposed) { if (module != null) await module.DisposeAsync(); return; }
+                _module = module;
+                _reference = DotNetObjectReference.Create(this);
+            }
+            finally { _initializing = false; }
+        }
+        if (_module != null)
+        {
+            _sync = _module.InvokeVoidAsync("sync", _anchor, _panel, _reference, new {
+                open = Open, placement = Placement.ToString().ToLowerInvariant(),
+                offset = Math.Clamp(Offset, 0, 80), maxWidth = Math.Clamp(MaxWidth, 120, 1200)
+            }).AsTask();
+            await _sync;
+        }
+    }
+
+    /// <summary>Called by the overlay runtime for outside-pointer or Escape dismissal.</summary>
+    [JSInvokable] public async Task DismissAsync()
+    {
+        if (_disposed || !Open) return;
+        Open = false;
+        await OpenChanged.InvokeAsync(false);
+        if (!_disposed) await InvokeAsync(StateHasChanged);
+    }
+
+    /// <inheritdoc />
+    public async ValueTask DisposeAsync()
+    {
+        if (_disposed) return;
+        _disposed = true;
+        try
+        {
+            if (_sync != null) await _sync;
+            if (_module != null) await _module.InvokeVoidAsync("disconnect", _panel);
+        }
+        catch (JSDisconnectedException) { }
+        finally
+        {
+            _reference?.Dispose();
+            if (_module != null)
+            {
+                try { await _module.DisposeAsync(); }
+                catch (JSDisconnectedException) { }
+            }
+        }
+    }
+}
