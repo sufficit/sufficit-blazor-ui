@@ -3,6 +3,7 @@ B|Sufficit.Blazor.UI.Components.SUIAlert|Sufficit.Blazor.UI.Components.SUICompon
 B|Sufficit.Blazor.UI.Components.SUIAlign|System.Enum
 B|Sufficit.Blazor.UI.Components.SUIAnimation|System.Enum
 B|Sufficit.Blazor.UI.Components.SUIAppBar|Sufficit.Blazor.UI.Components.SUIComponentBase
+B|Sufficit.Blazor.UI.Components.SUIAudioPlayer|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIAutocomplete<`0:TValue>|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIAvatar|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIButtonType|System.Enum
@@ -29,6 +30,7 @@ B|Sufficit.Blazor.UI.Components.SUIEdge|System.Enum
 B|Sufficit.Blazor.UI.Components.SUIEmptyState+Icons|System.Object
 B|Sufficit.Blazor.UI.Components.SUIEmptyState|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIExpansionPanel|Sufficit.Blazor.UI.Components.SUIComponentBase
+B|Sufficit.Blazor.UI.Components.SUIFileUpload|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIFilterContext|System.Object
 B|Sufficit.Blazor.UI.Components.SUIFilterScope|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIFilterTree|Sufficit.Blazor.UI.Components.SUIComponentBase
@@ -125,6 +127,7 @@ B|Sufficit.Blazor.UI._Imports|System.Object
 C|Sufficit.Blazor.UI.Components.SUIActionGroup|()
 C|Sufficit.Blazor.UI.Components.SUIAlert|()
 C|Sufficit.Blazor.UI.Components.SUIAppBar|()
+C|Sufficit.Blazor.UI.Components.SUIAudioPlayer|()
 C|Sufficit.Blazor.UI.Components.SUIAutocomplete<`0:TValue>|()
 C|Sufficit.Blazor.UI.Components.SUIAvatar|()
 C|Sufficit.Blazor.UI.Components.SUIButton|()
@@ -146,6 +149,7 @@ C|Sufficit.Blazor.UI.Components.SUIDivider|()
 C|Sufficit.Blazor.UI.Components.SUIDrawer|()
 C|Sufficit.Blazor.UI.Components.SUIEmptyState|()
 C|Sufficit.Blazor.UI.Components.SUIExpansionPanel|()
+C|Sufficit.Blazor.UI.Components.SUIFileUpload|()
 C|Sufficit.Blazor.UI.Components.SUIFilterContext|(System.String)
 C|Sufficit.Blazor.UI.Components.SUIFilterScope|()
 C|Sufficit.Blazor.UI.Components.SUIFilterTree|()
@@ -439,6 +443,9 @@ I|Sufficit.Blazor.UI.Components.SUIAnimation|System.ISpanFormattable
 I|Sufficit.Blazor.UI.Components.SUIAppBar|Microsoft.AspNetCore.Components.IComponent
 I|Sufficit.Blazor.UI.Components.SUIAppBar|Microsoft.AspNetCore.Components.IHandleAfterRender
 I|Sufficit.Blazor.UI.Components.SUIAppBar|Microsoft.AspNetCore.Components.IHandleEvent
+I|Sufficit.Blazor.UI.Components.SUIAudioPlayer|Microsoft.AspNetCore.Components.IComponent
+I|Sufficit.Blazor.UI.Components.SUIAudioPlayer|Microsoft.AspNetCore.Components.IHandleAfterRender
+I|Sufficit.Blazor.UI.Components.SUIAudioPlayer|Microsoft.AspNetCore.Components.IHandleEvent
 I|Sufficit.Blazor.UI.Components.SUIAutocomplete<`0:TValue>|Microsoft.AspNetCore.Components.IComponent
 I|Sufficit.Blazor.UI.Components.SUIAutocomplete<`0:TValue>|Microsoft.AspNetCore.Components.IHandleAfterRender
 I|Sufficit.Blazor.UI.Components.SUIAutocomplete<`0:TValue>|Microsoft.AspNetCore.Components.IHandleEvent
@@ -525,6 +532,9 @@ I|Sufficit.Blazor.UI.Components.SUIEmptyState|Microsoft.AspNetCore.Components.IH
 I|Sufficit.Blazor.UI.Components.SUIExpansionPanel|Microsoft.AspNetCore.Components.IComponent
 I|Sufficit.Blazor.UI.Components.SUIExpansionPanel|Microsoft.AspNetCore.Components.IHandleAfterRender
 I|Sufficit.Blazor.UI.Components.SUIExpansionPanel|Microsoft.AspNetCore.Components.IHandleEvent
+I|Sufficit.Blazor.UI.Components.SUIFileUpload|Microsoft.AspNetCore.Components.IComponent
+I|Sufficit.Blazor.UI.Components.SUIFileUpload|Microsoft.AspNetCore.Components.IHandleAfterRender
+I|Sufficit.Blazor.UI.Components.SUIFileUpload|Microsoft.AspNetCore.Components.IHandleEvent
 I|Sufficit.Blazor.UI.Components.SUIFilterContext|System.IEquatable<Sufficit.Blazor.UI.Components.SUIFilterContext>
 I|Sufficit.Blazor.UI.Components.SUIFilterScope|Microsoft.AspNetCore.Components.IComponent
 I|Sufficit.Blazor.UI.Components.SUIFilterScope|Microsoft.AspNetCore.Components.IHandleAfterRender
@@ -926,6 +936,13 @@ P|Sufficit.Blazor.UI.Components.SUIAppBar|Microsoft.AspNetCore.Components.Render
 P|Sufficit.Blazor.UI.Components.SUIAppBar|System.Boolean|Dense|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIAppBar|System.Int32|Elevation|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIAppBar|System.String|Color|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIAudioPlayer|System.Boolean|ShowDownload|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIAudioPlayer|System.String|DownloadName|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIAudioPlayer|System.String|DownloadText|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIAudioPlayer|System.String|EmptyText|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIAudioPlayer|System.String|ErrorText|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIAudioPlayer|System.String|Label|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIAudioPlayer|System.String|Source|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIAutocomplete<`0:TValue>|Microsoft.AspNetCore.Components.EventCallback<`0:TValue>|ValueChanged|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIAutocomplete<`0:TValue>|Microsoft.AspNetCore.Components.RenderFragment<`0:TValue>|ItemTemplate|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIAutocomplete<`0:TValue>|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
@@ -1116,6 +1133,18 @@ P|Sufficit.Blazor.UI.Components.SUIExpansionPanel|System.Boolean|KeepContentMoun
 P|Sufficit.Blazor.UI.Components.SUIExpansionPanel|System.String|StartIcon|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIExpansionPanel|System.String|Subtitle|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIExpansionPanel|System.String|Title|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIFileUpload|Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Forms.IBrowserFile>|ValueChanged|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIFileUpload|Microsoft.AspNetCore.Components.Forms.IBrowserFile|Value|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIFileUpload|System.Boolean|Disabled|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIFileUpload|System.Nullable<System.Int64>|MaxFileSize|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIFileUpload|System.String|Accept|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIFileUpload|System.String|ChooseText|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIFileUpload|System.String|EmptyText|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIFileUpload|System.String|ErrorText|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIFileUpload|System.String|FileTooLargeText|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIFileUpload|System.String|HelperText|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIFileUpload|System.String|Id|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIFileUpload|System.String|Label|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIFilterContext|System.Boolean|IsFiltering|[]|get;
 P|Sufficit.Blazor.UI.Components.SUIFilterContext|System.String|FilterText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIFilterScope|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
@@ -1728,6 +1757,7 @@ P|Sufficit.Blazor.UI.Themes.SUITypography|System.String|LineHeightTitle|[]|get;s
 T|class|Sufficit.Blazor.UI.Components.SUIActionGroup
 T|class|Sufficit.Blazor.UI.Components.SUIAlert
 T|class|Sufficit.Blazor.UI.Components.SUIAppBar
+T|class|Sufficit.Blazor.UI.Components.SUIAudioPlayer
 T|class|Sufficit.Blazor.UI.Components.SUIAutocomplete<`0:TValue>
 T|class|Sufficit.Blazor.UI.Components.SUIAvatar
 T|class|Sufficit.Blazor.UI.Components.SUIButton
@@ -1751,6 +1781,7 @@ T|class|Sufficit.Blazor.UI.Components.SUIDrawer
 T|class|Sufficit.Blazor.UI.Components.SUIEmptyState
 T|class|Sufficit.Blazor.UI.Components.SUIEmptyState+Icons
 T|class|Sufficit.Blazor.UI.Components.SUIExpansionPanel
+T|class|Sufficit.Blazor.UI.Components.SUIFileUpload
 T|class|Sufficit.Blazor.UI.Components.SUIFilterContext
 T|class|Sufficit.Blazor.UI.Components.SUIFilterScope
 T|class|Sufficit.Blazor.UI.Components.SUIFilterTree

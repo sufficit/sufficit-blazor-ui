@@ -730,6 +730,93 @@
     ]
   },
   {
+    "name": "SUIAudioPlayer",
+    "family": "Dados",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIAudioPlayer Source=\"data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQIAAAAAAA==\"\n                Label=\"Prévia de áudio de exemplo\" DownloadName=\"exemplo.wav\" />\n",
+    "parameters": [
+      {
+        "description": "Authorized media URL or data URI; changing it resets the player and error.",
+        "name": "Source",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Accessible name of the native playback controls.",
+        "name": "Label",
+        "type": "string",
+        "default": "\"Áudio\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional suggested download filename.",
+        "name": "DownloadName",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Whether to offer a separate download link.",
+        "name": "ShowDownload",
+        "type": "bool",
+        "default": "true",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Localized download action label.",
+        "name": "DownloadText",
+        "type": "string",
+        "default": "\"Baixar áudio\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Localized message when no media source is available.",
+        "name": "EmptyText",
+        "type": "string",
+        "default": "\"Nenhum áudio disponível para reprodução.\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Localized message on native playback failure.",
+        "name": "ErrorText",
+        "type": "string",
+        "default": "\"Não foi possível reproduzir o áudio. Tente baixar o arquivo.\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": false
+      }
+    ]
+  },
+  {
     "name": "SUIAvatar",
     "family": "Dados",
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack Row>\n<SUIAvatar SizeValue=\"SUISize.Small\">AL</SUIAvatar>\n<SUIAvatar>BR</SUIAvatar>\n</SUIStack>\n",
@@ -3869,6 +3956,133 @@
         "default": "new()",
         "required": false,
         "deprecated": true
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": false
+      }
+    ]
+  },
+  {
+    "name": "SUIFileUpload",
+    "family": "Formulários",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n@using Microsoft.AspNetCore.Components.Forms\n<SUIFileUpload Label=\"Arquivo de áudio\" Accept=\".wav,.mp3,.ogg,.m4a,.flac\"\n               MaxFileSize=\"20971520\" HelperText=\"Selecione um áudio de até 20 MB. O envio é uma ação separada.\"\n               @bind-Value=\"SelectedFile\" />\n<SUIButton Disabled=\"@(SelectedFile == null)\" OnClick=\"@(() => SelectedFile = null)\">Descartar seleção</SUIButton>\n@code {\n    private IBrowserFile? SelectedFile;\n}\n",
+    "parameters": [
+      {
+        "description": "Optional native input ID, also used by the associated label.",
+        "name": "Id",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Accessible, visible field label.",
+        "name": "Label",
+        "type": "string",
+        "default": "\"Arquivo\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Text on the file chooser; the native input retains keyboard interaction.",
+        "name": "ChooseText",
+        "type": "string",
+        "default": "\"Escolher arquivo\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Text shown when no file is selected.",
+        "name": "EmptyText",
+        "type": "string",
+        "default": "\"Nenhum arquivo selecionado.\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Native accept hint; the server must still validate the selected file.",
+        "name": "Accept",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Selected browser file. Set to null to clear the native input.",
+        "name": "Value",
+        "type": "IBrowserFile?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Reports selection or null when an oversized file is rejected.",
+        "name": "ValueChanged",
+        "type": "EventCallback<IBrowserFile?>",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Prevents selecting a file.",
+        "name": "Disabled",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional client size limit in bytes, independent of server validation.",
+        "name": "MaxFileSize",
+        "type": "long?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Localized size rejection message.",
+        "name": "FileTooLargeText",
+        "type": "string",
+        "default": "\"O arquivo excede o limite permitido.\"",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Supplementary instructions linked to the native input.",
+        "name": "HelperText",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "External validation message; takes precedence over size rejection.",
+        "name": "ErrorText",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
       },
       {
         "description": "Optional user CSS classes appended to component-owned classes.",

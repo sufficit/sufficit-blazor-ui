@@ -1,0 +1,8 @@
+@using Microsoft.AspNetCore.Components.Forms
+<SUIFileUpload Label="Arquivo de áudio" Accept=".wav,.mp3,.ogg,.m4a,.flac"
+               MaxFileSize="20971520" HelperText="Selecione um áudio de até 20 MB. O envio é uma ação separada."
+               @bind-Value="SelectedFile" />
+<SUIButton Disabled="@(SelectedFile == null)" OnClick="@(() => SelectedFile = null)">Descartar seleção</SUIButton>
+@code {
+    private IBrowserFile? SelectedFile;
+}

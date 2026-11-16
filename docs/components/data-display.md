@@ -54,3 +54,13 @@ servidor; a ponta desabilitada não tem `href`.
 Em `StackOnMobile`, um `SUITd` com `DataLabel` envolve o conteúdo em `div.sui-td__value`, que é
 `display: contents` no desktop e o segundo item da grade rótulo/valor no celular: vários filhos na célula
 ficam juntos na coluna do valor.
+
+## Reprodução de áudio
+
+`SUIAudioPlayer` recebe `Source` (URL autorizada ou data URI), `Label` acessível,
+`DownloadName`, `DownloadText` e `ShowDownload`. Usa controles nativos, carrega
+somente metadados inicialmente e não inicia reprodução automática. O layout
+adapta a mídia à largura disponível sem estilo inline na tela consumidora.
+`ErrorText` informa falha do player; mudar `Source` limpa o erro e reinicia a
+mídia. Sem fonte, mostra `EmptyText`. O componente não busca credenciais nem
+confirma publicação/entrega: cabe ao consumidor resolver a mídia autorizada.

@@ -113,3 +113,5 @@ concluído é arquivado em `activities/` com prefixo de timestamp
   próprio com tokens `--sui-*`
 
 - [Correção de cópia sob política de permissões](activities/202611161533-clipboard-permissions.md)
+
+- [Upload e reprodução de áudio compartilhados](PLAN-FILE-UPLOAD-AUDIO-PLAYER.md).

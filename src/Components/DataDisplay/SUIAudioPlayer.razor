@@ -1,0 +1,52 @@
+@namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
+
+<div class="@EffectiveClass("sui-audio-player")" style="@Style">
+    @if (!string.IsNullOrWhiteSpace(Source))
+    {
+        <audio @key="Source" class="sui-audio-player__media" src="@Source" controls preload="metadata"
+               aria-label="@Label" @onerror="HandleError" @onloadeddata="HandleLoaded" @attributes="AdditionalAttributes"></audio>
+        @if (_failed)
+        {
+            <SUIText Typo="SUITypo.body2" Color="SUIColor.Error" role="alert">@ErrorText</SUIText>
+        }
+        @if (ShowDownload)
+        {
+            <SUILink Href="@Source" download="@(DownloadName ?? string.Empty)">@DownloadText</SUILink>
+        }
+    }
+    else
+    {
+        <SUIText Typo="SUITypo.body2">@EmptyText</SUIText>
+    }
+</div>
+
+@code {
+    private string? _previousSource;
+    private bool _failed;
+
+    /// <summary>Authorized media URL or data URI; changing it resets the player and error.</summary>
+    [Parameter] public string? Source { get; set; }
+    /// <summary>Accessible name of the native playback controls.</summary>
+    [Parameter] public string Label { get; set; } = "Áudio";
+    /// <summary>Optional suggested download filename.</summary>
+    [Parameter] public string? DownloadName { get; set; }
+    /// <summary>Whether to offer a separate download link.</summary>
+    [Parameter] public bool ShowDownload { get; set; } = true;
+    /// <summary>Localized download action label.</summary>
+    [Parameter] public string DownloadText { get; set; } = "Baixar áudio";
+    /// <summary>Localized message when no media source is available.</summary>
+    [Parameter] public string EmptyText { get; set; } = "Nenhum áudio disponível para reprodução.";
+    /// <summary>Localized message on native playback failure.</summary>
+    [Parameter] public string ErrorText { get; set; } = "Não foi possível reproduzir o áudio. Tente baixar o arquivo.";
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        if (_previousSource != Source) _failed = false;
+        _previousSource = Source;
+    }
+
+    private void HandleError() => _failed = true;
+    private void HandleLoaded() => _failed = false;
+}

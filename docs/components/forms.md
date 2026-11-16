@@ -179,3 +179,14 @@ configurada, permitindo digitar valores intermediários sem reescrever o campo.
 O consumidor Sufficit.Blazor adota 44px, 12px e 0.875rem respectivamente, adaptando campos legados de uma linha aos mesmos tokens. Os padrões da biblioteca para outros consumidores permanecem compatíveis.
 
 `SUISelect.StartIcon` coloca o ícone fixo no início; `EndIcon` o coloca após o valor, antes da seta. Ambos usam `IconColorValue` e são decorativos. `SUISelectItem.Icon` permanece junto ao texto da opção, inclusive no valor selecionado. Para mudar a posição, passe o ícone somente ao parâmetro desejado.
+
+## Seleção de arquivo
+
+`SUIFileUpload` mantém o seletor nativo acessível, com aparência SUI. Use
+`@bind-Value` (`IBrowserFile?`); definir `null` limpa também o input nativo.
+`Label`, `ChooseText`, `EmptyText`, `HelperText`, `ErrorText` e
+`FileTooLargeText` permitem adaptar os textos. `Disabled` bloqueia a seleção.
+`Accept` é uma sugestão ao navegador; `MaxFileSize` rejeita arquivos maiores
+no cliente e notifica `ValueChanged(null)`. O servidor deve repetir a validação.
+A seleção não abre streams nem envia arquivos. O consumidor decide quando
+confirmar, chamar `OpenReadStream` com seu limite e enviar o conteúdo.

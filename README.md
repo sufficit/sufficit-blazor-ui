@@ -176,7 +176,7 @@ para `Primary`/`PrimaryContrast` e preserva temas existentes.
 
 **[Abrir a vitrine publicada](https://sufficit.github.io/sufficit-blazor-ui/)**
 
-A vitrine em `samples/Sufficit.Blazor.UI.Showcase` executa os **78 componentes**
+A vitrine em `samples/Sufficit.Blazor.UI.Showcase` executa os **80 componentes**
 em Blazor WebAssembly. Inclui busca, exemplos Razor copiáveis, parâmetros
 públicos, composições e editor de temas claro/escuro/sistema com persistência,
 três paletas, duas densidades e exportação C#. Todos os dados são locais.
@@ -205,10 +205,10 @@ derivada de `src/Components/<Família>/` e conferida por
 | Família | Componentes |
 | --- | --- |
 | Ações | `SUIActionGroup`, `SUIButton`, `SUICopyToClipboard`, `SUIIconButton`, `SUILink`, `SUILoadingButton` |
-| Formulários | `SUIAutocomplete`, `SUICheckbox`, `SUIChoiceCard`, `SUIDateField`, `SUIFormGrid`, `SUINumericField`, `SUISelect`, `SUISelectItem`, `SUISwitch`, `SUISwitchButton`, `SUITextField` |
+| Formulários | `SUIAutocomplete`, `SUICheckbox`, `SUIChoiceCard`, `SUIDateField`, `SUIFormGrid`, `SUINumericField`, `SUISelect`, `SUISelectItem`, `SUISwitch`, `SUISwitchButton`, `SUIFileUpload`, `SUITextField` |
 | Layout | `SUIAppBar`, `SUICard`, `SUICardActions`, `SUICardContent`, `SUICardHeader`, `SUIContainer`, `SUIDivider`, `SUIDrawer`, `SUIGrid`, `SUIItem`, `SUILayout`, `SUIPageHeader`, `SUIResponsive`, `SUISection`, `SUISpacer`, `SUIStack` |
 | Navegação | `SUIFilterScope`, `SUIFilterTree`, `SUINavGroup`, `SUINavLink`, `SUIProgressSteps`, `SUISlidingTabPanel`, `SUISlidingTabs`, `SUITabPanel`, `SUITabs` |
-| Exibição de dados | `SUIAvatar`, `SUIChip`, `SUIDateTime`, `SUIIcon`, `SUIList`, `SUIListItem`, `SUIPagination`, `SUIRecordTable`, `SUIStat`, `SUITable`, `SUITableEmpty`, `SUITableSortLabel`, `SUITd`, `SUIText`, `SUITh`, `SUITimeline`, `SUITimelineItem` |
+| Exibição de dados | `SUIAudioPlayer`, `SUIAvatar`, `SUIChip`, `SUIDateTime`, `SUIIcon`, `SUIList`, `SUIListItem`, `SUIPagination`, `SUIRecordTable`, `SUIStat`, `SUITable`, `SUITableEmpty`, `SUITableSortLabel`, `SUITd`, `SUIText`, `SUITh`, `SUITimeline`, `SUITimelineItem` |
 | Feedback | `SUIAlert`, `SUIEmptyState`, `SUIExpansionPanel`, `SUIPendingChangesBar`, `SUIProgressCircular`, `SUIProgressLinear`, `SUISkeletonLoader`, `SUISnackbarHost`, `SUIStatusBadge`, `SUIStatusBanner`, `SUIToast`, `SUIToastHost` |
 | Overlays | `SUIConfirmDialog`, `SUIDecisionDialog`, `SUIDialogHost`, `SUIMenu`, `SUIPopover`, `SUITooltip` |
 

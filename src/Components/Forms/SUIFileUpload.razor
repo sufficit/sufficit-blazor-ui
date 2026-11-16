@@ -1,0 +1,21 @@
+@namespace Sufficit.Blazor.UI.Components
+@inherits SUIComponentBase
+
+<div class="@EffectiveClass("sui-file-upload")" style="@Style">
+    <label class="sui-field__label" for="@EffectiveId">@Label</label>
+    <div class="sui-file-upload__control" data-disabled="@Disabled.ToString().ToLowerInvariant()" data-error="@HasError.ToString().ToLowerInvariant()">
+        <span class="sui-file-upload__action" aria-hidden="true"><SUIIcon Name="upload" Size="18" />@ChooseText</span>
+        <InputFile @key="_inputVersion" id="@EffectiveId" class="sui-file-upload__input" accept="@Accept"
+                   disabled="@Disabled" OnChange="ChooseFile" aria-describedby="@DescribedBy"
+                   aria-invalid="@(HasError ? "true" : null)" @attributes="AdditionalAttributes" />
+    </div>
+    <span id="@(EffectiveId + "-selection")" class="sui-file-upload__selection" role="status">@(Value?.Name ?? EmptyText)</span>
+    @if (!string.IsNullOrWhiteSpace(HelperText))
+    {
+        <span id="@(EffectiveId + "-helper")" class="sui-field__helper">@HelperText</span>
+    }
+    @if (HasError)
+    {
+        <span id="@(EffectiveId + "-error")" class="sui-field__error" role="alert">@EffectiveError</span>
+    }
+</div>

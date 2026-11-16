@@ -36,7 +36,10 @@ public sealed class AssetBudgetTests
     // measured 13,283 B. Existing 3% headroom rule rounded to 256 B.
     // 2026-10-28: SUITooltip rich content (title + body) and the persistent
     // aria-describedby link — measured 13,952 B; rounded to 256 B.
-    private const int JsTotalBrotliBudget = 14_336; // measured 13,952 B
+    // 2026-11-16: baseline before media components already measures 14,706 B
+    // after the committed clipboard/floating work. Media adds no JS. Reconcile
+    // that existing source measurement with the documented 3%/256 B rule.
+    private const int JsTotalBrotliBudget = 15_360; // measured 14,706 B
     // Raw bytes of every .razor.css (source/parse cost of CSS isolation).
     // Raised 2026-09-13 for SUISlidingTabs (pill track + sliding indicator,
     // micro-interactions, responsive collapse, reduced-motion) — measured
@@ -53,7 +56,9 @@ public sealed class AssetBudgetTests
     // 2026-10-28: consumer-migration gaps — checkbox description, rich tooltip,
     // numeric unit suffix, FormGrid column template, ChoiceCard action mode and
     // ExpansionPanel mounted content/header slot. Measured 49,106 B; +3%.
-    private const int IsolatedCssRawBudget = 50_560; // measured 49,106 B
+    // 2026-11-16: file chooser and native audio player share scoped CSS instead
+    // of consumer styles. Measured 51,792 B; documented 3%/256 B headroom.
+    private const int IsolatedCssRawBudget = 53_504; // measured 51,792 B
 
     [Fact]
     public void GlobalStylesheet_FitsTheTransferBudget()
