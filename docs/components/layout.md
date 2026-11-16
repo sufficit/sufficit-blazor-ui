@@ -53,3 +53,5 @@ atributos não mapeados vão para a raiz.
 `SUIGrid.Gap` controla o gutter em passos de 4 px (0–12), com CSSOM compatível com CSP. Quando omitido, conserva o comportamento de `Spacing` (booleano); zero remove o gutter.
 
 `SUIDivider.Vertical` renderiza um separador com orientação acessível e stretch em uma linha flex; o padrão horizontal continua sendo um `hr` nativo.
+
+Temporary and compact responsive drawers include editable fields in their visible focus loop. A nested modal or interactive native popover owns Escape before the drawer; closing it preserves the underlying navigation and restores its trigger.

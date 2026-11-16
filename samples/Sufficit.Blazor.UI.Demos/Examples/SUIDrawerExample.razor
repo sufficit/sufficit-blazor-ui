@@ -1,8 +1,27 @@
 @inherits DemoBase
 
 <SUIDrawer Open Width="15rem">
-<SUIList>
-<SUINavLink Title="Visão geral" Href="#overview" />
-<SUINavLink Title="Configurações" Href="#settings" />
-</SUIList>
+    <SUIList>
+        <SUINavLink Title="Visão geral" Href="#overview" />
+        <SUINavLink Title="Configurações" Href="#settings" />
+    </SUIList>
 </SUIDrawer>
+<SUIButton OnClick="() => _temporaryOpen = true">Abrir navegação temporária</SUIButton>
+<SUIDrawer @bind-Open="_temporaryOpen" Variant="temporary" Width="20rem" Title="Navegação de demonstração" AriaLabel="Navegação de demonstração">
+    <SUIStack Spacing="3" Class="pa-4">
+        <SUITextField TValue="string" Label="Buscar na navegação" @bind-Value="_navigationSearch" />
+        <SUIButton OnClick="OpenNestedDialog">Confirmar no diálogo</SUIButton>
+        <SUIPopup Label="Pesquisa sobre a navegação" @bind-Open="_searchPopup">
+            <ChildContent><SUIButton OnClick="() => _searchPopup = true">Abrir pesquisa sobre o menu</SUIButton></ChildContent>
+            <Content><SUITextField TValue="string" Label="Pesquisar em destaque" @bind-Value="_navigationSearch" /></Content>
+        </SUIPopup>
+        <SUITextField TValue="string" Label="Último campo da navegação" @bind-Value="_lastField" />
+    </SUIStack>
+</SUIDrawer>
+@code {
+    private bool _temporaryOpen;
+    private bool _searchPopup;
+    private string? _navigationSearch;
+    private string? _lastField;
+    private async Task OpenNestedDialog() => await Dialogs.ConfirmAsync("Confirmação sobre a navegação", "Fechar este diálogo deve preservar o menu aberto.");
+}
