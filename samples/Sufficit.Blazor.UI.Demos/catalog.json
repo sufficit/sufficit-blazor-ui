@@ -319,7 +319,7 @@
   {
     "name": "SUIIconButton",
     "family": "Ações",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIIconButton VariantValue=\"SUIVariant.Soft\" Icon=\"@SUIIcons.Restart\" Title=\"Atualizar exemplo\" OnClick=\"Notify\" />\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIIconButton VariantValue=\"SUIVariant.Soft\" Icon=\"@SUIIcons.Restart\" Title=\"Atualizar exemplo\" OnClick=\"Notify\" />\n\n<SUIStack Row Wrap Spacing=\"3\">\n    <SUIIconButton Href=\"#native-link-target\" Icon=\"@SUIIcons.Info\" Title=\"Referência do exemplo\" Disabled=\"@_linksDisabled\" />\n    <SUIButton Href=\"#native-link-target\" Disabled=\"@_linksDisabled\">Abrir registro de exemplo</SUIButton>\n    <SUIButton VariantValue=\"SUIVariant.Outlined\" OnClick=\"() => _linksDisabled = !_linksDisabled\">Alternar links do exemplo</SUIButton>\n</SUIStack>\n@code { private bool _linksDisabled = true; }\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
     "parameters": [
       {
         "description": "",
@@ -898,7 +898,7 @@
   {
     "name": "SUIChip",
     "family": "Dados",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack Row Wrap>\n<SUIChip ColorValue=\"SUIColor.Primary\">Produção</SUIChip>\n<SUIChip VariantValue=\"SUIVariant.Outlined\">Manutenção</SUIChip>\n</SUIStack>\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIStack Row Wrap>\n<SUIChip ColorValue=\"SUIColor.Primary\">Produção</SUIChip>\n<SUIChip VariantValue=\"SUIVariant.Outlined\">Manutenção</SUIChip>\n</SUIStack>\n\n<SUIStack Row Wrap Spacing=\"3\" data-testid=\"wrapped-filter-chips\">\n    <SUIChip Wrap SizeValue=\"SUISize.Small\" OnClick=\"EditWrapped\" OnRemove=\"RemoveWrapped\"\n        ActionLabel=\"Editar período do exemplo\" RemoveLabel=\"Remover período do exemplo\">Período: 17/11/2026 00:00 até 17/11/2026 23:59 (incluindo as datas)</SUIChip>\n    <SUIChip Wrap>Contexto: 11111111-1111-4111-8111-111111111111-22222222-2222-4222-8222-222222222222</SUIChip>\n    <output data-testid=\"wrapped-chip-action\">@_action</output>\n</SUIStack>\n@code { private string? _action; private void EditWrapped()=>_action=\"edit\"; private void RemoveWrapped()=>_action=\"remove\"; }\n",
     "parameters": [
       {
         "description": "",
@@ -920,6 +920,14 @@
         "description": "",
         "name": "VariantValue",
         "type": "SUIVariant?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Wrap long labels within the parent width, preserving complete text and edit/remove controls. Default chips keep their single-line layout.",
+        "name": "Wrap",
+        "type": "bool",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
@@ -1905,7 +1913,7 @@
   {
     "name": "SUITable",
     "family": "Dados",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITable TItem=\"string\" Items=\"Rows\" RowKey=\"@(row => row)\" ColumnCount=\"1\">\n<HeaderContent>\n<SUITh>Serviço</SUITh>\n</HeaderContent>\n<RowTemplate Context=\"row\">\n<SUITd DataLabel=\"Serviço\">@row</SUITd>\n</RowTemplate>\n</SUITable>\n\n<SUISection Title=\"Detalhes dentro de uma tabela\">\n    <SUITable TItem=\"string\" Items=\"@(Rows.Take(1))\" StackOnMobile data-testid=\"nested-table-owner\">\n        <HeaderContent><th>Grupo</th><th>Referências</th></HeaderContent>\n        <RowTemplate Context=\"group\">\n            <td data-label=\"Grupo\">@group</td>\n            <td data-label=\"Referências\">\n                <SUITable TItem=\"string\" Items=\"NestedRows\" data-testid=\"nested-table-child\">\n                    <HeaderContent><th>Referência técnica</th></HeaderContent>\n                    <RowTemplate Context=\"reference\"><td>@reference</td></RowTemplate>\n                </SUITable>\n            </td>\n        </RowTemplate>\n    </SUITable>\n</SUISection>\n@code {\n    private readonly string[] NestedRows = [\"9934183e-8e27-11ea-a3dc-061589540433\", \"Referência adicional\"];\n}\n\n@code {\n    protected string[] Rows { get; } = [\"Telefonia\", \"Provisionamento\", \"Atendimento\"];\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUITable TItem=\"string\" Items=\"Rows\" RowKey=\"@(row => row)\" ColumnCount=\"1\">\n<HeaderContent>\n<SUITh>Serviço</SUITh>\n</HeaderContent>\n<RowTemplate Context=\"row\">\n<SUITd DataLabel=\"Serviço\">@row</SUITd>\n</RowTemplate>\n</SUITable>\n\n<SUISection Title=\"Detalhes dentro de uma tabela\">\n    <SUITable TItem=\"string\" Items=\"@(Rows.Take(1))\" StackOnMobile data-testid=\"nested-table-owner\">\n        <HeaderContent><th>Grupo</th><th>Referências</th></HeaderContent>\n        <RowTemplate Context=\"group\">\n            <td data-label=\"Grupo\">@group</td>\n            <td data-label=\"Referências\">\n                <SUITable TItem=\"string\" Items=\"NestedRows\" data-testid=\"nested-table-child\">\n                    <HeaderContent><th>Referência técnica</th></HeaderContent>\n                    <RowTemplate Context=\"reference\"><td>@reference</td></RowTemplate>\n                </SUITable>\n            </td>\n        </RowTemplate>\n    </SUITable>\n</SUISection>\n<SUISection Title=\"Tabela larga com acesso por teclado\">\n    <SUITable TItem=\"string\" Items=\"Rows\" ScrollRegion ScrollLabel=\"Serviços com rolagem horizontal\" Style=\"min-width:1500px\" data-testid=\"wide-scroll-table\">\n        <HeaderContent><th scope=\"col\">Serviço</th></HeaderContent>\n        <RowTemplate Context=\"row\"><td>@row</td></RowTemplate>\n    </SUITable>\n</SUISection>\n@code {\n    private readonly string[] NestedRows = [\"9934183e-8e27-11ea-a3dc-061589540433\", \"Referência adicional\"];\n}\n\n@code {\n    protected string[] Rows { get; } = [\"Telefonia\", \"Provisionamento\", \"Atendimento\"];\n}\n",
     "parameters": [
       {
         "description": "Stable identity retained when rows are sorted or paged.",
@@ -1940,7 +1948,15 @@
         "deprecated": false
       },
       {
-        "description": "Accessible name of the scrollable region a virtualized read-only table becomes. A scroller that keyboard users cannot focus is unreachable (WCAG 2.1.1), so the wrapper joins the tab order and is named so a screen reader announces what it scrolls. Ignored unless Virtualize is on and OnRowClick is unset (interactive rows are already focusable).",
+        "description": "Expose the existing overflow wrapper as a labelled keyboard-focusable scroll region, including nonvirtualized tables. No widths, virtualized window or scrolling scripts are added.",
+        "name": "ScrollRegion",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Accessible name of the wrapper when ScrollRegion is requested, or automatically for a noninteractive virtualized table. Keyboard users can focus this region to scroll it.",
         "name": "ScrollLabel",
         "type": "string",
         "default": "\"Tabela com rolagem\"",

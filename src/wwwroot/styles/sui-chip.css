@@ -78,6 +78,25 @@
 }
 .sui-chip__remove:focus-visible { outline: 2px solid currentColor; outline-offset: var(--sui-focus-offset); }
 
+/* Full readable operands (e.g. period/context filters) opt in to wrapping. */
+.sui-chip--wrap {
+  --_chip-wrap-height: 32px;
+  height: auto;
+  min-height: var(--_chip-wrap-height);
+  min-width: 0;
+  max-width: 100%;
+  padding-block: calc(var(--sui-space-1) / 2);
+  border-radius: calc(var(--_chip-wrap-height) / 2);
+  line-height: var(--sui-lh-body);
+  white-space: normal;
+}
+.sui-chip--wrap.sui-chip--small { --_chip-wrap-height: 24px; }
+.sui-chip--wrap.sui-chip--large { --_chip-wrap-height: 40px; }
+.sui-chip--wrap .sui-chip__action { min-width: 0; height: auto; align-self: stretch; }
+.sui-chip--wrap .sui-chip__label { min-width: 0; overflow-wrap: anywhere; }
+.sui-chip--wrap .sui-chip__leading { flex: none; }
+.sui-chip--wrap.sui-chip--actionable.sui-chip--removable { padding-inline-end: 3px; }
+
 .sui-chip--filled { }
 .sui-chip--outlined { background: transparent; border-color: var(--_chip-bd); }
 .sui-chip--text { background: transparent; border-color: transparent; }

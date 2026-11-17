@@ -21,7 +21,9 @@ public sealed class AssetBudgetTests
     // token never breaks internally; the spaces between tokens stay wrappable).
     // Raised 2026-10-28 for SUISection ToneValue (danger/warning zones) and the
     // section header decision row; ceilings follow the headroom rule.
-    private const int BundleRawBudget = 63_232;               // measured 61,251 B (2026-10-28)
+    // 2026-11-17: native chip wrapping adds 642 B raw; existing 3%/256 B rule.
+    // Compressed ceilings remain unchanged (11,640 gzip / 10,139 Brotli).
+    private const int BundleRawBudget = 65_792;               // measured 63,741 B
     private const int BundleGzipBudget = 11_776;              // measured 11,193 B (2026-10-28)
     private const int BundleBrotliBudget = 10_240;            // measured  9,765 B (2026-10-28)
     private const int JsModuleRawBudget = 12 * 1024;

@@ -69,7 +69,10 @@ const budgets = {
   // Adds 89 B raw; retain a stricter ceiling than AssetBudgetTests (63,232 B).
   // Indeterminate progress adds transform-only motion and a reduced-motion fallback.
   // Keep bundle ceilings aligned with the existing package AssetBudgetTests limits.
-  raw: 63_232,
+  // 2026-11-17: opt-in full-label chip wrapping adds 642 B raw / 114 B gzip /
+  // 94 B Brotli. Measured 63,741 / 11,640 / 10,139 B. Only raw crosses the
+  // previous ceiling; apply the documented 3% rule rounded to 256 B.
+  raw: 65_792,
   gzip: 11_776,
   brotli: 10_240,
 };

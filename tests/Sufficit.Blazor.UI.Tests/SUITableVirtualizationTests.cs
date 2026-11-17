@@ -23,6 +23,20 @@ public sealed class SUITableVirtualizationTests
     };
 
     [Fact]
+    public void WideTable_OptInExposesTheNativeScrollWrapperWithoutVirtualizingRows()
+    {
+        using var context = new BunitContext();
+        var cut = context.Render<SUITable<string>>(p => p.Add(c => c.Items, new[] { "one", "two" })
+            .Add(c => c.RowTemplate, ItemToCell).Add(c => c.ScrollRegion, true).Add(c => c.ScrollLabel, "Chamadas"));
+        var region = cut.Find("div.sui-table-wrapper[role=region]");
+        Assert.Equal("0", region.GetAttribute("tabindex"));
+        Assert.Equal("Chamadas", region.GetAttribute("aria-label"));
+        Assert.Equal(2, cut.FindAll("tbody tr.sui-table__row").Count);
+        cut.Render(p => p.Add(c => c.ScrollRegion, false));
+        Assert.Empty(cut.FindAll("div.sui-table-wrapper[role]"));
+    }
+
+    [Fact]
     public void Table_WithoutVirtualize_MaterializesEveryRow()
     {
         using var context = new BunitContext();

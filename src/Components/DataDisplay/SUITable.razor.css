@@ -8,7 +8,7 @@
    rendered rows alone collapses the range and the whole list materializes. */
 .sui-table-wrapper--virtual { max-height: min(30rem, 60vh); overflow-y: auto; }
 .sui-table-wrapper--virtual .sui-table { table-layout: fixed; }
-.sui-table-wrapper--virtual:focus-visible {
+.sui-table-wrapper:focus-visible {
   outline: var(--sui-focus-ring);
   outline-offset: var(--sui-focus-offset-inset);
 }

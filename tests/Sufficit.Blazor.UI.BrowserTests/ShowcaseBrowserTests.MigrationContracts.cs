@@ -172,4 +172,80 @@ public sealed partial class ShowcaseBrowserTests
         await Expect(preview.GetByTestId("selected-file-names")).ToHaveTextAsync("c.wav");
     }
 
+    [TestCase(390)]
+    [TestCase(1280)]
+    public async Task WideMaterializedTableHasNativeKeyboardHorizontalScroll(int width)
+    {
+        await Page.SetViewportSizeAsync(width, 1000);
+        await OpenMigrationExample("SUITable");
+        var region = Page.GetByRole(AriaRole.Region, new() { Name = "Serviços com rolagem horizontal", Exact = true });
+        await Expect(region).ToHaveAttributeAsync("tabindex", "0");
+        Assert.That(await region.EvaluateAsync<bool>("element => element.scrollWidth > element.clientWidth"), Is.True);
+        Assert.That(await Page.EvaluateAsync<bool>("document.documentElement.scrollWidth <= innerWidth"), Is.True);
+        var rows = await region.Locator("tbody tr").CountAsync();
+        await region.FocusAsync();
+        await Page.Keyboard.PressAsync("ArrowRight");
+        await Page.WaitForFunctionAsync("element => element.scrollLeft > 0", await region.ElementHandleAsync());
+        await Expect(region).ToBeFocusedAsync();
+        await Expect(region).ToHaveCSSAsync("outline-style", "solid");
+        Assert.That(await region.Locator("tbody tr").CountAsync(), Is.EqualTo(rows));
+    }
+
+    [TestCase(390)]
+    [TestCase(1280)]
+    public async Task DisabledNativeLinksCannotNavigateAndEnabledIconHrefStillWorks(int width)
+    {
+        await Page.SetViewportSizeAsync(width, 1000);
+        await OpenMigrationExample("SUIIconButton");
+        var preview = Page.Locator(".component-preview");
+        var icon = preview.GetByRole(AriaRole.Link, new() { Name = "Referência do exemplo", Exact = true });
+        var text = preview.GetByRole(AriaRole.Link, new() { Name = "Abrir registro de exemplo", Exact = true });
+        var originalUrl = Page.Url;
+        foreach (var link in new[] { icon, text })
+        {
+            await Expect(link).ToHaveAttributeAsync("aria-disabled", "true");
+            Assert.That(await link.GetAttributeAsync("href"), Is.Null);
+            await Expect(link).ToHaveAttributeAsync("tabindex", "-1");
+            await link.FocusAsync();
+            await Page.Keyboard.PressAsync("Enter");
+            Assert.That(Page.Url, Is.EqualTo(originalUrl));
+        }
+        await preview.GetByRole(AriaRole.Button, new() { Name = "Atualizar exemplo", Exact = true }).FocusAsync();
+        await Page.Keyboard.PressAsync("Tab");
+        await Expect(preview.GetByRole(AriaRole.Button, new() { Name = "Alternar links do exemplo", Exact = true })).ToBeFocusedAsync();
+        await Page.Keyboard.PressAsync("Space");
+        await Expect(icon).ToHaveAttributeAsync("href", "#native-link-target");
+        await icon.FocusAsync();
+        await Page.Keyboard.PressAsync("Enter");
+        await Expect(Page).ToHaveURLAsync(new Uri(new Uri(BaseUrl), "#native-link-target").ToString());
+    }
+
+    [TestCase(390)]
+    [TestCase(1280)]
+    public async Task WrappedFilterChipsKeepCompleteLabelsAndIndependentKeyboardActions(int width)
+    {
+        await Page.SetViewportSizeAsync(width, 1000);
+        await OpenMigrationExample("SUIChip");
+        var host = Page.GetByTestId("wrapped-filter-chips");
+        var chips = host.Locator(".sui-chip");
+        await Expect(chips).ToHaveCountAsync(2);
+        for (var index=0;index<2;index++)
+        {
+            var chip = chips.Nth(index); var box = await chip.BoundingBoxAsync();
+            Assert.That(box!.X + box.Width, Is.LessThanOrEqualTo(width));
+            var label = await chip.Locator(".sui-chip__label").BoundingBoxAsync();
+            Assert.That(label!.Y + label.Height, Is.LessThanOrEqualTo(box.Y + box.Height + 1));
+            Assert.That(await chip.EvaluateAsync<bool>("element => element.scrollWidth <= element.clientWidth + 1"), Is.True);
+        }
+        await Expect(chips.First.Locator(".sui-chip__label")).ToHaveTextAsync("Período: 17/11/2026 00:00 até 17/11/2026 23:59 (incluindo as datas)");
+        if(width<600) Assert.That((await chips.First.Locator(".sui-chip__label").BoundingBoxAsync())!.Height, Is.GreaterThan(24));
+        await host.GetByRole(AriaRole.Button,new(){Name="Editar período do exemplo",Exact=true}).FocusAsync();
+        await Page.Keyboard.PressAsync("Enter");
+        await Expect(host.GetByTestId("wrapped-chip-action")).ToHaveTextAsync("edit");
+        await host.GetByRole(AriaRole.Button,new(){Name="Remover período do exemplo",Exact=true}).FocusAsync();
+        await Page.Keyboard.PressAsync("Enter");
+        await Expect(host.GetByTestId("wrapped-chip-action")).ToHaveTextAsync("remove");
+        Assert.That(await Page.EvaluateAsync<bool>("document.documentElement.scrollWidth <= innerWidth"), Is.True);
+    }
+
 }

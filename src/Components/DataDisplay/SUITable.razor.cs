@@ -43,14 +43,10 @@ public partial class SUITable<TItem>
     /// </summary>
     [Parameter] public int OverscanCount { get; set; } = 5;
 
-    /// <summary>
-    /// Accessible name of the scrollable region a virtualized read-only table
-    /// becomes. A scroller that keyboard users cannot focus is unreachable
-    /// (WCAG 2.1.1), so the wrapper joins the tab order and is named so a
-    /// screen reader announces what it scrolls. Ignored unless
-    /// <see cref="Virtualize"/> is on and <see cref="OnRowClick"/> is unset
-    /// (interactive rows are already focusable).
-    /// </summary>
+    /// <summary>Expose the existing overflow wrapper as a labelled keyboard-focusable scroll region, including nonvirtualized tables. No widths, virtualized window or scrolling scripts are added.</summary>
+    [Parameter] public bool ScrollRegion { get; set; }
+
+    /// <summary>Accessible name of the wrapper when ScrollRegion is requested, or automatically for a noninteractive virtualized table. Keyboard users can focus this region to scroll it.</summary>
     [Parameter] public string ScrollLabel { get; set; } = "Tabela com rolagem";
 
     /// <summary>
@@ -152,7 +148,7 @@ public partial class SUITable<TItem>
     // A virtualized table scrolls inside its wrapper. With interactive rows the
     // focusable rows already make the region reachable; a read-only one needs
     // the wrapper itself in the tab order.
-    private bool ScrollRegion => Virtualize && !OnRowClick.HasDelegate;
+    private bool EffectiveScrollRegion => ScrollRegion || (Virtualize && !OnRowClick.HasDelegate);
 
     private Task OnRowItemClick(TItem item) => OnRowClick.InvokeAsync(item);
 

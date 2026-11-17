@@ -98,7 +98,9 @@ public sealed class FileSizeBudgetTests
         // var() indirections. 59,213 × 1.03 → 61,184.
         // 2026-10-28: SUISection ToneValue and header decision row, measured
         // 61,251 B → 63,232 (same ceiling as AssetBudgetTests).
-        const int budget = 63_232;
+        // 2026-11-17: opt-in chip wrapping, measured 63,741 B. Existing
+        // measured×1.03/256 B rule → 65,792; compressed limits unchanged.
+        const int budget = 65_792;
         Assert.True(bytes <= budget,
             $"sufficit-ui.css is {bytes} bytes, budget is {budget}. See AssetBudgetTests for the compressed budgets.");
     }

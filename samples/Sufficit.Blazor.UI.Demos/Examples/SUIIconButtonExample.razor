@@ -1,3 +1,10 @@
 @inherits DemoBase
 
 <SUIIconButton VariantValue="SUIVariant.Soft" Icon="@SUIIcons.Restart" Title="Atualizar exemplo" OnClick="Notify" />
+
+<SUIStack Row Wrap Spacing="3">
+    <SUIIconButton Href="#native-link-target" Icon="@SUIIcons.Info" Title="Referência do exemplo" Disabled="@_linksDisabled" />
+    <SUIButton Href="#native-link-target" Disabled="@_linksDisabled">Abrir registro de exemplo</SUIButton>
+    <SUIButton VariantValue="SUIVariant.Outlined" OnClick="() => _linksDisabled = !_linksDisabled">Alternar links do exemplo</SUIButton>
+</SUIStack>
+@code { private bool _linksDisabled = true; }

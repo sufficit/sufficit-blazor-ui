@@ -23,6 +23,12 @@
         </RowTemplate>
     </SUITable>
 </SUISection>
+<SUISection Title="Tabela larga com acesso por teclado">
+    <SUITable TItem="string" Items="Rows" ScrollRegion ScrollLabel="Serviços com rolagem horizontal" Style="min-width:1500px" data-testid="wide-scroll-table">
+        <HeaderContent><th scope="col">Serviço</th></HeaderContent>
+        <RowTemplate Context="row"><td>@row</td></RowTemplate>
+    </SUITable>
+</SUISection>
 @code {
     private readonly string[] NestedRows = ["9934183e-8e27-11ea-a3dc-061589540433", "Referência adicional"];
 }

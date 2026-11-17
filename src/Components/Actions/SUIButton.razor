@@ -20,8 +20,8 @@
 
 @if (isAnchor)
 {
-    <a @ref="_elementReference" class="@cls" style="@Style" href="@Href" target="@Target" rel="@GetRel()"
-       aria-busy="@(ShowLoading ? "true" : null)" aria-disabled="@isDisabled" @onclick="OnClickHandler" @onclick:preventDefault="@isDisabled"
+    <a @ref="_elementReference" class="@cls" style="@Style" href="@(isDisabled ? null : Href)" role="@(isDisabled ? "link" : null)" tabindex="@(isDisabled ? "-1" : null)" target="@Target" rel="@GetRel()"
+       aria-busy="@(ShowLoading ? "true" : null)" aria-disabled="@(isDisabled ? "true" : "false")" @onclick="OnClickHandler" @onclick:preventDefault="@isDisabled"
        @attributes="AdditionalAttributes">
         @RenderBody()
     </a>

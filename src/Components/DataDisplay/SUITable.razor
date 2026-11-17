@@ -25,9 +25,9 @@
 }
 
 <div @ref="_wrapperElement" class="@WrapperClass" aria-busy="@(Loading ? "true" : "false")"
-     role="@(ScrollRegion ? "region" : null)"
-     aria-label="@(ScrollRegion ? ScrollLabel : null)"
-     tabindex="@(ScrollRegion ? 0 : null)">
+     role="@(EffectiveScrollRegion ? "region" : null)"
+     aria-label="@(EffectiveScrollRegion ? ScrollLabel : null)"
+     tabindex="@(EffectiveScrollRegion ? 0 : null)">
     @if (Loading)
     {
         <SUIProgressLinear Indeterminate="true" AriaLabel="@LoadingLabel" Class="sui-table__progress" />
