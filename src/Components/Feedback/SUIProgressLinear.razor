@@ -3,7 +3,7 @@
 @using System.Globalization
 
 <div class="@Classname" role="progressbar"
-     aria-valuenow="@(Indeterminate ? (double?)null : ClampedValue)" aria-valuemin="0" aria-valuemax="100"
+     aria-valuenow="@(Indeterminate ? null : ClampedValue.ToString(CultureInfo.InvariantCulture))" aria-valuemin="0" aria-valuemax="100"
      aria-label="@AriaLabel" style="@Style" @attributes="AdditionalAttributes">
     <div class="sui-progress-linear__bar" data-sui-style="@ProgressCssomStyle"></div>
 </div>

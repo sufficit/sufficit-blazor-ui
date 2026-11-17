@@ -362,6 +362,24 @@ public sealed class RenderContractFeedbackTests
         Assert.Empty(cut.FindAll(".sui-empty__actions"));
     }
     [Fact]
+    public void LinearProgressUsesInvariantAriaNumbersInPortuguese()
+    {
+        var previousCulture = System.Globalization.CultureInfo.CurrentCulture;
+        try
+        {
+            System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.GetCultureInfo("pt-BR");
+            using var context = new BunitContext();
+            var progress = context.Render<SUIProgressLinear>(p => p.Add(x => x.Value, 16.5));
+
+            Assert.Equal("16.5", progress.Find("[role=progressbar]").GetAttribute("aria-valuenow"));
+        }
+        finally
+        {
+            System.Globalization.CultureInfo.CurrentCulture = previousCulture;
+        }
+    }
+
+    [Fact]
     public void LinearProgressSwitchesBetweenKnownAndUnknownWithoutFalsePercentages()
     {
         using var context = new BunitContext();
