@@ -1,12 +1,20 @@
 @inherits DemoBase
 <SUIStack>
     <SUITextField TValue="string" Label="Nome" @bind-Value="Text" />
+    <SUITextField TValue="string" Label="Observações" Multiline Immediate Rows="3" @bind-Value="Notes" />
+    <SUIStack Row Wrap>
+        <SUIButton OnClick="RestoreNotes">Restaurar observações</SUIButton>
+        <SUIButton VariantValue="SUIVariant.Outlined" OnClick="ClearNotes">Limpar observações</SUIButton>
+    </SUIStack>
     <SUITextField TValue="DateOnly?" Label="Data editável" InputType="date" @bind-Value="NativeDate" />
     <SUITextField TValue="TimeSpan?" Label="Horário editável" InputType="time" step="any" @bind-Value="NativeClock" />
     <SUITextField TValue="decimal" Label="Fração" InputType="range" min="0" max="1" step="0.05" Immediate="true" @bind-Value="NativeRange" />
     <output data-testid="native-temporal-values">@NativeDate?.ToString("yyyy-MM-dd")|@NativeClock?.ToString("c")|@NativeRange.ToString(System.Globalization.CultureInfo.InvariantCulture)</output>
 </SUIStack>
 @code {
+    private string Notes = "Texto original";
+    private void RestoreNotes() => Notes = "Texto recuperado";
+    private void ClearNotes() => Notes = string.Empty;
     private DateOnly? NativeDate = new(2026, 8, 1);
     private TimeSpan? NativeClock = new(9, 30, 0);
     private decimal NativeRange = .4m;

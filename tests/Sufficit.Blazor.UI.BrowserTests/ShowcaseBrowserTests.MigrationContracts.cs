@@ -120,4 +120,35 @@ public sealed partial class ShowcaseBrowserTests
         await Expect(clock).ToHaveValueAsync("10:45:12.25");
     }
 
+    [TestCase(390)]
+    [TestCase(1280)]
+    public async Task MultilineParentRestoreAndClearReplaceTheUsersDirtyValue(int width)
+    {
+        await Page.SetViewportSizeAsync(width, 1000);
+        await OpenMigrationExample("SUITextField");
+        var preview = Page.Locator(".component-preview");
+        var notes = preview.GetByLabel("Observações", new() { Exact = true });
+        await notes.FillAsync("Texto digitado pelo usuário");
+        await preview.GetByRole(AriaRole.Button, new() { Name = "Restaurar observações", Exact = true }).ClickAsync();
+        await Expect(notes).ToHaveValueAsync("Texto recuperado");
+        await notes.FillAsync("Outra edição");
+        await preview.GetByRole(AriaRole.Button, new() { Name = "Limpar observações", Exact = true }).ClickAsync();
+        await Expect(notes).ToHaveValueAsync(string.Empty);
+    }
+
+    [TestCase(390)]
+    [TestCase(1280)]
+    public async Task MobileTableRulesDoNotChangeAnUnstackedNestedTable(int width)
+    {
+        await Page.SetViewportSizeAsync(width, 1000);
+        await OpenMigrationExample("SUITable");
+        var owner = Page.GetByTestId("nested-table-owner");
+        var nested = Page.GetByTestId("nested-table-child");
+        Assert.That(await nested.Locator("tbody td").First.EvaluateAsync<string>("cell => getComputedStyle(cell).display"), Is.EqualTo("table-cell"));
+        Assert.That(await nested.Locator("thead").EvaluateAsync<string>("head => getComputedStyle(head).position"), Is.EqualTo("static"));
+        Assert.That(await owner.Locator(":scope > tbody > tr > td").First.EvaluateAsync<string>("cell => getComputedStyle(cell).display"), Is.EqualTo(width < 600 ? "grid" : "table-cell"));
+        var cell = await nested.Locator("tbody td").First.BoundingBoxAsync();
+        Assert.That(cell!.Height, Is.LessThan(100));
+    }
+
 }

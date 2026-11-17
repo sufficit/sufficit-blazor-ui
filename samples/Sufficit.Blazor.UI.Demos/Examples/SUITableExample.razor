@@ -8,3 +8,21 @@
 <SUITd DataLabel="Serviço">@row</SUITd>
 </RowTemplate>
 </SUITable>
+
+<SUISection Title="Detalhes dentro de uma tabela">
+    <SUITable TItem="string" Items="@(Rows.Take(1))" StackOnMobile data-testid="nested-table-owner">
+        <HeaderContent><th>Grupo</th><th>Referências</th></HeaderContent>
+        <RowTemplate Context="group">
+            <td data-label="Grupo">@group</td>
+            <td data-label="Referências">
+                <SUITable TItem="string" Items="NestedRows" data-testid="nested-table-child">
+                    <HeaderContent><th>Referência técnica</th></HeaderContent>
+                    <RowTemplate Context="reference"><td>@reference</td></RowTemplate>
+                </SUITable>
+            </td>
+        </RowTemplate>
+    </SUITable>
+</SUISection>
+@code {
+    private readonly string[] NestedRows = ["9934183e-8e27-11ea-a3dc-061589540433", "Referência adicional"];
+}
