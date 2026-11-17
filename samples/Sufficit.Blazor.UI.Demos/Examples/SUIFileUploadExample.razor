@@ -6,3 +6,13 @@
 @code {
     private IBrowserFile? SelectedFile;
 }
+
+<SUIFileUpload Label="Arquivos de áudio" Multiple MaxFiles="3" Accept=".wav,.mp3"
+               MaxFileSize="20971520" HelperText="Até 3 arquivos de 20 MB por seleção. Selecionar não envia nem lê os arquivos."
+               @bind-Files="SelectedFiles" />
+<SUIButton Disabled="@(SelectedFiles.Count == 0)" OnClick="ClearFiles">Descartar arquivos</SUIButton>
+<SUIText data-testid="selected-file-names">@string.Join(", ", SelectedFiles.Select(file => file.Name))</SUIText>
+@code {
+    private IReadOnlyList<IBrowserFile> SelectedFiles = [];
+    private void ClearFiles() => SelectedFiles = [];
+}

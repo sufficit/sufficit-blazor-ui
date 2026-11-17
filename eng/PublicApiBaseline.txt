@@ -1256,8 +1256,12 @@ P|Sufficit.Blazor.UI.Components.SUIExpansionPanel|System.String|StartIcon|[]|get
 P|Sufficit.Blazor.UI.Components.SUIExpansionPanel|System.String|Subtitle|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIExpansionPanel|System.String|Title|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIFileUpload|Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Forms.IBrowserFile>|ValueChanged|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIFileUpload|Microsoft.AspNetCore.Components.EventCallback<System.Collections.Generic.IReadOnlyList<Microsoft.AspNetCore.Components.Forms.IBrowserFile>>|FilesChanged|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIFileUpload|Microsoft.AspNetCore.Components.Forms.IBrowserFile|Value|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIFileUpload|System.Boolean|Disabled|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIFileUpload|System.Boolean|Multiple|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIFileUpload|System.Collections.Generic.IReadOnlyList<Microsoft.AspNetCore.Components.Forms.IBrowserFile>|Files|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIFileUpload|System.Int32|MaxFiles|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIFileUpload|System.Nullable<System.Int64>|MaxFileSize|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIFileUpload|System.String|Accept|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIFileUpload|System.String|ChooseText|[]|get;set;
@@ -1267,6 +1271,7 @@ P|Sufficit.Blazor.UI.Components.SUIFileUpload|System.String|FileTooLargeText|[]|
 P|Sufficit.Blazor.UI.Components.SUIFileUpload|System.String|HelperText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIFileUpload|System.String|Id|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIFileUpload|System.String|Label|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIFileUpload|System.String|TooManyFilesText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIFilterContext|System.Boolean|IsFiltering|[]|get;
 P|Sufficit.Blazor.UI.Components.SUIFilterContext|System.String|FilterText|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIFilterScope|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;

@@ -151,4 +151,25 @@ public sealed partial class ShowcaseBrowserTests
         Assert.That(cell!.Height, Is.LessThan(100));
     }
 
+    [TestCase(390)]
+    [TestCase(1280)]
+    public async Task MultipleFileSelectionClearsAndRejectsCountOverflowWithoutUploading(int width)
+    {
+        await Page.SetViewportSizeAsync(width, 1000);
+        await OpenMigrationExample("SUIFileUpload");
+        var preview = Page.Locator(".component-preview");
+        var input = preview.GetByLabel("Arquivos de áudio", new() { Exact = true });
+        FilePayload File(string name) => new() { Name = name, MimeType = "audio/wav", Buffer = [0, 1] };
+        await input.SetInputFilesAsync(new[] { File("a.wav"), File("b.wav") });
+        await Expect(preview.GetByTestId("selected-file-names")).ToHaveTextAsync("a.wav, b.wav");
+        await preview.GetByRole(AriaRole.Button, new() { Name = "Descartar arquivos", Exact = true }).ClickAsync();
+        await Expect(preview.GetByTestId("selected-file-names")).ToBeEmptyAsync();
+        Assert.That(await input.EvaluateAsync<int>("input => input.files.length"), Is.Zero);
+        await input.SetInputFilesAsync(new[] { File("a.wav"), File("b.wav"), File("c.wav"), File("d.wav") });
+        await Expect(preview.GetByRole(AriaRole.Alert)).ToHaveTextAsync("O número de arquivos excede o limite permitido.");
+        await Expect(preview.GetByTestId("selected-file-names")).ToBeEmptyAsync();
+        await input.SetInputFilesAsync(File("c.wav"));
+        await Expect(preview.GetByTestId("selected-file-names")).ToHaveTextAsync("c.wav");
+    }
+
 }
