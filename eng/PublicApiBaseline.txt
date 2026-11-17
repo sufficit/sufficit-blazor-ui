@@ -1603,6 +1603,7 @@ P|Sufficit.Blazor.UI.Components.SUIStatusBanner|System.String|AriaLive|[]|get;se
 P|Sufficit.Blazor.UI.Components.SUIStatusBanner|System.String|Description|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIStatusBanner|System.String|Title|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIStat|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIStat|Microsoft.AspNetCore.Components.RenderFragment|ValueContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIStat|Sufficit.Blazor.UI.Components.SUIColor|ColorValue|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIStat|Sufficit.Blazor.UI.Components.SUIStatAppearance|Appearance|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIStat|System.Boolean|HigherIsBetter|[]|get;set;

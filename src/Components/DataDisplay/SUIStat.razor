@@ -21,7 +21,10 @@
         }
         else
         {
-        <SUIText Typo="SUITypo.h5" Tag="SUITextTag.Div" Class="sui-stat__value"><span @key="_changes" class="@(_changes > 0 && (Has(SUIAnimation.ValueChange) || Has(SUIAnimation.ValueGlow)) ? "sui-stat__number sui-stat__number--changed" : "sui-stat__number")">@_shown</span>@if (!string.IsNullOrWhiteSpace(Unit)) { <span class="sui-stat__unit">@Unit</span> }</SUIText>
+        <SUIText Typo="SUITypo.h5" Tag="SUITextTag.Div" Class="sui-stat__value">@if (ValueContent is not null)
+            { @ValueContent }
+            else
+            { <span @key="_changes" class="@(_changes > 0 && (Has(SUIAnimation.ValueChange) || Has(SUIAnimation.ValueGlow)) ? "sui-stat__number sui-stat__number--changed" : "sui-stat__number")">@_shown</span> }@if (!string.IsNullOrWhiteSpace(Unit)) { <span class="sui-stat__unit">@Unit</span> }</SUIText>
         <SUIText Typo="SUITypo.caption" Color="@(Bold ? SUIColor.Inherit : SUIColor.Default)" Class="sui-stat__label">@Label</SUIText>
         @if (!string.IsNullOrWhiteSpace(Delta) || !string.IsNullOrWhiteSpace(Caption))
         {
@@ -56,6 +59,8 @@
 @code {
     /// <summary>Headline number, already formatted (e.g. "1,2 mil", "15 s").</summary>
     [Parameter] public string? Value { get; set; }
+    /// <summary>Rich headline value. Overrides Value while retaining Unit, loading and the label; no numeric tween is inferred for a fragment.</summary>
+    [Parameter] public RenderFragment? ValueContent { get; set; }
     /// <summary>Small suffix shown after the value (e.g. "/20", "%").</summary>
     [Parameter] public string? Unit { get; set; }
     /// <summary>What the number measures.</summary>
@@ -95,6 +100,12 @@
 
     protected override void OnParametersSet()
     {
+        if (ValueContent is not null)
+        {
+            _tween?.Cancel();
+            _shown = _last = Value;
+            return;
+        }
         if (_last is null) { _shown = _last = Value; return; }
         if (Value == _last) return;
         var from = _last; _last = Value; _changes++;
