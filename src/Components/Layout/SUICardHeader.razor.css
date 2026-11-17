@@ -56,6 +56,13 @@
 .sui-card__header-meta + .sui-card__header-actions { margin-inline-start: 0; }
 
 @media (max-width: 599.98px) {
+    .sui-card__header { flex-wrap: wrap; align-items: flex-start; }
+    .sui-card__header-copy { flex: 1 1 0; overflow-wrap: anywhere; }
     .sui-card__header-meta,
-    .sui-card__header-actions { margin-inline-start: auto; }
+    .sui-card__header-actions {
+        flex: 1 0 100%;
+        margin-inline-start: 0;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+    }
 }
