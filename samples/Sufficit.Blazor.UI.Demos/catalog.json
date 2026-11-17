@@ -3517,7 +3517,7 @@
   {
     "name": "SUIAutocomplete",
     "family": "Formulários",
-    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIAutocomplete TValue=\"string\" Label=\"Cidade\" SearchFuncAsync=\"Search\" MinCharacters=\"1\" Placeholder=\"Digite para buscar\" Clearable />\n\n@code {\n    protected string[] Cities { get; } = [\"São Paulo\", \"Rio de Janeiro\", \"Curitiba\", \"Porto Alegre\"];\n    protected async Task<IEnumerable<string>> Search(string text, CancellationToken token)\n    {\n        await Task.Delay(150, token);\n        return Cities.Where(city => city.Contains(text, StringComparison.OrdinalIgnoreCase));\n    }\n}\n",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIAutocomplete TValue=\"string\" Label=\"Cidade\" SearchFuncAsync=\"Search\" MinCharacters=\"1\" Placeholder=\"Digite para buscar\" Clearable />\n\n<SUIAutocomplete TValue=\"string\" Label=\"Selected customer (read-only)\" Value=\"@(\"Sufficit\")\" ReadOnly=\"true\" />\n\n@code {\n    protected string[] Cities { get; } = [\"São Paulo\", \"Rio de Janeiro\", \"Curitiba\", \"Porto Alegre\"];\n    protected async Task<IEnumerable<string>> Search(string text, CancellationToken token)\n    {\n        await Task.Delay(150, token);\n        return Cities.Where(city => city.Contains(text, StringComparison.OrdinalIgnoreCase));\n    }\n}\n",
     "parameters": [
       {
         "description": "Field expression used to bind validation messages from the surrounding EditContext.",
@@ -3674,6 +3674,14 @@
       {
         "description": "Disables the input, cancels a pending search and closes the list.",
         "name": "Disabled",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Keeps the selected display text focusable and copyable, without search, selection or clearing. Cancels pending search when enabled.",
+        "name": "ReadOnly",
         "type": "bool",
         "default": "Padrão do tipo",
         "required": false,

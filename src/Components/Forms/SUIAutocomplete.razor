@@ -29,7 +29,7 @@
                @onfocus="OnFocus"
                @onkeydown="OnKeyDownAsync"
                placeholder="@Placeholder"
-               disabled="@Disabled" />
+               disabled="@Disabled" readonly="@ReadOnly" aria-readonly="@(ReadOnly ? "true" : null)" />
         @* The text box holds display text, not the chosen value; a plain HTML
            form only sees the selection through this proxy. *@
         @if (!string.IsNullOrWhiteSpace(Name))

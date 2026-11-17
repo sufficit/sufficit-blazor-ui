@@ -1039,6 +1039,7 @@ P|Sufficit.Blazor.UI.Components.SUIAutocomplete<`0:TValue>|Microsoft.AspNetCore.
 P|Sufficit.Blazor.UI.Components.SUIAutocomplete<`0:TValue>|System.Boolean|Clearable|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIAutocomplete<`0:TValue>|System.Boolean|Disabled|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIAutocomplete<`0:TValue>|System.Boolean|Invalid|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIAutocomplete<`0:TValue>|System.Boolean|ReadOnly|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIAutocomplete<`0:TValue>|System.Collections.Generic.Dictionary<System.String,System.Object>|UserAttributes|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIAutocomplete<`0:TValue>|System.Func<System.String,System.Threading.CancellationToken,System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<`0:TValue>>>|SearchFuncAsync|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIAutocomplete<`0:TValue>|System.Func<System.String,System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<`0:TValue>>>|SearchFunc|[]|get;set;

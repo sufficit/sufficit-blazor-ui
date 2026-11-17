@@ -93,6 +93,9 @@ public partial class SUIAutocomplete<TValue>
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>Keeps the selected display text focusable and copyable, without search, selection or clearing. Cancels pending search when enabled.</summary>
+    [Parameter] public bool ReadOnly { get; set; }
+
     /// <summary>Shows a clear button while the input has text or a value.</summary>
     [Parameter]
     public bool Clearable { get; set; }
@@ -155,7 +158,7 @@ public partial class SUIAutocomplete<TValue>
             ? OptionId(_activeIndex)
             : null;
     private bool CanClear
-        => Clearable && !Disabled && (!string.IsNullOrEmpty(_query) || Value is not null);
+        => Clearable && !Disabled && !ReadOnly && (!string.IsNullOrEmpty(_query) || Value is not null);
     private string? DescribedBy
     {
         get
@@ -203,16 +206,24 @@ public partial class SUIAutocomplete<TValue>
             _valueInitialized = true;
         }
 
-        if (Disabled)
+        if (Disabled || ReadOnly)
         {
             CancelPendingSearch();
             _loading = false;
             _open = false;
+            if (ReadOnly)
+            {
+                _query = Value is null ? string.Empty : ToDisplayString(Value);
+                _items.Clear();
+                _activeIndex = -1;
+                _searchError = null;
+            }
         }
     }
 
     private async Task OnInputAsync(ChangeEventArgs args)
     {
+        if (Disabled || ReadOnly) return;
         _query = args.Value?.ToString() ?? string.Empty;
         CancelPendingSearch();
         _items.Clear();
@@ -277,7 +288,7 @@ public partial class SUIAutocomplete<TValue>
     private void OnFocus()
     {
         _focusVersion++;
-        if (!Disabled && (_items.Count > 0 || _loading || !string.IsNullOrWhiteSpace(_searchError)))
+        if (!Disabled && !ReadOnly && (_items.Count > 0 || _loading || !string.IsNullOrWhiteSpace(_searchError)))
         {
             _open = true;
         }
@@ -285,7 +296,7 @@ public partial class SUIAutocomplete<TValue>
 
     private async Task OnKeyDownAsync(KeyboardEventArgs args)
     {
-        if (Disabled || args.CtrlKey || args.MetaKey || args.AltKey)
+        if (Disabled || ReadOnly || args.CtrlKey || args.MetaKey || args.AltKey)
         {
             return;
         }
@@ -348,7 +359,7 @@ public partial class SUIAutocomplete<TValue>
 
     private async Task SelectAsync(TValue item)
     {
-        if (Disabled) return;
+        if (Disabled || ReadOnly) return;
         CancelPendingSearch();
         _query = ToDisplayString(item);
         _observedValue = item;
@@ -360,6 +371,7 @@ public partial class SUIAutocomplete<TValue>
 
     private async Task ClearAsync()
     {
+        if (Disabled || ReadOnly) return;
         CancelPendingSearch();
         _query = string.Empty;
         _items.Clear();
