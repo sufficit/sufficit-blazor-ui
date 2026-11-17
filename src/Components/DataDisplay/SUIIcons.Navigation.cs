@@ -36,6 +36,15 @@ public static partial class SUIIcons
     /// <summary>Operational health and monitoring.</summary>
     public const string Activity = "<path d=\"M2 12h5l3-8 4 16 3-8h5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>";
 
+    /// <summary>QR pairing.</summary>
+    public const string QrCode = "<path d=\"M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h3v3h4M14 21h3m4-7v1m0 5v1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>";
+
+    /// <summary>Light theme.</summary>
+    public const string Sun = "<path d=\"M12 3v2m0 14v2M3 12h2m14 0h2M5.6 5.6 7 7m10 10 1.4 1.4M5.6 18.4 7 17m10-10 1.4-1.4M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>";
+
+    /// <summary>Dark theme.</summary>
+    public const string Moon = "<path d=\"M20.3 15A8.6 8.6 0 0 1 9 3.7 8.6 8.6 0 1 0 20.3 15Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>";
+
     /// <summary>Text message or notification.</summary>
     public const string Message = "<path d=\"M3 4h18v14H8l-5 4ZM7 8h10M7 12h7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>";
 

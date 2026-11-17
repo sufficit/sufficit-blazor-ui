@@ -342,6 +342,7 @@ F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Login
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Logout
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Menu
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Message
+F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Moon
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Network
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Package
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Palette
@@ -354,6 +355,7 @@ F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|PhoneForward
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|PhoneIncoming
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Play
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|ProgressCircular
+F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|QrCode
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Radar
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Radiation
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Receipt
@@ -375,6 +377,7 @@ F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|StarOutline
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Stop
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Storage
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Store
+F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Sun
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Swap
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Terminal
 F|Sufficit.Blazor.UI.Components.SUIIcons|System.String|Timer
