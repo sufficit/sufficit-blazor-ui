@@ -70,6 +70,11 @@ export function openDialog(dialog, dotNetReference) {
 
     const onKeyDown = event => {
         if (event.key === 'Escape') {
+            // A nested date field or select handles Escape before the dialog.
+            if (dialog.querySelector('[popover]:popover-open')) {
+                return;
+            }
+
             event.preventDefault();
             event.stopPropagation();
             void dotNetReference.invokeMethodAsync('DismissFromKeyboardAsync');
