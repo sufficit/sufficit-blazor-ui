@@ -15,6 +15,23 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>Stable value written to the URL when the parent <see cref="SUITabs.QueryKey"/> is set. Defaults to the
+    /// title without counters or accents ("Parâmetros (2)" → "parametros").</summary>
+    [Parameter]
+    public string? Key { get; set; }
+
+    internal string Slug => !string.IsNullOrWhiteSpace(Key) ? Key!.Trim() : ToSlug(Text);
+
+    public static string ToSlug(string? text)
+    {
+        var value = System.Text.RegularExpressions.Regex.Replace(text ?? string.Empty, @"\s*\([^)]*\)\s*$", string.Empty);
+        var plain = new System.Text.StringBuilder();
+        foreach (var c in value.Normalize(System.Text.NormalizationForm.FormD))
+            if (System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) != System.Globalization.UnicodeCategory.NonSpacingMark)
+                plain.Append(char.ToLowerInvariant(c));
+        return System.Text.RegularExpressions.Regex.Replace(plain.ToString(), "[^a-z0-9]+", "-").Trim('-');
+    }
+
     protected override void OnInitialized() => _parent?.Register(this);
 
     public void Dispose() => _parent?.Unregister(this);
