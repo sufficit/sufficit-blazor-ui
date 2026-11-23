@@ -32,6 +32,11 @@ for component in sorted((root/'src').rglob('*.razor')):
     if not example.exists(): raise SystemExit(f'Missing executable example: {name}')
     source = component.read_text()
     if component.with_suffix('.razor.cs').exists(): source += '\n'+component.with_suffix('.razor.cs').read_text()
+    # Large components split their code-behind into named partials
+    # (SUITabs.Query.cs, SUIDateField.Calendar.cs); their parameters belong
+    # to the same public surface.
+    for partial in sorted(component.parent.glob(name+'.*.cs')):
+        if partial.name != name+'.razor.cs': source += '\n'+partial.read_text()
     # @inherits SUIComponentBase moves Class/Style/AdditionalAttributes to the
     # shared base. The catalog describes the public component surface, including
     # inherited parameters, not just declarations in the Razor file. The

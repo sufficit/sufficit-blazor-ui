@@ -7842,6 +7842,14 @@
         "deprecated": false
       },
       {
+        "description": "When set, the active tab is kept in this query parameter (e.g. \"tab\"), so a refresh or a shared link reopens the same tab. Values are the panels' SUITabPanel.Key (or their title slug).",
+        "name": "QueryKey",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",
