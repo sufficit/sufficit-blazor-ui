@@ -30,7 +30,7 @@ input { caret-color: var(--sui-color-primary); }
 .nav-family { margin-top: 1.4rem; }
 .nav-family h2 { font-size: .8rem; font-weight: 500; padding-inline: .65rem; margin: 0 0 .35rem; color: var(--sui-text-primary); }
 .document { padding: 3.5rem clamp(1.5rem, 4vw, 5rem); min-width: 0; max-width: 1200px; }
-h1 { font-size: clamp(2rem, 3.1vw, 3rem); font-weight: 700; line-height: 1.13; letter-spacing: -.035em; margin: 0 0 1.3rem; overflow-wrap: anywhere; }
+h1 { font-size: clamp(2rem, 3.1vw, 3rem); font-weight: 600; line-height: 1.13; letter-spacing: -.035em; margin: 0 0 1.3rem; overflow-wrap: anywhere; }
 h2 { font-size: 1.35rem; font-weight: 600; line-height: 1.3; letter-spacing: -.02em; }
 h3 { font-size: 1rem; font-weight: 500; }
 p { color: var(--sui-text-secondary); max-width: 70ch; }

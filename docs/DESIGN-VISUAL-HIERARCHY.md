@@ -21,7 +21,7 @@ o peso e a posição — não o gosto de quem escreveu.
 
 | # | Papel | O que responde | Forma |
 | --- | --- | --- | --- |
-| 1 | **Resposta** | "O que é isto?" | Maior de todos, peso 700. Sozinho no topo |
+| 1 | **Resposta** | "O que é isto?" | Maior de todos, peso 600 (o tamanho separa, não o peso). Sozinho no topo |
 | 2 | **Título do painel** | "De que assunto é este cartão?" | `h6`, peso 600 |
 | 3 | **Título de seção** | "Onde eu estou dentro do cartão?" | **Menor de todos**, 700, caixa alta, espaçado |
 | 4 | **Rótulo** | "O que é este campo?" | Pequeno, cor secundária |

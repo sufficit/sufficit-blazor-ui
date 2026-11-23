@@ -28,7 +28,7 @@
   gap: var(--sui-space-3);
   margin-bottom: var(--sui-space-3);
 }
-.sui-dialog__title { margin: 0; font-size: var(--sui-fs-h6); font-weight: 700; color: var(--sui-text-primary); }
+.sui-dialog__title { margin: 0; font-size: var(--sui-fs-h6); font-weight: 600; color: var(--sui-text-primary); }
 .sui-dialog__close {
   background: transparent; border: none; color: var(--sui-text-secondary);
   cursor: pointer; padding: 2px; border-radius: var(--sui-radius-sm); display: inline-flex;

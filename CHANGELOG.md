@@ -16,6 +16,12 @@ definem a numeração das próximas publicações.
   trabalham juntos", no trailing period), sidebar and labels drop to weights
   400-600, and the secondary hero links use the primary text colour so the
   brand accent stays on the main call to action.
+- Heading weights drop from 700 to 600: `sui-text--h1`/`h2`, display,
+  headline, title, dialog title and status banner title/action. Size and
+  colour carry the hierarchy; `DESIGN-VISUAL-HIERARCHY.md` row 1 updated.
+- Rail flyout title is sentence case at 600 without tracking (was uppercase
+  700 with .04em). Card section titles and the `overline` variant keep their
+  uppercase as documented species markers.
 
 ### Added
 - `SUITextField.Revealable`: a `password` field gains an eye toggle at the
