@@ -916,6 +916,7 @@ M|Sufficit.Blazor.UI.Components.SUISlidingTabs|System.Threading.Tasks.ValueTask|
 M|Sufficit.Blazor.UI.Components.SUIStat|System.Void|Dispose|()
 M|Sufficit.Blazor.UI.Components.SUISwitchButton|System.Void|Dispose|()
 M|Sufficit.Blazor.UI.Components.SUISwitch|System.Void|Dispose|()
+M|Sufficit.Blazor.UI.Components.SUITabPanel|System.String|ToSlug|(System.String)
 M|Sufficit.Blazor.UI.Components.SUITabPanel|System.Void|Dispose|()
 M|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|System.Threading.Tasks.ValueTask|DisposeAsync|()
 M|Sufficit.Blazor.UI.Components.SUITablePage<`0:TItem>|Sufficit.Blazor.UI.Components.SUITablePage<`0:TItem>|<Clone>$|()
@@ -1647,6 +1648,7 @@ P|Sufficit.Blazor.UI.Components.SUISwitch|System.String|Id|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISwitch|System.String|Label|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUISwitch|System.String|Name|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITabPanel|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITabPanel|System.String|Key|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITabPanel|System.String|Text|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|Microsoft.AspNetCore.Components.EventCallback<`0:TItem>|OnRowClick|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITable<`0:TItem>|Microsoft.AspNetCore.Components.RenderFragment<`0:TItem>|RowTemplate|[]|get;set;
@@ -1696,6 +1698,7 @@ P|Sufficit.Blazor.UI.Components.SUITabs|System.Boolean|Vertical|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITabs|System.Int32|ActiveIndex|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITabs|System.String|AriaLabel|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITabs|System.String|Id|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUITabs|System.String|QueryKey|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITd|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITd|System.Collections.Generic.Dictionary<System.String,System.Object>|UserAttributes|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUITd|System.String|DataLabel|[]|get;set;
