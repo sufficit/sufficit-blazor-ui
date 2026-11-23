@@ -8,6 +8,15 @@ definem a numeração das próximas publicações.
 
 ## [Unreleased]
 
+### Changed
+- `.sui-field__helper` is no longer italic. Helper text reads as secondary
+  copy through size and colour only; italic was the one place the library
+  used slant for emphasis. Spacing, size and `aria-describedby` are unchanged.
+- Showcase home: headline names the library ("Componentes Blazor que
+  trabalham juntos", no trailing period), sidebar and labels drop to weights
+  400-600, and the secondary hero links use the primary text colour so the
+  brand accent stays on the main call to action.
+
 ### Added
 - `SUITextField.Revealable`: a `password` field gains an eye toggle at the
   inline end that switches the input to `text` and back (`aria-pressed`,

@@ -311,7 +311,7 @@
 /* Shared helper rhythm: the field gap supplies separation from the control.
    Keep all field helpers together here; applications can override this class.
    Error messages retain their separate visual emphasis. */
-.sui-field__helper { margin-top: 0; padding-left: var(--sui-space-3); font-size: calc(var(--sui-fs-caption) * .92); font-style: italic; color: var(--sui-text-secondary); }
+.sui-field__helper { margin-top: 0; padding-left: var(--sui-space-3); font-size: calc(var(--sui-fs-caption) * .92); color: var(--sui-text-secondary); }
 /* Warning shares the error rhythm; only the tone differs (never aria-invalid). */
 .sui-field__error, .sui-field__warning { margin-top: var(--sui-space-1); padding-left: var(--sui-space-3); font-size: var(--sui-fs-caption); font-weight: 600; color: var(--sui-color-error); }
 .sui-field__warning { color: var(--sui-color-warning); }

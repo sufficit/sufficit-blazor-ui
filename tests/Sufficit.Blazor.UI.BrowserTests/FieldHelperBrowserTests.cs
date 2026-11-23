@@ -41,7 +41,7 @@ public sealed class FieldHelperBrowserTests : PageTest
             var controlBox = (await control.BoundingBoxAsync())!;
             Assert.That(helperBox.Y - controlBox.Y - controlBox.Height, Is.EqualTo(gap).Within(.1));
             Assert.That(await helper.EvaluateAsync<double>("el => parseFloat(getComputedStyle(el).fontSize)"), Is.EqualTo(fontSize).Within(.01));
-            Assert.That(await helper.EvaluateAsync<string>("el => getComputedStyle(el).fontStyle"), Is.EqualTo("italic"));
+            Assert.That(await helper.EvaluateAsync<string>("el => getComputedStyle(el).fontStyle"), Is.EqualTo("normal"));
             var id = await helper.GetAttributeAsync("id");
             Assert.That((await control.GetAttributeAsync("aria-describedby"))?.Split(' '), Does.Contain(id));
         }

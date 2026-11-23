@@ -7755,6 +7755,14 @@
         "deprecated": false
       },
       {
+        "description": "Stable value written to the URL when the parent SUITabs.QueryKey is set. Defaults to the title without counters or accents (\"Parâmetros (2)\" → \"parametros\").",
+        "name": "Key",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
         "description": "Optional user CSS classes appended to component-owned classes.",
         "name": "Class",
         "type": "string?",
@@ -7829,6 +7837,14 @@
         "description": "",
         "name": "ActiveIndexChanged",
         "type": "EventCallback<int>",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "When set, the active tab is kept in this query parameter (e.g. \"tab\"), so a refresh or a shared link reopens the same tab. Values are the panels' SUITabPanel.Key (or their title slug).",
+        "name": "QueryKey",
+        "type": "string?",
         "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
