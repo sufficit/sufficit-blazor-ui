@@ -14,6 +14,7 @@ nenhuma biblioteca visual de terceiros nem contém código-fonte vendorizado.
 - Distribuição: pacote NuGet e `ProjectReference` local.
 - Namespace dos componentes: `Sufficit.Blazor.UI.Components`.
 - Namespace de temas: `Sufficit.Blazor.UI.Themes`.
+- Namespace de artes geradas: `Sufficit.Blazor.UI.Artwork`.
 
 A linha de desenvolvimento atual é `net10.0`-only. A retirada de um TFM exige
 migração explícita dos consumidores. O número do pacote segue o calendário
@@ -176,7 +177,7 @@ para `Primary`/`PrimaryContrast` e preserva temas existentes.
 
 **[Abrir a vitrine publicada](https://sufficit.github.io/sufficit-blazor-ui/)**
 
-A vitrine em `samples/Sufficit.Blazor.UI.Showcase` executa os **84 componentes**
+A vitrine em `samples/Sufficit.Blazor.UI.Showcase` executa os **85 componentes**
 em Blazor WebAssembly. Inclui busca, exemplos Razor copiáveis, parâmetros
 públicos, composições e editor de temas claro/escuro/sistema com persistência,
 três paletas, duas densidades e exportação C#. Todos os dados são locais.
@@ -200,7 +201,7 @@ NavGroup, Dialog e ThemeProvider ficam em
 
 Todos os componentes públicos usam o prefixo `SUI`. A tabela abaixo é
 derivada de `src/Components/<Família>/` e conferida por
-`ReadmeCatalogTests`; `SUIThemeProvider` vive em `src/Themes`.
+`ReadmeCatalogTests`; `SUIThemeProvider` vive em `src/Themes` e `SUIArtwork` em `src/Artwork`.
 
 | Família | Componentes |
 | --- | --- |
@@ -211,6 +212,32 @@ derivada de `src/Components/<Família>/` e conferida por
 | Exibição de dados | `SUIAudioPlayer`, `SUIAvatar`, `SUIChip`, `SUIDataTable`, `SUIDateTime`, `SUIIcon`, `SUIList`, `SUIListItem`, `SUIPagination`, `SUIRecordTable`, `SUIStat`, `SUITable`, `SUITableEmpty`, `SUITableSortLabel`, `SUITd`, `SUIText`, `SUITh`, `SUITimeline`, `SUITimelineItem` |
 | Feedback | `SUIAlert`, `SUIEmptyState`, `SUIExpansionPanel`, `SUIPendingChangesBar`, `SUIProgressCircular`, `SUIProgressLinear`, `SUISkeletonLoader`, `SUISnackbarHost`, `SUIStatusBadge`, `SUIStatusBanner`, `SUIToast`, `SUIToastHost` |
 | Overlays | `SUIConfirmDialog`, `SUIDecisionDialog`, `SUIDialogHost`, `SUIMenu`, `SUIPopover`, `SUIPopup`, `SUITooltip` |
+
+### Artwork (fora do catálogo de controles)
+
+`SUIArtwork` não é um controle: é uma camada decorativa desenhada por
+matemática (SVG inline, sem arquivo de imagem e sem `style` gerado, seguro sob
+CSP estrita), colocada como primeiro filho de uma área de destaque. O elemento
+que a contém vira a caixa de posicionamento e recorte, e os outros filhos ficam
+por cima. Por isso vive em namespace próprio (`Sufficit.Blazor.UI.Artwork`) e
+exige `@using` explícito.
+
+```razor
+@using Sufficit.Blazor.UI.Artwork
+
+<section class="hero">
+    <SUIArtwork Pattern="SUIArtworkPattern.SignalWaves" Calm="SUIArtworkCalm.Adaptive" Peak="0.63" />
+    <h1>Panorama da operação</h1>
+    <SUICard VariantValue="SUIVariant.Glass">…</SUICard>
+</section>
+```
+
+Regras: no máximo um por tela, só em áreas de destaque (hero, login, painel de
+TV), nunca atrás de texto corrido. `Calm` define o lado que fica calmo para o
+texto; cards sobre o desenho usam `SUIVariant.Glass`. As linhas usam a cor de
+texto do elemento que contém a arte e a linha de destaque usa `--sui-primary`.
+O movimento ao passar o ponteiro é desligado sob `prefers-reduced-motion`, e a
+arte some em `forced-colors`.
 
 Enums como `SUIColor`, `SUIVariant`, `SUISize`, `SUIButtonType`, `SUIEdge`,
 `SUITypo`, `SUIAlign`, `SUIOrigin` e `SUITone` evitam dependência de tipos

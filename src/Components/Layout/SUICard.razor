@@ -10,6 +10,10 @@
     [Parameter]
     public int Elevation { get; set; } = 1;
 
+    /// <summary>Surface style. Filled (default) or Glass (translucent and blurred, for cards over SUIArtwork).</summary>
+    [Parameter]
+    public SUIVariant? VariantValue { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -28,6 +32,7 @@
     private string Classname
         => SUIClassBuilder.Default("sui-card")
             .AddClass($"sui-card--e{(Elevation is > 0 and < 4 ? Elevation : 1)}")
+            .AddClass("sui-card--glass", VariantValue == SUIVariant.Glass)
             .AddClass(Class)
             .Build();
 }

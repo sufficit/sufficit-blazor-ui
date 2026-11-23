@@ -358,14 +358,14 @@
     transition: none !important;
     animation: none !important;
   }
-  /* Deliberate exception: a pending spinner is progress feedback, not
-     decoration — it keeps moving, just calm. The shorthand restores every
-     longhand the blanket rule removed; higher specificity and later
-     source win over the equal !important above. */
+  /* Deliberate exception: a pending spinner is progress feedback, not decoration — it keeps
+     moving, just calm. The shorthand restores every longhand the blanket rule removed;
+     higher specificity and later source win over the equal !important above. */
   .sui-btn--pending::after {
     animation: sui-btn-pending-spin 2.4s linear infinite !important;
   }
   .sui-progress-linear--indeterminate .sui-progress-linear__bar { margin-inline: auto; }
+  .sui-artwork.sui-artwork--motion { transform: none; } /* drift would jump without its transition */
 }
 
 /* Windows High Contrast / forced-colors must keep boundaries and keyboard

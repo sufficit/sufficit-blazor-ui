@@ -17,6 +17,7 @@ public sealed class NamingConventionTests
     private static readonly string[] AllowedNamespaces =
     [
         "Sufficit.Blazor.UI",
+        "Sufficit.Blazor.UI.Artwork",
         "Sufficit.Blazor.UI.Components",
         "Sufficit.Blazor.UI.Services",
         "Sufficit.Blazor.UI.Themes",

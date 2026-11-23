@@ -1,0 +1,13 @@
+@using Sufficit.Blazor.UI.Artwork
+@inherits DemoBase
+
+<section style="padding:24px;min-height:240px;border-radius:16px;border:1px solid var(--sui-border)">
+<SUIArtwork Pattern="SUIArtworkPattern.SignalWaves" Calm="SUIArtworkCalm.Adaptive" Peak="0.7" />
+<SUIStack Spacing="4">
+<SUIText Typo="SUITypo.h5">Panorama da operação</SUIText>
+<SUIText>O desenho fica calmo atrás do texto e sobe no lado oposto.</SUIText>
+<SUICard VariantValue="SUIVariant.Glass" Elevation="0">
+<SUIText>Card vidro: o desenho desfoca atrás dele.</SUIText>
+</SUICard>
+</SUIStack>
+</section>

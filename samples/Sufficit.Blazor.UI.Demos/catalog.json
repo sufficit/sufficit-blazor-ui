@@ -1,5 +1,84 @@
 [
   {
+    "name": "SUIArtwork",
+    "family": "Artwork",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n@using Sufficit.Blazor.UI.Artwork\n\n<section style=\"padding:24px;min-height:240px;border-radius:16px;border:1px solid var(--sui-border)\">\n<SUIArtwork Pattern=\"SUIArtworkPattern.SignalWaves\" Calm=\"SUIArtworkCalm.Adaptive\" Peak=\"0.7\" />\n<SUIStack Spacing=\"4\">\n<SUIText Typo=\"SUITypo.h5\">Panorama da operação</SUIText>\n<SUIText>O desenho fica calmo atrás do texto e sobe no lado oposto.</SUIText>\n<SUICard VariantValue=\"SUIVariant.Glass\" Elevation=\"0\">\n<SUIText>Card vidro: o desenho desfoca atrás dele.</SUIText>\n</SUICard>\n</SUIStack>\n</section>\n",
+    "parameters": [
+      {
+        "description": "Generated drawing. Default SignalWaves.",
+        "name": "Pattern",
+        "type": "SUIArtworkPattern",
+        "default": "SUIArtworkPattern.SignalWaves",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Where the drawing stays calm so text sits on quiet space. Default Start.",
+        "name": "Calm",
+        "type": "SUIArtworkCalm",
+        "default": "SUIArtworkCalm.Start",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Horizontal position of the peak, 0.3-0.9 of the width. Default 0.63.",
+        "name": "Peak",
+        "type": "double",
+        "default": "0.63",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Phase seed. The same seed always draws the same picture. Default 0.",
+        "name": "Seed",
+        "type": "int",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Number of lines, 12-64. Default 40.",
+        "name": "Lines",
+        "type": "int",
+        "default": "40",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Drift slightly while the pointer is over the host. Off under reduced motion. Default true.",
+        "name": "Motion",
+        "type": "bool",
+        "default": "true",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": false
+      }
+    ]
+  },
+  {
     "name": "SUIActionGroup",
     "family": "Ações",
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIActionGroup><SUIButton>Editar</SUIButton><SUIButton>Desativar</SUIButton><SUIButton ColorValue=\"SUIColor.Error\">Excluir</SUIButton></SUIActionGroup>\n",
@@ -5845,6 +5924,14 @@
         "name": "Elevation",
         "type": "int",
         "default": "1",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Surface style. Filled (default) or Glass (translucent and blurred, for cards over SUIArtwork).",
+        "name": "VariantValue",
+        "type": "SUIVariant?",
+        "default": "Padrão do tipo",
         "required": false,
         "deprecated": false
       },

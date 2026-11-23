@@ -72,9 +72,13 @@ const budgets = {
   // 2026-11-17: opt-in full-label chip wrapping adds 642 B raw / 114 B gzip /
   // 94 B Brotli. Measured 63,741 / 11,640 / 10,139 B. Only raw crosses the
   // previous ceiling; apply the documented 3% rule rounded to 256 B.
-  raw: 65_792,
-  gzip: 11_776,
-  brotli: 10_240,
+  // 2026-11-23: SUIArtwork (generated decorative layer: host box, calm masks,
+  // hover drift) and the SUICard Glass surface add 1,108 B raw / 186 B gzip /
+  // 188 B Brotli. Measured 64,849 / 11,826 / 10,327 B; documented 3% rule
+  // rounded up to 256 B.
+  raw: 66_816,
+  gzip: 12_288,
+  brotli: 10_752,
 };
 
 const result = bundle({

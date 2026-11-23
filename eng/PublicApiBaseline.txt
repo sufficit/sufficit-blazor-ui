@@ -1,3 +1,6 @@
+B|Sufficit.Blazor.UI.Artwork.SUIArtworkCalm|System.Enum
+B|Sufficit.Blazor.UI.Artwork.SUIArtworkPattern|System.Enum
+B|Sufficit.Blazor.UI.Artwork.SUIArtwork|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIActionGroup|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIAlert|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIAlign|System.Enum
@@ -130,6 +133,7 @@ B|Sufficit.Blazor.UI.Themes.SUITypography|System.Object
 B|Sufficit.Blazor.UI.Utilities.SUIClassBuilder|System.Object
 B|Sufficit.Blazor.UI.Utilities.SUIStyleBuilder|System.Object
 B|Sufficit.Blazor.UI._Imports|System.Object
+C|Sufficit.Blazor.UI.Artwork.SUIArtwork|()
 C|Sufficit.Blazor.UI.Components.SUIActionGroup|()
 C|Sufficit.Blazor.UI.Components.SUIAlert|()
 C|Sufficit.Blazor.UI.Components.SUIAppBar|()
@@ -243,6 +247,12 @@ E|Sufficit.Blazor.UI.Services.ISUIToast|System.Action<Sufficit.Blazor.UI.Service
 E|Sufficit.Blazor.UI.Services.SUIDialogService|System.Action<Sufficit.Blazor.UI.Services.SUIDialogRequest>|OnShow
 E|Sufficit.Blazor.UI.Services.SUISnackbarService|System.Action<Sufficit.Blazor.UI.Services.SUISnackbarEntry>|OnEnqueue
 E|Sufficit.Blazor.UI.Services.SUIToastService|System.Action<Sufficit.Blazor.UI.Services.SUIToastEntry>|OnEnqueue
+F|Sufficit.Blazor.UI.Artwork.SUIArtworkCalm|Sufficit.Blazor.UI.Artwork.SUIArtworkCalm|Adaptive
+F|Sufficit.Blazor.UI.Artwork.SUIArtworkCalm|Sufficit.Blazor.UI.Artwork.SUIArtworkCalm|Start
+F|Sufficit.Blazor.UI.Artwork.SUIArtworkCalm|Sufficit.Blazor.UI.Artwork.SUIArtworkCalm|Top
+F|Sufficit.Blazor.UI.Artwork.SUIArtworkCalm|System.Int32|value__
+F|Sufficit.Blazor.UI.Artwork.SUIArtworkPattern|Sufficit.Blazor.UI.Artwork.SUIArtworkPattern|SignalWaves
+F|Sufficit.Blazor.UI.Artwork.SUIArtworkPattern|System.Int32|value__
 F|Sufficit.Blazor.UI.Components.SUIAlign|Sufficit.Blazor.UI.Components.SUIAlign|Center
 F|Sufficit.Blazor.UI.Components.SUIAlign|Sufficit.Blazor.UI.Components.SUIAlign|End
 F|Sufficit.Blazor.UI.Components.SUIAlign|Sufficit.Blazor.UI.Components.SUIAlign|Justify
@@ -475,6 +485,7 @@ F|Sufficit.Blazor.UI.Components.SUITypo|Sufficit.Blazor.UI.Components.SUITypo|su
 F|Sufficit.Blazor.UI.Components.SUITypo|Sufficit.Blazor.UI.Components.SUITypo|title
 F|Sufficit.Blazor.UI.Components.SUITypo|System.Int32|value__
 F|Sufficit.Blazor.UI.Components.SUIVariant|Sufficit.Blazor.UI.Components.SUIVariant|Filled
+F|Sufficit.Blazor.UI.Components.SUIVariant|Sufficit.Blazor.UI.Components.SUIVariant|Glass
 F|Sufficit.Blazor.UI.Components.SUIVariant|Sufficit.Blazor.UI.Components.SUIVariant|Outlined
 F|Sufficit.Blazor.UI.Components.SUIVariant|Sufficit.Blazor.UI.Components.SUIVariant|Soft
 F|Sufficit.Blazor.UI.Components.SUIVariant|Sufficit.Blazor.UI.Components.SUIVariant|Text
@@ -482,6 +493,17 @@ F|Sufficit.Blazor.UI.Components.SUIVariant|System.Int32|value__
 F|Sufficit.Blazor.UI.Themes.SUIThemeCssWriter|System.String|TokenSelector
 F|Sufficit.Blazor.UI.Themes.SUIThemeProvider|System.String|TokenSelector
 F|Sufficit.Blazor.UI.Utilities.SUIStyleBuilder|System.String|AttributeName
+I|Sufficit.Blazor.UI.Artwork.SUIArtworkCalm|System.IComparable
+I|Sufficit.Blazor.UI.Artwork.SUIArtworkCalm|System.IConvertible
+I|Sufficit.Blazor.UI.Artwork.SUIArtworkCalm|System.IFormattable
+I|Sufficit.Blazor.UI.Artwork.SUIArtworkCalm|System.ISpanFormattable
+I|Sufficit.Blazor.UI.Artwork.SUIArtworkPattern|System.IComparable
+I|Sufficit.Blazor.UI.Artwork.SUIArtworkPattern|System.IConvertible
+I|Sufficit.Blazor.UI.Artwork.SUIArtworkPattern|System.IFormattable
+I|Sufficit.Blazor.UI.Artwork.SUIArtworkPattern|System.ISpanFormattable
+I|Sufficit.Blazor.UI.Artwork.SUIArtwork|Microsoft.AspNetCore.Components.IComponent
+I|Sufficit.Blazor.UI.Artwork.SUIArtwork|Microsoft.AspNetCore.Components.IHandleAfterRender
+I|Sufficit.Blazor.UI.Artwork.SUIArtwork|Microsoft.AspNetCore.Components.IHandleEvent
 I|Sufficit.Blazor.UI.Components.SUIActionGroup|Microsoft.AspNetCore.Components.IComponent
 I|Sufficit.Blazor.UI.Components.SUIActionGroup|Microsoft.AspNetCore.Components.IHandleAfterRender
 I|Sufficit.Blazor.UI.Components.SUIActionGroup|Microsoft.AspNetCore.Components.IHandleEvent
@@ -1019,6 +1041,12 @@ M|Sufficit.Blazor.UI.Utilities.SUIStyleBuilder|Sufficit.Blazor.UI.Utilities.SUIS
 M|Sufficit.Blazor.UI.Utilities.SUIStyleBuilder|System.Boolean|IsSafeProperty|(System.String)
 M|Sufficit.Blazor.UI.Utilities.SUIStyleBuilder|System.Boolean|IsSafeValue|(System.String)
 M|Sufficit.Blazor.UI.Utilities.SUIStyleBuilder|System.String|Build|()
+P|Sufficit.Blazor.UI.Artwork.SUIArtwork|Sufficit.Blazor.UI.Artwork.SUIArtworkCalm|Calm|[]|get;set;
+P|Sufficit.Blazor.UI.Artwork.SUIArtwork|Sufficit.Blazor.UI.Artwork.SUIArtworkPattern|Pattern|[]|get;set;
+P|Sufficit.Blazor.UI.Artwork.SUIArtwork|System.Boolean|Motion|[]|get;set;
+P|Sufficit.Blazor.UI.Artwork.SUIArtwork|System.Double|Peak|[]|get;set;
+P|Sufficit.Blazor.UI.Artwork.SUIArtwork|System.Int32|Lines|[]|get;set;
+P|Sufficit.Blazor.UI.Artwork.SUIArtwork|System.Int32|Seed|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIActionGroup|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIAlert|Microsoft.AspNetCore.Components.EventCallback|OnClose|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIAlert|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
@@ -1111,6 +1139,7 @@ P|Sufficit.Blazor.UI.Components.SUICardHeader|System.String|Title|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICard|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICard|System.Collections.Generic.Dictionary<System.String,System.Object>|Attributes|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICard|System.Int32|Elevation|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUICard|System.Nullable<Sufficit.Blazor.UI.Components.SUIVariant>|VariantValue|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICheckbox|Microsoft.AspNetCore.Components.EventCallback<System.Boolean>|ValueChanged|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICheckbox|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICheckbox|Microsoft.AspNetCore.Components.RenderFragment|HelperContent|[]|get;set;
@@ -1929,6 +1958,7 @@ P|Sufficit.Blazor.UI.Themes.SUITypography|System.String|LineHeightHeadline|[]|ge
 P|Sufficit.Blazor.UI.Themes.SUITypography|System.String|LineHeightLabel|[]|get;set;
 P|Sufficit.Blazor.UI.Themes.SUITypography|System.String|LineHeightMono|[]|get;set;
 P|Sufficit.Blazor.UI.Themes.SUITypography|System.String|LineHeightTitle|[]|get;set;
+T|class|Sufficit.Blazor.UI.Artwork.SUIArtwork
 T|class|Sufficit.Blazor.UI.Components.SUIActionGroup
 T|class|Sufficit.Blazor.UI.Components.SUIAlert
 T|class|Sufficit.Blazor.UI.Components.SUIAppBar
@@ -2044,6 +2074,8 @@ T|class|Sufficit.Blazor.UI.Themes.SUITypography
 T|class|Sufficit.Blazor.UI.Utilities.SUIClassBuilder
 T|class|Sufficit.Blazor.UI.Utilities.SUIStyleBuilder
 T|class|Sufficit.Blazor.UI._Imports
+T|enum|Sufficit.Blazor.UI.Artwork.SUIArtworkCalm
+T|enum|Sufficit.Blazor.UI.Artwork.SUIArtworkPattern
 T|enum|Sufficit.Blazor.UI.Components.SUIAlign
 T|enum|Sufficit.Blazor.UI.Components.SUIAnimation
 T|enum|Sufficit.Blazor.UI.Components.SUIButtonType

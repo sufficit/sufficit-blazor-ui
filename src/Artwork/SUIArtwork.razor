@@ -1,0 +1,97 @@
+@namespace Sufficit.Blazor.UI.Artwork
+@using System.Globalization
+@using Sufficit.Blazor.UI.Components
+@using Sufficit.Blazor.UI.Utilities
+@inherits SUIComponentBase
+
+@* Decorative layer, not a control: no role, no focus, hidden from assistive tech. *@
+<svg class="@Classname" style="@Style" viewBox="0 0 @SUIArtworkGeometry.Width @SUIArtworkGeometry.Height"
+     preserveAspectRatio="@AspectRatio" aria-hidden="true" focusable="false" @attributes="AdditionalAttributes">
+    <defs>
+        <linearGradient id="@_inkId" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="@SUIArtworkGeometry.Width" y2="0">
+            <stop offset="0" stop-color="currentColor" stop-opacity="0" />
+            <stop offset="@Offset(-0.24)" stop-color="currentColor" stop-opacity=".04" />
+            <stop offset="@Offset(0)" stop-color="currentColor" stop-opacity=".26" />
+            <stop offset="1" stop-color="currentColor" stop-opacity=".14" />
+        </linearGradient>
+        <linearGradient id="@_leadId" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="@SUIArtworkGeometry.Width" y2="0">
+            <stop class="sui-artwork__lead" offset="0" stop-opacity="0" />
+            <stop class="sui-artwork__lead" offset="@Offset(-0.19)" stop-opacity=".2" />
+            <stop class="sui-artwork__lead" offset="@Offset(0)" stop-opacity=".95" />
+            <stop class="sui-artwork__lead" offset="1" stop-opacity=".5" />
+        </linearGradient>
+    </defs>
+    <g fill="none" stroke-linecap="round">
+        @for (var index = 0; index < _paths.Count; index++)
+        {
+            var lead = index == _leadLine;
+            <path d="@_paths[index]" stroke="@(lead ? $"url(#{_leadId})" : $"url(#{_inkId})")" stroke-width="@(lead ? "1.6" : "1")" />
+        }
+    </g>
+</svg>
+
+@code {
+    private static int _instances;
+    private readonly string _inkId;
+    private readonly string _leadId;
+    private IReadOnlyList<string> _paths = [];
+    private int _leadLine;
+
+    public SUIArtwork()
+    {
+        var id = Interlocked.Increment(ref _instances).ToString(CultureInfo.InvariantCulture);
+        _inkId = "sui-artwork-ink-" + id;
+        _leadId = "sui-artwork-lead-" + id;
+    }
+
+    /// <summary>Generated drawing. Default SignalWaves.</summary>
+    [Parameter]
+    public SUIArtworkPattern Pattern { get; set; } = SUIArtworkPattern.SignalWaves;
+
+    /// <summary>Where the drawing stays calm so text sits on quiet space. Default Start.</summary>
+    [Parameter]
+    public SUIArtworkCalm Calm { get; set; } = SUIArtworkCalm.Start;
+
+    /// <summary>Horizontal position of the peak, 0.3-0.9 of the width. Default 0.63.</summary>
+    [Parameter]
+    public double Peak { get; set; } = 0.63;
+
+    /// <summary>Phase seed. The same seed always draws the same picture. Default 0.</summary>
+    [Parameter]
+    public int Seed { get; set; }
+
+    /// <summary>Number of lines, 12-64. Default 40.</summary>
+    [Parameter]
+    public int Lines { get; set; } = 40;
+
+    /// <summary>Drift slightly while the pointer is over the host. Off under reduced motion. Default true.</summary>
+    [Parameter]
+    public bool Motion { get; set; } = true;
+
+    protected override void OnParametersSet()
+    {
+        var lines = Math.Clamp(Lines, 12, 64);
+        // SignalWaves is the only pattern today; new patterns add their own geometry here.
+        _paths = SUIArtworkGeometry.SignalWaves(lines, ClampedPeak, Seed);
+        _leadLine = SUIArtworkGeometry.LeadLine(lines);
+    }
+
+    private double ClampedPeak => Math.Clamp(Peak, 0.3, 0.9);
+
+    private string Offset(double delta)
+        => Math.Clamp(ClampedPeak + delta, 0.01, 0.99).ToString("0.###", CultureInfo.InvariantCulture);
+
+    private string AspectRatio => Calm == SUIArtworkCalm.Top ? "xMidYMax slice" : "xMaxYMid slice";
+
+    private string Classname
+        => SUIClassBuilder.Default("sui-artwork")
+            .AddClass(Calm switch
+            {
+                SUIArtworkCalm.Top => "sui-artwork--calm-top",
+                SUIArtworkCalm.Adaptive => "sui-artwork--calm-adaptive",
+                _ => "sui-artwork--calm-start",
+            })
+            .AddClass("sui-artwork--motion", Motion)
+            .AddClass(Class)
+            .Build();
+}

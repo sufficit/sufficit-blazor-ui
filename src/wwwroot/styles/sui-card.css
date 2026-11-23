@@ -16,6 +16,14 @@
 .sui-card--e2 { box-shadow: var(--sui-shadow-2); }
 .sui-card--e3 { box-shadow: var(--sui-shadow-3); }
 
+/* Glass: translucent, blurred surface for cards over SUIArtwork, so the
+   drawing softens behind the card instead of crossing its text. */
+.sui-card--glass {
+  background: color-mix(in srgb, var(--sui-surface) 55%, transparent);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
 /* Card slots.
    A card with slots drops its own padding: each slot brings its own, so
    keeping both would double the inset along every shared edge. Cards without

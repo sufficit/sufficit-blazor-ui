@@ -42,6 +42,8 @@ public enum SUIVariant
     Filled,
     /// <summary>Tinted surface for SUIButton, SUILoadingButton and SUIIconButton.</summary>
     Soft,
+    /// <summary>Translucent, blurred surface for SUICard over SUIArtwork.</summary>
+    Glass,
 }
 
 /// <summary>

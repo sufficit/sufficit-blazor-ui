@@ -4,7 +4,7 @@ from pathlib import Path
 import json, re, sys, html
 root = Path(__file__).resolve().parent.parent
 project = root / 'samples/Sufficit.Blazor.UI.Demos'
-families = {'Actions':'Ações','Forms':'Formulários','Layout':'Layout','Navigation':'Navegação','DataDisplay':'Dados','Feedback':'Feedback','Overlays':'Overlays','Themes':'Temas'}
+families = {'Actions':'Ações','Forms':'Formulários','Layout':'Layout','Navigation':'Navegação','DataDisplay':'Dados','Feedback':'Feedback','Overlays':'Overlays','Themes':'Temas','Artwork':'Artwork'}
 def standalone(example):
     code = (project/'DemoBase.cs').read_text().split('public abstract class DemoBase : ComponentBase', 1)[1].strip()[1:-1]
     members = {}

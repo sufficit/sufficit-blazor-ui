@@ -8,6 +8,19 @@ definem a numeração das próximas publicações.
 
 ## [Unreleased]
 
+### Added
+- `SUIArtwork` (namespace `Sufficit.Blazor.UI.Artwork`, folder `src/Artwork`):
+  a decorative layer drawn from math, not a control. `SignalWaves` draws a
+  field of signal waves as inline SVG (no image file, no generated `style`,
+  safe under strict CSP), calm on one side and rising into a peak, with one
+  lead line in `--sui-primary`. Parameters: `Pattern`, `Calm`
+  (Start/Top/Adaptive), `Peak`, `Seed`, `Lines`, `Motion`. The containing
+  element becomes the positioning and clipping box; drift on hover is off
+  under reduced motion and the art hides under forced colours. Usage rules in
+  README and `DESIGN-VISUAL-HIERARCHY.md`.
+- `SUIVariant.Glass` and `SUICard.VariantValue`: a translucent, blurred card
+  surface for cards placed over `SUIArtwork`.
+
 ### Changed
 - `.sui-field__helper` is no longer italic. Helper text reads as secondary
   copy through size and colour only; italic was the one place the library

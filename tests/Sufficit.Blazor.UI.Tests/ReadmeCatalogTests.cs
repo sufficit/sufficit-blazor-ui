@@ -66,7 +66,8 @@ public sealed class ReadmeCatalogTests
     public void AdvertisedComponentCount_MatchesTheSources()
     {
         var components = RepositoryLayout.Files(Path.Combine(RepositoryLayout.Src, "Components"), "*.razor").Count()
-            + RepositoryLayout.Files(Path.Combine(RepositoryLayout.Src, "Themes"), "*.razor").Count();
+            + RepositoryLayout.Files(Path.Combine(RepositoryLayout.Src, "Themes"), "*.razor").Count()
+            + RepositoryLayout.Files(Path.Combine(RepositoryLayout.Src, "Artwork"), "*.razor").Count();
 
         var advertised = Regex.Match(Readme, @"\*\*(\d+) componentes\*\*");
         Assert.True(advertised.Success, "README must advertise the component count in bold (\"**N componentes**\").");

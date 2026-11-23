@@ -23,9 +23,11 @@ public sealed class AssetBudgetTests
     // section header decision row; ceilings follow the headroom rule.
     // 2026-11-17: native chip wrapping adds 642 B raw; existing 3%/256 B rule.
     // Compressed ceilings remain unchanged (11,640 gzip / 10,139 Brotli).
-    private const int BundleRawBudget = 65_792;               // measured 63,741 B
-    private const int BundleGzipBudget = 11_776;              // measured 11,193 B (2026-10-28)
-    private const int BundleBrotliBudget = 10_240;            // measured  9,765 B (2026-10-28)
+    // 2026-11-23: SUIArtwork (decorative generated layer) and the SUICard
+    // Glass surface; 3%/256 B rule.
+    private const int BundleRawBudget = 66_816;               // measured 64,849 B
+    private const int BundleGzipBudget = 12_288;              // measured 11,826 B (2026-11-23)
+    private const int BundleBrotliBudget = 10_752;            // measured 10,327 B (2026-11-23)
     private const int JsModuleRawBudget = 12 * 1024;
     // Every colocated module together, Brotli. Numeric interop remains opt-in;
     // this ceiling measures all of them at once. Raised 2026-09-13 for the

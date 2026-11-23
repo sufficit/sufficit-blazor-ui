@@ -4,6 +4,7 @@ public static partial class DemoCatalog
 {
     public static Type ExampleType(string name) => name switch
     {
+        "SUIArtwork" => typeof(Examples.SUIArtworkExample),
         "SUIActionGroup" => typeof(Examples.SUIActionGroupExample),
         "SUIButton" => typeof(Examples.SUIButtonExample),
         "SUICopyToClipboard" => typeof(Examples.SUICopyToClipboardExample),

@@ -204,6 +204,18 @@ sistema e não ver diferença.
 Antes de concluir que uma regra "não funcionou", confira se o HTML renderizado
 é mesmo o do componente. `HelperText`/`ErrorText` existem para isso.
 
+## Arte gerada (`SUIArtwork`)
+
+A arte é o único lugar onde o SUI permite riqueza decorativa, e por isso ela
+segue a regra 3 (escassez) ao pé da letra:
+
+- **Uma por tela**, só em área de destaque: hero, login, painel de TV.
+- **Nunca atrás de texto corrido.** O lado calmo (`Calm`) fica sob o texto; o
+  desenho mora no lado oposto. Card sobre a arte usa `SUIVariant.Glass`.
+- **Uma cor de destaque**, a linha líder em `--sui-primary`. O resto usa a cor
+  de texto do contêiner em opacidade baixa.
+- Se a arte disputar atenção com a resposta (papel 1), ela sai.
+
 ## Antipadrões
 
 | Antipadrão | Por que falha |

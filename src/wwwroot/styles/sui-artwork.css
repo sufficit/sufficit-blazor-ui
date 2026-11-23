@@ -1,0 +1,58 @@
+/*
+ * Sufficit UI — generated artwork (SUIArtwork, namespace Sufficit.Blazor.UI.Artwork).
+ * A decorative layer drawn from math and placed behind a host's content. It is
+ * not a control: no states, no focus, hidden from assistive technology.
+ * The host is whatever element holds the artwork as a direct child; it becomes
+ * the positioning and clipping box, and its other children paint above it.
+ * Both host rules sit in :where() so any consumer rule wins over them.
+ */
+
+:where(:has(> .sui-artwork)) {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+:where(:has(> .sui-artwork)) > :where(:not(.sui-artwork)) { position: relative; }
+
+.sui-artwork {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transform-origin: right center;
+  transition: transform var(--sui-dur-slow) var(--sui-ease-enter);
+}
+
+/* Lines take the host's text colour; the lead line takes the brand accent. */
+.sui-artwork__lead { stop-color: var(--sui-primary); }
+
+/* Calm side: a mask keeps the drawing off the host's copy. Adaptive is
+   Start from 1200px up and Top below. */
+.sui-artwork--calm-start,
+.sui-artwork--calm-adaptive {
+  -webkit-mask-image: linear-gradient(to right, transparent 28%, #000 52%);
+  mask-image: linear-gradient(to right, transparent 28%, #000 52%);
+}
+.sui-artwork--calm-top {
+  transform-origin: center bottom;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 30%, #000 58%);
+  mask-image: linear-gradient(to bottom, transparent 30%, #000 58%);
+}
+@media (max-width: 1199.98px) {
+  .sui-artwork--calm-adaptive {
+    transform-origin: center bottom;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 30%, #000 58%);
+    mask-image: linear-gradient(to bottom, transparent 30%, #000 58%);
+  }
+}
+
+/* Slight drift while the pointer is over the host (off under reduced motion,
+   see sui-foundations.css). */
+:where(:hover) > .sui-artwork--motion { transform: scale(1.04) translateY(-4px); }
+
+/* Decorative artwork only adds noise once colours are forced. */
+@media (forced-colors: active) {
+  .sui-artwork { display: none; }
+}
