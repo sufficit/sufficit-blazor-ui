@@ -8002,6 +8002,93 @@
     ]
   },
   {
+    "name": "SUIContextMenu",
+    "family": "Overlays",
+    "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<span @oncontextmenu=\"OpenMenu\" @oncontextmenu:preventDefault @onkeydown=\"OpenMenuByKey\">\n    <SUIButton id=\"@_anchorId\" aria-haspopup=\"menu\" OnClick=\"OpenMenu\">Ações do item</SUIButton>\n</span>\n<SUIContextMenu Label=\"Ações do item\" Request=\"_request\" OnDismiss=\"Close\">\n    <SUIButton role=\"menuitem\" VariantValue=\"SUIVariant.Text\" OnClick=\"Select\">Editar</SUIButton>\n</SUIContextMenu>\n\n@code {\n    private readonly string _anchorId = $\"context-demo-{Guid.NewGuid():N}\";\n    private SUIContextMenuRequest? _request;\n\n    private void OpenMenu(MouseEventArgs args) => _request = SUIContextMenuRequest.FromMouse(_anchorId, args);\n    private void OpenMenuByKey(KeyboardEventArgs args)\n    {\n        if (SUIContextMenuRequest.IsKeyboardShortcut(args)) _request = new(_anchorId);\n    }\n    private void Close() => _request = null;\n    private void Select()\n    {\n        Close();\n        Notify();\n    }\n}\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    protected string? Text { get; set; } = \"Operação Sudeste\";\n    protected void Notify() => Snackbar.Success(\"Exemplo executado com sucesso.\");\n}\n",
+    "parameters": [
+      {
+        "description": "",
+        "name": "Label",
+        "type": "string",
+        "default": "\"\"",
+        "required": true,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "MenuId",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "Request",
+        "type": "SUIContextMenuRequest?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "ChildContent",
+        "type": "RenderFragment?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "OnDismiss",
+        "type": "EventCallback",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "OnKeyDown",
+        "type": "EventCallback<KeyboardEventArgs>",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "",
+        "name": "DeferEscape",
+        "type": "bool",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional user CSS classes appended to component-owned classes.",
+        "name": "Class",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Optional per-instance inline styles (consumer supplied), rendered as a style attribute. A Content-Security-Policy with style-src-attr 'none' (or a style-src without 'unsafe-inline') makes the browser ignore it: prefer Class with a stylesheet rule, or data-sui-style for --sui-* custom properties. SUI never puts its own computed values here.",
+        "name": "Style",
+        "type": "string?",
+        "default": "Padrão do tipo",
+        "required": false,
+        "deprecated": false
+      },
+      {
+        "description": "Unmatched HTML attributes. Components decide which element receives them via @attributes=\"AdditionalAttributes\".",
+        "name": "AdditionalAttributes",
+        "type": "Dictionary<string, object?>",
+        "default": "new()",
+        "required": false,
+        "deprecated": false
+      }
+    ]
+  },
+  {
     "name": "SUIDecisionDialog",
     "family": "Overlays",
     "source": "@using Sufficit.Blazor.UI.Components\n@using Sufficit.Blazor.UI.Services\n\n<SUIButton OnClick=\"Decide\">Escolher como sair</SUIButton>\n\n@code {\n    [Inject] protected ISUISnackbar Snackbar { get; set; } = default!;\n    [Inject] protected ISUIDialogService Dialogs { get; set; } = default!;\n    protected async Task Decide()\n    {\n        var reference = await Dialogs.ShowAsync<SUIDecisionDialog>(\"Salvar alterações\", new Dictionary<string, object?>\n        {\n            [\"Message\"] = \"Deseja salvar antes de sair?\", [\"PrimaryText\"] = \"Salvar\", [\"SecondaryText\"] = \"Descartar\",\n        });\n        var result = await reference.Result;\n        Snackbar.Info(result is true ? \"Salvo.\" : result is false ? \"Descartado.\" : \"Cancelado.\");\n    }\n}\n",

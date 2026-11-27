@@ -27,3 +27,18 @@ navegação por Tab sem transferências inesperadas. Não use esta superfície p
 diálogo modal de confirmação. Consulte `SUIPopupExample.razor`.
 
 `SUIDialogOptions.MaxWidth` configura o limite de largura (240–1600 px, sempre limitado ao viewport). `CloseOnBackdropClick`, `CloseOnEscape` e `ShowCloseButton` preservam políticas de cancelamento explícito em editores; as ações do componente continuam completando `SUIDialogReference` normalmente. Os três booleanos são verdadeiros por padrão.
+
+## Context menu
+
+`SUIContextMenu` opens a native top-layer popover. Render the action items as
+`ChildContent`, give the surface a localized `Label` and mark its actions
+with `role="menuitem"`. Set `Request` to a new `SUIContextMenuRequest` to
+open or reposition it. Use `FromMouse` for pointer activation, and a request
+with only the trigger ID for the Menu key or Shift+F10. The trigger should be
+focusable and uses `aria-haspopup="menu"`.
+
+Use `OnDismiss` to clear the request on Escape or light dismissal. Clear it
+when an action completes as well. The menu clamps to the visible viewport,
+supports arrow and Home/End navigation, and restores focus to the trigger
+when appropriate. A click on another focusable element keeps focus there.
+The default uses the normal SUI opaque surface. See `SUIContextMenuExample.razor`.

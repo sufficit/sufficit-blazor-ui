@@ -1,0 +1,28 @@
+.sui-context-menu {
+    position: fixed;
+    inset: auto;
+    box-sizing: border-box;
+    margin: 0;
+    padding: var(--sui-space-2);
+    min-width: min(12rem, calc(100vw - 1rem));
+    max-width: calc(100vw - 1rem);
+    max-height: calc(100dvh - 1rem);
+    overflow: auto;
+    overscroll-behavior: contain;
+    border: 1px solid var(--sui-border);
+    border-radius: var(--sui-radius);
+    background: var(--sui-surface);
+    color: var(--sui-text-primary);
+    box-shadow: var(--sui-shadow-2);
+}
+
+.sui-context-menu ::deep .sui-btn {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    text-align: start;
+}
+
+@media (pointer: coarse), (max-width: 600px) {
+    .sui-context-menu ::deep [role="menuitem"] { min-height: 44px; }
+}

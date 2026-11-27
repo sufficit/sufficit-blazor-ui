@@ -82,6 +82,7 @@ public static partial class DemoCatalog
         "SUITabPanel" => typeof(Examples.SUITabPanelExample),
         "SUITabs" => typeof(Examples.SUITabsExample),
         "SUIConfirmDialog" => typeof(Examples.SUIConfirmDialogExample),
+        "SUIContextMenu" => typeof(Examples.SUIContextMenuExample),
         "SUIDecisionDialog" => typeof(Examples.SUIDecisionDialogExample),
         "SUIDialogHost" => typeof(Examples.SUIDialogHostExample),
         "SUIMenu" => typeof(Examples.SUIMenuExample),

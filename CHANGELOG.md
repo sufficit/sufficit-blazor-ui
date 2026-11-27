@@ -9,6 +9,8 @@ definem a numeração das próximas publicações.
 ## [Unreleased]
 
 ### Added
+- `SUIContextMenu`: pointer- or trigger-anchored actions in the native top
+  layer, with viewport clamping, keyboard navigation and focus restoration.
 - `SUIArtwork` (namespace `Sufficit.Blazor.UI.Artwork`, folder `src/Artwork`):
   a decorative layer drawn from math, not a control. `SignalWaves` draws a
   field of signal waves as inline SVG (no image file, no generated `style`,

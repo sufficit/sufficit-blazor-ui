@@ -22,6 +22,8 @@ B|Sufficit.Blazor.UI.Components.SUIColor|System.Enum
 B|Sufficit.Blazor.UI.Components.SUIComponentBase|Microsoft.AspNetCore.Components.ComponentBase
 B|Sufficit.Blazor.UI.Components.SUIConfirmDialog|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIContainer|Sufficit.Blazor.UI.Components.SUIComponentBase
+B|Sufficit.Blazor.UI.Components.SUIContextMenuRequest|System.Object
+B|Sufficit.Blazor.UI.Components.SUIContextMenu|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUICopyToClipboard|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIDataTable<`0:TItem>|Sufficit.Blazor.UI.Components.SUIComponentBase
 B|Sufficit.Blazor.UI.Components.SUIDateField|Sufficit.Blazor.UI.Components.SUIComponentBase
@@ -150,6 +152,8 @@ C|Sufficit.Blazor.UI.Components.SUIChip|()
 C|Sufficit.Blazor.UI.Components.SUIChoiceCard<`0:TValue>|()
 C|Sufficit.Blazor.UI.Components.SUIConfirmDialog|()
 C|Sufficit.Blazor.UI.Components.SUIContainer|()
+C|Sufficit.Blazor.UI.Components.SUIContextMenuRequest|(System.String,System.Nullable<System.Double>,System.Nullable<System.Double>)
+C|Sufficit.Blazor.UI.Components.SUIContextMenu|()
 C|Sufficit.Blazor.UI.Components.SUICopyToClipboard|()
 C|Sufficit.Blazor.UI.Components.SUIDataTable<`0:TItem>|()
 C|Sufficit.Blazor.UI.Components.SUIDateField|()
@@ -288,6 +292,7 @@ F|Sufficit.Blazor.UI.Components.SUIColor|Sufficit.Blazor.UI.Components.SUIColor|
 F|Sufficit.Blazor.UI.Components.SUIColor|Sufficit.Blazor.UI.Components.SUIColor|Surface
 F|Sufficit.Blazor.UI.Components.SUIColor|Sufficit.Blazor.UI.Components.SUIColor|Warning
 F|Sufficit.Blazor.UI.Components.SUIColor|System.Int32|value__
+F|Sufficit.Blazor.UI.Components.SUIContextMenu|System.String|ModulePath
 F|Sufficit.Blazor.UI.Components.SUIEdge|Sufficit.Blazor.UI.Components.SUIEdge|Center
 F|Sufficit.Blazor.UI.Components.SUIEdge|Sufficit.Blazor.UI.Components.SUIEdge|False
 F|Sufficit.Blazor.UI.Components.SUIEdge|Sufficit.Blazor.UI.Components.SUIEdge|True
@@ -575,6 +580,11 @@ I|Sufficit.Blazor.UI.Components.SUIConfirmDialog|Microsoft.AspNetCore.Components
 I|Sufficit.Blazor.UI.Components.SUIContainer|Microsoft.AspNetCore.Components.IComponent
 I|Sufficit.Blazor.UI.Components.SUIContainer|Microsoft.AspNetCore.Components.IHandleAfterRender
 I|Sufficit.Blazor.UI.Components.SUIContainer|Microsoft.AspNetCore.Components.IHandleEvent
+I|Sufficit.Blazor.UI.Components.SUIContextMenuRequest|System.IEquatable<Sufficit.Blazor.UI.Components.SUIContextMenuRequest>
+I|Sufficit.Blazor.UI.Components.SUIContextMenu|Microsoft.AspNetCore.Components.IComponent
+I|Sufficit.Blazor.UI.Components.SUIContextMenu|Microsoft.AspNetCore.Components.IHandleAfterRender
+I|Sufficit.Blazor.UI.Components.SUIContextMenu|Microsoft.AspNetCore.Components.IHandleEvent
+I|Sufficit.Blazor.UI.Components.SUIContextMenu|System.IAsyncDisposable
 I|Sufficit.Blazor.UI.Components.SUICopyToClipboard|Microsoft.AspNetCore.Components.IComponent
 I|Sufficit.Blazor.UI.Components.SUICopyToClipboard|Microsoft.AspNetCore.Components.IHandleAfterRender
 I|Sufficit.Blazor.UI.Components.SUICopyToClipboard|Microsoft.AspNetCore.Components.IHandleEvent
@@ -889,6 +899,19 @@ M|Sufficit.Blazor.UI.Components.SUIButton|System.Threading.Tasks.ValueTask|Focus
 M|Sufficit.Blazor.UI.Components.SUIButton|System.Void|Dispose|()
 M|Sufficit.Blazor.UI.Components.SUICheckbox|System.Void|Dispose|()
 M|Sufficit.Blazor.UI.Components.SUIChoiceCard<`0:TValue>|System.Void|Dispose|()
+M|Sufficit.Blazor.UI.Components.SUIContextMenuRequest|Sufficit.Blazor.UI.Components.SUIContextMenuRequest|<Clone>$|()
+M|Sufficit.Blazor.UI.Components.SUIContextMenuRequest|Sufficit.Blazor.UI.Components.SUIContextMenuRequest|FromMouse|(System.String,Microsoft.AspNetCore.Components.Web.MouseEventArgs)
+M|Sufficit.Blazor.UI.Components.SUIContextMenuRequest|System.Boolean|Equals|(Sufficit.Blazor.UI.Components.SUIContextMenuRequest)
+M|Sufficit.Blazor.UI.Components.SUIContextMenuRequest|System.Boolean|Equals|(System.Object)
+M|Sufficit.Blazor.UI.Components.SUIContextMenuRequest|System.Boolean|IsKeyboardShortcut|(Microsoft.AspNetCore.Components.Web.KeyboardEventArgs)
+M|Sufficit.Blazor.UI.Components.SUIContextMenuRequest|System.Int32|GetHashCode|()
+M|Sufficit.Blazor.UI.Components.SUIContextMenuRequest|System.String|ToString|()
+M|Sufficit.Blazor.UI.Components.SUIContextMenuRequest|System.Void|Deconstruct|(out System.String,out System.Nullable<System.Double>,out System.Nullable<System.Double>)
+M|Sufficit.Blazor.UI.Components.SUIContextMenu|System.Threading.Tasks.Task|CloseAsync|()
+M|Sufficit.Blazor.UI.Components.SUIContextMenu|System.Threading.Tasks.Task|FocusAsync|(System.String)
+M|Sufficit.Blazor.UI.Components.SUIContextMenu|System.Threading.Tasks.Task|NotifyDismissed|(System.Int32)
+M|Sufficit.Blazor.UI.Components.SUIContextMenu|System.Threading.Tasks.Task|OpenAsync|(Sufficit.Blazor.UI.Components.SUIContextMenuRequest)
+M|Sufficit.Blazor.UI.Components.SUIContextMenu|System.Threading.Tasks.ValueTask|DisposeAsync|()
 M|Sufficit.Blazor.UI.Components.SUICopyToClipboard|System.Threading.Tasks.ValueTask|DisposeAsync|()
 M|Sufficit.Blazor.UI.Components.SUIDataTable<`0:TItem>|System.Threading.Tasks.Task|ReloadAsync|()
 M|Sufficit.Blazor.UI.Components.SUIDataTable<`0:TItem>|System.Void|Dispose|()
@@ -1187,6 +1210,16 @@ P|Sufficit.Blazor.UI.Components.SUIComponentBase|System.String|Style|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIConfirmDialog|System.String|Message|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIContainer|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUIContainer|System.String|MaxWidth|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIContextMenuRequest|System.Nullable<System.Double>|X|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIContextMenuRequest|System.Nullable<System.Double>|Y|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIContextMenuRequest|System.String|AnchorId|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIContextMenu|Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Web.KeyboardEventArgs>|OnKeyDown|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIContextMenu|Microsoft.AspNetCore.Components.EventCallback|OnDismiss|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIContextMenu|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIContextMenu|Sufficit.Blazor.UI.Components.SUIContextMenuRequest|Request|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIContextMenu|System.Boolean|DeferEscape|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIContextMenu|System.String|Label|[]|get;set;
+P|Sufficit.Blazor.UI.Components.SUIContextMenu|System.String|MenuId|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICopyToClipboard|Microsoft.AspNetCore.Components.RenderFragment|ChildContent|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICopyToClipboard|System.Boolean|FullWidth|[]|get;set;
 P|Sufficit.Blazor.UI.Components.SUICopyToClipboard|System.String|AriaLabel|[]|get;set;
@@ -1976,6 +2009,8 @@ T|class|Sufficit.Blazor.UI.Components.SUIChoiceCard<`0:TValue>
 T|class|Sufficit.Blazor.UI.Components.SUIComponentBase
 T|class|Sufficit.Blazor.UI.Components.SUIConfirmDialog
 T|class|Sufficit.Blazor.UI.Components.SUIContainer
+T|class|Sufficit.Blazor.UI.Components.SUIContextMenu
+T|class|Sufficit.Blazor.UI.Components.SUIContextMenuRequest
 T|class|Sufficit.Blazor.UI.Components.SUICopyToClipboard
 T|class|Sufficit.Blazor.UI.Components.SUIDataTable<`0:TItem>
 T|class|Sufficit.Blazor.UI.Components.SUIDateField

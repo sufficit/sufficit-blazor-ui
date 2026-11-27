@@ -46,7 +46,8 @@ public sealed class AssetBudgetTests
     // 2026-11-16: SUIPopup adds controlled interactive top-layer positioning and native
     // light-dismiss synchronization; geometry is shared with SUIPopover. Measured
     // 15,604 B total; existing 3% headroom rounded up to the next 256 B.
-    private const int JsTotalBrotliBudget = 16_128; // measured 15,604 B
+    // SUIContextMenu shares top-layer, viewport and focus logic across consumers.
+    private const int JsTotalBrotliBudget = 17_920; // measured 17,206 B with 3% headroom rounded up
     // Raw bytes of every .razor.css (source/parse cost of CSS isolation).
     // Raised 2026-09-13 for SUISlidingTabs (pill track + sliding indicator,
     // micro-interactions, responsive collapse, reduced-motion) — measured

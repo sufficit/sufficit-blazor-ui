@@ -1,0 +1,25 @@
+@inherits DemoBase
+
+<span @oncontextmenu="OpenMenu" @oncontextmenu:preventDefault @onkeydown="OpenMenuByKey">
+    <SUIButton id="@_anchorId" aria-haspopup="menu" OnClick="OpenMenu">Ações do item</SUIButton>
+</span>
+<SUIContextMenu Label="Ações do item" Request="_request" OnDismiss="Close">
+    <SUIButton role="menuitem" VariantValue="SUIVariant.Text" OnClick="Select">Editar</SUIButton>
+</SUIContextMenu>
+
+@code {
+    private readonly string _anchorId = $"context-demo-{Guid.NewGuid():N}";
+    private SUIContextMenuRequest? _request;
+
+    private void OpenMenu(MouseEventArgs args) => _request = SUIContextMenuRequest.FromMouse(_anchorId, args);
+    private void OpenMenuByKey(KeyboardEventArgs args)
+    {
+        if (SUIContextMenuRequest.IsKeyboardShortcut(args)) _request = new(_anchorId);
+    }
+    private void Close() => _request = null;
+    private void Select()
+    {
+        Close();
+        Notify();
+    }
+}
