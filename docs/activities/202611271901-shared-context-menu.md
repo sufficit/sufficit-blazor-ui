@@ -18,4 +18,10 @@ WebKit can dismiss an auto popover on the right-button release that follows
 its opening event. The context menu uses a manual popover and dismisses on
 the next outside pointer gesture. Genius browser fixtures validated the
 result with mouse, keyboard and touch in Chromium and WebKit. The consumer
-targets the second release candidate with this correction.
+uses the corrected context menu.
+
+The release pipeline exposed an existing WebKit catalog test that could act
+on prerendered markup. The field-actions fixture now uses the same
+interactivity marker as the catalog, and the test waits for the live
+circuit before exercising its original assertions. The local WebKit run
+passed both widths with their original layout and interaction checks.

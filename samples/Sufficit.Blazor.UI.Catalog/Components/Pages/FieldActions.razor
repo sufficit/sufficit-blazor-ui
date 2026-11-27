@@ -2,7 +2,7 @@
 
 <PageTitle>Campos e ações | Catálogo SUI</PageTitle>
 <SUIThemeProvider Class="catalog-theme-root">
-    <main class="catalog" data-catalog-ready>
+    <main class="catalog" data-catalog-ready data-interactive="@(RendererInfo.IsInteractive ? "true" : "false")">
         <h1>Alinhamento de campos e ações</h1>
         <Sufficit.Blazor.UI.Demos.Examples.SUIStackExample />
     </main>

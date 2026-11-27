@@ -13,6 +13,7 @@ public sealed class FieldActionsBrowserTests : PageTest
         var url = Environment.GetEnvironmentVariable("SUI_CATALOG_URL") ?? "http://127.0.0.1:5180";
         await Page.SetViewportSizeAsync(width, 900);
         await Page.GotoAsync($"{url.TrimEnd('/')}/fixtures/field-actions", new() { WaitUntil = WaitUntilState.NetworkIdle });
+        await Page.WaitForInteractiveCatalogAsync();
         var toolbar = Page.GetByTestId("field-actions-toolbar");
         var input = toolbar.GetByLabel("Buscar no console");
         var button = toolbar.GetByRole(AriaRole.Button, new() { Name = "Pausar exibição" });
