@@ -4,7 +4,7 @@
 @inject IJSRuntime JS
 
 <div @ref="_panel" id="@PanelId" class="sui-context-menu @Class" style="@Style"
-     popover="auto" role="menu" aria-label="@Label" tabindex="-1"
+     popover="manual" role="menu" aria-label="@Label" tabindex="-1"
      data-sui-defer-escape="@(DeferEscape ? "" : null)" @attributes="AdditionalAttributes"
      @onkeydown="OnKeyDown" @onclick:stopPropagation @oncontextmenu:preventDefault @oncontextmenu:stopPropagation>
     @ChildContent

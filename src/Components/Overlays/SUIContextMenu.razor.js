@@ -87,6 +87,11 @@ export function open(panel, anchorId, x, y, dotnet, generation) {
     bindings.set(id, { dispose, previousFocus });
     active = panel;
     panel.addEventListener('keydown', keydown, options);
+    // WebKit can light-dismiss an auto popover on the same right-button release
+    // that follows its opening contextmenu event. Only a new gesture dismisses it.
+    document.addEventListener('pointerdown', event => {
+        if (!event.composedPath().includes(panel) && !anchor?.contains(event.target)) dispose(true);
+    }, { ...options, capture: true });
     panel.addEventListener('toggle', () => {
         if (!panel.matches(':popover-open')) dispose(true);
     }, options);

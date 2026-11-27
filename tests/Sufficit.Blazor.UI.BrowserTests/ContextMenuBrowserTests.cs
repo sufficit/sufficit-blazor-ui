@@ -16,7 +16,7 @@ public sealed class ContextMenuBrowserTests : PageTest
         await Page.SetContentAsync("""
             <div style="overflow:hidden;height:40px">
               <button id="anchor">Open menu</button>
-              <div id="panel" role="menu" popover="auto" tabindex="-1" style="position:fixed;inset:auto;margin:0;width:180px">
+              <div id="panel" role="menu" popover="manual" tabindex="-1" style="position:fixed;inset:auto;margin:0;width:180px">
                 <button id="one" role="menuitem">One</button>
                 <button role="menuitem" disabled>Disabled</button>
                 <button id="two" role="menuitem">Two</button>
@@ -32,7 +32,7 @@ public sealed class ContextMenuBrowserTests : PageTest
                 const panel = document.querySelector('#panel');
                 const target = { invokeMethodAsync: (_, generation) => { dismissed.push(generation); return Promise.resolve(); } };
                 window.openAt = (x, y, generation) => contextMenu.open(panel, anchor.id, x, y, target, generation);
-                anchor.addEventListener('contextmenu', e => { e.preventDefault(); openAt(e.clientX, e.clientY, 1); });
+                anchor.addEventListener('contextmenu', e => { e.preventDefault(); openAt(e.clientX + 1, e.clientY + 1, 1); });
                 anchor.addEventListener('keydown', e => {
                     if (e.shiftKey && e.key === 'F10') {
                         e.preventDefault();

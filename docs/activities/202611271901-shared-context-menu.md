@@ -13,3 +13,9 @@ reviewed public API and asset budgets reflect the new component.
 The component suite passed 1,280 tests. The context-menu and existing menu
 lifecycle browser tests passed. All 86 catalog examples compiled, and the
 prerelease package passed validation with root and path-base consumers.
+
+WebKit can dismiss an auto popover on the right-button release that follows
+its opening event. The context menu uses a manual popover and dismisses on
+the next outside pointer gesture. Genius browser fixtures validated the
+result with mouse, keyboard and touch in Chromium and WebKit. The consumer
+targets the second release candidate with this correction.
