@@ -25,3 +25,11 @@ on prerendered markup. The field-actions fixture now uses the same
 interactivity marker as the catalog, and the test waits for the live
 circuit before exercising its original assertions. The local WebKit run
 passed both widths with their original layout and interaction checks.
+
+The final release candidate passed the publishing workflow and its package
+was downloaded from NuGet.org. The shipped module matched the implementation.
+Genius adopted the exact package in commit 65744024 and its local Linux
+preview used the same release candidate.
+
+- [Published NuGet package](https://www.nuget.org/packages/Sufficit.Blazor.UI/2.26.1127.2159-rc.3)
+- [Publish workflow](https://github.com/sufficit/sufficit-blazor-ui/actions/runs/46074971147)
